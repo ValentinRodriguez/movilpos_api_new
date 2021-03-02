@@ -1,0 +1,37 @@
+<div class="login-body">
+    <div class="login-wrapper">
+        <div class="login-panel">
+            <img src="assets/layout/images/logo.png" class="logo" alt="diamond-layout" />
+
+            <form class="form-auth-small m-t-20" #loginForm="ngForm" (submit)="onSubmit()">
+                <div class="login-form">
+                    <h2>Accede a MovilPOS</h2>
+                    <!-- <div class="alert alert-danger" [hidden]="!error">{{error}}</div>
+                    <div class="alert alert-danger" [hidden]="!tryout">{{tryout}} <br>{{timeLeft}} segundos</div> -->
+                    <p-messages [value]="msgs" [hidden]="!error"></p-messages>
+                    
+                    <input pInputText id="email" name="email" placeholder="Email" [(ngModel)]="this.form.email" required />
+                    <input type="password"pPassword id="signin-password" name="password" [(ngModel)]="this.form.password" required />
+                    <button *ngIf="!this.guardando" pButton label="Acceder" type="submit" [disabled]="!loginForm.valid || this.wait"></button>
+                    <button *ngIf="this.guardando" pButton label="Accediendo" type="button" disabled="true" icon="pi pi-spin pi-spinner"></button>
+                </div>
+            </form>
+
+            <p>No puedes acceder? <a href="#">recupera tu clave</a></p>
+        </div>
+
+        <div class="login-image">
+            <div class="login-image-content">
+                <!-- <h1>Access to your</h1>
+                <h1>Diamond</h1>
+                <h1>Account</h1>
+                <h3>Lorem ipsum dolor sit amet, consectetur
+                    <br/> adipiscing elit. Donec posuere velit nec enim
+                    <br/> sodales, nec placerat erat tincidunt. </h3> -->
+            </div>
+            <div class="image-footer">
+                <p class="copyright">&#169; Movilsoluciones - {{year}}</p>
+            </div>
+        </div>
+    </div>
+</div>

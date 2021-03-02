@@ -1,0 +1,138 @@
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <form (ngSubmit)="guardarCategoria()" [formGroup]="forma">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fech_ini">Fecha Inicio</label>
+                        <span class=" p-input-icon-right">
+                            <p-calendar formControlName="fech_ini" dateFormat="yy/mm/dd" [showIcon]="true" inputId="icon"
+                                        (onSelect)="onSelectDate($event, 'fech_ini')" [minDate]="minDate">
+                            </p-calendar>
+                        </span>
+                        <small *ngIf="getNoValido('fech_ini')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="hora_ini">Hora inicio</label>
+                        <span class=" p-input-icon-right">
+                            <input id="hora_ini" type="text" pInputText formControlName="hora_ini" [class.p-invalid]="getNoValido('hora_ini')">
+                        </span>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fech_fin">Fecha Final</label>
+                        <span class=" p-input-icon-right">
+                            <p-calendar formControlName="fech_fin" dateFormat="yy/mm/dd" [showIcon]="true" inputId="icon"
+                                        (onSelect)="onSelectDate($event, 'fech_fin')" [minDate]="minDate">
+                            </p-calendar>
+                        </span>
+                        <small *ngIf="getNoValido('fech_fin')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="hora_fin">Hora Final</label>
+                        <span class=" p-input-icon-right">
+                            <input id="hora_fin" type="text" pInputText formControlName="hora_fin" [class.p-invalid]="getNoValido('hora_fin')">
+                        </span>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="total_tiempo">Tiempo Ausentado</label>
+                        <span class=" p-input-icon-right">
+                            <input id="total_tiempo" type="text" pInputText formControlName="total_tiempo" 
+                                   class="read-only" [class.p-invalid]="getNoValido('total_tiempo')" readonly>
+                        </span>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="motivo">Motivo</label>
+                        <p-dropdown inputId="motivo" [options]="motivo"  
+                                    name="motivo" formControlName="motivo"
+                                    placeholder="Escoge..." optionLabel="label">
+                        </p-dropdown>
+                        <small *ngIf="getNoValido('motivo')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12">
+                        <label for="observacion">Detalle de la Ausencia</label>
+                        <textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"></textarea>
+                        <small *ngIf="getNoValido('observacion')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                </div>
+                <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+                <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+                        type="button" disabled="true"></button>
+            </form>
+            <br>
+            <p-table #dt [columns]="cols" [value]="categorias" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                [globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
+            
+                <ng-template pTemplate="caption">
+                    <div class="table-header">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+                        </span>
+                    </div>
+                </ng-template>
+                
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}									
+                            <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr class="p-selectable-row">
+                    
+                        <td *ngFor="let col of columns">
+                            <span class="p-column-title">{{col.header}}</span>								
+                    
+                            <span *ngIf="col.field === 'id'">
+                                {{rowData[col.field] }}
+                            </span>
+                    
+                            <span *ngIf="col.field !== 'id'">
+                                {{rowData[col.field] | titlecase}}
+                            </span>
+                    
+                            <span *ngIf="col.field === 'acciones'">
+                                <button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2"></button>
+                                <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarCategoria(rowData)"></button>
+                                <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCategoria(rowData.id)"></button>
+                                <!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
+                            </span>
+                        </td>								
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No existen categorias en la base de datos.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between" *ngIf="categorias.length !== 1">
+                        Existen {{categorias ? categorias.length : 0 }} categorias en total.
+                    </div>
+                    
+                    <div class="p-d-flex p-ai-center p-jc-between" *ngIf="categorias.length === 1">
+                        Existe solo {{categorias ? categorias.length : 0 }} categoria en total.
+                    </div>
+                </ng-template>
+            </p-table>
+		</div>	
+		
+		<p-toast key="tst"></p-toast>
+
+		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" message="Esta seguro de borrar este registro?"
+						 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text">
+		</p-confirmDialog>
+	</div>	
+</div>

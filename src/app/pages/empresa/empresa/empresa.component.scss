@@ -1,0 +1,72 @@
+:host ::ng-deep {    
+    .p-datatable-responsive-demo .p-datatable-tbody > tr > td .p-column-title {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 40rem) {
+    :host ::ng-deep {
+        .p-datatable {
+            &.p-datatable-responsive-demo {
+                .p-datatable-thead > tr > th,
+                .p-datatable-tfoot > tr > td {
+                    display: none !important;
+                }
+
+                .p-datatable-tbody > tr > td {
+                    text-align: left;
+                    display: block;
+                    width: 100%;
+                    float: left;
+                    clear: left;
+                    border: 0 none;
+
+                    .p-column-title {
+                        padding: .4rem;
+                        min-width: 30%;
+                        display: inline-block;
+                        margin: -.4em 1em -.4em -.4rem;
+                        font-weight: bold;
+                    }
+
+                    &:last-child {
+                        border-bottom: 1px solid var(--surface-d);
+                    }
+                }
+            }
+        }
+    }
+}
+
+:host ::ng-deep .multiselect-custom .p-multiselect-label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+
+}
+
+:host ::ng-deep .multiselect-custom .country-item.country-item-value {
+    padding: .25rem .5rem;
+    border-radius: 3px;
+    display: inline-flex;
+    margin-right: .5rem;
+    background-color: var(--primary-color);
+    color: var(--primary-color-text);
+}
+
+:host ::ng-deep .multiselect-custom .country-item.country-item-value img.flag {
+    width: 17px;
+}
+
+:host ::ng-deep .multiselect-custom .country-item {
+    display: flex;
+    align-items: center;
+}
+
+:host ::ng-deep .multiselect-custom .country-item img.flag {
+    width: 18px;
+    margin-right: .5rem;
+}
+
+:host ::ng-deep .multiselect-custom .country-placeholder {
+    padding: 0.25rem;
+}

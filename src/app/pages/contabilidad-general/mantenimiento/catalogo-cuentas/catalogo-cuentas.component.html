@@ -1,0 +1,129 @@
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <h5>Gestión de Catalogo de Cuentas</h5>
+            <p-tabView orientation="left">
+                <p-tabPanel header="Consultar" leftIcon="pi pi-search">
+					<!-- <p-treeTable #tt [value]="cuentas" [columns]="cols">
+						<ng-template pTemplate="caption">
+							<div style="text-align: right">        
+								<i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+								<input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+							</div>
+						</ng-template>
+						<ng-template pTemplate="header" let-columns>
+							<tr>
+								<th *ngFor="let col of cols">
+									{{col.header}}
+								</th>
+							</tr>
+							<tr>
+								<th *ngFor="let col of cols">
+									<input pInputText type="text" style="width: 100%;" (input)="tt.filter($event.target.value, col.field, col.filterMatchMode)">
+								</th>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+							<tr>
+								<td *ngFor="let col of cols; let i = index">
+									<p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+									{{rowData[col.field]}}
+								</td>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="emptymessage">
+							<tr>        
+								<td [attr.colspan]="cols.length">No data found.</td>
+							</tr>
+						</ng-template>
+					</p-treeTable> -->
+					<p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+						[globalFilterFields]="['nombre','cedula','cod_transportista','sec_transp']">
+					
+						<ng-template pTemplate="caption">
+							<div class="table-header">
+								<span class="p-input-icon-left">
+									<i class="pi pi-search"></i>
+									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+								</span>
+							</div>
+						</ng-template>
+						
+						<ng-template pTemplate="header" let-columns>
+							<tr>
+								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+									{{col.header}}									
+									<p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+								</th>
+							</tr>
+						</ng-template>
+						
+						<ng-template pTemplate="body" let-rowData let-columns="columns">
+							<tr class="p-selectable-row">
+							
+								<td *ngFor="let col of columns">
+									<span class="p-column-title">{{col.header}}</span>
+
+									<div *ngIf="col.field === 'catalogo' || col.field === 'referencia' || col.field === 'depto' || 
+												col.field === 'selectivo_consumo' || col.field === 'retencion'">
+										<span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
+											{{rowData[col.field] | titlecase}}										
+										</span>
+								
+										<span *ngIf="rowData[col.field] === 'no'" class="p-badge p-badge-lg p-badge-warning">
+											{{rowData[col.field] | titlecase}}										
+										</span>
+									</div>
+									
+									<span *ngIf="col.field === 'descripcion'">
+										{{rowData[col.field] | uppercase}}
+									</span>
+
+									<span *ngIf="col.field === 'origen' || col.field === 'tipo_cuenta'">
+										{{rowData[col.field] | titlecase}}
+									</span>
+
+									<span *ngIf="col.field === 'cuenta_no' || col.field === 'aplica_a' || col.field === 'codigo_isr' || col.field === 'cod_transportista'">
+										{{rowData[col.field] }}
+									</span>
+							
+									<span *ngIf="col.field === 'acciones'">
+										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarTransportista(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTransportista(rowData.id)" pTooltip="Eliminar"></button>
+									</span>
+								</td>								
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="emptymessage">
+							<tr>
+								<td colspan="8">No existen cuentas en la base de datos.</td>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="summary">
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
+								Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
+							</div>
+							
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
+								Existe solo {{cuentas ? cuentas.length : 0 }} categoria en total.
+							</div>
+						</ng-template>
+					</p-table>
+                </p-tabPanel>
+
+                <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
+					<app-formulario-cgcatalogo></app-formulario-cgcatalogo>
+                </p-tabPanel>
+            </p-tabView>
+		</div>	
+		
+		<p-toast key="tst"></p-toast>
+
+		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" message="Esta seguro de borrar este registro?"
+						 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text">
+		</p-confirmDialog>
+	</div>	
+</div>

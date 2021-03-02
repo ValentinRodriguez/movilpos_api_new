@@ -1,0 +1,173 @@
+<form (ngSubmit)="guardarCliente()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nombre">Nombre</label>
+            <span class=" p-input-icon-right">
+                <input id="nombre" type="text" pInputText formControlName="nombre">
+            </span>
+            <small *ngIf="getNoValido('nombre')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="tipo_documento">Documento</label>
+            <p-dropdown inputId="tipo_documento" [options]="documento"  
+                        name="tipo_documento" formControlName="tipo_documento"
+                        placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value)">
+            </p-dropdown>
+            <small *ngIf="getNoValido('tipo_documento')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3" *ngIf="this.cedula">
+            <label for="cedula">Cédula</label>
+            <span class=" p-input-icon-right">
+                <input id="cedula" type="text" pInputText formControlName="cedula">
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3" *ngIf="this.rnc">
+            <label for="num_rnc">RNC</label>
+            <span class=" p-input-icon-right">
+                <input id="num_rnc" type="text" pInputText formControlName="num_rnc">
+            </span>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="tipo_cliente">Tipo de Cliente</label>
+            <p-dropdown inputId="tipo_cliente" [options]="tipo_cliente"  
+                        name="tipo_cliente" formControlName="tipo_cliente"
+                        placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('tipo_cliente')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="vendedor">Vendedor</label>	
+            <p-autoComplete formControlName="vendedor" [suggestions]="vendedoresFiltrados" (completeMethod)="filtrarVendedores($event)" field="primernombre" [dropdown]="true">
+                <ng-template let-vendedor pTemplate="item">
+                    <div class="country-item">
+                        <div>{{vendedor.primernombre}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('vendedor')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cond_pago">Condición Pago</label>
+            <p-dropdown inputId="cond_pago" [options]="condpago"  
+                        name="cond_pago" formControlName="cond_pago"
+                        placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="tipo_negocio">Tipo Negocio</label>
+            <p-dropdown inputId="tipo_negocio" [options]="tiponegocio"  
+                        name="tipo_negocio" formControlName="tipo_negocio"
+                        placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('tipo_negocio')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="ncf">NCF</label>
+            <span class=" p-input-icon-right">
+                <input id="ncf" type="text" pInputText formControlName="ncf">
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="generico">Genérico</label>
+            <p-dropdown inputId="generico" [options]="sino"  
+                        name="generico" formControlName="generico"
+                        placeholder="Escoje.." optionLabel="label">
+            </p-dropdown>
+            <small *ngIf="getNoValido('generico')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_pais">Pais</label>	
+            <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPaises($event)" 
+                            field="descripcion" [dropdown]="true" (onSelect)="buscaPaises($event.id_pais)">
+                <ng-template let-pais pTemplate="item">
+                    <div class="country-item">
+                        <div>{{pais.descripcion | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_ciudad">Ciudad</label>	
+            <p-autoComplete formControlName="id_ciudad" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" 
+                            field="descripcion" [dropdown]="true">
+                <ng-template let-ciudad pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ciudad.descripcion | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12">
+            <label for="direccion">Dirección</label>
+            <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"></textarea>
+            <small *ngIf="getNoValido('direccion')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="urbanizacion">Urbanización</label>
+            <span class=" p-input-icon-right">
+                <input id="urbanizacion" type="text" pInputText formControlName="urbanizacion">
+            </span>
+            <small *ngIf="getNoValido('urbanizacion')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="celular">Celular</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="celular" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('celular')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="telefono_casa">Telefono_casa</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono_casa" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('telefono_casa')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="contacto">Contacto</label>
+            <span class=" p-input-icon-right">
+                <input id="contacto" type="text" pInputText formControlName="contacto">
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="email">Email</label>
+            <span class=" p-input-icon-right">
+                <input id="email" type="text" pInputText formControlName="email">
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="url">Página WEB</label>
+            <span class=" p-input-icon-right">
+                <input id="url" type="text" pInputText formControlName="url">
+            </span>
+        </div>
+        
+    </div>
+
+    <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+            type="button" disabled="true"></button>
+</form>

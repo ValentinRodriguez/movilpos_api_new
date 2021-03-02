@@ -1,0 +1,358 @@
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+			<h5>Gestión de Requisiciones</h5>			
+            <p-tabView orientation="left">
+                <p-tabPanel header="Consultar" leftIcon="pi pi-search">
+					<p-table #dt [columns]="cols" [value]="requisiciones" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="num_oc"
+						[globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
+					
+						<ng-template pTemplate="caption">
+							<div class="table-header">
+								<span class="p-input-icon-left">
+									<i class="pi pi-search"></i>
+									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+								</span>
+							</div>
+						</ng-template>
+						
+						<ng-template pTemplate="header" let-columns>
+							<tr>
+								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+									{{col.header}}									
+									<p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+								</th>
+							</tr>
+						</ng-template>
+						
+						<ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
+							<tr class="p-selectable-row">
+							
+								<td *ngFor="let col of columns">
+									<span class="p-column-title">{{col.header}}</span>								
+							
+									<span *ngIf="col.field === 'num_req'">
+										{{rowData[col.field] }}
+									</span>
+
+									<span *ngIf="col.field === 'fech_req'">
+										{{rowData[col.field]}}
+									</span>
+
+									<span *ngIf="col.field === 'depto'">
+										{{rowData[col.field] | titlecase}}
+									</span>
+
+									<span *ngIf="col.field === 'nombre_empleado'">
+										{{rowData[col.field] | titlecase}}
+									</span>
+							
+									<span *ngIf="col.field === 'prioridad'">
+										{{rowData[col.field] | titlecase}}
+									</span>
+
+									<div *ngIf="col.field === 'procesada'">
+										<span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
+											{{rowData[col.field] | uppercase}}
+										</span>
+										<span *ngIf="rowData[col.field] === 'no'" class="p-badge p-badge-lg p-badge-danger">
+											{{rowData[col.field] | uppercase}}
+										</span>										
+									</div>
+
+									<span *ngIf="col.field === 'acciones'">
+										<button pButton pRipple type="button" [pRowToggler]="rowData" [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarRequisiciones(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarRequisicion(rowData.id)" pTooltip="Eliminar"></button>
+										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
+									</span>
+								</td>								
+							</tr>
+						</ng-template>
+
+						<ng-template pTemplate="rowexpansion" let-rowData>
+							<tr>
+								<td [attr.colspan]="cols.length">
+									<div class="p-p-3">
+										<p-table [value]="rowData.productos" dataKey="id">
+											<ng-template pTemplate="header">
+												<tr>													
+													<th class="centrar" pSortableColumn="titulo">Producto <p-sortIcon field="titulo"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="categoria">Categoría <p-sortIcon field="categoria"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="precio_venta">Precio <p-sortIcon field="precio_venta"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="cantidad">Cantidad <p-sortIcon field="cantidad"></p-sortIcon></th>
+												</tr>
+											</ng-template>
+											<ng-template pTemplate="body" let-detalle>
+												<tr>
+													<td class="centrar">
+														<img [alt]="detalle.galeriaImagenes" [src]="detalle.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/>
+														<div>{{detalle.titulo}}</div>
+													</td>
+													<td class="centrar">{{detalle.codigo}}</td>
+													<td class="centrar">{{detalle.categoria}}</td>
+													<td class="centrar">${{detalle.precio}}</td>
+													<td class="centrar">{{detalle.cantidad}}</td>
+												</tr>
+											</ng-template>
+										</p-table>
+									</div>
+								</td>
+							</tr>
+						</ng-template>
+
+						<ng-template pTemplate="emptymessage">
+							<tr>
+								<td colspan="8">No existen requisiciones en la base de datos.</td>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="summary">
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="requisiciones.length !== 1">
+								Existen {{requisiciones ? requisiciones.length : 0 }} requisiciones en total.
+							</div>
+							
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="requisiciones.length === 1">
+								Existe solo {{requisiciones ? requisiciones.length : 0 }} requisicion en total.
+							</div>
+						</ng-template>
+					</p-table>
+                </p-tabPanel>
+
+                <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
+                    <form (ngSubmit)="guardarRequisiciones()" [formGroup]="forma">
+                        <div class="p-fluid p-formgrid p-grid">
+							<div class="p-field p-col-12 p-md-3">
+                                <label for="num_oc">Orden de Pedido</label>
+                                <span class=" p-input-icon-right">
+									<input pInputText inputId="num_oc" mode="decimal" name="num_oc" formControlName="num_oc"
+										   (keyup)="verificaOrdenPedido($event.target.value)" type="number"/>
+									<i class="pi pi-spin pi-spinner" *ngIf="ordenPedidoExiste === 0" style="color:#f5df18"></i>
+									<i class="pi pi-check" *ngIf="ordenPedidoExiste === 1" style="color:#36b61d"></i>
+									<i class="pi pi-times" *ngIf="ordenPedidoExiste === 2" style="color:#d83131"></i>
+									<i class="pi pi-file-o" *ngIf="ordenPedidoExiste === 3"></i>
+								</span>
+							</div>
+
+							<div class="p-field p-col-12 p-md-3">
+								<label for="departamento">Departamento</label>
+								<p-dropdown inputId="departamento" [options]="departamento"  
+											name="departamento" formControlName="departamento"
+											placeholder="Escoge..." optionLabel="titulo">
+								</p-dropdown>
+								<small *ngIf="getNoValido('departamento')" class="p-invalid">Este campo es obligatorio.</small>
+							</div>
+
+							<div class="p-field p-col-12 p-md-3">
+								<label for="cod_emp_sec">Empleado</label>	
+								<p-autoComplete formControlName="cod_emp_sec" [suggestions]="empleadoFiltrados" 
+												(completeMethod)="filtrarEmpleado($event)" (onSelect)="datosEmpleado($event)"
+												field="primernombre" [dropdown]="true">
+									<ng-template let-empleado pTemplate="item">
+										<div class="country-item">
+											<div>{{empleado.primernombre +' '+ empleado.primerapellido| titlecase}}</div>
+										</div>
+									</ng-template>
+								</p-autoComplete>
+								<small *ngIf="getNoValido('cod_emp_sec')" class="p-invalid">Este campo es obligatorio.</small>						
+							</div>
+
+							<div class="p-field p-col-12 p-md-3">
+                                <label for="uso">Uso</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="uso" type="text" pInputText formControlName="uso" [class.p-invalid]="getNoValido('uso')">
+                                </span>
+                                <small class="p-invalid" *ngIf="getNoValido('uso')">Este campo es obligatorio.</small>
+							</div>
+
+							<div class="p-field p-col-12 p-md-3">
+								<label for="prioridad">Prioridad</label>
+								<p-dropdown inputId="prioridad" [options]="prioridad"  
+											name="prioridad" formControlName="prioridad"
+											placeholder="Escoge..." optionLabel="label">
+								</p-dropdown>
+								<small *ngIf="getNoValido('prioridad')" class="p-invalid">Este campo es obligatorio.</small>
+							</div>
+									
+							<div class="p-field p-col-12 p-md-3">
+								<label for="cliente">Cliente</label>	
+								<div class="p-inputgroup">	
+									<button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-success" (click)="op.toggle($event)"></button>								
+									<p-autoComplete formControlName="cliente" [suggestions]="clientesFiltrados" (completeMethod)="filtrarCliente($event.query)" 
+													(onSelect)="datosCliente($event)" field="nombre" [dropdown]="true" [forceSelection]="true">
+										<ng-template let-cliente pTemplate="item">
+											<div class="country-item">
+												<!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+												<div>{{cliente.nombre | titlecase}}</div>
+											</div>
+										</ng-template>
+									</p-autoComplete>
+								</div>
+								<small *ngIf="getNoValido('cliente')" class="p-invalid">Este campo es obligatorio.</small>						
+							</div>
+
+							<div class=" p-col-12"></div>
+
+							<div class="p-field p-col-6">
+								<label>Documentos</label>
+								<p-fileUpload name="demo[]" multiple="multiple" accept="image/*,.pdf" maxFileSize="1000000" 
+											  (onSelect)="onFileSelect($event)">
+									<ng-template pTemplate="content">
+										<ul *ngIf="uploadedFiles.length">
+											<li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+										</ul>
+									</ng-template>
+								</p-fileUpload>
+								<small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
+							</div>
+
+							<div class="p-field p-col-6">
+								<label for="observacion">Observaciones</label>
+								<textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"></textarea>
+								<small *ngIf="getNoValido('observacion')" class="p-invalid">Este campo es obligatorio.</small>
+							</div>
+						</div> 
+
+						<p-blockUI [target]="pnl" [blocked]="blockedPanel">
+							<i class="pi pi-lock" style="font-size: 3rem"></i>
+						</p-blockUI>
+
+						<p-panel #pnl header="Productos vinculados a la requisición" styleClass="p-mt-4">
+							<div formArrayName="productos">
+								<p-toolbar>	
+									<div class="p-toolbar-group-left">
+									</div>						
+									<div class="p-toolbar-group-right">
+										<button pButton pRipple label="Buscar Productos" icon="pi pi-search" type="button" (click)="buscaProductos()"></button>	
+									</div>
+								</p-toolbar>
+								<br>				
+								<p-table [columns]="cols2" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+										 [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+										 [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+
+									<ng-template pTemplate="caption">
+										<div class="table-header">
+											<span class="p-input-icon-left">
+												<i class="pi pi-search"></i>
+												<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+											</span>
+										</div>
+									</ng-template>
+
+									<ng-template pTemplate="header" let-columns>
+										<tr>
+											<th *ngFor="let col of columns" [pSortableColumn]="col.field" [ngClass]="{'centrar': col.field === 'imagen'}">
+												{{col.header}}
+												<p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
+											</th>
+										</tr>
+									</ng-template>
+	
+									<ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+										<tr [formGroupName]="i" class="p-selectable-row">
+											<td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'}">
+												<span class="p-column-title">{{col.header}}</span>
+	
+												<span *ngIf="col.field === 'imagen'">
+													<img [alt]="rowData[col.field]" [src]="rowData.galeriaImagenes | invProductos" width="64"
+														style="vertical-align: middle"/>
+													<div>{{rowData['titulo']}}</div>
+												</span>
+
+												<span *ngIf="col.field === 'categoria' || col.field === 'marca' || col.field === 'tipoinventario' || 
+															 col.field === 'proveedor'">
+													{{ rowData[col.field] | titlecase }}
+												</span>
+
+												<span *ngIf="col.field === 'precio_compra'">
+													${{rowData[col.field]}}
+												</span>
+
+												<span *ngIf="col.field === 'cantidad1'">
+													<input type="number" pInputText class="fit-input" formControlName="cantidad1" (input)="calcula(i, $event)"/>
+												</span>
+												
+												<span *ngIf="col.field === 'total'">
+													${{rowData[col.field]}}
+												</span>
+											</td>											
+										</tr>
+									</ng-template>
+	
+									<ng-template pTemplate="emptymessage">
+										<tr>
+											<td colspan="8">No ha seleccionado ningún producto.</td>
+										</tr>
+									</ng-template>
+	
+									<ng-template pTemplate="summary">
+										<div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length !== 1">
+											Existen {{productos ? productos.length : 0 }} productos en total.
+										</div>
+	
+										<div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length === 1">
+											Existe solo {{productos ? productos.length : 0 }} producto en total.
+										</div>
+									</ng-template>
+
+									<ng-template pTemplate="footer">
+										<tr>
+											<!--<td>{{lastYearTotal | currency: 'USD'}}</td>-->
+											<td [attr.colspan]="this.cols2.length - 1">Totales:</td>
+											<td><strong>${{ total }}</strong></td>
+										</tr>
+									</ng-template>
+								</p-table>
+							</div>
+						</p-panel>
+						<br>
+						<button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+						<button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+								type="button" disabled="true"></button>
+					</form>
+                </p-tabPanel>
+            </p-tabView>
+		</div>	
+		
+		<p-toast key="tst"></p-toast>
+		
+		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" 
+						 message="Esta seguro de borrar este registro?"
+						 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" 
+						 rejectButtonStyleClass="p-button-text">
+		</p-confirmDialog>
+
+		<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+			<ng-template pTemplate>
+				<p-table #dt3 [value]="clientes" selectionMode="single" [(selection)]="clientesSeleccionados" (onRowSelect)="clienteSeleccionado($event.data)" 
+						 [paginator]="true" [rows]="5" [globalFilterFields]="['nombre','num_rnc','cedula']">
+					<ng-template pTemplate="caption">
+					<div class="table-header">
+						<span class="p-input-icon-left">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text" (input)="dt3.filterGlobal($event.target.value, 'contains')" placeholder="Buscar Cliente..."/>
+						</span>
+					</div>
+				</ng-template>
+					<ng-template pTemplate="header">
+						<tr>
+							<th pSortableColumn="nombre">Nombre<p-sortIcon field="name"></p-sortIcon></th>                    
+							<th pSortableColumn="num_rnc">RNC <p-sortIcon field="price"></p-sortIcon></th>
+							<th pSortableColumn="cedula">Cédula <p-sortIcon field="price"></p-sortIcon></th>
+						</tr>
+					</ng-template>
+					<ng-template pTemplate="body" let-rowData let-cliente>
+						<tr [pSelectableRow]="rowData">
+							<td>{{cliente.nombre}}</td>
+							<td>{{cliente.num_rnc}}</td>
+							<td>{{cliente.cedula}}</td>
+						</tr>
+					</ng-template>
+				</p-table>
+			</ng-template>
+		</p-overlayPanel>
+	</div>	
+</div>

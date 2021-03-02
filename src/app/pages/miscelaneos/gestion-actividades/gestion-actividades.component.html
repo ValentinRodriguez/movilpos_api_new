@@ -1,0 +1,112 @@
+<div class="p-grid">
+	<div class="p-col-12">
+		<div class="card">
+			<p-tabView>
+				<p-tabPanel header="Listado">
+					<p-table #dt [columns]="cols" [value]="events" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+					[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+					[globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
+	   
+				<ng-template pTemplate="caption">
+					<div class="table-header">
+						<span class="p-input-icon-left">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+						</span>
+					</div>
+				</ng-template>
+
+				<ng-template pTemplate="header" let-columns>
+					<tr>
+						<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+							{{col.header}}									
+							<p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+						</th>
+					</tr>
+				</ng-template>
+
+				<ng-template pTemplate="body" let-rowData let-columns="columns">
+					<tr class="p-selectable-row">
+
+						<td *ngFor="let col of columns">
+							<span class="p-column-title">{{col.header}}</span>									
+							
+							<span *ngIf="col.field === 'title'">
+								{{rowData[col.field] }}
+							</span>
+
+							<span *ngIf="col.field === 'start'">
+								{{rowData[col.field] }}
+							</span>
+							
+							<span *ngIf="col.field === 'notificacion'">
+								{{rowData[col.field] }}
+							</span>
+
+							<!-- <span *ngIf="col.field === 'acciones'">
+								<button pButton pRipple type="button" icon="pi pi-key"        class="p-button p-button-help p-mr-2 p-mb-2" (click)="permisosBodegas(rowData.id)" pTooltip="Permisos"></button>
+								<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarBodega(rowData)" pTooltip="Actualizar"></button>
+								<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarBodega(rowData.id)" pTooltip="Eliminar"></button>								
+							</span> -->
+						</td>								
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No existen events en la base de datos.</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="summary">
+					<div class="p-d-flex p-ai-center p-jc-between" *ngIf="events.length !== 1">
+						Existen {{events ? events.length : 0 }} actividades en total.
+					</div>
+
+					<div class="p-d-flex p-ai-center p-jc-between" *ngIf="events.length === 1">
+						Existe solo {{events ? events.length : 0 }} actividad en total.
+					</div>
+				</ng-template>
+			</p-table>
+				</p-tabPanel>
+				<p-tabPanel header="Calendario">
+					<p-fullCalendar [events]="events" [options]="options" #calendar></p-fullCalendar>
+				</p-tabPanel>
+			</p-tabView>
+			<p-dialog [(visible)]="eventDialog" [style]="{width: '450px'}" header="Detalle del Evento" [modal]="true" [closable]="true">
+				<ng-template pTemplate="content">
+					<div class="p-fluid">
+						<div class="p-field">
+							<label for="title">Title</label>
+							<input id="title" type="text" pInputText *ngIf="clickedEvent" [(ngModel)]="changedEvent.title" [required]="true">
+						</div>
+
+						<div class="p-field">
+							<label for="start">Fecha Actividad</label>
+							<p-calendar id="start" *ngIf="clickedEvent" dateFormat="yy/mm/dd" [(ngModel)]="changedEvent.start" [showTime]="true" hourFormat="12" appendTo="body"></p-calendar>
+						</div>
+						
+						<div class="p-field">
+							<label for="notification">Fecha Notificatión</label>
+							<p-calendar id="notificacion" *ngIf="clickedEvent" dateFormat="yy/mm/dd" [(ngModel)]="changedEvent.notificacion" [showTime]="true" hourFormat="12" appendTo="body"></p-calendar>
+						</div>
+						<!-- <div class="p-field">
+							<label for="end">Hasta</label>
+							<p-calendar id="end" *ngIf="clickedEvent" dateFormat="yy/mm/dd" [(ngModel)]="changedEvent.end" [showTime]="true" appendTo="body"></p-calendar>
+						</div> -->
+						<!-- <div class="p-field-checkbox">
+							<p-checkbox id="allday" *ngIf="clickedEvent" [(ngModel)]="changedEvent.allday"></p-checkbox>
+							<label for="allday">All Day</label>
+						</div> -->
+					</div>
+				</ng-template>
+
+				<ng-template pTemplate="footer">
+					<button pButton label="Actualizar" icon="pi pi-check" class="p-button-raised p-button-warning" *ngIf="!this.emptyDate" (click)="update()"></button>
+					<button pButton label="Eliminar" icon="pi pi-trash" class="p-button-raised p-button-danger" *ngIf="!this.emptyDate" (click)="borrarActividad()"></button>
+					<button pButton label="Guardar" icon="pi pi-check" class="p-button-raised p-button-success" *ngIf="this.emptyDate" (click)="save()"></button>
+					<button pButton label="Restablecer" icon="pi pi-refresh" class="p-button-raised p-button-info" (click)="reset()"></button>
+				</ng-template>
+			</p-dialog>
+		</div>
+	</div>
+</div> 
+<p-toast position="bottom-center" key="bc"></p-toast>

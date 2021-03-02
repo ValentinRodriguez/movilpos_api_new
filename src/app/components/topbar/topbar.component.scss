@@ -1,0 +1,7 @@
+.header-fijo{
+    position: fixed;
+    width: 100%;
+}
+:host ::ng-deep .test {
+    padding: 15px;
+}

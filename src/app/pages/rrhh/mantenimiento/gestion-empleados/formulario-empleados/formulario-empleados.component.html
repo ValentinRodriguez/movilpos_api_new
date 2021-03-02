@@ -1,0 +1,511 @@
+<form (ngSubmit)="guardarEmpleado()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">	
+
+        <div class="p-field p-col-12 p-md-3">
+            <p-fieldset legend="Foto Empleado" [toggleable]="false">
+                <a href="javascript:void(0);">
+                <img *ngIf="imgURLUser !== null" [src]="imgURLUser" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 128px;">
+                <img *ngIf="imgURLUser === null" [src]="imgUser | usuario" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 128px;">
+                </a>
+                <span style="color:red;" *ngIf="message">{{message}}</span>
+                <div>
+                    <input #fileUser type="file" accept='image/*' (change)="previewUserPhoto(fileUser.files)" />
+                </div>
+            </p-fieldset>
+        </div>
+
+        <!-- clearfix -->
+        <div class=" p-col-12"></div>
+        <!-- clearfix -->
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nom1_emp">Primer Nombre </label>
+            <span class=" p-input-icon-right">
+                <input id="nom1_emp" type="text" pInputText formControlName="nom1_emp" [class.p-invalid]="getNoValido('nom1_emp')">
+            </span>
+            <small *ngIf="getNoValido('nom1_emp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nom2_emp">Segundo Nombre </label>
+            <span class=" p-input-icon-right">
+                <input id="nom2_emp" type="text" pInputText formControlName="nom2_emp" [class.p-invalid]="getNoValido('nom2_emp')">
+            </span>
+            <small *ngIf="getNoValido('nom2_emp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+            <label for="apell1_emp">Primer Apellido  </label>
+            <span class=" p-input-icon-right">
+                <input id="apell1_emp" type="text" pInputText formControlName="apell1_emp" [class.p-invalid]="getNoValido('apell1_emp')">
+            </span>
+            <small *ngIf="getNoValido('apell1_emp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+            <label for="apell2_emp">Segundo Apellido </label>
+            <span class=" p-input-icon-right">
+                <input id="apell2_emp" type="text" pInputText formControlName="apell2_emp" [class.p-invalid]="getNoValido('apell2_emp')">
+            </span>
+            <small *ngIf="getNoValido('apell2_emp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cedula">Cédula</label>
+            <span class=" p-input-icon-right">
+                <input id="cedula" type="text" pInputText formControlName="cedula" [class.p-invalid]="getNoValido('cedula')">
+            </span>
+            <small *ngIf="getNoValido('cedula')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="calle">Calle</label>
+            <span class=" p-input-icon-right">
+                <input id="calle" type="text" pInputText formControlName="calle" [class.p-invalid]="getNoValido('calle')">
+            </span>
+            <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="casa_num">Casa No.</label>
+            <span class=" p-input-icon-right">
+                <p-inputNumber inputId="casa_num" mode="decimal" [min]="1" [max]="100" name="casa_num"  
+                               formControlName="casa_num" [class.p-invalid]="getNoValido('casa_num')">
+                </p-inputNumber>
+            </span>
+            <small *ngIf="getNoValido('casa_num')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="barrio">Sector</label>
+            <span class=" p-input-icon-right">
+                <input id="barrio" type="text" pInputText formControlName="barrio" [class.p-invalid]="getNoValido('barrio')">
+            </span>
+            <small *ngIf="getNoValido('barrio')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="urbanizacion">Urbanización </label>
+            <span class=" p-input-icon-right">
+                <input id="urbanizacion" type="text" pInputText formControlName="urbanizacion" [class.p-invalid]="getNoValido('urbanizacion')">
+            </span>
+            <small *ngIf="getNoValido('urbanizacion')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="telefono">Teléfono</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('telefono')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="email">Email</label>
+            <span class=" p-input-icon-right">
+                <input id="email" type="text" pInputText formControlName="email" [class.p-invalid]="getNoValido('email')">
+            </span>
+            <small *ngIf="getNoValido('email')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-col-12" style="margin: 15px 0 15px 0;">
+            <div class="card">
+                <p-tabView orientation="left">
+                    <p-tabPanel header="Datos Generales" leftIcon="pi pi-check">
+                        <div class="p-fluid p-formgrid p-grid">
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="educacion">Nivel Educativo</label>
+                                <p-dropdown inputId="educacion" [options]="educacion"  
+                                            name="educacion" formControlName="educacion"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('educacion')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="id_pais">Nacionalidad</label>	
+                                <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPais($event)" 
+                                                field="gentilicio" [dropdown]="true">
+                                    <ng-template let-pais pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{pais.gentilicio | titlecase}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                                <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>						
+                            </div>	
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="tipo_sangre">Tipo de Sangre</label>
+                                <p-dropdown inputId="tipo_sangre" [options]="tipo_sangre"  
+                                            name="tipo_sangre" formControlName="tipo_sangre"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('tipo_sangre')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                            
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="paga_seg">Sexo</label>
+                                <p-dropdown inputId="paga_seg" [options]="sexo"  
+                                            name="paga_seg" formControlName="paga_seg"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('paga_seg')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="horario">Horario</label>
+                                <p-dropdown inputId="horario" [options]="horario"  
+                                            name="horario" formControlName="horario"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('horario')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="horario_inicial">Hora Entrada</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="horario_inicial" [timeOnly]="true" inputId="horario_inicial" 
+                                    [class.p-invalid]="getNoValido('horario_inicial')" hourFormat="12"></p-calendar>
+                                </span>
+                                <small *ngIf="getNoValido('horario_inicial')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="horario_final">Hora Salida</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="horario_final" [timeOnly]="true" inputId="horario_final" 
+                                    [class.p-invalid]="getNoValido('horario_final')" hourFormat="12"></p-calendar>
+                                </span>
+                                <small *ngIf="getNoValido('horario_final')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="estado_civil">Estado Civil</label>
+                                <p-dropdown inputId="estado_civil" [options]="estado_civil"  
+                                            name="estado_civil" formControlName="estado_civil"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('estado_civil')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="fech_nac">Fecha Nacimiento</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="fech_nac" dateFormat="yy/mm/dd" [showIcon]="true"
+                                                [monthNavigator]="true" [yearNavigator]="true" [yearRange]="this.rangoAnio()" (onSelect)="onSelectDate($event, 'fech_nac')">
+                                    </p-calendar>                                    
+                                </span>
+                                <small *ngIf="getNoValido('fech_nac')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="licencia">Licencia</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="licencia" type="text" pInputText formControlName="licencia" [class.p-invalid]="getNoValido('licencia')">
+                                </span>
+                                <small *ngIf="getNoValido('licencia')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12">
+                                <label for="observacion">Observaciones</label>
+                                <textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"></textarea>
+                                <small *ngIf="getNoValido('observacion')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                        </div>	
+                    </p-tabPanel>
+
+                    <p-tabPanel header="Datos ARS" leftIcon="pi pi-user">
+                        <div class="p-fluid p-formgrid p-grid">
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="cod_tss">TSS</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="cod_tss" type="text" pInputText formControlName="cod_tss" [class.p-invalid]="getNoValido('cod_tss')">
+                                </span>
+                                <small *ngIf="getNoValido('cod_tss')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="paga_seg">Paga Seguro</label>
+                                <p-dropdown inputId="paga_seg" [options]="sino"  
+                                            name="paga_seg" formControlName="paga_seg"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('paga_seg')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>															
+                        </div>	
+                    </p-tabPanel>
+                        
+                    <p-tabPanel header="Datos Institucionales" leftIcon="pi pi-mobile">											
+                        <div class="p-fluid p-formgrid p-grid">
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="fech_efec">Fecha de Entrada</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="fech_efec" dateFormat="yy/mm/dd" [showIcon]="true"
+                                                [monthNavigator]="true" [yearNavigator]="true" [yearRange]="this.rangoAnio()" (onSelect)="onSelectDate($event, 'fech_efec')">
+                                    </p-calendar>                                    
+                                </span>
+                                <small *ngIf="getNoValido('fech_efec')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="is_sup">Supervisa</label>
+                                <p-dropdown inputId="is_sup" [options]="sino"  
+                                            name="is_sup" formControlName="is_sup"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('is_sup')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="departamento">Departamento</label>
+                                <p-dropdown inputId="departamento" [options]="departamento" name="departamento" formControlName="departamento"
+                                            placeholder="Escoge..." optionLabel="titulo" (onChange)="buscaSupervisor($event.value.id)">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('departamento')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                            
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="num_emp_supervisor">Supervisor</label>	
+                                <p-autoComplete formControlName="num_emp_supervisor" [suggestions]="supervisoresFiltrados" (completeMethod)="filtrarSupervisor($event)" 
+                                                field="nombre_empleado" [dropdown]="true" [readonly]="this.supervisores.length === 0" forceSelection="true">
+                                    <ng-template let-supervisor pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{supervisor.nombre_empleado | titlecase}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                                <small *ngIf="getNoValido('num_emp_supervisor')" class="p-invalid">Este campo es obligatorio.</small>						
+                            </div>	
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="tipo_empleado">Tipo de Empleado</label>
+                                <p-dropdown inputId="tipo_empleado" [options]="estado_civil"  
+                                            name="tipo_empleado" formControlName="tipo_empleado"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('tipo_empleado')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                            
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="cod_puesto">Puesto</label>	
+                                <p-autoComplete formControlName="cod_puesto" [suggestions]="puestosFiltrados" (completeMethod)="filtrarPuesto($event)" 
+                                                field="primernombre" [dropdown]="true">
+                                    <ng-template let-cod_puesto pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{cod_puesto.titulo | titlecase}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                                <small *ngIf="getNoValido('cod_puesto')" class="p-invalid">Este campo es obligatorio.</small>						
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="sucid">Localidad</label>
+                                <p-dropdown inputId="sucid" [options]="sino"  
+                                            name="sucid" formControlName="sucid"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('sucid')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="paga_seg">Crédito</label>
+                                <p-dropdown inputId="paga_seg" [options]="sino"  
+                                            name="paga_seg" formControlName="paga_seg"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('paga_seg')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                                    
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="nomina">Nomina</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="nomina" type="text" pInputText formControlName="nomina" [class.p-invalid]="getNoValido('nomina')">
+                                </span>
+                                <small *ngIf="getNoValido('nomina')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="tipo_sueldo">Tipo Sueldo</label>
+                                <p-dropdown inputId="tipo_sueldo" [options]="sino"  
+                                            name="tipo_sueldo" formControlName="tipo_sueldo"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('tipo_sueldo')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="sueldo_ac">Sueldo</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="sueldo_ac" type="text" pInputText formControlName="sueldo_ac" [class.p-invalid]="getNoValido('sueldo_ac')">
+                                </span>
+                                <small *ngIf="getNoValido('sueldo_ac')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="moneda">Moneda</label>
+                                <p-multiSelect [options]="monedas" formControlName="moneda" defaultLabel="Seleccione Moneda" 
+                                               optionLabel="name" class="multiselect-custom" (onChange)="setValueMoneda()">
+                                    <ng-template let-value pTemplate="selectedItems">
+                                        <div class="country-item country-item-value" *ngFor="let option of selectedMultiMoneda">
+                                            <img src="assets/demo/flags/flag_placeholder.png" [class]="'flag flag-' + option.codigo.toLowerCase()" />
+                                            <div>{{option.codigo}}</div>
+                                        </div>
+                                        <div *ngIf="!selectedMultiMoneda || selectedMultiMoneda.length === 0" class="country-placeholder">
+                                            Seleccione Moneda
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-country pTemplate="item">
+                                        <div class="country-item">
+                                            <img src="assets/demo/flags/flag_placeholder.png" [class]="'flag flag-' + country.codigo.toLowerCase()" />
+                                            <div>{{country.divisa}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-multiSelect>
+                                <small *ngIf="getNoValido('moneda')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="tasa">Tasa</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="tasa" type="text" pInputText formControlName="tasa" [class.p-invalid]="getNoValido('tasa')">
+                                </span>
+                                <small *ngIf="getNoValido('tasa')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="cuenta_fi">Cuenta Finanzas</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="cuenta_fi" type="text" pInputText formControlName="cuenta_fi" [class.p-invalid]="getNoValido('cuenta_fi')">
+                                </span>
+                                <small *ngIf="getNoValido('cuenta_fi')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="codigo_es">Código E/S</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="codigo_es" type="text" pInputText formControlName="codigo_es" [class.p-invalid]="getNoValido('codigo_es')">
+                                </span>
+                                <small *ngIf="getNoValido('codigo_es')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>	
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="poncha">Ponchado</label>
+                                <p-dropdown inputId="poncha" [options]="sino"  
+                                            name="poncha" formControlName="poncha"
+                                            placeholder="Escoge..." optionLabel="label">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('poncha')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="fecha_salida">Fecha Salida</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="fecha_salida" dateFormat="yy/mm/dd" [showIcon]="true"
+                                                (onSelect)="onSelectDate($event, 'fecha_salida')">
+                                    </p-calendar>
+                                </span>
+                                <small *ngIf="getNoValido('fecha_salida')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="fecha_ultimo_aumento">Fecha Aumento</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="fecha_ultimo_aumento" dateFormat="yy/mm/dd" [showIcon]="true"
+                                                (onSelect)="onSelectDate($event, 'fecha_ultimo_aumento')">
+                                    </p-calendar>
+                                </span>
+                                <small *ngIf="getNoValido('fecha_ultimo_aumento')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="fecha_termino_c">Fecha Termino Contrato</label>
+                                <span class=" p-input-icon-right">
+                                    <p-calendar formControlName="fecha_termino_c" dateFormat="yy/mm/dd" [showIcon]="true"
+                                                (onSelect)="onSelectDate($event, 'fecha_termino_c')">
+                                    </p-calendar>
+                                </span>
+                                <small *ngIf="getNoValido('fecha_termino_c')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+                    <p-tabPanel header="Datos Bancarios" leftIcon="pi pi-mobile">
+                        <div class="p-fluid p-formgrid p-grid">
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="tipocuenta">Tipo de Cuenta</label>
+                                <p-dropdown inputId="tipocuenta" [options]="educacion"  
+                                            name="tipocuenta" formControlName="tipocuenta"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('tipocuenta')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="codbancodestino">Banco</label>
+                                <p-dropdown inputId="codbancodestino" [options]="educacion"  
+                                            name="codbancodestino" formControlName="codbancodestino"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('codbancodestino')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="digiverbancodestino">Dígito ver Banco</label>
+                                <p-dropdown inputId="digiverbancodestino" [options]="educacion"  
+                                            name="digiverbancodestino" formControlName="digiverbancodestino"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('digiverbancodestino')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="cuenta_no">Cuenta no.</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="cuenta_no" type="text" pInputText formControlName="cuenta_no" [class.p-invalid]="getNoValido('cuenta_no')">
+                                </span>
+                                <small *ngIf="getNoValido('cuenta_no')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="digiverbancodestino">Archivo Banco</label>
+                                <p-dropdown inputId="digiverbancodestino" [options]="sino"  
+                                            name="digiverbancodestino" formControlName="digiverbancodestino"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('digiverbancodestino')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="codigo_retiro_bco">Código Retiro Banco</label>
+                                <span class=" p-input-icon-right">
+                                    <input id="codigo_retiro_bco" type="text" pInputText formControlName="codigo_retiro_bco" [class.p-invalid]="getNoValido('codigo_retiro_bco')">
+                                </span>
+                                <small *ngIf="getNoValido('codigo_retiro_bco')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                            
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="retiro_comercial">Retiro Comercial</label>
+                                <p-dropdown inputId="retiro_comercial" [options]="sino"  
+                                            name="retiro_comercial" formControlName="retiro_comercial"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('retiro_comercial')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-3">
+                                <label for="estado_legal">Estado Legal</label>
+                                <p-dropdown inputId="estado_legal" [options]="sino"  
+                                            name="estado_legal" formControlName="estado_legal"
+                                            placeholder="Escoge..." optionLabel="value">
+                                </p-dropdown>
+                                <small *ngIf="getNoValido('estado_legal')" class="p-invalid">Este campo es obligatorio.</small>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>											
+            </div>
+        </div>		
+    </div>
+    <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+            type="button" disabled="true"></button>
+</form>

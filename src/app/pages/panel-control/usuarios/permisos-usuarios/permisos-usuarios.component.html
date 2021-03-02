@@ -1,0 +1,127 @@
+<div class="p-col-12 p-md-12">
+    <div class="card">
+        <p-tabView orientation="left">
+            <p-tabPanel header="Perfiles" leftIcon="pi pi-id-card">
+                <ul class="list-group">                                                                   
+                    <li *ngFor="let campo of listaPerfiles; let i = index" class="list-group-item">
+                         {{ campo.modulo | uppercase }}
+                         <div class="float-right">
+                             <p-inputSwitch [(ngModel)]="listaPerfiles[i].valor" name="{{campo.modulo}}"></p-inputSwitch>
+                         </div>
+                     </li>
+                 </ul>
+            </p-tabPanel>   
+
+            <p-tabPanel header="Modulos" leftIcon="pi-th-large">
+                <div class="p-col-12">
+                    <p-accordion>
+                        <p-accordionTab [header]="modulo.modulo | uppercase" *ngFor="let modulo of listaModulos; let z = index">
+                            <ul class="list-group">                                                                   
+                                <li *ngFor="let campo of modulo.acciones; let i = index" class="list-group-item">
+                                     {{ campo.accion }}
+                                     <div class="float-right">
+                                        <p-inputSwitch [(ngModel)]="listaModulos[z].acciones[i].valor" *ngIf="campo.accion === 'TODO'" (onChange)="todaAccionMod($event,z)"></p-inputSwitch>
+                                        <p-inputSwitch [(ngModel)]="listaModulos[z].acciones[i].valor" *ngIf="campo.accion !== 'TODO'"></p-inputSwitch>
+                                     </div>
+                                 </li>
+                             </ul>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+            </p-tabPanel> 
+
+            <p-tabPanel header="Programas" leftIcon="pi pi-folder">
+                <div class="p-col-12">
+                    <p-accordion>
+                        <p-accordionTab [header]="modulo.modulo | uppercase" *ngFor="let modulo of modulos; let z = index">
+                            <p-table #dt [columns]="cols" [value]="programas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                                     [rowHover]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','codigo','nombre']">
+                            
+                                <ng-template pTemplate="caption">
+                                    <div class="table-header">
+                                        <span class="p-input-icon-left">
+                                            <i class="pi pi-search"></i>
+                                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+                                        </span>
+                                    </div>
+                                </ng-template>
+                                
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="centrar">
+                                            {{col.header}}									
+                                            <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                
+                                <ng-template pTemplate="body" let-rowData let-i="rowIndex" let-columns="columns">
+                                    <tr class="p-selectable-row" [ngClass]="{'nomostrar': rowData.modulo !== modulo.id}">                                        
+                                        <td *ngFor="let col of columns" class="centrar">
+                                            <span class="p-column-title">{{col.header}}</span>
+
+                                            <span *ngIf="col.field === 'codigo'">
+                                                <i *ngIf="rowData['id_menu'] === 2" class="pi pi-chart-bar" style="font-size: 2rem; padding-right: 10px;"></i>
+                                                <i *ngIf="rowData['id_menu'] === 1" class="pi pi-desktop" style="font-size: 2rem; padding-right: 10px;"></i>
+                                               <!-- <div>{{rowData[col.field] | uppercase}}</div>  -->
+                                               <div>{{rowData['nombre']+'('+rowData[col.field]+')' | titlecase}}</div>
+                                            </span>
+                                            
+                                            <span *ngIf="col.field === 'status'">
+                                                <span class="p-badge p-badge-success" *ngIf="rowData[col.field] === 1">ACTIVO</span>
+                                                <span class="p-badge p-badge-danger" *ngIf="rowData[col.field] === 0">INACTIVO</span>
+                                            </span>
+
+                                            <span *ngIf="col.field === 'todo'">
+                                                <p-inputSwitch [(ngModel)]="programas[i].todo" name="{{rowData[col.field]}}" (onChange)="todaAccionProg($event,i)"></p-inputSwitch>                                                    
+                                            </span>
+
+                                            <span *ngIf="col.field === 'lectura'">
+                                                <p-inputSwitch [(ngModel)]="programas[i].lectura" name="{{rowData[col.field]}}"></p-inputSwitch>                                                    
+                                            </span>
+
+                                            <span *ngIf="col.field === 'escritura'">
+                                                <p-inputSwitch [(ngModel)]="programas[i].escritura" name="{{rowData[col.field]}}"></p-inputSwitch>                                                    
+                                            </span>
+
+                                            <span *ngIf="col.field === 'eliminar'">
+                                                <p-inputSwitch [(ngModel)]="programas[i].eliminar" name="{{rowData[col.field]}}"></p-inputSwitch>                                                    
+                                            </span>
+                                        </td>								
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+            </p-tabPanel> 
+
+            <p-tabPanel header="Notificaciones" leftIcon="pi pi-fw pi-envelope">
+                <div class="card">
+                    <ul class="list-group">                                                                   
+                        <li *ngFor="let campo of listanotificaciones; let i = index" class="list-group-item">
+                             {{ campo.modulo | uppercase }}
+                             <div class="float-right">
+                                 <p-inputSwitch [(ngModel)]="listanotificaciones[i].valor" name="{{campo.modulo}}"></p-inputSwitch>
+                             </div>
+                         </li>
+                     </ul>
+                </div>
+            </p-tabPanel> 
+
+            <p-tabPanel header="Especiales" leftIcon="pi pi-star-o">
+            </p-tabPanel> 
+        </p-tabView> 
+        <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="button"(click)="saveForm()"></button>
+        <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+                type="button" disabled="true" >
+        </button>
+
+        <button *ngIf="!this.restableciendo" pButton pRipple label="Restablecer" icon="pi pi-times" 
+                type="button" (click)="restablecerPermisos()" class="p-button-warning" style="float: right;">
+        </button>
+        <button pButton pRipple label="Restableciendo..." icon="pi pi-spin pi-spinner" *ngIf="this.restableciendo"
+                type="button" disabled="true" style="float: right;">
+        </button>
+    </div>
+</div>

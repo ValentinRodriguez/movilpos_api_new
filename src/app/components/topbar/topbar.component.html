@@ -1,0 +1,142 @@
+<div class="layout-topbar" [ngClass]="{'header-fijo': this.menu === 'no'}">
+    <!-- <p-inputSwitch [(ngModel)]="checked1"></p-inputSwitch> -->
+    <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
+                    *ngIf="(this.menu === 'no')" optionValue="value" (onChange)="modoVenta($event)">
+    </p-selectButton>
+
+    <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" *ngIf="(this.menu === 'no' && this.facturaServ.display === true)" (click)="ocultar()">
+        <i class="pi pi-chevron-right"></i>
+    </a>
+    
+    <div class="topbar-left">
+        <a tabindex="0" class="menu-button" (click)="app.onMenuButtonClick($event)" *ngIf="this.menu !== 'no'">
+            <i class="pi pi-chevron-left"></i>
+        </a>
+        <span class="topbar-separator"></span>
+
+        <img id="logo-mobile" class="mobile-logo" src="assets/layout/images/logo-dark.svg" alt="diamond-layout" />
+    </div>
+
+    <div class="topbar-right">
+        <ul class="topbar-menu">
+            <li class="search-item">
+                <a tabindex="0" (click)="app.onSearchClick($event)">
+                    <i class="pi pi-search"></i>
+                </a>
+            </li>
+            <li *ngIf="this.menu !== 'no'" class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
+                <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick($event)">
+                    <i class="pi pi-bell"></i>
+                    <span class="topbar-badge">5</span>
+                </a>
+                <ul class="notifications-menu fade-in-up">
+                    <li role="menuitem">
+                        <a href="#" tabindex="0">
+                            <i class="pi pi-shopping-cart"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">New Order</div>
+                                <div class="notification-detail">You have <strong>3</strong> new orders.</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" tabindex="0">
+                            <i class="pi pi-check-square"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Withdrawn Completed</div>
+                                <div class="notification-detail">Funds are on their way.</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" tabindex="0">
+                            <i class="pi pi-chart-line"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Monthly Reports</div>
+                                <div class="notification-detail">New reports are ready.</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" tabindex="0">
+                            <i class="pi pi-comments"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Comments</div>
+                                <div class="notification-detail"><strong>2</strong> new comments.</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" tabindex="0">
+                            <i class="pi pi-exclamation-circle"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Chargeback Request</div>
+                                <div class="notification-detail"><strong>1</strong> to review.</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" tabindex="0" (click)="logout()">
+                    <i class="pi pi-power-off" style="color: red"></i>                    
+                </a>
+
+            </li>
+
+            <li class="profile-item" [ngClass]="{'active-menuitem fadeInDown': app.topbarUserMenuActive}">
+                <a href="#" (click)="app.onTopbarUserMenuButtonClick($event)">
+                    <img [src]="foto | usuario" alt="diamond-layout" class="profile-image" style="width: 4.5rem; height: 3.5rem !important;"/>
+                    <span class="profile-name">{{nombre | titlecase}}</span>
+                </a>
+                <ul class="profile-menu fade-in-up">
+                    <li>
+                        <a href="#">
+                            <i class="pi pi-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="pi pi-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="pi pi-calendar"></i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="pi pi-inbox"></i>
+                            <span>Inbox</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" (click)="logout()">
+                            <i class="pi pi-power-off" style="color: red"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="right-sidebar-item" *ngIf="this.menu !== 'no'">
+                <a href="#" tabindex="0" (click)="app.onRightMenuClick($event)">
+                    <i class="pi pi-align-right"></i>
+                </a>
+            </li>
+            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" *ngIf="(this.menu === 'no' && this.facturaServ.display === true)" (click)="ocultar()">
+                <i class="pi pi-chevron-right"></i>
+            </a>
+            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" *ngIf="(this.menu === 'no' && this.facturaServ.display === false)" (click)="desplegar()">
+                <i class="pi pi-chevron-left"></i>
+            </a>
+            
+        </ul>
+    </div>
+</div>
+<!-- <p-menubar [model]="tieredItems" *ngIf="(this.tieredItems.length !== 0 && this.menu !== 'no')">
+</p-menubar> -->

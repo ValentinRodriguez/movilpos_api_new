@@ -1,0 +1,227 @@
+<form (ngSubmit)="guardarProveedor()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nom_sp">Nombre</label>
+            <span class=" p-input-icon-right">
+                <input id="nom_sp" type="text" pInputText formControlName="nom_sp"
+                       (keyup)="verificaProveedor($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="proveedorExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="proveedorExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="proveedorExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-user" *ngIf="proveedorExiste === 3"></i>
+            </span>
+            <small *ngIf="getNoValido('nom_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="tipo_doc">Documento</label>
+            <p-dropdown inputId="tipo_doc" [options]="documento"  
+                        name="tipo_doc" formControlName="tipo_doc" id="drop-down"
+                        placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value)">
+            </p-dropdown>
+            <small *ngIf="getNoValido('tipo_doc')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3" *ngIf="this.cedula">
+            <label for="documento">Cédula</label>
+            <span class=" p-input-icon-right">
+                <input id="documento" type="text" pInputText formControlName="documento">
+            </span>
+            <small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3" *ngIf="this.rnc">
+            <label for="documento">RNC</label>
+            <span class=" p-input-icon-right">
+                <input id="documento" type="text" pInputText formControlName="documento" maxlength="11">
+            </span>
+            <small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="email">Email</label>
+            <span class=" p-input-icon-right">
+                <input id="email" type="text" pInputText formControlName="email">
+            </span>
+            <small *ngIf="getNoValido('email')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="fax_sp">FAX</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="fax_sp" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('fax_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="tel_sp">Teléfono</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="tel_sp" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('tel_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cod_sp">Tipo Proveedor</label>
+            <p-dropdown inputId="cod_sp" [options]="tipo_proveedor" (onChange)="setCuenta($event.value.cuenta_no)" 
+                        name="cod_sp" formControlName="cod_sp" id="drop-down"
+                        placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('cod_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cuenta_no">Cuenta</label>
+            <span class=" p-input-icon-right">
+                <input id="cuenta_no" type="text" pInputText formControlName="cuenta_no" maxlength="11" class="read-only" readonly="true">
+            </span>
+            <small *ngIf="getNoValido('cuenta_no')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cond_pago">Condición Pago</label>
+            <p-dropdown inputId="cond_pago" [options]="condpago"  
+                        name="cond_pago" formControlName="cond_pago" id="drop-down"
+                        placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_moneda">Moneda</label>
+            <p-multiSelect [options]="monedas" formControlName="id_moneda" defaultLabel="Seleccione Moneda" 
+                           optionLabel="divisa" class="multiselect-custom" (onChange)="setValue()">
+                <ng-template let-value pTemplate="selectedItems">
+                    <div class="country-item country-item-value" *ngFor="let option of selectedMulti">
+                        <div>{{option.simbolo}} {{option.divisa | titlecase}}</div>
+                    </div>
+                    <div *ngIf="!selectedMulti || selectedMulti.length === 0" class="country-placeholder">
+                        Seleccione Moneda
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                        <div>{{country.simbolo}} {{country.divisa | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-multiSelect>
+            <small *ngIf="getNoValido('id_moneda')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cont_sp">Persona de Contacto</label>
+            <span class=" p-input-icon-right">
+                <input id="cont_sp" type="text" pInputText formControlName="cont_sp">
+            </span>
+            <small *ngIf="getNoValido('cont_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_pais">Pais</label>	
+            <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPaises($event)" 
+                            field="descripcion" [dropdown]="true" (onSelect)="buscaPaises($event.id_pais)">
+                <ng-template let-pais pTemplate="item">
+                    <div class="country-item">
+                        <div>{{pais.descripcion | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_ciudad">Ciudad</label>	
+            <p-autoComplete formControlName="id_ciudad" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" 
+                            field="descripcion" [dropdown]="true">
+                <ng-template let-ciudad pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ciudad.descripcion | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12">
+            <label for="dir_sp">Dirección</label>
+            <textarea id="dir_sp" type="text" rows="4" pInputTextarea name="dir_sp" formControlName="dir_sp"></textarea>
+            <small *ngIf="getNoValido('dir_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <p-panel header="Otras cuentas vinculadas al proveedor" [toggleable]="true">		
+            <div formArrayName="cuentas_no">
+                <p-toolbar>	
+                    <div class="p-toolbar-group-left"></div>						
+                    <div class="p-toolbar-group-right">
+                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaCuentas()"></button>	
+                    </div>
+                </p-toolbar>
+                <br>
+                <p-table #dt [columns]="cols2" [value]="cgcatalogos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                        [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                        [globalFilterFields]="['descripcion','cuenta_no','origen','tipo_cuenta','catalogo']">
+                    
+                    <ng-template pTemplate="caption">
+                        <div class="table-header">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+                            </span>
+                        </div>
+                    </ng-template>
+                    
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}									
+                                <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+    
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                        <tr [formGroupName]="i" class="p-selectable-row">							
+                            <td *ngFor="let col of columns">
+                                <span class="p-column-title">{{col.header}}</span>	
+    
+                                <span *ngIf="col.field === 'descripcion' || col.field === 'origen' || 
+                                             col.field === 'tipo_cuenta' || col.field === 'cuenta_no'">
+                                    {{rowData[col.field] | titlecase}}										
+                                </span>
+    
+                                <span *ngIf="col.field === 'porciento'">
+                                    <input type="number" pInputText class="fit-input" formControlName="porciento"/>
+                                </span>
+                                        
+                                <span *ngIf="col.field === 'acciones'">
+                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCatEscogido(i, rowData)"></button>
+                                </span>
+                            </td>								
+                        </tr>
+                    </ng-template>
+                    
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">No haz seleccionado ninguna cuenta.</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cgcatalogos.length === 0">
+                            No hay cuentas seleccionadas.
+                        </div>
+                        
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cgcatalogos.length !== 0">
+                            {{cgcatalogos ? cgcatalogos.length : 0 }} cuenta seleccionada.
+                        </div>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-panel>      
+    </div>
+
+    <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+            type="button" disabled="true"></button>
+</form>

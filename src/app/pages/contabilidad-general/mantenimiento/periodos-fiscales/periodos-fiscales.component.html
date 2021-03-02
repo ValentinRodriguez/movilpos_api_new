@@ -1,0 +1,141 @@
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <h5>Gestión de Usuarios</h5>
+            <p-tabView orientation="left" [(activeIndex)]="index">
+                <p-tabPanel header="Consultar" leftIcon="pi pi-search">
+					<p-table #dt [columns]="cols" [value]="periodos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+							 [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="anio"
+							 [globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
+					
+						<ng-template pTemplate="caption">
+							<div class="table-header">
+								<span class="p-input-icon-left">
+									<i class="pi pi-search"></i>
+									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+								</span>
+							</div>
+						</ng-template>
+						
+						<ng-template pTemplate="header" let-columns>
+							<tr>
+								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+									{{col.header}}									
+									<p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+								</th>
+							</tr>
+						</ng-template>
+						
+						<ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
+							<tr class="p-selectable-row" [ngClass]="{'noExistencia': rowData['estado'] !== 'activo'}">
+								<td *ngFor="let col of columns" class="centrar">
+									<span class="p-column-title">{{col.header}}</span>
+									<div *ngIf="col.field === 'anio'">
+										<div>{{rowData[col.field]}}  </div>
+									</div>
+							
+									<div *ngIf="col.field === 'mes'">
+										<div>{{ this.meses[rowData[col.field] - 1] }}  </div>
+									</div>
+
+									<div *ngIf="col.field === 'fecha_inicio'">
+										<div>{{rowData[col.field]}}  </div>
+									</div>
+
+									<div *ngIf="col.field === 'fecha_corte'">
+										<div>{{rowData[col.field]}}  </div>
+									</div>
+
+									<div *ngIf="col.field === 'dias_habiles'">
+										<div>{{rowData[col.field]}}  </div>
+									</div>
+
+									<div *ngIf="col.field === 'dias_gracia'">
+										<div>{{rowData[col.field]}}  </div>
+									</div>
+							
+									<div *ngIf="col.field === 'acciones'">
+										<button pButton pRipple type="button" [pRowToggler]="rowData" [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarPeriodo(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarPeriodo(rowData.id)" pTooltip="Eliminar"></button>
+										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
+									</div>
+								</td>								
+							</tr>
+						</ng-template>
+
+						<ng-template pTemplate="rowexpansion" let-rowData>
+							<tr>
+								<td [attr.colspan]="cols.length">
+									<div class="p-p-3">
+										<p-table [value]="rowData.body" dataKey="mes">
+											<ng-template pTemplate="header">
+												<tr>
+													<th class="centrar" pSortableColumn="anio">Año<p-sortIcon field="anio"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="mes`">Mes<p-sortIcon field="mes"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="fecha_inicio">Inicio<p-sortIcon field="fecha_inicio"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="fecha_corte">Corte<p-sortIcon field="fecha_corte"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="dias_habiles">Días Hábiles<p-sortIcon field="dias_habiles"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="dias_gracia">Dias Gracia<p-sortIcon field="dias_gracia"></p-sortIcon></th>
+													<th class="centrar">acciones<p-sortIcon field="acciones"></p-sortIcon></th>
+												</tr>
+											</ng-template>
+											<ng-template pTemplate="body" let-detalle>
+												<tr [ngClass]="{'noExistencia': detalle.estado !== 'activo'}">
+													<td class="centrar">{{detalle.anio}}</td>
+													<td class="centrar">{{this.meses[detalle.mes - 1]}}</td>
+													<td class="centrar">{{detalle.fecha_inicio}}</td>
+													<td class="centrar">{{detalle.fecha_corte}}</td>
+													<td class="centrar">{{detalle.dias_habiles}}</td>
+													<td class="centrar">{{detalle.dias_gracia}}</td>	
+													<td class="centrar">
+														<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" 
+															    (click)="actualizarPeriodo(detalle.id)" pTooltip="Actualizar">
+														</button>					
+
+														<button pButton pRipple type="button" icon="pi pi-trash" *ngIf="detalle.estado === 'activo'" pTooltip="Eliminar"
+																class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarPeriodo(detalle.id)">
+														</button>
+
+														<button pButton pRipple type="button" icon="pi pi-upload" *ngIf="detalle.estado !== 'activo'" pTooltip="Restaurar"
+																class="p-button p-button-primary p-mr-2 p-mb-2" (click)="restaurarPeriodo(detalle.id)">
+														</button>
+													</td>						
+												</tr>
+											</ng-template>
+										</p-table>
+									</div>
+								</td>
+							</tr>
+						</ng-template>
+
+						<ng-template pTemplate="emptymessage">
+							<tr>
+								<td colspan="8">No existen periodos en la base de datos.</td>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="summary">
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="periodos.length !== 1">
+								Existen {{periodos ? periodos.length : 0 }} periodos en total.
+							</div>
+							
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="periodos.length === 1">
+								Existe solo {{periodos ? periodos.length : 0 }} periodo en total.
+							</div>
+						</ng-template>
+					</p-table>
+                </p-tabPanel>
+
+                <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
+					<app-formulario-periodo-fiscales></app-formulario-periodo-fiscales>
+                </p-tabPanel>
+            </p-tabView>
+		</div>	
+		
+		<p-toast key="tst"></p-toast>
+
+		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" message="Esta seguro de borrar este registro?"
+						 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text">
+		</p-confirmDialog>
+	</div>	
+</div>

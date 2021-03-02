@@ -1,0 +1,45 @@
+<div class="layout-dashboard">
+	<div class="p-grid">
+        <div class="p-col-12 p-lg-6">
+            <div class="card">
+                <h4>Programas</h4>
+                <ul class="widget-person-list">                   
+                    <li *ngFor="let item of menu" (click)="redirigir(item.url)" [ngClass]="{'nomostrar': item.id_menu === 2}" style="cursor: pointer;">
+                        <div class="person-item" *ngIf="item.id_menu === 1">
+                            <i class="pi pi-desktop" style="font-size: 2rem; padding-right: 10px;"></i>
+                            <div class="person-info">
+                                <div class="person-name">{{item.nombre | titlecase}}</div>
+                                <div class="person-subtext">{{item.descripcion | titlecase}}</div>
+                            </div>
+                        </div>
+                        <!-- <div class="person-actions">
+                            <button pButton type="button" class="p-button-rounded p-button-success" icon="pi pi-envelope" ></button>
+                            <button pButton type="button" class="p-button-rounded p-button-warning" icon="pi pi-cog" ></button>
+                        </div> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="p-col-12 p-lg-6">
+            <div class="card">
+                <h4>Reportes</h4>
+                <ul class="widget-person-list">
+                    <li *ngFor="let item of menu" (click)="redirigir(item.url)" [ngClass]="{'nomostrar': item.id_menu === 1}" style="cursor: pointer;">
+                        <div class="person-item" *ngIf="item.id_menu === 2">
+                            <i class="pi pi-chart-bar" style="font-size: 2rem; padding-right: 10px;"></i>
+                            <div class="person-info">
+                                <div class="person-name">{{item.nombre| titlecase}}</div>
+                                <div class="person-subtext">{{item.descripcion| titlecase}}</div>
+                            </div>
+                        </div>
+                        <!-- <div class="person-actions">
+                            <button pButton type="button" class="p-button-rounded p-button-success" icon="pi pi-envelope"></button>
+                            <button pButton type="button" class="p-button-rounded p-button-warning" icon="pi pi-cog"></button>
+                        </div> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+	</div>
+</div>

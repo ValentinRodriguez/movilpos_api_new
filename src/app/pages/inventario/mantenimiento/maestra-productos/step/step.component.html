@@ -1,0 +1,15 @@
+<div class="card">
+    <p-tabView styleClass="tabview-custom">
+        <p-tabPanel *ngFor="let item of data">
+            <ng-template pTemplate = "header">
+                <span>{{item.label | titlecase}}</span>
+            </ng-template>            
+            <app-formulario-marca *ngIf="item.label === 'marcas'"></app-formulario-marca>
+            <app-formulario-bodegas *ngIf="item.label === 'bodegas'"></app-formulario-bodegas>
+            <app-formulario-tipoinv *ngIf="item.label === 'tipo inventario'"></app-formulario-tipoinv>
+            <app-formulario-cat *ngIf="item.label === 'modelos'"></app-formulario-cat>
+            <app-formulario-cgcatalogo *ngIf="item.label === 'catalogo'"></app-formulario-cgcatalogo>
+            <app-formulario-propiedades *ngIf="item.label === 'color'"></app-formulario-propiedades>
+        </p-tabPanel>
+    </p-tabView>
+</div>

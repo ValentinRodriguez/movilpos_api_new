@@ -1,0 +1,162 @@
+<form (ngSubmit)="guardarEmpresa()" [formGroup]="forma">
+    <div class="p-field p-col-12 p-md-3">
+        <a href="javascript:void(0);">
+            <img *ngIf="imgURL !== null" [src]="imgURL" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 120px;">
+            <img *ngIf="imgURL === null" [src]="imgEmpresa | invProductos" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 120px;">
+        </a>
+        <span style="color:red;" *ngIf="message">{{message}}</span>
+        <div>
+            <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+        </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nombre">Nombre</label>
+            <span class=" p-input-icon-right">
+                <input id="nombre" type="text" pInputText formControlName="nombre" [class.p-invalid]="getNoValido('nombre')"
+                       (keyup)="verificaEmpresa($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="nombreExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="nombreExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="nombreExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-shopping-cart" *ngIf="nombreExiste === 3"></i>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="telefono_empresa">Telefono</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono_empresa" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('telefono_empresa')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="email_empresa">Email</label>
+            <span class=" p-input-icon-right">
+                <input id="email_empresa" type="text" pInputText formControlName="email_empresa" [class.p-invalid]="getNoValido('email_empresa')">
+            </span>
+            <small *ngIf="getNoValido('email_empresa')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="rnc">RNC</label>
+            <span class=" p-input-icon-right">
+                <input id="rnc" type="text" pInputText formControlName="rnc" [class.p-invalid]="getNoValido('rnc')">
+            </span>
+            <small *ngIf="getNoValido('rnc')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="moneda">Moneda</label>
+            <p-multiSelect [options]="monedas" formControlName="moneda" defaultLabel="Seleccione Moneda" 
+                           optionLabel="divisa" class="multiselect-custom" (onChange)="setValue()">
+                <ng-template let-value pTemplate="selectedItems">
+                    <div class="country-item country-item-value" *ngFor="let option of selectedMulti">
+                        <div>{{option.simbolo}} {{option.divisa | titlecase}}</div>
+                    </div>
+                    <div *ngIf="!selectedMulti || selectedMulti.length === 0" class="country-placeholder">
+                        Seleccione Moneda
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                        <div>{{country.simbolo}} {{country.divisa | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-multiSelect>
+            <small *ngIf="getNoValido('moneda')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="web">Sitio Web</label>
+            <span class=" p-input-icon-right">
+                <input id="web" type="text" pInputText formControlName="web" [class.p-invalid]="getNoValido('web')">
+            </span>
+            <small *ngIf="getNoValido('web')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="contacto">Persona de Contacto</label>
+            <span class=" p-input-icon-right">
+                <input id="contacto" type="text" pInputText formControlName="contacto" [class.p-invalid]="getNoValido('contacto')">
+            </span>
+            <small *ngIf="getNoValido('contacto')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="telefono_contacto">Teléfono Contacto</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono_contacto" placeholder="(999)-999-9999"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('telefono_contacto')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_pais">Pais</label>	
+            <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPaises($event)" 
+                            field="descripcion" [dropdown]="true" (onSelect)="buscaPaises($event.id_pais)">
+                <ng-template let-pais pTemplate="item">
+                    <div class="country-item">
+                        <div>{{pais.descripcion | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_ciudad">Ciudad</label>	
+            <p-autoComplete formControlName="id_ciudad" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" 
+                            field="descripcion" [dropdown]="true">
+                <ng-template let-ciudad pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ciudad.descripcion | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3" >
+            <label for="empresa_verde">Impresión por defecto</label>
+            <p-dropdown inputId="empresa_verde" [options]="sino" name="empresa_verde" 
+                        formControlName="empresa_verde" placeholder="Escoge..."></p-dropdown>
+            <small *ngIf="getNoValido('empresa_verde')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3" >
+            <label for="tipo_cuadre">Tipo de Cuadre</label>
+            <p-dropdown inputId="tipo_cuadre" [options]="tipo_cuadre" name="tipo_cuadre" 
+                        formControlName="tipo_cuadre" placeholder="Escoge..."></p-dropdown>
+            <small *ngIf="getNoValido('tipo_cuadre')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3" >
+            <label for="valuacion_inv">Valuación de inventario</label>
+            <p-dropdown inputId="valuacion_inv" [options]="valuacion_inv" name="valuacion_inv" 
+                        formControlName="valuacion_inv" placeholder="Escoge..."></p-dropdown>
+            <small *ngIf="getNoValido('valuacion_inv')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12">
+            <label for="direccion">Descripción</label>
+            <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"></textarea>
+            <small *ngIf="getNoValido('direccion')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+    </div>
+    <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+            type="button" disabled="true">
+    </button>
+
+    <!-- <button *ngIf="!this.actualizando" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="submit" 
+            class="p-button p-button-warning">
+    </button>
+    <button pButton pRipple label="Actualizando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+            type="button" disabled="true">
+    </button> -->
+</form>
+
+<p-toast key="tst"></p-toast>

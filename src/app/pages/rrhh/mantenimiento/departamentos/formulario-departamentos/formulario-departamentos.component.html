@@ -1,0 +1,32 @@
+<form (ngSubmit)="guardarDepartamento()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="titulo">Título</label>
+            <span class=" p-input-icon-right">
+                <input id="titulo" type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
+                       (keyup)="verificaDepartamento($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="deptoExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="deptoExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="deptoExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-shopping-cart" *ngIf="deptoExiste === 3"></i>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="tipodepartamento">Tipo de Departamento</label>
+            <p-dropdown inputId="tipodepartamento" [options]="tipo" name="tipodepartamento" 
+                        formControlName="tipodepartamento" placeholder="Escoge..."></p-dropdown>
+            <small *ngIf="getNoValido('tipodepartamento')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>	
+
+        <div class="p-field p-col-12">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"></textarea>
+            <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+    </div>
+    <button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
+            type="button" disabled="true"></button>
+</form>
