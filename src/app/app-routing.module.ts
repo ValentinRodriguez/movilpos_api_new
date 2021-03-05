@@ -69,7 +69,7 @@ import { PuertosComponent } from './pages/compras/mantenimiento/puertos/puertos.
 import { DireccionesEnvioComponent } from './pages/compras/mantenimiento/direcciones-envio/direcciones-envio.component';
 import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/menu-cuentas-pagar.component';
 import { CuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/cuentas-pagar.component';
-import { FacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/factura-proveedores.component';
+import { TransaccionescxpComponent } from './pages/compras/mantenimiento/transaccionescxp/transaccionescxp.component';
 import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
 
 @NgModule({
@@ -117,7 +117,7 @@ import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimien
                     {path: 'gestion-de-requisiciones', component: RequisicionesComponent},
                     {path: 'gestion-de-puertos', component: PuertosComponent},
                     {path: 'gestion-direcciones-envio', component: DireccionesEnvioComponent},
-                    {path: 'gestion-facturas-proveedores', component: FacturaProveedoresComponent},
+                    {path: 'gestion-transacciones-cpx', component: TransaccionescxpComponent},
 
                     //RRHH
                     {path: 'gestion-de-empleados', component: GestionEmpleadosComponent},

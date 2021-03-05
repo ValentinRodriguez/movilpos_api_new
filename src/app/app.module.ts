@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppRoutingModule} from './app-routing.module';
+
 //MODULOS
 import { PipesModule } from "./pipes/pipes.module";
 import {AccordionModule} from 'primeng/accordion';
@@ -240,12 +241,12 @@ import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/men
 import { ErrorInterceptorService } from "./services/interceptors/error-interceptor.service";
 import { HttpHeadersService } from "./services/interceptors/http-headers.service"; 
 import { TiendaService } from "./services/tienda.service";
-import { FacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/factura-proveedores.component';
-import { FacturasProveedoresService } from "./services/facturas-proveedores.service";
-import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/formulario-factura-proveedores/formulario-factura-proveedores.component';
 import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
 import { FormularioEntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/formulario-entrada-diario/formulario-entrada-diario.component';
-
+import { CoTransaccionescxpService } from './services/co-transaccionescxp.service';
+import { TransaccionescxpComponent } from './pages/compras/mantenimiento/transaccionescxp/transaccionescxp.component';
+import { FormularioTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/formulario-transacciones-cxp/formulario-transacciones-cxp.component';
+import { StepTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/step-transacciones-cxp/step-transacciones-cxp.component';
 
 @NgModule({
     imports: [
@@ -434,10 +435,11 @@ import { FormularioEntradaDiarioComponent } from './pages/contabilidad-general/m
         CuentasPagarComponent,
         FormularioCuentasPagarComponent,
         MenuCuentasPagarComponent,
-        FacturaProveedoresComponent,
-        FormularioFacturaProveedoresComponent,
         EntradaDiarioComponent,
-        FormularioEntradaDiarioComponent
+        FormularioEntradaDiarioComponent,
+        TransaccionescxpComponent,
+        FormularioTransaccionesCxpComponent,
+        StepTransaccionesCxpComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -503,7 +505,7 @@ import { FormularioEntradaDiarioComponent } from './pages/contabilidad-general/m
         PuertosService,
         DireccionesService,
         TiendaService,
-        FacturasProveedoresService,
+        CoTransaccionescxpService,
         ValidadoresService
     ],
     entryComponents:[

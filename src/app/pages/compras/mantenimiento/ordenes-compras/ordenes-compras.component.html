@@ -244,7 +244,7 @@
 									</div>
 								</p-toolbar>
 								<br>				
-								<p-table [columns]="cols2" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+								<p-table #dt2 [columns]="cols2" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
 										 [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
 										 [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
 
@@ -252,7 +252,7 @@
 										<div class="table-header">
 											<span class="p-input-icon-left">
 												<i class="pi pi-search"></i>
-												<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+												<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
 											</span>
 										</div>
 									</ng-template>
