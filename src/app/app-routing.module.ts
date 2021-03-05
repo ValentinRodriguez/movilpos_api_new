@@ -70,6 +70,7 @@ import { DireccionesEnvioComponent } from './pages/compras/mantenimiento/direcci
 import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/menu-cuentas-pagar.component';
 import { CuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/cuentas-pagar.component';
 import { FacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/factura-proveedores.component';
+import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
 
 @NgModule({
     imports: [
@@ -135,6 +136,7 @@ import { FacturaProveedoresComponent } from './pages/compras/mantenimiento/factu
                     // CONTABILIDAD GENERAL
                     {path: 'gestion-catalogo-cuentas', component: CatalogoCuentasComponent},
                     {path: 'gestion-periodos-fiscales', component: PeriodosFiscalesComponent},
+                    {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
 
                     // CUENTAS POR PAGAR
                     {path: 'gestion-de-factura-proveedores', component: CuentasPagarComponent},

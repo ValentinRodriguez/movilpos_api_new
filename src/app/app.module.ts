@@ -243,6 +243,9 @@ import { TiendaService } from "./services/tienda.service";
 import { FacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/factura-proveedores.component';
 import { FacturasProveedoresService } from "./services/facturas-proveedores.service";
 import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/formulario-factura-proveedores/formulario-factura-proveedores.component';
+import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
+import { FormularioEntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/formulario-entrada-diario/formulario-entrada-diario.component';
+
 
 @NgModule({
     imports: [
@@ -432,7 +435,9 @@ import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimi
         FormularioCuentasPagarComponent,
         MenuCuentasPagarComponent,
         FacturaProveedoresComponent,
-        FormularioFacturaProveedoresComponent
+        FormularioFacturaProveedoresComponent,
+        EntradaDiarioComponent,
+        FormularioEntradaDiarioComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
