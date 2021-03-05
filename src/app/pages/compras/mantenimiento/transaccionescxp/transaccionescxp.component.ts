@@ -1,82 +1,81 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { MonedasService } from 'src/app/services/monedas.service';
+import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
-  selector: 'app-factura-proveedores',
-  templateUrl: './factura-proveedores.component.html',
-  styleUrls: ['./factura-proveedores.component.scss']
+  selector: 'app-transaccionescxp',
+  templateUrl: './transaccionescxp.component.html',
+  styleUrls: ['./transaccionescxp.component.scss']
 })
-export class FacturaProveedoresComponent implements OnInit {
+export class TransaccionescxpComponent implements OnInit {
 
   usuario: any;
   index: number = 0;
-  monedas: any[] = [];
+  facturas: any[] = [];
   id_categoria: any;
   cols: any[];
   loading: boolean;
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private monedasServ: MonedasService,
+              private coTransaccionesServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
   ngOnInit(): void {
-    this.todasLasMonedas();
+    this.todasLasFacturas();
 
-    this.monedasServ.guardar.subscribe((resp: any)=>{  
+    this.coTransaccionesServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })
 
     this.cols = [
-      { field: 'id', header: 'ID' },
+      { field: 'id', header: 'Código' },
       { field: 'divisa', header: 'Divisa' },
       { field: 'simbolo', header: 'Símbolo' },
       { field: 'acciones', header: 'Acciones' },
     ] 
 
-    this.monedasServ.monedaGuardada.subscribe((resp: any)=>{
-      this.todasLasMonedas();
+    this.coTransaccionesServ.facturaGuardada.subscribe((resp: any)=>{
+      this.todasLasFacturas();
     })
 
-    this.monedasServ.monedaBorrada.subscribe((resp: any)=>{      
-      this.todasLasMonedas();   
+    this.coTransaccionesServ.facturaBorrada.subscribe((resp: any)=>{      
+      this.todasLasFacturas();   
     })
 
-    this.monedasServ.monedaAct.subscribe((resp: any) => {
-      this.todasLasMonedas();
+    this.coTransaccionesServ.facturaAct.subscribe((resp: any) => {
+      this.todasLasFacturas();
     })
   }
 
-  todasLasMonedas() {
+  todasLasFacturas() {
     this.loading = true;
-    this.monedasServ.getDatos().then((resp: any) => {
-      this.monedas = resp;
+    this.coTransaccionesServ.getDatos().then((resp: any) => {
+      this.facturas = resp;
       console.log(resp)
       this.loading = false;
     });
   }
   
-  actualizarMoneda(data) {
+  actualizarFactura(data) {
     this.index = 1;   
-    this.monedasServ.actualizando(data);
+    this.coTransaccionesServ.actualizando(data);
   }
 
-  borrarCategoria(categoria) { 
+  borrarFactura(categoria) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.monedasServ.borrarMoneda(categoria).then((resp: any)=>{
+        this.coTransaccionesServ.borrarFactura(categoria).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
         })       
       }
     })
   }
-
 }

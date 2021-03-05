@@ -1,0 +1,13 @@
+<div class="card">
+    <p-tabView styleClass="tabview-custom">
+        <p-tabPanel *ngFor="let item of data">
+            <ng-template pTemplate = "header">
+                <i [attr.class]="item.icono" style="padding-right: 5px;"></i>
+                <span>{{item.label | titlecase}}</span>
+            </ng-template>
+            <app-formulario-proveedores *ngIf="item.label === 'proveedores'"></app-formulario-proveedores>
+            <app-formulario-condiciones *ngIf="item.label === 'condiciones'"></app-formulario-condiciones>
+            <app-formulario-monedas *ngIf="item.label === 'monedas'"></app-formulario-monedas>
+        </p-tabPanel>
+    </p-tabView>
+</div>
