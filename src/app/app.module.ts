@@ -247,6 +247,7 @@ import { CoTransaccionescxpService } from './services/co-transaccionescxp.servic
 import { TransaccionescxpComponent } from './pages/compras/mantenimiento/transaccionescxp/transaccionescxp.component';
 import { FormularioTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/formulario-transacciones-cxp/formulario-transacciones-cxp.component';
 import { StepTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/step-transacciones-cxp/step-transacciones-cxp.component';
+import { EntradasDiarioService } from './services/entradas-diario.service';
 
 @NgModule({
     imports: [
@@ -328,6 +329,7 @@ import { StepTransaccionesCxpComponent } from './pages/compras/mantenimiento/tra
         KeyFilterModule,
         BlockUIModule,
         PipesModule
+        
     ],
     declarations: [
         AppComponent,
@@ -506,7 +508,8 @@ import { StepTransaccionesCxpComponent } from './pages/compras/mantenimiento/tra
         DireccionesService,
         TiendaService,
         CoTransaccionescxpService,
-        ValidadoresService
+        ValidadoresService,
+        EntradasDiarioService
     ],
     entryComponents:[
         PermisosUsuariosComponent,

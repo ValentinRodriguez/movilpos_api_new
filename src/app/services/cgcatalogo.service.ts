@@ -36,6 +36,7 @@ export class CgcatalogoService {
   }
 
   busquedaCatalogo(parametro?: any) {
+    console.log(parametro)
     let params = new HttpParams();
     if (parametro === undefined) {
       parametro = {};
@@ -43,6 +44,7 @@ export class CgcatalogoService {
     if (parametro.parametro === undefined || parametro.parametro === null) {
       parametro.parametro = '';
     }     
+    
     params = params.append('cuenta_no',parametro.cuenta_no);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {  
