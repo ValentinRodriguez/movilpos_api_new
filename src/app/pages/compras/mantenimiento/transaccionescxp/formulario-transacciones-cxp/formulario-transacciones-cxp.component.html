@@ -1,20 +1,36 @@
 <form (ngSubmit)="guardarFproveedor()" [formGroup]="forma">
-    <div class="p-fluid p-formgrid p-grid">
-        
-        <div class="p-field p-col-12 p-md-3">
-            <label for="proveedor">Proveedor</label>	
-            <p-autoComplete formControlName="proveedor" [suggestions]="ProveedoresFiltrados" 
-                            (completeMethod)="filtrarProveedor($event)" (onSelect)="datosProv($event)"
-                            field="nom_sp" [dropdown]="true">
-                <ng-template let-proveedor pTemplate="item">
-                    <div class="country-item">
-                        <div>{{proveedor.nom_sp | titlecase}}</div>
-                    </div>
-                </ng-template>
-            </p-autoComplete>
-            <small *ngIf="getNoValido('proveedor')" class="p-invalid">Este campo es obligatorio.</small>						
+    <p-panel header="Header" >
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-3">
+                <label for="proveedor">Proveedor</label>	
+                <p-autoComplete formControlName="proveedor" [suggestions]="ProveedoresFiltrados" 
+                                (completeMethod)="filtrarProveedor($event)" (onSelect)="datosProv($event)"
+                                field="nom_sp" [dropdown]="true">
+                    <ng-template let-proveedor pTemplate="item">
+                        <div class="country-item">
+                            <div>{{proveedor.nom_sp | titlecase}}</div>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+                <small *ngIf="getNoValido('proveedor')" class="p-invalid">Este campo es obligatorio.</small>						
+            </div>
+          
+            <div class="p-field p-col-12 p-md-3">
+                <label for="orden_no">Orden de Compra</label>
+                <span class=" p-input-icon-right">
+                    <input pInputText inputId="orden_no" mode="decimal" name="orden_no" formControlName="orden_no"
+                           (keyup)="verificaOrdenCompra($event.target.value)" type="number"/>
+                    <i class="pi pi-spin pi-spinner" *ngIf="ocExiste === 0" style="color:#f5df18"></i>
+                    <i class="pi pi-check" *ngIf="ocExiste === 1" style="color:#36b61d"></i>
+                    <i class="pi pi-times" *ngIf="ocExiste === 2" style="color:#d83131"></i>
+                    <i class="pi pi-file-o" *ngIf="ocExiste === 3"></i>
+                </span>
+                <small *ngIf="getNoValido('orden_no')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
         </div>
-
+    </p-panel>
+    <br>
+    <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-3">
             <label for="num_doc">Factura Proveedor</label>
             <span class=" p-input-icon-right">
@@ -39,7 +55,7 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="valor">Monto Factura</label>
-            <p-inputNumber formControlName="valor" mode="currency" currency="DOP" locale="en-US">
+            <p-inputNumber formControlName="valor" mode="currency" currency="DOP" locale="en-US" (onBlur)="calcula($event.target.ariaValueNow)">
             </p-inputNumber>
         </div>
         
@@ -47,13 +63,6 @@
             <label for="monto_impuesto">Monto Impuesto</label>
             <p-inputNumber formControlName="monto_impuesto" mode="currency" currency="DOP" locale="en-US">
             </p-inputNumber>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="orden_no">Orden</label>
-            <span class=" p-input-icon-right">
-                <input id="orden_no" type="text" pInputText formControlName="orden_no" [class.p-invalid]="getNoValido('orden_no')">
-            </span>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
@@ -74,16 +83,16 @@
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="servicios">Servicios</label>
+            <label for="ncf">NCF</label>
             <span class=" p-input-icon-right">
-                <input id="servicios" type="text" pInputText formControlName="servicios" [class.p-invalid]="getNoValido('servicios')">
+                <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')">
             </span>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="ncf">NCF</label>
+            <label for="servicios">Servicios</label>
             <span class=" p-input-icon-right">
-                <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')">
+                <input id="servicios" type="text" pInputText formControlName="servicios" [class.p-invalid]="getNoValido('servicios')">
             </span>
         </div>
 
@@ -113,85 +122,120 @@
             <textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"></textarea>
         </div>
 
-        <p-panel #pnl header="Producto/s vinculado/s a la orden de compra" styleClass="p-mt-4">
-            <p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
-                     [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
-
-                <ng-template pTemplate="caption">
-                    <div class="table-header">
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
-                        </span>
+        <p-panel #pnl header="Cuentas vinculadas a la factura" styleClass="p-mt-4">
+            <div formArrayName="cuentas_no">
+                <p-toolbar>	
+                    <div class="p-toolbar-group-left"></div>						
+                    <div class="p-toolbar-group-right">
+                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaCuentas()"></button>	
                     </div>
-                </ng-template>
-
-                <ng-template pTemplate="header" let-columns>
-                    <tr>
-                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                            {{col.header}}
-                            <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
-                        </th>
-                    </tr>
-                </ng-template>
-
-                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                    <tr class="p-selectable-row">
-                        <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'  || col.field === 'acciones'}">
-                            <span class="p-column-title">{{col.header}}</span>
-
-                            <span *ngIf="col.field === 'cuenta_no'">
-                                {{rowData[col.field]}}
+                </p-toolbar>
+                <br>
+                <p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                         [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                         [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+    
+                    <ng-template pTemplate="caption">
+                        <div class="table-header">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
                             </span>
+                        </div>
+                    </ng-template>
+    
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+    
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                        <tr [formGroupName]="i" class="p-selectable-row">	
+                            <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'  || col.field === 'acciones'}">
+                                <span class="p-column-title">{{col.header}}</span>
+    
+                                <span *ngIf="col.field === 'cuenta_no'">
+                                    {{rowData[col.field]}}
+                                </span>
+    
+                                <div *ngIf="col.field === 'depto' || col.field === 'retencion'">
+                                    <span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
+                                        {{rowData[col.field] | titlecase}}										
+                                    </span>
+                            
+                                    <span *ngIf="rowData[col.field] === 'no'" class="p-badge p-badge-lg p-badge-warning">
+                                        {{rowData[col.field] | titlecase}}										
+                                    </span>
+                                </div>
 
-                            <span *ngIf="col.field === 'porciento'">
-                                {{rowData[col.field]}}
-                            </span>
+    
+                                <span *ngIf="col.field === 'sec_aux'">
+                                    {{rowData[col.field]}}
+                                </span>
+    
+                                <span *ngIf="col.field === 'num_doc'">
+                                    {{rowData[col.field]}}
+                                </span>
+    
+                                <span *ngIf="col.field === 'tipo_cuenta'">
+                                    {{rowData[col.field] | titlecase}}
+                                </span>
+    
+                                <span *ngIf="col.field === 'porciento'">
+                                    {{rowData[col.field]}}
+                                </span>
+                                        
+                                <span *ngIf="col.field === 'debito'">
+                                    <input type="number" formControlName="debito" pInputText class="fit-input" />
+                                </span>
+    
+                                <span *ngIf="col.field === 'credito'">
+                                    <input type="number" formControlName="credito" pInputText class="fit-input" />
+                                </span>
 
-                            <span *ngIf="col.field === 'debito'">
-                                <input type="number" pInputText class="fit-input" />
-                            </span>
+                                <span *ngIf="col.field === 'acciones'">
+                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCatEscogido(i)"></button>
+                                </span>
+                            </td>											
+                        </tr>
+                    </ng-template>
+    
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">No hay cuentas seleccionados.</td>
+                        </tr>
+                    </ng-template>
+    
+                    <ng-template pTemplate="summary">
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
+                            Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
+                        </div>
+    
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
+                            Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
+                        </div>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="footer">
+                        <tr>
+                            <td>Totales:</td>											
+                            <td></td>
+                            <td></td>
+                            <td><strong>{{simbolo}}{{ totalDescuento }}</strong></td>
+                            <td><strong>{{simbolo}}{{ totalItbis }}</strong></td>
+                            <td><strong>{{ totalCantidad }}</strong></td>
+                            <td></td>
+                            <td><strong>{{simbolo}}{{ totalBruto }}</strong></td>
+                            <td><strong>{{simbolo}}{{ totalNeto }}</strong></td>
+                            <td></td>
+                        </tr>
+                    </ng-template> -->
+                </p-table>
+            </div>
 
-                            <span *ngIf="col.field === 'credito'">
-                                <input type="number" pInputText class="fit-input" />
-                            </span>
-                        </td>											
-                    </tr>
-                </ng-template>
-
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="8">No hay cuentas seleccionados.</td>
-                    </tr>
-                </ng-template>
-
-                <ng-template pTemplate="summary">
-                    <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
-                        Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
-                    </div>
-
-                    <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
-                        Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
-                    </div>
-                </ng-template>
-                <!-- <ng-template pTemplate="footer">
-                    <tr>
-                        <td>Totales:</td>											
-                        <td></td>
-                        <td></td>
-                        <td><strong>{{simbolo}}{{ totalDescuento }}</strong></td>
-                        <td><strong>{{simbolo}}{{ totalItbis }}</strong></td>
-                        <td><strong>{{ totalCantidad }}</strong></td>
-                        <td></td>
-                        <td><strong>{{simbolo}}{{ totalBruto }}</strong></td>
-                        <td><strong>{{simbolo}}{{ totalNeto }}</strong></td>
-                        <td></td>
-                    </tr>
-                </ng-template> -->
-            </p-table>
-            <!-- <div formArrayName="productos">				
-            </div> -->
         </p-panel>
 
     </div>

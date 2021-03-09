@@ -82,7 +82,7 @@ export class FormularioCatComponent implements OnInit {
     }
   }
   
-  ActualizarCategoria(){
+  actualizarCategoria(){
     this.actualizando = true;
     this.categoriasServ.actualizarCategoria(this.id, this.forma.value).then((resp: any) => {
       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);

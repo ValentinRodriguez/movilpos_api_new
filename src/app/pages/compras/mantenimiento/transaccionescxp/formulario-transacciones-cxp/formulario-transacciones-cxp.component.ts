@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
+import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
+import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
+import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepTransaccionesCxpComponent } from '../step-transacciones-cxp/step-transacciones-cxp.component';
@@ -26,11 +29,17 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
   cuentas: any[] = [];
   ProveedoresFiltrados: any[];
   proveedores: any[] = [];
+  ocExiste = 3;
+  productos = [];
+  itbis:number;
+  retencion:number;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private coTransaccionescxpServ: CoTransaccionescxpService,
+              private ordenCompraServ: OrdenescomprasService,
+              private cgCatalogoServ: CgcatalogoService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
@@ -43,6 +52,7 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
     // this.forma.get("condiciones").disable();
 
     this.todaLaData();
+    this.catalogoEscogido();
     this.cols = [
       { field: 'cuenta_no', header: 'Cuenta' },
       { field: 'depto', header: 'Departamento' },
@@ -50,9 +60,10 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
       { field: 'num_doc', header: 'Documento' },
       { field: 'debito', header: 'Débito' },
       { field: 'credito', header: 'Crédito' },
-      { field: 'tipo_cta', header: 'Tipo Cuenta' },
+      { field: 'tipo_cuenta', header: 'Tipo Cuenta' },
       { field: 'porciento', header: 'Porciento' },
-      { field: 'retencion', header: 'Retención' }
+      { field: 'retencion', header: 'Retención' },
+      { field: 'acciones', header: 'Acciones' }
     ] 
 
     this.coTransaccionescxpServ.actualizar.subscribe((resp: any) =>{
@@ -93,6 +104,56 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
     })
   }
 
+  catalogoEscogido() {
+    this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
+      console.log(resp);      
+      resp.forEach(cuentas => {
+        if (cuentas.tipo_cuenta !== "normal") {
+          this.cuentas.push(cuentas);
+          this.agregarFormulario(cuentas);
+        }
+      });               
+    })
+  }
+
+  get cuentas_no() {   
+    return this.forma.get('cuentas_no') as FormArray;
+  }
+
+  agregarFormulario(cuentas) {
+    console.log(cuentas);    
+    (<FormArray>this.forma.get('cuentas_no')).push(this.agregarFormularioTransacciones(cuentas));    
+  }
+  
+  agregarFormularioTransacciones(cuentas): FormGroup {
+    return this.fb.group({
+      cuenta:  [cuentas.cuenta_no, Validators.required],
+      debito:  ['', Validators.required],  
+      credito: ['', Validators.required]
+    });
+  }
+  
+  datosProv(event) {
+    console.log(event);
+    const cuenta = event.cuentas_proveedor;
+    this.monedas = JSON.parse(event.moneda) 
+
+    cuenta.forEach(cuentas => {
+      if (cuentas.tipo_cuenta !== "normal") {
+        this.cuentas.push(cuentas);
+        this.agregarFormulario(cuentas);
+      }
+    });
+
+    this.forma.get('condiciones').setValue(this.condiciones.find(doc => doc.cond_pago === event.cond_pago))
+    this.forma.get("cod_sp").setValue(event.cod_sp);
+    this.forma.get("cod_sp_sec").setValue(event.cod_sp);
+
+    this.forma.get("fecha_orig").enable();
+    this.forma.get("fecha_proc").enable();
+    this.forma.get("condiciones").enable();
+  }
+
   autollenado(data) {
     let existe = null;
     data.forEach(element => {            
@@ -131,6 +192,7 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
       cod_sp:              ['', Validators.required],
       cod_sp_sec:          ['', Validators.required],
       observacion:         ['', Validators.required],
+      cuentas_no:          this.fb.array([]),
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
@@ -172,6 +234,41 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
     }
   }
 
+  calcula(data) {
+    console.log(data);    
+    this.cuentas.forEach(element => {
+      console.log(element.tipo_cuenta);
+      console.log(element.retencion);
+      
+      if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {
+        
+      }
+      if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {
+        
+      }
+    });
+  }
+
+  verificaOrdenCompra(data) {        
+    if (data === "") {
+      this.ocExiste = 3;
+      return;
+    }
+    this.ocExiste = 0;
+    this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
+      if(resp.length !== 0){      
+        console.log(resp);
+        this.ocExiste = 1;          
+        this.forma.controls['proveedor'].setValue(this.proveedores.find(proveedor => proveedor.cod_sp === resp[0].cod_sp && 
+                                                                        proveedor.cod_sp_sec === resp[0].cod_sp_sec))
+        this.forma.controls['valor_recibido'].setValue(resp[0].valor_recibido);
+      }else{
+        this.ocExiste = 2;
+        return;
+      }
+    })
+  }
+
   setVencimiento() {    
     const fecha_orig = this.forma.get('fecha_orig').value;
     const vencimiento = this.forma.get('condiciones').value;
@@ -201,19 +298,16 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
     this.ProveedoresFiltrados = filtered;
   }
 
-  datosProv(event) {
-    console.log(event);
-    
-    this.monedas = JSON.parse(event.moneda) 
-    this.forma.get('condiciones').setValue(this.condiciones.find(doc => doc.cond_pago === event.cond_pago))
-    this.forma.get("cod_sp").setValue(event.cod_sp);
-    this.forma.get("cod_sp_sec").setValue(event.cod_sp);
-    this.cuentas = event.cuentas_proveedor;
 
-    this.forma.get("fecha_orig").enable();
-    this.forma.get("fecha_proc").enable();
-    this.forma.get("condiciones").enable();
-
+  buscaCuentas() {
+    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+      header: 'Catalogo de cuentas',
+      width: '50%'
+    });
+  }
+  
+  borrarCatEscogido(id) {
+    this.cuentas.splice(id,1)  
   }
 
   cancelar() {

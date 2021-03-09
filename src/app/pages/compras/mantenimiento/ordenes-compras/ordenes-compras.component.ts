@@ -63,6 +63,7 @@ export class OrdenesComprasComponent implements OnInit {
   selectedCountry: any;
   puertos: any;
   direccion: any;
+  direcciones: any[] = [];
   monto_desc: number;
   simbolo: any = '$';
   uploadedFiles: any[] = [];
@@ -105,7 +106,7 @@ export class OrdenesComprasComponent implements OnInit {
           case 'puertos':
             this.puertos = element.data;
             break; 
-
+  
           default:
             break;
         }
@@ -191,15 +192,13 @@ export class OrdenesComprasComponent implements OnInit {
     this.loading = true;
     this.ordenServ.getDatos().then((resp: any) => {
       this.loading = false;
-      this.ordenes = resp;  
-      console.log(resp);
+      this.ordenes = resp;
     })
   }
 
   direccionEscogida() {
     this.direccionServ.direccionEscogida.subscribe((resp: any) => {
       this.direccion = resp;
-      console.log(resp);
       
       this.forma.get('nombre').setValue(resp.nombre);
       this.forma.get('id_pais').setValue(resp.id_pais);
@@ -226,7 +225,6 @@ export class OrdenesComprasComponent implements OnInit {
         this.agregarFormulario(element);
         this.productos.push(element)
       });
-      console.log(this.productos);
       
       let totalCantidad = 0;
 
@@ -298,13 +296,12 @@ export class OrdenesComprasComponent implements OnInit {
 
   guardarOrdenes(){
     //this.guardando = true;
+    console.log(this.forma.value)
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("total_desc").setValue(this.totalDescuento)
     this.forma.get("total_itbis").setValue(this.totalItbis)
     this.forma.get("total_neto").setValue(this.totalNeto)
     
-    console.log(this.forma.value);
-
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
@@ -344,7 +341,6 @@ export class OrdenesComprasComponent implements OnInit {
   let descuento = porc_desc * bruto;
   let itbis =  bruto * 0.18;
   let itbisRounded = this.datosEstaticosServ.decimalAdjust('round', itbis, -1)
-  console.log(itbisRounded)
   
   let neto = bruto - descuento + itbisRounded;
   this.totalItbis +=  itbisRounded;
@@ -441,7 +437,6 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   simboloMoneda(event) {
-    console.log(event);    
     this.simbolo = event.value.simbolo;
   }
 
