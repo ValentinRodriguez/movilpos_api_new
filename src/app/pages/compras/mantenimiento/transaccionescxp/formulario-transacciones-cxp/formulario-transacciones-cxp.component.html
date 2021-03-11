@@ -1,7 +1,7 @@
 <form (ngSubmit)="guardarFproveedor()" [formGroup]="forma">
-    <p-panel header="Header" >
+    <p-panel header="Facturas u Orden de compra" >
         <div class="p-fluid p-formgrid p-grid">
-            <div class="p-field p-col-12 p-md-3">
+            <div class="p-field p-col-12 p-md-2">
                 <label for="proveedor">Proveedor</label>	
                 <p-autoComplete formControlName="proveedor" [suggestions]="ProveedoresFiltrados" 
                                 (completeMethod)="filtrarProveedor($event)" (onSelect)="datosProv($event)"
@@ -15,7 +15,7 @@
                 <small *ngIf="getNoValido('proveedor')" class="p-invalid">Este campo es obligatorio.</small>						
             </div>
           
-            <div class="p-field p-col-12 p-md-3">
+            <div class="p-field p-col-12 p-md-2">
                 <label for="orden_no">Orden de Compra</label>
                 <span class=" p-input-icon-right">
                     <input pInputText inputId="orden_no" mode="decimal" name="orden_no" formControlName="orden_no"
@@ -25,104 +25,138 @@
                     <i class="pi pi-times" *ngIf="ocExiste === 2" style="color:#d83131"></i>
                     <i class="pi pi-file-o" *ngIf="ocExiste === 3"></i>
                 </span>
-                <small *ngIf="getNoValido('orden_no')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+            
+            <div class="p-field p-col-12 p-md-2">
+                <label for="tipo_orden">Tipo Orden</label>
+                <p-dropdown inputId="tipo_orden" [options]="tipoOrden" name="tipo_orden" 
+                            formControlName="tipo_orden" placeholder="Escoge..."
+                            optionLabel="descripcion">
+                </p-dropdown>
+                <small *ngIf="getNoValido('tipo_orden')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
         </div>
     </p-panel>
     <br>
-    <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-3">
-            <label for="num_doc">Factura Proveedor</label>
-            <span class=" p-input-icon-right">
-                <input id="num_doc" type="text" pInputText formControlName="num_doc" [class.p-invalid]="getNoValido('num_doc')">
-            </span>
-        </div>
 
-        <div class="p-field p-col-12 p-md-3">
-            <label for="fecha_orig">Fecha Factura</label>
-            <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_orig" (onSelect)="setVencimiento()" ></p-calendar>
+    <p-panel header="Datos Generales">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-2">
+                <label for="num_doc">Factura Proveedor</label>
+                <span class=" p-input-icon-right">
+                    <input id="num_doc" type="text" pInputText formControlName="num_doc" [class.p-invalid]="getNoValido('num_doc')">
+                </span>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-2">
+                <label for="fecha_orig">Fecha Factura</label>
+                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_orig" (onSelect)="setVencimiento()" ></p-calendar>
+                <small *ngIf="getNoValido('fecha_orig')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+            
+            <div class="p-field p-col-12 p-md-2">
+                <label for="fecha_proc">Fecha vencimiento</label>
+                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_proc"></p-calendar>
+                <small *ngIf="getNoValido('fecha_proc')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-2">
+                <label for="cond_pago">Condiciones de Pago</label>
+                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" (onChange)='setVencimiento()'></p-dropdown>
+                <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-2">
+                <label for="moneda">Moneda</label>
+                <p-dropdown [options]="monedas" formControlName="moneda" placeholder="Escoge..."
+                            optionLabel="descripcion" (onChange)="cambiaDivisa($event)">
+                </p-dropdown>
+                <small *ngIf="getNoValido('moneda')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
         </div>
-        
-        <div class="p-field p-col-12 p-md-3">
-            <label for="fecha_proc">Fecha vencimiento</label>
-            <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_proc"></p-calendar>
-        </div>
+    </p-panel>
+    <br>
 
-        <div class="p-field p-col-12 p-md-3">
-            <label for="condiciones">Condiciones de Pago</label>
-            <p-dropdown [options]="condiciones" formControlName="condiciones" optionLabel="descripcion" (onChange)='setVencimiento()'></p-dropdown>
+    <p-panel header="Datos Generales">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-2">
+                <label for="valor">Monto Factura</label>
+                <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calcula($event.target.ariaValueNow)">
+                </p-inputNumber>
+                <small *ngIf="getNoValido('valor')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>            
+    
+            <div class="p-field p-col-12 p-md-2">
+                <label for="valor_orden">Valor Orden</label>
+                <p-inputNumber formControlName="valor_orden" mode="currency" [currency]="this.divisa" locale="en-US">
+                </p-inputNumber>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-2">
+                <label for="valor_recibido">Valor Recibido</label>
+                <p-inputNumber formControlName="valor_recibido" mode="currency" [currency]="this.divisa" locale="en-US">
+                </p-inputNumber>
+            </div>        
+            
+            <div class="p-field p-col-12 p-md-2">
+                <label for="codigo_fiscal">Tipo Gasto</label>
+                <p-dropdown inputId="codigo_fiscal" [options]="tipoGastos" name="codigo_fiscal" 
+                            formControlName="codigo_fiscal" placeholder="Escoge..." optionLabel="descripcion">
+                </p-dropdown>
+                <small *ngIf="getNoValido('codigo_fiscal')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-2">
+                <label for="ncf">NCF</label>
+                <span class=" p-input-icon-right">
+                    <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')">
+                </span>
+                <small *ngIf="getNoValido('ncf')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>    
+    
+            <div class="p-field p-col-12">
+                <label for="detalle">Detalle</label>
+                <textarea id="detalle" type="text" rows="4" pInputTextarea name="detalle" formControlName="detalle"></textarea>
+            </div>
         </div>
+    </p-panel>
+    <br>
 
-        <div class="p-field p-col-12 p-md-3">
-            <label for="valor">Monto Factura</label>
-            <p-inputNumber formControlName="valor" mode="currency" currency="DOP" locale="en-US" (onBlur)="calcula($event.target.ariaValueNow)">
-            </p-inputNumber>
-        </div>
-        
-        <div class="p-field p-col-12 p-md-3">
-            <label for="monto_impuesto">Monto Impuesto</label>
-            <p-inputNumber formControlName="monto_impuesto" mode="currency" currency="DOP" locale="en-US">
-            </p-inputNumber>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="valor_orden">Valor Orden</label>
-            <p-inputNumber formControlName="valor_orden" mode="currency" currency="DOP" locale="en-US">
-            </p-inputNumber>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="valor_recibido">Valor Recibido</label>
-            <p-inputNumber formControlName="valor_recibido" mode="currency" currency="DOP" locale="en-US">
-            </p-inputNumber>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="moneda">Moneda</label>
-            <p-dropdown [options]="monedas" formControlName="moneda" optionLabel="divisa"></p-dropdown>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="ncf">NCF</label>
-            <span class=" p-input-icon-right">
-                <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')">
-            </span>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="servicios">Servicios</label>
-            <span class=" p-input-icon-right">
-                <input id="servicios" type="text" pInputText formControlName="servicios" [class.p-invalid]="getNoValido('servicios')">
-            </span>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="bienes">Bienes</label>
-            <span class=" p-input-icon-right">
-                <input id="bienes" type="text" pInputText formControlName="bienes" [class.p-invalid]="getNoValido('bienes')">
-            </span>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="retencion">Retención</label>
-            <span class=" p-input-icon-right">
-                <input id="retencion" type="text" pInputText formControlName="retencion" [class.p-invalid]="getNoValido('retencion')">
-            </span>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="tipo_gasto">Tipo Gasto</label>
-            <span class=" p-input-icon-right">
-                <input id="tipo_gasto" type="text" pInputText formControlName="tipo_gasto" [class.p-invalid]="getNoValido('retencion')">
-            </span>
-        </div>
-
-        <div class="p-field p-col-12">
-            <label for="observacion">Observación</label>
-            <textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"></textarea>
-        </div>
-
-        <p-panel #pnl header="Cuentas vinculadas a la factura" styleClass="p-mt-4">
+    <p-panel header="Totales">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-col-12 p-md-3">
+                <label for="moneda">Monto Impuesto</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <input type="text" pInputText formControlName="monto_itbi" readonly="true" class="read-only">
+                </div>
+            </div>
+            <div class="p-col-12 p-md-3">
+                <label for="moneda">Servicios</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <input type="text" pInputText formControlName="servicios" readonly="true" class="read-only">
+                </div>
+            </div>
+            <div class="p-col-12 p-md-3">
+                <label for="moneda">Bienes</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <input type="text" pInputText formControlName="bienes" readonly="true" class="read-only">
+                </div>
+            </div>
+            <div class="p-col-12 p-md-3">
+                <label for="moneda">Retención</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <input type="text" pInputText formControlName="retencion" readonly="true" class="read-only">
+                </div>
+            </div>
+        </div>        
+    </p-panel>
+    <br>
+    <p-panel #pnl header="Cuentas vinculadas a la factura" styleClass="p-mt-4">
+        <div class="p-fluid p-formgrid p-grid">
             <div formArrayName="cuentas_no">
                 <p-toolbar>	
                     <div class="p-toolbar-group-left"></div>						
@@ -159,10 +193,20 @@
                                 <span class="p-column-title">{{col.header}}</span>
     
                                 <span *ngIf="col.field === 'cuenta_no'">
-                                    {{rowData[col.field]}}
+                                    {{rowData['descripcion'] | uppercase}}-({{rowData[col.field]}})
                                 </span>
     
-                                <div *ngIf="col.field === 'depto' || col.field === 'retencion'">
+                                <span *ngIf="col.field === 'tipo_cuenta'">
+                                    {{rowData[col.field] | titlecase}}
+                                </span>    
+                                
+                                <span *ngIf="col.field === 'departamento'">
+                                    <p-dropdown [options]="departamentos" formControlName="departamento" placeholder="Escoge..."
+                                                optionLabel="descripcion" (onChange)='setVencimiento()'></p-dropdown>
+                                </span>
+    
+                                <div *ngIf="col.field === 'depto' || col.field === 'retencion' || col.field === 'catalogo'|| 
+                                            col.field === 'referencia'">
                                     <span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
                                         {{rowData[col.field] | titlecase}}										
                                     </span>
@@ -171,32 +215,19 @@
                                         {{rowData[col.field] | titlecase}}										
                                     </span>
                                 </div>
-
-    
-                                <span *ngIf="col.field === 'sec_aux'">
-                                    {{rowData[col.field]}}
-                                </span>
-    
-                                <span *ngIf="col.field === 'num_doc'">
-                                    {{rowData[col.field]}}
-                                </span>
-    
-                                <span *ngIf="col.field === 'tipo_cuenta'">
-                                    {{rowData[col.field] | titlecase}}
-                                </span>
     
                                 <span *ngIf="col.field === 'porciento'">
-                                    {{rowData[col.field]}}
+                                    {{rowData[col.field] || 0}}
                                 </span>
                                         
                                 <span *ngIf="col.field === 'debito'">
-                                    <input type="number" formControlName="debito" pInputText class="fit-input" />
+                                    <p-inputNumber formControlName="debito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
-                                    <input type="number" formControlName="credito" pInputText class="fit-input" />
+                                    <p-inputNumber formControlName="credito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
                                 </span>
-
+    
                                 <span *ngIf="col.field === 'acciones'">
                                     <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCatEscogido(i)"></button>
                                 </span>
@@ -219,26 +250,28 @@
                             Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
                         </div>
                     </ng-template>
-                    <!-- <ng-template pTemplate="footer">
+                    <ng-template pTemplate="footer">
                         <tr>
-                            <td>Totales:</td>											
+                            <td><strong>Totales:</strong></td>											
                             <td></td>
                             <td></td>
-                            <td><strong>{{simbolo}}{{ totalDescuento }}</strong></td>
-                            <td><strong>{{simbolo}}{{ totalItbis }}</strong></td>
-                            <td><strong>{{ totalCantidad }}</strong></td>
                             <td></td>
-                            <td><strong>{{simbolo}}{{ totalBruto }}</strong></td>
-                            <td><strong>{{simbolo}}{{ totalNeto }}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) !== 0" class="rojo"><strong>{{this.simbolo}}{{this.totalD}}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) !== 0" class="rojo"><strong>{{this.simbolo}}{{this.totalC}}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) === 0" class="verde"><strong>{{this.simbolo}}{{this.totalD}}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) === 0" class="verde"><strong>{{this.simbolo}}{{this.totalC}}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                         </tr>
-                    </ng-template> -->
+                    </ng-template>
                 </p-table>
             </div>
-
-        </p-panel>
-
-    </div>
+        </div>
+    </p-panel>
+    <br>
     <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
     <button *ngIf="this.guardando && this.guardar" pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" type="button" disabled="true"></button>
 

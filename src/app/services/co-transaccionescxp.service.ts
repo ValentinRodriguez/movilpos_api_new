@@ -28,7 +28,6 @@ export class CoTransaccionescxpService {
     params = params.append('facturas',parametro.facturas);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/transacciones-cxp', {params}).subscribe((resp: any) => {  
-          console.log(resp);          
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -38,8 +37,7 @@ export class CoTransaccionescxpService {
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/transacciones-cxp`).subscribe((resp: any) => {   
-          console.log(resp)     
+        this.http.get(`${URL}/autollenado/transacciones-cxp`).subscribe((resp: any) => {      
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -50,7 +48,6 @@ export class CoTransaccionescxpService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/transacciones-cxp`).subscribe((resp: any) => {
-          console.log(resp)   
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -70,13 +67,32 @@ export class CoTransaccionescxpService {
   }
 
   crearFactura(factura: any) {
-    const formData = new FormData();  
-    for(let key in factura){  
-      formData.append(key, factura[key]);
-    }
+    let data = {}
+    for (const key in factura) {   
+      switch (key) {
+        case 'cond_pago':
+        case 'moneda':
+        case 'codigo_fiscal':
+          data[key] = factura[key].id
+          break;
 
+        case 'tipo_orden':
+          if (factura.tipo_orden === undefined) {
+            data[key] = null            
+          }else{
+            data[key] = factura[key].id
+          }
+          break;
+
+        default:
+          data[key] = factura[key]
+          break;
+      }      
+    }
+    console.log(data); 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/transacciones-cxp`, formData).subscribe( (resp: any) => {
+      this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {  
+          console.log(resp);            
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.facturaGuardada.emit(resp.data);       
@@ -86,11 +102,33 @@ export class CoTransaccionescxpService {
   }
 
   actualizarFactura(id:number, factura: any) {  
+    let data = {}
+    for (const key in factura) {   
+      switch (key) {
+        case 'cond_pago':
+        case 'moneda':
+        case 'codigo_fiscal':
+          data[key] = factura[key].id        
+        break;
+
+        case 'tipo_orden':
+          if (factura.tipo_orden === undefined) {
+            data[key] = null            
+          }else{
+            data[key] = factura[key].id
+          }
+          break;
+
+        default:
+          data[key] = factura[key]
+          break;
+      }      
+    }
+    console.log(data); 
     return new Promise( resolve => {
-      this.http.put(`${ URL }/transacciones-cxp/${id}`, factura)
-          .subscribe( (resp: any) => {                
+      this.http.put(`${ URL }/transacciones-cxp/${id}`, data)      
+          .subscribe( (resp: any) => {
             console.log(resp);
-            
             if (resp['code'] === 200) {
               this.facturaAct.emit( resp.data );                            
               resolve(resp);            
@@ -99,15 +137,14 @@ export class CoTransaccionescxpService {
     });
   }
 
-  borrarFactura(id: string) {
+  borrarFactura(id: number) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/transacciones-cxp/${id}`)
           .subscribe( (resp: any) => {
+            console.log(resp);            
             if (resp['code'] === 200) {            
               this.facturaBorrada.emit(id);    
               resolve(resp);            
-            } else {
-              resolve(resp);
             }
           });
     });
