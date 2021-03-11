@@ -155,7 +155,7 @@
 								<label for="id_moneda">Moneda</label>
 								<p-dropdown inputId="id_moneda" [options]="monedas" name="id_moneda" 
 											formControlName="id_moneda"	placeholder="Escoge..."
-											optionLabel="divisa" (onChange)="simboloMoneda($event)">
+											optionLabel="descripcion" (onChange)="simboloMoneda($event)">
 								</p-dropdown>
 								<small *ngIf="getNoValido('id_moneda')" class="p-invalid">Este campo es obligatorio.</small>
 							</div>

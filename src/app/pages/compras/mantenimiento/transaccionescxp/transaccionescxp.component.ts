@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
@@ -23,7 +24,8 @@ export class TransaccionescxpComponent implements OnInit {
               private usuariosServ: UsuarioService,
               private coTransaccionesServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
+              public dialogService: DialogService,
+              @Inject(DOCUMENT) private document: Document) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
@@ -36,11 +38,19 @@ export class TransaccionescxpComponent implements OnInit {
 
     this.cols = [
       { field: 'id', header: 'Código' },
-      { field: 'divisa', header: 'Divisa' },
-      { field: 'simbolo', header: 'Símbolo' },
+      { field: 'num_doc', header: 'Factura' },
+      { field: 'proveedor_nombre', header: 'Proveedor'},
+      { field: 'fecha_orig', header: 'Fecha Factura'},
+      { field: 'fecha_proc', header: 'Fecha Vencimiento'},
+      { field: 'moneda', header: 'Moneda'},
+      { field: 'valor', header: 'Valor'},
+      { field: 'monto_itbi', header: 'ITBIS'},
+      { field: 'bienes', header: 'Bienes'},
+      { field: 'servicios', header: 'Servicios'},
+      { field: 'retencion', header: 'Retención'},
       { field: 'acciones', header: 'Acciones' },
     ] 
-
+    
     this.coTransaccionesServ.facturaGuardada.subscribe((resp: any)=>{
       this.todasLasFacturas();
     })
@@ -56,9 +66,8 @@ export class TransaccionescxpComponent implements OnInit {
 
   todasLasFacturas() {
     this.loading = true;
-    this.coTransaccionesServ.getDatos().then((resp: any) => {
+    this.coTransaccionesServ.getDatos().then((resp: any) => {      
       this.facturas = resp;
-      console.log(resp)
       this.loading = false;
     });
   }
@@ -68,11 +77,11 @@ export class TransaccionescxpComponent implements OnInit {
     this.coTransaccionesServ.actualizando(data);
   }
 
-  borrarFactura(categoria) { 
+  borrarFactura(id:number) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.coTransaccionesServ.borrarFactura(categoria).then((resp: any)=>{
+        this.coTransaccionesServ.borrarFactura(id).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
         })       
       }
