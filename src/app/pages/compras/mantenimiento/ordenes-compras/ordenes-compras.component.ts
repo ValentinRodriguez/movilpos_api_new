@@ -311,8 +311,11 @@ export class OrdenesComprasComponent implements OnInit {
     }else{      
       this.guardando = false;
       this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
+      
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj); 
-        this.imprimirOrden(resp.num_oc)      
+        console.log(resp.data.num_oc)  
+        this.imprimirOrden(resp.data.num_oc)    
+     
       })
     }  
   } 

@@ -10,7 +10,7 @@ export class EntradasDiarioService {
 
   entradaGuardada = new EventEmitter();
   marcaBorrada = new EventEmitter();
-  marcaAct = new EventEmitter();
+  entradaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
 
@@ -33,7 +33,7 @@ export class EntradasDiarioService {
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/marca`).subscribe((resp: any) => {
+      this.http.get(`${URL}/cgentradasdiarios`).subscribe((resp: any) => {
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -43,7 +43,8 @@ export class EntradasDiarioService {
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/marca/${id}`).subscribe((resp: any) => {
+      this.http.get(`${URL}/cgentradasdiarios/${id}`).subscribe((resp: any) => {
+        console.log(resp);
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -65,21 +66,26 @@ export class EntradasDiarioService {
         
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgentradasdiarios`, entradas).subscribe( (resp: any) => { 
-        console.log(resp)         ;
+       // console.log(resp)
           if (resp['code'] === 200) {                                      
             resolve(resp.data);    
-            this.entradaGuardada.emit(resp.data);       
+          
+            this.entradaGuardada.emit(resp.data);  
+             
           }
       });
     });    
     
   }
-  actualizarMarca(id:number, marca: any) {  
+  actualizarEntrada(id:number, ent: any) {  
+    console.log(ent);
     return new Promise( resolve => {
-      this.http.put(`${ URL }/marca/${id}`, marca)
-              .subscribe( (resp: any) => {                
+     
+      this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent)
+              .subscribe( (resp: any) => {  
+                console.log(resp);      
                 if (resp['code'] === 200) {
-                  this.marcaAct.emit( resp.data );                            
+                  this.entradaAct.emit( resp.data );                            
                   resolve(resp);            
                 }
               });
