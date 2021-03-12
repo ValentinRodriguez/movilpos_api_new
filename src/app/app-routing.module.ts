@@ -68,9 +68,9 @@ import { PuestosComponent } from './pages/rrhh/mantenimiento/puestos/puestos.com
 import { PuertosComponent } from './pages/compras/mantenimiento/puertos/puertos.component';
 import { DireccionesEnvioComponent } from './pages/compras/mantenimiento/direcciones-envio/direcciones-envio.component';
 import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/menu-cuentas-pagar.component';
-import { CuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/cuentas-pagar.component';
 import { TransaccionescxpComponent } from './pages/compras/mantenimiento/transaccionescxp/transaccionescxp.component';
 import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
+import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
 
 @NgModule({
     imports: [
@@ -139,7 +139,7 @@ import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimien
                     {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
 
                     // CUENTAS POR PAGAR
-                    {path: 'gestion-de-factura-proveedores', component: CuentasPagarComponent},
+                    {path: 'reporte-analisis-saldo', component: AnalisisSaldoComponent},                   
 
                     // MISCELANEOS
                     {path: 'gestion-de-actividades', component: GestionActividadesComponent}                    

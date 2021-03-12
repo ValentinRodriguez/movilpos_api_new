@@ -15,7 +15,7 @@ export class MenuCuentasPagarComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.menuServ.getMenu(11).then((resp: any) => {
+    this.menuServ.getMenu(10).then((resp: any) => {
       this.menu = resp;   
     })
   }

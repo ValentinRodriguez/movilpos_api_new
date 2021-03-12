@@ -235,8 +235,6 @@ import { TipoClienteService } from "./services/tipo-cliente.service";
 import { TipoNegocioService } from "./services/tipo-negocio.service";
 import { PuertosService } from "./services/puertos.service";
 import { DireccionesService } from "./services/direcciones.service";
-import { CuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/cuentas-pagar.component';
-import { FormularioCuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/formulario-cuentas-pagar/formulario-cuentas-pagar.component';
 import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/menu-cuentas-pagar.component';
 import { ErrorInterceptorService } from "./services/interceptors/error-interceptor.service";
 import { HttpHeadersService } from "./services/interceptors/http-headers.service"; 
@@ -248,6 +246,7 @@ import { TransaccionescxpComponent } from './pages/compras/mantenimiento/transac
 import { FormularioTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/formulario-transacciones-cxp/formulario-transacciones-cxp.component';
 import { StepTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/step-transacciones-cxp/step-transacciones-cxp.component';
 import { EntradasDiarioService } from './services/entradas-diario.service';
+import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
 
 @NgModule({
     imports: [
@@ -434,14 +433,13 @@ import { EntradasDiarioService } from './services/entradas-diario.service';
         StepOrdenesPedidosComponent,
         DireccionesEnvioComponent,
         FormularioDireccionesComponent,
-        CuentasPagarComponent,
-        FormularioCuentasPagarComponent,
         MenuCuentasPagarComponent,
         EntradaDiarioComponent,
         FormularioEntradaDiarioComponent,
         TransaccionescxpComponent,
         FormularioTransaccionesCxpComponent,
-        StepTransaccionesCxpComponent
+        StepTransaccionesCxpComponent,
+        AnalisisSaldoComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -288,6 +288,17 @@ export class UsuarioService {
     })
   }
 
+  refreshToken() {
+    return new Promise( resolve => {
+      this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {
+        console.log(resp);        
+        if (resp['code'] === 200) { 
+          resolve(resp.data);  
+        }
+      })
+    })
+  }
+
   getTokenLocalStorage() {
     return localStorage.getItem('token');
   }

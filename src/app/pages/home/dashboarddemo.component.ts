@@ -5,6 +5,7 @@ import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { Product } from 'src/app/demo/domain/product';
 import { ProductService } from 'src/app/demo/service/productservice';
 import { HomeService } from 'src/app/services/home.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepHomeComponent } from './step-home/step-home.component';
 
 @Component({
@@ -33,12 +34,21 @@ export class DashboardDemoComponent implements OnInit {
   revenueChart: any;
     constructor(private homeService: HomeService,
                 public dialogService: DialogService,
-                private productService: ProductService, private breadcrumbService: BreadcrumbService) { }
+                private productService: ProductService, 
+                private usuarioServ:UsuarioService,
+                private breadcrumbService: BreadcrumbService) { }
 
     ngOnInit() {        
         this.homeService.autoLlenado().then((resp: any) => {
             this.autollenado(resp);
         })
+    }
+
+    refresh() {
+        this.usuarioServ.refreshToken().then((resp:any) =>{
+            console.log(resp);            
+        });
+        
     }
 
     changeDataset(event) {
