@@ -6,7 +6,7 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="marcas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-							[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [lazy]="true" (onLazyLoad)="todasLasMarcas()" [loading]="loading"
+							[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="id" [lazy]="true" (onLazyLoad)="todasLasEntradas()" [loading]="loading"
 							[globalFilterFields]="['descripcion','id']">
 						
 						<ng-template pTemplate="caption">
@@ -27,32 +27,75 @@
 							</tr>
 						</ng-template>
 						
-						<ng-template pTemplate="body" let-rowData let-columns="columns">
+						<ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
 							<tr class="p-selectable-row">
 							
 								<td *ngFor="let col of columns">
 									<span class="p-column-title">{{col.header}}</span>								
 							
-									<span *ngIf="col.field === 'id_brand'">
+									<span *ngIf="col.field === 'ref'">
 										{{rowData[col.field] }}
 									</span>
 							
-									<span *ngIf="col.field !== 'id_brand'">
+								<!--	<span *ngIf="col.field !== 'ref'">
 										{{rowData[col.field] | titlecase}}
+									</span>-->
+							
+									<span *ngIf="col.field === 'fecha'">
+										{{rowData[col.field] }}
 									</span>
 							
+									<span *ngIf="col.field === 'detalle'">
+										{{rowData[col.field] }}
+									</span>
+
 									<span *ngIf="col.field === 'acciones'">
-										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarMarca(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" [pRowToggler]="rowData" [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarEntrada(rowData.id)" pTooltip="Actualizar"></button>
 										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarMarca(rowData.id)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
 									</span>
 								</td>								
 							</tr>
 						</ng-template>
+
+						<ng-template pTemplate="rowexpansion" let-rowData>
+							<tr>
+								<td [attr.colspan]="cols.length">
+									<div class="p-p-3">
+										<p-table [value]="rowData.cuentas" dataKey="id">
+											<ng-template pTemplate="header">
+												<tr>													
+													<th class="centrar" pSortableColumn="cuenta_no">No. cuenta <p-sortIcon field="cuenta_no"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="ref">Numero Documento <p-sortIcon field="ref"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="cod_aux">Id Auxiliar <p-sortIcon field="cod_aux"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="cod_sec">Codigo Secuencia <p-sortIcon field="cod_sec"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="departamento">Departamento <p-sortIcon field="departamento"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="debito">Debito <p-sortIcon field="debito"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="credito">Credito <p-sortIcon field="credito"></p-sortIcon></th>
+												</tr>
+											</ng-template>
+											<ng-template pTemplate="body" let-detalle>
+												<tr>
+													
+													<td class="centrar">{{detalle.cuenta_no}}</td>
+													<td class="centrar">{{detalle.ref}}</td>
+													<td class="centrar">{{detalle.cod_aux}}</td>
+													<td class="centrar">{{detalle.cod_sec}}</td>
+													<td class="centrar">{{detalle.departamento}}</td>
+													<td class="centrar">{{detalle.debito}}</td>
+													<td class="centrar">{{detalle.credito}}</td>
+												</tr>
+											</ng-template>
+										</p-table>
+									</div>
+								</td>
+							</tr>
+						</ng-template>
+
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen tipos de inventarios en la base de datos.</td>
+								<td colspan="8">no existen entradas de diario en la base de datos</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">

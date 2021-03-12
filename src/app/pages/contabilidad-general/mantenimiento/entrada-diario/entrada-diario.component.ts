@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BrandsService } from 'src/app/services/brands.service';
+import { EntradasDiarioService } from 'src/app/services/entradas-diario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -27,41 +28,44 @@ export class EntradaDiarioComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private marcasServ: BrandsService,
+              private EntradaServ: EntradasDiarioService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
-                this.todasLasMarcas();
+              
               }
 
   ngOnInit(): void {
-    this.marcasServ.guardar.subscribe((resp: any)=>{  
+    this.todasLasEntradas();
+    this.EntradaServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })
 
-    this.marcasServ.marcaGuardada.subscribe(resp =>{
-      this.todasLasMarcas();
+    this.EntradaServ.entradaGuardada.subscribe(resp =>{
+      this.todasLasEntradas();
     })
 
-    this.marcasServ.marcaBorrada.subscribe((resp: any)=>{      
-      this.todasLasMarcas();   
+    this.EntradaServ.marcaBorrada.subscribe((resp: any)=>{      
+      this.todasLasEntradas();   
     })
 
-    this.marcasServ.marcaAct.subscribe(resp =>{
-      this.todasLasMarcas();
+    this.EntradaServ.entradaAct.subscribe(resp =>{
+      this.todasLasEntradas();
     })
 
     this.cols = [
-      { field: 'id_brand', header: 'Código' },
-      { field: 'descripcion', header: 'Descripción' },
+      { field: 'ref', header: 'No. Entrada' },
+      { field: 'fecha', header: 'Fecha' },
+      { field: 'detalle', header: 'Detalle' },
       { field: 'acciones', header: 'Acciones' },
     ]
   }
 
-  todasLasMarcas() {
+  todasLasEntradas() {
     this.loading = true;
-    this.marcasServ.getDatos().then((resp: any) =>{
+    this.EntradaServ.getDatos().then((resp: any) =>{
+     // console.log(resp)
       this.loading = false;
       this.marcas = resp;      
     })
@@ -76,16 +80,17 @@ export class EntradaDiarioComponent implements OnInit {
     })
   }
 
-  actualizarMarca(data){
+  actualizarEntrada(data){
     this.index = 1;   
-    this.marcasServ.actualizando(data);
+    
+    this.EntradaServ.actualizando(data);
   }
 
   borrarMarca(marca) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.marcasServ.borrarMarca(marca).then((resp: any)=>{
+        this.EntradaServ.borrarMarca(marca).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
         })       
       }

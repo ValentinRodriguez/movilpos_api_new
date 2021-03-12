@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, NumberValueAccessor } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
@@ -37,31 +38,49 @@ export class FormularioEntradaDiarioComponent implements OnInit {
               private usuariosServ: UsuarioService,
               private entradasServ: EntradasDiarioService,
               public dialogService: DialogService,
-              public cuentaServices: CgcatalogoService) { 
+              public cuentaServices: CgcatalogoService,
+              @Inject(DOCUMENT) private document: Document) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
   }
 
   ngOnInit(): void {
     this.mask="ED.99-99/9999"
-   /* this.marcasServ.actualizar.subscribe((resp: any) =>{
+
+    this.entradasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.marcasServ.getDato(resp).then((res: any) => {
-        console.log(res);
-        this.forma.get('descripcion').setValue(res.descripcion);
-        this.forma.patchValue(res);
+      this.entradasServ.getDato(resp).then((res: any) => {
+       // console.log(res);
+        this.forma.get('fecha').setValue(new Date(res.fecha));
+        this.forma.get('ref').setValue(res.ref);
+        this.forma.get('detalle').setValue(res.detalle);
+        
+        res.cuentas.forEach(element => {
+          this.cuentas.push(element);
+          (<FormArray>this.forma.get('cuentas')).push(this.fb.group({
+            cuenta_no:        [element.cuenta_no, Validators.required],
+            departamento:     [element.departamento],
+            cod_aux:          [element.cod_aux],
+            cod_sec:          [element.cod_sec],
+            num_doc:          [element.num_doc],
+            debito:           [element.debito],
+            credito:          [element.credito]
+          }));   
+          
+       // console.log(resp);       
+        });
       })
+    })
 
-    })*/
-  this.cuentaServices.catalogoEscogido.subscribe((resp:any)=>{
+    this.cuentaServices.catalogoEscogido.subscribe((resp:any)=>{
       this.cuentas=resp;
-  })
-   this.entradasServ.getEdsec().then((resp: any) => {
-    this.secuencia = resp;
-  
-   })
+    })
+
+    this.entradasServ.getEdsec().then((resp: any) => {
+      this.secuencia = resp;
+    })
 
     this.cols = [
       { field: 'cuenta_no', header: 'No. Cuenta' },
@@ -71,10 +90,11 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       { field: 'num_doc', header: 'Numero Documento' },
       { field: 'debito', header: 'Debito' },
       { field: 'credito', header: 'Credito' },
+      { field: 'acciones', header: 'Acciones' },
     ]
-  //  this.catalogoEscogido()
-    this.agregarRegistro();
 
+    //  this.catalogoEscogido()
+    this.agregarRegistro();
   }
 /*
   catalogoEscogido() {
@@ -88,16 +108,17 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   
   crearFormulario() {
     this.forma = this.fb.group({
-      fecha:           ['', Validators.required],
-      ref:             ['', Validators.required],
-      mes:             [''],
-      periodo:         [''],
-      detalle:         [''],
-      estado:          ['activo'],
-      usuario_creador: [this.usuario.username, Validators.required],
+      fecha:               ['', Validators.required],
+      ref:                 ['', Validators.required],
+      mes:                 [''],
+      periodo:             [''],
+      detalle:             [''],
+      estado:              ['activo'],
+      usuario_creador:     [this.usuario.username, Validators.required],
+      usuario_modificador: [''],
       cuentas: this.fb.array([])     
     })
-    console.log(this.forma.value)
+    
   }
 
   get cuenta() {   
@@ -128,7 +149,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     //this.guardando = true;
  
     
-    console.log(this.forma.value);
+    console.log(this.forma.value)
     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
@@ -140,6 +161,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.guardando = false;
    
       this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{
+       
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj); 
            
       })
@@ -157,7 +179,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         this.mes="0"+this.mes
     }
     this.ano=d.getFullYear().toString().substr(-2)
-    console.log(this.mes+this.ano)
+   
 
     if (Number(this.secuencia) < 10){
       this.secuencia="0"+this.secuencia
@@ -176,8 +198,9 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       width: '50%'
     });
   }
- /* ActualizarMarca(){
-    this.actualizando = true;
+ ActualizarMarca(){
+  console.log(this.forma.value)
+ // this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -185,13 +208,13 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{
-      this.marcasServ.actualizarMarca(this.id, this.forma.value).then((resp: any) => {
+      this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {
+       
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
         this.actualizando = false;
       })
     }
   }
-*/
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
@@ -208,14 +231,14 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   verificaCuenta(data){  
-    console.log(data)
+   
     if (data === "") {
       this.cuentaExiste = 3;
       return;
     }
     let param = {'cuenta_no': data};
     this.cuentaExiste = 0;
-    console.log(param)
+    
     this.cuentaServices.busquedaCatalogo(param).then((resp: any)=>{
       if(resp.length === 0) {
         this.cuentaExiste = 2;
@@ -225,17 +248,22 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     })
   }
 
-  agregarRegistro(){
-   /* if (e !== null){
-      e.preventDefault()
-    }*/
-   
-    // if (event.keyCode === 9 ){
-      this.cuentas.push(this.agregarFormularioTransacciones())
-      this.agregarFormulario();
-     
-   //}
-   // return
+  borrarCuenta(id) {
+    this.cuentas.splice(id,1)  
+    
+  }
+
+  agregarRegistro(){  
+    this.cuentas.push(this.agregarFormularioTransacciones())
+    this.agregarFormulario(); 
+  }
+
+  imprimirOrden(num_oc) {
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = `${URL}/reporte/orden-compras/${num_oc}`;
+    link.click();
+    link.remove();
   }
 
 }
