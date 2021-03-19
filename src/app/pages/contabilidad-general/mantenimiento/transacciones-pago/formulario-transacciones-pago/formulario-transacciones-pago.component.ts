@@ -6,6 +6,7 @@ import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/ca
 import { FacturasPendientesComponent } from 'src/app/components/facturas-pendientes/facturas-pendientes.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
+import { SecuenciasService } from 'src/app/services/secuencias.service';
 import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -64,6 +65,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
               private cgCatalogoServ: CgcatalogoService,
               private transaccionescxpServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
+              // private secuenciaDocumentosServ: SecuenciasService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];
@@ -72,7 +74,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
   ngOnInit(): void {
     this.setMinDate();
-  
+    // this.secuenciaDocumentosServ.secuenciaDocumentos
     this.forma.statusChanges.subscribe( value =>{
       if (value === 'VALID' && this.esValido === false) {
         this.esValido = true;
@@ -85,27 +87,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         })
       }   
     })
-
-    this.cols = [
-      { field: 'tipo_orden',      header: 'Tipo Orden' },
-      { field: 'orden_no',        header: 'No. Orden' },
-      { field: 'num_doc',         header: 'Factura' },
-      { field: 'total',           header: 'Total' },
-      { field: 'valor_pendiente', header: 'Valor Pendiente' },
-      { field: 'valor',           header: 'Monto a Pagar' },
-      { field: 'acciones',        header: 'Acciones' }
-    ] 
-
-    this.cols2 = [
-      { field: 'cuenta_no',    header: 'Cuenta' },
-      { field: 'departamento', header: 'Departamento' },
-      { field: 'catalogo',     header: 'Catalogo' },
-      { field: 'cod_sec',      header: '' },
-      { field: 'ref',          header: 'Referencia' },
-      { field: 'debito',       header: 'Débito' },
-      { field: 'credito',      header: 'Crédito' },
-      { field: 'acciones',     header: 'Acciones' }
-    ] 
     
     this.transaccionsServ.autoLlenado().then((resp: any)  => {      
         resp.forEach(element => {
@@ -138,6 +119,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.transaccionsServ.getDato(resp).then((res: any) => {
+        console.log(resp);
+        
         // this.forma.get('divisa').setValue(res.divisa);
         // this.forma.get('simbolo').setValue(res.simbolo);
         // this.forma.patchValue(res);
@@ -146,7 +129,40 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
     this.catalogoEscogido();
     this.facturaEscogida();
+
+    this.cols = [
+      { field: 'tipo_orden',      header: 'Tipo Orden' },
+      { field: 'orden_no',        header: 'No. Orden' },
+      { field: 'aplica_a',        header: 'Factura' },
+      { field: 'total',           header: 'Total' },
+      { field: 'valor_pendiente', header: 'Valor Pendiente' },
+      { field: 'valor',           header: 'Monto a Pagar' },
+      { field: 'acciones',        header: 'Acciones' }
+    ] 
+
+    this.cols2 = [
+      { field: 'cuenta_no',    header: 'Cuenta' },
+      { field: 'departamento', header: 'Departamento' },
+      { field: 'catalogo',     header: 'Catalogo' },
+      { field: 'cod_sec',      header: '' },
+      // { field: 'ref',          header: 'Referencia' },
+      { field: 'debito',       header: 'Débito' },
+      { field: 'credito',      header: 'Crédito' },
+      { field: 'acciones',     header: 'Acciones' }
+    ] 
   }  
+
+  // buscaSecuencia() {
+  //   const tipo = this.forma.get('tipo_doc').value;
+  //   const cuenta_no = this.forma.get('cuenta_no').value;    
+  //   console.log(tipo.ref, cuenta_no);
+  //   if (tipo !== '' && cuenta_no !== '') {
+  //     this.secuenciaDocumentosServ.secuenciaDocumentos(tipo.ref, cuenta_no).then((resp: any) => {
+  //       console.log(resp);   
+  //       this.forma.get("documento").setValue(resp.documento)
+  //     })
+  //   }    
+  // }
 
   afectaCuentasPagar(e) {
     if (e === 'si') {
@@ -165,7 +181,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       tipo_doc:            ['', Validators.required],
-      documento:           ['654864654', Validators.required],
       cuenta_no:           ['9872123345'],
       proveedor:           ['', Validators.required],
       cod_sp:              [''],
@@ -175,7 +190,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       moneda:              ['', Validators.required],
       tasa:                ['1'],
       valor:               ['1000', Validators.required],
-      ref:                 [1, Validators.required],
       detalle:             ['xdfgsdfg dsfgdsfg sdfgsdgf'],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
@@ -191,7 +205,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         if (cuenta.tipo_cuenta !== "normal") {
           cuenta.tipo = this.forma.get('tipo_doc').value
           cuenta.fecha = this.forma.get('fecha').value
-          cuenta.documento = this.forma.get('documento').value;
+          // cuenta.documento = this.forma.get('documento').value;
           cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
 
           this.detalleCuentas.push(cuenta);
@@ -210,7 +224,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         factura.cod_sp_sec = this.forma.get('cod_sp_sec').value;
         factura.moneda = this.forma.get('moneda').value.id;
         factura.tipo_doc = this.forma.get('tipo_doc').value.ref;
-        factura.documento = this.forma.get('documento').value;
+        // factura.documento = this.forma.get('documento').value;
         
         this.totalF += factura.valor;
         this.totalVpen += factura.pendiente;
@@ -244,7 +258,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     return this.fb.group({
       tipo_orden:      ['', Validators.required], //
       orden_no:        [''],
-      num_doc:         [factura.documento, Validators.required],//
+      // num_doc:         [factura.documento, Validators.required],//
       total:           [factura.valor],
       valor_pendiente: [factura.pendiente, Validators.required],//
       fecha_orig:      [factura.fecha_orig, Validators.required],   //   
@@ -256,19 +270,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       cod_cia:         [this.usuario.empresa.cod_cia, Validators.required],//
       aplica_a:        [factura.num_doc, Validators.required],//
       valor:           ['', Validators.required],//
-      // cond_pago:       ['', Validators.required], *************************
-      // valor_orden:     [''],
-      // fecha_orig:      ['', Validators.required],
-      // fecha_proc:      ['', Validators.required],
-      // valor_recibido:  [''],
-      // bienes:          [''],
-      // servicios:       [''],
-      // retencion:       [''],
       detalle:         ['sadfadsf', Validators.required],
       ncf:             [0, Validators.required],
-      // cta_ctble:       [''],
-      // tipo_fact:       [''],
-      // codigo_fiscal:   ['', Validators.required],
       estado:          ['activo'],
       usuario_creador: [this.usuario.username],
     });
@@ -278,8 +281,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     return this.fb.group({
       cuenta_no:       [cuenta.cuenta_no],
       departamento:    [''],
-      ref:             ['ghj', Validators.required],
-      cuenta_banco:    [cuenta.documento],
+      ref:             [''],
+      // cuenta_banco:    [cuenta.documento],
       debito:          [''],
       credito:         [''],
       fecha:           [cuenta.fecha],
@@ -332,8 +335,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         return;  
       }
       
-      const ref = this.forma.get('tipo_doc').value.ref;
-      this.forma.get('ref').setValue(`${ref}.${this.padLeft(1,6)}`);
       this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
         if (resp) {
           this.guardando = false;
@@ -411,7 +412,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   prepagado(e) {
-    if (e === 'CHEQUE PREPAGADO') {
+    if (e.value.descripcion === 'CHEQUE PREPAGADO') {
       this.cheque_prep = false;
     }else{
       this.cheque_prep = true;
@@ -420,7 +421,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         ((this.detalle_cxp).at(index) as FormGroup).get("orden_no").setValue('');
         index++;
       });
-    }    
+    }
+    // this.buscaSecuencia();
   }
 
   borrarCuentaCxPEscogida(id) {

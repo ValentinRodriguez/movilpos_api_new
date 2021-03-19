@@ -75,6 +75,9 @@ export class TransacionPagosService {
     for(let key in transaccion){  
       switch (key) {
         case 'tipo_doc':
+          data[key] = transaccion[key].ref
+          break;
+
         case 'moneda':
           data[key] = transaccion[key].id
           break; 

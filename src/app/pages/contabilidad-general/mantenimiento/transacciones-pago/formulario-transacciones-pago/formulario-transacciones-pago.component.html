@@ -13,7 +13,7 @@
             <label for="tipo_doc">Tipo</label>
             <p-dropdown inputId="tipo_doc" [options]="tipo_documentos" name="tipo_doc" formControlName="tipo_doc" 
                         [class.ng-invalid]="getNoValido('tipo_doc')" [class.ng-dirty]="getNoValido('tipo_doc')"                                                                                                                 
-                        (onChange)="prepagado($event.value.descripcion)" placeholder="Escoge..." optionLabel="descripcion">
+                        (onChange)="prepagado($event)" placeholder="Escoge..." optionLabel="descripcion">
             </p-dropdown>
             <small *ngIf="getNoValido('tipo_doc')" class="p-invalid">Este campo es obligatorio.</small>
         </div>        
@@ -55,10 +55,10 @@
             [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"  ></p-inputNumber>
         </div>
 
-        <div class="p-field p-col-12 p-md-2">
+        <!-- <div class="p-field p-col-12 p-md-2">
             <label for="documento">Documento</label>
             <input type="text" pInputText formControlName="documento" [class.ng-invalid]="getNoValido('documento')" [class.ng-dirty]="getNoValido('documento')"  >
-        </div>
+        </div> -->
 
         <div class="p-field p-col-12 p-md-2">
             <label for="cuenta_no">Cuenta banco</label>
@@ -101,7 +101,7 @@
                 <br>
                 <p-table #dt [columns]="cols" [value]="detalleCxp" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
                              [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
-                             [globalFilterFields]="['tipo_orden','orden_no','num_doc','valor_pendiente','valor_pagado']">
+                             [globalFilterFields]="['tipo_orden','orden_no','aplica_a','valor_pendiente','valor_pagado']">
     
                     <ng-template pTemplate="caption">
                         <div class="table-header">
@@ -137,8 +137,8 @@
                                         <input type="text" pInputText formControlName="orden_no" [ngClass]="{'read-only': cheque_prep}">
                                     </span>    
                                         
-                                    <span *ngIf="col.field === 'num_doc'">
-                                        <input type="text" pInputText formControlName="num_doc">
+                                    <span *ngIf="col.field === 'aplica_a'">
+                                        <input type="text" pInputText formControlName="aplica_a">
                                     </span>
 
                                     <span *ngIf="col.field === 'total'">
@@ -261,9 +261,9 @@
                                     <input type="text" pInputText formControlName="cod_sec">
                                 </span>
 
-                                <span *ngIf="col.field === 'ref'">
+                                <!-- <span *ngIf="col.field === 'ref'">
                                     <input type="text" pInputText formControlName="ref">
-                                </span>
+                                </span> -->
 
                                 <span *ngIf="col.field === 'debito'">
                                     <p-inputNumber formControlName="debito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTotal($event.value)"></p-inputNumber>
@@ -291,8 +291,7 @@
                     </ng-template>
                     <ng-template pTemplate="footer">
                         <tr>
-                            <td><strong>Totales:</strong></td>											
-                            <td></td>
+                            <td><strong>Totales:</strong></td>
                             <td></td>
                             <td></td>
                             <td></td>

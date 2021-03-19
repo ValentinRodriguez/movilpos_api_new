@@ -61,12 +61,12 @@ export class TransaccionesPagoComponent implements OnInit {
     });
   }
   
-  actualizarMoneda(data) {
+  actualizarTransaccion(data) {
     this.index = 1;   
     this.cgTransaccionesServ.actualizando(data);
   }
 
-  borrarCategoria(categoria) { 
+  borrarTransaccion(categoria) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 

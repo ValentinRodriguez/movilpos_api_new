@@ -13,8 +13,7 @@ export class CategoriasService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
-  constructor(private http: HttpClient) { 
-              }
+  constructor(private http: HttpClient) { }
 
   busquedaCategoria(parametro?: any) {
     let params = new HttpParams();      

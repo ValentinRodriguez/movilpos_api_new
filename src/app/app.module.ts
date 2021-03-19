@@ -251,6 +251,8 @@ import { TransacionPagosService } from "./services/transacion-pagos.service";
 import { FacturasProveedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/facturas-proveedores.component';
 import { FormularioFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/formulario-factura-provedores/formulario-factura-provedores.component';
 import { StepFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/step-factura-provedores/step-factura-provedores.component';
+
+import { SecuenciasService } from "./services/secuencias.service";
 @NgModule({
     imports: [
         BrowserModule,
@@ -514,6 +516,7 @@ import { StepFacturaProvedoresComponent } from './pages/compras/mantenimiento/fa
         CoTransaccionescxpService,
         ValidadoresService,
         TransacionPagosService,
+        SecuenciasService,
         EntradasDiarioService
     ],
     entryComponents:[

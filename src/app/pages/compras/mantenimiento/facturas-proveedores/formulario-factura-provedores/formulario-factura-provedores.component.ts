@@ -205,7 +205,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       cod_sec:         [''],
       detalles:        [''], //
       tipo_fact:       [''], //
-      cod_cia:         [this.usuario.empresa.cod_cia],
+      cod_cia:         [''],
       estado:          ['activo'],
       usuario_creador: [this.usuario.username],
     });
@@ -269,7 +269,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       bienes:              [0],
       servicios:           [0],
       retencion:           [0],
-      detalle:             [''],
+      detalle:             ['', Validators.required],
       ncf:                 ['', Validators.required],
       cod_cia:             ['', Validators.required],
       tipo_orden:          [''],
@@ -285,7 +285,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   guardarFproveedor(){
     //this.guardando = true;
     console.log(this.forma);
-    
+    this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
