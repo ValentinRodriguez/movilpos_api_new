@@ -7,11 +7,11 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
-  selector: 'app-transaccionescxp',
-  templateUrl: './transaccionescxp.component.html',
-  styleUrls: ['./transaccionescxp.component.scss']
+  selector: 'app-facturas-proveedores',
+  templateUrl: './facturas-proveedores.component.html',
+  styleUrls: ['./facturas-proveedores.component.scss']
 })
-export class TransaccionescxpComponent implements OnInit {
+export class FacturasProveedoresComponent implements OnInit {
 
   usuario: any;
   index: number = 0;
@@ -87,4 +87,5 @@ export class TransaccionescxpComponent implements OnInit {
       }
     })
   }
+
 }

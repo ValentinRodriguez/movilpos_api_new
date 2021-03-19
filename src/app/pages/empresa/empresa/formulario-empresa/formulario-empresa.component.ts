@@ -76,27 +76,28 @@ export class FormularioEmpresaComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      nombre:            ['', Validators.required],
-      telefono_empresa:  ['', Validators.required],
-      email_empresa:     ['', Validators.required],
-      rnc:               ['', Validators.required],
+      nombre:            ['valentinrodriguez1427', Validators.required],
+      telefono_empresa:  ['(666)-666-6666', Validators.required],
+      email_empresa:     ['valentinrodriguez1427@gmail.com', Validators.required],
+      rnc:               ['5555555555', Validators.required],
       id_pais:           ['', Validators.required],
       id_ciudad:         ['', Validators.required],
       direccion:         ['', Validators.required],
-      web:               ['', Validators.required],
-      contacto:          ['', Validators.required],
-      telefono_contacto: ['', Validators.required],
+      web:               ['asdasd.com', Validators.required],
+      contacto:          ['luis miguel', Validators.required],
+      telefono_contacto: ['(666)-666-6666', Validators.required],
       moneda:            ['', Validators.required],
       empresa_verde:     ['', Validators.required],
       tipo_cuadre:       ['', Validators.required],
       valuacion_inv:     ['', Validators.required],
       logo:              [],
-      estado:            ['activo']
+      estado:            ['activo'],
+      usuario_creador:   [this.usuario.username]
     })
   }
 
   guardarEmpresa() {
-    this.guardando = true;    
+    // this.guardando = true;    
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          

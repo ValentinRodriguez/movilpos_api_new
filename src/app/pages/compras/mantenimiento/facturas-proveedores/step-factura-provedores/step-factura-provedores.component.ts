@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'app-step-transacciones-cxp',
-  templateUrl: './step-transacciones-cxp.component.html',
-  styleUrls: ['./step-transacciones-cxp.component.scss']
+  selector: 'app-step-factura-provedores',
+  templateUrl: './step-factura-provedores.component.html',
+  styleUrls: ['./step-factura-provedores.component.scss']
 })
-export class StepTransaccionesCxpComponent implements OnInit {
+export class StepFacturaProvedoresComponent implements OnInit {
+
   data: any[] = [];
 
   constructor(public config: DynamicDialogConfig) { }

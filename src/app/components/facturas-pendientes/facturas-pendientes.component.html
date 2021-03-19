@@ -1,6 +1,6 @@
-<p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  [(selection)]="selectedProducts" 
-    [globalFilterFields]="['imagen','titulo','codigo','precio_venta','cantidad1']" [lazy]="true" (onLazyLoad)="todosLosProductos()" [loading]="loading">
+<p-table #dt [columns]="cols" [value]="facturas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  [(selection)]="facturasSeleccionadas" 
+    [globalFilterFields]="['num_doc']">
 
     <ng-template pTemplate="caption">
         <div class="table-header">
@@ -32,22 +32,20 @@
                     <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
                 </span>
 
-                <span *ngIf="col.field === 'imagen'">
-                    <img [alt]="rowData[col.field]" [src]="rowData.galeriaImagenes | invProductos" width="64"
-                        style="vertical-align: middle"/>
-                    <div>{{rowData['titulo']}}</div>
-                </span>
-                
-                <span *ngIf="col.field === 'precio_venta'">
-                    {{'$'}}{{ rowData[col.field] }}
-                </span>
-
-                <span *ngIf="col.field === 'codigo'">
+                <span *ngIf="col.field === 'num_doc'">
                     {{ rowData[col.field] }}
                 </span>
 
-                <span *ngIf="col.field === 'cantidad1'">
-                    {{ rowData[col.field] || 0}}
+                <span *ngIf="col.field === 'valor'">
+                   {{rowData['simbolo']}} {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field === 'monto_itbi'">
+                    {{rowData['simbolo']}} {{ rowData[col.field] }}
+                 </span>
+
+                <span *ngIf="col.field === 'proveedor_nombre'">
+                    {{ rowData[col.field] | titlecase }}
                 </span>
 
             </td>								
@@ -56,23 +54,23 @@
 
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="8">No existen productos en la base de datos.</td>
+            <td colspan="8">No existen facturas en la base de datos.</td>
         </tr>
     </ng-template>
 
     <ng-template pTemplate="summary">
-        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length !== 1">
-            Existen {{productos ? productos.length : 0 }} productos en total.
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length !== 1">
+            Existen {{facturas ? facturas.length : 0 }} facturas en total.
         </div>
 
-        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length === 1">
-            Existe solo {{productos ? productos.length : 0 }} producto en total.
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length === 1">
+            Existe solo {{facturas ? facturas.length : 0 }} producto en total.
         </div>
     </ng-template>
 </p-table>
 <br>
 <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="right">
-        <button pButton pRipple label="Enviar" class="p-button-success p-mr-2" (click)="enviarProductos()"></button>          
+        <button pButton pRipple label="Enviar" class="p-button-success p-mr-2" (click)="enviarFacturas()"></button>          
     </ng-template>
 </p-toolbar>

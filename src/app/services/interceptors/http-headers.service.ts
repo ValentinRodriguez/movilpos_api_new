@@ -41,7 +41,7 @@ export class HttpHeadersService implements HttpInterceptor{
         },
         setParams:{
           sessionId: localStorage.getItem('sessionId'),
-          usuario_creador: `${this.usuarioService.getTokenLocalStorage()}`
+          usuario_creador: `${this.usuarioService.getUserLogged().username}`
         }  
       });
     }

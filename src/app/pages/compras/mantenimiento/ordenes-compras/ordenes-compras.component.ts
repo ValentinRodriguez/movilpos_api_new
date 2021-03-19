@@ -381,22 +381,6 @@ export class OrdenesComprasComponent implements OnInit {
     })   
   }
 
-  verificaOrden(data){  
-    if (data === "") {
-      this.categoriaExiste = 3;
-      return;
-    }
-    let param = {'orden': data};
-    this.categoriaExiste = 0;
-    this.ordenServ.busquedaOrden(param).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.categoriaExiste = 1;
-      }else{
-        this.categoriaExiste = 2;
-      }
-    })
-  }
-
   buscaProductos() {
     const ref = this.dialogService.open(ListaProductosComponent, {
       header: 'Catálogo de productos',

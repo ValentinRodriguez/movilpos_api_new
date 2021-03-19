@@ -242,12 +242,15 @@ import { TiendaService } from "./services/tienda.service";
 import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
 import { FormularioEntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/formulario-entrada-diario/formulario-entrada-diario.component';
 import { CoTransaccionescxpService } from './services/co-transaccionescxp.service';
-import { TransaccionescxpComponent } from './pages/compras/mantenimiento/transaccionescxp/transaccionescxp.component';
-import { FormularioTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/formulario-transacciones-cxp/formulario-transacciones-cxp.component';
-import { StepTransaccionesCxpComponent } from './pages/compras/mantenimiento/transaccionescxp/step-transacciones-cxp/step-transacciones-cxp.component';
 import { EntradasDiarioService } from './services/entradas-diario.service';
 import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
-
+import { TransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/transacciones-pago.component';
+import { FormularioTransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/formulario-transacciones-pago/formulario-transacciones-pago.component';
+import { StepTransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/step-transacciones-pago/step-transacciones-pago.component';
+import { TransacionPagosService } from "./services/transacion-pagos.service";
+import { FacturasProveedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/facturas-proveedores.component';
+import { FormularioFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/formulario-factura-provedores/formulario-factura-provedores.component';
+import { StepFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/step-factura-provedores/step-factura-provedores.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -436,10 +439,13 @@ import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-
         MenuCuentasPagarComponent,
         EntradaDiarioComponent,
         FormularioEntradaDiarioComponent,
-        TransaccionescxpComponent,
-        FormularioTransaccionesCxpComponent,
-        StepTransaccionesCxpComponent,
-        AnalisisSaldoComponent
+        AnalisisSaldoComponent,
+        TransaccionesPagoComponent,
+        FormularioTransaccionesPagoComponent,
+        StepTransaccionesPagoComponent,
+        FacturasProveedoresComponent,
+        FormularioFacturaProvedoresComponent,
+        StepFacturaProvedoresComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -507,6 +513,7 @@ import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-
         TiendaService,
         CoTransaccionescxpService,
         ValidadoresService,
+        TransacionPagosService,
         EntradasDiarioService
     ],
     entryComponents:[

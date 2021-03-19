@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
@@ -7,14 +7,15 @@ import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.
 import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { StepTransaccionesCxpComponent } from '../step-transacciones-cxp/step-transacciones-cxp.component';
+import { StepFacturaProvedoresComponent } from '../step-factura-provedores/step-factura-provedores.component';
 
 @Component({
-  selector: 'app-formulario-transacciones-cxp',
-  templateUrl: './formulario-transacciones-cxp.component.html',
-  styleUrls: ['./formulario-transacciones-cxp.component.scss']
+  selector: 'app-formulario-factura-provedores',
+  templateUrl: './formulario-factura-provedores.component.html',
+  styleUrls: ['./formulario-factura-provedores.component.scss']
 })
-export class FormularioTransaccionesCxpComponent implements OnInit {
+export class FormularioFacturaProvedoresComponent implements OnInit {
+
 
   forma: FormGroup;
   usuario: any;
@@ -46,7 +47,9 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
               private ordenCompraServ: OrdenescomprasService,
               private cgCatalogoServ: CgcatalogoService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()                
+                this.usuario = this.usuariosServ.getUserLogged()  
+                console.log(this.usuario);
+                              
                 this.crearFormulario();
   }
 
@@ -239,7 +242,7 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepTransaccionesCxpComponent, {
+      const ref = this.dialogService.open(StepFacturaProvedoresComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación Factura Proveedores',
@@ -283,37 +286,38 @@ export class FormularioTransaccionesCxpComponent implements OnInit {
     //this.guardando = true;
     console.log(this.forma);
     
-    const diferencia = this.calculaTotal(this.cuentas_no.value);    
-    const montoFactura = Number(this.forma.get('valor').value);
-    const total = (this.totalD + this.totalC) / 2;
-    const fecha_orig = this.forma.get('fecha_orig').value;
-    const fecha_proc = this.forma.get('fecha_proc').value;
-   
-    this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
-    this.forma.get('fecha_orig').setValue(this.onSelectDate(fecha_orig));
-    this.forma.get('fecha_proc').setValue(this.onSelectDate(fecha_proc));
-    
-    if (this.cuentas_no.value.length === 0) {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','No hay cuentas vinculadas a la transacción.'); 
-      return;
-    }
-    
-    if (diferencia !== 0) {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','La transaccion no esta cuadrada.'); 
-      return;
-    }
-
-    if (total !== montoFactura) {      
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','La transaccion es mayor al valor de la factura.'); 
-      return;
-    }
-    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{   
+      const diferencia = this.calculaTotal(this.cuentas_no.value);    
+      const montoFactura = Number(this.forma.get('valor').value);
+      const total = (this.totalD + this.totalC) / 2;
+      const fecha_orig = this.forma.get('fecha_orig').value;
+      const fecha_proc = this.forma.get('fecha_proc').value;
+    
+      this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
+      this.forma.get('fecha_orig').setValue(this.onSelectDate(fecha_orig));
+      this.forma.get('fecha_proc').setValue(this.onSelectDate(fecha_proc));
+
+      if (this.cuentas_no.value.length === 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','No hay cuentas vinculadas a la transacción.'); 
+        return;
+      }
+      
+      if (diferencia !== 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','La transaccion no esta cuadrada.'); 
+        return;
+      }
+  
+      if (total !== montoFactura) {      
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','La transaccion es mayor al valor de la factura.'); 
+        return;
+      }
+    
+      
       this.coTransaccionescxpServ.crearFactura(this.forma.value).then((resp: any)=>{
         this.guardando = false;
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
