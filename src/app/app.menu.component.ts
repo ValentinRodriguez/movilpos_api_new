@@ -18,8 +18,8 @@ export class AppMenuComponent implements OnInit {
                 private modulosServ: ModulosService,
                 private usuarioServ:UsuarioService) {    
                     this.usuario = this.usuarioServ.getUserLogged();
-                    if(this.usuario.empresa.length != 0) {
-                        this.logo = this.usuario.empresa[0].logo;
+                    if(this.usuario.empresa != null) {
+                        this.logo = this.usuario.empresa.logo;
                     }else{
                         this.logo = null;
                     }

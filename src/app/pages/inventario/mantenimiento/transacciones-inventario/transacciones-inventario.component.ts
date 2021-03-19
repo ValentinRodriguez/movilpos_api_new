@@ -346,15 +346,19 @@ export class TransaccionesInventarioComponent implements OnInit {
       }
       this.ocExiste = 0;
       this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
+        console.log(resp);
+        const proveedor = resp[0].proveedor;
         if(resp.length !== 0){          
           this.productos = resp[0].productos;     
           this.productos.forEach(element => {
             this.agregarFormulario(element);
           });
           this.ocExiste = 1;          
-          this.forma.controls['proveedor'].setValue(resp[0].nom_sp);
+          this.forma.controls['proveedor'].setValue(this.proveedores.find(proveedor => proveedor.cod_sp === resp[0].cod_sp && 
+                                                                                       proveedor.cod_sp_sec === resp[0].cod_sp_sec))
           this.forma.controls['email'].setValue(resp[0].email);
           this.forma.controls['num_rnc'].setValue(resp[0].rnc);
+          this.forma.controls['fecha'].setValue(new Date(resp[0].created_at));
           this.forma.controls['cod_sp'].setValue(resp[0].cod_sp);
           this.forma.controls['cod_sp_sec'].setValue(resp[0].cod_sp_sec);  
 

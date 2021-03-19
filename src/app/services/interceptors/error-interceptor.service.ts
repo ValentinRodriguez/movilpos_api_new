@@ -5,7 +5,6 @@ import { catchError, retry } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -40,11 +39,7 @@ export class ErrorInterceptorService implements HttpInterceptor{
         break;
 
       case 501:
-        if(error.error.data === '501x') {
-          this.router.navigateByUrl('/login');
-        }else {
-          this.service.add({ key: 'tst', severity: 'error', summary: 'Error en consulta', detail: error.error.data });
-        }
+        this.service.add({ key: 'tst', severity: 'error', summary: 'Error en consulta', detail: error.error.data });
         break;
 
       case 502:
@@ -63,9 +58,10 @@ export class ErrorInterceptorService implements HttpInterceptor{
         this.service.add({ key: 'tst', severity: 'error', summary: 'Error', detail: 'Dirección de solicitud no encontrada'});        
         break;
 
-      // case 401:
-      //   this.router.navigateByUrl('/login');     
-      //   break;
+      case 401:
+        console.log(401);
+        this.router.navigateByUrl('/login');     
+        break;
 
       default:
         break;

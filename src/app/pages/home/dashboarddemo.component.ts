@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { Product } from 'src/app/demo/domain/product';
 import { ProductService } from 'src/app/demo/service/productservice';
 import { HomeService } from 'src/app/services/home.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepHomeComponent } from './step-home/step-home.component';
 
 @Component({
@@ -12,33 +13,41 @@ import { StepHomeComponent } from './step-home/step-home.component';
     styleUrls: ['./dashboarddemo.scss'],
 })
 export class DashboardDemoComponent implements OnInit {
-  cols: any[];
 
-  items: MenuItem[];
+    cols: any[];
+    items: MenuItem[];
+    ordersChart: any;
+    ordersChartOptions: any;
+    orderWeek: any;
+    selectedOrderWeek: any;
+    products: Product[];
+    productsThisWeek: Product[];
+    productsLastWeek: Product[];
+    revenueChart: any;
+    ref: DynamicDialogRef;
 
-  ordersChart: any;
-
-  ordersChartOptions: any;
-
-  orderWeek: any;
-
-  selectedOrderWeek: any;
-
-  products: Product[];
-
-  productsThisWeek: Product[];
-
-  productsLastWeek: Product[];
-
-  revenueChart: any;
     constructor(private homeService: HomeService,
                 public dialogService: DialogService,
-                private productService: ProductService, private breadcrumbService: BreadcrumbService) { }
+                private productService: ProductService, 
+                private usuarioServ:UsuarioService,
+                private breadcrumbService: BreadcrumbService) { }
 
     ngOnInit() {        
         this.homeService.autoLlenado().then((resp: any) => {
             this.autollenado(resp);
         })
+    }
+
+    ngOnDestroy() {
+        if (this.ref) {
+            this.ref.close();
+        }
+    }
+
+    refresh() {
+        this.usuarioServ.refreshToken().then((resp:any) =>{
+            console.log(resp);            
+        });       
     }
 
     changeDataset(event) {
@@ -152,12 +161,12 @@ export class DashboardDemoComponent implements OnInit {
           }
         });
         if (existe === true) {
-          const ref = this.dialogService.open(StepHomeComponent, {
-            data,
-            closeOnEscape: false,
-            header: 'Datos Necesarios',
-            width: '70%'
-          });  
+            this.ref = this.dialogService.open(StepHomeComponent, {
+                data,
+                closeOnEscape: false,
+                header: 'Datos Necesarios',
+                width: '70%'
+            });  
           // ref.onClose.subscribe(() => {
           //   location.reload();        
           // });

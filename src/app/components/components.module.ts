@@ -29,6 +29,7 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { ListadoEmpleadosComponent } from './listado-empleados/listado-empleados.component';
+import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pendientes.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ListadoEmpleadosComponent } from './listado-empleados/listado-empleados
     ListaProductosComponent,
     ListadoDireccionesComponent,
     PendientesEntradaComponent,
-    ListadoEmpleadosComponent
+    ListadoEmpleadosComponent,
+    FacturasPendientesComponent
   ],
   
   exports: [

@@ -12,7 +12,7 @@ export class HttpHeadersService implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
-    if (req.method.toLowerCase() === 'post') {
+    if (req.method.toLowerCase() === 'post' || req.method.toLowerCase() === 'put' || req.method.toLowerCase() === 'delete') {
       if (req.body instanceof FormData) {
         req =  req.clone({
           setHeaders: {
@@ -41,7 +41,7 @@ export class HttpHeadersService implements HttpInterceptor{
         },
         setParams:{
           sessionId: localStorage.getItem('sessionId'),
-          usuario_creador: `${this.usuarioService.getTokenLocalStorage()}`
+          usuario_creador: `${this.usuarioService.getUserLogged().username}`
         }  
       });
     }

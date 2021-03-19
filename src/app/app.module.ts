@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppRoutingModule} from './app-routing.module';
+
 //MODULOS
 import { PipesModule } from "./pipes/pipes.module";
 import {AccordionModule} from 'primeng/accordion';
@@ -234,16 +235,24 @@ import { TipoClienteService } from "./services/tipo-cliente.service";
 import { TipoNegocioService } from "./services/tipo-negocio.service";
 import { PuertosService } from "./services/puertos.service";
 import { DireccionesService } from "./services/direcciones.service";
-import { CuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/cuentas-pagar.component';
-import { FormularioCuentasPagarComponent } from './pages/cuentas-pagar/mantenimiento/cuentas-pagar/formulario-cuentas-pagar/formulario-cuentas-pagar.component';
 import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/menu-cuentas-pagar.component';
 import { ErrorInterceptorService } from "./services/interceptors/error-interceptor.service";
 import { HttpHeadersService } from "./services/interceptors/http-headers.service"; 
 import { TiendaService } from "./services/tienda.service";
-import { FacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/factura-proveedores.component';
-import { FacturasProveedoresService } from "./services/facturas-proveedores.service";
-import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimiento/factura-proveedores/formulario-factura-proveedores/formulario-factura-proveedores.component';
+import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
+import { FormularioEntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/formulario-entrada-diario/formulario-entrada-diario.component';
+import { CoTransaccionescxpService } from './services/co-transaccionescxp.service';
+import { EntradasDiarioService } from './services/entradas-diario.service';
+import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
+import { TransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/transacciones-pago.component';
+import { FormularioTransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/formulario-transacciones-pago/formulario-transacciones-pago.component';
+import { StepTransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/step-transacciones-pago/step-transacciones-pago.component';
+import { TransacionPagosService } from "./services/transacion-pagos.service";
+import { FacturasProveedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/facturas-proveedores.component';
+import { FormularioFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/formulario-factura-provedores/formulario-factura-provedores.component';
+import { StepFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/step-factura-provedores/step-factura-provedores.component';
 
+import { SecuenciasService } from "./services/secuencias.service";
 @NgModule({
     imports: [
         BrowserModule,
@@ -324,6 +333,7 @@ import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimi
         KeyFilterModule,
         BlockUIModule,
         PipesModule
+        
     ],
     declarations: [
         AppComponent,
@@ -428,11 +438,16 @@ import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimi
         StepOrdenesPedidosComponent,
         DireccionesEnvioComponent,
         FormularioDireccionesComponent,
-        CuentasPagarComponent,
-        FormularioCuentasPagarComponent,
         MenuCuentasPagarComponent,
-        FacturaProveedoresComponent,
-        FormularioFacturaProveedoresComponent
+        EntradaDiarioComponent,
+        FormularioEntradaDiarioComponent,
+        AnalisisSaldoComponent,
+        TransaccionesPagoComponent,
+        FormularioTransaccionesPagoComponent,
+        StepTransaccionesPagoComponent,
+        FacturasProveedoresComponent,
+        FormularioFacturaProvedoresComponent,
+        StepFacturaProvedoresComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -498,8 +513,11 @@ import { FormularioFacturaProveedoresComponent } from './pages/compras/mantenimi
         PuertosService,
         DireccionesService,
         TiendaService,
-        FacturasProveedoresService,
-        ValidadoresService
+        CoTransaccionescxpService,
+        ValidadoresService,
+        TransacionPagosService,
+        SecuenciasService,
+        EntradasDiarioService
     ],
     entryComponents:[
         PermisosUsuariosComponent,

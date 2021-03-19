@@ -134,7 +134,7 @@ export class UsuarioService {
       user.bodegas_permisos = JSON.parse(localStorage.getItem('bodegas_permisos'));
       user.empleado = JSON.parse(localStorage.getItem('empleado'));
       user.empresa = JSON.parse(localStorage.getItem('empresa'));
-      user.sessionId = JSON.parse(localStorage.getItem('sessionId'));
+      user.sessionId = localStorage.getItem('sessionId');
       return user;      
     }else{
       return null;
@@ -243,7 +243,7 @@ export class UsuarioService {
     localStorage.setItem('empleado', JSON.stringify(data.empleado));
     localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
     localStorage.setItem('empresa', JSON.stringify(data.empresa));    
-    localStorage.setItem('sessionId', JSON.stringify(data.sessionId));
+    localStorage.setItem('sessionId', data.sessionId);
   }
 
   lockLogin(email) {
@@ -280,6 +280,17 @@ export class UsuarioService {
 
     return new Promise( resolve => {
       this.http.post(`${URL}/desactivar`, formData).subscribe((resp: any) => {
+        console.log(resp);        
+        if (resp['code'] === 200) { 
+          resolve(resp.data);  
+        }
+      })
+    })
+  }
+
+  refreshToken() {
+    return new Promise( resolve => {
+      this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {
         console.log(resp);        
         if (resp['code'] === 200) { 
           resolve(resp.data);  

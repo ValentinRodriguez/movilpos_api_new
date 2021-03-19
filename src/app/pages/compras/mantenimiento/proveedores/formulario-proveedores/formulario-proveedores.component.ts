@@ -62,9 +62,13 @@ export class FormularioProveedoresComponent implements OnInit {
 
   catalogoEscogido() {
     this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
+      console.log(resp);
+      
       resp.forEach(element => {
-        this.cgcatalogos.push(element);
-        this.agregarFormulario(element);
+        if (element.tipo_cuenta !== "normal") {
+          this.cgcatalogos.push(element);
+          this.agregarFormulario(element);
+        }
       });               
     })
   }

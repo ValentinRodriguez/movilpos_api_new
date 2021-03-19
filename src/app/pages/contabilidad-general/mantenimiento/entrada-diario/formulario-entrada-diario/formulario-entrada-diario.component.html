@@ -1,0 +1,144 @@
+<form (ngSubmit)="guardarEntradas()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="fecha">Fecha</label>
+            <p-calendar dateFormat="yy/mm/dd" formControlName="fecha" (onSelect)="onSelectDate($event)"></p-calendar>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="ref">Referencia</label>
+            <span class=" p-input-icon-right">
+                <!--<input id="ref" type="text" pInputText formControlName="ref" [class.p-invalid]="getNoValido('ref')">-->
+                <p-inputMask formControlName="ref" [mask]="this.mask"> [class.p-invalid]="getNoValido('ref')"</p-inputMask>
+            </span>
+            <small class="p-invalid" *ngIf="getNoValido('ref')">Este campo es obligatorio.</small>
+        </div>
+        
+        <div class="p-field p-col-12 p-md-3">
+            <label for="detalle">detalles</label>
+            <span class=" p-input-icon-right">
+                <input id="detalle_1" type="text" pInputText formControlName="detalle" >
+            </span>
+        </div>
+
+        <p-panel #pnl header="Producto/s vinculado/s a la orden de compra" styleClass="p-mt-4">
+            <div formArrayName="cuentas">
+                <p-toolbar>	
+                    <div class="p-toolbar-group-left">
+                    </div>						
+                    <div class="p-toolbar-group-right">
+                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button"  (click)="buscaCuentas()"></button>	
+                    </div>
+                </p-toolbar>
+                <br>				
+                <p-table #dt2 [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                         [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                         [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+
+                    <ng-template pTemplate="caption">
+                        <div class="table-header">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field" ></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                        <tr [formGroupName]="i" class="p-selectable-row">
+                            <td *ngFor="let col of columns" >
+                                <span class="p-column-title">{{col.header}}</span>
+                              
+                               
+                                <span *ngIf="col.field === 'cuenta_no'" class=" p-input-icon-right">
+                                    <input id="cuenta_no" type="text" pInputText  formControlName="cuenta_no" 
+                                           (keyup)="verificaCuenta($event.target.value)">
+                                    <i class="pi pi-spin pi-spinner" *ngIf="cuentaExiste === 0" style="color:#f5df18"></i>
+                                    <i class="pi pi-check" *ngIf="cuentaExiste === 1" style="color:#36b61d"></i>
+                                    <i class="pi pi-times" *ngIf="cuentaExiste === 2" style="color:#d83131"></i>
+                                    <i class="pi pi-shopping-cart" *ngIf="cuentaExiste === 3"></i>
+                                </span>
+
+                                <span *ngIf="col.field === 'departamento'">
+                                    <input type="text" pInputText class="fit-input" formControlName="departamento"/>
+                                </span>
+
+                                <span *ngIf="col.field === 'cod_aux'">
+                                    <input type="number" pInputText class="fit-input" formControlName="cod_aux"/>
+                                </span>
+
+                                <span *ngIf="col.field === 'cod_sec'">
+                                    <input type="number" pInputText class="fit-input" formControlName="cod_sec"/>
+                                </span>
+
+                                <span *ngIf="col.field === 'num_doc'">
+                                    <input type="number" pInputText class="fit-input" formControlName="num_doc"/>
+                                </span>
+
+                                <span *ngIf="col.field === 'debito'">
+                                    <input type="number" pInputText class="fit-input" formControlName="debito"/>
+                                </span>
+
+                                <span *ngIf="col.field === 'credito'">
+                                    <input type="number" pInputText class="fit-input" formControlName="credito" (keydown.Tab)="agregarRegistro()"/>
+                                </span>
+                                <span *ngIf="col.field === 'acciones'">
+                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCuenta(i)"></button>
+                                </span>
+                            </td>											
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">No hay cuentas seleccionados.</td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="summary">
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
+                            Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
+                        </div>
+
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
+                            Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
+                        </div>
+                    </ng-template>
+                  <!--  <ng-template pTemplate="footer">
+                        <tr>
+                            
+                            <td>Totales:</td>											
+                            <td></td>
+                            <td></td>
+                            <td><strong>{{simbolo}}{{ totalDescuento }}</strong></td>
+                            <td><strong>{{simbolo}}{{ totalItbis }}</strong></td>
+                            <td><strong>{{ totalCantidad }}</strong></td>
+                            <td></td>
+                            <td><strong>{{simbolo}}{{ totalBruto }}</strong></td>
+                            <td><strong>{{simbolo}}{{ totalNeto }}</strong></td>
+                            <td></td>
+                        </tr>
+                    </ng-template>-->
+                </p-table>
+            </div>
+        </p-panel>
+
+    </div>
+    <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button *ngIf="this.guardando && this.guardar" pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" type="button" disabled="true"></button>
+
+   <button *ngIf="!this.actualizando && this.actualizar" (click)="ActualizarMarca()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="this.actualizando && this.actualizar" pButton pRipple label="Actualizando" icon="pi pi-spin pi-spinner" type="button" class="p-button-warning p-mr-2 p-mb-2" disabled="true"></button>
+
+    <button *ngIf="this.actualizar" (click)="cancelar() " pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button>
+</form>

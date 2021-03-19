@@ -9,7 +9,7 @@ export class InvProductosPipe implements PipeTransform {
 
   transform(img: any): any {  
     if (img === null || img === '' || img === '[]') {
-      return 'http://movilsoluciones_pos.test:8090/storage/uploads/defecto.PNG';
+      return "../assets/images/empty-image.png";
     }else{         
       let tmp = JSON.parse(img);
       let url = URL + '/storage/' + tmp[0];

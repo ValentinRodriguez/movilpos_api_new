@@ -1,0 +1,76 @@
+<p-table #dt [columns]="cols" [value]="facturas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  [(selection)]="facturasSeleccionadas" 
+    [globalFilterFields]="['num_doc']">
+
+    <ng-template pTemplate="caption">
+        <div class="table-header">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'id'}">
+                
+                <p-tableHeaderCheckbox *ngIf="col.field === 'id'"></p-tableHeaderCheckbox>
+                <span *ngIf="col.field !== 'id'">{{col.header}} 
+                    <p-sortIcon [field]="col.field" *ngIf="col.field !=='imagen'"></p-sortIcon>
+                </span> 
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr class="p-selectable-row" [ngClass]="{'noExistencia': rowData.cantidad1 === 0 || rowData.cantidad1 === null}">
+            <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'id' || col.field === 'cantidad1'}">
+                <span class="p-column-title">{{col.header}}</span>								
+
+                <span *ngIf="col.field === 'id'">
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </span>
+
+                <span *ngIf="col.field === 'num_doc'">
+                    {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field === 'valor'">
+                   {{rowData['simbolo']}} {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field === 'monto_itbi'">
+                    {{rowData['simbolo']}} {{ rowData[col.field] }}
+                 </span>
+
+                <span *ngIf="col.field === 'proveedor_nombre'">
+                    {{ rowData[col.field] | titlecase }}
+                </span>
+
+            </td>								
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No existen facturas en la base de datos.</td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length !== 1">
+            Existen {{facturas ? facturas.length : 0 }} facturas en total.
+        </div>
+
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length === 1">
+            Existe solo {{facturas ? facturas.length : 0 }} producto en total.
+        </div>
+    </ng-template>
+</p-table>
+<br>
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="right">
+        <button pButton pRipple label="Enviar" class="p-button-success p-mr-2" (click)="enviarFacturas()"></button>          
+    </ng-template>
+</p-toolbar>

@@ -50,7 +50,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="moneda">Moneda</label>
             <p-multiSelect [options]="monedas" formControlName="moneda" defaultLabel="Seleccione Moneda" 
-                           optionLabel="divisa" class="multiselect-custom" (onChange)="setValue()">
+                           optionLabel="descripcion" class="multiselect-custom" (onChange)="setValue()">
                 <ng-template let-value pTemplate="selectedItems">
                     <div class="country-item country-item-value" *ngFor="let option of selectedMulti">
                         <div>{{option.simbolo}} {{option.divisa | titlecase}}</div>

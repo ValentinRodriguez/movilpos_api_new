@@ -9,7 +9,7 @@ export class UsuarioPipe implements PipeTransform {
 
   transform(img: string): any {
     if (img === null || img === '') {
-      return 'http://movilsoluciones_pos.test:8090/storage/uploads/user.PNG';
+      return "../assets/images/user.png";
     }
     let url = URL + '/storage/' + img;
     return url;

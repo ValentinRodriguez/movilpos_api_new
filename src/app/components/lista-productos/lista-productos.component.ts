@@ -46,6 +46,4 @@ export class ListaProductosComponent implements OnInit {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe escoger al menos un producto');
     }
   }
-
-
 }
