@@ -3,23 +3,31 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="nombre">Representante</label>
-            <input id="nombre" type="text" pInputText formControlName="nombre" [class.p-invalid]="getNoValido('nombre')">
+            <input id="nombre" type="text" pInputText formControlName="nombre" [class.ng-invalid]="getNoValido('nombre')" 
+                   [class.ng-dirty]="getNoValido('nombre')">
+            <small *ngIf="getNoValido('nombre')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
             <label for="direccion_a">Direccion A</label>
-            <input id="direccion_a" type="text" pInputText formControlName="direccion_a" [class.p-invalid]="getNoValido('direccion_a')">
+            <input id="direccion_a" type="text" pInputText formControlName="direccion_a" [class.ng-invalid]="getNoValido('direccion_a')" 
+                   [class.ng-dirty]="getNoValido('direccion_a')">
+            <small *ngIf="getNoValido('direccion_a')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
             <label for="direccion_b">Direccion B</label>
-            <input id="direccion_b" type="text" pInputText formControlName="direccion_b" [class.p-invalid]="getNoValido('direccion_b')">
+            <input id="direccion_b" type="text" pInputText formControlName="direccion_b" [class.ng-invalid]="getNoValido('direccion_b')" 
+                   [class.ng-dirty]="getNoValido('direccion_b')">
+            <small *ngIf="getNoValido('direccion_b')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
             <label for="telefono">Teléfono</label>
             <span class=" p-input-icon-right">
-                <p-inputMask mask="(999)-999-9999" formControlName="telefono" placeholder="(999)-999-9999"></p-inputMask>
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono" placeholder="(999)-999-9999" 
+                            [class.ng-invalid]="getNoValido('telefono')" [class.ng-dirty]="getNoValido('telefono')">
+                </p-inputMask>
             </span>
             <small *ngIf="getNoValido('telefono')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -27,7 +35,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="id_pais">Pais</label>	
             <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPaises($event)" 
-                            field="descripcion" [dropdown]="true" (onSelect)="buscaPaises($event.id_pais)">
+                            field="descripcion" [dropdown]="true" (onSelect)="buscaPaises($event.id_pais)" [class.ng-invalid]="getNoValido('id_pais')" 
+                            [class.ng-dirty]="getNoValido('id_pais')">
                 <ng-template let-pais pTemplate="item">
                     <div class="country-item">
                         <div>{{pais.descripcion | titlecase}}</div>
@@ -40,7 +49,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="id_ciudad">Ciudad</label>	
             <p-autoComplete formControlName="id_ciudad" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" 
-                            field="descripcion" [dropdown]="true">
+                            field="descripcion" [dropdown]="true" [class.ng-invalid]="getNoValido('id_ciudad')" [class.ng-dirty]="getNoValido('id_ciudad')">
                 <ng-template let-ciudad pTemplate="item">
                     <div class="country-item">
                         <div>{{ciudad.descripcion | titlecase}}</div>

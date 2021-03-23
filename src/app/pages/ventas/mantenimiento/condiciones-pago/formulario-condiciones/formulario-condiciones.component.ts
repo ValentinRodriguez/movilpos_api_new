@@ -33,9 +33,9 @@ export class FormularioCondicionesComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      descripcion:     ['a 60 dias', Validators.required],
+      descripcion:     ['', Validators.required],
       defecto:         ['', Validators.required],
-      dias:            [60, Validators.required],
+      dias:            ['', Validators.required],
       estado:          ['activo', Validators.required],
       usuario_creador: [this.usuario.username, Validators.required]
     })
@@ -53,10 +53,13 @@ export class FormularioCondicionesComponent implements OnInit {
     }
 
     if (this.forma.valid) {  
-      this.condicionServ.crearCondicion(this.forma.value).then((resp: any) => {
+      this.condicionServ.crearCondicion(this.forma.value).then((resp: any) => {        
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
       })
     }else{
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       return;
     }

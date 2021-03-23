@@ -47,9 +47,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
               private ordenCompraServ: OrdenescomprasService,
               private cgCatalogoServ: CgcatalogoService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()  
-                console.log(this.usuario);
-                              
+                this.usuario = this.usuariosServ.getUserLogged();                              
                 this.crearFormulario();
   }
 
@@ -83,7 +81,9 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   todaLaData() {
     this.coTransaccionescxpServ.autoLlenado().then((resp: any)  => {      
+      console.log(resp);
       resp.forEach(element => {
+        
         switch (element.label) {
 
           case 'monedas':            
@@ -121,10 +121,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       this.id = Number(resp);
       this.cuentas = [];
       let index = 0;
-      console.log(resp);
       
       this.coTransaccionescxpServ.getDato(this.id).then((res: any) => {
-        console.log(res);
         this.forma.get('proveedor').setValue(this.proveedores.find(proveedor => proveedor.cod_sp === res.cod_sp && 
                                                                                 proveedor.cod_sp_sec === res.cod_sp_sec))
           
@@ -212,8 +210,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
   
   datosProv(event) {
-    console.log(event);
-    
     const cuenta = event.cuentas_proveedor;
     this.monedas = JSON.parse(event.moneda) 
 
@@ -235,12 +231,12 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   autollenado(data) {
     let existe = null;
-    
-    data.forEach(element => {            
-      if (element.length === 0) {
+    data.forEach(element => {  
+      if (element.data.length === 0) {
         existe = true;
       }
     });
+    
     if (existe === true) {
       const ref = this.dialogService.open(StepFacturaProvedoresComponent, {
         data,
@@ -419,9 +415,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     }
     let index = 0;
     this.ocExiste = 0;
-    this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
-      console.log(resp);
-      
+    this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{      
       if(resp.length !== 0){
         this.ocExiste = 1;          
         this.forma.controls['proveedor'].setValue(this.proveedores.find(proveedor => proveedor.cod_sp === resp[0].cod_sp && 

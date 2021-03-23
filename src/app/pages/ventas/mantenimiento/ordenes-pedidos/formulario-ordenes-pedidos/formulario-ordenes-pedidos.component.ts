@@ -60,6 +60,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   id: number;
+  simbolo = '$RD'
   constructor(private uiMessage: UiMessagesService,
               private fb: FormBuilder,              
               private ordenServ :OrdenPedidosService,

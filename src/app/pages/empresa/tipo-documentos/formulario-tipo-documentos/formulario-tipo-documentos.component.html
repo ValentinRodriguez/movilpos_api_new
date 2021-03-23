@@ -46,7 +46,7 @@
                 <i class="pi pi-spin pi-spinner" *ngIf="usuarioExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="usuarioExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="usuarioExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="usuarioExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="usuarioExiste === 3"></i>
             </span>
             <small *ngIf="getNoValido('username')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -59,7 +59,7 @@
                 <i class="pi pi-spin pi-spinner" *ngIf="emailExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="emailExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="emailExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="emailExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="emailExiste === 3"></i>
             </span>
             <small *ngIf="getNoValido('email')" class="p-invalid">Este campo es obligatorio.</small>
         </div>

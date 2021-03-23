@@ -5,7 +5,8 @@
                 <div class="p-field p-col-12 p-md-2">
                     <label for="tipo_producto">Clase</label>
                     <p-dropdown inputId="tipo_producto" [options]="tipos" formControlName="tipo_producto"
-                                optionLabel="titulo" placeholder="Escoge..." (onChange)="tipoProducto($event.value.titulo)">
+                                optionLabel="titulo" placeholder="Escoge..." (onChange)="tipoProducto($event.value.titulo)"
+                                [class.ng-invalid]="getNoValido('tipo_producto')" [class.ng-dirty]="getNoValido('tipo_producto')">
                     </p-dropdown>
                     <small *ngIf="getNoValido('tipo_producto')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -14,16 +15,17 @@
                     <label for="chasis">Chasis</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><p-checkbox (onChange)="this.getChasis = $event.checked"></p-checkbox></span>
-                        <input (blur)="checaChasis($event)" id="chasis" type="text" pInputText formControlName="chasis">         
+                        <input (blur)="checaChasis($event)" id="chasis" type="text" pInputText formControlName="chasis"
+                        [class.ng-invalid]="getNoValido('id_bodega')" [class.ng-dirty]="getNoValido('id_bodega')">         
                     </div>
                     <small *ngIf="getNoValido('chasis')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
                 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="fabricacion">Año Fabricación</label>
-                    <p-dropdown inputId="fabricacion" [options]="fechafabricacion"  
-                                name="fabricacion" formControlName="fabricacion"
-                                placeholder="Escoge..." optionLabel="value">
+                    <p-dropdown inputId="fabricacion" [options]="fechafabricacion" name="fabricacion" formControlName="fabricacion"
+                                placeholder="Escoge..." optionLabel="value" [class.ng-invalid]="getNoValido('fabricacion')" 
+                                [class.ng-dirty]="getNoValido('fabricacion')">
                     </p-dropdown>
                     <small *ngIf="getNoValido('fabricacion')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -31,7 +33,8 @@
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="motor">Motor</label>
                     <span class=" p-input-icon-right">
-                        <input id="motor" type="text" pInputText formControlName="motor">
+                        <input id="motor" type="text" pInputText formControlName="motor" [class.ng-invalid]="getNoValido('motor')" 
+                               [class.ng-dirty]="getNoValido('motor')">
                     </span>
                     <small *ngIf="getNoValido('motor')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -39,67 +42,67 @@
                 <div class="p-field p-col-12 p-md-4">
                     <label for="titulo">Título</label>
                     <span class=" p-input-icon-right">
-                        <input id="titulo" type="text" pInputText formControlName="titulo"
-                               (keyup)="verificaProducto($event.target.value)">
+                        <input id="titulo" type="text" pInputText formControlName="titulo" [class.ng-invalid]="getNoValido('titulo')" 
+                               [class.ng-dirty]="getNoValido('titulo')" (keyup)="verificaProducto($event.target.value)">
                         <i class="pi pi-spin pi-spinner" *ngIf="productoExiste === 0" style="color:#f5df18"></i>
                         <i class="pi pi-check" *ngIf="productoExiste === 1" style="color:#36b61d"></i>
                         <i class="pi pi-times" *ngIf="productoExiste === 2" style="color:#d83131"></i>
-                        <i class="pi pi-shopping-cart" *ngIf="productoExiste === 3"></i>
+                        <i class="pi pi-file-o" *ngIf="productoExiste === 3"></i>
                     </span>
                     <small *ngIf="getNoValido('titulo')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>        
 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="id_brand">Marca</label>
-                    <p-dropdown inputId="id_brand" [options]="brands"  
-                                name="id_brand" formControlName="id_brand"
-                                placeholder="Escoge..." optionLabel="descripcion">
+                    <p-dropdown inputId="id_brand" [options]="brands" name="id_brand" formControlName="id_brand"
+                                placeholder="Escoge..." optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_brand')" 
+                                [class.ng-dirty]="getNoValido('id_brand')">
                     </p-dropdown>
                     <small *ngIf="getNoValido('id_brand')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="id_categoria">Modelo</label>
-                    <p-dropdown inputId="id_categoria" [options]="categorias"  
-                                name="id_categoria" formControlName="id_categoria"
-                                placeholder="Escoge..." optionLabel="descripcion">
+                    <p-dropdown inputId="id_categoria" [options]="categorias" name="id_categoria" formControlName="id_categoria"
+                                placeholder="Escoge..." optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_categoria')" 
+                                [class.ng-dirty]="getNoValido('id_categoria')">
                     </p-dropdown>
                     <small *ngIf="getNoValido('id_categoria')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="id_propiedad">Color</label>
-                    <p-dropdown inputId="id_propiedad" [options]="propiedades"  
-                                name="id_propiedad" formControlName="id_propiedad"
-                                placeholder="Escoge..." optionLabel="descripcion">
+                    <p-dropdown inputId="id_propiedad" [options]="propiedades" name="id_propiedad" formControlName="id_propiedad"
+                                placeholder="Escoge..." optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_propiedad')" 
+                                [class.ng-dirty]="getNoValido('id_propiedad')">
                     </p-dropdown>
                     <small *ngIf="getNoValido('id_propiedad')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
                 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="asientos">Asientos</label>
-                    <p-inputNumber inputId="asientos" mode="decimal" name="asientos" formControlName="asientos">
-                    </p-inputNumber>
+                    <p-inputNumber inputId="asientos" mode="decimal" name="asientos" formControlName="asientos"[class.ng-invalid]="getNoValido('asientos')" 
+                    [class.ng-dirty]="getNoValido('asientos')"></p-inputNumber>
                     <small *ngIf="getNoValido('asientos')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="asientosAd">Asientos Adicionales</label>
-                    <p-inputNumber inputId="asientosAd" mode="decimal" name="asientosAd" formControlName="asientosAd">
-                    </p-inputNumber>
+                    <p-inputNumber inputId="asientosAd" mode="decimal" name="asientosAd" formControlName="asientosAd" [class.ng-invalid]="getNoValido('asientosAd')" 
+                    [class.ng-dirty]="getNoValido('asientosAd')"></p-inputNumber>
                     <small *ngIf="getNoValido('asientosAd')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-field p-col-12">
                     <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"></textarea>
+                    <textarea id="descripcion" type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"
+                    [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')"></textarea>
                     <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-col-12">
                     <h5>Galería de Imagenes</h5>
-                    <p-fileUpload name="demo[]" multiple="multiple" accept="image/*" maxFileSize="1000000" 
-                                  (onSelect)="onFileSelect($event)">
+                    <p-fileUpload name="demo[]" multiple="multiple" accept="image/*" maxFileSize="1000000" (onSelect)="onFileSelect($event)">
                         <ng-template pTemplate="content">
                             <ul *ngIf="uploadedFiles.length">
                                 <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
@@ -112,17 +115,16 @@
         
         <div class="p-field p-col-12 p-md-2">
             <label for="origen">Origen</label>
-            <p-dropdown inputId="origen" [options]="origenes"  
-                        name="origen" formControlName="origen"
-                        placeholder="Escoge..." >
+            <p-dropdown inputId="origen" [options]="origenes" name="origen" formControlName="origen"placeholder="Escoge..." 
+            [class.ng-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')">
             </p-dropdown>
             <small *ngIf="getNoValido('origen')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2">
             <label for="id_tipoinventario">Tipo de inventario</label>
-            <p-dropdown inputId="id_tipoinventario" [options]="tipoInventario"  
-                        name="id_tipoinventario" formControlName="id_tipoinventario" id="drop-down"
+            <p-dropdown inputId="id_tipoinventario" [options]="tipoInventario" name="id_tipoinventario" formControlName="id_tipoinventario" 
+                        id="drop-down" [class.ng-invalid]="getNoValido('id_tipoinventario')" [class.ng-dirty]="getNoValido('id_tipoinventario')"
                         placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>
             <small *ngIf="getNoValido('id_tipoinventario')" class="p-invalid">Este campo es obligatorio.</small>
@@ -130,32 +132,32 @@
 
         <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
             <label for="id_bodega">Bodega</label>
-            <p-dropdown inputId="id_bodega" [options]="bodegas" formControlName="id_bodega"
-                        optionLabel="descripcion" placeholder="Escoge...">
+            <p-dropdown inputId="id_bodega" [options]="bodegas" formControlName="id_bodega" optionLabel="descripcion" 
+                        [class.ng-invalid]="getNoValido('id_bodega')" [class.ng-dirty]="getNoValido('id_bodega') "placeholder="Escoge...">
             </p-dropdown>
             <small *ngIf="getNoValido('id_bodega')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2">
             <label for="costo">Costo</label>
-            <p-inputNumber inputId="costo" mode="decimal" name="costo" 
-                           formControlName="costo">
+            <p-inputNumber inputId="costo" mode="decimal" name="costo" formControlName="costo"
+                           [class.ng-invalid]="getNoValido('costo')" [class.ng-dirty]="getNoValido('costo')">
             </p-inputNumber>
             <small *ngIf="getNoValido('costo')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
         
         <div class="p-field p-col-12 p-md-2">
             <label for="precio_compra">Precio de Compra</label>
-            <p-inputNumber inputId="precio_compra" mode="decimal" name="precio_compra" 
-                           formControlName="precio_compra">
+            <p-inputNumber inputId="precio_compra" mode="decimal" name="precio_compra" formControlName="precio_compra"
+                           [class.ng-invalid]="getNoValido('precio_compra')" [class.ng-dirty]="getNoValido('precio_compra')">
             </p-inputNumber>
             <small *ngIf="getNoValido('precio_compra')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2">
             <label for="precio_venta">Precio de Venta</label>
-            <p-inputNumber inputId="precio_venta" mode="decimal" name="precio_venta" 
-                           formControlName="precio_venta">
+            <p-inputNumber inputId="precio_venta" mode="decimal" name="precio_venta" formControlName="precio_venta"
+                           [class.ng-invalid]="getNoValido('precio_venta')" [class.ng-dirty]="getNoValido('precio_venta')">
             </p-inputNumber>
             <small *ngIf="getNoValido('precio_venta')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -163,45 +165,47 @@
         <div class="p-field p-col-12 p-md-2">
             <label for="codigo_referencia">Código de referencia</label>
             <span class=" p-input-icon-right">
-                <input id="codigo_referencia" type="text" pInputText formControlName="codigo_referencia">
+                <input id="codigo_referencia" type="text" pInputText formControlName="codigo_referencia" [class.ng-invalid]="getNoValido('codigo_referencia')" 
+                       [class.ng-dirty]="getNoValido('codigo_referencia')">
             </span>
             <small *ngIf="getNoValido('codigo_referencia')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
             <label for="existenciaMinima">Existencia mínima</label>
-            <p-inputNumber inputId="existenciaMinima" mode="decimal" [min]="1" name="existenciaMinima" 
-                           formControlName="existenciaMinima">
+            <p-inputNumber inputId="existenciaMinima" mode="decimal" [min]="1" name="existenciaMinima" formControlName="existenciaMinima"
+                           [class.ng-invalid]="getNoValido('existenciaMinima')" [class.ng-dirty]="getNoValido('existenciaMinima')">
             </p-inputNumber>
             <small *ngIf="getNoValido('existenciaMinima')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
             <label for="existenciaMaxima">Existencia Máxima</label>
-            <p-inputNumber inputId="existenciaMaxima" mode="decimal" [min]="1" name="existenciaMaxima" 
-                           formControlName="existenciaMaxima">
+            <p-inputNumber inputId="existenciaMaxima" mode="decimal" [min]="1" name="existenciaMaxima" formControlName="existenciaMaxima"
+                           [class.ng-invalid]="getNoValido('existenciaMaxima')" [class.ng-dirty]="getNoValido('existenciaMaxima')">
             </p-inputNumber>
         </div>
         
         <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
             <label for="controlDeExistencias">Control Existencias</label>
-            <p-dropdown inputId="controlDeExistencias" [options]="sino" name="controlDeExistencias" 
-                        formControlName="controlDeExistencias" placeholder="Escoge..."></p-dropdown>
+            <p-dropdown inputId="controlDeExistencias" [options]="sino" name="controlDeExistencias" formControlName="controlDeExistencias" 
+                        placeholder="Escoge..." [class.ng-invalid]="getNoValido('controlDeExistencias')" [class.ng-dirty]="getNoValido('controlDeExistencias')">
+            </p-dropdown>
             <small *ngIf="getNoValido('controlDeExistencias')" class="p-invalid">Este campo es obligatorio.</small>
         </div>							
         
         <div class="p-field p-col-12 p-md-2">
             <label for="controlItbis">Itbis</label>
-            <p-dropdown inputId="controlItbis" [options]="sino" name="controlItbis" 
-                        formControlName="controlItbis"	placeholder="Escoge...">
+            <p-dropdown inputId="controlItbis" [options]="sino" name="controlItbis" formControlName="controlItbis"	placeholder="Escoge..."
+                        [class.ng-invalid]="getNoValido('controlItbis')" [class.ng-dirty]="getNoValido('controlItbis')">
             </p-dropdown>
             <small *ngIf="getNoValido('controlItbis')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
         
         <div class="p-field p-col-12 p-md-2">
             <label for="descuento">Descuento</label>
-            <p-dropdown inputId="descuento" [options]="sino" name="descuento" 
-                        formControlName="descuento"	placeholder="Escoge...">
+            <p-dropdown inputId="descuento" [options]="sino" name="descuento" formControlName="descuento" 
+                        [class.ng-invalid]="getNoValido('descuento')" [class.ng-dirty]="getNoValido('descuento')"placeholder="Escoge...">
             </p-dropdown>
             <small *ngIf="getNoValido('descuento')" class="p-invalid">Este campo es obligatorio.</small>
         </div>

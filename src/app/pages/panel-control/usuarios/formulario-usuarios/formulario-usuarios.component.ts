@@ -119,6 +119,9 @@ export class FormularioUsuariosComponent implements OnInit {
       }
     }else{
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control =>{ 
+        control.markAllAsTouched();
+      })
       return;
     }
   }
