@@ -30,9 +30,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cedula = true;
   rnc = false; 
   cols2:any[]= [];
-  cgcatalogos: any[] = [];  
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
+  cgcatalogos: any[] = [];
 
   constructor(private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
@@ -211,30 +209,6 @@ export class FormularioProveedoresComponent implements OnInit {
         this.proveedorExiste = 2;
       }
     })
-  }
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
   }
 
   setCuenta(data) {

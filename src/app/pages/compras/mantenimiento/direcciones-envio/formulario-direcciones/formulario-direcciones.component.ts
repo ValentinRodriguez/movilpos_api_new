@@ -20,9 +20,7 @@ export class FormularioDireccionesComponent implements OnInit {
   actualizar = false;
   direccionesExiste = 3;
   ciudades=[];
-  paises=[];
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
+  paises=[]; 
   id: number;
 
   constructor(private fb: FormBuilder,
@@ -94,29 +92,6 @@ export class FormularioDireccionesComponent implements OnInit {
           break;
       } 
     }
-  }
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
   }
   
   verificaDirecciones(data){  

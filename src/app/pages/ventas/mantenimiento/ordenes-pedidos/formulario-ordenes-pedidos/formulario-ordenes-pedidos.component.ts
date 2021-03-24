@@ -46,9 +46,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   direccion: any;
   totalCosto = 0;
   paises: any[] = [];
-  PaisesFiltrados: any[];
   ciudades: any[] = [];
-  ciudadesFiltradas: any[];
   tipo_orden: any
   ordenesFiltradas: any[];
   ordenes: any[] = [];
@@ -371,37 +369,11 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
     }
   } 
 
- filtrarPais(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.PaisesFiltrados = filtered;    
-  }
-
   buscaPaises(data) {  
     //this.forma.get('id_pais').setValue(data.id)  
     this.paisesCiudadesServ.getCiudadesXpaises(data.id).then((resp:any) => {      
       this.ciudades = resp;      
     })  
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;    
   }
 
   filtrarOrdenes(event) {

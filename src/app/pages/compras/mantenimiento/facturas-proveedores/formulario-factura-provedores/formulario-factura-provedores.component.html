@@ -46,11 +46,11 @@
                     <input id="num_doc" type="text" pInputText formControlName="num_doc" [class.p-invalid]="getNoValido('num_doc')"
                            [class.ng-invalid]="getNoValido('num_doc')" [class.ng-dirty]="getNoValido('num_doc')">
                 </span>
-            </div>
-    
+            </div>    
+            
             <div class="p-field p-col-12 p-md-2">
                 <label for="fecha_orig">Fecha Factura</label>
-                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_orig" (onSelect)="setVencimiento()" 
+                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_orig" (onSelect)="setVencimiento($event, true)" 
                             [class.ng-invalid]="getNoValido('fecha_orig')" [class.ng-dirty]="getNoValido('fecha_orig')">
                 </p-calendar>
                 <small *ngIf="getNoValido('fecha_orig')" class="p-invalid">Este campo es obligatorio.</small>
@@ -63,14 +63,19 @@
                 </p-calendar>
                 <small *ngIf="getNoValido('fecha_proc')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
-    
+
             <div class="p-field p-col-12 p-md-2">
                 <label for="cond_pago">Condiciones de Pago</label>
-                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" (onChange)='setVencimiento()'
+                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" (onChange)='setVencimiento($event, false)'
                             [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')">
                 </p-dropdown>
                 <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
+
+            <div class="p-field p-col-12 p-md-2">
+                <label for="cuotas">Cuotas</label>
+                <p-inputNumber formControlName="cuotas" [min]="1" (onBlur)="setCuotas($event.target.value)"></p-inputNumber>
+            </div> 
     
             <div class="p-field p-col-12 p-md-2">
                 <label for="moneda">Moneda</label>
@@ -226,7 +231,7 @@
                                 
                                 <span *ngIf="col.field === 'departamento'">
                                     <p-dropdown [options]="departamentos" formControlName="departamento" placeholder="Escoge..."
-                                                optionLabel="descripcion" (onChange)='setVencimiento()'></p-dropdown>
+                                                optionLabel="descripcion" (onChange)='setVencimiento($event, true)'></p-dropdown>
                                 </span>
     
                                 <div *ngIf="col.field === 'depto' || col.field === 'retencion' || col.field === 'catalogo'|| 

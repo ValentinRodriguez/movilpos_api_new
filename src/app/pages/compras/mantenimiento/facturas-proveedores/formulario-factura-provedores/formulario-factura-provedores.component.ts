@@ -258,6 +258,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       monto_itbi:          ['', Validators.required],
       valor_orden:         [0],
       valor_recibido:      [0],
+      cuotas:              [{value: 1, disabled: true},],
       tipo_doc:            ['FT', Validators.required],
       cod_sp:              ['', Validators.required],
       cod_sp_sec:          ['', Validators.required],
@@ -440,18 +441,39 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     })
   }
 
-  setVencimiento() {    
+  setVencimiento(data, accion) {
+    
+    if (!accion && data.value.descripcion === 'prestamo') {
+      console.log(data.value.descripcion);  
+      this.forma.get('cuotas').enable();
+      
+    }else{
+      const fecha_orig = this.forma.get('fecha_orig').value;
+      const vencimiento = this.forma.get('cond_pago').value;
+      const tmpDate = new Date(fecha_orig);     
+      const now = tmpDate.getTime();
+      if (accion) {        
+        this.forma.get('fecha_proc').setValue(this.sumarDias(new Date(now),vencimiento.dias));        
+      }
+    }
+  }
+
+  setCuotas(data) {
+    console.log(data);    
     const fecha_orig = this.forma.get('fecha_orig').value;
-    const vencimiento = this.forma.get('cond_pago').value;
-    
-    var tmpDate = new Date(fecha_orig);     
-    var now = tmpDate.getTime();
-    
-    this.forma.get('fecha_proc').setValue(this.sumarDias(new Date(now),vencimiento.dias)); 
+    const tmpDate = new Date(fecha_orig);     
+    const now = tmpDate.getTime();
+    const meses = this.forma.get('cuotas').value
+    this.forma.get('fecha_proc').setValue(this.sumarMeses(new Date(now),meses));
   }
 
   sumarDias(fecha, dias){ 
     fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
+
+  sumarMeses(fecha, meses){ 
+    fecha.setMonth(fecha.getMonth() + meses);
     return fecha;
   }
 

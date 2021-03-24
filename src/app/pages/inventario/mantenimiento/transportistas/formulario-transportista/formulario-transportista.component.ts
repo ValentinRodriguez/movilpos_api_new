@@ -24,8 +24,6 @@ export class FormularioTransportistaComponent implements OnInit {
   id: number;
   ciudades=[];
   paises=[];
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -111,30 +109,6 @@ export class FormularioTransportistaComponent implements OnInit {
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.transportistaServ.guardando();    
-  }
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
   }
 
   buscaPaises(id) {    

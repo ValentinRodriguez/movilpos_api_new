@@ -18,8 +18,6 @@ export class FormularioClientesComponent implements OnInit {
   forma: FormGroup;
   usuario: any;
   documento=[];
-  pais=[];  
-  ciudad=[];
   zona=[];
   tiponegocio=[];
   tipo_cliente=[];
@@ -28,8 +26,8 @@ export class FormularioClientesComponent implements OnInit {
   rnc = false;
   vendedoresFiltrados: any[];
   condpago: any[];
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
+  paises: any[] = [];
+  ciudades: any[] = [];
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -99,13 +97,13 @@ export class FormularioClientesComponent implements OnInit {
   buscaPaises(event) {
     console.log(event);    
      this.paisesCiudadesServ.getCiudadesXpaises(event).then((resp:any) => {  
-      this.ciudad = resp;
+      this.ciudades = resp;
     })   
   }
 
   todosLosPaises() {
     this.paisesCiudadesServ.getPaises().then((resp: any)=>{
-      this.pais = resp;   
+      this.paises = resp;   
     })
   }
 
@@ -153,30 +151,6 @@ export class FormularioClientesComponent implements OnInit {
       })
     }  
   } 
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.pais.length; i++) {
-      const size = this.pais[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudad.length; i++) {
-      const size = this.ciudad[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
-  }
 
   filtrarVendedores(event) {
     const filtered: any[] = [];

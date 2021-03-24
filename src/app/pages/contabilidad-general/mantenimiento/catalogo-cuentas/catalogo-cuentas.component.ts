@@ -34,7 +34,7 @@ export class CatalogoCuentasComponent implements OnInit {
   ngOnInit(): void {    
     //this.datos.getFiles().then(resp => console.log(resp))
     this.cols = [
-      { field: 'descripcion', header: 'Descripción'},
+      { field: 'descripcion_c', header: 'Descripción'},
       { field: 'cuenta_no', header: 'Cuenta'},
       { field: 'origen', header: 'Origen'},
       { field: 'aplica_a', header: 'Cuenta Aplica'},
@@ -64,31 +64,7 @@ export class CatalogoCuentasComponent implements OnInit {
   todosLosCatalogos() {
     this.cgcatalogoServ.getDatos().then((resp: any) => {
       this.cuentas = resp;
-      resp.forEach(element => {
-        if (element.nivel === 1) {
-          this.data.push( {"data":{  
-            "descripcion": element.descripcion,
-            "cuenta_no": element.cuenta_no,
-            "origen": element.origen,
-            "aplica_a": element.aplica_a,
-            "tipo_cuenta": element.tipo_cuenta,
-            "codigo_isr": element.codigo_isr,
-            "catalogo": element.catalogo,
-            "referencia": element.referencia,
-            "depto": element.depto,
-            "selectivo_consumo": element.selectivo_consumo,
-            "retencion": element.retencion,
-            "acciones": element.acciones
-            }})
-        }
-
-        if (element.nivel === 2) {
-          let temp = this.data.find(index => {return index.data.cuenta_no === element.aplica})
-          console.log(temp);
-          
-        }
-      });
-      console.log(this.data);
+      console.log(resp);
       
     })
   }

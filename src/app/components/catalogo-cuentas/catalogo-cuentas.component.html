@@ -1,5 +1,5 @@
 
-<p-table #dt [value]="cuentas_no" [rows]="5" [paginator]="true" [globalFilterFields]="['descripcion','cuenta_no','origen']"
+<p-table #dt [value]="cuentas_no" [rows]="5" [paginator]="true" [globalFilterFields]="['descripcion_c','cuenta_no','origen']"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="id" closeOnEscape="true" [showCurrentPageReport]="true"
         [lazy]="true" (onLazyLoad)="todosLosCatalogos()" [loading]="loading">
     <ng-template pTemplate="caption">
@@ -15,7 +15,7 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pSortableColumn="descripcion">Descripcion <p-sortIcon field="descripcion"></p-sortIcon></th>               
+            <th pSortableColumn="descripcion_c">Descripcion <p-sortIcon field="descripcion_c"></p-sortIcon></th>               
             <th pSortableColumn="cuenta_no">Cuenta <p-sortIcon field="cuenta_no"></p-sortIcon></th>
             <th pSortableColumn="origen">Origen<p-sortIcon field="origen"></p-sortIcon></th>
         </tr>
@@ -25,7 +25,7 @@
             <td>
                 <p-tableCheckbox [value]="cuenta"></p-tableCheckbox>
             </td>
-            <td>{{cuenta.descripcion | titlecase}}</td>
+            <td>{{cuenta.descripcion_c | titlecase}}</td>
             <td>{{cuenta.cuenta_no}}</td>   
             <td>{{cuenta.origen | titlecase}}</td>                
         </tr>
