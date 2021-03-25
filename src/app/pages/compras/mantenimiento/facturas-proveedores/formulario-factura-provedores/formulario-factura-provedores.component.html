@@ -202,7 +202,7 @@
                     </div>
                 </p-toolbar>
                 <br>
-                <p-table #dt [columns]="cols" [value]="this.cuentas_no.value" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                <p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
                          [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
                          [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
     
@@ -282,7 +282,7 @@
                         </tr>
                     </ng-template>
     
-                    <!-- <ng-template pTemplate="summary">
+                    <ng-template pTemplate="summary">
                         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
                             Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
                         </div>
@@ -290,7 +290,7 @@
                         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
                             Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
                         </div>
-                    </ng-template> -->
+                    </ng-template>
                     <ng-template pTemplate="footer">
                         <tr>
                             <td><strong>Totales:</strong></td>											

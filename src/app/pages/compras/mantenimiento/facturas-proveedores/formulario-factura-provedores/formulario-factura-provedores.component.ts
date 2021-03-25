@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
@@ -16,7 +16,6 @@ import { StepFacturaProvedoresComponent } from '../step-factura-provedores/step-
 })
 export class FormularioFacturaProvedoresComponent implements OnInit {
 
-
   forma: FormGroup;
   usuario: any;
   guardando = false;
@@ -27,7 +26,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   cond_pago: any[] = [];
   monedas: any[] = [];
   cols: any[];
-  // cuentas: any[] = [];
+  cuentas: any[] = [];
   ProveedoresFiltrados: any[];
   proveedores: any[] = [];
   ocExiste = 3;
@@ -48,7 +47,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
               private coTransaccionescxpServ: CoTransaccionescxpService,
               private ordenCompraServ: OrdenescomprasService,
               private cgCatalogoServ: CgcatalogoService,
-              public dialogService: DialogService) { 
+              public dialogService: DialogService,
+              private cd: ChangeDetectorRef) { 
                 this.usuario = this.usuariosServ.getUserLogged();    
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];                          
                 this.crearFormulario();
@@ -84,10 +84,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   todaLaData() {
     this.coTransaccionescxpServ.autoLlenado().then((resp: any)  => {      
       console.log(resp);
-      resp.forEach(element => {
-        
+      resp.forEach(element => {        
         switch (element.label) {
-
           case 'monedas':            
             this.monedas = element.data;
             break;
@@ -121,7 +119,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
-      // this.cuentas = [];
+      this.cuentas = [];
       let index = 0;
       
       this.coTransaccionescxpServ.getDato(this.id).then((res: any) => {
@@ -162,7 +160,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         this.forma.get('usuario_creador').setValue(res.usuario_creador)
 
         res.detalle_factura.forEach(element => {
-          // this.cuentas.push(element);
+          this.cuentas.push(element);
           this.agregarFormulario(element);
           ((this.cuentas_no).at(index) as FormGroup).get("departamento").setValue(this.departamentos.find(doc => doc.id === element.departamento)); 
           this.totalC += Number(((this.cuentas_no).at(index) as FormGroup).get("credito").value); 
@@ -175,10 +173,10 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   catalogoEscogido() {
     this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      // this.cuentas = [];
+      this.cuentas = [];
       resp.forEach(cuentas => {
         if (cuentas.tipo_cuenta !== "normal") {
-          // this.cuentas.push(cuentas);
+          this.cuentas.push(cuentas);
           this.agregarFormulario(cuentas);
         }
       });               
@@ -224,10 +222,10 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   datosProv(event) {
     const cuenta = event.cuentas_proveedor;
     this.monedas = JSON.parse(event.moneda) 
-    // this.cuentas = [];
+    this.cuentas = [];
     cuenta.forEach(cuentas => {
       if (cuentas.tipo_cuenta !== "normal") {
-        // this.cuentas.push(cuentas);
+        this.cuentas.push(cuentas);
         this.agregarFormulario(cuentas);
       }
     }); 
@@ -391,7 +389,9 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.forma.get('valor').disable()
     this.totalC = 0;
     this.totalD = 0;    
-    this.itbis = 'si';    
+    this.itbis = 'si';
+    this.cuentas = [];  
+    this.cd.detectChanges();
   }
 
   calcula(data) {
@@ -399,7 +399,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     console.log(this.itbis);
      
     if (this.itbis == 'si') {
-      this.cuentas_no.value.forEach(element => {
+      this.cuentas.forEach(element => {
         if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {
           const porciento = Number(element.porciento);
           const itbis = porciento / 100 * Number(data);    
@@ -489,7 +489,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         
         const cuentas = resp[0].proveedor.cuentas_proveedor
         cuentas.forEach(element => {
-          // this.cuentas.push(element);
+          this.cuentas.push(element);
           this.agregarFormulario(element);
           ((this.cuentas_no).at(index) as FormGroup).get("departamento").setValue(this.departamentos.find(doc => doc.id === element.departamento)); 
           index++;
@@ -564,7 +564,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   borrarCatEscogido(id) {
-    // this.cuentas.splice(id,1)  
+    this.cuentas.splice(id,1)  
   }
 
   cancelar() {
