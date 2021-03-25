@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
@@ -17,7 +17,10 @@ import { StepProveedoresComponent } from '../step-proveedores/step-proveedores.c
 export class FormularioProveedoresComponent implements OnInit {
   forma: FormGroup;
   usuario:any;
-  guardando = false;  
+  guardando = false;
+  guardar = true;
+  actualizando = false;
+  actualizar = false;
   selectedMulti: any[] = [];
   cuenta_no: any;
   proveedorExiste = 3;
@@ -31,6 +34,7 @@ export class FormularioProveedoresComponent implements OnInit {
   rnc = false; 
   cols2:any[]= [];
   cgcatalogos: any[] = [];
+  id: string;
 
   constructor(private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
@@ -38,7 +42,8 @@ export class FormularioProveedoresComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private proveedoresServ:ProveedoresService,
               private cgCatalogoServ: CgcatalogoService,
-              public dialogService: DialogService) { 
+              public dialogService: DialogService,
+              private cd: ChangeDetectorRef) { 
       this.usuario = this.usuariosServ.getUserLogged();
       this.crearFormulario() 
   }
@@ -56,7 +61,36 @@ export class FormularioProveedoresComponent implements OnInit {
       { field: 'acciones', header: 'Acciones' },
     ]
     
+    this.proveedoresServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;   
+      //this.id = Number(resp);      
+      this.id = resp[0]+'-'+resp[1];
+      console.log(this.id);
+      
+      this.proveedoresServ.getDato(resp[0]+'-'+resp[1]).then((res: any) => {
+        console.log(res);
+        this.forma.patchValue(res);
+        console.log(this.tipo_proveedor);
+        
+        this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_doc)); 
+        this.forma.get('cod_sp').setValue(this.tipo_proveedor.find(doc => doc.id == res.cod_sp)); 
+        this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago)); 
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
+        this.forma.get('id_moneda').setValue(JSON.parse(res.moneda));      
+        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+          this.ciudades = resp;
+          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        })
+
+        res.cuentas_proveedor.forEach(element => {
+          this.cgcatalogos.push(element);
+          this.agregarFormulario(element);
+        });
+      })
+    })
   }
+  
 
   catalogoEscogido() {
     this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
@@ -93,8 +127,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
           case 'paises':
             this.paises = element.data;
-            console.log(this.paises);
-            
+            console.log(this.paises);            
             break; 
 
           case 'tipo documento':
@@ -123,25 +156,23 @@ export class FormularioProveedoresComponent implements OnInit {
         closeOnEscape: false,
         header: 'Datos Necesarios Creación Proveedores',
         width: '70%'
-      });  
-      // ref.onClose.subscribe(() => {
-      //   location.reload();        
-      // });
+      });
     }
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
       cod_sp:              [''],  
-      email:               ['valentinrodriguez1428@gmail.com', Validators.compose([ Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])],  
-      nom_sp:              ['valentin rodriguez', Validators.required],          
-      dir_sp:              ['santo domingo', Validators.required],
-      tel_sp:              ['(888)-888-8888', Validators.required],
-      fax_sp:              ['(888)-888-8888', Validators.required],          
-      cont_sp:             ['adsads', Validators.required],
+      email:               ['', Validators.compose([ Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])],  
+      cod_sp_sec:          [''], 
+      nom_sp:              ['', Validators.required],          
+      dir_sp:              ['', Validators.required],
+      tel_sp:              ['', Validators.required],
+      fax_sp:              ['', Validators.required],          
+      cont_sp:             ['', Validators.required],
       tipo_doc:            ['', Validators.required],
       cond_pago:           ['', Validators.required],          
-      documento:           ['22500192319'],        
+      documento:           [''],        
       id_moneda:           ['', Validators.required],        
       cuenta_no:           ['', Validators.required],
       id_pais:             ['', Validators.required],            
@@ -153,7 +184,7 @@ export class FormularioProveedoresComponent implements OnInit {
     })
   }
 
-  get producto() {   
+  get cuentas_no() {   
     return this.forma.get('cuentas_no') as FormArray;
   }
   
@@ -165,7 +196,7 @@ export class FormularioProveedoresComponent implements OnInit {
     return this.fb.group({
       descripcion: [cuentas.descripcion, Validators.required],  
       cuenta_no:   [cuentas.cuenta_no, Validators.required],  
-      porciento:   ['', Validators.required],  
+      porciento:   [cuentas.porciento || '', Validators.required],  
     });
   }
 
@@ -180,7 +211,9 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    //this.guardando = true;           
+    //this.guardando = true;     
+    console.log(this.forma);
+          
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -190,10 +223,32 @@ export class FormularioProveedoresComponent implements OnInit {
     }else{      
       this.guardando = false;
       this.proveedoresServ.crearProveedor(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);      
+        this.restaurarFormulario();
       })
     } 
   } 
+
+  actualizarProveedor(){
+    //this.guardando = true;  
+    console.log(this.forma);     
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);     
+    if (this.forma.invalid) {      
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+      this.guardando = false;
+    }else{      
+      this.guardando = false;
+      this.proveedoresServ.actualizarProveedor(this.id, this.forma.value).then((resp: any)=>{
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+        this.restaurarFormulario();            
+      })
+    } 
+  } 
+
+
 
   verificaProveedor(data){        
     if (data === "") {
@@ -219,13 +274,38 @@ export class FormularioProveedoresComponent implements OnInit {
     if (doc.descripcion === 'cedula') {
       this.cedula = true;
       this.rnc = false;
-      this.forma.get('rnc').reset()
     } 
     if (doc.descripcion === 'RNC') {
       this.cedula = false;
       this.rnc = true;
-      this.forma.get('cedula').reset()
     } 
+    this.forma.get('documento').reset()
+  }
+
+  restaurarFormulario() {
+    let i = 0;
+    while (0 !== this.cuentas_no.length) {
+      this.cuentas_no.removeAt(0);
+      i++
+    }
+    for(var name in this.forma.controls) {        
+      if (name !== 'cuentas_no') {            
+        (<FormControl>this.forma.controls[name]).setValue('')
+        this.forma.controls[name].setErrors(null);          
+      }          
+    }
+    this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == 1)); 
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.cgcatalogos = [];
+    this.cd.detectChanges();
+  }
+
+  cancelar() {
+    this.actualizar = false;
+    this.guardar = true;
+    this.restaurarFormulario()
+    this.proveedoresServ.guardando();    
   }
 
   buscaCuentas() {
@@ -237,6 +317,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   borrarCatEscogido(id) {    
     this.cgcatalogos.splice(id,1)  
+    this.cuentas_no.removeAt(id);
   }
 
   // FUNCIONES PARA EL MANEJO DE LOS ERRORES EN LOS CAMPOS DEL FORMULARIO

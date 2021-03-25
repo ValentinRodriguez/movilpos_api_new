@@ -98,27 +98,37 @@
 
     <p-panel header="Datos Generales">
         <div class="p-fluid p-formgrid p-grid">
+            
             <div class="p-field p-col-12 p-md-2">
                 <label for="valor">Monto Factura</label>
-                <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calcula($event.target.ariaValueNow)"
-                [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')">
-                </p-inputNumber>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <p-inputNumber formControlName="valor" (onBlur)="calcula($event.target.ariaValueNow)"
+                                   [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')">
+                    </p-inputNumber>
+                </div>
                 <small *ngIf="getNoValido('valor')" class="p-invalid">Este campo es obligatorio.</small>
-            </div>            
-    
+            </div>
+
             <div class="p-field p-col-12 p-md-2">
                 <label for="valor_orden">Valor Orden</label>
-                <p-inputNumber formControlName="valor_orden" mode="currency" [currency]="this.divisa" locale="en-US"
-                               [class.ng-invalid]="getNoValido('valor_orden')" [class.ng-dirty]="getNoValido('valor_orden')">
-                </p-inputNumber>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <p-inputNumber formControlName="valor_orden" [class.ng-invalid]="getNoValido('valor_orden')" [class.ng-dirty]="getNoValido('valor_orden')">
+                    </p-inputNumber>
+                </div>
+                <small *ngIf="getNoValido('valor_orden')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
     
             <div class="p-field p-col-12 p-md-2">
                 <label for="valor_recibido">Valor Recibido</label>
-                <p-inputNumber formControlName="valor_recibido" mode="currency" [currency]="this.divisa" locale="en-US"
-                               [class.ng-invalid]="getNoValido('valor_recibido')" [class.ng-dirty]="getNoValido('valor_recibido')">
-                </p-inputNumber>
-            </div>        
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                    <p-inputNumber formControlName="valor_recibido" [class.ng-invalid]="getNoValido('valor_recibido')" [class.ng-dirty]="getNoValido('valor_recibido')">
+                    </p-inputNumber>
+                </div>
+                <small *ngIf="getNoValido('valor_recibido')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>    
             
             <div class="p-field p-col-12 p-md-2">
                 <label for="codigo_fiscal">Tipo Gasto</label>
@@ -202,7 +212,7 @@
                     </div>
                 </p-toolbar>
                 <br>
-                <p-table #dt [columns]="cols" [value]="this.cuentas_no.value" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                <p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
                          [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
                          [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
     
@@ -258,15 +268,17 @@
                                 </span>
                                         
                                 <span *ngIf="col.field === 'debito'">
-                                    <p-inputNumber formControlName="debito" mode="decimal" locale="en-US" 
-                                                   (onBlur)="calculaTipo(rowData, i)" [minFractionDigits]="2">
-                                    </p-inputNumber>
+                                    <div class="p-inputgroup">
+                                        <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                                        <input type="number" pInputText formControlName="debito" (onBlur)="calculaTipo(rowData, i)">
+                                    </div>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
-                                    <p-inputNumber formControlName="credito" mode="decimal" locale="en-US" 
-                                                   (onBlur)="calculaTipo(rowData, i)" [minFractionDigits]="2">
-                                    </p-inputNumber>
+                                    <div class="p-inputgroup">
+                                        <span class="p-inputgroup-addon">{{this.simbolo}}</span>
+                                        <input type="number" pInputText formControlName="credito" (onBlur)="calculaTipo(rowData, i)">
+                                    </div>
                                 </span>
     
                                 <span *ngIf="col.field === 'acciones'">
@@ -282,7 +294,7 @@
                         </tr>
                     </ng-template>
     
-                    <!-- <ng-template pTemplate="summary">
+                    <ng-template pTemplate="summary">
                         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
                             Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
                         </div>
@@ -290,7 +302,7 @@
                         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
                             Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
                         </div>
-                    </ng-template> -->
+                    </ng-template>
                     <ng-template pTemplate="footer">
                         <tr>
                             <td><strong>Totales:</strong></td>											

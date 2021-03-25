@@ -11,6 +11,8 @@ export class ProveedoresService {
   proveedoresCreados = new EventEmitter()
   proveeact = new EventEmitter();
   proveedorBorrado = new EventEmitter();
+  actualizar = new EventEmitter();
+  guardar = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
@@ -46,7 +48,9 @@ export class ProveedoresService {
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => {        
+      this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => { 
+        console.log(resp);
+               
         if (resp['code'] === 200) {          
           resolve(resp.data);            
         }
@@ -116,11 +120,34 @@ export class ProveedoresService {
   }
 
   actualizarProveedor(id:string, provee: any) {
+    let data = {}
+    for(let key in provee){         
+      switch (key) {
+        case 'cod_sp':
+        case 'cond_pago':
+        case 'id_ciudad':
+        case 'id_pais':            
+          data[key] = provee[key].id;          
+        break;
 
+        case 'tipo_doc':            
+            data[key] = provee[key].tipo_documento;          
+        break;
+    
+        case 'id_moneda':            
+          data[key] = JSON.stringify(provee[key]);
+        break;
+
+        default:
+          data[key] = provee[key]
+          break;
+      }
+    }
+    console.log(id);
     return new Promise( resolve => {      
-      this.http.put(`${ URL }/proveedores/${id}`, provee)
+      this.http.put(`${ URL }/proveedores/${id}`, data)
               .subscribe( (resp: any) => {        
-              //  console.log(resp)        
+                console.log(resp)        
                 if (resp['code'] === 200) {
                   this.proveeact.emit( resp.data );                            
                   resolve(resp);                               
@@ -139,6 +166,15 @@ export class ProveedoresService {
         }
       })
     })
+  }
+
+  actualizando(cod_sp:number, cod_sp_sec:number) {
+    const data = [cod_sp, cod_sp_sec]
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
     
 }
