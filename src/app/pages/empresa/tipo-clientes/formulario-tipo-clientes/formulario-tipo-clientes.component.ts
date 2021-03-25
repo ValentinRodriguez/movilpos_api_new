@@ -59,6 +59,9 @@ export class FormularioTipoClientesComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
       })  
     }else{
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       return;
     }
@@ -75,6 +78,9 @@ export class FormularioTipoClientesComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
       })  
     }else{
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       return;
     }

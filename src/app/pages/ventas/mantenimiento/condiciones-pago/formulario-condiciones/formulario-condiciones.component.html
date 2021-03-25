@@ -4,24 +4,28 @@
             <label for="descripcion">Descripción</label>
             <span class=" p-input-icon-right">
                 <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
-                       (keyup)="verificaCondicion($event.target.value)">
+                       (keyup)="verificaCondicion($event.target.value)" [class.ng-invalid]="getNoValido('descripcion')" 
+                       [class.ng-dirty]="getNoValido('descripcion')">
                 <i class="pi pi-spin pi-spinner" *ngIf="condicionExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="condicionExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="condicionExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="condicionExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="condicionExiste === 3"></i>
             </span>
+            <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
             <label for="defecto">Defecto</label>
-            <p-dropdown inputId="defecto" [options]="sino" name="defecto" 
-                        formControlName="defecto" placeholder="Escoge..."></p-dropdown>
+            <p-dropdown inputId="defecto" [options]="sino" name="defecto" formControlName="defecto" 
+                        [class.ng-invalid]="getNoValido('defecto')" [class.ng-dirty]="getNoValido('defecto')"placeholder="Escoge...">
+            </p-dropdown>
             <small *ngIf="getNoValido('defecto')" class="p-invalid">Este campo es obligatorio.</small>
         </div>	
 
         <div class="p-field p-col-12 p-md-3">
             <label for="dias">Días</label>
-            <p-inputNumber inputId="dias" mode="decimal" name="dias" formControlName="dias">
+            <p-inputNumber inputId="dias" mode="decimal" name="dias" formControlName="dias" [class.ng-invalid]="getNoValido('dias')" 
+                           [class.ng-dirty]="getNoValido('dias')">
             </p-inputNumber>
             <small *ngIf="getNoValido('dias')" class="p-invalid">Este campo es obligatorio.</small>
         </div>

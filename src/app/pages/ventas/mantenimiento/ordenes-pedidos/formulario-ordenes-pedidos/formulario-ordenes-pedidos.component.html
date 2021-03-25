@@ -4,7 +4,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="cotizacion_no">No. Cotización</label>	
             <p-autoComplete formControlName="cotizacion_no" [suggestions]="cotizacionesFiltradas" (completeMethod)="filtrarCotizacion($event)" 
-                            (onSelect)="datosCotizacion($event)" field="nom_sp" [dropdown]="true">
+                            (onSelect)="datosCotizacion($event)" field="nom_sp" [dropdown]="true" [class.ng-invalid]="getNoValido('cotizacion_no')" 
+                            [class.ng-dirty]="getNoValido('cotizacion_no')">
                 <ng-template let-cotizacion_no pTemplate="item">
                     <div class="country-item">
                         <!-- <div>{{cotizacion_no.nom_sp | titlecase}}</div> -->
@@ -18,7 +19,8 @@
             <label for="fecha_entrega">Fecha Entrega</label>
             <span class=" p-input-icon-right">
                 <p-calendar formControlName="fecha_entrega" dateFormat="yy/mm/dd" [showIcon]="true" inputId="icon"
-                            (onSelect)="onSelectDate($event,'fecha_entrega', null)" [minDate]="minDate">
+                            (onSelect)="onSelectDate($event,'fecha_entrega', null)" [minDate]="minDate" [class.ng-invalid]="getNoValido('fecha_entrega')" 
+                            [class.ng-dirty]="getNoValido('fecha_entrega')">
                 </p-calendar>
             </span>
             <small *ngIf="getNoValido('fecha_entrega')" class="p-invalid">Este campo es obligatorio.</small>
@@ -27,7 +29,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="sec_vend">Vendedor</label>								
             <p-autoComplete formControlName="sec_vend" [suggestions]="vendedorFiltrado" (completeMethod)="filtrarVendedor($event)" 
-                            (onSelect)="datosVendedor($event)" field="nombre_empleado" [dropdown]="true">
+                            (onSelect)="datosVendedor($event)" field="nombre_empleado" [dropdown]="true" [class.ng-invalid]="getNoValido('sec_vend')" 
+                            [class.ng-dirty]="getNoValido('sec_vend')">
                 <ng-template let-vendedor pTemplate="item">
                     <div class="country-item">
                         <div>{{vendedor.nombre_empleado | titlecase}}</div>
@@ -42,7 +45,8 @@
             <div class="p-inputgroup">	
                 <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-success" (click)="op.toggle($event)"></button>								
                 <p-autoComplete formControlName="cliente" [suggestions]="clientesFiltrados" (completeMethod)="filtrarCliente($event.query)" 
-                                (onSelect)="datosCliente($event)" field="nombre" [dropdown]="true">
+                                (onSelect)="datosCliente($event)" field="nombre" [dropdown]="true" [class.ng-invalid]="getNoValido('cliente')" 
+                                [class.ng-dirty]="getNoValido('cliente')">
                     <ng-template let-cliente pTemplate="item">
                         <div class="country-item">
                             <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
@@ -56,9 +60,8 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="cond_pago">Condición Pago</label>
-            <p-dropdown inputId="cond_pago" [options]="condpago"  
-                        name="cond_pago" formControlName="cond_pago" id="drop-down"
-                        placeholder="Escoje.." optionLabel="descripcion">
+            <p-dropdown inputId="cond_pago" [options]="condpago"  [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')"
+                        name="cond_pago" formControlName="cond_pago" id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>
             <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -66,15 +69,17 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="telefono">Teléfono</label>
             <span class=" p-input-icon-right">
-                <p-inputMask mask="(999)-999-9999" formControlName="telefono" placeholder="(999)-999-9999"></p-inputMask>
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono" placeholder="(999)-999-9999" [class.ng-invalid]="getNoValido('telefono')" 
+                             [class.ng-dirty]="getNoValido('telefono')">
+                </p-inputMask>
             </span>
             <small *ngIf="getNoValido('telefono')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
         
         <div class="p-field p-col-12 p-md-3">
             <label for="tipo_orden">Tipo Orden</label>
-            <p-dropdown inputId="tipo_orden" [options]="tipo_orden"  
-                        name="tipo_orden" formControlName="tipo_orden" id="drop-down"
+            <p-dropdown inputId="tipo_orden" [options]="tipo_orden" [class.ng-invalid]="getNoValido('tipo_orden')" 
+                        [class.ng-dirty]="getNoValido('tipo_orden')" name="tipo_orden" formControlName="tipo_orden" id="drop-down"
                         placeholder="Escoje.." optionLabel="label">
             </p-dropdown>
             <small *ngIf="getNoValido('tipo_orden')" class="p-invalid">Este campo es obligatorio.</small>
@@ -83,7 +88,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="orden_sustituta">Orden Sustituta</label>	
             <p-autoComplete formControlName="orden_sustituta" [suggestions]="ordenesFiltradas" (completeMethod)="filtrarOrdenes($event)" 
-                            (onSelect)="datosOrdenes($event)" field="num_oc" [dropdown]="true">
+                            (onSelect)="datosOrdenes($event)" field="num_oc" [dropdown]="true" [class.ng-invalid]="getNoValido('orden_sustituta')" 
+                            [class.ng-dirty]="getNoValido('orden_sustituta')">
                 <ng-template let-numOc pTemplate="item">
                     <div class="country-item">
                         <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
@@ -95,35 +101,27 @@
         </div>
                                                 
         <div class="p-field p-col-12 p-md-3">
-            <label for="id_pais">País</label>	
-            <p-autoComplete formControlName="id_pais" [suggestions]="PaisesFiltrados" (completeMethod)="filtrarPais($event)" 
-                            (onSelect)="buscaPaises($event)" field="descripcion" [dropdown]="true">
-                <ng-template let-pais pTemplate="item">
-                    <div class="country-item">
-                        <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
-                        <div>{{pais.descripcion | titlecase}}</div>
-                    </div>
-                </ng-template>
-            </p-autoComplete>
-            <small *ngIf="getNoValido('cliente')" class="p-invalid">Este campo es obligatorio.</small>						
+            <label for="id_pais">Pais</label>
+            <p-dropdown inputId="id_pais" [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" 
+                        [class.ng-dirty]="getNoValido('id_pais')" name="id_pais" formControlName="id_pais" 
+                        id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
+            </p-dropdown>
+            <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="id_ciudad">Ciudad</label>	
-            <p-autoComplete formControlName="id_ciudad" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" 
-                            field="descripcion" [dropdown]="true">
-                <ng-template let-ciudad pTemplate="item">
-                    <div class="country-item">												
-                        <div>{{ciudad.descripcion | titlecase}}</div>
-                    </div>
-                </ng-template>
-            </p-autoComplete>
-            <small *ngIf="getNoValido('cliente')" class="p-invalid">Este campo es obligatorio.</small>						
+            <label for="id_ciudad">Ciudad</label>
+            <p-dropdown inputId="id_ciudad" [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" 
+                        [class.ng-dirty]="getNoValido('id_ciudad')" name="id_ciudad" formControlName="id_ciudad" 
+                        id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
             <label for="id_zonalocal">Zona Local</label>
-            <p-dropdown inputId="id_zonalocal" [options]="zonalocal"  
+            <p-dropdown inputId="id_zonalocal" [options]="zonalocal" [class.ng-invalid]="getNoValido('id_zonalocal')" 
+                        [class.ng-dirty]="getNoValido('id_zonalocal')"
                         name="id_zonalocal" formControlName="id_zonalocal" id="drop-down"
                         placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>
@@ -132,13 +130,17 @@
 
         <div class="p-field p-col-6">
             <label for="direccion">Dirección</label>
-            <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"></textarea>
+            <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"
+                      [class.ng-invalid]="getNoValido('direccion')" [class.ng-dirty]="getNoValido('direccion')">
+            </textarea>
             <small *ngIf="getNoValido('direccion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>	
 
         <div class="p-field p-col-6">
             <label for="ubicacion">Ubicación Referencia</label>
-            <textarea id="ubicacion" type="text" rows="4" pInputTextarea name="ubicacion" formControlName="ubicacion"></textarea>
+            <textarea id="ubicacion" type="text" rows="4" pInputTextarea name="ubicacion" formControlName="ubicacion"
+                      [class.ng-invalid]="getNoValido('ubicacion')" [class.ng-dirty]="getNoValido('ubicacion')">
+            </textarea>
             <small *ngIf="getNoValido('ubicacion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
@@ -157,10 +159,12 @@
 
         <div class="p-field p-col-6">
             <label for="observacion">Observaciones</label>
-            <textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"></textarea>
+            <textarea id="observacion" type="text" rows="4" pInputTextarea name="observacion" formControlName="observacion"
+                      [class.ng-invalid]="getNoValido('observacion')" [class.ng-dirty]="getNoValido('observacion')"></textarea>
             <small *ngIf="getNoValido('observacion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
+
     <p-panel #pnl header="Producto/s vinculado/s a la orden de pedido" styleClass="p-mt-4">
         <div formArrayName="productos">
             <p-toolbar>	
@@ -170,9 +174,10 @@
                     <button pButton pRipple label="Buscar Productos" icon="pi pi-search" type="button" (click)="buscaProductos()"></button>	
                 </div>
             </p-toolbar>
-            <br>				
+            <br>		
+
             <p-table [columns]="cols2" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" #dt
                      [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
 
                 <ng-template pTemplate="caption">

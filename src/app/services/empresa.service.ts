@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from "../../environments/environment";
 
@@ -9,6 +9,12 @@ const URL = environment.url;
 })
 
 export class EmpresaService {
+  
+  empresaEscogida = new EventEmitter();
+  empresaBorrada = new EventEmitter();
+  empresaAct = new EventEmitter();
+  actualizar = new EventEmitter();
+  guardar = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
@@ -51,6 +57,17 @@ export class EmpresaService {
     })
   }
 
+  getDato(id) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
+        console.log(resp)
+        if (resp['code'] === 200) {                                      
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   showEmpresa(empresa: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {
@@ -81,6 +98,8 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/empresa/${id}`, formData)
                .subscribe( resp => {  
+               console.log(resp);
+                 
                if (resp['code'] === 200) {                                      
                  resolve(resp);       
                }
@@ -121,6 +140,14 @@ export class EmpresaService {
                }
       });
     });    
+  }
+
+  actualizando(data: any) {
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
 
 }

@@ -3,40 +3,30 @@
         <div class="p-field p-col-12 p-md-6">
             <label for="descripcion">Título</label>
             <span class=" p-input-icon-right">
-                <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
-                       (keyup)="verificaBodega($event.target.value)">
+                <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.ng-invalid]="getNoValido('descripcion')" 
+                       [class.ng-dirty]="getNoValido('descripcion')" (keyup)="verificaBodega($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="bodegaExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="bodegaExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="bodegaExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="bodegaExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="bodegaExiste === 3"></i>
             </span>
             <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
  
         <div class="p-field p-col-12 p-md-3">
-            <label for="id_pais">Pais</label>	
-            <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPaises($event)" 
-                            field="descripcion" [dropdown]="true" (onSelect)="buscaPaises($event.id_pais)">
-                <ng-template let-pais pTemplate="item">
-                    <div class="country-item">
-                        <div>{{pais.descripcion | titlecase}}</div>
-                    </div>
-                </ng-template>
-            </p-autoComplete>
-            <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>						
+            <label for="id_pais">Pais</label>
+            <p-dropdown inputId="id_pais" [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" [class.ng-dirty]="getNoValido('id_pais')" 
+                        name="id_pais" formControlName="id_pais" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
+            </p-dropdown>
+            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="id_ciudad">Ciudad</label>	
-            <p-autoComplete formControlName="id_ciudad" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" 
-                            field="descripcion" [dropdown]="true">
-                <ng-template let-ciudad pTemplate="item">
-                    <div class="country-item">
-                        <div>{{ciudad.descripcion | titlecase}}</div>
-                    </div>
-                </ng-template>
-            </p-autoComplete>
-            <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>						
+            <label for="id_ciudad">Ciudad</label>
+            <p-dropdown inputId="id_ciudad" [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" [class.ng-dirty]="getNoValido('id_ciudad')" 
+                        name="id_ciudad" formControlName="id_ciudad" placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
     <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

@@ -3,13 +3,14 @@
         <div class="p-field p-col-12 p-md-6">
             <label for="descripcion">Título</label>
             <span class=" p-input-icon-right">
-                <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
-                       (keyup)="verificaTipoCliente($event.target.value)">
+                <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.ng-invalid]="getNoValido('descripcion')" 
+                       [class.ng-dirty]="getNoValido('descripcion')" (keyup)="verificaTipoCliente($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="tipoCliExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="tipoCliExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="tipoCliExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="tipoCliExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="tipoCliExiste === 3"></i>
             </span>
+            <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
     <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

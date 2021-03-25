@@ -3,18 +3,22 @@
             <div class="p-field p-col-12 p-md-3">
                 <label for="divisa">Divisa</label>
                 <span class=" p-input-icon-right">
-                    <input id="divisa" type="text" pInputText formControlName="divisa" [class.p-invalid]="getNoValido('divisa')"
+                    <input id="divisa" type="text" pInputText formControlName="divisa" 
+                           [class.ng-invalid]="getNoValido('divisa')" [class.ng-dirty]="getNoValido('divisa')" 
                            (keyup)="verificaMoneda($event.target.value)" placeholder="Peso Dominicano">
                     <i class="pi pi-spin pi-spinner" *ngIf="monedaExiste === 0" style="color:#f5df18"></i>
                     <i class="pi pi-check" *ngIf="monedaExiste === 1" style="color:#36b61d"></i>
                     <i class="pi pi-times" *ngIf="monedaExiste === 2" style="color:#d83131"></i>
-                    <i class="pi pi-shopping-cart" *ngIf="monedaExiste === 3"></i>
+                    <i class="pi pi-file-o" *ngIf="monedaExiste === 3"></i>
+                    <small *ngIf="getNoValido('divisa')" class="p-invalid">Este campo es obligatorio.</small>
                 </span>
             </div>
     
             <div class="p-field p-col-12 p-md-3">
                 <label for="simbolo">Símbolo</label>
-                <input id="simbolo" type="text" pInputText formControlName="simbolo" [class.p-invalid]="getNoValido('simbolo')" placeholder="$RD">
+                <input id="simbolo" type="text" pInputText formControlName="simbolo" placeholder="$RD"
+                       [class.ng-invalid]="getNoValido('simbolo')" [class.ng-dirty]="getNoValido('simbolo')">
+                <small *ngIf="getNoValido('simbolo')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
         </div>
         <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

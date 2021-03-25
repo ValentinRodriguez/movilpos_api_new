@@ -4,12 +4,14 @@
             <label for="descripcion">Título</label>
             <span class=" p-input-icon-right">
                 <input type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
+                       [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')">
                        (keyup)="verificaMarca($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="marcaExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="marcaExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="marcaExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="marcaExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="marcaExiste === 3"></i>
             </span>
+            <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
     <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

@@ -18,8 +18,6 @@ export class FormularioClientesComponent implements OnInit {
   forma: FormGroup;
   usuario: any;
   documento=[];
-  pais=[];  
-  ciudad=[];
   zona=[];
   tiponegocio=[];
   tipo_cliente=[];
@@ -28,8 +26,8 @@ export class FormularioClientesComponent implements OnInit {
   rnc = false;
   vendedoresFiltrados: any[];
   condpago: any[];
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
+  paises: any[] = [];
+  ciudades: any[] = [];
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -99,39 +97,39 @@ export class FormularioClientesComponent implements OnInit {
   buscaPaises(event) {
     console.log(event);    
      this.paisesCiudadesServ.getCiudadesXpaises(event).then((resp:any) => {  
-      this.ciudad = resp;
+      this.ciudades = resp;
     })   
   }
 
   todosLosPaises() {
     this.paisesCiudadesServ.getPaises().then((resp: any)=>{
-      this.pais = resp;   
+      this.paises = resp;   
     })
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
-      nombre:           ['joselito', Validators.required],
+      nombre:           ['', Validators.required],
       tipo_documento:   ['', Validators.required],
-      num_rnc:          ['456456456'],
+      num_rnc:          [''],
       vendedor:         ['', Validators.required],
-      cedula:           ['225032166565'],
-      limite_credito:   ['10000'],
+      cedula:           [''],
+      limite_credito:   [''],
       tipo_negocio:     ['', Validators.required],
-      ncf:              ['34564356'],
+      ncf:              [''],
       generico:         ['', Validators.required],
-      direccion:        ['santo domingo', Validators.required],
-      urbanizacion:     ['wewewewe', Validators.required],
+      direccion:        ['', Validators.required],
+      urbanizacion:     ['', Validators.required],
       id_pais:          ['', Validators.required],
       id_ciudad:        ['', Validators.required],
-      celular:          ['456456456', Validators.required],
-      telefono_casa:    ['456456456', Validators.required],
-      email:            ['valentinrodriguez1428@gmail.com'],      
+      celular:          ['', Validators.required],
+      telefono_casa:    ['', Validators.required],
+      email:            [''],      
       tipo_cliente:     ['', Validators.required],
       cond_pago:        ['', Validators.required],
-      telefono_oficina: ['456456456', Validators.required],
-      url:              ['456456456',],
-      contacto:         ['456456456'],
+      telefono_oficina: ['', Validators.required],
+      url:              [''],
+      contacto:         [''],
       usuario_creador:  [this.usuario.username]
     })
   }
@@ -153,30 +151,6 @@ export class FormularioClientesComponent implements OnInit {
       })
     }  
   } 
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.pais.length; i++) {
-      const size = this.pais[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudad.length; i++) {
-      const size = this.ciudad[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
-  }
 
   filtrarVendedores(event) {
     const filtered: any[] = [];

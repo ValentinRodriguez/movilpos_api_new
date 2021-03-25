@@ -24,7 +24,8 @@
             <label for="name">Nombre</label>
             <span class=" p-input-icon-right">
                 <input id="name" type="text" pInputText formControlName="name" 
-                       [class.p-invalid]="getNoValido('name')" readonly="true" class="read-only">
+                       [class.ng-invalid]="getNoValido('name')" [class.ng-dirty]="getNoValido('name')" 
+                       readonly="true" class="read-only">
             </span>
             <small *ngIf="getNoValido('name')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -33,7 +34,8 @@
             <label for="surname">Apellido</label>
             <span class=" p-input-icon-right">
                 <input id="surname" type="text" pInputText formControlName="surname" 
-                       [class.p-invalid]="getNoValido('surname')" readonly="true" class="read-only">
+                [class.ng-invalid]="getNoValido('surname')" [class.ng-dirty]="getNoValido('surname')" 
+                readonly="true" class="read-only">
             </span>
             <small *ngIf="getNoValido('surname')" class="p-invalid">Este campo es obligatorio.</small>
         </div>							
@@ -42,11 +44,12 @@
             <label for="username">Usuario</label>
             <span class=" p-input-icon-right">
                 <input id="username" type="text" pInputText formControlName="username"
-                       (keyup)="verificaUsuario($event.target.value)">
+                       (keyup)="verificaUsuario($event.target.value)"
+                       [class.ng-invalid]="getNoValido('username')" [class.ng-dirty]="getNoValido('username')">
                 <i class="pi pi-spin pi-spinner" *ngIf="usuarioExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="usuarioExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="usuarioExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="usuarioExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="usuarioExiste === 3"></i>
             </span>
             <small *ngIf="getNoValido('username')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -55,11 +58,12 @@
             <label for="email">Email</label>
             <span class=" p-input-icon-right">
                 <input id="email" type="text" pInputText formControlName="email"
-                       (keyup)="verificaEmail($event.target.value)">
+                       (keyup)="verificaEmail($event.target.value)"
+                       [class.ng-invalid]="getNoValido('email')" [class.ng-dirty]="getNoValido('email')">
                 <i class="pi pi-spin pi-spinner" *ngIf="emailExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="emailExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="emailExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-shopping-cart" *ngIf="emailExiste === 3"></i>
+                <i class="pi pi-file-o" *ngIf="emailExiste === 3"></i>
             </span>
             <small *ngIf="getNoValido('email')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -67,7 +71,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="password">Contraseña</label>
             <span class=" p-input-icon-right">
-                <input id="password" type="password" pInputText formControlName="password">
+                <input id="password" type="password" pInputText formControlName="password"
+                [class.ng-invalid]="getNoValido('password')" [class.ng-dirty]="getNoValido('password')">
             </span>
             <small *ngIf="getNoValido('password')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -75,7 +80,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="password_confirmation">Confirmar Contraseña</label>
             <span class=" p-input-icon-right">
-                <input id="password_confirmation" type="password" pInputText formControlName="password_confirmation">
+                <input id="password_confirmation" type="password" pInputText formControlName="password_confirmation"
+                [class.ng-invalid]="getNoValido('password_confirmation')" [class.ng-dirty]="getNoValido('password_confirmation')">
             </span>
             <small *ngIf="getNoValido('password_confirmation')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -83,7 +89,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="impresora">Impresora por defecto</label>
             <span class=" p-input-icon-right">
-                <input id="impresora" type="text" pInputText formControlName="impresora" [class.p-invalid]="getNoValido('impresora')">
+                <input id="impresora" type="text" pInputText formControlName="impresora" 
+                [class.ng-invalid]="getNoValido('impresora')" [class.ng-dirty]="getNoValido('impresora')">
             </span>
             <small *ngIf="getNoValido('impresora')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -91,6 +98,7 @@
         <div class="p-field p-col-12 p-md-3" >
             <label for="estado">Estado</label>
             <p-dropdown inputId="estado" [options]="estado" name="estado" 
+                        [class.ng-invalid]="getNoValido('estado')" [class.ng-dirty]="getNoValido('estado')"
                         formControlName="estado" placeholder="Escoge...">
             </p-dropdown>
             <small *ngIf="getNoValido('estado')" class="p-invalid">Este campo es obligatorio.</small>

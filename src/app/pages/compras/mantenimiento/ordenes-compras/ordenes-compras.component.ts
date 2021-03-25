@@ -241,11 +241,11 @@ export class OrdenesComprasComponent implements OnInit {
       numero_proforma:   ['654564ffgh', Validators.required],
       archivos:          [''],
       cond_pago:         ['', Validators.required],
-      via_envio:         [''],
+      via_envio:         ['', Validators.required],
       cod_sp:            ['', Validators.required],
       cod_sp_sec:        ['', Validators.required],
       id_moneda:         ['', Validators.required],
-      id_puerto:         [''],
+      id_puerto:         ['', Validators.required],
       total_bruto:       ['', Validators.required],
       total_desc:        ['', Validators.required],
       total_itbis:       ['', Validators.required],
@@ -259,7 +259,7 @@ export class OrdenesComprasComponent implements OnInit {
       telefono:          [''],
       estado:            ['ACTIVO'],
       usuario_creador:   [this.usuario.username],
-      proveedor:         [''],
+      proveedor:         ['', Validators.required],
       productos: this.fb.array([])     
     })
   }
@@ -305,7 +305,11 @@ export class OrdenesComprasComponent implements OnInit {
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
+        if (control instanceof FormArray) {    
+          Object.values(control.controls).forEach(control => control.markAsTouched());
+        } else {
+          control.markAllAsTouched();
+        }
       })
       this.guardando = false;
     }else{      
@@ -326,10 +330,6 @@ export class OrdenesComprasComponent implements OnInit {
     link.href = `${URL}/reporte/orden-compras/${num_oc}`;
     link.click();
     link.remove();
-  }
-
-  getNoValido(input: string) {
-    return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 
  calcula(i, event){
@@ -443,4 +443,8 @@ export class OrdenesComprasComponent implements OnInit {
     this.minDate.setDate(day);
   }
 
+  getNoValido(input: string) {
+    return this.forma.get(input).invalid && this.forma.get(input).touched;
+  }
+  
 }

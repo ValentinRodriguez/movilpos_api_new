@@ -24,8 +24,6 @@ export class FormularioTransportistaComponent implements OnInit {
   id: number;
   ciudades=[];
   paises=[];
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -53,6 +51,11 @@ export class FormularioTransportistaComponent implements OnInit {
       this.transportistaServ.getDato(resp).then((res: any) => {
         console.log(res);
         this.forma.patchValue(res);
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
+        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+          this.ciudades = resp;
+          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        })
       })
     })
   }
@@ -106,30 +109,6 @@ export class FormularioTransportistaComponent implements OnInit {
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.transportistaServ.guardando();    
-  }
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
   }
 
   buscaPaises(id) {    

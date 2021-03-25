@@ -21,8 +21,6 @@ export class FormularioBodegasComponent implements OnInit {
   usuario: any;
   paises: any[] = [];
   ciudades: any[] = [];
-  paisesFiltrados: any[] = [];  
-  ciudadesFiltradas: any[] = [];  
   id: number;
 
   constructor(private uiMessage: UiMessagesService,
@@ -123,30 +121,6 @@ export class FormularioBodegasComponent implements OnInit {
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.bodegasServ.guardando();    
-  }
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
   }
 
   verificaBodega(data){  

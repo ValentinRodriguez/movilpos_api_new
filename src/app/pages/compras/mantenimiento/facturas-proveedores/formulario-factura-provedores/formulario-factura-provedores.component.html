@@ -1,10 +1,18 @@
+
+<p-toolbar>	
+    <div class="p-toolbar-group-left"></div>						
+    <div class="p-toolbar-group-right">
+        <span style="margin-right: 10px;"><strong>Calcula ITBIS?</strong></span>
+    <p-selectButton [options]="opciones" [(ngModel)]="this.itbis" optionLabel="label" optionValue="value" (onChange)="setItbis($event)"	 ></p-selectButton>	
+    </div>
+</p-toolbar>
 <form (ngSubmit)="guardarFproveedor()" [formGroup]="forma">
     <p-panel header="Facturas u Orden de compra" >
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-12 p-md-2">
                 <label for="proveedor">Proveedor</label>	
-                <p-autoComplete formControlName="proveedor" [suggestions]="ProveedoresFiltrados" 
-                                (completeMethod)="filtrarProveedor($event)" (onSelect)="datosProv($event)"
+                <p-autoComplete formControlName="proveedor" [suggestions]="ProveedoresFiltrados" (completeMethod)="filtrarProveedor($event)" 
+                                (onSelect)="datosProv($event)" [class.ng-invalid]="getNoValido('proveedor')" [class.ng-dirty]="getNoValido('proveedor')"
                                 field="nom_sp" [dropdown]="true">
                     <ng-template let-proveedor pTemplate="item">
                         <div class="country-item">
@@ -18,8 +26,8 @@
             <div class="p-field p-col-12 p-md-2">
                 <label for="orden_no">Orden de Compra</label>
                 <span class=" p-input-icon-right">
-                    <input pInputText inputId="orden_no" mode="decimal" name="orden_no" formControlName="orden_no"
-                           (keyup)="verificaOrdenCompra($event.target.value)" type="number"/>
+                    <input pInputText inputId="orden_no" mode="decimal" name="orden_no" formControlName="orden_no" [class.ng-invalid]="getNoValido('orden_no')" 
+                           [class.ng-dirty]="getNoValido('orden_no')" (keyup)="verificaOrdenCompra($event.target.value)" type="number"/>
                     <i class="pi pi-spin pi-spinner" *ngIf="ocExiste === 0" style="color:#f5df18"></i>
                     <i class="pi pi-check" *ngIf="ocExiste === 1" style="color:#36b61d"></i>
                     <i class="pi pi-times" *ngIf="ocExiste === 2" style="color:#d83131"></i>
@@ -29,9 +37,8 @@
             
             <div class="p-field p-col-12 p-md-2">
                 <label for="tipo_orden">Tipo Orden</label>
-                <p-dropdown inputId="tipo_orden" [options]="tipoOrden" name="tipo_orden" 
-                            formControlName="tipo_orden" placeholder="Escoge..."
-                            optionLabel="descripcion">
+                <p-dropdown inputId="tipo_orden" [options]="tipoOrden" name="tipo_orden" formControlName="tipo_orden" placeholder="Escoge..."
+                            optionLabel="descripcion" [class.ng-invalid]="getNoValido('tipo_orden')" [class.ng-dirty]="getNoValido('tipo_orden')">
                 </p-dropdown>
                 <small *ngIf="getNoValido('tipo_orden')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
@@ -44,32 +51,44 @@
             <div class="p-field p-col-12 p-md-2">
                 <label for="num_doc">Factura Proveedor</label>
                 <span class=" p-input-icon-right">
-                    <input id="num_doc" type="text" pInputText formControlName="num_doc" [class.p-invalid]="getNoValido('num_doc')">
+                    <input id="num_doc" type="text" pInputText formControlName="num_doc" [class.p-invalid]="getNoValido('num_doc')"
+                           [class.ng-invalid]="getNoValido('num_doc')" [class.ng-dirty]="getNoValido('num_doc')">
                 </span>
-            </div>
-    
+            </div>    
+            
             <div class="p-field p-col-12 p-md-2">
                 <label for="fecha_orig">Fecha Factura</label>
-                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_orig" (onSelect)="setVencimiento()" ></p-calendar>
+                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_orig" (onSelect)="setVencimiento($event, true)" 
+                            [class.ng-invalid]="getNoValido('fecha_orig')" [class.ng-dirty]="getNoValido('fecha_orig')">
+                </p-calendar>
                 <small *ngIf="getNoValido('fecha_orig')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
             
             <div class="p-field p-col-12 p-md-2">
                 <label for="fecha_proc">Fecha vencimiento</label>
-                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_proc"></p-calendar>
+                <p-calendar dateFormat="yy/mm/dd" formControlName="fecha_proc" [class.ng-invalid]="getNoValido('fecha_proc')" 
+                            [class.ng-dirty]="getNoValido('fecha_proc')">
+                </p-calendar>
                 <small *ngIf="getNoValido('fecha_proc')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
-    
+
             <div class="p-field p-col-12 p-md-2">
                 <label for="cond_pago">Condiciones de Pago</label>
-                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" (onChange)='setVencimiento()'></p-dropdown>
+                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" (onChange)='setVencimiento($event, false)'
+                            [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')">
+                </p-dropdown>
                 <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
+
+            <div class="p-field p-col-12 p-md-2">
+                <label for="cuotas">Cuotas</label>
+                <p-inputNumber formControlName="cuotas" [min]="1" (onBlur)="setCuotas($event.target.value)"></p-inputNumber>
+            </div> 
     
             <div class="p-field p-col-12 p-md-2">
                 <label for="moneda">Moneda</label>
-                <p-dropdown [options]="monedas" formControlName="moneda" placeholder="Escoge..."
-                            optionLabel="descripcion" (onChange)="cambiaDivisa($event)">
+                <p-dropdown [options]="monedas" formControlName="moneda" placeholder="Escoge..." [class.ng-invalid]="getNoValido('moneda')" 
+                            [class.ng-dirty]="getNoValido('moneda')" optionLabel="descripcion" (onChange)="cambiaDivisa($event)">
                 </p-dropdown>
                 <small *ngIf="getNoValido('moneda')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
@@ -81,27 +100,30 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-12 p-md-2">
                 <label for="valor">Monto Factura</label>
-                <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calcula($event.target.ariaValueNow)">
+                <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calcula($event.target.ariaValueNow)"
+                [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')">
                 </p-inputNumber>
                 <small *ngIf="getNoValido('valor')" class="p-invalid">Este campo es obligatorio.</small>
             </div>            
     
             <div class="p-field p-col-12 p-md-2">
                 <label for="valor_orden">Valor Orden</label>
-                <p-inputNumber formControlName="valor_orden" mode="currency" [currency]="this.divisa" locale="en-US">
+                <p-inputNumber formControlName="valor_orden" mode="currency" [currency]="this.divisa" locale="en-US"
+                               [class.ng-invalid]="getNoValido('valor_orden')" [class.ng-dirty]="getNoValido('valor_orden')">
                 </p-inputNumber>
             </div>
     
             <div class="p-field p-col-12 p-md-2">
                 <label for="valor_recibido">Valor Recibido</label>
-                <p-inputNumber formControlName="valor_recibido" mode="currency" [currency]="this.divisa" locale="en-US">
+                <p-inputNumber formControlName="valor_recibido" mode="currency" [currency]="this.divisa" locale="en-US"
+                               [class.ng-invalid]="getNoValido('valor_recibido')" [class.ng-dirty]="getNoValido('valor_recibido')">
                 </p-inputNumber>
             </div>        
             
             <div class="p-field p-col-12 p-md-2">
                 <label for="codigo_fiscal">Tipo Gasto</label>
-                <p-dropdown inputId="codigo_fiscal" [options]="tipoGastos" name="codigo_fiscal" 
-                            formControlName="codigo_fiscal" placeholder="Escoge..." optionLabel="descripcion">
+                <p-dropdown inputId="codigo_fiscal" [options]="tipoGastos" name="codigo_fiscal" [class.ng-invalid]="getNoValido('codigo_fiscal')" 
+                            [class.ng-dirty]="getNoValido('codigo_fiscal')" formControlName="codigo_fiscal" placeholder="Escoge..." optionLabel="descripcion">
                 </p-dropdown>
                 <small *ngIf="getNoValido('codigo_fiscal')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
@@ -109,14 +131,18 @@
             <div class="p-field p-col-12 p-md-2">
                 <label for="ncf">NCF</label>
                 <span class=" p-input-icon-right">
-                    <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')">
+                    <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')"
+                           [class.ng-invalid]="getNoValido('ncf')" [class.ng-dirty]="getNoValido('ncf')">
                 </span>
                 <small *ngIf="getNoValido('ncf')" class="p-invalid">Este campo es obligatorio.</small>
             </div>    
     
             <div class="p-field p-col-12">
                 <label for="detalle">Detalle</label>
-                <textarea id="detalle" type="text" rows="4" pInputTextarea name="detalle" formControlName="detalle"></textarea>
+                <textarea id="detalle" type="text" rows="4" pInputTextarea name="detalle" formControlName="detalle"
+                          [class.ng-invalid]="getNoValido('detalle')" [class.ng-dirty]="getNoValido('detalle')">
+                </textarea>
+                <small *ngIf="getNoValido('detalle')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
         </div>
     </p-panel>
@@ -128,29 +154,40 @@
                 <label for="moneda">Monto Impuesto</label>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">{{this.simbolo}}</span>
-                    <input type="text" pInputText formControlName="monto_itbi" readonly="true" class="read-only">
+                    <input type="text" pInputText formControlName="monto_itbi" readonly="true" class="read-only"
+                    [class.ng-invalid]="getNoValido('monto_itbi')" [class.ng-dirty]="getNoValido('monto_itbi')">
                 </div>
+                <small *ngIf="getNoValido('monto_itbi')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
+
             <div class="p-col-12 p-md-3">
                 <label for="moneda">Servicios</label>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">{{this.simbolo}}</span>
-                    <input type="text" pInputText formControlName="servicios" readonly="true" class="read-only">
+                    <input type="text" pInputText formControlName="servicios" readonly="true" class="read-only"
+                    [class.ng-invalid]="getNoValido('servicios')" [class.ng-dirty]="getNoValido('servicios')">
                 </div>
+                <small *ngIf="getNoValido('servicios')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
+
             <div class="p-col-12 p-md-3">
                 <label for="moneda">Bienes</label>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">{{this.simbolo}}</span>
-                    <input type="text" pInputText formControlName="bienes" readonly="true" class="read-only">
+                    <input type="text" pInputText formControlName="bienes" readonly="true" class="read-only"
+                    [class.ng-invalid]="getNoValido('bienes')" [class.ng-dirty]="getNoValido('bienes')">
                 </div>
+                <small *ngIf="getNoValido('bienes')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
+
             <div class="p-col-12 p-md-3">
                 <label for="moneda">Retención</label>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">{{this.simbolo}}</span>
-                    <input type="text" pInputText formControlName="retencion" readonly="true" class="read-only">
+                    <input type="text" pInputText formControlName="retencion" readonly="true" class="read-only"
+                    [class.ng-invalid]="getNoValido('retencion')" [class.ng-dirty]="getNoValido('retencion')">
                 </div>
+                <small *ngIf="getNoValido('retencion')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
         </div>        
     </p-panel>
@@ -201,12 +238,12 @@
                                 </span>    
                                 
                                 <span *ngIf="col.field === 'departamento'">
-                                    <p-dropdown [options]="departamentos" formControlName="departamento" placeholder="Escoge..."
-                                                optionLabel="descripcion" (onChange)='setVencimiento()'></p-dropdown>
+                                    <p-dropdown *ngIf="rowData['departamento'] === 'si'" [options]="departamentos" formControlName="departamento" placeholder="Escoge..."
+                                                optionLabel="descripcion" (onChange)='setVencimiento($event, true)'>
+                                    </p-dropdown>
                                 </span>
     
-                                <div *ngIf="col.field === 'depto' || col.field === 'retencion' || col.field === 'catalogo'|| 
-                                            col.field === 'referencia'">
+                                <div *ngIf="col.field === 'retencion' || col.field === 'catalogo'|| col.field === 'referencia'">
                                     <span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
                                         {{rowData[col.field] | titlecase}}										
                                     </span>
@@ -221,11 +258,15 @@
                                 </span>
                                         
                                 <span *ngIf="col.field === 'debito'">
-                                    <p-inputNumber formControlName="debito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
+                                    <p-inputNumber formControlName="debito" mode="decimal" locale="en-US" 
+                                                   (onBlur)="calculaTipo(rowData, i)" [minFractionDigits]="2">
+                                    </p-inputNumber>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
-                                    <p-inputNumber formControlName="credito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
+                                    <p-inputNumber formControlName="credito" mode="decimal" locale="en-US" 
+                                                   (onBlur)="calculaTipo(rowData, i)" [minFractionDigits]="2">
+                                    </p-inputNumber>
                                 </span>
     
                                 <span *ngIf="col.field === 'acciones'">
@@ -253,7 +294,6 @@
                     <ng-template pTemplate="footer">
                         <tr>
                             <td><strong>Totales:</strong></td>											
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td *ngIf="(this.totalC - this.totalD) !== 0" class="rojo"><strong>{{this.simbolo}}{{this.totalD}}</strong></td>

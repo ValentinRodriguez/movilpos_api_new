@@ -17,6 +17,7 @@ export class EmpresaComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   loading: boolean;
+  index: number = 0;
 
   constructor(private usuariosServ: UsuarioService,
               private empresasServ: EmpresaService,
@@ -31,6 +32,22 @@ export class EmpresaComponent implements OnInit {
       { field: 'nombre', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
     ] 
+
+    this.empresasServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    this.empresasServ.empresaEscogida.subscribe((resp: any)=>{  
+      this.todasLasEmpresas();
+    })
+
+    this.empresasServ.empresaBorrada.subscribe((resp: any)=>{  
+      this.todasLasEmpresas();
+    })
+
+    this.empresasServ.empresaAct.subscribe((resp: any)=>{  
+      this.todasLasEmpresas();
+    })
   }
 
   todasLasEmpresas() {
@@ -41,7 +58,8 @@ export class EmpresaComponent implements OnInit {
     })
   }
 
-  actualizarEmpresa(categoria) {
-    
+  actualizarEmpresa(data) {
+    this.index = 1;   
+    this.empresasServ.actualizando(data);
   }
 }

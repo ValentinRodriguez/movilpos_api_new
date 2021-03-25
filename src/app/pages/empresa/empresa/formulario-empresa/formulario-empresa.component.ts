@@ -24,6 +24,8 @@ export class FormularioEmpresaComponent implements OnInit {
   monedas: any;
   guardando = false;
   actualizando = false;
+  guardar = true;
+  actualizar = false;
   imagePath;
   empresa: any;
 
@@ -32,6 +34,7 @@ export class FormularioEmpresaComponent implements OnInit {
 
   paisesFiltrados: any[] = [];  
   ciudadesFiltradas: any[] = [];  
+  id: number;
 
   sino = [
     {label: 'Sí', value: 'si'},
@@ -66,6 +69,21 @@ export class FormularioEmpresaComponent implements OnInit {
     this.monedasServ.getDatos().then((resp: any) =>{
       this.monedas = resp;   
     })
+
+    this.empresasServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;   
+      this.id = Number(resp);      
+      this.empresasServ.getDato(resp).then((res: any) => {
+        console.log(res);
+        this.forma.patchValue(res);
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
+        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+          this.ciudades = resp;
+          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        })
+      })
+    })
   }
 
   todosLosPaises() {
@@ -76,28 +94,28 @@ export class FormularioEmpresaComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      nombre:            ['valentinrodriguez1427', Validators.required],
-      telefono_empresa:  ['(666)-666-6666', Validators.required],
-      email_empresa:     ['valentinrodriguez1427@gmail.com', Validators.required],
-      rnc:               ['5555555555', Validators.required],
+      nombre:            ['', Validators.required],
+      telefono_empresa:  ['', Validators.required],
+      email_empresa:     ['', Validators.required],
+      rnc:               ['', Validators.required],
       id_pais:           ['', Validators.required],
       id_ciudad:         ['', Validators.required],
       direccion:         ['', Validators.required],
-      web:               ['asdasd.com', Validators.required],
-      contacto:          ['luis miguel', Validators.required],
-      telefono_contacto: ['(666)-666-6666', Validators.required],
+      web:               ['', Validators.required],
+      contacto:          ['', Validators.required],
+      telefono_contacto: ['', Validators.required],
       moneda:            ['', Validators.required],
       empresa_verde:     ['', Validators.required],
       tipo_cuadre:       ['', Validators.required],
       valuacion_inv:     ['', Validators.required],
       logo:              [],
       estado:            ['activo'],
-      usuario_creador:   [this.usuario.username]
+      usuario_modificador:   ['']
     })
   }
 
   guardarEmpresa() {
-    // this.guardando = true;    
+    this.guardando = true;    
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
@@ -126,6 +144,47 @@ export class FormularioEmpresaComponent implements OnInit {
     } 
   }
 
+  actualizarEmpresa(){
+    // this.actualizando = true;    
+    if (this.forma.invalid) {  
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+      this.guardando = false;
+    }else{ 
+      switch (this.nombreExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
+          this.guardando = false;
+          break;
+
+        case 2:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre');
+          this.guardando = false;
+          break;
+
+        default:
+          this.forma.get('usuario_modificador').setValue(this.usuario.username);
+          this.empresasServ.actEmpresa(this.forma.value, this.id).then((resp: any)=>{
+            this.guardando = false;
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
+          })
+          break;
+      } 
+    } 
+  }
+
+  cancelar() {
+    this.actualizar = false;
+    this.guardar = true;    
+    this.ciudades = [];
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.empresasServ.guardando(); 
+  }
+
   buscaPaises(event) {
     this.paisesCiudadesServ.getCiudadesXpaises(event).then((resp:any) => {  
      this.ciudades = resp; 
@@ -150,31 +209,7 @@ export class FormularioEmpresaComponent implements OnInit {
       }
     })   
   }
-
-  filtrarPaises(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.paises.length; i++) {
-      const size = this.paises[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.paisesFiltrados = filtered;
-  }
-
-  filtrarCiudades(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const size = this.ciudades[i];
-      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtered.push(size);
-      }
-    }
-    this.ciudadesFiltradas = filtered;
-  }
-
+  
   preview(files) {
     if (files.length === 0)
       return;
