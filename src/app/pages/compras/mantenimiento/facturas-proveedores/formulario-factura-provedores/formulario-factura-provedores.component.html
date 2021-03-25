@@ -1,3 +1,11 @@
+
+<p-toolbar>	
+    <div class="p-toolbar-group-left"></div>						
+    <div class="p-toolbar-group-right">
+        <span style="margin-right: 10px;"><strong>Calcula ITBIS?</strong></span>
+    <p-selectButton [options]="opciones" [(ngModel)]="this.itbis" optionLabel="label" optionValue="value" (onChange)="setItbis($event)"	 ></p-selectButton>	
+    </div>
+</p-toolbar>
 <form (ngSubmit)="guardarFproveedor()" [formGroup]="forma">
     <p-panel header="Facturas u Orden de compra" >
         <div class="p-fluid p-formgrid p-grid">
@@ -134,7 +142,7 @@
                 <textarea id="detalle" type="text" rows="4" pInputTextarea name="detalle" formControlName="detalle"
                           [class.ng-invalid]="getNoValido('detalle')" [class.ng-dirty]="getNoValido('detalle')">
                 </textarea>
-                <small *ngIf="getNoValido('ncf')" class="p-invalid">Este campo es obligatorio.</small>
+                <small *ngIf="getNoValido('detalle')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
         </div>
     </p-panel>
@@ -230,12 +238,12 @@
                                 </span>    
                                 
                                 <span *ngIf="col.field === 'departamento'">
-                                    <p-dropdown [options]="departamentos" formControlName="departamento" placeholder="Escoge..."
-                                                optionLabel="descripcion" (onChange)='setVencimiento($event, true)'></p-dropdown>
+                                    <p-dropdown *ngIf="rowData['departamento'] === 'si'" [options]="departamentos" formControlName="departamento" placeholder="Escoge..."
+                                                optionLabel="descripcion" (onChange)='setVencimiento($event, true)'>
+                                    </p-dropdown>
                                 </span>
     
-                                <div *ngIf="col.field === 'depto' || col.field === 'retencion' || col.field === 'catalogo'|| 
-                                            col.field === 'referencia'">
+                                <div *ngIf="col.field === 'retencion' || col.field === 'catalogo'|| col.field === 'referencia'">
                                     <span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
                                         {{rowData[col.field] | titlecase}}										
                                     </span>
@@ -250,11 +258,15 @@
                                 </span>
                                         
                                 <span *ngIf="col.field === 'debito'">
-                                    <p-inputNumber formControlName="debito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
+                                    <p-inputNumber formControlName="debito" mode="decimal" locale="en-US" 
+                                                   (onBlur)="calculaTipo(rowData, i)" [minFractionDigits]="2">
+                                    </p-inputNumber>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
-                                    <p-inputNumber formControlName="credito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
+                                    <p-inputNumber formControlName="credito" mode="decimal" locale="en-US" 
+                                                   (onBlur)="calculaTipo(rowData, i)" [minFractionDigits]="2">
+                                    </p-inputNumber>
                                 </span>
     
                                 <span *ngIf="col.field === 'acciones'">
@@ -282,7 +294,6 @@
                     <ng-template pTemplate="footer">
                         <tr>
                             <td><strong>Totales:</strong></td>											
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td *ngIf="(this.totalC - this.totalD) !== 0" class="rojo"><strong>{{this.simbolo}}{{this.totalD}}</strong></td>
