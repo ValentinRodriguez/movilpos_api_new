@@ -13,8 +13,9 @@ export class ProveedoresComponent implements OnInit {
  
   proveedores: any[]=[];  
   cols: any[]; 
- 
+  index: number = 0;
   cuenta_no: any;  
+
   constructor(private uiMessage: UiMessagesService,
     private proveedoresServ:ProveedoresService,
     private confirmationService: ConfirmationService) {
@@ -23,13 +24,25 @@ export class ProveedoresComponent implements OnInit {
     ngOnInit(): void {
       this.todosLosProveedores();
       
-      this.proveedoresServ.proveedoresCreados.subscribe((resp: any) =>{
+      this.proveedoresServ.guardar.subscribe((resp: any)=>{  
+        this.index = resp;
+      })
+
+      this.proveedoresServ.proveedoresCreados.subscribe(() =>{
+        this.todosLosProveedores();
+      })
+
+      this.proveedoresServ.proveeact.subscribe(() =>{
+        this.todosLosProveedores();
+      })
+
+      this.proveedoresServ.proveedorBorrado.subscribe(() =>{
         this.todosLosProveedores();
       })
 
       this.cols = [
         { field: 'nom_sp', header: 'Proveedor' },
-        { field: 'rnc', header: 'RNC' },
+        { field: 'documento', header: 'Documento' },
         { field: 'tel_sp', header: 'Teléfono' },
         { field: 'email', header: 'Email' },
         { field: 'ciudad', header: 'Ciudad' },
@@ -40,11 +53,13 @@ export class ProveedoresComponent implements OnInit {
     todosLosProveedores() {
       this.proveedoresServ.getDatos().then((resp: any) => {
         this.proveedores = resp;     
+        console.log(resp);        
       })
     }
 
-    actualizarProveedor(producto) { 
-      
+    actualizarProveedor(cod_sp, cod_sp_sec) { 
+      this.index = 1;   
+      this.proveedoresServ.actualizando(cod_sp, cod_sp_sec);
     }
     
     borrarProveedor(id) {

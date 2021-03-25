@@ -201,8 +201,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       fecha:           [''],
       cod_sp:          [''], //
       cod_sp_sec:      [''], //
-      debito:          [cuentas.debito || 0, Validators.required],  
-      credito:         [cuentas.credito || 0, Validators.required],
+      debito:          [cuentas.debito || '', Validators.required],  
+      credito:         [cuentas.credito || '', Validators.required],
       porciento:       [cuentas.porciento || 0],
       factura:         [''], //
       tipo_doc:        [''], //
@@ -413,10 +413,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
           this.forma.get('retencion').setValue(retencion);          
           ((this.cuentas_no).at(index) as FormGroup).get("debito").disable(); 
         }     
-
-        if (element.tipo_cuenta !== 'impuestos') {   
-          this.forma.get('monto_itbi').setValue(0);
-        }
         index++;
       });      
     } else {
@@ -564,7 +560,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   borrarCatEscogido(id) {
-    this.cuentas.splice(id,1)  
+    this.cuentas.splice(id,1);
+    this.cuentas_no.removeAt(id);
   }
 
   cancelar() {
