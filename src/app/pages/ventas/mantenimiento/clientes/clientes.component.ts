@@ -31,51 +31,37 @@ export class ClientesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
-    
+    this.todosLosClientes();
 
     this.cols = [
       { field: 'nombre', header: 'Cliente' },
-      { field: 'num_rnc', header: 'RNC' },
+      { field: 'documento', header: 'Documento' },
       { field: 'email', header: 'Email' },
       { field: 'celular', header: 'Celular' },
-      // { field: 'vendedor', header: 'Vendedor' },
       { field: 'acciones', header: 'Acciones' },
     ] 
 
-    this.clientesServ.clientAct.subscribe((resp:any)=>{
+    this.clientesServ.ClienteCreado.subscribe(()=>{
       this.todosLosClientes()
     })
 
-    this.clientesServ.clienteBorrado.subscribe((resp:any)=>{
+    this.clientesServ.clientAct.subscribe(()=>{
+      this.todosLosClientes()
+    })
+
+    this.clientesServ.clienteBorrado.subscribe(()=>{
       this.todosLosClientes()
     })   
   }
   
   todosLosClientes() {
     this.clientesServ.getDatos().then((resp: any) => {
-      this.clientes = resp;  
+      this.clientes = resp; 
+      console.log(resp);
+       
     })
   }
   
-  // guardarCliente(){
-  //   this.guardando = true;
-  //   console.log(this.forma.value);    
-  //   if (this.forma.invalid) {
-  //     this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-  //     Object.values(this.forma.controls).forEach(control =>{          
-  //       control.markAllAsTouched();
-  //     })
-  //     this.guardando = false;
-  //   }else{      
-  //     this.forma.value.usuario_creador = this.usuario.username;
-  //     this.guardando = false;
-  //     this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
-  //       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);              
-  //     })
-  //   }  
-  // } 
-
   actualizarCliente(producto) { 
 
   }
@@ -93,9 +79,5 @@ export class ClientesComponent implements OnInit {
    
   buscaPersona(data) {
     console.log(data);    
-  }
-
-  
-
-
+  }  
 }

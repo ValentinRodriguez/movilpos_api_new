@@ -12,7 +12,7 @@
 							<div class="table-header">
 								<span class="p-input-icon-left">
 									<i class="pi pi-search"></i>
-									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
 								</span>
 							</div>
 						</ng-template>
@@ -257,7 +257,7 @@
 										<div class="table-header">
 											<span class="p-input-icon-left">
 												<i class="pi pi-search"></i>
-												<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+												<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
 											</span>
 										</div>
 									</ng-template>
@@ -362,11 +362,6 @@
 						<button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
 								type="button" disabled="true"></button>
 					</form>
-					{{forma.valid}}
-					<br>
-					{{forma.status}}
-					<br>
-					{{forma.value | json}}
                 </p-tabPanel>
             </p-tabView>
 		</div>	

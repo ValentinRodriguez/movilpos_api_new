@@ -22,8 +22,11 @@ export class FormularioClientesComponent implements OnInit {
   tiponegocio=[];
   tipo_cliente=[];
   vendedor=[];
+  
   cedula = true;
   rnc = false;
+  pasaporte = false;
+
   vendedoresFiltrados: any[];
   condpago: any[];
   paises: any[] = [];
@@ -55,6 +58,8 @@ export class FormularioClientesComponent implements OnInit {
 
           case 'tipo documento':
             this.documento = element.data;
+            console.log(this.documento);
+            
             break;
 
           case 'tipo negocio':
@@ -109,34 +114,35 @@ export class FormularioClientesComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      nombre:           ['', Validators.required],
-      tipo_documento:   ['', Validators.required],
-      num_rnc:          [''],
-      vendedor:         ['', Validators.required],
-      cedula:           [''],
-      limite_credito:   [''],
-      tipo_negocio:     ['', Validators.required],
-      ncf:              [''],
-      generico:         ['', Validators.required],
-      direccion:        ['', Validators.required],
-      urbanizacion:     ['', Validators.required],
-      id_pais:          ['', Validators.required],
-      id_ciudad:        ['', Validators.required],
-      celular:          ['', Validators.required],
-      telefono_casa:    ['', Validators.required],
-      email:            [''],      
-      tipo_cliente:     ['', Validators.required],
-      cond_pago:        ['', Validators.required],
-      telefono_oficina: ['', Validators.required],
-      url:              [''],
-      contacto:         [''],
-      usuario_creador:  [this.usuario.username]
+      nombre:               ['joselito perez', Validators.required],
+      tipo_documento:       ['', Validators.required],
+      vendedor:             ['', Validators.required],
+      documento:            ['22500192319'],
+      limite_credito:       [''],
+      tipo_negocio:         ['', Validators.required],
+      ncf:                  ['B0100066853'],
+      generico:             ['', Validators.required],
+      direccion:            ['santo domingo', Validators.required],
+      urbanizacion:         ['dfgdfg', Validators.required],
+      id_pais:              ['', Validators.required],
+      id_ciudad:            ['', Validators.required],
+      celular:              ['(555)-555-5555', Validators.required],
+      telefono_casa:        ['(555)-555-5555'],
+      email:                ['valentinrodriguez1427@gmail.com'],      
+      tipo_cliente:         ['', Validators.required],
+      cond_pago:            ['', Validators.required],
+      telefono_oficina:     ['(555)-555-5555'],
+      url:                  ['ddgfdfg.com'],
+      contacto:             ['luis miguel'],
+      estado:               ['activo'],
+      usuario_creador:      [this.usuario.username],
+      usuario_modificador:  ['']
     })
   }
 
   guardarCliente(){
     this.guardando = true;
-    console.log(this.forma.value);    
+    console.log(this.forma);    
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{          
@@ -144,7 +150,6 @@ export class FormularioClientesComponent implements OnInit {
       })
       this.guardando = false;
     }else{      
-      this.forma.value.usuario_creador = this.usuario.username;
       this.guardando = false;
       this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);              
@@ -169,13 +174,23 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   tipoDoc(doc) {
-    if (doc.descripcion === 'cedula') {
+    if (doc === 'cedula') {
+      console.log(doc);    
       this.cedula = true;
       this.rnc = false;
+      this.pasaporte = false;
     } 
-    if (doc.descripcion === 'rnc') {
+    if (doc === 'RNC') {
+      console.log(doc); 
       this.cedula = false;
       this.rnc = true;
+      this.pasaporte = false;
+    } 
+    if (doc === 'pasaporte') {
+      console.log(doc); 
+      this.cedula = false;
+      this.rnc = false;
+      this.pasaporte = true;
     } 
   }
 }

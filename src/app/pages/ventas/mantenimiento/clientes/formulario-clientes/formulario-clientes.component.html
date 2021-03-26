@@ -12,25 +12,35 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="tipo_documento">Documento</label>
-            <p-dropdown inputId="tipo_documento" [options]="documento" [class.ng-invalid]="getNoValido('tipo_documento')" [class.ng-dirty]="getNoValido('tipo_documento')" 
+            <p-dropdown inputId="tipo_documento" [options]="documento" [class.ng-invalid]="getNoValido('tipo_documento')" 
+                        [class.ng-dirty]="getNoValido('tipo_documento')" 
                         name="tipo_documento" formControlName="tipo_documento"
-                        placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value)">
+                        placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value.descripcion)">
             </p-dropdown>
             <small *ngIf="getNoValido('tipo_documento')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3" *ngIf="this.cedula">
-            <label for="cedula">Cédula</label>
+            <label for="documento">Cédula</label>
             <span class=" p-input-icon-right">
-                <input id="cedula" type="text" pInputText formControlName="cedula" [class.ng-invalid]="getNoValido('cedula')" 
-                       [class.ng-dirty]="getNoValido('cedula')">
+                <input id="documento" type="text" pInputText formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
+                       [class.ng-dirty]="getNoValido('documento')">
             </span>
         </div>
 
         <div class="p-field p-col-12 p-md-3" *ngIf="this.rnc">
-            <label for="num_rnc">RNC</label>
+            <label for="documento">RNC</label>
             <span class=" p-input-icon-right">
-                <input id="num_rnc" type="text" pInputText formControlName="num_rnc">
+                <input id="documento" type="text" pInputText formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
+                       [class.ng-dirty]="getNoValido('documento')">
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3" *ngIf="this.pasaporte">
+            <label for="documento">Pasaporte</label>
+            <span class=" p-input-icon-right">
+                <input id="documento" type="text" pInputText formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
+                       [class.ng-dirty]="getNoValido('documento')">
             </span>
         </div>
         
@@ -137,12 +147,21 @@
         </div>
         
         <div class="p-field p-col-12 p-md-3">
-            <label for="telefono_casa">Telefono_casa</label>
+            <label for="telefono_casa">Telefono Casa</label>
             <span class=" p-input-icon-right">
                 <p-inputMask mask="(999)-999-9999" formControlName="telefono_casa" placeholder="(999)-999-9999" 
                              [class.ng-invalid]="getNoValido('telefono_casa')" [class.ng-dirty]="getNoValido('telefono_casa')"></p-inputMask>
             </span>
             <small *ngIf="getNoValido('telefono_casa')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="telefono_oficina">Telefono Oficina</label>
+            <span class=" p-input-icon-right">
+                <p-inputMask mask="(999)-999-9999" formControlName="telefono_oficina" placeholder="(999)-999-9999" 
+                             [class.ng-invalid]="getNoValido('telefono_oficina')" [class.ng-dirty]="getNoValido('telefono_oficina')"></p-inputMask>
+            </span>
+            <small *ngIf="getNoValido('telefono_oficina')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">

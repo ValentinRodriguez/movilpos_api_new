@@ -9,7 +9,7 @@ const URL = environment.url;
 })
 export class ClientesService {
 
-  Clientes = new EventEmitter();
+  ClienteCreado = new EventEmitter();
   clienteBorrado = new EventEmitter();
   clientAct      = new EventEmitter();
 
@@ -67,9 +67,10 @@ export class ClientesService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/mclientes`, formData).subscribe( resp => {         
+      this.http.post(`${ URL }/mclientes`, formData).subscribe( resp => {    
+          console.log(resp);             
           if (resp['code'] === 200) {    
-            this.Clientes.emit( resp );                                   
+            this.ClienteCreado.emit( resp );                                   
             resolve(resp);       
           }
       });
