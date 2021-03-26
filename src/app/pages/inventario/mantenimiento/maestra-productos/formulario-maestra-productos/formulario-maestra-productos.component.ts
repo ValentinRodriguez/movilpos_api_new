@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
@@ -11,9 +11,11 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { TipoInventarioService } from 'src/app/services/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { environment } from 'src/environments/environment';
 import { StepComponent } from '../step/step.component';
-const URLIMG = environment.urlImagenes;
+import { environment } from 'src/environments/environment';
+
+const URL = environment.urlImagenes;
+
 @Component({
   selector: 'app-formulario-maestra-productos',
   templateUrl: './formulario-maestra-productos.component.html',
@@ -36,11 +38,16 @@ export class FormularioMaestraProductosComponent implements OnInit {
   brands: any[] = [];
   bodegas: any[] = [];
   medidas: any[] = [];
-  uploadedFiles: any[] = [];
-  @ViewChild(FileUpload)
-  fileUpload: FileUpload  
-  
+  // uploadedFiles: any[] = [];
+  // @ViewChild(FileUpload)
+  // fileUpload: FileUpload  
+  @ViewChild('file')
+  file: ElementRef;
+  imgEmpresa = null;
+  imgURL = null;
+  imagePath;
 
+  message: string;
   origenes = [
     {label: 'Importado', value: 'importado'},
     {label: 'Local', value: 'local'},
@@ -100,19 +107,11 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
-      this.inventarioServ.getDato(resp).then((res: any) => {
-        // let tmp = JSON.parse(res.galeriaImagenes);
-        // let url = URLIMG + '/storage/' + tmp[0];
-        // console.log(url);
-        // this.toDataURL('https://pbs.twimg.com/profile_images/558329813782376448/H2cb-84q_400x400.jpeg', function (dataUrl) {
-        //   console.log(dataUrl)
-        //       })  
-        //  this.inventarioServ.getBase64ImageFromUrl('http://approvaltests.com/images/logo.png')
-        //  .then(result => console.log(result))
-        //  .catch(err => console.error(err));    
+      this.inventarioServ.getDato(resp).then((res: any) => {   
         console.log(res);
         
         this.forma.patchValue(res);
+        this.imgURL = `${URL}/storage/${res.galeriaImagenes}`;
         this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
         this.forma.get('fabricacion').setValue({value: Number(res.fabricacion)});
         this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand));
@@ -364,9 +363,29 @@ export class FormularioMaestraProductosComponent implements OnInit {
     }
   }
 
-  onFileSelect(event) {
-    this.forma.get("galeriaImagenes").setValue(this.fileUpload.files);
+  preview(files) {
+    if (files.length === 0)
+      return;
+ 
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Solo puede escoger imagenes";
+      return;
+    }
+
+    this.forma.get("galeriaImagenes").setValue(files[0]);
+    
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
+    }
   }
+
+  // onFileSelect(event) {
+  //   this.forma.get("galeriaImagenes").setValue(this.fileUpload.files);
+  // }
   
   checaChasis(data) {
     if (this.getChasis) { 
@@ -418,10 +437,14 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   resetFormulario() {
     this.forma.reset();
-    this.fileUpload.clear();
+    // this.fileUpload.clear();
+    this.file.nativeElement.value = "";
+    this.imgEmpresa = null;
+    this.imgURL = null;
     this.forma.get('usuario_creador').setValue(this.usuario.username);    
     this.forma.get('estado').setValue('activo');
   }
+
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }

@@ -138,18 +138,19 @@ export class InventarioService {
 
   crearInvProducto( invProducto: any ) {    
     const formData = new FormData();
-    let imagesSec = invProducto.galeriaImagenes || [];
-
+    // let imagesSec = invProducto.galeriaImagenes || [];
+    console.log(invProducto);
+    
     for(let key in invProducto){ 
       switch (key) {
-        case 'galeriaImagenes':
-          if (imagesSec.length !== 0) {
-            for (let i = 0; i < imagesSec.length; i++) {           
-              formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
-            }        
-            formData.append('imagesSec', imagesSec.length);            
-          }
-          break;
+        // case 'galeriaImagenes':
+        //   if (imagesSec.length !== 0) {
+        //     for (let i = 0; i < imagesSec.length; i++) {           
+        //       formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
+        //     }        
+        //     formData.append('imagesSec', imagesSec.length);            
+        //   }
+        //   break;
 
         case 'fabricacion':
           formData.append(key, invProducto[key].value);
@@ -203,23 +204,18 @@ export class InventarioService {
 
   actualizarInvProducto( id:any, invProducto: any ) {   
     const formData = new FormData();
-    let galeriaImagenes = JSON.parse(invProducto.galeriaImagenes);
-    let imagesSec = galeriaImagenes || [];
+    let imagesSec = invProducto.galeriaImagenes || [];
     console.log(invProducto);
-    
-    console.log(imagesSec);
-    
+        
     for(let key in invProducto){ 
       switch (key) {
         case 'galeriaImagenes':
-          console.log(typeof(imagesSec));
-          
-          // if (imagesSec.length !== 0) {
-          //   for (let i = 0; i < imagesSec.length; i++) {           
-          //     formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
-          //   }        
-          //   formData.append('imagesSec', imagesSec.length);            
-          // }
+          if (typeof imagesSec !== 'string') {   
+            formData.append('galeriaImagenes', imagesSec, imagesSec.name );    
+            formData.append('galeriaImagenes', imagesSec.length)          
+          } else {
+            formData.append('galeriaImagenes', imagesSec);
+          }  
           break;
 
         case 'fabricacion':
