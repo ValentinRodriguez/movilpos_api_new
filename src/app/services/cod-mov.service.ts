@@ -57,6 +57,7 @@ export class CodMovService {
 
   crearTipoMov(tipoMov: any) {
     let data = {};
+    console.log(tipoMov);
     for (const key in tipoMov) {
       switch (key) {
         case 'origen':

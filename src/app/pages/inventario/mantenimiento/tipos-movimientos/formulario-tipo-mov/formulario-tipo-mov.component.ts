@@ -27,6 +27,7 @@ export class FormularioTipoMovComponent implements OnInit {
   usuarios: any[] = [];  
   cols2: { field: string; header: string; }[];
   id: number;
+
   origenes = [
     {label: 'Débito', value: 'debito'},
     {label: 'Crédito', value: 'credito'},
@@ -48,10 +49,12 @@ export class FormularioTipoMovComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    console.log(this.forma.value);
+    
     this.todosLosCatalogos();
     this.todosLosUsuarios(); 
     this.catalogoEscogido();
-    this.tipoOrigen();
+
     this.cols2 = [
       { field: 'descripcion', header: 'Descripción' },
       { field: 'cuenta_no', header: 'Cuenta' },
@@ -66,11 +69,36 @@ export class FormularioTipoMovComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.CodMovServ.getDato(resp).then((res: any) => {
-        console.log(res);
-        // this.forma.get('divisa').setValue(res.divisa);
-        // this.forma.get('simbolo').setValue(res.simbolo);
-        // this.forma.patchValue(res);
+        console.log(res);        
+        this.resetFormulario();
+        this.forma.patchValue(res.codigosmov[0]);
+        this.forma.get('origen').setValue(this.origenes.find(tipo => tipo.value === res.codigosmov[0].origen));
+        let cuenta = [] 
+        this.cgcatalogos = res.cuentas;
+        this.cgcatalogos.forEach(element => {
+          cuenta.push(element.cuenta_no);
+        });     
+        this.forma.controls['cuenta_no'].setValue(cuenta);  
       })
+    })
+  }
+  
+  crearFormulario() {
+    this.forma = this.fb.group({
+      titulo:                ['', Validators.required],
+      origen:                ['', Validators.required],
+      cuenta_no:             ['', Validators.required],
+      email:                 [this.usuario.email, Validators.required],
+      descripcion:           ['movimiento de exportaciones', Validators.required],
+      control_clientes:      ['no', Validators.required],
+      control_despachos:     ['no', Validators.required],
+      control_departamento:  ['no', Validators.required],
+      control_devoluciones:  ['no', Validators.required],
+      control_transferencia: ['no', Validators.required],
+      control_orden_compra:  ['no', Validators.required],
+      estado:                ['ACTIVO', Validators.required],
+      usuario_creador:       [this.usuario.username, Validators.required],
+      usuario_modificador:   ['']
     })
   }
 
@@ -96,16 +124,13 @@ export class FormularioTipoMovComponent implements OnInit {
     })
   }
 
-  tipoOrigen() {
-    this.forma.get('origen').valueChanges.subscribe(resp =>{
-      if (resp.value === 'credito') {
-        this.forma.controls['control_orden_compra'].disable();
-      }else{
-        this.forma.controls['control_orden_compra'].enable();
-      }
-    })
+  tipoOrigen(data) {  
+    if (data.value === 'credito') {
+      this.forma.controls['control_orden_compra'].disable();
+    }else{
+      this.forma.controls['control_orden_compra'].enable();
+    }
   }
-
 
   controlDespachos(control) {
     if (control === 'si') {
@@ -160,25 +185,7 @@ export class FormularioTipoMovComponent implements OnInit {
   detalleCatalogo(cgcatalogo) {
 
   }
-  
-  crearFormulario() {
-    this.forma = this.fb.group({
-      titulo:                ['', Validators.required],
-      origen:                ['debito', Validators.required],
-      cuenta_no:             ['', Validators.required],
-      email:                 [this.usuario.email, Validators.required],
-      descripcion:           ['movimiento de exportaciones', Validators.required],
-      control_clientes:      ['no', Validators.required],
-      control_despachos:     ['no', Validators.required],
-      control_departamento:  ['no', Validators.required],
-      control_devoluciones:  ['no', Validators.required],
-      control_transferencia: ['no', Validators.required],
-      control_orden_compra:  ['no', Validators.required],
-      estado:                ['ACTIVO', Validators.required],
-      usuario_creador:       [this.usuario.username, Validators.required],
-    })
-  }
-  
+    
   guardarcodMov(){
     //this.guardando = true;
     if (this.forma.invalid) {       
@@ -201,10 +208,9 @@ export class FormularioTipoMovComponent implements OnInit {
 
         default:
           this.CodMovServ.crearTipoMov(this.forma.value).then((resp: any)=>{
-            if (resp) {
-              this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-            }               
+            this.guardando = false;
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.resetFormulario();
           })
         break;
       } 
@@ -220,20 +226,53 @@ export class FormularioTipoMovComponent implements OnInit {
          control.markAllAsTouched();
        })
      }else{ 
-      this.forma.get('usuario_modificador').setValue(this.usuario.username);
-      this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-      })
+      switch (this.movimientoExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
+          this.guardando = false;
+          break;
+
+        case 2:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe un tipo de movimiento con este nombre');
+          this.guardando = false;
+          break;
+
+        default:
+          this.forma.get('usuario_modificador').setValue(this.usuario.username);
+          this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).then((resp: any) => {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.resetFormulario();
+          })
+        break;
+      } 
+    
     }
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.resetFormulario();
     this.CodMovServ.guardando();    
+    console.log(this.forma.value);    
+  }
+
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.enable();
+    this.cgcatalogos = [];
+    this.forma.get('cuenta_no').setValue('');
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('email').setValue(this.usuario.email);
+    this.forma.get('control_clientes').setValue('no');
+    this.forma.get('control_despachos').setValue('no');
+    this.forma.get('control_departamento').setValue('no');
+    this.forma.get('control_devoluciones').setValue('no');
+    this.forma.get('control_transferencia').setValue('no');
+    this.forma.get('control_orden_compra').setValue('no');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    console.log(this.forma);
+    
   }
 
   buscaCuentas() {

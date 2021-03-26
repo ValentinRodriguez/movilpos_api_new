@@ -47,7 +47,8 @@ export class FormularioMarcaComponent implements OnInit {
     this.forma = this.fb.group({
       descripcion:     ['', Validators.required],
       estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      usuario_creador: [this.usuario.username, Validators.required],
+      usuario_modificador: ['']
     })
   }
 
@@ -72,10 +73,9 @@ export class FormularioMarcaComponent implements OnInit {
 
         default:
           this.marcasServ.crearMarca(this.forma.value).then((resp: any)=>{
-            if (resp) {
-              this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-            }               
+            this.guardando = false;
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.resetFormulario();
           })
           break;
       } 
@@ -83,30 +83,48 @@ export class FormularioMarcaComponent implements OnInit {
   }
 
   ActualizarMarca(){
-    this.actualizando = true;
-    this.forma.get('usuario_modificador').setValue(this.usuario.username);    
+    this.actualizando = true;       
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{
-      this.marcasServ.actualizarMarca(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
-      })
+      switch (this.marcaExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
+          this.guardando = false;
+          break;
+
+        case 2:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
+          this.guardando = false;
+          break;
+
+        default:
+          this.forma.get('usuario_modificador').setValue(this.usuario.username); 
+          this.marcasServ.actualizarMarca(this.id, this.forma.value).then((resp: any) => {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.actualizando = false;
+            this.resetFormulario();
+          })
+          break;
+      }      
     }
   }
 
   cancelar() {
     this.actualizar = false;
-    this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.guardar = true;   
+    this.resetFormulario();
     this.marcasServ.guardando();    
   }
 
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
   verificaMarca(data){  
     if (data === "") {
       this.marcaExiste = 3;

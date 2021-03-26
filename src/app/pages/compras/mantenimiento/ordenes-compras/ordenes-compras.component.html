@@ -211,7 +211,7 @@
 							<div class="p-field p-col-12 p-md-6">
 								<label>Documentos</label>
 								<p-fileUpload name="demo[]" multiple="multiple" accept="image/*,.pdf" maxFileSize="5000000" 
-											  (onSelect)="onFileSelect($event)">
+											  (onSelect)="onFileSelect($event)" [showUploadButton]="false" [showUploadButton]="false">
 									<ng-template pTemplate="content">
 										<ul *ngIf="uploadedFiles.length">
 											<li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>

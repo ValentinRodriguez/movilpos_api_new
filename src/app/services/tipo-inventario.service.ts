@@ -94,16 +94,23 @@ export class TipoInventarioService {
   }
 
   actualizartipoInv(id:number, invTipo: any) {
+    let formData = {};
+    for(let key in invTipo){  
+      if (key === 'cuenta_no') {
+        formData[key] = invTipo[key].cuenta_no         
+      }else{
+        formData[key] = invTipo[key]
+      }
+    }
     return new Promise( resolve => {
-      this.http.put(`${ URL }/invtipos/${id}`, invTipo)
-              .subscribe( (resp: any) => {
-                console.log(resp);
-                
-                if (resp['code'] === 200) {
-                  this.TipoInventarioAct.emit( resp.data );                            
-                  resolve(resp);            
-                }
-              });
+      this.http.put(`${ URL }/invtipos/${id}`, formData)
+          .subscribe( (resp: any) => {
+            console.log(resp);            
+            if (resp['code'] === 200) {
+              this.TipoInventarioAct.emit( resp.data );                            
+              resolve(resp);            
+            }
+          });
     });
   } 
 

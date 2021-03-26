@@ -180,31 +180,14 @@ export class FormularioMaestraProductosComponent implements OnInit {
     this.guardando = false;
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-      Object.values(this.forma.controls).forEach(control =>{          
-        if (control instanceof FormArray) {    
-          Object.values(control.controls).forEach(control => control.markAsTouched());
-        } else {
-          control.markAllAsTouched();
-        }
+      Object.values(this.forma.controls).forEach(control =>{
+        control.markAllAsTouched();
       })
     }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
         this.guardando = false; 
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
-        this.forma.get('chasis').reset();
-        this.forma.get('titulo').reset();
-        this.forma.get('id_propiedad').reset();
-        this.forma.get('id_categoria').reset();
-        this.forma.get('id_brand').reset();
-        this.forma.get('fabricacion').reset();
-        this.forma.get('motor').reset();
-        this.forma.get('existenciaMaxima').reset();
-        this.forma.get('precio_compra').reset();
-        this.forma.get('precio_venta').reset();
-        this.forma.get('costo').reset();
-        this.forma.get('codigo_referencia').reset();
-        this.forma.get('galeriaImagenes').reset();
-        this.fileUpload.clear();
+        this.resetFormulario();
       })
     }  
   }
@@ -214,31 +197,14 @@ export class FormularioMaestraProductosComponent implements OnInit {
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-      Object.values(this.forma.controls).forEach(control =>{          
-        if (control instanceof FormArray) {    
-          Object.values(control.controls).forEach(control => control.markAsTouched());
-        } else {
-          control.markAllAsTouched();
-        }
+      Object.values(this.forma.controls).forEach(control =>{
+        control.markAllAsTouched();
       })
     }else{
       this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{
         this.actualizando = false;
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
-        this.forma.get('chasis').reset();
-        this.forma.get('titulo').reset();
-        this.forma.get('id_propiedad').reset();
-        this.forma.get('id_categoria').reset();
-        this.forma.get('id_brand').reset();
-        this.forma.get('fabricacion').reset();
-        this.forma.get('motor').reset();
-        this.forma.get('existenciaMaxima').reset();
-        this.forma.get('precio_compra').reset();
-        this.forma.get('precio_venta').reset();
-        this.forma.get('costo').reset();
-        this.forma.get('codigo_referencia').reset();
-        this.forma.get('galeriaImagenes').reset();
-        this.fileUpload.clear();
+        this.resetFormulario();
       })
     }
   }
@@ -298,10 +264,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
         closeOnEscape: false,
         header: 'Datos Necesarios Creación de Productos',
         width: '70%'
-      });  
-      // ref.onClose.subscribe(() => {
-      //   location.reload();        
-      // });
+      });
     }
   }
   
@@ -365,10 +328,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     id_brand.updateValueAndValidity
     existenciaMinima.updateValueAndValidity
     id_bodega.updateValueAndValidity     
-    id_propiedad.updateValueAndValidity    
-    // this.forma.get('tipo_producto').valueChanges.subscribe(valor =>{      
-    // }
-    // )
+    id_propiedad.updateValueAndValidity
   }
   
   tipoProducto(tipo) {    
@@ -446,55 +406,22 @@ export class FormularioMaestraProductosComponent implements OnInit {
           }          
         })
       })
-      // this.inventarioServ.getChasis(data.target.value).then((resp: any) => {
-      //   this.forma.get('asientos').setValue(Number(resp.standard_seating))
-      //   this.forma.get('asientosAd').setValue(Number(resp.optional_seating))
-      //   this.forma.get('motor').setValue(resp.engine)
-      //   // this.forma.get('fabricacion')
-      //   // this.forma.get('id_categoria')
-      //   // this.forma.get('id_brand')
-      // })
     }
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.patchValue({
-      titulo:               'testfgfgfgfg',
-      chasis:               '5TDZK3EH9AS004144',
-      motor:                '234234',
-      // fabricacion:          '',
-      asientos:             '1',
-      // asientosAd:           '',
-      // id_propiedad:         '',
-      // id_tipoinventario:    '',
-      // id_categoria:         '',
-      // id_brand:             '',
-      descripcion:          'fghjfghjfghj',
-      // codigo_referencia:    '',
-      // origen:               '',
-       existenciaMinima:     1,
-      // existenciaMaxima:     '',
-      // controlDeExistencias: '',
-      // id_bodega:            '',
-      // controlItbis:         '',
-      precio_compra:        '80',
-      precio_venta:         '500',
-      costo:                '100',    
-      // galeriaImagenes:      '',
-      // descuento:            '',
-      estado:               'activo',
-      tipo_producto:        this.tipos.find(tipo => tipo.id === 1),
-      usuario_creador:      this.usuario.username,
-      usuario_modificador:  ''
-    });
-
-    this.forma.get('usuario_creador').setValue(this.usuario.username);    
-    this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === 1));
+    this.resetFormulario();
     this.inventarioServ.guardando();
   }
 
+  resetFormulario() {
+    this.forma.reset();
+    this.fileUpload.clear();
+    this.forma.get('usuario_creador').setValue(this.usuario.username);    
+    this.forma.get('estado').setValue('activo');
+  }
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }

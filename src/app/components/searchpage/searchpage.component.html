@@ -1,1 +1,16 @@
-<p>searchpage works!</p>
+<div class="layout-search" [ngClass]="{'layout-search-active': app.search}">
+    <div class="search-container fade-in-up">
+        <i class="pi pi-search"></i>
+        <!-- <input type="text" class="p-inputtext" placeholder="Search" (click)="app.searchClick = true;"/> -->
+        <p-autoComplete [(ngModel)]="selectedMenues" [suggestions]="filteredMenues" (completeMethod)="filterMenues($event)" 
+                        field="nombre" [minLength]="1" (click)="app.searchClick = true;" [forceSelection]="true"
+                        (onSelect)="IrPrograma($event)"  [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
+            <ng-template let-menu pTemplate="item">
+                <div class="country-item">
+                    <i [attr.class]="menu.icon"></i>
+                    <h5 style="margin-left: 3.5rem;">{{menu.nombre_modulo | titlecase}} | {{menu.nombre | titlecase}}</h5>
+                </div>
+            </ng-template>
+        </p-autoComplete>
+    </div>
+</div>

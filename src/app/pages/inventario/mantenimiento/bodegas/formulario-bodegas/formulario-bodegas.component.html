@@ -18,7 +18,7 @@
             <p-dropdown inputId="id_pais" [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" [class.ng-dirty]="getNoValido('id_pais')" 
                         name="id_pais" formControlName="id_pais" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
             </p-dropdown>
-            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
+            <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
@@ -26,7 +26,7 @@
             <p-dropdown inputId="id_ciudad" [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" [class.ng-dirty]="getNoValido('id_ciudad')" 
                         name="id_ciudad" formControlName="id_ciudad" placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>
-            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
+            <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
     <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

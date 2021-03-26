@@ -34,7 +34,6 @@ export class FormularioTipoinvComponent implements OnInit {
   ngOnInit(): void {
     this.cgcatalogoServ.getDatosAux().then((resp: any) => {
       this.cuenta_no = resp;
-      console.log(resp)
     })
 
     this.tipoInventarioServ.actualizar.subscribe((resp: any) =>{
@@ -45,7 +44,6 @@ export class FormularioTipoinvComponent implements OnInit {
         console.log(res);
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.get('cuenta_no').setValue(this.cuenta_no.find(cuenta => cuenta.cuenta_no === res.cuenta_no));
-        this.forma.patchValue(res);
       })
     })
   }
@@ -55,13 +53,13 @@ export class FormularioTipoinvComponent implements OnInit {
       descripcion:     ['', Validators.required],
       cuenta_no:       ['', Validators.required],
       estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      usuario_creador: [this.usuario.username, Validators.required],
+      usuario_modificador: ['']
     })
   }
   
   guardarTipoInventario(){
-    this.guardando = true;
-    
+    this.guardando = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -81,10 +79,9 @@ export class FormularioTipoinvComponent implements OnInit {
 
         default:
           this.tipoInventarioServ.crearTipoInventario(this.forma.value).then((resp: any)=>{
-            if (resp) {
-              this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-            }               
+            this.guardando = false;
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.resetFormulario();
           })
           break;
       } 
@@ -93,27 +90,47 @@ export class FormularioTipoinvComponent implements OnInit {
 
   
   ActualizarTipoInv(){
-    this.actualizando = true
+    // this.actualizando = true
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-    }else{
-      this.tipoInventarioServ.actualizartipoInv(this.id, this.forma.value).then((resp: any) => {
-        this.actualizando = false;
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-      })
+    }else{      
+      switch (this.tipoInvExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
+          this.guardando = false;
+          break;
+
+        case 2:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
+          this.guardando = false;
+          break;
+
+        default:
+          this.forma.get('usuario_modificador').setValue(this.usuario.username);
+          this.tipoInventarioServ.actualizartipoInv(this.id, this.forma.value).then((resp: any) => {
+            this.actualizando = false;
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.resetFormulario();
+          })
+          break;
+      } 
     }
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.tipoInventarioServ.guardando();    
+  }
+
+  resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    this.tipoInventarioServ.guardando();    
   }
 
   verificaTipoInv(data){  
@@ -147,5 +164,4 @@ export class FormularioTipoinvComponent implements OnInit {
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
-
 }

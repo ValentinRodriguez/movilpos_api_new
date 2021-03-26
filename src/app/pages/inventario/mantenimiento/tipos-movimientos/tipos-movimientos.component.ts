@@ -24,7 +24,6 @@ export class TiposMovimientosComponent implements OnInit {
   usuarios_mov: any[] = [];
   cuentasMov: any[] = [];
   cuentasPermisos: any[] = []
-  loading: boolean;
   catalogos = false;
   movimientoExiste = 3;
   id_mov: any;
@@ -65,13 +64,10 @@ export class TiposMovimientosComponent implements OnInit {
 
   todosLosMov() {
     this.movimientos = [];    
-    this.loading = true;
-    this.CodMovServ.getDatos().then((resp: any) => {   
-      console.log(resp);
+    this.CodMovServ.getDatos().then((resp: any) => {
       this.movimientos = resp.codigosmov;
       console.log(this.movimientos)
       this.cuentas_permisos =resp.cuentas; 
-      this.loading = false;
     })
   }
 
