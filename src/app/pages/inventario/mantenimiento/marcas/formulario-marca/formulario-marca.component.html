@@ -4,7 +4,7 @@
             <label for="descripcion">Título</label>
             <span class=" p-input-icon-right">
                 <input type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
-                       [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')">
+                       [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')"
                        (keyup)="verificaMarca($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="marcaExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="marcaExiste === 1" style="color:#36b61d"></i>

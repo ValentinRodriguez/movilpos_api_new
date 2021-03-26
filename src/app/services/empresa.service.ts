@@ -81,18 +81,35 @@ export class EmpresaService {
   actEmpresa(empresa, id) {
     const formData = new FormData();
     let imagesSec = empresa.logo;
+    console.log(empresa);
     
-    for(let key in empresa){        
-      if (key === 'logo') {        
-        if (typeof imagesSec !== 'string') {   
-          formData.append('logo', imagesSec, imagesSec.name );    
-          formData.append('logo', imagesSec.length)          
-        } else {
-          formData.append('logo', imagesSec);
-          // formData.append('imagesSec', '0')
-        }
-      }
-      formData.append(key, empresa[key])
+    for(let key in empresa){    
+      switch (key) {
+        case 'logo':
+          if (typeof imagesSec !== 'string') {   
+            formData.append('logo', imagesSec, imagesSec.name );    
+            formData.append('logo', imagesSec.length)          
+          } else {
+            formData.append('logo', imagesSec);
+          }         
+          break;
+
+        case 'moneda':
+          formData.append(key, JSON.stringify(empresa[key]));          
+          break;
+          
+        case 'id_pais':
+          formData.append(key, empresa[key].id_pais)
+          break;
+
+        case 'id_ciudad':
+          formData.append(key, empresa[key].id_ciudad)
+          break;
+
+        default:
+          formData.append(key, empresa[key])
+          break;
+      } 
     }
 
     return new Promise( resolve => {

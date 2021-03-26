@@ -61,9 +61,9 @@
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="id_ciudad">Ciudad</label>
-            <p-dropdown inputId="id_ciudad" [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" [class.ng-dirty]="getNoValido('id_ciudad')" 
-                        name="id_ciudad" formControlName="id_ciudad" placeholder="Escoje.." optionLabel="descripcion">
+            <label for="cod_provincia">Ciudad</label>
+            <p-dropdown inputId="cod_provincia" [options]="ciudades" [class.ng-invalid]="getNoValido('cod_provincia')" [class.ng-dirty]="getNoValido('cod_provincia')" 
+                        name="cod_provincia" formControlName="cod_provincia" placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>
             <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
         </div>

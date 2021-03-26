@@ -10,7 +10,23 @@
         </div>
     </div>
 
+    
+    
     <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="rnc">RNC</label>
+            <span class=" p-input-icon-right">
+                <input id="rnc" type="text" pInputText formControlName="rnc" 
+                [class.ng-invalid]="getNoValido('rnc')" [class.ng-dirty]="getNoValido('rnc')"
+                       (keyup)="verificaRNC($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="rncExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="rncExiste === 2" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="rncExiste === 1" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="rncExiste === 3"></i>
+                <small *ngIf="getNoValido('rnc')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
         <div class="p-field p-col-12 p-md-3">
             <label for="nombre">Nombre</label>
             <span class=" p-input-icon-right">
@@ -42,15 +58,6 @@
                        [class.ng-invalid]="getNoValido('email_empresa')" [class.ng-dirty]="getNoValido('email_empresa')">
             </span>
             <small *ngIf="getNoValido('email_empresa')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="rnc">RNC</label>
-            <span class=" p-input-icon-right">
-                <input id="rnc" type="text" pInputText formControlName="rnc" 
-                       [class.ng-invalid]="getNoValido('rnc')" [class.ng-dirty]="getNoValido('rnc')">
-            </span>
-            <small *ngIf="getNoValido('rnc')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">

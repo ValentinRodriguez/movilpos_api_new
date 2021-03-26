@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DgiiService } from 'src/app/services/dgii.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { environment } from 'src/environments/environment';
+
+const URL = environment.urlImagenes;
 
 @Component({
   selector: 'app-formulario-empresa',
@@ -21,6 +25,7 @@ export class FormularioEmpresaComponent implements OnInit {
   imgURL = null;
   message: string;
   nombreExiste = 3;
+  rncExiste= 3;
   monedas: any;
   guardando = false;
   actualizando = false;
@@ -57,7 +62,8 @@ export class FormularioEmpresaComponent implements OnInit {
               private empresasServ: EmpresaService,
               private monedasServ: MonedasService,
               private usuariosServ: UsuarioService,
-              private paisesCiudadesServ: PaisesCiudadesService) { 
+              private paisesCiudadesServ: PaisesCiudadesService,
+              private dgiiServ: DgiiService) { 
     this.usuario = this.usuariosServ.getUserLogged()
     this.crearFormulario();
   }
@@ -77,6 +83,10 @@ export class FormularioEmpresaComponent implements OnInit {
       this.empresasServ.getDato(resp).then((res: any) => {
         console.log(res);
         this.forma.patchValue(res);
+        this.imgURL = `${URL}/storage/${res.logo}`;
+        console.log(JSON.parse(res.moneda));
+        
+        this.forma.get('moneda').setValue(JSON.parse(res.moneda));   
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
           this.ciudades = resp;
@@ -110,6 +120,7 @@ export class FormularioEmpresaComponent implements OnInit {
       valuacion_inv:     ['', Validators.required],
       logo:              [],
       estado:            ['activo'],
+      usuario_creador:   [this.usuario.username],
       usuario_modificador:   ['']
     })
   }
@@ -125,63 +136,92 @@ export class FormularioEmpresaComponent implements OnInit {
     }else{ 
       switch (this.nombreExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');
           this.guardando = false;
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre');
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre.');
+          this.guardando = false;
+          break;
+      } 
+
+      switch (this.rncExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');
           this.guardando = false;
           break;
 
-        default:
-          this.empresasServ.crearEmpresa(this.forma.value).then((resp: any)=>{
-            this.guardando = false;
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
-          })
+        case 1:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');
+          this.guardando = false;
           break;
       } 
+
+      this.empresasServ.crearEmpresa(this.forma.value).then((resp: any)=>{
+        this.guardando = false;
+        this.resetFormulario();
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
+      })
+      this.guardando = false;
     } 
   }
 
   actualizarEmpresa(){
-    // this.actualizando = true;    
+    this.actualizando = true;    
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);
     if (this.forma.invalid) {  
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios.');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
+      this.actualizando = false;
     }else{ 
       switch (this.nombreExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');
+          this.actualizando = false;
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre');
-          this.guardando = false;
-          break;
-
-        default:
-          this.forma.get('usuario_modificador').setValue(this.usuario.username);
-          this.empresasServ.actEmpresa(this.forma.value, this.id).then((resp: any)=>{
-            this.guardando = false;
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
-          })
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre.');
+          this.actualizando = false;
           break;
       } 
+
+      switch (this.rncExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');
+          this.actualizando = false;
+          break;
+
+        case 1:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');
+          this.actualizando = false;
+          break;
+      } 
+      
+      this.empresasServ.actEmpresa(this.forma.value, this.id).then((resp: any)=>{
+        this.actualizando = false;
+        this.resetFormulario();
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
+      })
+      this.actualizando = false;
     } 
+  }
+
+  resetFormulario() {
+    this.ciudades = [];
+    this.forma.reset();
+    this.imgURL = null;
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
   cancelar() {
     this.actualizar = false;
-    this.guardar = true;    
-    this.ciudades = [];
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.guardar = true;  
+    this.resetFormulario();
     this.empresasServ.guardando(); 
   }
 
@@ -246,6 +286,23 @@ export class FormularioEmpresaComponent implements OnInit {
         this.nombreExiste = 1;
       }else{
         this.nombreExiste = 2;
+      }
+    })
+  }
+
+  verificaRNC(data){  
+    if (data === "") {
+      this.rncExiste = 3;
+      return;
+    }
+    this.rncExiste = 0;
+    this.dgiiServ.busquedaRNC(data).then((resp: any)=>{
+      if(resp.length === 0) {
+        this.rncExiste = 1;
+      }else{
+        this.rncExiste = 2;
+        this.forma.get('nombre').setValue(resp[0].nombre_empresa);
+        this.forma.get('telefono_empresa').setValue(resp[0].telefono);
       }
     })
   }

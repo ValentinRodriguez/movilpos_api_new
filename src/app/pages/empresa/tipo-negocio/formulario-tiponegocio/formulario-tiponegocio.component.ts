@@ -45,9 +45,10 @@ export class FormularioTiponegocioComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      descripcion:     ['', Validators.required],
-      estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      descripcion:         ['', Validators.required],
+      estado:              ['activo', Validators.required],
+      usuario_creador:     [this.usuario.username, Validators.required],
+      usuario_modificador: ['']
     })
   }
 
@@ -78,6 +79,7 @@ export class FormularioTiponegocioComponent implements OnInit {
   actTipoNegocio() {
     this.actualizando = true;
     if (this.forma.valid) {  
+      this.forma.get('usuario_modificador').setValue(this.usuario.username);
       this.tipoNegocioServ.actualizarTipoNegocio(this.id, this.forma.value).then((resp: any) => {
         this.actualizando = false;    
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');

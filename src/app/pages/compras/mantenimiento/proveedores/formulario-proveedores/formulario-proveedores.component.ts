@@ -230,7 +230,7 @@ export class FormularioProveedoresComponent implements OnInit {
   } 
 
   actualizarProveedor(){
-    //this.guardando = true;  
+    // this.actualizando = true;  
     console.log(this.forma);     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      

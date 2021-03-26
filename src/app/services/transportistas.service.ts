@@ -66,13 +66,19 @@ export class TransportistasService {
   actualizarTransportista(id:number, transportista: any) {
     let formdata: any = {};
     for(let key in transportista){  
-      if (key === 'cod_zona') {
-        formdata[key] = transportista[key].id         
-      }else{
-        formdata[key] = transportista[key]
+      switch (key) {
+        // case 'cod_zona':
+        case 'id_pais':
+        case 'cod_provincia':
+          formdata[key] = transportista[key].id    
+          break;
+      
+        default:
+          formdata[key] = transportista[key]
+          break;
       }
     }
-    console.log(transportista);
+    console.log(formdata);
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/transportistas/${id}`, formdata)
