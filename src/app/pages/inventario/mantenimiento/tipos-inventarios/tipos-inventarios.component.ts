@@ -39,6 +39,18 @@ export class TiposInventariosComponent implements OnInit {
       this.index = resp;
     })
 
+    this.tipoInventarioServ.TipoInventarioAct.subscribe((resp: any)=>{  
+      this.todosLosInvtipos();
+    })
+
+    this.tipoInventarioServ.TipoInventarioBorrado.subscribe((resp: any)=>{  
+      this.todosLosInvtipos();
+    })
+
+    this.tipoInventarioServ.TipoInventarioGuardado.subscribe((resp: any)=>{  
+      this.todosLosInvtipos();
+    })
+
     this.todosLosInvtipos();
     
     this.cols = [

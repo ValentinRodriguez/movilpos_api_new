@@ -34,7 +34,7 @@ export class FormularioTipoClientesComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.tipoClientesServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.patchValue(res);
       })
@@ -52,7 +52,7 @@ export class FormularioTipoClientesComponent implements OnInit {
   
   actTipoCliente() {
     // this.actualizando = true;
-    console.log(this.forma.value);
+     ;
     if (this.forma.valid) {  
       this.tipoClientesServ.actualizarTipoCliente(this.id, this.forma.value).then((resp: any) => {
         this.actualizando = false;    
@@ -102,7 +102,7 @@ export class FormularioTipoClientesComponent implements OnInit {
     }
     let param = {'descripcion': data};
     this.tipoCliExiste = 0;
-    this.tipoClientesServ.busquedaTipo(param).then((resp: any)=>{      console.log(resp);
+    this.tipoClientesServ.busquedaTipo(param).then((resp: any)=>{       
       
       if(resp.length === 0) {
         this.tipoCliExiste = 1;

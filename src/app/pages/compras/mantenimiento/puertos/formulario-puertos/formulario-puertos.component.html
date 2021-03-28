@@ -3,7 +3,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="descripcion">Descripción</label>
             <span class=" p-input-icon-right">
-                <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.ng-dirty]="getNoValido('descripcion')"
+                <input   type="text" pInputText formControlName="descripcion" [class.ng-dirty]="getNoValido('descripcion')"
                        (keyup)="verificaPuerto($event.target.value)" [class.ng-invalid]="getNoValido('descripcion')">
                 <i class="pi pi-spin pi-spinner" *ngIf="puertoExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="puertoExiste === 1" style="color:#36b61d"></i>

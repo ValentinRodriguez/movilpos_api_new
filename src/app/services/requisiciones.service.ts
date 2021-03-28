@@ -28,7 +28,6 @@ export class RequisicionesService {
     let documento = requisicion.documento;
     let i = 0;
     const formData = new FormData(); 
-    console.log(requisicion);
     
     for(let key in requisicion){   
       switch (key) {
@@ -73,7 +72,7 @@ export class RequisicionesService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones`, formData).subscribe( resp => {  
-                console.log(resp);                 
+                                  
                 if (resp['code'] === 200) {    
                   this.requisicionGuardada.emit( resp );                                   
                   resolve(resp);       
@@ -138,7 +137,7 @@ export class RequisicionesService {
     return new Promise(resolve =>{
       this.http.delete(`${ URL }/requisiciones/${id}`)
           .subscribe((resp:any)=>{
-            console.log(resp);            
+                         
             if(resp['code']==200){
               this.requisicionBorrada.emit(id);
               resolve(resp);

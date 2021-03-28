@@ -39,10 +39,14 @@ export class FormularioBodegasComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.bodegasServ.getDato(resp).then((res: any) => {
+         
+        
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));
-        this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
-        this.forma.patchValue(res);
+        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+          this.ciudades = resp;
+          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        })      
       })
     })
   }

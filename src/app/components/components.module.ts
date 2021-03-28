@@ -30,6 +30,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { ListadoEmpleadosComponent } from './listado-empleados/listado-empleados.component';
 import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pendientes.component';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pend
     ToggleButtonModule,
     InputSwitchModule,
     SelectButtonModule,
+    AutoCompleteModule,
     PipesModule
   ],
   entryComponents: [

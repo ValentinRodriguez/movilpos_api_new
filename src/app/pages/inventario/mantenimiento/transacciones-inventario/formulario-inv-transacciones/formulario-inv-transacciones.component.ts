@@ -1,4 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
+import { BodegasService } from 'src/app/services/bodegas.service';
+import { ClientesService } from 'src/app/services/clientes.service';
+import { CodMovService } from 'src/app/services/cod-mov.service';
+import { FacturasService } from 'src/app/services/facturas.service';
+import { InventarioService } from 'src/app/services/inventario.service';
+import { OrdenPedidosService } from 'src/app/services/orden-pedidos.service';
+import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { TransaccionesService } from 'src/app/services/transacciones.service';
+import { TransportistasService } from 'src/app/services/transportistas.service';
+import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { StepTransaccionesComponent } from '../step-transacciones/step-transacciones.component';
 
 @Component({
   selector: 'app-formulario-inv-transacciones',
@@ -7,9 +24,707 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormularioInvTransaccionesComponent implements OnInit {
 
-  constructor() { }
+  forma: FormGroup;
+  usuario: any;
+  movimientos:any[] = [];
+  ordenPedidoExiste = 3;
+  facturaExiste = 3;
+  transaccionExiste = 3;
+  productos = [];
+  ocExiste = 3;
+  cfactura = false;
+  cCliente = false;
+  cPedido = false;
+  cDestino = false;
+  cDepartamento = false;
+  cOrdenCompra = false;
+  cProveedor = false;
+  guardando = false;
+  cantidadExcede = false;
+  bodegasPermisos:any[] = [];
+  productosTransacciones:any[] = [];
+  bodegas = [];  
+  codMov = [];
+  clientes = [];
+  vendedores = [];
+  proveedores: any[] = [];
+  departamentos: any[] = [];
+  transportistas: any;
+  deptosSeleccionados: any[] =[];
+  DeptosFiltrados: any[];
+  clientesFiltrados: any[];
+  ProveedoresFiltrados: any[];
+  minDate: Date;
+  cols2: any[] = [];
+  vendedorFiltrado: any[];
+  listSubscribers: any = [];
+
+  constructor(private fb: FormBuilder,
+              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,   
+              private clienteServ: ClientesService,
+              private transportistasServ: TransportistasService,
+              private proveedoresServ: ProveedoresService,
+              private movimientosServ: CodMovService,              
+              private invProductosServ: InventarioService,
+              private ordenPedido: OrdenPedidosService,
+              private facturasServ: FacturasService,
+              private ordenCompraServ: OrdenescomprasService,
+              private transaccionesServ: TransaccionesService,
+              private codMovServ: CodMovService,              
+              private bodegasServ: BodegasService,
+              public dialogService: DialogService,
+              @Inject(DOCUMENT) private document: Document) { 
+    this.usuario = this.usuariosServ.getUserLogged();
+  }
+
+  listObserver = () => {
+    const observer1$ = this.clienteServ.ClienteCreado.subscribe((resp: any) =>{
+      this.clientes.push(resp)
+    })
+
+    const observer2$ = this.transportistasServ.trasnportistaGuardado.subscribe((resp: any) =>{
+      console.log(resp);
+      
+      this.transportistas.push(resp)
+    })
+
+    const observer3$ = this.proveedoresServ.proveedoresCreados.subscribe((resp: any) =>{
+      console.log(resp);      
+      this.proveedores.push(resp)
+    })
+
+    const observer4$ = this.movimientosServ.tipoMovGuardado.subscribe((resp: any) =>{
+      this.movimientos.push(resp)
+    })
+    
+    const observer5$ = this.bodegasServ.bodegaGuardada.subscribe((resp: any) =>{
+      this.bodegas.push(resp)
+    })    
+    
+    const observer6$ = this.invProductosServ.productoGuardado.subscribe((resp: any) =>{
+      this.productos.push(resp)
+    })   
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+  };
+
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
+    this.crearFormulario();
+    this.autoLlenado();
+    this.todasLasBodegasConPermisos();
+    this.todosLosMov();
+    this.setMinDate();
+    this.listObserver();
+
+    this.cols2 = [
+      { field: 'imagen', header: 'Imagen' },
+      { field: 'codigo', header: 'Código' },
+      { field: 'marca', header: 'Marca' },
+      { field: 'almacen', header: 'Almacen' },
+      { field: 'precio_venta', header: 'Precio' },
+      { field: 'solicitado', header: 'Cantidad'},
+      { field: 'solicitado_esp', header: 'Cantidad_ESP'},
+    ]    
+   
+
+
+    this.invProductosServ.productoEscogido.subscribe((resp: any) => {
+      this.productos = resp;
+      this.productos.forEach(element => {
+        this.agregarFormulario(element);
+      });
+    })
+
+  }
+
+  crearFormulario() {
+    this.forma = this.fb.group({
+      id_tipomov:        [''],
+      conduce_no:        ['234234'],
+      id_bodega:         ['', Validators.required],
+      id_bodega_d:       [''],
+      orden_pedido:      [''],
+      factura:           [''],
+      id_num_oc:         [''],
+      cliente:           [''],
+      sec_cliente:       [''],
+      tipo_cliente:      [''],      
+      email:             [''],      
+      departamento:      ['', Validators.required],
+      proveedor:         [''],
+      cod_sp:            [''],
+      cod_sp_sec:        [''],      
+      fecha:             ['', Validators.required],
+      direccion:         ['aasdfadsfasdf'],
+      num_rnc:           [''],
+      id_numemp:         [''],
+      cod_transportista: ['', Validators.required],      
+      cod_tarifa:        ['', Validators.required],
+      placa:             ['', Validators.required],
+      num_doc_entrada:   [''],
+      comentario:        ['kjkljlkjlkj'],
+      estado:            ['activo'],      
+      condicion_recibo:  ['si'],
+      cuenta_no:         [''],
+      productos:         this.fb.array([]),
+      usuario_creador:   [this.usuario.username]
+    })
+  }
+
+  autoLlenado() {
+    this.transaccionesServ.autoLlenado().then((resp: any)  => {
+      resp.forEach(element => {
+        switch (element.label) {
+          case 'clientes':
+            this.clientes = element.data;
+            break;
+
+          case 'transportistas':
+            this.transportistas = element.data;
+            break;
+
+          case 'departamentos':
+            this.departamentos = element.data;
+            break;
+
+          case 'proveedores':
+            this.proveedores = element.data;
+            break;
+
+          case 'vendedor':
+            this.vendedores = element.data;
+            break;
+
+          case 'bodegas':
+            this.bodegas = element.data;
+            break;
+
+          case 'movimientos':
+            this.movimientos = element.data;
+            break;  
+
+          default:
+            break;
+        }
+      });  
+      this.autollenado(resp);  
+    })
+  }
+  todosLosMov() {
+    this.codMovServ.getDatos().then((resp: any) => {  
+      this.movimientos = resp.codigosmov;
+    })
+  }
+
+  todasLasBodegasConPermisos() {
+    this.bodegasServ.bodegasConpermisos(this.usuariosServ.getUserLogged().email).then((resp: any)=>{
+      this.bodegasPermisos = resp;   
+       
+    })
+  }
+
+  autollenado(data) {
+    let existe = null;
+    data.forEach(element => {            
+      if (element.data.length === 0) {
+        existe = true;
+      }
+    });
+    if (existe === true) {
+      const ref = this.dialogService.open(StepTransaccionesComponent, {
+        data,
+        closeOnEscape: false,
+        header: 'Datos Necesarios Transacciones de Inventarios',
+        width: '70%'
+      });
+    }
+  }
+
+  guardarTransaccion() {  
+     
+    if (this.movimientos !== null) {
+      if (this.ordenPedidoExiste === 2 || this.facturaExiste === 2) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La orden de pedido ó factura no existe'); 
+        return;
+      }
+
+      if (this.productos.length === 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','No hay productos agregados en esta transaccion');
+        return;
+      } 
+
+      if (this.movimientos[0].control_clientes === "si") {
+        this.controlClientes();     
+      } 
+  
+      if (this.movimientos[0].control_despachos === "si") {       
+        this.controlDespacho();
+        if (this.cantidadExcede) {
+          this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La cantidad especificada es mayor a la de la orden/factura');
+        }
+      } 
+      
+      if (this.movimientos[0].control_devoluciones === "si") {       
+        this.controlDevoluciones();
+      } 
+  
+      if (this.movimientos[0].control_transferencia === "si") {       
+        this.controlTransferencia();
+      } 
+  
+      if (this.movimientos[0].control_departamento === "si") {       
+        this.controlDepartamento();
+      }    
+
+      if (this.movimientos[0].control_orden_compra === "si") {       
+        this.controlOrdenCompra();
+      }         
+      
+      this.transaccionesServ.crearTransaccion(this.forma.value).then((resp: any) => {
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Datos guardados correctamente');
+             
+        this.imprimirTransaccion(resp.num_doc);
+      })
+    } else {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe escoger un tipo de movimiento');
+    }
+  }
+
+  verificaFechaOrden(fecha) {
+  }
+
+  agregarFormulario(producto) {
+    let cantidad1 = 1;
+    let cantidad =1;
+    let margen = 1;
+    (<FormArray>this.forma.get('productos')).push(this.agregarFormularioTransacciones(producto,cantidad1,cantidad,margen));    
+  }
+  
+  agregarFormularioTransacciones(producto,cantidad1,cantidad,margen): FormGroup {
+    return this.fb.group({
+      codigo:       [producto.codigo, Validators.required],
+      cantidad1:    [cantidad1, Validators.required],
+      cantidad:     [cantidad, Validators.required],
+      margen:       [margen, Validators.required],
+      precio_venta: [producto.precio_venta, Validators.required],
+      costo:        [producto.costo, Validators.required],
+    });
+  }
+
+  verMovimiento(mov) {    
+    this.productos = [];
+    this.cfactura = false;
+    this.cCliente = false;
+    this.cPedido = false;
+    this.cDestino = false;
+    this.cDepartamento = false;
+    this.cOrdenCompra = false;
+    this.cProveedor = false;
+    this.ordenPedidoExiste = 3;
+    this.facturaExiste = 3;
+    this.ocExiste = 3;
+    // this.forma.get('cuenta_no').setValue(mov.cuenta_no)
+    this.forma.controls['cliente'].reset();
+    this.forma.controls['email'].reset();
+    this.forma.controls['num_rnc'].reset();
+    this.forma.controls['tipo_cliente'].reset();
+    this.forma.controls['sec_cliente'].reset();
+
+    this.forma.controls['cliente'].enable();
+    this.forma.controls['email'].enable();
+    this.forma.controls['num_rnc'].enable();
+    this.forma.controls['cod_sp'].enable();
+    this.forma.controls['cod_sp_sec'].enable();
+    this.forma.controls['condicion_recibo'].setValue('si');
+    
+    let control = [
+      { control: 'control_clientes', value: mov.value.control_clientes },
+      { control: 'control_departamento', value: mov.value.control_departamento },
+      { control: 'control_despachos', value: mov.value.control_despachos },
+      { control: 'control_devoluciones', value: mov.value.control_devoluciones },
+      { control: 'control_orden_compra', value: mov.value.control_orden_compra },
+      { control: 'control_transferencia', value: mov.value.control_transferencia },
+    ]
+    
+    control.forEach(element => {
+    if (element.value === 'si') {
+      switch (element.control) {
+        case 'control_despachos':
+          this.forma.controls['orden_pedido'].enable();
+          this.forma.controls['factura'].disable();
+          this.forma.controls['factura'].reset();
+          this.forma.controls['id_num_oc'].disable();
+          this.forma.controls['id_num_oc'].reset(); 
+        break;
+
+        case 'control_devoluciones':
+          this.forma.controls['factura'].enable();
+          this.forma.controls['orden_pedido'].disable();
+          this.forma.controls['orden_pedido'].reset();
+          this.forma.controls['id_num_oc'].disable();
+          this.forma.controls['id_num_oc'].reset();
+        break;
+
+        case 'control_orden_compra':
+          this.forma.controls['id_num_oc'].enable();
+          this.forma.controls['factura'].disable();
+          this.forma.controls['factura'].reset();
+          this.forma.controls['orden_pedido'].disable();
+          this.forma.controls['orden_pedido'].reset();
+        break;
+
+        case 'control_transferencia':
+          if (mov.value.origen === 'credito') {
+            this.forma.controls['condicion_recibo'].setValue('no')
+          }
+          this.forma.controls['orden_pedido'].enable();
+          this.forma.controls['id_bodega_d'].enable();
+          this.forma.controls['factura'].disable();
+          this.forma.controls['factura'].reset();
+          this.forma.controls['id_num_oc'].disable();
+          this.forma.controls['id_num_oc'].reset();
+        break;
+
+        default:
+          this.forma.controls['id_bodega_d'].disable();
+          this.forma.controls['id_bodega_d'].reset();
+          this.forma.controls['orden_pedido'].enable();
+          this.forma.controls['id_num_oc'].enable();
+          this.forma.controls['factura'].disable();
+        break;
+      }          
+    }
+    });   
+  }
+
+  controlClientes() {
+    this.cfactura = false;
+    this.cPedido = false;
+    this.cCliente = false;
+    this.cOrdenCompra = false;
+    this.cProveedor = false;
+
+    if (this.forma.get('factura').value  === '' && this.forma.get('orden_pedido').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe indicar una factura ó una orden de pedido');
+      this.cfactura = true;
+      this.cPedido = true;
+      return;
+    }
+
+    if (this.forma.get('cliente').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La factura debe especificar el cliente');
+      this.cCliente = true;
+      return;
+    }
+  }
+
+  controlDespacho() {
+    this.cfactura = false;
+    this.cPedido = false;
+    this.cCliente = false;
+    this.cOrdenCompra = false;
+    this.cProveedor = false;
+
+    if (this.forma.get('factura').value  === '' && this.forma.get('orden_pedido').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debes completar los campos indicados');
+      this.cfactura = true;
+      return;
+    }
+
+    if (this.forma.get('cliente').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debes completar los campos indicados');
+      this.cCliente = true;
+      return;
+    }
+  }
+
+  controlOrdenCompra() {
+    this.cfactura = false;
+    this.cPedido = false;
+    this.cCliente = false;
+    this.cProveedor = false;
+
+    if (this.forma.get('id_num_oc').value  === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe especificar un tipo de movimiento');
+      this.cOrdenCompra = true;
+      return;
+    }
+
+    if (this.forma.get('proveedor').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debes completar los campos indicados');
+      this.cProveedor = true;
+      return;
+    }    
+  }
+
+  controlDevoluciones() {
+    this.cfactura = false;
+    if (this.forma.get('factura').value  === '' && this.forma.get('orden_pedido').value === '') {
+      this.cfactura = true;
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe especificar un tipo de movimiento');
+      return;
+    }
+  }
+
+  controlTransferencia() {
+    this.cDestino = false;
+    if (this.forma.get('id_bodega_d').value === '') {
+      this.cDestino = true;
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debes completar los campos indicados');
+      return;
+    }
+  }
+
+  controlDepartamento() {
+    this.cDepartamento = false;
+    if (this.forma.get('departamento').value === '') {
+      this.cDepartamento = true;
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debes completar los campos indicados');
+      return;
+    }
+  }
+
+  
+  verificaOrdenPedido(data) {
+    if (this.forma.get('id_tipomov').value !== "") {
+      if (data === "") {
+        this.ordenPedidoExiste = 3;
+        return;
+      }
+      this.ordenPedidoExiste = 0;
+      this.ordenPedido.buscaOrdenPedido(data).then((resp: any)=>{
+        if(resp.length !== 0){
+          this.productos = resp[0].productos;        
+          this.productos.forEach(element => {
+            this.agregarFormulario(element);
+          });
+          this.ordenPedidoExiste = 1;
+          this.forma.get('cliente').setValue(this.clientes.find(tipo => tipo.tipo_cliente === resp[0].tipo_cliente && tipo.sec_cliente === resp[0].sec_cliente));
+          this.forma.get('id_numemp').setValue(this.vendedores.find(vendedor => vendedor.id_numemp === resp[0].sec_vend));
+          this.forma.get('tipo_cliente').setValue(resp[0].tipo_cliente);
+          this.forma.get('fecha').setValue(new Date(resp[0].created_at));
+          this.forma.get('sec_cliente').setValue(resp[0].sec_cliente);
+          this.forma.get('email').setValue(resp[0].email);
+          this.forma.get('num_rnc').setValue(resp[0].num_rnc);
+           
+          // this.forma.controls['cliente'].disable();
+          // this.forma.controls['email'].disable();
+          // this.forma.controls['num_rnc'].disable();
+        }else{
+          //this.uiMessage.getMiniInfortiveMsg('tst','Esta orden no existe','error');
+          this.ordenPedidoExiste = 2;
+          this.forma.get('cliente').reset();
+          this.forma.get('tipo_cliente').reset();
+          this.forma.get('sec_cliente').reset();
+          this.forma.get('email').reset();
+          this.forma.get('num_rnc').reset();
+          this.productos = [];
+          // this.forma.get('productos').reset()
+           
+          return;
+        }
+      })
+    }else{
+      this.forma.controls['orden_pedido'].reset();
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe especificar un tipo de movimiento');
+      return;
+    }
+  }
+  
+  verificaOrdenCompra(data) {        
+    if (this.forma.get('id_tipomov').value !== "") {
+      if (data === "") {
+        this.ocExiste = 3;
+        return;
+      }
+      this.ocExiste = 0;
+      this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
+         
+        const proveedor = resp[0].proveedor;
+        if(resp.length !== 0){          
+          this.productos = resp[0].productos;     
+          this.productos.forEach(element => {
+            this.agregarFormulario(element);
+          });
+          this.ocExiste = 1;          
+          this.forma.controls['proveedor'].setValue(this.proveedores.find(proveedor => proveedor.cod_sp === resp[0].cod_sp && 
+                                                                                       proveedor.cod_sp_sec === resp[0].cod_sp_sec))
+          this.forma.controls['email'].setValue(resp[0].email);
+          this.forma.controls['num_rnc'].setValue(resp[0].rnc);
+          this.forma.controls['fecha'].setValue(new Date(resp[0].created_at));
+          this.forma.controls['cod_sp'].setValue(resp[0].cod_sp);
+          this.forma.controls['cod_sp_sec'].setValue(resp[0].cod_sp_sec);  
+
+          // this.forma.controls['proveedor'].disable();
+          // this.forma.controls['email'].disable();
+          // this.forma.controls['num_rnc'].disable();
+        }else{
+          this.ocExiste = 2;
+          return;
+        }
+      })
+    }else{
+      this.forma.controls['id_num_oc'].reset();
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe especificar un tipo de movimiento');
+      return;
+    }
+  }
+
+  verificaFactura(data) {
+    if (this.forma.get('id_tipomov').value !== "") {
+      if (data === "") {
+        this.facturaExiste = 3;
+        return;
+      }
+      this.facturaExiste = 0;
+      this.facturasServ.buscaFactura(data).then((resp: any)=>{           
+        if(resp.length !== 0){
+          this.productos = resp[0].productos;  
+          this.productos.forEach(element => {
+            this.agregarFormulario(element);
+          });
+          this.facturaExiste = 1;
+          this.forma.controls['cliente'].setValue(resp[0].nombre_cli);
+          this.forma.controls['tipo_cliente'].setValue(resp[0].tipo_cliente);
+          this.forma.controls['sec_cliente'].setValue(resp[0].sec_cliente);
+          this.forma.controls['email'].setValue(resp[0].email);
+          this.forma.controls['num_rnc'].setValue(resp[0].num_rnc);
+          
+          // this.forma.controls['cliente'].disable();
+          // this.forma.controls['email'].disable();
+          // this.forma.controls['num_rnc'].disable();
+
+        }else{
+          this.facturaExiste = 2;
+          this.forma.controls['cliente'].reset();
+          this.forma.controls['tipo_cliente'].reset();
+          this.forma.controls['sec_cliente'].reset();
+          this.forma.controls['email'].reset();
+          this.forma.controls['num_rnc'].reset();
+          this.productos = [];
+          this.forma.get('productos').reset()
+           
+          return;
+        }
+      })
+    }else{
+      this.forma.controls['factura'].reset();
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe especificar un tipo de movimiento');
+      return;
+    }
+  }
+
+
+  filtrarDepto(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.departamentos.length; i++) {
+      const size = this.departamentos[i];
+      
+      if (size.titulo.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.DeptosFiltrados = filtered;
+  }
+
+  filtrarProveedor(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.proveedores.length; i++) {
+      const size = this.proveedores[i];
+      
+      if (size.nom_sp.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.ProveedoresFiltrados = filtered;
+  }
+
+  filtrarVendedor(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    
+    for (let i = 0; i < this.vendedores.length; i++) {
+      const size = this.vendedores[i];
+      
+      if (size.primernombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.vendedorFiltrado = filtered;
+  }
+
+  datosVendedor(event) {        
+     
+  }
+
+  filtrarCliente(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.clientes.length; i++) {
+      const size = this.clientes[i];
+      
+      if (size.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.clientesFiltrados = filtered;
+  }
+
+  buscaProductos() {
+    const ref = this.dialogService.open(ListaProductosComponent, {
+      header: 'Catalogo de Productos',
+      width: '50%'
+    });
+  }
+
+  imprimirTransaccion(num_doc) { 
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = `${URL}/reporte/invtransacciones-visualizar/${num_doc}/${this.usuario.id}`;
+    link.click();
+    link.remove();
+  }  
+
+  setDataCliente(cliente) {    
+    this.forma.get('tipo_cliente').setValue(cliente.tipo_cliente);
+    this.forma.get('sec_cliente').setValue(cliente.sec_cliente);
+  }
+
+  onSelectDate(event) {
+    let d = new Date(Date.parse(event));
+    this.forma.get("fecha").setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
+  }
+    
+  setMinDate() {
+    let today = new Date();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let day = today.getDate();
+    this.minDate = new Date();
+    this.minDate.setMonth(month);
+    this.minDate.setFullYear(year);
+    this.minDate.setDate(day);
+  }
+
+  SetDatosProveedor(event) {
+    this.forma.get('cod_sp').setValue(event.cod_sp)
+    this.forma.get('cod_sp_sec').setValue(event.cod_sp_sec)
+  }
+
+  datosTrasportista(event) {
+    
+  }
+
+  // FUNCIONES PARA EL MANEJO DE LOS ERRORES EN LOS CAMPOS DEL FORMULARIO
+  getNoValido(input: string) {
+    return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 
 }

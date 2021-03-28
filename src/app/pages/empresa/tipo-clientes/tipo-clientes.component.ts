@@ -58,7 +58,7 @@ export class TipoClientesComponent implements OnInit {
     this.loading = true;
     this.tipoClienteServ.getDatos().then((resp: any) =>{
       this.tipoClientes = resp;   
-      console.log(resp);         
+                
       this.loading = false;
     })
   }

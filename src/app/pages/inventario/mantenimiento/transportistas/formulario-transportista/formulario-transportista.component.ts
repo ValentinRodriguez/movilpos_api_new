@@ -49,12 +49,12 @@ export class FormularioTransportistaComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.transportistaServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.patchValue(res);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
           this.ciudades = resp;
-          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+          this.forma.get('cod_provincia').setValue(this.ciudades.find(ciudad => ciudad.cod_provincia === res.id_ciudad));
         })
       })
     })
@@ -74,13 +74,14 @@ export class FormularioTransportistaComponent implements OnInit {
       id_pais:             ['', Validators.required],
       telefono:            ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required]
+      usuario_creador:     [this.usuario.username, Validators.required],
+      usuario_modificador: ['']
     })
   }
 
   guardarTransportista(){
     //this.guardando = true;
-    
+         
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -95,11 +96,20 @@ export class FormularioTransportistaComponent implements OnInit {
   }
     
   ActualizarCategoria(){
-    this.actualizando = true;
-    this.transportistaServ.actualizarTransportista(this.id, this.forma.value).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-      this.actualizando = false;
-    })
+    // this.actualizando = true;
+     ;
+    if (this.forma.invalid) {       
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+    }else{   
+      this.forma.get('usuario_modificador').setValue(this.usuario.username);
+      this.transportistaServ.actualizarTransportista(this.id, this.forma.value).then((resp: any) => {
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.actualizando = false;
+      })
+    }
   }
   
   cancelar() {

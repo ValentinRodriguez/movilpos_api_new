@@ -25,7 +25,7 @@ export class TipoNegocioService {
     return new Promise( resolve => {
       
       this.http.get(URL+'/busqueda/tiponegocios', {params}).subscribe((resp: any) => {
-        console.log(resp);
+         
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -58,8 +58,8 @@ export class TipoNegocioService {
       this.http.post(`${ URL }/tiponegocios`, tipoNegocio).subscribe( (resp: any) => {  
         
           if (resp['code'] === 200) {    
-            this.tipoNegocioguardado.emit( resp );                                   
-            resolve(resp);       
+            this.tipoNegocioguardado.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    
@@ -71,7 +71,7 @@ export class TipoNegocioService {
           .subscribe( (resp: any) => {                             
             if (resp['code'] === 200) {            
               this.tipoNegocioBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -80,11 +80,10 @@ export class TipoNegocioService {
   actualizarTipoNegocio(id:number, tipo: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/tiponegocios/${id}`, tipo)
-          .subscribe( (resp: any) => {
-            
+          .subscribe( (resp: any) => {            
             if (resp['code'] === 200) {
               this.tipoNegocioAct.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });

@@ -24,7 +24,7 @@
                     <i class="pi pi-search"></i>
                 </a>
             </li>
-            <li *ngIf="this.menu !== 'no'" class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
+            <!-- <li *ngIf="this.menu !== 'no'" class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
                 <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick($event)">
                     <i class="pi pi-bell"></i>
                     <span class="topbar-badge">5</span>
@@ -76,7 +76,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li>
                 <a href="#" tabindex="0" (click)="logout()">
                     <i class="pi pi-power-off" style="color: red"></i>                    
@@ -123,18 +123,20 @@
                 </ul>
             </li>
 
-            <li class="right-sidebar-item" *ngIf="this.menu !== 'no'">
+            <!-- <li class="right-sidebar-item" *ngIf="this.menu !== 'no'">
                 <a href="#" tabindex="0" (click)="app.onRightMenuClick($event)">
                     <i class="pi pi-align-right"></i>
                 </a>
-            </li>
-            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" *ngIf="(this.menu === 'no' && this.facturaServ.display === true)" (click)="ocultar()">
+            </li> -->
+            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" 
+               *ngIf="(this.menu === 'no' && this.facturaServ.display === true)" (click)="ocultar()">
                 <i class="pi pi-chevron-right"></i>
             </a>
-            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" *ngIf="(this.menu === 'no' && this.facturaServ.display === false)" (click)="desplegar()">
-                <i class="pi pi-chevron-left"></i>
-            </a>
             
+            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" 
+               *ngIf="(this.menu === 'no' && this.facturaServ.display === false)" (click)="desplegar()">
+                <i class="pi pi-chevron-left"></i>
+            </a>            
         </ul>
     </div>
 </div>

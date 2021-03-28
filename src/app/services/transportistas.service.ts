@@ -54,10 +54,10 @@ export class TransportistasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/transportistas`, formData).subscribe( resp => {        
+      this.http.post(`${ URL }/transportistas`, formData).subscribe( (resp: any) => {        
           if (resp['code'] === 200) {    
-            this.trasnportistaGuardado.emit( resp );                                   
-            resolve(resp);       
+            this.trasnportistaGuardado.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    
@@ -66,18 +66,23 @@ export class TransportistasService {
   actualizarTransportista(id:number, transportista: any) {
     let formdata: any = {};
     for(let key in transportista){  
-      if (key === 'cod_zona') {
-        formdata[key] = transportista[key].id         
-      }else{
-        formdata[key] = transportista[key]
+      switch (key) {
+        // case 'cod_zona':
+        case 'id_pais':
+        case 'cod_provincia':
+          formdata[key] = transportista[key].id    
+          break;
+      
+        default:
+          formdata[key] = transportista[key]
+          break;
       }
     }
-    console.log(transportista);
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/transportistas/${id}`, formdata)
           .subscribe( (resp: any) => {                                      
-            console.log(resp);
+             
             if (resp['code'] === 200) {
               this.trasnportistaAct.emit( resp.data );                            
               resolve(resp);            

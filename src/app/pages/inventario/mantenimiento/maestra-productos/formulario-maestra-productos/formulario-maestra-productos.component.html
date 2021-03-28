@@ -1,6 +1,17 @@
 <form (ngSubmit)="guardarProducto()" [formGroup]="forma">
     <div class="p-fluid p-formgrid p-grid">
         <p-fieldset legend="Datos Básicos del Vehículo"  class="p-col-12 p-mb-4" >
+            <div class="p-field p-col-12 p-md-3">
+                <a href="javascript:void(0);">
+                    <img *ngIf="imgURL !== null" [src]="imgURL" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 120px;">
+                    <img *ngIf="imgURL === null" [src]="imgEmpresa | invProductos" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 120px;">
+                </a>
+                <span style="color:red;" *ngIf="message">{{message}}</span>
+                <div>
+                    <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+                </div>
+            </div>
+            
             <div class="p-fluid p-formgrid p-grid">
                 <div class="p-field p-col-12 p-md-2">
                     <label for="tipo_producto">Clase</label>
@@ -42,7 +53,7 @@
                 <div class="p-field p-col-12 p-md-4">
                     <label for="titulo">Título</label>
                     <span class=" p-input-icon-right">
-                        <input id="titulo" type="text" pInputText formControlName="titulo" [class.ng-invalid]="getNoValido('titulo')" 
+                        <input   type="text" pInputText formControlName="titulo" [class.ng-invalid]="getNoValido('titulo')" 
                                [class.ng-dirty]="getNoValido('titulo')" (keyup)="verificaProducto($event.target.value)">
                         <i class="pi pi-spin pi-spinner" *ngIf="productoExiste === 0" style="color:#f5df18"></i>
                         <i class="pi pi-check" *ngIf="productoExiste === 1" style="color:#36b61d"></i>
@@ -95,27 +106,28 @@
 
                 <div class="p-field p-col-12">
                     <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"
+                    <textarea   type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"
                     [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')"></textarea>
                     <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
-                <div class="p-col-12">
+                <!-- <div class="p-col-12">
                     <h5>Galería de Imagenes</h5>
-                    <p-fileUpload name="demo[]" multiple="multiple" accept="image/*" maxFileSize="1000000" (onSelect)="onFileSelect($event)">
+                    <p-fileUpload multiple="multiple" accept="image/*" maxFileSize="1000000" [showUploadButton]="false"
+                                  (onSelect)="onFileSelect($event)" chooseLabel="Escoja Imagen" cancelLabel="Cancelar">
                         <ng-template pTemplate="content">
                             <ul *ngIf="uploadedFiles.length">
                                 <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
                             </ul>
                         </ng-template>
                     </p-fileUpload>
-                </div>
+                </div> -->
             </div>
         </p-fieldset>
         
         <div class="p-field p-col-12 p-md-2">
             <label for="origen">Origen</label>
-            <p-dropdown inputId="origen" [options]="origenes" name="origen" formControlName="origen"placeholder="Escoge..." 
+            <p-dropdown input  [options]="origenes" name="origen" formControlName="origen"placeholder="Escoge..." 
             [class.ng-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')">
             </p-dropdown>
             <small *ngIf="getNoValido('origen')" class="p-invalid">Este campo es obligatorio.</small>
@@ -165,10 +177,8 @@
         <div class="p-field p-col-12 p-md-2">
             <label for="codigo_referencia">Código de referencia</label>
             <span class=" p-input-icon-right">
-                <input id="codigo_referencia" type="text" pInputText formControlName="codigo_referencia" [class.ng-invalid]="getNoValido('codigo_referencia')" 
-                       [class.ng-dirty]="getNoValido('codigo_referencia')">
+                <input id="codigo_referencia" type="text" pInputText formControlName="codigo_referencia">
             </span>
-            <small *ngIf="getNoValido('codigo_referencia')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
@@ -219,8 +229,4 @@
 
     <button *ngIf="this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button>
 </form>
-{{forma.valid}}
-<br>
-{{forma.status}}
-<br>
-{{forma.value | json}}
+<p-toast key="tst"></p-toast>

@@ -42,7 +42,7 @@ export class TipoNegocioComponent implements OnInit {
     })
 
     this.tipoNegocioServ.tipoNegocioAct.subscribe((resp: any) => {
-      console.log(resp)
+       
       this.obtenerTipoNegocios();
     })
 

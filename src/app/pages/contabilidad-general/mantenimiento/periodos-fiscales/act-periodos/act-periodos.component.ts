@@ -59,7 +59,7 @@ export class ActPeriodosComponent implements OnInit {
     this.forma.get("fecha_inicio").patchValue(this.transformarFecha(divide[0]));
     this.forma.get("fecha_corte").patchValue(this.transformarFecha(divide[1]));
 
-    console.log(this.forma.value);   
+     ;   
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
     } else {

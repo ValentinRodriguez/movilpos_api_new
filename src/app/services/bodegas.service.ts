@@ -71,11 +71,10 @@ export class BodegasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/bodegas`, formData).subscribe( resp => {
-          console.log(resp);        
+      this.http.post(`${ URL }/bodegas`, formData).subscribe( (resp: any) => {                   
           if (resp['code'] === 200) {    
-            this.bodegaGuardada.emit( resp );                                   
-            resolve(resp);       
+            this.bodegaGuardada.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    
@@ -90,12 +89,11 @@ export class BodegasService {
         formdata[key] = bodega[key]
       }
     }
-    console.log(formdata);
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/bodegas/${id}`, formdata)
           .subscribe( (resp: any) => {                                      
-            console.log(resp);
+             
             if (resp['code'] === 200) {
               this.bodegaActualizada.emit( resp.data );                            
               resolve(resp);            
@@ -125,7 +123,7 @@ export class BodegasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/permisos/bodegas`, formData).subscribe( resp => {  
-        console.log(resp);
+         
         
         if (resp['code'] === 200) {    
           //this.bodegaGuardada.emit( resp );                                   

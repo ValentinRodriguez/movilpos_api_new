@@ -86,7 +86,7 @@ export class InventarioService {
         "x-rapidapi-key":"2c9e85a058mshf1042b431dadc78p1f24fajsn64bcd991b70b",
         "x-rapidapi-host":"vindecoder.p.rapidapi.com"
       });
-      console.log(`${URLAPI}${chasis}`);      
+      
       this.http.get(`${URLAPI}${chasis}`,{headers}).subscribe((resp: any) => {
         if (resp.success) {
           resolve(resp.specification);
@@ -138,18 +138,19 @@ export class InventarioService {
 
   crearInvProducto( invProducto: any ) {    
     const formData = new FormData();
-    let imagesSec = invProducto.galeriaImagenes || [];
-
+    // let imagesSec = invProducto.galeriaImagenes || [];
+    
+    
     for(let key in invProducto){ 
       switch (key) {
-        case 'galeriaImagenes':
-          if (imagesSec.length !== 0) {
-            for (let i = 0; i < imagesSec.length; i++) {           
-              formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
-            }        
-            formData.append('imagesSec', imagesSec.length);            
-          }
-          break;
+        // case 'galeriaImagenes':
+        //   if (imagesSec.length !== 0) {
+        //     for (let i = 0; i < imagesSec.length; i++) {           
+        //       formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
+        //     }        
+        //     formData.append('imagesSec', imagesSec.length);            
+        //   }
+        //   break;
 
         case 'fabricacion':
           formData.append(key, invProducto[key].value);
@@ -190,36 +191,29 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/invproductos`, formData)      
-          .subscribe( resp => {       
-            console.log(resp);
+      this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => {     
             if (resp['code'] === 200) {
-              this.productoGuardado.emit( resp );                            
-              resolve(resp);            
+              this.productoGuardado.emit(resp.data);                            
+              resolve(resp.data);            
             }
-          });
+        });
     });
   }
 
   actualizarInvProducto( id:any, invProducto: any ) {   
     const formData = new FormData();
-    let galeriaImagenes = JSON.parse(invProducto.galeriaImagenes);
-    let imagesSec = galeriaImagenes || [];
-    console.log(invProducto);
+    let imagesSec = invProducto.galeriaImagenes || [];
     
-    console.log(imagesSec);
-    
+        
     for(let key in invProducto){ 
       switch (key) {
         case 'galeriaImagenes':
-          console.log(typeof(imagesSec));
-          
-          // if (imagesSec.length !== 0) {
-          //   for (let i = 0; i < imagesSec.length; i++) {           
-          //     formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
-          //   }        
-          //   formData.append('imagesSec', imagesSec.length);            
-          // }
+          if (typeof imagesSec !== 'string') {   
+            formData.append('galeriaImagenes', imagesSec, imagesSec.name );    
+            formData.append('galeriaImagenes', imagesSec.length)          
+          } else {
+            formData.append('galeriaImagenes', imagesSec);
+          }  
           break;
 
         case 'fabricacion':
@@ -263,7 +257,7 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/productos/${id}`, formData)
           .subscribe( resp => {   
-            console.log(resp);            
+                         
             if (resp['code'] === 200) {
               this.productoActualizado.emit( resp );                            
               resolve(resp);            
@@ -296,7 +290,7 @@ export class InventarioService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/invproductos/${id}`)
           .subscribe( (resp: any) => {   
-            console.log(resp);                                  
+                                               
             if (resp['code'] === 200) {            
               this.productoBorrado.emit(id);    
               resolve(resp);            

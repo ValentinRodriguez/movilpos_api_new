@@ -18,14 +18,9 @@ export class ErrorInterceptorService implements HttpInterceptor{
       retry(3),
       catchError((error: HttpErrorResponse) => {        
         if (error instanceof HttpErrorResponse) {
-          // console.log('OBJETO ERROR',error.status);
-          // console.log('MENSAJE ERROR:',error.error.message);
-          // console.log('ERRORES:',error.error.errors);
-          // console.log('DATA:',error.error.data);
           this.mensajeError(error)         
           return throwError(error);
-        }else{
-          console.log('client side');          
+        }else{        
           return throwError(error);
         }
       })
@@ -59,7 +54,6 @@ export class ErrorInterceptorService implements HttpInterceptor{
         break;
 
       case 401:
-        console.log(401);
         this.router.navigateByUrl('/login');     
         break;
 

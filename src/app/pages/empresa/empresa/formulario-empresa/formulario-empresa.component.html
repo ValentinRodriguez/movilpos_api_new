@@ -9,8 +9,22 @@
             <input #file type="file" accept='image/*' (change)="preview(file.files)" />
         </div>
     </div>
-
+    
     <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="rnc">RNC</label>
+            <span class=" p-input-icon-right">
+                <input id="rnc" type="text" pInputText formControlName="rnc" 
+                [class.ng-invalid]="getNoValido('rnc')" [class.ng-dirty]="getNoValido('rnc')"
+                       (keyup)="verificaRNC($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="rncExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="rncExiste === 2" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="rncExiste === 1" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="rncExiste === 3"></i>
+                <small *ngIf="getNoValido('rnc')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
         <div class="p-field p-col-12 p-md-3">
             <label for="nombre">Nombre</label>
             <span class=" p-input-icon-right">
@@ -45,15 +59,6 @@
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="rnc">RNC</label>
-            <span class=" p-input-icon-right">
-                <input id="rnc" type="text" pInputText formControlName="rnc" 
-                       [class.ng-invalid]="getNoValido('rnc')" [class.ng-dirty]="getNoValido('rnc')">
-            </span>
-            <small *ngIf="getNoValido('rnc')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
             <label for="moneda">Moneda</label>
             <p-multiSelect [options]="monedas" formControlName="moneda" defaultLabel="Seleccione Moneda" 
                            optionLabel="descripcion" class="multiselect-custom" (onChange)="setValue()"
@@ -78,10 +83,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="web">Sitio Web</label>
             <span class=" p-input-icon-right">
-                <input id="web" type="text" pInputText formControlName="web" 
-                       [class.ng-invalid]="getNoValido('web')" [class.ng-dirty]="getNoValido('web')">
+                <input id="web" type="text" pInputText formControlName="web">
             </span>
-            <small *ngIf="getNoValido('web')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">
@@ -105,7 +108,7 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="id_pais">Pais</label>
-            <p-dropdown inputId="id_pais" [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" 
+            <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" 
                         [class.ng-dirty]="getNoValido('id_pais')" name="id_pais" formControlName="id_pais" 
                         id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
             </p-dropdown>
@@ -114,7 +117,7 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="id_ciudad">Ciudad</label>
-            <p-dropdown inputId="id_ciudad" [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" 
+            <p-dropdown input  [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" 
                         [class.ng-dirty]="getNoValido('id_ciudad')" name="id_ciudad" formControlName="id_ciudad" 
                         id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>

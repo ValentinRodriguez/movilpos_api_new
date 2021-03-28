@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
@@ -11,9 +11,11 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { TipoInventarioService } from 'src/app/services/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { environment } from 'src/environments/environment';
 import { StepComponent } from '../step/step.component';
-const URLIMG = environment.urlImagenes;
+import { environment } from 'src/environments/environment';
+
+const URL = environment.urlImagenes;
+
 @Component({
   selector: 'app-formulario-maestra-productos',
   templateUrl: './formulario-maestra-productos.component.html',
@@ -29,6 +31,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   tipos: any[] = [];
   noFisico = true;
   productoExiste = 3;
+  listSubscribers: any = [];
   tipoInventario: any[] = [];
   fechafabricacion: any[] = [];
   propiedades: any[] = [];
@@ -36,11 +39,16 @@ export class FormularioMaestraProductosComponent implements OnInit {
   brands: any[] = [];
   bodegas: any[] = [];
   medidas: any[] = [];
-  uploadedFiles: any[] = [];
-  @ViewChild(FileUpload)
-  fileUpload: FileUpload  
-  
+  // uploadedFiles: any[] = [];
+  // @ViewChild(FileUpload)
+  // fileUpload: FileUpload  
+  @ViewChild('file')
+  file: ElementRef;
+  imgEmpresa = null;
+  imgURL = null;
+  imagePath;
 
+  message: string;
   origenes = [
     {label: 'Importado', value: 'importado'},
     {label: 'Local', value: 'local'},
@@ -71,48 +79,47 @@ export class FormularioMaestraProductosComponent implements OnInit {
                 this.crearFormulario();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.tipo(1);
     this.fechaFabricacion();
     this.todaLaData();
+    this.listObserver();
+  }
 
-    this.marcaService.marcaGuardada.subscribe((resp: any) =>{
+  listObserver = () => {
+    const observer1$ = this.marcaService.marcaGuardada.subscribe((resp: any) =>{
       this.brands.push(resp)
     })
 
-    this.tipoInv.TipoInventarioGuardado.subscribe((resp: any) =>{
+    const observer2$ = this.tipoInv.TipoInventarioGuardado.subscribe((resp: any) =>{
       this.tipoInventario.push(resp)
     })
 
-    this.categoriasServ.categoriaGuardada.subscribe((resp: any) =>{
+    const observer3$ = this.categoriasServ.categoriaGuardada.subscribe((resp: any) =>{
       this.categorias.push(resp)
     })
 
-    this.propServ.propiedadGuardada.subscribe((resp: any) =>{
+    const observer4$ = this.propServ.propiedadGuardada.subscribe((resp: any) =>{
       this.propiedades.push(resp)
     })
     
-    this.bodegasServ.bodegaGuardada.subscribe((resp: any) =>{
+    const observer5$ = this.bodegasServ.bodegaGuardada.subscribe((resp: any) =>{
       this.bodegas.push(resp)
     })    
     
-    this.inventarioServ.actualizar.subscribe((resp: any) =>{
+    const observer6$ = this.inventarioServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
-      this.inventarioServ.getDato(resp).then((res: any) => {
-        // let tmp = JSON.parse(res.galeriaImagenes);
-        // let url = URLIMG + '/storage/' + tmp[0];
-        // console.log(url);
-        // this.toDataURL('https://pbs.twimg.com/profile_images/558329813782376448/H2cb-84q_400x400.jpeg', function (dataUrl) {
-        //   console.log(dataUrl)
-        //       })  
-        //  this.inventarioServ.getBase64ImageFromUrl('http://approvaltests.com/images/logo.png')
-        //  .then(result => console.log(result))
-        //  .catch(err => console.error(err));    
-        console.log(res);
+      this.inventarioServ.getDato(resp).then((res: any) => {   
+         
         
         this.forma.patchValue(res);
+        this.imgURL = `${URL}/storage/${res.galeriaImagenes}`;
         this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
         this.forma.get('fabricacion').setValue({value: Number(res.fabricacion)});
         this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand));
@@ -124,25 +131,9 @@ export class FormularioMaestraProductosComponent implements OnInit {
         this.tipo(res.tipo_producto)
       })
     })
-    //
-    // this.forma.get('controlDeExistencias').setValue({label: 'Sí', value: 'si'});
-    // this.forma.get('controlItbis').setValue({label: 'Sí', value: 'si'});
-    // this.forma.get('descuento').setValue({label: 'Sí', value: 'si'});
-  }
 
-  toDataURL(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -158,7 +149,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       id_categoria:         ['', Validators.required],
       id_brand:             [''],
       descripcion:          ['fghjfghjfghj', Validators.required],
-      codigo_referencia:    ['', Validators.required],
+      codigo_referencia:    [''],
       origen:               [''],
       existenciaMinima:     [1],
       existenciaMaxima:     [''],
@@ -178,33 +169,17 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   guardarProducto() {   
     this.guardando = false;
+    console.log(this.forma);    
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-      Object.values(this.forma.controls).forEach(control =>{          
-        if (control instanceof FormArray) {    
-          Object.values(control.controls).forEach(control => control.markAsTouched());
-        } else {
-          control.markAllAsTouched();
-        }
+      Object.values(this.forma.controls).forEach(control =>{
+        control.markAllAsTouched();
       })
     }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
         this.guardando = false; 
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
-        this.forma.get('chasis').reset();
-        this.forma.get('titulo').reset();
-        this.forma.get('id_propiedad').reset();
-        this.forma.get('id_categoria').reset();
-        this.forma.get('id_brand').reset();
-        this.forma.get('fabricacion').reset();
-        this.forma.get('motor').reset();
-        this.forma.get('existenciaMaxima').reset();
-        this.forma.get('precio_compra').reset();
-        this.forma.get('precio_venta').reset();
-        this.forma.get('costo').reset();
-        this.forma.get('codigo_referencia').reset();
-        this.forma.get('galeriaImagenes').reset();
-        this.fileUpload.clear();
+        this.resetFormulario();
       })
     }  
   }
@@ -214,31 +189,14 @@ export class FormularioMaestraProductosComponent implements OnInit {
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-      Object.values(this.forma.controls).forEach(control =>{          
-        if (control instanceof FormArray) {    
-          Object.values(control.controls).forEach(control => control.markAsTouched());
-        } else {
-          control.markAllAsTouched();
-        }
+      Object.values(this.forma.controls).forEach(control =>{
+        control.markAllAsTouched();
       })
     }else{
       this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{
         this.actualizando = false;
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
-        this.forma.get('chasis').reset();
-        this.forma.get('titulo').reset();
-        this.forma.get('id_propiedad').reset();
-        this.forma.get('id_categoria').reset();
-        this.forma.get('id_brand').reset();
-        this.forma.get('fabricacion').reset();
-        this.forma.get('motor').reset();
-        this.forma.get('existenciaMaxima').reset();
-        this.forma.get('precio_compra').reset();
-        this.forma.get('precio_venta').reset();
-        this.forma.get('costo').reset();
-        this.forma.get('codigo_referencia').reset();
-        this.forma.get('galeriaImagenes').reset();
-        this.fileUpload.clear();
+        this.resetFormulario();
       })
     }
   }
@@ -298,10 +256,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
         closeOnEscape: false,
         header: 'Datos Necesarios Creación de Productos',
         width: '70%'
-      });  
-      // ref.onClose.subscribe(() => {
-      //   location.reload();        
-      // });
+      });
     }
   }
   
@@ -334,7 +289,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     const id_brand = this.forma.get('id_brand')   
     const existenciaMinima = this.forma.get('existenciaMinima');  
     const id_bodega = this.forma.get('id_bodega');
-    const galeriaImagenes = this.forma.get('galeriaImagenes');
+    // const galeriaImagenes = this.forma.get('galeriaImagenes');
     const chasis = this.forma.get('chasis');
     const motor = this.forma.get('motor');
     const fabricacion = this.forma.get('fabricacion');
@@ -347,13 +302,13 @@ export class FormularioMaestraProductosComponent implements OnInit {
       existenciaMinima.setValidators(Validators.required)
       id_bodega.setValidators(Validators.required)     
       id_propiedad.setValidators(Validators.required) 
-      galeriaImagenes.setValidators(Validators.required) 
+      // galeriaImagenes.setValidators(Validators.required) 
       this.tipoProducto(valor)
     }else{
       id_brand.clearValidators();
       existenciaMinima.clearValidators();
       id_bodega.clearValidators();   
-      galeriaImagenes.clearValidators();   
+      // galeriaImagenes.clearValidators();   
       chasis.clearValidators();  
       motor.clearValidators();  
       fabricacion.clearValidators();  
@@ -365,10 +320,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     id_brand.updateValueAndValidity
     existenciaMinima.updateValueAndValidity
     id_bodega.updateValueAndValidity     
-    id_propiedad.updateValueAndValidity    
-    // this.forma.get('tipo_producto').valueChanges.subscribe(valor =>{      
-    // }
-    // )
+    id_propiedad.updateValueAndValidity
   }
   
   tipoProducto(tipo) {    
@@ -404,9 +356,29 @@ export class FormularioMaestraProductosComponent implements OnInit {
     }
   }
 
-  onFileSelect(event) {
-    this.forma.get("galeriaImagenes").setValue(this.fileUpload.files);
+  preview(files) {
+    if (files.length === 0)
+      return;
+ 
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Solo puede escoger imagenes";
+      return;
+    }
+
+    this.forma.get("galeriaImagenes").setValue(files[0]);
+    
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
+    }
   }
+
+  // onFileSelect(event) {
+  //   this.forma.get("galeriaImagenes").setValue(this.fileUpload.files);
+  // }
   
   checaChasis(data) {
     if (this.getChasis) { 
@@ -425,7 +397,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               "estado": "activo",
             }
             this.marcaService.crearMarca(marca).then((res: any) =>{ 
-              console.log(res);
+               
               
               this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand))          
             })
@@ -440,59 +412,30 @@ export class FormularioMaestraProductosComponent implements OnInit {
               "estado": "activo",
             }
             this.categoriasServ.crearCategoria(categoria).then((res: any) =>{     
-              console.log(res);  
+                 
               this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria))  
             })
           }          
         })
       })
-      // this.inventarioServ.getChasis(data.target.value).then((resp: any) => {
-      //   this.forma.get('asientos').setValue(Number(resp.standard_seating))
-      //   this.forma.get('asientosAd').setValue(Number(resp.optional_seating))
-      //   this.forma.get('motor').setValue(resp.engine)
-      //   // this.forma.get('fabricacion')
-      //   // this.forma.get('id_categoria')
-      //   // this.forma.get('id_brand')
-      // })
     }
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.patchValue({
-      titulo:               'testfgfgfgfg',
-      chasis:               '5TDZK3EH9AS004144',
-      motor:                '234234',
-      // fabricacion:          '',
-      asientos:             '1',
-      // asientosAd:           '',
-      // id_propiedad:         '',
-      // id_tipoinventario:    '',
-      // id_categoria:         '',
-      // id_brand:             '',
-      descripcion:          'fghjfghjfghj',
-      // codigo_referencia:    '',
-      // origen:               '',
-       existenciaMinima:     1,
-      // existenciaMaxima:     '',
-      // controlDeExistencias: '',
-      // id_bodega:            '',
-      // controlItbis:         '',
-      precio_compra:        '80',
-      precio_venta:         '500',
-      costo:                '100',    
-      // galeriaImagenes:      '',
-      // descuento:            '',
-      estado:               'activo',
-      tipo_producto:        this.tipos.find(tipo => tipo.id === 1),
-      usuario_creador:      this.usuario.username,
-      usuario_modificador:  ''
-    });
-
-    this.forma.get('usuario_creador').setValue(this.usuario.username);    
-    this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === 1));
+    this.resetFormulario();
     this.inventarioServ.guardando();
+  }
+
+  resetFormulario() {
+    this.forma.reset();
+    // this.fileUpload.clear();
+    this.file.nativeElement.value = "";
+    this.imgEmpresa = null;
+    this.imgURL = null;
+    this.forma.get('usuario_creador').setValue(this.usuario.username);    
+    this.forma.get('estado').setValue('activo');
   }
 
   getNoValido(input: string) {

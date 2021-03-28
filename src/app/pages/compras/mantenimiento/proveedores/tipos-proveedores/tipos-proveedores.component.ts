@@ -37,7 +37,7 @@ export class TiposProveedoresComponent implements OnInit {
     ] 
 
     this.tipoProveedorServ.guardar.subscribe((resp: any)=>{
-      console.log(resp);      
+             
       this.index = resp;
     })
 

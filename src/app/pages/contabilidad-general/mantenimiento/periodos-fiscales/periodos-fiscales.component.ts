@@ -83,7 +83,6 @@ export class PeriodosFiscalesComponent implements OnInit {
         temp.push(per)
       }
       this.periodos = temp;     
-      console.log(this.periodos);
        
     })
   }

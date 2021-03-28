@@ -119,7 +119,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.transaccionsServ.getDato(resp).then((res: any) => {
-        console.log(resp);
+         
         
         // this.forma.get('divisa').setValue(res.divisa);
         // this.forma.get('simbolo').setValue(res.simbolo);
@@ -155,10 +155,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   // buscaSecuencia() {
   //   const tipo = this.forma.get('tipo_doc').value;
   //   const cuenta_no = this.forma.get('cuenta_no').value;    
-  //   console.log(tipo.ref, cuenta_no);
   //   if (tipo !== '' && cuenta_no !== '') {
   //     this.secuenciaDocumentosServ.secuenciaDocumentos(tipo.ref, cuenta_no).then((resp: any) => {
-  //       console.log(resp);   
+  //           
   //       this.forma.get("documento").setValue(resp.documento)
   //     })
   //   }    
@@ -307,7 +306,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
   guardarTransaccion(){
     // this.guardando = true;    
-    console.log(this.forma);
+     
     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      

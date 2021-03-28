@@ -253,6 +253,8 @@ import { FormularioFacturaProvedoresComponent } from './pages/compras/mantenimie
 import { StepFacturaProvedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/step-factura-provedores/step-factura-provedores.component';
 
 import { SecuenciasService } from "./services/secuencias.service";
+import { DgiiService } from "./services/dgii.service";
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -517,6 +519,7 @@ import { SecuenciasService } from "./services/secuencias.service";
         ValidadoresService,
         TransacionPagosService,
         SecuenciasService,
+        DgiiService,
         EntradasDiarioService
     ],
     entryComponents:[

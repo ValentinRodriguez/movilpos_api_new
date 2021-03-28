@@ -57,6 +57,7 @@ export class CodMovService {
 
   crearTipoMov(tipoMov: any) {
     let data = {};
+
     for (const key in tipoMov) {
       switch (key) {
         case 'origen':
@@ -68,27 +69,24 @@ export class CodMovService {
           break;
       }
     }
-    console.log(data);
+     
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( resp => {  
-          console.log(resp);
-          
+      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
           if (resp['code'] === 200) {    
-            this.tipoMovGuardado.emit( resp );                                   
-            resolve(resp);       
+            this.tipoMovGuardado.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    
   }
 
   actualizarTipoMov(id:number, tipoMov: any) {
-    console.log(id);
     
     return new Promise( resolve => {      
       this.http.put(`${ URL }/codigosmovimientos/${id}`, tipoMov)
           .subscribe( (resp: any) => {    
-            console.log(resp);
+             
             if (resp['code'] === 200) {
               this.tipoMovActualizado.emit( resp.data );                            
               resolve(resp);            
@@ -120,7 +118,7 @@ export class CodMovService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( resp => {  
-        console.log(resp);
+         
         if (resp['code'] === 200) {
           resolve(resp);       
         }

@@ -54,7 +54,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="email">Email</label>
             <span class=" p-input-icon-right">
-                <input id="email" type="text" pInputText formControlName="email"
+                <input   type="text" pInputText formControlName="email"
                        (keyup)="verificaEmail($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="emailExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="emailExiste === 1" style="color:#36b61d"></i>

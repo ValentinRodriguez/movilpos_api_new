@@ -16,7 +16,7 @@ export class SecuenciasService {
 
     return new Promise( resolve => {
       return this.http.get(`${URL}/secuencias/cgtransacciones`,{params}).subscribe((resp: any) => {
-        console.log(resp);
+         
         
         if (resp['code'] === 200) {          
           resolve(resp.data);            

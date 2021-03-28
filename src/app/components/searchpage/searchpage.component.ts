@@ -1,20 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppMainComponent } from 'src/app/app.main.component';
+import { MenuesService } from 'src/app/services/menues.service';
+import { Router } from '@angular/router';
 
 @Component({
-    /* tslint:disable:component-selector */
     selector: 'app-search-page',
-    /* tslint:enable:component-selector */
-    template: `
-        <div class="layout-search" [ngClass]="{'layout-search-active': app.search}">
-            <div class="search-container fade-in-up">
-                <i class="pi pi-search"></i>
-                <input type="text" class="p-inputtext" placeholder="Search" (click)="app.searchClick = true;"/>
-            </div>
-        </div>
-    `
+    templateUrl: './searchpage.component.html',
+    styleUrls: ['./searchpage.component.scss']
 })
-export class SearchpageComponent {
-  constructor(public app: AppMainComponent) {}
+export class SearchpageComponent implements OnInit {
 
+    menues: any[] = [];
+    selectedMenues: any;    
+    filteredMenues: any[] = [];
+
+    constructor(public app: AppMainComponent,
+                private menuesService: MenuesService,
+                private router: Router) {}
+
+    ngOnInit() {
+        this.menuesService.getMenues().then((resp: any) => {
+            this.menues = resp;           
+        })
+    }
+
+    filterMenues(event) {
+        let filtered : any[] = [];
+        let query = event.query;
+        for(let i = 0; i < this.menues.length; i++) {
+            let country = this.menues[i];
+            if (country.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(country);
+            }
+        }
+        
+        this.filteredMenues = filtered;
+    }
+
+    IrPrograma(data) {
+        this.app.searchClick = false;
+        this.router.navigate([data.url]);      
+    }
 }

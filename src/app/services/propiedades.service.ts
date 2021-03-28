@@ -62,8 +62,6 @@ export class PropiedadesService {
 
   crearPropiedad(propiedad: any) {
     const formData = new FormData();
-    console.log(propiedad);
-    
     for(let key in propiedad){  
       formData.append(key, propiedad[key])
     }
@@ -85,7 +83,7 @@ export class PropiedadesService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/propiedades/${id}`, propiedad)
               .subscribe( (resp: any) => {                                
-                console.log(resp);
+                 
                 if (resp['code'] === 200) {                  
                   this.propiedadActualizada.emit( resp.data );                            
                   resolve(resp);            

@@ -100,7 +100,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="email">Email</label>
             <span class=" p-input-icon-right">
-                <input id="email" type="text" pInputText formControlName="email" [class.p-invalid]="getNoValido('email')">
+                <input   type="text" pInputText formControlName="email" [class.p-invalid]="getNoValido('email')">
             </span>
             <small *ngIf="getNoValido('email')" class="p-invalid">Este campo es obligatorio.</small>
         </div>

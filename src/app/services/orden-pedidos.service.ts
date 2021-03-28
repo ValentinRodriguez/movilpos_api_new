@@ -39,7 +39,7 @@ export class OrdenPedidosService {
   buscaOrdenPedido(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/orden-pedido/${id}`).subscribe((resp: any) => {  
-        console.log(resp)
+         
         if (resp['code'] === 200) {          
           resolve(resp.data);            
         }
@@ -96,7 +96,7 @@ export class OrdenPedidosService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( resp => {  
-                console.log(resp);                 
+                                  
                 if (resp['code'] === 200) {    
                   this.ordenCreada.emit( resp );                                   
                   resolve(resp);       
@@ -121,7 +121,7 @@ export class OrdenPedidosService {
     return new Promise(resolve =>{
       this.http.delete(`${ URL }/ordenespedidos/${id}`)
           .subscribe((resp:any)=>{
-            console.log(resp);            
+                         
             if(resp['code']==200){
               this.ordenBorrada.emit(id);
               resolve(resp);

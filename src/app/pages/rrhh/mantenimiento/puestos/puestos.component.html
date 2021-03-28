@@ -13,7 +13,7 @@
 							<div class="table-header">
 								<span class="p-input-icon-left">
 									<i class="pi pi-search"></i>
-									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
 								</span>
 							</div>
 						</ng-template>
@@ -40,8 +40,8 @@
 							
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarMoneda(rowData.id)" pTooltip="Actualizar"></button>
-										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCategoria(rowData.id)" pTooltip="Eliminar"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarPuesto(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarPuesto(rowData.id)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
 									</span>
 								</td>								

@@ -56,7 +56,7 @@ export class TransaccionesPagoComponent implements OnInit {
 
   todasLasCuentas() {
     this.cgTransaccionesServ.getDatos().then((resp: any) => {
-      console.log(resp);      
+             
       this.cuentas = resp;
     });
   }

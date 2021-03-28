@@ -10,7 +10,7 @@
                     <div class="alert alert-danger" [hidden]="!tryout">{{tryout}} <br>{{timeLeft}} segundos</div> -->
                     <p-messages [value]="msgs" [hidden]="!error"></p-messages>
                     
-                    <input pInputText id="email" name="email" placeholder="Email" [(ngModel)]="this.form.email" required />
+                    <input pInputText   name="email" placeholder="Email" [(ngModel)]="this.form.email" required />
                     <input type="password"pPassword id="signin-password" name="password" [(ngModel)]="this.form.password" required />
                     <button *ngIf="!this.guardando" pButton label="Acceder" type="submit" [disabled]="!loginForm.valid || this.wait"></button>
                     <button *ngIf="this.guardando" pButton label="Accediendo" type="button" disabled="true" icon="pi pi-spin pi-spinner"></button>

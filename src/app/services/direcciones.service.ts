@@ -69,7 +69,7 @@ export class DireccionesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/direccion-envio`, data)
           .subscribe( (resp:any) => {
-            console.log(resp);
+             
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.direccionGuardada.emit( resp.data );       

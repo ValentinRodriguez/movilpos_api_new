@@ -19,9 +19,10 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   proveedorExiste = 3;
-  cuenta_no: any;
+  cuenta_no: any[] = [];
   cuentasFiltradas: any[] = [];
   id: number;
+  listSubscribers: any = [];
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -31,12 +32,26 @@ export class FormularioTipoProveedoresComponent implements OnInit {
                 this.crearFormulario();
   }
 
+    
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
+    this.listObserver();    
     this.cgcatalogoServ.getDatosAux().then((resp: any) => {
       this.cuenta_no = resp;
     })
+  }
 
-    this.tipoProveedorServ.actualizar.subscribe((resp: any) =>{
+  listObserver = () => {
+    const observer1$ = this.cgcatalogoServ.catalogoGuardado.subscribe((resp: any) => {      
+      if (resp.nivel == 3) {
+        this.cuenta_no.push(resp);        
+      }
+    })
+
+    const observer3$ = this.tipoProveedorServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
@@ -44,7 +59,9 @@ export class FormularioTipoProveedoresComponent implements OnInit {
         this.forma.patchValue(res);           
       })
     })
-  }
+
+    this.listSubscribers = [observer1$,observer3$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -58,7 +75,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
 
   guardarTproveedor(){
     // this.guardando = true;    
-    console.log(this.forma)
+     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          

@@ -54,7 +54,7 @@ export class CoTransaccionescxpService {
   facturasPendientes() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/facturas-pendientes/transacciones-cxp`).subscribe((resp: any) => {
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -97,7 +97,7 @@ export class CoTransaccionescxpService {
     }
     return new Promise( resolve => {
       this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {  
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.facturaGuardada.emit(resp.data);       

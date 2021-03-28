@@ -12,7 +12,7 @@
                 <i class="pi pi-search" *ngIf="periodoExiste === 3"></i>
             </span>
             <div class="p-inputgroup">       
-                <input id="mes" type="number" pInputText placeholder="Días de gracia" 
+                <input type="number" pInputText placeholder="Días de gracia" 
                        style="margin-right: 12px; width: 105px;" formControlName="gracia">
                         
 
@@ -36,24 +36,24 @@
                 <tr [formGroupName]="i" class="p-selectable-row">
                     <td>
                         <span class=" p-input-icon-right">
-                            <input id="mes" type="text" pInputText readonly="true" [attr.placeholder]="mes" class="read-only">
+                            <input type="text" pInputText readonly="true" [attr.placeholder]="mes" class="read-only">
                         </span>    
                     </td>
 
                     <td>
                         <p-calendar selectionMode="range" [readonlyInput]="true" formControlName="fecha_ini_fin" 
-                                    [defaultDate]="this.deadline[i]" dateFormat="yy/mm/dd" inputId="range">
+                                    [defaultDate]="this.deadline[i]" dateFormat="yy/mm/dd">
                         </p-calendar>
                     </td>
 
                     <td> 
                         <span class=" p-input-icon-right">
-                            <input id="habiles" type="text" pInputText formControlName="dias_habiles" readonly="true" class="read-only">
+                            <input type="text" pInputText formControlName="dias_habiles" readonly="true" class="read-only">
                         </span>
                     </td>
                     <td>
                         <span class=" p-input-icon-right">
-                            <input id="gracia" type="text" formControlName="dias_gracia" pInputText>
+                            <input type="text" formControlName="dias_gracia" pInputText>
                         </span>
                     </td>
                 </tr>

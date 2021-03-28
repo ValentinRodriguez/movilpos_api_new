@@ -25,7 +25,7 @@ export class CondicionesPagoService {
     params = params.append('condicion',parametro.condicion);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/condiciones-pago', {params}).subscribe((resp: any) => {  
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -54,9 +54,7 @@ export class CondicionesPagoService {
   }
 
   crearCondicion(condicion: any) {
-    const formData = new FormData();
-    console.log(condicion);
-    
+    const formData = new FormData();    
 
     for(let key in condicion){  
       formData.append(key, condicion[key]);
@@ -64,7 +62,7 @@ export class CondicionesPagoService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/condiciones-pago`, formData).subscribe( (resp: any) => {   
-          console.log(resp);
+           
           
           if (resp['code'] === 200) {                                      
             resolve(resp);    
@@ -78,7 +76,7 @@ export class CondicionesPagoService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/condiciones-pago/${id}`, condicion)
               .subscribe( (resp: any) => {                
-                console.log(resp);
+                 
                 
                 if (resp['code'] === 200) {
                   this.condicionAct.emit( resp.data );                            
@@ -92,7 +90,7 @@ export class CondicionesPagoService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/condiciones-pago/${id}`)
           .subscribe( (resp: any) => {
-            console.log(resp);
+             
             
             if (resp['code'] === 200) {            
               this.condicionBorrada.emit(id);    

@@ -49,7 +49,7 @@ export class EmpresaService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa`).subscribe((resp: any) => {
-        console.log(resp)
+         
         if (resp['code'] === 200) {                                      
           resolve(resp.data);            
         }
@@ -60,7 +60,7 @@ export class EmpresaService {
   getDato(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
-        console.log(resp)
+         
         if (resp['code'] === 200) {                                      
           resolve(resp.data);            
         }
@@ -82,23 +82,39 @@ export class EmpresaService {
     const formData = new FormData();
     let imagesSec = empresa.logo;
     
-    for(let key in empresa){        
-      if (key === 'logo') {        
-        if (typeof imagesSec !== 'string') {   
-          formData.append('logo', imagesSec, imagesSec.name );    
-          formData.append('logo', imagesSec.length)          
-        } else {
-          formData.append('logo', imagesSec);
-          // formData.append('imagesSec', '0')
-        }
-      }
-      formData.append(key, empresa[key])
+    for(let key in empresa){    
+      switch (key) {
+        case 'logo':
+          if (typeof imagesSec !== 'string') {   
+            formData.append('logo', imagesSec, imagesSec.name );    
+            formData.append('logo', imagesSec.length)          
+          } else {
+            formData.append('logo', imagesSec);
+          }         
+          break;
+
+        case 'moneda':
+          formData.append(key, JSON.stringify(empresa[key]));          
+          break;
+          
+        case 'id_pais':
+          formData.append(key, empresa[key].id_pais)
+          break;
+
+        case 'id_ciudad':
+          formData.append(key, empresa[key].id_ciudad)
+          break;
+
+        default:
+          formData.append(key, empresa[key])
+          break;
+      } 
     }
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/empresa/${id}`, formData)
                .subscribe( resp => {  
-               console.log(resp);
+                
                  
                if (resp['code'] === 200) {                                      
                  resolve(resp);       
@@ -131,13 +147,11 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData)
-               .subscribe( resp => {           
-                 console.log(resp);
-                 
-               if (resp['code'] === 200) {                                      
-                 resolve(resp);      
-               }
+      this.http.post(`${ URL }/empresa`, formData).subscribe( resp => {                            
+          console.log(resp);                 
+          if (resp['code'] === 200) {                                      
+            resolve(resp);      
+          }
       });
     });    
   }

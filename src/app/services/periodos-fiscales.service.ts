@@ -21,7 +21,7 @@ export class PeriodosFiscalesService {
     params = params.append('periodos',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/periodos-fiscales', {params}).subscribe((resp: any) => { 
-          console.log(resp);   
+              
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -51,14 +51,13 @@ export class PeriodosFiscalesService {
 
   crearPeriodo(periodo: any) {    
     return new Promise( resolve => {
-      this.http.post(`${ URL }/periodos-fiscales`, periodo)
-          .subscribe( (resp:any) => {
-          console.log(resp);            
+      this.http.post(`${ URL }/periodos-fiscales`, periodo).subscribe( (resp:any) => {
+          console.log(resp);                                 
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.periodoGuardado.emit( resp.data );       
           }
-      });
+         });
     });    
   }
 
@@ -66,7 +65,7 @@ export class PeriodosFiscalesService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/periodos-fiscales/${id}`, periodo)
               .subscribe( (resp: any) => { 
-                console.log(resp);                
+                                 
                 if (resp['code'] === 200) {                  
                   this.periodoActualizado.emit( resp.data );                            
                   resolve(resp);            
@@ -79,7 +78,7 @@ export class PeriodosFiscalesService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/periodos-fiscales/${id}`)
           .subscribe( (resp: any) => {  
-            console.log(resp);                                       
+                                                    
             if (resp['code'] === 200) {            
               this.periodoBorrado.emit(id);    
               resolve(resp);            
@@ -93,7 +92,7 @@ export class PeriodosFiscalesService {
     return new Promise( resolve => {      
       this.http.post(`${ URL }/restaurar/periodo-fiscal`,periodo)
           .subscribe( (resp: any) => {  
-            console.log(resp);                                       
+                                                    
             if (resp['code'] === 200) {            
               this.periodoBorrado.emit(id);    
               resolve(resp);            

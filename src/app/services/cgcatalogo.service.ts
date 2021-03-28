@@ -27,7 +27,7 @@ export class CgcatalogoService {
     params = params.append('descripcion',parametro.descripcion);  
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -36,7 +36,6 @@ export class CgcatalogoService {
   }
 
   busquedaCatalogo(parametro?: any) {
-    console.log(parametro)
     let params = new HttpParams();
     if (parametro === undefined) {
       parametro = {};
@@ -48,7 +47,7 @@ export class CgcatalogoService {
     params = params.append('cuenta_no',parametro.cuenta_no);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {  
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -97,7 +96,6 @@ export class CgcatalogoService {
   }
   
   crearCgcatalogos(cgcatalogo: any) {
-    console.log(cgcatalogo.aplica_a);
     if (cgcatalogo.aplica_a === undefined) {
       cgcatalogo.aplica_a = cgcatalogo.cuenta_no;
     }
@@ -133,11 +131,11 @@ export class CgcatalogoService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( resp => { 
-        console.log(resp);        
+      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => { 
+                 
         if (resp['code'] === 200) {
-          resolve(resp);       
-          this.catalogoGuardado.emit(resp);
+          resolve(resp.data);       
+          this.catalogoGuardado.emit(resp.data);
         }
       });
     });    

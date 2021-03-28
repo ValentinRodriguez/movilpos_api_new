@@ -32,7 +32,7 @@ export class CatalogoCuentasComponent implements OnInit {
               }
 
   ngOnInit(): void {    
-    //this.datos.getFiles().then(resp => console.log(resp))
+    //this.datos.getFiles().then(resp =>  )
     this.cols = [
       { field: 'descripcion_c', header: 'Descripción'},
       { field: 'cuenta_no', header: 'Cuenta'},
@@ -64,7 +64,7 @@ export class CatalogoCuentasComponent implements OnInit {
   todosLosCatalogos() {
     this.cgcatalogoServ.getDatos().then((resp: any) => {
       this.cuentas = resp;
-      console.log(resp);
+       
       
     })
   }

@@ -9,7 +9,7 @@ const URL = environment.url;
 })
 export class ClientesService {
 
-  Clientes = new EventEmitter();
+  ClienteCreado = new EventEmitter();
   clienteBorrado = new EventEmitter();
   clientAct      = new EventEmitter();
 
@@ -52,43 +52,57 @@ export class ClientesService {
     const formData = new FormData(); 
     
     for(let key in cliente){  
-      if (key === 'generico') {
-        formData.append(key, cliente[key].value)
-      }
-      else if (key === 'vendedor') {
-        formData.append(key, cliente[key].id_numemp)
-      }
-      else if (key === 'id_ciudad' || key === 'id_pais' || key === 'tipo_cliente' || key === 'tipo_documento' || key === 'tipo_negocio' || key === 'cond_pago') {
-        formData.append(key, cliente[key].id)         
-      }
-      else{          
-        formData.append(key, cliente[key])
+      switch (key) {
+        case 'generico':
+          formData.append(key, cliente[key].value)
+          break;
+
+        case 'vendedor':
+          formData.append(key, cliente[key].id_numemp)
+          break;
+
+        case 'tipo_cliente':
+          formData.append(key, cliente[key].tipo_cliente)
+          break;
+
+        case 'tipo_negocio':
+          formData.append(key, cliente[key].tipo_negocio)
+          break;
+
+        case 'cond_pago':
+        case 'id_ciudad':
+        case 'id_pais':
+        case 'tipo_documento':
+          formData.append(key, cliente[key].id)
+          break;
+
+        default:
+          formData.append(key, cliente[key])
+          break;
       }
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/mclientes`, formData).subscribe( resp => {         
+      this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {    
+          console.log(resp);          
           if (resp['code'] === 200) {    
-            this.Clientes.emit( resp );                                   
-            resolve(resp);       
+            this.ClienteCreado.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    
   }
 
-  actualizarCliente(id:string, client: any) {
-  
+  actualizarCliente(id:number, client: any) {
     return new Promise( resolve => {
       this.http.put(`${ URL }/mclientes/${id}`, client)
-              .subscribe( (resp: any) => {     
-                if (resp['code'] === 200) {
-                  this.clientAct.emit( resp.data );                            
-                  resolve(resp);   
-                           
-                }
-              });
-    });
-
+          .subscribe( (resp: any) => {  
+            if (resp['code'] === 200) {
+              this.clientAct.emit( resp.data );                            
+              resolve(resp);          
+            }
+        });
+      });
   }
 
   getCiudad() {
@@ -155,6 +169,7 @@ export class ClientesService {
 
   actualizando(data: any) {
     this.actualizar.emit(data);
+  
   }
 
   guardando() {

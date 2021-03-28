@@ -18,7 +18,6 @@ export class EntradasDiarioService {
               private usuarioService:UsuarioService) { }
 
   busquedaMarca(parametro?: any) {
-    console.log(parametro);
   
     let params = new HttpParams();
     params = params.append('marca',parametro);    
@@ -44,7 +43,7 @@ export class EntradasDiarioService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/cgentradasdiarios/${id}`).subscribe((resp: any) => {
-        console.log(resp);
+         
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -66,7 +65,7 @@ export class EntradasDiarioService {
         
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgentradasdiarios`, entradas).subscribe( (resp: any) => { 
-       // console.log(resp)
+       //  
           if (resp['code'] === 200) {                                      
             resolve(resp.data);    
           
@@ -77,13 +76,12 @@ export class EntradasDiarioService {
     });    
     
   }
-  actualizarEntrada(id:number, ent: any) {  
-    console.log(ent);
+  actualizarEntrada(id:number, ent: any) {      
     return new Promise( resolve => {
      
       this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent)
               .subscribe( (resp: any) => {  
-                console.log(resp);      
+                       
                 if (resp['code'] === 200) {
                   this.entradaAct.emit( resp.data );                            
                   resolve(resp);            

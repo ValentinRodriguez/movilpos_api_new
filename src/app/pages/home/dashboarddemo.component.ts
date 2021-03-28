@@ -46,7 +46,7 @@ export class DashboardDemoComponent implements OnInit {
 
     refresh() {
         this.usuarioServ.refreshToken().then((resp:any) =>{
-            console.log(resp);            
+                         
         });       
     }
 

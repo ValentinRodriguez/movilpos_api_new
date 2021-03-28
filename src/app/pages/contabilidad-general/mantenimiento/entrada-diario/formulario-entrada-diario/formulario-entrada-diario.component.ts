@@ -32,6 +32,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   ano:string;
   mask:string;
   cuenta1:any[]=[];
+  valor:number;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -52,10 +53,12 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.entradasServ.getDato(resp).then((res: any) => {
-       // console.log(res);
+       //  
         this.forma.get('fecha').setValue(new Date(res.fecha));
         this.forma.get('ref').setValue(res.ref);
         this.forma.get('detalle').setValue(res.detalle);
+        this.forma.get('mes').setValue(res.mes);
+        this.forma.get('periodo').setValue(res.periodo);
         
         res.cuentas.forEach(element => {
           this.cuentas.push(element);
@@ -69,7 +72,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
             credito:          [element.credito]
           }));   
           
-       // console.log(resp);       
+       //         
         });
       })
     })
@@ -148,8 +151,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   guardarEntradas(){
     //this.guardando = true;
  
-    
-    console.log(this.forma.value)
+     
     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
@@ -188,8 +190,12 @@ export class FormularioEntradaDiarioComponent implements OnInit {
  
     this.forma.get("periodo").setValue(this.mes+this.ano);
     this.forma.get("mes").setValue(this.mes);
-   // console.log(this.mask)
 
+  }
+
+  onSelectDate1(fecha) {
+    let d = new Date(Date.parse(fecha));
+    return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
   }
 
   buscaCuentas() {
@@ -198,18 +204,23 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       width: '50%'
     });
   }
- ActualizarMarca(){
-  console.log(this.forma.value)
- // this.actualizando = true;
+  ActualizarMarca(){
+     
+
+    const fecha = this.forma.get('fecha').value;
+   
+    this.forma.get('fecha').setValue(this.onSelectDate1(fecha));
+     
+    // this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
-      })
+     })
     }else{
       this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {
-       
+        
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
         this.actualizando = false;
       })

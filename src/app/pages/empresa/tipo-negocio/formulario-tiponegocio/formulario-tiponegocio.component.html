@@ -3,7 +3,7 @@
         <div class="p-field p-col-12 p-md-6">
             <label for="descripcion">Título</label>
             <span class=" p-input-icon-right">
-                <input id="descripcion" type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
+                <input   type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
                        (keyup)="verificaTipoNegocio($event.target.value)" [class.ng-invalid]="getNoValido('descripcion')"
                        [class.ng-dirty]="getNoValido('descripcion')" >
                 <i class="pi pi-spin pi-spinner" *ngIf="negocioExiste === 0" style="color:#f5df18"></i>

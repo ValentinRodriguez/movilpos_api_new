@@ -45,7 +45,6 @@ export class FormularioUsuariosComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    console.log(this.empleados);
     
     this.usuariosServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;

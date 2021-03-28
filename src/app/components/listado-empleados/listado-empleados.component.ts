@@ -42,8 +42,7 @@ export class ListadoEmpleadosComponent implements OnInit {
 
   enviarEmpleado() {
     if (this.empleadosSeleccionados !== null) {      
-      this.usuariosServ.busquedaNumEmp(this.empleadosSeleccionados.id_numemp).then((res: any) => {
-        console.log(res);
+      this.usuariosServ.busquedaNumEmp(this.empleadosSeleccionados.id_numemp).then((res: any) => {        
         if (res.length !== 0) {
           const usuario = res[0].username.toUpperCase();
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR',`Este empleado ya tiene el usuario ${usuario} creado`);         

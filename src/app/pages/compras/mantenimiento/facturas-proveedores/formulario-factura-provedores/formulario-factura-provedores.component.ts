@@ -82,8 +82,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   todaLaData() {
-    this.coTransaccionescxpServ.autoLlenado().then((resp: any)  => {      
-      console.log(resp);
+    this.coTransaccionescxpServ.autoLlenado().then((resp: any)  => {
       resp.forEach(element => {        
         switch (element.label) {
           case 'monedas':            
@@ -292,7 +291,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   guardarFproveedor(){
     //this.guardando = true;
-    console.log(this.forma);
     this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -342,7 +340,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.forma.get('fecha_orig').setValue(this.onSelectDate(fecha_orig));
     this.forma.get('fecha_proc').setValue(this.onSelectDate(fecha_proc));
     
-    console.log(this.forma);
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -396,7 +393,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   calcula(data) {
     let index = 0;    
-    console.log(this.itbis);
      
     if (this.itbis == 'si') {
       this.cuentas.forEach(element => {
@@ -499,7 +495,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   setVencimiento(data, accion) {    
     if (!accion && data.value.descripcion === 'prestamo') {
-      console.log(data.value.descripcion);  
       this.forma.get('cuotas').enable();
       
     }else{
@@ -513,8 +508,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     }
   }
 
-  setCuotas(data) {
-    console.log(data);    
+  setCuotas(data) { 
     const fecha_orig = this.forma.get('fecha_orig').value;
     const tmpDate = new Date(fecha_orig);     
     const now = tmpDate.getTime();
@@ -576,8 +570,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.simbolo = event.value.simbolo;
   }
 
-  setItbis(data) {
-    console.log(data);    
+  setItbis(data) {   
     this.forma.get('itbis').setValue(data.value);
   }
 

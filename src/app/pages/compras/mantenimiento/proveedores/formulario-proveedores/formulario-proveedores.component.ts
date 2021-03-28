@@ -5,6 +5,7 @@ import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/ca
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepProveedoresComponent } from '../step-proveedores/step-proveedores.component';
@@ -35,6 +36,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
@@ -42,6 +44,7 @@ export class FormularioProveedoresComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private proveedoresServ:ProveedoresService,
               private cgCatalogoServ: CgcatalogoService,
+              private tipoProveedorServ: TipoProveedorService,
               public dialogService: DialogService,
               private cd: ChangeDetectorRef) { 
       this.usuario = this.usuariosServ.getUserLogged();
@@ -51,6 +54,7 @@ export class FormularioProveedoresComponent implements OnInit {
   ngOnInit(): void {
     this.todaLaData();
     this.catalogoEscogido();
+    this.listObserver();
 
     this.cols2 = [
       { field: 'descripcion', header: 'Descripción' },
@@ -60,18 +64,25 @@ export class FormularioProveedoresComponent implements OnInit {
       { field: 'porciento', header: 'Porciento' },
       { field: 'acciones', header: 'Acciones' },
     ]
-    
-    this.proveedoresServ.actualizar.subscribe((resp: any) =>{
+
+  }
+  
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
+  listObserver = () => {
+    const observer1$ = this.tipoProveedorServ.tipoPguardado.subscribe((resp: any)=>{
+      this.tipo_proveedor.push(resp);      
+    })
+
+    const observer2$ = this.proveedoresServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
-      this.actualizar = true;   
-      //this.id = Number(resp);      
+      this.actualizar = true;    
       this.id = resp[0]+'-'+resp[1];
-      console.log(this.id);
       
       this.proveedoresServ.getDato(resp[0]+'-'+resp[1]).then((res: any) => {
-        console.log(res);
         this.forma.patchValue(res);
-        console.log(this.tipo_proveedor);
         
         this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_doc)); 
         this.forma.get('cod_sp').setValue(this.tipo_proveedor.find(doc => doc.id == res.cod_sp)); 
@@ -89,12 +100,16 @@ export class FormularioProveedoresComponent implements OnInit {
         });
       })
     })
-  }
-  
 
+    // const observer3$ = this.cgCatalogoServ.catalogoGuardado.subscribe((resp: any) => {
+    //   this.cgcatalogos.push(resp);
+    // })
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
   catalogoEscogido() {
     this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      console.log(resp);
+       
       
       resp.forEach(element => {
         if (element.tipo_cuenta !== "normal") {
@@ -127,11 +142,10 @@ export class FormularioProveedoresComponent implements OnInit {
 
           case 'paises':
             this.paises = element.data;
-            console.log(this.paises);            
             break; 
 
           case 'tipo documento':
-            this.documento = element.data;
+            this.documento = element.data;           
             this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.descripcion === 'cedula'));
             break; 
 
@@ -168,7 +182,7 @@ export class FormularioProveedoresComponent implements OnInit {
       nom_sp:              ['', Validators.required],          
       dir_sp:              ['', Validators.required],
       tel_sp:              ['', Validators.required],
-      fax_sp:              ['', Validators.required],          
+      fax_sp:              [''],          
       cont_sp:             ['', Validators.required],
       tipo_doc:            ['', Validators.required],
       cond_pago:           ['', Validators.required],          
@@ -212,7 +226,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   guardarProveedor(){
     //this.guardando = true;     
-    console.log(this.forma);
+     
           
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -223,15 +237,15 @@ export class FormularioProveedoresComponent implements OnInit {
     }else{      
       this.guardando = false;
       this.proveedoresServ.crearProveedor(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);      
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Proveedor creado exitosamente!!");      
         this.restaurarFormulario();
       })
     } 
   } 
 
   actualizarProveedor(){
-    //this.guardando = true;  
-    console.log(this.forma);     
+    // this.actualizando = true;  
+          
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      

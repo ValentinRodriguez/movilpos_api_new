@@ -17,9 +17,6 @@ export class MenuesService {
                .subscribe( resp => {     
                  if (resp['code'] === 200) {                           
                    resolve(resp['data']);            
-                 } else {
-                   //this.uimessage.getErrormessage("ERROR",resp['msj'])
-                   console.log(resp['msj']);                   
                  }
                });
     });

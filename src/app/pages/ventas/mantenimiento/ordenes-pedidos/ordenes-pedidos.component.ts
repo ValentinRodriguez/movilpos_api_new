@@ -82,16 +82,12 @@ export class OrdenesPedidosComponent implements OnInit {
   }
 
   detallesDirecion(data) {
-    console.log(data);
+     
     this.detalleDireccion.direccion = data.direccion;
     this.detalleDireccion.referencia = data.ubicacion;
     this.detalleDireccion.pais_cliente = data.pais_cliente;
     this.detalleDireccion.ciudad_cliente = data.ciudad_cliente;
     this.detalleDireccion.urbanizacion_cliente = data.urbanizacion_cliente;
-
-    // this.detalleDireccion.direccion_cliente = data.direccion_cliente;
-    
-    console.log(this.detalleDireccion);
     this.displayPosition = true;
   }
 

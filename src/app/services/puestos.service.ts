@@ -21,7 +21,7 @@ export class PuestosService {
     params = params.append('puesto',parametro.monedas);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/nopuestos', {params}).subscribe((resp: any) => {  
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -42,7 +42,7 @@ export class PuestosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/nopuestos/${id}`).subscribe((resp: any) => {
-          console.log(resp);
+           
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -58,7 +58,7 @@ export class PuestosService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {
-        console.log(resp)
+         
         if (resp['code'] === 200) {                                      
           resolve(resp);    
           this.puestoGuardada.emit(resp.data);       
@@ -71,7 +71,7 @@ export class PuestosService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/nopuestos/${id}`, puesto)
           .subscribe( (resp: any) => {                
-            console.log(resp);
+             
             
             if (resp['code'] === 200) {
               this.puestoAct.emit( resp.data );                            

@@ -52,7 +52,6 @@ export class DepartamentosService {
 
   actualizarDepartamento(id:string, departamento: any) {
     const formData = new FormData(); 
-    console.log(departamento);
     
     for(let key in departamento){  
       formData.append(key, departamento[key])
@@ -61,7 +60,7 @@ export class DepartamentosService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/departamentos/${id}`, departamento)
           .subscribe( (resp: any) => {                                      
-            console.log(resp);
+             
             if (resp['code'] === 200) {
               this.departamentoAct.emit( resp.data );                            
               resolve(resp);            

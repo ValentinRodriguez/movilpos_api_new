@@ -13,7 +13,7 @@
 							<div class="table-header">
 								<span class="p-input-icon-left">
 									<i class="pi pi-search"></i>
-									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar...."/>
 								</span>
 							</div>
 						</ng-template>
@@ -198,7 +198,7 @@
 							<div class="p-field p-col-6">
 								<label>Documentos</label>
 								<p-fileUpload name="demo[]" multiple="multiple" accept="image/*,.pdf" maxFileSize="1000000" 
-											  (onSelect)="onFileSelect($event)">
+											  (onSelect)="onFileSelect($event)" [showUploadButton]="false">
 									<ng-template pTemplate="content">
 										<ul *ngIf="uploadedFiles.length">
 											<li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
@@ -237,7 +237,7 @@
 										<div class="table-header">
 											<span class="p-input-icon-left">
 												<i class="pi pi-search"></i>
-												<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+												<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar...."/>
 											</span>
 										</div>
 									</ng-template>

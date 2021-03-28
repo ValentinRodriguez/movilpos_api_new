@@ -25,8 +25,7 @@ export class UsuarioService {
               private router: Router) { }
 
   busquedaEmail(parametro?: any) {
-    console.log(parametro);
-    
+       
     let params = new HttpParams();
     if (parametro === undefined) {
       parametro = {};
@@ -37,15 +36,10 @@ export class UsuarioService {
 
     params = params.append('email',parametro.email);
 
-    console.log(params.toString());
-    return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {
-          console.log(resp);
-        
+       return new Promise( resolve => {
+      this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {                   
           if (resp['code'] === 200) {          
             resolve(resp.data);            
-          } else {
-            console.log(resp['msj']);  
           }
         })
     })
@@ -84,15 +78,13 @@ export class UsuarioService {
     let params = new HttpParams();   
     params = params.append('empleado',parametro);
 
-    console.log(params.toString());
-    return new Promise( resolve => {
+       return new Promise( resolve => {
       this.http.get(URL+'/busqueda/numemp', {params}).subscribe((resp: any) => {
-          console.log(resp);        
+                   
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           } else {
-            console.log(resp['msj']);  
-          }
+                     }
         })
     })
   }
@@ -100,7 +92,7 @@ export class UsuarioService {
   getUsers() {
     return new Promise( resolve => {
       this.http.get(`${URL}/users`).subscribe((resp: any) => {
-        console.log(resp);        
+                 
         if (resp['code'] === 200) {          
           resolve(resp.data);  
         }
@@ -146,9 +138,8 @@ export class UsuarioService {
   }
   
   logout(email) {
-    console.log(email);
-    this.http.post(`${URL}/logout`, email).subscribe((resp: any) => {
-      console.log(resp);        
+       this.http.post(`${URL}/logout`, email).subscribe((resp: any) => {
+               
       if (resp['code'] === 200) {  
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -165,7 +156,7 @@ export class UsuarioService {
   register(data: any) {
     let foto = data.foto;
     const formData = new FormData();
-    console.log(data);
+     
     
     for(let key in data){  
       switch (key) {
@@ -180,7 +171,7 @@ export class UsuarioService {
     
     return new Promise( resolve => {
       this.http.post(`${URL}/signup`, formData).subscribe((resp: any) => {
-        console.log(resp);        
+                 
         if (resp['code'] === 200) {  
           this.usuarioGuardado.emit( resp.data );        
           resolve(resp.data);  
@@ -252,7 +243,7 @@ export class UsuarioService {
 
     return new Promise( resolve => {
       this.http.post(`${URL}/lockLogin`, formData).subscribe((resp: any) => {
-        console.log(resp);        
+                 
         if (resp['code'] === 200) { 
           resolve(resp.data);  
         }
@@ -266,7 +257,7 @@ export class UsuarioService {
 
     return new Promise( resolve => {
       this.http.post(`${URL}/unlocklogin`, formData).subscribe((resp: any) => {
-        console.log(resp);        
+                 
         if (resp['code'] === 200) { 
           resolve(resp.data);  
         }
@@ -280,7 +271,7 @@ export class UsuarioService {
 
     return new Promise( resolve => {
       this.http.post(`${URL}/desactivar`, formData).subscribe((resp: any) => {
-        console.log(resp);        
+                 
         if (resp['code'] === 200) { 
           resolve(resp.data);  
         }
@@ -291,7 +282,7 @@ export class UsuarioService {
   refreshToken() {
     return new Promise( resolve => {
       this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {
-        console.log(resp);        
+                 
         if (resp['code'] === 200) { 
           resolve(resp.data);  
         }

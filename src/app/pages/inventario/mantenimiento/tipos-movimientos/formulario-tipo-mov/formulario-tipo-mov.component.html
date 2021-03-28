@@ -3,7 +3,7 @@
         <div class="p-field p-col-12 p-md-4">
             <label for="titulo">Título</label>
             <span class=" p-input-icon-right">
-                <input id="titulo" type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
+                <input   type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
                        [class.ng-dirty]="getNoValido('titulo')" (keyup)="verificaTipoMovimiento($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="movimientoExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="movimientoExiste === 1" style="color:#36b61d"></i>
@@ -14,9 +14,10 @@
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="origen">origen</label>
-            <p-dropdown inputId="origen" [options]="origenes" formControlName="origen" optionLabel="label" 
-                        [class.p-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')">
+            <label for="origen">Origen</label>
+            <p-dropdown input  [options]="origenes" formControlName="origen" optionLabel="label" 
+                        [class.p-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')" 
+                        (onChange)="tipoOrigen($event.value.value)" placeholder="Escoge...">
             </p-dropdown>
             <small class="p-invalid" *ngIf="getNoValido('origen')">Este campo es obligatorio.</small>
         </div>
@@ -38,7 +39,7 @@
                         <div class="table-header">
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar...."/>
                             </span>
                         </div>
                     </ng-template>
@@ -93,14 +94,14 @@
 
         <div class="p-field p-col-12">
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" type="text" rows="4" pInputTextarea formControlName="descripcion" 
+            <textarea   type="text" rows="4" pInputTextarea formControlName="descripcion" 
                       [class.p-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')">
             </textarea>
             <small class="p-invalid" *ngIf="getNoValido('descripcion')">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2">   
-            <label for="control_clientes">Control de Clientes</label>                             
+            <label for="control_clientes">Control Clientes</label>                             
             <p-dropdown inputId="control_clientes" [options]="sino" formControlName="control_clientes" placeholder="Control Clientes" 
                         [class.p-invalid]="getNoValido('control_clientes')" [class.ng-dirty]="getNoValido('control_clientes')" (onChange)="controlClientes($event.value)" 
                         readonly="true">
@@ -109,7 +110,7 @@
         </div>
 
         <div class="p-field p-col-12 p-md-2">       
-            <label for="control_despachos">Control de Despachos</label>                          
+            <label for="control_despachos">Control Despachos</label>                          
             <p-dropdown inputId="control_despachos" [options]="sino" formControlName="control_despachos" placeholder="Control Despachos" 
                         (onChange)="controlDespachos($event.value)" [class.p-invalid]="getNoValido('control_despachos')" [class.ng-dirty]="getNoValido('control_despachos')">
             </p-dropdown>
@@ -117,7 +118,7 @@
         </div>
 
         <div class="p-field p-col-12 p-md-2">   
-            <label for="control_departamento">Control de Departamento</label>                              
+            <label for="control_departamento">Control Departamento</label>                              
             <p-dropdown inputId="control_departamento" [options]="sino" formControlName="control_departamento" placeholder="Control Despachos" 
                         [class.p-invalid]="getNoValido('control_departamento')" [class.ng-dirty]="getNoValido('control_departamento')">
             </p-dropdown>
@@ -125,7 +126,7 @@
         </div>
 
         <div class="p-field p-col-12 p-md-2">      
-            <label for="control_devoluciones">Control de Devoluciones</label>                           
+            <label for="control_devoluciones">Control Devoluciones</label>                           
             <p-dropdown inputId="control_devoluciones" [options]="sino" formControlName="control_devoluciones" placeholder="Control Devoluciones" 
                         [class.p-invalid]="getNoValido('control_devoluciones')" [class.ng-dirty]="getNoValido('control_devoluciones')" 
                         (onChange)="controldevoluciones($event.value)">
@@ -134,7 +135,7 @@
         </div>
 
         <div class="p-field p-col-12 p-md-2">     
-            <label for="control_transferencia">Control de Transferencia</label>                            
+            <label for="control_transferencia">Control Transferencia</label>                            
             <p-dropdown inputId="control_transferencia" [options]="sino" formControlName="control_transferencia" placeholder="Control Transferencia" 
                         [class.p-invalid]="getNoValido('control_transferencia')" [class.ng-dirty]="getNoValido('control_transferencia')" 
                         (onChange)="controlTransferencia($event.value)">
@@ -143,7 +144,7 @@
         </div>
 
         <div class="p-field p-col-12 p-md-2">     
-            <label for="control_orden_compra">Control Orden de Compra</label>                            
+            <label for="control_orden_compra">Control Orden Compra</label>                            
             <p-dropdown inputId="control_orden_compra" [options]="sino" formControlName="control_orden_compra" placeholder="Control Orden compra" 
                         [class.p-invalid]="getNoValido('control_orden_compra')" [class.ng-dirty]="getNoValido('control_orden_compra')" 
                         (onChange)="controlOrdenCompra($event.value)">

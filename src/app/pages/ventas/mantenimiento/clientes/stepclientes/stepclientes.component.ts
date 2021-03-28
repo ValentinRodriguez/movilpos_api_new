@@ -21,8 +21,7 @@ export class StepclientesComponent implements OnInit {
       if (data[key].data.length === 0) {
         this.data.push(data[key])        
       }
-    }
-    console.log(this.data);    
+    } 
   }
 
   crearEmpleado() {
