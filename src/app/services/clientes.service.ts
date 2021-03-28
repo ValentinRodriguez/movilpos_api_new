@@ -77,15 +77,16 @@ export class ClientesService {
     });    
   }
 
-  actualizarCliente(id:string, client: any) {
-  
+  actualizarCliente(id:number, client: any) {
+    //console.log(client);  
+    console.log(id);
     return new Promise( resolve => {
       this.http.put(`${ URL }/mclientes/${id}`, client)
-              .subscribe( (resp: any) => {     
+              .subscribe( (resp: any) => {   
+                console.log(resp);  
                 if (resp['code'] === 200) {
                   this.clientAct.emit( resp.data );                            
-                  resolve(resp);   
-                           
+                  resolve(resp);          
                 }
               });
     });
@@ -156,6 +157,7 @@ export class ClientesService {
 
   actualizando(data: any) {
     this.actualizar.emit(data);
+  
   }
 
   guardando() {

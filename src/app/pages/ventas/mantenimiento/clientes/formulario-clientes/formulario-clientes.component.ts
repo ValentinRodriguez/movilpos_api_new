@@ -22,15 +22,20 @@ export class FormularioClientesComponent implements OnInit {
   tiponegocio=[];
   tipo_cliente=[];
   vendedor=[];
-  
+  id: number;
   cedula = true;
   rnc = false;
   pasaporte = false;
-
+  guardar = true;
+  actualizar = false;
   vendedoresFiltrados: any[];
+  id1: number;
   condpago: any[];
   paises: any[] = [];
   ciudades: any[] = [];
+  tipo_proveedor=[];
+  actualizando = false;
+
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -47,9 +52,10 @@ export class FormularioClientesComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
     this.todosLosPaises();
     this.clientesServ.autollenado().then((resp: any) => {
-      console.log(resp); 
+     // console.log(resp); 
       resp.forEach(element => {
         switch (element.label) {
           case 'vendedor':
@@ -58,7 +64,7 @@ export class FormularioClientesComponent implements OnInit {
 
           case 'tipo documento':
             this.documento = element.data;
-            console.log(this.documento);
+       //     console.log(this.documento);
             
             break;
 
@@ -68,6 +74,7 @@ export class FormularioClientesComponent implements OnInit {
 
           case 'tipo cliente':
             this.tipo_cliente = element.data;
+            console.log(this.tipo_cliente)
             break;
 
           case 'condiciones':
@@ -79,6 +86,31 @@ export class FormularioClientesComponent implements OnInit {
         }
       });      
       this.autollenado(resp); 
+    })
+
+    this.clientesServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar=true;   
+      this.id = Number(resp);      
+      console.log(resp);
+      this.clientesServ.getdato(resp).then((res: any) => {
+     
+        this.forma.patchValue(res);
+        console.log(res)
+        
+        this.forma.get('tipo_documento').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_documento)); 
+       // this.forma.get('tipo_cliente').setValue(this.tipo_cliente.find(doc => doc.id == res.tipo_cliente)); 
+        this.forma.get('vendedor').setValue(this.vendedor.find(doc => doc.id_numemp == res.vendedor)); 
+        this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago)); 
+      console.log(this.tipo_cliente)
+        this.forma.get('tipo_negocio').setValue(this.tiponegocio.find(doc => doc.tipo_negocio == res.tipo_negocio)); 
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
+        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+          this.ciudades = resp;
+          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        })
+       
+      })
     })
   }
 
@@ -193,4 +225,27 @@ export class FormularioClientesComponent implements OnInit {
       this.pasaporte = true;
     } 
   }
+  
+  actualizarCliente() {
+   // console.log(this.forma);
+   console.log(this.tipo_cliente);
+    this.guardar=false;  
+    this.actualizar=true;   
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);     
+    if (this.forma.invalid) {      
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+      this.guardando = false;
+    }else{      
+      this.guardando = false;
+      this.clientesServ.actualizarCliente(this.id, this.forma.value).then((resp: any)=>{
+    
+        this.actualizando=false;
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+                 
+      })
+    } 
+  } 
 }
