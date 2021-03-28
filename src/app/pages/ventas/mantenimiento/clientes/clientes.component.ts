@@ -16,12 +16,14 @@ export class ClientesComponent implements OnInit {
 
   clientes : any[] = [];
   page = 1;
+  actualizando = false; 
   clienteExiste = 3;
   tipo_cliente=[];
   vendedor=[];
   parametro: string;
   usuario: any;
   cols: any[];
+  index: number = 0;
 
   constructor( private uiMessage: UiMessagesService,
                private usuariosServ: UsuarioService,
@@ -57,13 +59,16 @@ export class ClientesComponent implements OnInit {
   todosLosClientes() {
     this.clientesServ.getDatos().then((resp: any) => {
       this.clientes = resp; 
-      console.log(resp);
+   //   console.log(resp);
        
     })
   }
   
-  actualizarCliente(producto) { 
-
+  actualizarCliente(data) { 
+    
+    this.index = 1;   
+    this.clientesServ.actualizando(data);
+    console.log(data);
   }
 
   borrarCliente(id) {

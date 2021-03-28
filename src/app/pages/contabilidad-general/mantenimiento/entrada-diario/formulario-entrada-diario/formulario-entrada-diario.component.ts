@@ -32,6 +32,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   ano:string;
   mask:string;
   cuenta1:any[]=[];
+  valor:number;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -56,6 +57,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         this.forma.get('fecha').setValue(new Date(res.fecha));
         this.forma.get('ref').setValue(res.ref);
         this.forma.get('detalle').setValue(res.detalle);
+        this.forma.get('mes').setValue(res.mes);
+        this.forma.get('periodo').setValue(res.periodo);
         
         res.cuentas.forEach(element => {
           this.cuentas.push(element);
@@ -148,7 +151,6 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   guardarEntradas(){
     //this.guardando = true;
  
-    
     console.log(this.forma.value)
     
     if (this.forma.invalid) {      
@@ -192,24 +194,34 @@ export class FormularioEntradaDiarioComponent implements OnInit {
 
   }
 
+  onSelectDate1(fecha) {
+    let d = new Date(Date.parse(fecha));
+    return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+  }
+
   buscaCuentas() {
     const ref = this.dialogService.open(CatalogoCuentasComponent, {
       header: 'Catalogo de Productos',
       width: '50%'
     });
   }
- ActualizarMarca(){
-  console.log(this.forma.value)
- // this.actualizando = true;
+  ActualizarMarca(){
+    console.log(this.forma.value)
+
+    const fecha = this.forma.get('fecha').value;
+   
+    this.forma.get('fecha').setValue(this.onSelectDate1(fecha));
+    console.log(this.forma.value)
+    // this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
-      })
+     })
     }else{
       this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {
-       
+        
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
         this.actualizando = false;
       })
