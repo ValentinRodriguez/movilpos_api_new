@@ -13,6 +13,8 @@ export class CgcatalogoService {
   catalogoBorrado = new EventEmitter();
   catalogoEscogido = new EventEmitter();
   catalogoGuardado = new EventEmitter();
+  actualizar = new EventEmitter();
+  guardar = new EventEmitter();
 
   constructor(private http: HttpClient) { }
 
@@ -131,8 +133,8 @@ export class CgcatalogoService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => { 
-                 
+      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {
+        console.log(resp);        
         if (resp['code'] === 200) {
           resolve(resp.data);       
           this.catalogoGuardado.emit(resp.data);
@@ -141,15 +143,53 @@ export class CgcatalogoService {
     });    
   }
 
-  actualizarCatalogo(id:string, catalogo: any) {    
+  actualizarCatalogo(id:number, cgcatalogo: any) {  
+    const formData = {};
+    if (cgcatalogo.aplica_a === undefined) {
+      cgcatalogo.aplica_a = cgcatalogo.cuenta_no;
+    }
+
+    for(let key in cgcatalogo){  
+      switch (key) {
+        case 'analitico':
+        case 'catalogo':
+        case 'depto':
+        case 'referencia':
+        case 'retencion':
+        case 'tipo_cuenta':   
+        case 'nivel':
+        case 'grupo':
+        case 'origen':
+        case 'selectivo_consumo':
+          console.log(key);
+          
+          formData[key] = cgcatalogo[key].value
+          break;
+        case 'cuenta_resultado':
+          if (cgcatalogo[key] === true) {
+            formData[key] = 'si';
+          } else {
+            formData[key] = 'no';
+          }
+          break;
+        case 'codigo_isr':
+          formData[key] =cgcatalogo[key].id
+          break;
+
+        default:
+          formData[key] =cgcatalogo[key]
+          break;
+      }      
+    }
+      
     return new Promise( resolve => {
-      this.http.put(`${ URL }/cgcatalogo/${id}`, catalogo)
-          .subscribe( (resp: any) => {
+      this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
+            console.log(resp);            
             if (resp['code'] === 200) {
               this.catalogoActualizado.emit( resp.data );                            
               resolve(resp);            
             }
-          });
+      });
     });
   }
 
@@ -167,6 +207,14 @@ export class CgcatalogoService {
 
   listadocatalogoEscogidos(data: any) {
     this.catalogoEscogido.emit(data);
+  }
+
+  actualizando(data: any) {
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
 }
 
