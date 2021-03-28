@@ -172,7 +172,7 @@
 
 							<div class="p-field p-col-12 p-md-3">
                                 <label for="cond_pago">Condición Pago</label>
-                                <p-dropdown inputId="cond_pago" [options]="condpago" [class.ng-invalid]="getNoValido('cond_pago')" 
+                                <p-dropdown [options]="condpago" [class.ng-invalid]="getNoValido('cond_pago')" 
 											[class.ng-dirty]="getNoValido('cond_pago')" name="cond_pago" formControlName="cond_pago" 
 											id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
                                 </p-dropdown>

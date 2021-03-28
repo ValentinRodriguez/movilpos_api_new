@@ -60,7 +60,7 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="cond_pago">Condición Pago</label>
-            <p-dropdown inputId="cond_pago" [options]="condpago"  [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')"
+            <p-dropdown [options]="condpago"  [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')"
                         name="cond_pago" formControlName="cond_pago" id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>
             <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
@@ -102,7 +102,7 @@
                                                 
         <div class="p-field p-col-12 p-md-3">
             <label for="id_pais">Pais</label>
-            <p-dropdown inputId="id_pais" [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" 
+            <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" 
                         [class.ng-dirty]="getNoValido('id_pais')" name="id_pais" formControlName="id_pais" 
                         id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
             </p-dropdown>
@@ -111,7 +111,7 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="id_ciudad">Ciudad</label>
-            <p-dropdown inputId="id_ciudad" [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" 
+            <p-dropdown input  [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" 
                         [class.ng-dirty]="getNoValido('id_ciudad')" name="id_ciudad" formControlName="id_ciudad" 
                         id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
             </p-dropdown>

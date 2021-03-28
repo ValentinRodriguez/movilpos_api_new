@@ -3,7 +3,7 @@
         <div class="p-field p-col-12 p-md-4">
             <label for="titulo">Título</label>
             <span class=" p-input-icon-right">
-                <input id="titulo" type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
+                <input   type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
                        [class.ng-dirty]="getNoValido('titulo')" (keyup)="verificaTipoMovimiento($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="movimientoExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="movimientoExiste === 1" style="color:#36b61d"></i>
@@ -15,7 +15,7 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="origen">Origen</label>
-            <p-dropdown inputId="origen" [options]="origenes" formControlName="origen" optionLabel="label" 
+            <p-dropdown input  [options]="origenes" formControlName="origen" optionLabel="label" 
                         [class.p-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')" 
                         (onChange)="tipoOrigen($event.value.value)" placeholder="Escoge...">
             </p-dropdown>
@@ -94,7 +94,7 @@
 
         <div class="p-field p-col-12">
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" type="text" rows="4" pInputTextarea formControlName="descripcion" 
+            <textarea   type="text" rows="4" pInputTextarea formControlName="descripcion" 
                       [class.p-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')">
             </textarea>
             <small class="p-invalid" *ngIf="getNoValido('descripcion')">Este campo es obligatorio.</small>

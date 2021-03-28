@@ -53,7 +53,7 @@
                 <div class="p-field p-col-12 p-md-4">
                     <label for="titulo">Título</label>
                     <span class=" p-input-icon-right">
-                        <input id="titulo" type="text" pInputText formControlName="titulo" [class.ng-invalid]="getNoValido('titulo')" 
+                        <input   type="text" pInputText formControlName="titulo" [class.ng-invalid]="getNoValido('titulo')" 
                                [class.ng-dirty]="getNoValido('titulo')" (keyup)="verificaProducto($event.target.value)">
                         <i class="pi pi-spin pi-spinner" *ngIf="productoExiste === 0" style="color:#f5df18"></i>
                         <i class="pi pi-check" *ngIf="productoExiste === 1" style="color:#36b61d"></i>
@@ -106,7 +106,7 @@
 
                 <div class="p-field p-col-12">
                     <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"
+                    <textarea   type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"
                     [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')"></textarea>
                     <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -127,7 +127,7 @@
         
         <div class="p-field p-col-12 p-md-2">
             <label for="origen">Origen</label>
-            <p-dropdown inputId="origen" [options]="origenes" name="origen" formControlName="origen"placeholder="Escoge..." 
+            <p-dropdown input  [options]="origenes" name="origen" formControlName="origen"placeholder="Escoge..." 
             [class.ng-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')">
             </p-dropdown>
             <small *ngIf="getNoValido('origen')" class="p-invalid">Este campo es obligatorio.</small>

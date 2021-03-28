@@ -5,6 +5,7 @@ import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/ca
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepProveedoresComponent } from '../step-proveedores/step-proveedores.component';
@@ -35,6 +36,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
@@ -42,6 +44,7 @@ export class FormularioProveedoresComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private proveedoresServ:ProveedoresService,
               private cgCatalogoServ: CgcatalogoService,
+              private tipoProveedorServ: TipoProveedorService,
               public dialogService: DialogService,
               private cd: ChangeDetectorRef) { 
       this.usuario = this.usuariosServ.getUserLogged();
@@ -51,6 +54,7 @@ export class FormularioProveedoresComponent implements OnInit {
   ngOnInit(): void {
     this.todaLaData();
     this.catalogoEscogido();
+    this.listObserver();
 
     this.cols2 = [
       { field: 'descripcion', header: 'Descripción' },
@@ -60,18 +64,27 @@ export class FormularioProveedoresComponent implements OnInit {
       { field: 'porciento', header: 'Porciento' },
       { field: 'acciones', header: 'Acciones' },
     ]
-    
-    this.proveedoresServ.actualizar.subscribe((resp: any) =>{
+
+  }
+  
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
+  listObserver = () => {
+    const observer1$ = this.tipoProveedorServ.tipoPguardado.subscribe((resp: any)=>{
+      this.tipo_proveedor.push(resp);
+      console.log(this.tipo_proveedor);
+      
+    })
+
+    const observer2$ = this.proveedoresServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
-      this.actualizar = true;   
-      //this.id = Number(resp);      
+      this.actualizar = true;    
       this.id = resp[0]+'-'+resp[1];
-      console.log(this.id);
       
       this.proveedoresServ.getDato(resp[0]+'-'+resp[1]).then((res: any) => {
-        console.log(res);
         this.forma.patchValue(res);
-        console.log(this.tipo_proveedor);
         
         this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_doc)); 
         this.forma.get('cod_sp').setValue(this.tipo_proveedor.find(doc => doc.id == res.cod_sp)); 
@@ -89,9 +102,8 @@ export class FormularioProveedoresComponent implements OnInit {
         });
       })
     })
-  }
-  
-
+    this.listSubscribers = [observer1$,observer2$];
+  };
   catalogoEscogido() {
     this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
       console.log(resp);
@@ -132,6 +144,8 @@ export class FormularioProveedoresComponent implements OnInit {
 
           case 'tipo documento':
             this.documento = element.data;
+            console.log(this.documento);
+            
             this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.descripcion === 'cedula'));
             break; 
 

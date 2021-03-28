@@ -3,7 +3,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="titulo">Título</label>
             <span class=" p-input-icon-right">
-                <input id="titulo" type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
+                <input   type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
                        (keyup)="verificaPuesto($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="puestoExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="puestoExiste === 1" style="color:#36b61d"></i>
@@ -28,7 +28,7 @@
 
         <div class="p-field p-col-12">
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"></textarea>
+            <textarea   type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"></textarea>
             <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>

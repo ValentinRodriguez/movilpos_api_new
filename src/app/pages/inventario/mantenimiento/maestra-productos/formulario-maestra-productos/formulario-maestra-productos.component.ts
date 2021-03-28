@@ -31,6 +31,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   tipos: any[] = [];
   noFisico = true;
   productoExiste = 3;
+  listSubscribers: any = [];
   tipoInventario: any[] = [];
   fechafabricacion: any[] = [];
   propiedades: any[] = [];
@@ -78,32 +79,39 @@ export class FormularioMaestraProductosComponent implements OnInit {
                 this.crearFormulario();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.tipo(1);
     this.fechaFabricacion();
     this.todaLaData();
+    this.listObserver();
+  }
 
-    this.marcaService.marcaGuardada.subscribe((resp: any) =>{
+  listObserver = () => {
+    const observer1$ = this.marcaService.marcaGuardada.subscribe((resp: any) =>{
       this.brands.push(resp)
     })
 
-    this.tipoInv.TipoInventarioGuardado.subscribe((resp: any) =>{
+    const observer2$ = this.tipoInv.TipoInventarioGuardado.subscribe((resp: any) =>{
       this.tipoInventario.push(resp)
     })
 
-    this.categoriasServ.categoriaGuardada.subscribe((resp: any) =>{
+    const observer3$ = this.categoriasServ.categoriaGuardada.subscribe((resp: any) =>{
       this.categorias.push(resp)
     })
 
-    this.propServ.propiedadGuardada.subscribe((resp: any) =>{
+    const observer4$ = this.propServ.propiedadGuardada.subscribe((resp: any) =>{
       this.propiedades.push(resp)
     })
     
-    this.bodegasServ.bodegaGuardada.subscribe((resp: any) =>{
+    const observer5$ = this.bodegasServ.bodegaGuardada.subscribe((resp: any) =>{
       this.bodegas.push(resp)
     })    
     
-    this.inventarioServ.actualizar.subscribe((resp: any) =>{
+    const observer6$ = this.inventarioServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
@@ -123,25 +131,9 @@ export class FormularioMaestraProductosComponent implements OnInit {
         this.tipo(res.tipo_producto)
       })
     })
-    //
-    // this.forma.get('controlDeExistencias').setValue({label: 'Sí', value: 'si'});
-    // this.forma.get('controlItbis').setValue({label: 'Sí', value: 'si'});
-    // this.forma.get('descuento').setValue({label: 'Sí', value: 'si'});
-  }
 
-  toDataURL(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({

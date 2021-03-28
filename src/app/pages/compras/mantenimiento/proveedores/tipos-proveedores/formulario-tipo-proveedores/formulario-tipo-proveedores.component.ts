@@ -22,6 +22,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   cuenta_no: any;
   cuentasFiltradas: any[] = [];
   id: number;
+  listSubscribers: any = [];
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
