@@ -149,7 +149,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       id_categoria:         ['', Validators.required],
       id_brand:             [''],
       descripcion:          ['fghjfghjfghj', Validators.required],
-      codigo_referencia:    ['', Validators.required],
+      codigo_referencia:    [''],
       origen:               [''],
       existenciaMinima:     [1],
       existenciaMaxima:     [''],
@@ -169,6 +169,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   guardarProducto() {   
     this.guardando = false;
+    console.log(this.forma);    
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
@@ -288,7 +289,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     const id_brand = this.forma.get('id_brand')   
     const existenciaMinima = this.forma.get('existenciaMinima');  
     const id_bodega = this.forma.get('id_bodega');
-    const galeriaImagenes = this.forma.get('galeriaImagenes');
+    // const galeriaImagenes = this.forma.get('galeriaImagenes');
     const chasis = this.forma.get('chasis');
     const motor = this.forma.get('motor');
     const fabricacion = this.forma.get('fabricacion');
@@ -301,13 +302,13 @@ export class FormularioMaestraProductosComponent implements OnInit {
       existenciaMinima.setValidators(Validators.required)
       id_bodega.setValidators(Validators.required)     
       id_propiedad.setValidators(Validators.required) 
-      galeriaImagenes.setValidators(Validators.required) 
+      // galeriaImagenes.setValidators(Validators.required) 
       this.tipoProducto(valor)
     }else{
       id_brand.clearValidators();
       existenciaMinima.clearValidators();
       id_bodega.clearValidators();   
-      galeriaImagenes.clearValidators();   
+      // galeriaImagenes.clearValidators();   
       chasis.clearValidators();  
       motor.clearValidators();  
       fabricacion.clearValidators();  

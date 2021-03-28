@@ -239,13 +239,12 @@ export class FormularioTipoMovComponent implements OnInit {
 
         default:
           this.forma.get('usuario_modificador').setValue(this.usuario.username);
-          this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).then((resp: any) => {
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+          this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).then(() => {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Movimiento creado de manera exitosa');
             this.resetFormulario();
           })
         break;
-      } 
-    
+      }    
     }
   }
 

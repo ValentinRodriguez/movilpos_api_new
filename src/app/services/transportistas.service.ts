@@ -54,10 +54,10 @@ export class TransportistasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/transportistas`, formData).subscribe( resp => {        
+      this.http.post(`${ URL }/transportistas`, formData).subscribe( (resp: any) => {        
           if (resp['code'] === 200) {    
-            this.trasnportistaGuardado.emit( resp );                                   
-            resolve(resp);       
+            this.trasnportistaGuardado.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    

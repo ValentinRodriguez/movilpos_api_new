@@ -9,8 +9,6 @@
             <input #file type="file" accept='image/*' (change)="preview(file.files)" />
         </div>
     </div>
-
-    
     
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-3">
@@ -85,10 +83,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="web">Sitio Web</label>
             <span class=" p-input-icon-right">
-                <input id="web" type="text" pInputText formControlName="web" 
-                       [class.ng-invalid]="getNoValido('web')" [class.ng-dirty]="getNoValido('web')">
+                <input id="web" type="text" pInputText formControlName="web">
             </span>
-            <small *ngIf="getNoValido('web')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">

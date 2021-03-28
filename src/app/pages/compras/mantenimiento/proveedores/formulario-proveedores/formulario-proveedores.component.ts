@@ -100,6 +100,11 @@ export class FormularioProveedoresComponent implements OnInit {
         });
       })
     })
+
+    // const observer3$ = this.cgCatalogoServ.catalogoGuardado.subscribe((resp: any) => {
+    //   this.cgcatalogos.push(resp);
+    // })
+
     this.listSubscribers = [observer1$,observer2$];
   };
   catalogoEscogido() {
@@ -177,7 +182,7 @@ export class FormularioProveedoresComponent implements OnInit {
       nom_sp:              ['', Validators.required],          
       dir_sp:              ['', Validators.required],
       tel_sp:              ['', Validators.required],
-      fax_sp:              ['', Validators.required],          
+      fax_sp:              [''],          
       cont_sp:             ['', Validators.required],
       tipo_doc:            ['', Validators.required],
       cond_pago:           ['', Validators.required],          
@@ -232,7 +237,7 @@ export class FormularioProveedoresComponent implements OnInit {
     }else{      
       this.guardando = false;
       this.proveedoresServ.crearProveedor(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);      
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Proveedor creado exitosamente!!");      
         this.restaurarFormulario();
       })
     } 

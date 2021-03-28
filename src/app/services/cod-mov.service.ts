@@ -72,12 +72,10 @@ export class CodMovService {
      
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( resp => {  
-           
-          
+      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
           if (resp['code'] === 200) {    
-            this.tipoMovGuardado.emit( resp );                                   
-            resolve(resp);       
+            this.tipoMovGuardado.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    

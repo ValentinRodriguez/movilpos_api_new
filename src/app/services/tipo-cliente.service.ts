@@ -60,8 +60,8 @@ export class TipoClienteService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/tipoclientes`, tipoCliente).subscribe( (resp: any) => {  
               if (resp['code'] === 200) {    
-                this.tipoClienteguardado.emit( resp );                                   
-                resolve(resp);       
+                this.tipoClienteguardado.emit( resp.data );                                   
+                resolve(resp.data);       
               }
       });
     });    
@@ -73,7 +73,7 @@ export class TipoClienteService {
           .subscribe( (resp: any) => {                             
             if (resp['code'] === 200) {            
               this.tipoClienteBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -85,7 +85,7 @@ export class TipoClienteService {
           .subscribe( (resp: any) => {                                             
           if (resp['code'] === 200) {
             this.tipoClienteAct.emit( resp.data );                            
-            resolve(resp);            
+            resolve(resp.data);            
           }
       });
     });

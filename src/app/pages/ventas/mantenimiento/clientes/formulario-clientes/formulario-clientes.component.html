@@ -22,9 +22,11 @@
 
         <div class="p-field p-col-12 p-md-3" *ngIf="this.cedula">
             <label for="documento">Cédula</label>
-            <span class=" p-input-icon-right">
-                <input   type="text" pInputText formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
-                       [class.ng-dirty]="getNoValido('documento')">
+            <span class=" p-input-icon-right">                
+                <p-inputMask mask="999-9999999-9" formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
+                             [class.ng-dirty]="getNoValido('documento')">
+                </p-inputMask>
+
             </span>
         </div>
 

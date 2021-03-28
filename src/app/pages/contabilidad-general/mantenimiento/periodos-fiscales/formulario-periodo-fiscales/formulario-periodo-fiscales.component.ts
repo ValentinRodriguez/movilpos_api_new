@@ -145,6 +145,9 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
         } else {
           this.periodoServ.crearPeriodo(this.forma.value).then((resp: any) => {  
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Periodo creado de manera correcta');
+            this.forma.reset();
+            this.forma.get('estado').setValue('activo');
+            this.forma.get('usuario_creador').setValue(this.usuario.username);
           })
         }
         this.guardando = false;
@@ -170,7 +173,6 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
       })
     }
   }
-
   
   verificaPeriodo(data){  
     if (data === "") {

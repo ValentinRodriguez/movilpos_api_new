@@ -191,14 +191,12 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/invproductos`, formData)      
-          .subscribe( resp => {       
-             
+      this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => {     
             if (resp['code'] === 200) {
-              this.productoGuardado.emit( resp );                            
-              resolve(resp);            
+              this.productoGuardado.emit(resp.data);                            
+              resolve(resp.data);            
             }
-          });
+        });
     });
   }
 

@@ -88,14 +88,11 @@ export class FormularioClientesComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.tiponegocioServ.tipoNegocioguardado.subscribe((resp: any) => {
-      this.tiponegocio = resp;
-       
-      
+      this.tiponegocio.push(resp);
     })
 
     const observer2$ = this.tipoClienteServ.tipoClienteguardado.subscribe((resp: any) => {
-      this.tipo_cliente = resp;
-       
+      this.tipo_cliente.push(resp);                                                                                               
     })
 
     this.listSubscribers = [observer1$,observer2$];
@@ -151,7 +148,6 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   buscaPaises(event) {
-     ;    
      this.paisesCiudadesServ.getCiudadesXpaises(event).then((resp:any) => {  
       this.ciudades = resp;
     })   
@@ -168,7 +164,7 @@ export class FormularioClientesComponent implements OnInit {
       nombre:               ['joselito perez', Validators.required],
       tipo_documento:       ['', Validators.required],
       vendedor:             ['', Validators.required],
-      documento:            ['22500192319'],
+      documento:            [''],
       limite_credito:       [''],
       tipo_negocio:         ['', Validators.required],
       ncf:                  ['B0100066853'],
@@ -192,8 +188,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    this.guardando = true;
-         
+    this.guardando = true;         
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{          

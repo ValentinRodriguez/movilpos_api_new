@@ -103,10 +103,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   guardarCatalogo(){
-    //this.guardando = true;
-    
-     
-    
+    this.guardando = true;
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -132,7 +129,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
               this.forma.get('cuenta_no').reset();
               this.forma.get('aplica_a').reset();
               this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");  
             }               
           })
           break;

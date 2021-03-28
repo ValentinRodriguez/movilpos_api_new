@@ -177,10 +177,8 @@
         <div class="p-field p-col-12 p-md-2">
             <label for="codigo_referencia">Código de referencia</label>
             <span class=" p-input-icon-right">
-                <input id="codigo_referencia" type="text" pInputText formControlName="codigo_referencia" [class.ng-invalid]="getNoValido('codigo_referencia')" 
-                       [class.ng-dirty]="getNoValido('codigo_referencia')">
+                <input id="codigo_referencia" type="text" pInputText formControlName="codigo_referencia">
             </span>
-            <small *ngIf="getNoValido('codigo_referencia')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
@@ -231,3 +229,4 @@
 
     <button *ngIf="this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button>
 </form>
+<p-toast key="tst"></p-toast>

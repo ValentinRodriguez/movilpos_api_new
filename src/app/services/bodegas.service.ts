@@ -71,11 +71,10 @@ export class BodegasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/bodegas`, formData).subscribe( resp => {
-                   
+      this.http.post(`${ URL }/bodegas`, formData).subscribe( (resp: any) => {                   
           if (resp['code'] === 200) {    
-            this.bodegaGuardada.emit( resp );                                   
-            resolve(resp);       
+            this.bodegaGuardada.emit( resp.data );                                   
+            resolve(resp.data);       
           }
       });
     });    

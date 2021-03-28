@@ -109,12 +109,11 @@ export class ProveedoresService {
        
       
       return new Promise( resolve => {
-        this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {   
-                            
-                 if (resp['code'] === 200) {    
-                   this.proveedoresCreados.emit( resp.data );                                   
-                   resolve(resp);       
-                 }
+        this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {                               
+            if (resp['code'] === 200) {    
+              this.proveedoresCreados.emit( resp.data );                                   
+              resolve(resp.data);       
+            }
         });
       });    
   }

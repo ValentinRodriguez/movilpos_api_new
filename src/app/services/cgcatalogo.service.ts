@@ -131,11 +131,11 @@ export class CgcatalogoService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( resp => { 
+      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => { 
                  
         if (resp['code'] === 200) {
-          resolve(resp);       
-          this.catalogoGuardado.emit(resp);
+          resolve(resp.data);       
+          this.catalogoGuardado.emit(resp.data);
         }
       });
     });    

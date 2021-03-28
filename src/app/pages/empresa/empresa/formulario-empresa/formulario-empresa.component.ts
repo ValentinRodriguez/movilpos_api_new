@@ -110,7 +110,7 @@ export class FormularioEmpresaComponent implements OnInit {
       id_pais:           ['', Validators.required],
       id_ciudad:         ['', Validators.required],
       direccion:         ['', Validators.required],
-      web:               ['', Validators.required],
+      web:               [''],
       contacto:          ['', Validators.required],
       telefono_contacto: ['', Validators.required],
       moneda:            ['', Validators.required],
