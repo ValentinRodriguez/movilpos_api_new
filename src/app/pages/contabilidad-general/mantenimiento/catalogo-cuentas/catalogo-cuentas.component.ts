@@ -20,6 +20,7 @@ export class CatalogoCuentasComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   data: any[] = [];
+  index: number = 0;
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -32,7 +33,12 @@ export class CatalogoCuentasComponent implements OnInit {
               }
 
   ngOnInit(): void {    
-    //this.datos.getFiles().then(resp =>  )
+    this.cgcatalogoServ.guardar.subscribe((resp: any)=>{  
+      console.log(resp);
+      
+      this.index = resp;
+    })
+
     this.cols = [
       { field: 'descripcion_c', header: 'Descripción'},
       { field: 'cuenta_no', header: 'Cuenta'},
@@ -64,14 +70,14 @@ export class CatalogoCuentasComponent implements OnInit {
   todosLosCatalogos() {
     this.cgcatalogoServ.getDatos().then((resp: any) => {
       this.cuentas = resp;
-       
-      
     })
   }
 
-  actualizarTransportista(transportista) {
-    
+  actualizarCatalogo(data) {
+    this.index = 1;   
+    this.cgcatalogoServ.actualizando(data);
   }
+
 
   borrarTransportista(transportista) { 
     this.confirmationService.confirm({

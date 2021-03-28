@@ -55,10 +55,8 @@ export class MonedasComponent implements OnInit {
   }
 
   todasLasMonedas() {
-    this.loading = true;
     this.monedasServ.getDatos().then((resp: any) => {
       this.monedas = resp;
-      this.loading = false;
     });
   }
   
