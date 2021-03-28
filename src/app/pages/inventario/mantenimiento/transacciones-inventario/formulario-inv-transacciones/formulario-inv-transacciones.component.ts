@@ -195,7 +195,6 @@ export class FormularioInvTransaccionesComponent implements OnInit {
 
           case 'vendedor':
             this.vendedores = element.data;
-            console.log(this.vendedores)
             break;
 
           case 'bodegas':
@@ -222,8 +221,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   todasLasBodegasConPermisos() {
     this.bodegasServ.bodegasConpermisos(this.usuariosServ.getUserLogged().email).then((resp: any)=>{
       this.bodegasPermisos = resp;   
-      console.log(this.usuariosServ.getUserLogged().email);
-      console.log(resp);
+       
     })
   }
 
@@ -245,7 +243,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   guardarTransaccion() {  
-    console.log(this.forma.value)
+     
     if (this.movimientos !== null) {
       if (this.ordenPedidoExiste === 2 || this.facturaExiste === 2) {
         this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La orden de pedido ó factura no existe'); 
@@ -286,7 +284,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       
       this.transaccionesServ.crearTransaccion(this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Datos guardados correctamente');
-        console.log(resp)     
+             
         this.imprimirTransaccion(resp.num_doc);
       })
     } else {
@@ -316,7 +314,6 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   verMovimiento(mov) {    
-    console.log(mov)
     this.productos = [];
     this.cfactura = false;
     this.cCliente = false;
@@ -511,7 +508,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.get('sec_cliente').setValue(resp[0].sec_cliente);
           this.forma.get('email').setValue(resp[0].email);
           this.forma.get('num_rnc').setValue(resp[0].num_rnc);
-          console.log(this.forma.value)
+           
           // this.forma.controls['cliente'].disable();
           // this.forma.controls['email'].disable();
           // this.forma.controls['num_rnc'].disable();
@@ -525,7 +522,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.get('num_rnc').reset();
           this.productos = [];
           // this.forma.get('productos').reset()
-          console.log(this.forma.value)
+           
           return;
         }
       })
@@ -544,7 +541,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       }
       this.ocExiste = 0;
       this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
-        console.log(resp);
+         
         const proveedor = resp[0].proveedor;
         if(resp.length !== 0){          
           this.productos = resp[0].productos;     
@@ -608,7 +605,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.controls['num_rnc'].reset();
           this.productos = [];
           this.forma.get('productos').reset()
-          console.log(this.forma.value)
+           
           return;
         }
       })
@@ -661,7 +658,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   datosVendedor(event) {        
-    console.log(event)
+     
   }
 
   filtrarCliente(event) {

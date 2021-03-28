@@ -66,7 +66,6 @@ export class TiposMovimientosComponent implements OnInit {
     this.movimientos = [];    
     this.CodMovServ.getDatos().then((resp: any) => {
       this.movimientos = resp.codigosmov;
-      console.log(this.movimientos)
       this.cuentas_permisos =resp.cuentas; 
     })
   }

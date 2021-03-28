@@ -36,7 +36,7 @@ export class FormularioMarcaComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.marcasServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.patchValue(res);
       })

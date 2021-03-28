@@ -39,7 +39,6 @@ export class FormularioDireccionesComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.dirServ.getDato(resp).then((res: any) => {
-        console.log(res);
         this.forma.patchValue(res);
       })
     })

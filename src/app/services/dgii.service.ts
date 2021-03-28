@@ -15,7 +15,7 @@ export class DgiiService {
     params = params.append('rnc',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/dgii-rnc', {params}).subscribe((resp: any) => {
-          console.log(resp);        
+                   
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }

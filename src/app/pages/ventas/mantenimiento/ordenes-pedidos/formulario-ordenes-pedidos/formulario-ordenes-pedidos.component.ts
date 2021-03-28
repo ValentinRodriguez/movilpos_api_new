@@ -88,7 +88,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.ordenServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         // this.forma.get('divisa').setValue(res.divisa);
         // this.forma.get('simbolo').setValue(res.simbolo);
         this.forma.patchValue(res);
@@ -141,7 +141,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
     this.forma.get("itbis").setValue(this.totalItbis)
     this.forma.get("sub_total").setValue(subtotal)
     this.forma.get("neto").setValue(this.totalNeto)
-    console.log(this.forma.value);
+     ;
     if (this.forma.invalid) {      
      this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
      Object.values(this.forma.controls).forEach(control =>{          
@@ -185,14 +185,13 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   todasLasZonas() {
     this.zonasLocal.getDatos().then((resp: any) => {
       this.zonalocal = resp;
-      console.log(resp)
+       
     })
   }
 
   todosLasOrdenes() {
     this.ordenServ.getDatos().then((resp: any) => { 
-      this.ordenes = resp;
-      console.log(this.ordenes);      
+      this.ordenes = resp;   
     })
   }
 

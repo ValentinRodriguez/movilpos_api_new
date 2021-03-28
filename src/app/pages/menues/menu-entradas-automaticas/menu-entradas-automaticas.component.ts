@@ -16,7 +16,7 @@ export class MenuEntradasAutomaticasComponent implements OnInit {
   ngOnInit(): void {
     this.menuServ.getMenu(8).then((resp: any) => {
       this.menu = resp;
-      console.log(this.menu);      
+       ;      
     })
   }
 

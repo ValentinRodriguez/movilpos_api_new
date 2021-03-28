@@ -68,7 +68,7 @@ export class ClientesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/mclientes`, formData).subscribe( resp => {    
-          console.log(resp);             
+                        
           if (resp['code'] === 200) {    
             this.ClienteCreado.emit( resp );                                   
             resolve(resp);       
@@ -78,12 +78,10 @@ export class ClientesService {
   }
 
   actualizarCliente(id:number, client: any) {
-    //console.log(client);  
-    console.log(id);
     return new Promise( resolve => {
       this.http.put(`${ URL }/mclientes/${id}`, client)
               .subscribe( (resp: any) => {   
-                console.log(resp);  
+                   
                 if (resp['code'] === 200) {
                   this.clientAct.emit( resp.data );                            
                   resolve(resp);          

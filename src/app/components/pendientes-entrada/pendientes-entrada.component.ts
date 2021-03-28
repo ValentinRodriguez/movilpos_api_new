@@ -24,7 +24,6 @@ export class PendientesEntradaComponent implements OnInit {
 
   ngOnInit(): void {
     this.pendientes = this.config.data.lista;
-    console.log(this.pendientes)
     this.cols = [
       { field: 'id', header: 'Recibido' },
       //{ field: 'transportista_nombre', header: 'Transportista' },
@@ -44,9 +43,7 @@ export class PendientesEntradaComponent implements OnInit {
   enviarProductos() {
     this.selectedProducts.forEach(element => {
       element.usuario_modificador = this.usuario.username;
-      element.firma_recibido_por = this.usuario.username;
-      //console.log(element);
-      
+      element.firma_recibido_por = this.usuario.username;      
       this.transPendientes.recibirTransaccion(element).then((resp: any) =>{
         this.uiMessage.getMiniInfortiveMsg('tst','errsuccessor','AtExcelenteención','Producto ingresado a almacen');
         this.transPendientes.transaccionesPendientes(this.usuario.email).then((resp: any) => {

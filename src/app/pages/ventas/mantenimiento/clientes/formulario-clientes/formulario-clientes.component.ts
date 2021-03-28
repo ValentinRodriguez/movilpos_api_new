@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
+import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepclientesComponent } from '../stepclientes/stepclientes.component';
@@ -35,6 +37,7 @@ export class FormularioClientesComponent implements OnInit {
   ciudades: any[] = [];
   tipo_proveedor=[];
   actualizando = false;
+  listSubscribers: any = [];
 
   sino = [
     { label: 'Si', value:'si'},
@@ -44,74 +47,90 @@ export class FormularioClientesComponent implements OnInit {
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private clientesServ: ClientesService,              
+              private clientesServ: ClientesService,     
+              private tiponegocioServ: TipoNegocioService,
+              private tipoClienteServ: TipoClienteService,         
               private paisesCiudadesServ: PaisesCiudadesService,
               public dialogService: DialogService) {
     this.usuario = this.usuariosServ.getUserLogged()
     this.crearFormulario();
-   }
+  }
 
-  ngOnInit(): void {
-    
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
+  ngOnInit(): void {    
     this.todosLosPaises();
-    this.clientesServ.autollenado().then((resp: any) => {
-     // console.log(resp); 
-      resp.forEach(element => {
-        switch (element.label) {
-          case 'vendedor':
-            this.vendedor = element.data;
-            break;
-
-          case 'tipo documento':
-            this.documento = element.data;
-       //     console.log(this.documento);
-            
-            break;
-
-          case 'tipo negocio':
-            this.tiponegocio = element.data;
-            break;
-
-          case 'tipo cliente':
-            this.tipo_cliente = element.data;
-            console.log(this.tipo_cliente)
-            break;
-
-          case 'condiciones':
-            this.condpago = element.data;
-            break; 
-
-          default:
-            break;
-        }
-      });      
-      this.autollenado(resp); 
-    })
+    this.listObserver();
+    this.autoLlenado();    
 
     this.clientesServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar=true;   
       this.id = Number(resp);      
-      console.log(resp);
-      this.clientesServ.getdato(resp).then((res: any) => {
-     
+       
+      this.clientesServ.getdato(resp).then((res: any) => {     
         this.forma.patchValue(res);
-        console.log(res)
-        
         this.forma.get('tipo_documento').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_documento)); 
-       // this.forma.get('tipo_cliente').setValue(this.tipo_cliente.find(doc => doc.id == res.tipo_cliente)); 
+        this.forma.get('tipo_cliente').setValue(this.tipo_cliente.find(doc => doc.id == res.tipo_cliente)); 
         this.forma.get('vendedor').setValue(this.vendedor.find(doc => doc.id_numemp == res.vendedor)); 
-        this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago)); 
-      console.log(this.tipo_cliente)
+        this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago));
         this.forma.get('tipo_negocio').setValue(this.tiponegocio.find(doc => doc.tipo_negocio == res.tipo_negocio)); 
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
           this.ciudades = resp;
           this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
-        })
-       
+        })       
       })
     })
+  }
+
+  listObserver = () => {
+    const observer1$ = this.tiponegocioServ.tipoNegocioguardado.subscribe((resp: any) => {
+      this.tiponegocio = resp;
+       
+      
+    })
+
+    const observer2$ = this.tipoClienteServ.tipoClienteguardado.subscribe((resp: any) => {
+      this.tipo_cliente = resp;
+       
+    })
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
+
+  autoLlenado() {
+    this.clientesServ.autollenado().then((resp: any) => {
+       resp.forEach(element => {
+         switch (element.label) {
+           case 'vendedor':
+             this.vendedor = element.data;
+             break;
+ 
+           case 'tipo documento':
+             this.documento = element.data;
+             break;
+ 
+           case 'tipo negocio':
+             this.tiponegocio = element.data;
+             break;
+ 
+           case 'tipo cliente':
+             this.tipo_cliente = element.data;
+             break;
+ 
+           case 'condiciones':
+             this.condpago = element.data;
+             break; 
+ 
+           default:
+             break;
+         }
+       });      
+       this.autollenado(resp); 
+     })
   }
 
   autollenado(data) {
@@ -132,7 +151,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   buscaPaises(event) {
-    console.log(event);    
+     ;    
      this.paisesCiudadesServ.getCiudadesXpaises(event).then((resp:any) => {  
       this.ciudades = resp;
     })   
@@ -174,7 +193,7 @@ export class FormularioClientesComponent implements OnInit {
 
   guardarCliente(){
     this.guardando = true;
-    console.log(this.forma);    
+         
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{          
@@ -207,19 +226,16 @@ export class FormularioClientesComponent implements OnInit {
 
   tipoDoc(doc) {
     if (doc === 'cedula') {
-      console.log(doc);    
       this.cedula = true;
       this.rnc = false;
       this.pasaporte = false;
     } 
     if (doc === 'RNC') {
-      console.log(doc); 
       this.cedula = false;
       this.rnc = true;
       this.pasaporte = false;
     } 
     if (doc === 'pasaporte') {
-      console.log(doc); 
       this.cedula = false;
       this.rnc = false;
       this.pasaporte = true;
@@ -227,8 +243,6 @@ export class FormularioClientesComponent implements OnInit {
   }
   
   actualizarCliente() {
-   // console.log(this.forma);
-   console.log(this.tipo_cliente);
     this.guardar=false;  
     this.actualizar=true;   
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     

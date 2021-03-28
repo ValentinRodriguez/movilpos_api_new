@@ -39,7 +39,7 @@ export class FormularioBodegasComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.bodegasServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));

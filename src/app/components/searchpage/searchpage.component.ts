@@ -38,7 +38,6 @@ export class SearchpageComponent implements OnInit {
     }
 
     IrPrograma(data) {
-        console.log(data);  
         this.app.searchClick = false;
         this.router.navigate([data.url]);      
     }

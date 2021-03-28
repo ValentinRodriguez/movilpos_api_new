@@ -59,7 +59,7 @@ export class ClientesComponent implements OnInit {
   todosLosClientes() {
     this.clientesServ.getDatos().then((resp: any) => {
       this.clientes = resp; 
-   //   console.log(resp);
+   //    
        
     })
   }
@@ -68,7 +68,7 @@ export class ClientesComponent implements OnInit {
     
     this.index = 1;   
     this.clientesServ.actualizando(data);
-    console.log(data);
+     
   }
 
   borrarCliente(id) {
@@ -83,6 +83,6 @@ export class ClientesComponent implements OnInit {
   }
    
   buscaPersona(data) {
-    console.log(data);    
+         
   }  
 }

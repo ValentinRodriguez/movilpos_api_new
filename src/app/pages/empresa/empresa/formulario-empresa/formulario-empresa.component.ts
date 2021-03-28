@@ -81,10 +81,9 @@ export class FormularioEmpresaComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.empresasServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.patchValue(res);
         this.imgURL = `${URL}/storage/${res.logo}`;
-        console.log(JSON.parse(res.moneda));
         
         this.forma.get('moneda').setValue(JSON.parse(res.moneda));   
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        

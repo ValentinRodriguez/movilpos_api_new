@@ -86,7 +86,7 @@ export class InventarioService {
         "x-rapidapi-key":"2c9e85a058mshf1042b431dadc78p1f24fajsn64bcd991b70b",
         "x-rapidapi-host":"vindecoder.p.rapidapi.com"
       });
-      console.log(`${URLAPI}${chasis}`);      
+      
       this.http.get(`${URLAPI}${chasis}`,{headers}).subscribe((resp: any) => {
         if (resp.success) {
           resolve(resp.specification);
@@ -139,7 +139,7 @@ export class InventarioService {
   crearInvProducto( invProducto: any ) {    
     const formData = new FormData();
     // let imagesSec = invProducto.galeriaImagenes || [];
-    console.log(invProducto);
+    
     
     for(let key in invProducto){ 
       switch (key) {
@@ -193,7 +193,7 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/invproductos`, formData)      
           .subscribe( resp => {       
-            console.log(resp);
+             
             if (resp['code'] === 200) {
               this.productoGuardado.emit( resp );                            
               resolve(resp);            
@@ -205,7 +205,7 @@ export class InventarioService {
   actualizarInvProducto( id:any, invProducto: any ) {   
     const formData = new FormData();
     let imagesSec = invProducto.galeriaImagenes || [];
-    console.log(invProducto);
+    
         
     for(let key in invProducto){ 
       switch (key) {
@@ -259,7 +259,7 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/productos/${id}`, formData)
           .subscribe( resp => {   
-            console.log(resp);            
+                         
             if (resp['code'] === 200) {
               this.productoActualizado.emit( resp );                            
               resolve(resp);            
@@ -292,7 +292,7 @@ export class InventarioService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/invproductos/${id}`)
           .subscribe( (resp: any) => {   
-            console.log(resp);                                  
+                                               
             if (resp['code'] === 200) {            
               this.productoBorrado.emit(id);    
               resolve(resp);            

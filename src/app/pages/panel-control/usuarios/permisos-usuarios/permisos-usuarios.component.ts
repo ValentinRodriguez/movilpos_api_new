@@ -75,7 +75,7 @@ export class PermisosUsuariosComponent implements OnInit {
 
   todosLosPerfiles() {
     this.usuariosServ.getPerfiles().then((resp: any) =>{
-      console.log(resp);
+       
       this.perfiles = resp;                  
       this.perfiles.forEach(modulo => {
         this.listaPerfiles.push({'modulo': modulo.descripcion, 'valor':false});        

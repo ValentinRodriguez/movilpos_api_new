@@ -72,7 +72,7 @@ export class TipoInventarioService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtipos`, formData).subscribe( (resp: any) => {
-        console.log(resp); 
+          
         if (resp['code'] === 200) {                                      
           resolve(resp);    
           this.TipoInventarioGuardado.emit(resp.data);        
@@ -105,7 +105,7 @@ export class TipoInventarioService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/invtipos/${id}`, formData)
           .subscribe( (resp: any) => {
-            console.log(resp);            
+                         
             if (resp['code'] === 200) {
               this.TipoInventarioAct.emit( resp.data );                            
               resolve(resp);            

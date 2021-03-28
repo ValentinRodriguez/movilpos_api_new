@@ -116,7 +116,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);
       this.inventarioServ.getDato(resp).then((res: any) => {   
-        console.log(res);
+         
         
         this.forma.patchValue(res);
         this.imgURL = `${URL}/storage/${res.galeriaImagenes}`;
@@ -396,7 +396,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               "estado": "activo",
             }
             this.marcaService.crearMarca(marca).then((res: any) =>{ 
-              console.log(res);
+               
               
               this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand))          
             })
@@ -411,7 +411,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               "estado": "activo",
             }
             this.categoriasServ.crearCategoria(categoria).then((res: any) =>{     
-              console.log(res);  
+                 
               this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria))  
             })
           }          

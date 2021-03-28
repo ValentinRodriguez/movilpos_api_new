@@ -78,12 +78,11 @@ export class TransportistasService {
           break;
       }
     }
-    console.log(formdata);
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/transportistas/${id}`, formdata)
           .subscribe( (resp: any) => {                                      
-            console.log(resp);
+             
             if (resp['code'] === 200) {
               this.trasnportistaAct.emit( resp.data );                            
               resolve(resp);            

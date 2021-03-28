@@ -50,7 +50,6 @@ export class ActividadesService {
   }
 
   crearActividad(actividad: any) {
-    console.log(actividad);
     
     // if (actividad.url === undefined  || actividad.url === '') {
     //   actividad.url === null;
@@ -58,7 +57,7 @@ export class ActividadesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/actividades`, actividad)
           .subscribe( (resp:any) => {
-            console.log(resp);
+             
             
           if (resp['code'] === 200) {                                      
             resolve(resp);    
@@ -72,7 +71,7 @@ export class ActividadesService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/actividades/${actividad.id}`, actividad)
               .subscribe( (resp: any) => { 
-                console.log(resp);
+                 
                 
                 if (resp['code'] === 200) {                  
                   this.actividadActualizada.emit( resp.data );                            
@@ -88,7 +87,7 @@ export class ActividadesService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/actividades/${id}`)
           .subscribe( (resp: any) => {   
-            console.log(resp);
+             
                                       
             if (resp['code'] === 200) {            
               this.actividadBorrada.emit(id);    

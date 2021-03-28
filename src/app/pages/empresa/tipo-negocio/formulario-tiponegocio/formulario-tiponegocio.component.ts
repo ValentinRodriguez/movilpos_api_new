@@ -34,10 +34,10 @@ export class FormularioTiponegocioComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      console.log(resp);
+       
       
       this.tipoNegocioServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.get('descripcion').setValue(res.descripcion);
       })
     })

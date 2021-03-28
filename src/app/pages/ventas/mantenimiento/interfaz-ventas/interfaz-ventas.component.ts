@@ -67,7 +67,7 @@ export class InterfazVentasComponent implements OnInit {
                 private primengConfig: PrimeNGConfig) {
 
                 this.usuario = this.usuarioServ.getUserLogged(); 
-                console.log(this.usuario);
+                
                 
                 this.nombre = this.usuario.name+' '+this.usuario.surname;   
                 this.fecha = this.datosEstaticosServ.getDate();
@@ -113,7 +113,7 @@ export class InterfazVentasComponent implements OnInit {
 
         this.facturaServ.modoVenta.subscribe((resp: any) => {
             this.modo = resp;
-            console.log(resp);
+             
             
         })
     }
@@ -178,12 +178,12 @@ export class InterfazVentasComponent implements OnInit {
     }
 
     cobrarFactura() { 
-        console.log(this.forma.valid);
-        console.log(this.forma.value);
+        
+         ;
         if (this.forma.valid) {
             let devuelta = Math.abs(Number(this.forma.get('devuelta').value));
             this.forma.get('devuelta').setValue(devuelta);       
-            console.log(devuelta);
+            
             
             if (devuelta < 0 && !this.ambos) {
                 this.devueltaMenor = true;
@@ -245,7 +245,7 @@ export class InterfazVentasComponent implements OnInit {
         const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
             return data.id === producto.id;
         });
-        console.log(producto.id);
+        
         
         if (nuevoArray.length === 0) {
             this.facturaServ.display = true;
@@ -268,7 +268,7 @@ export class InterfazVentasComponent implements OnInit {
         const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
             return data.id !== producto.id;
         });
-        console.log(producto.id);
+        
         
         this.productosSeleccionados = nuevoArray
         this.calcularTotal(this.productosSeleccionados)
@@ -282,7 +282,7 @@ export class InterfazVentasComponent implements OnInit {
             total += element.precio_venta * element.cantidad1;
             
         });
-        console.log(total);
+        
         
         this.total_bruto = Number(total);
         this.sub_total = total - Number(this.descuento);
@@ -314,7 +314,7 @@ export class InterfazVentasComponent implements OnInit {
     // }
     
     clienteSeleccionado(cliente) {
-        console.log(cliente);
+        
         this.forma.get('id_pais').setValue(cliente.id_pais)
         this.forma.get('id_ciudad').setValue(cliente.id_ciudad)
         this.forma.get('id_zonalocal').setValue(cliente.id_zonalocal)

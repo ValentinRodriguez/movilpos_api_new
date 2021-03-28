@@ -49,7 +49,7 @@ export class FormularioTipoMovComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    console.log(this.forma.value);
+     ;
     
     this.todosLosCatalogos();
     this.todosLosUsuarios(); 
@@ -69,7 +69,7 @@ export class FormularioTipoMovComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.CodMovServ.getDato(resp).then((res: any) => {
-        console.log(res);        
+                 
         this.resetFormulario();
         this.forma.patchValue(res.codigosmov[0]);
         this.forma.get('origen').setValue(this.origenes.find(tipo => tipo.value === res.codigosmov[0].origen));
@@ -254,7 +254,7 @@ export class FormularioTipoMovComponent implements OnInit {
     this.guardar = true;
     this.resetFormulario();
     this.CodMovServ.guardando();    
-    console.log(this.forma.value);    
+     ;    
   }
 
   resetFormulario() {
@@ -271,7 +271,7 @@ export class FormularioTipoMovComponent implements OnInit {
     this.forma.get('control_transferencia').setValue('no');
     this.forma.get('control_orden_compra').setValue('no');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    console.log(this.forma);
+     
     
   }
 

@@ -17,12 +17,11 @@ export class MenuPanelControlComponent implements OnInit {
   ngOnInit(): void {
     this.menuServ.getMenu(1).then((resp: any) => {
       this.menu = resp;
-      console.log(this.menu);      
+       ;      
     })
   }
 
   redirigir(ruta: string) {
-    console.log(ruta);    
     this.router.navigate([ruta]);
   }
 

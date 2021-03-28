@@ -59,7 +59,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
 
   guardarTproveedor(){
     // this.guardando = true;    
-    console.log(this.forma)
+     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          

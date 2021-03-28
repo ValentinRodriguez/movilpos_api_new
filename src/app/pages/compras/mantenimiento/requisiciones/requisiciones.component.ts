@@ -123,7 +123,7 @@ export class RequisicionesComponent implements OnInit {
 
   todasLasRequisiciones() {
     this.requisicionesServ.getDatos().then((resp: any) => {
-      console.log(resp);
+       
       
       this.requisiciones = resp;
     })
@@ -133,7 +133,7 @@ export class RequisicionesComponent implements OnInit {
     this.invProductosServ.productoEscogido.subscribe((resp: any) => {
       this.productos = [];  
       this.producto.clear()
-      console.log(resp);
+       
       
       resp.forEach(element => {   
         element.total = Number(element.cantidad1) * Number(element.precio_compra)     
@@ -145,12 +145,12 @@ export class RequisicionesComponent implements OnInit {
   }
 
   test(rowData) {
-    console.log(rowData);
-    
+   
   }
+
   todosLosEmpleados() {
     this.empleadosServ.getDatos().then((resp:any) =>{
-      console.log(resp);   
+          
       this.empleados = resp;   
     })
   }
@@ -266,7 +266,7 @@ export class RequisicionesComponent implements OnInit {
     this.ordenPedidoExiste = 0;
     this.ordenPedido.buscaOrdenPedido(data).then((resp: any)=>{
       if(resp.length !== 0){
-        console.log(resp);
+         
         this.productos = resp.productos;        
         this.productos.forEach(element => {
           element.total = Number(element.cantidad) * Number(element.precio_compra);
@@ -284,7 +284,7 @@ export class RequisicionesComponent implements OnInit {
   }
 
   borrarProdEscogido(id) {
-    console.log(id);
+    
   }
 
   onFileSelect(event) {
@@ -304,7 +304,7 @@ export class RequisicionesComponent implements OnInit {
   }
 
   datosEmpleado(data) {
-    console.log(data);    
+         
   }
 
   filtrarCliente(event) {

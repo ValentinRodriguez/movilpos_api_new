@@ -14,7 +14,7 @@ export class RrhhService {
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
-          console.log(resp);
+           
           
           if (resp['code'] === 200) {        
             resolve(resp.data);            
@@ -46,7 +46,7 @@ export class RrhhService {
   buscaSupervisores(id:string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/supervisores/${id}`).subscribe((resp: any) => {  
-        console.log(resp);              
+                       
         if (resp['code'] === 200) { 
           resolve(resp.data);            
         }
@@ -56,7 +56,6 @@ export class RrhhService {
 
   crearEmpleado(empresa) {
     const formData = new FormData();
-    console.log(empresa);
     
     for(let key in empresa){        
       formData.append(key, empresa[key])

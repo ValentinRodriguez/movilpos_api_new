@@ -27,7 +27,7 @@ export class MonedasService {
     params = params.append('monedas',parametro.monedas);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/monedas', {params}).subscribe((resp: any) => {  
-          console.log(resp);          
+                     
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -48,7 +48,7 @@ export class MonedasService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/monedas/${id}`).subscribe((resp: any) => {
-          console.log(resp);
+           
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -76,7 +76,7 @@ export class MonedasService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/monedas/${id}`, moneda)
           .subscribe( (resp: any) => {                
-            console.log(resp);
+             
             
             if (resp['code'] === 200) {
               this.monedaAct.emit( resp.data );                            

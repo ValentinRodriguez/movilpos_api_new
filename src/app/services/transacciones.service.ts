@@ -33,7 +33,6 @@ export class TransaccionesService {
 
   crearTransaccion(transaccion: any) {
     let data = {}
-    console.log(transaccion)
 
     for(let key in transaccion){  
       switch (key) {
@@ -74,7 +73,7 @@ export class TransaccionesService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {
-        console.log(resp);          
+                   
         if (resp['code'] === 200) {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);
@@ -84,7 +83,6 @@ export class TransaccionesService {
   }
 
   recibirTransaccion(transaccion: any) {
-    console.log(transaccion);
     
     const formData = new FormData();
 
@@ -94,7 +92,7 @@ export class TransaccionesService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/recibir/invtransaccion/${transaccion.id}`, transaccion).subscribe( (resp: any) => {  
-        console.log(resp);
+         
              
         if (resp['code'] === 200) {                                      
           this.transaccionGuardado.emit(resp.data);
@@ -138,7 +136,7 @@ export class TransaccionesService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/invtransacciones/${id}`)
           .subscribe( (resp: any) => {           
-            console.log(resp);
+             
                               
             if (resp['code'] === 200) {            
               this.transaccionBorrada.emit(id);    

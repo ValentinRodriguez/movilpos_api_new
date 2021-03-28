@@ -37,12 +37,12 @@ export class AppLoginComponent implements OnInit{
       error => this.handlerError(error)
     );
     // .subscribe((resp: any) => {
-    //   console.log(resp);
+    //    
     // })
   }
 
   handleResponse(data) {
-    console.log(data);
+     
     this.usuarioServ.handleToken(data);
     this.router.navigateByUrl('/');
     this.guardando = false;
@@ -62,7 +62,6 @@ export class AppLoginComponent implements OnInit{
 
       case 429:
         this.tryout = 'Cantidad de intentos excedida, espere: ';
-        console.log(this.error);
         this.startTimer();
         break;
 

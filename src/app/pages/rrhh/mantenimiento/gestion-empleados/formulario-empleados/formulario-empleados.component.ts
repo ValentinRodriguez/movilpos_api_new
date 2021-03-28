@@ -347,7 +347,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   buscaSupervisor(id:string) {
     this.empleadosServ.buscaSupervisores(id).then((resp: any) => {
       this.supervisores = resp;     
-      console.log(resp);
+       
       
     })
   }

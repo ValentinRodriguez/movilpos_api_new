@@ -17,7 +17,7 @@ export class MenuRrhhComponent implements OnInit {
   ngOnInit(): void {
     this.menuServ.getMenu(9).then((resp: any) => {
       this.menu = resp;
-      console.log(this.menu);      
+       ;      
     })
   }
 

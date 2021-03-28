@@ -49,7 +49,7 @@ export class FormularioTransportistaComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.transportistaServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.patchValue(res);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
@@ -81,7 +81,7 @@ export class FormularioTransportistaComponent implements OnInit {
 
   guardarTransportista(){
     //this.guardando = true;
-    console.log(this.forma);    
+         
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -97,7 +97,7 @@ export class FormularioTransportistaComponent implements OnInit {
     
   ActualizarCategoria(){
     // this.actualizando = true;
-    console.log(this.forma.value);
+     ;
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          

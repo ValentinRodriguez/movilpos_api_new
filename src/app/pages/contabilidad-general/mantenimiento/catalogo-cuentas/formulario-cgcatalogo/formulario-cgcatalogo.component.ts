@@ -105,7 +105,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   guardarCatalogo(){
     //this.guardando = true;
     
-    console.log(this.forma);
+     
     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -161,7 +161,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   verificaCuenta(data){  
-    console.log(data);
+     
     if (data === "") {
       this.cuentaExiste = 3;
       return;

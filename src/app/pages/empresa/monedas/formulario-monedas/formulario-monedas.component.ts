@@ -35,7 +35,7 @@ export class FormularioMonedasComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.monedasServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.get('divisa').setValue(res.divisa);
         this.forma.get('simbolo').setValue(res.simbolo);
         this.forma.patchValue(res);

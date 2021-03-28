@@ -41,7 +41,7 @@ export class FormularioTipoinvComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.tipoInventarioServ.getDato(resp).then((res: any) => {
-        console.log(res);
+         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.get('cuenta_no').setValue(this.cuenta_no.find(cuenta => cuenta.cuenta_no === res.cuenta_no));
       })

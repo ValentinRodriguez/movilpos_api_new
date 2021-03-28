@@ -53,7 +53,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);      
       this.entradasServ.getDato(resp).then((res: any) => {
-       // console.log(res);
+       //  
         this.forma.get('fecha').setValue(new Date(res.fecha));
         this.forma.get('ref').setValue(res.ref);
         this.forma.get('detalle').setValue(res.detalle);
@@ -72,7 +72,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
             credito:          [element.credito]
           }));   
           
-       // console.log(resp);       
+       //         
         });
       })
     })
@@ -151,7 +151,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   guardarEntradas(){
     //this.guardando = true;
  
-    console.log(this.forma.value)
+     
     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
@@ -190,7 +190,6 @@ export class FormularioEntradaDiarioComponent implements OnInit {
  
     this.forma.get("periodo").setValue(this.mes+this.ano);
     this.forma.get("mes").setValue(this.mes);
-   // console.log(this.mask)
 
   }
 
@@ -206,12 +205,12 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     });
   }
   ActualizarMarca(){
-    console.log(this.forma.value)
+     
 
     const fecha = this.forma.get('fecha').value;
    
     this.forma.get('fecha').setValue(this.onSelectDate1(fecha));
-    console.log(this.forma.value)
+     
     // this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       

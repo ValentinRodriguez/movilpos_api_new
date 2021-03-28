@@ -296,7 +296,6 @@ export class OrdenesComprasComponent implements OnInit {
 
   guardarOrdenes(){
     //this.guardando = true;
-    console.log(this.forma.value)
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("total_desc").setValue(this.totalDescuento)
     this.forma.get("total_itbis").setValue(this.totalItbis)
@@ -316,8 +315,7 @@ export class OrdenesComprasComponent implements OnInit {
       this.guardando = false;
       this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
       
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj); 
-        console.log(resp.data.num_oc)  
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);
         this.imprimirOrden(resp.data.num_oc)    
      
       })
@@ -389,7 +387,6 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   borrarProdEscogido(id) {
-    console.log(id);
   }
 
   onFileSelect(event) {

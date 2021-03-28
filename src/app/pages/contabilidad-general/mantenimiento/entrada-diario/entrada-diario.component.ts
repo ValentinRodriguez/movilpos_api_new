@@ -65,7 +65,7 @@ export class EntradaDiarioComponent implements OnInit {
   todasLasEntradas() {
     this.loading = true;
     this.EntradaServ.getDatos().then((resp: any) =>{
-     // console.log(resp)
+     //  
       this.loading = false;
       this.marcas = resp;      
     })

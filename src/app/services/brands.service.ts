@@ -19,7 +19,6 @@ export class BrandsService {
               private usuarioService:UsuarioService) { }
 
   busquedaMarca(parametro?: any) {
-    console.log(parametro);
   
     let params = new HttpParams();
     params = params.append('marca',parametro);    
@@ -61,7 +60,7 @@ export class BrandsService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => { 
-        console.log(resp)         ;
+                 ;
           if (resp['code'] === 200) {                                      
             resolve(resp.data);    
             this.marcaGuardada.emit(resp.data);       

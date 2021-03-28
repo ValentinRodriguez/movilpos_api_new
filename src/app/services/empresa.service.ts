@@ -49,7 +49,7 @@ export class EmpresaService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa`).subscribe((resp: any) => {
-        console.log(resp)
+         
         if (resp['code'] === 200) {                                      
           resolve(resp.data);            
         }
@@ -60,7 +60,7 @@ export class EmpresaService {
   getDato(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
-        console.log(resp)
+         
         if (resp['code'] === 200) {                                      
           resolve(resp.data);            
         }
@@ -81,7 +81,6 @@ export class EmpresaService {
   actEmpresa(empresa, id) {
     const formData = new FormData();
     let imagesSec = empresa.logo;
-    console.log(empresa);
     
     for(let key in empresa){    
       switch (key) {
@@ -115,7 +114,7 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/empresa/${id}`, formData)
                .subscribe( resp => {  
-               console.log(resp);
+                
                  
                if (resp['code'] === 200) {                                      
                  resolve(resp);       
@@ -150,7 +149,7 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/empresa`, formData)
                .subscribe( resp => {           
-                 console.log(resp);
+                  
                  
                if (resp['code'] === 200) {                                      
                  resolve(resp);      

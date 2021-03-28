@@ -45,7 +45,7 @@ export class GestionEmpleadosComponent implements OnInit {
 
   todosLosEmpleados() {
     this.empleadosServ.getDatos().then((resp:any) =>{
-      console.log(resp);   
+          
       this.empleados = resp;   
     })
   }
@@ -111,7 +111,6 @@ export class GestionEmpleadosComponent implements OnInit {
     })
   }
 
-  onBasicUpload(files){
-    console.log(files);    
+  onBasicUpload(files){  
   }
 }

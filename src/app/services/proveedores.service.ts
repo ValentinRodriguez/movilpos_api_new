@@ -49,7 +49,7 @@ export class ProveedoresService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => { 
-        console.log(resp);
+         
                
         if (resp['code'] === 200) {          
           resolve(resp.data);            
@@ -69,7 +69,7 @@ export class ProveedoresService {
     params = params.append('proveedor',parametro.proveedor);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => { 
-        console.log(resp);
+         
         
           if (resp['code'] === 200) {          
             resolve(resp.data);            
@@ -106,11 +106,11 @@ export class ProveedoresService {
             break;
         }
       }
-      console.log(data);
+       
       
       return new Promise( resolve => {
         this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {   
-                 console.log(resp);          
+                            
                  if (resp['code'] === 200) {    
                    this.proveedoresCreados.emit( resp.data );                                   
                    resolve(resp);       
@@ -143,11 +143,11 @@ export class ProveedoresService {
           break;
       }
     }
-    console.log(id);
+    
     return new Promise( resolve => {      
       this.http.put(`${ URL }/proveedores/${id}`, data)
               .subscribe( (resp: any) => {        
-                console.log(resp)        
+                        
                 if (resp['code'] === 200) {
                   this.proveeact.emit( resp.data );                            
                   resolve(resp);                               

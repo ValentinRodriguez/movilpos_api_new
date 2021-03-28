@@ -37,7 +37,7 @@ export class FacturasService {
   buscaOrdenPedido(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/orden/${id}`).subscribe((resp: any) => { 
-        console.log(resp);               
+                        
         if (resp['code'] === 200) {          
           resolve(resp.data);            
         }
@@ -47,7 +47,6 @@ export class FacturasService {
 
   crearFactura(factura: any) {
     const formData = new FormData(); 
-    console.log(factura);
     
     // for(let key in factura){  
     //   if (key === 'id_ciudad' || key === 'id_pais') {
@@ -59,7 +58,7 @@ export class FacturasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/vefacturas`, factura).subscribe( resp => {
-          console.log(resp);        
+                   
           if (resp['code'] === 200) {    
             this.facturaCreada.emit( resp );                                   
             resolve(resp);       

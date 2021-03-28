@@ -57,7 +57,7 @@ export class CondicionesPagoComponent implements OnInit {
     this.condicionServ.getDatos().then((resp: any) =>{
       this.loading = false;
       this.condiciones = resp;   
-      console.log(resp);         
+                
     })
   }
 

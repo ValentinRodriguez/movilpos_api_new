@@ -19,7 +19,6 @@ export class StepEmpleadosComponent implements OnInit {
         this.data.push(data[key])        
       }
     }
-    console.log(this.data);    
   }
 
 }

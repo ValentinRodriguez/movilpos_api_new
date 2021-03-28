@@ -59,7 +59,7 @@ export class PuestosComponent implements OnInit {
   todasLosPuestos() {
     this.loading = true;
     this.puestosServ.getDatos().then((resp: any) => {
-      console.log(resp)
+       
       this.puestos = resp;
       this.loading = false;
     });

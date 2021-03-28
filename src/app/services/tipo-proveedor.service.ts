@@ -66,7 +66,7 @@ export class TipoProveedorService {
         }
       }
       this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {   
-          console.log(resp);                    
+                               
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.tipoPguardado.emit(resp.data);       
@@ -89,7 +89,7 @@ export class TipoProveedorService {
       
       this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata)
               .subscribe( (resp: any) => {   
-                console.log(resp);                             
+                                              
                 if (resp['code'] === 200) {
                   this.tipoPact.emit( resp.data );                            
                   resolve(resp);            
@@ -102,7 +102,7 @@ export class TipoProveedorService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/tipo-proveedores/${id}`)
           .subscribe( (resp: any) => {
-            console.log(resp);            
+                         
             if (resp['code'] === 200) {            
               this.tipoPborrado.emit(id);    
               resolve(resp);            

@@ -74,11 +74,10 @@ export class OrdenescomprasService {
         break;
       }
     }
-    console.log(orden);
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/ordenescompras`, formData).subscribe( resp => {  
-          console.log(resp);                 
+                            
           if (resp['code'] === 200) {    
             this.ordenGuardada.emit( resp );                                   
             resolve(resp);       
@@ -100,7 +99,7 @@ export class OrdenescomprasService {
   buscaOrdenCompra(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {   
-        console.log(resp);
+         
              
         if (resp['code'] === 200) {          
           resolve(resp.data);            

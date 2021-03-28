@@ -73,9 +73,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.tipoProveedorServ.tipoPguardado.subscribe((resp: any)=>{
-      this.tipo_proveedor.push(resp);
-      console.log(this.tipo_proveedor);
-      
+      this.tipo_proveedor.push(resp);      
     })
 
     const observer2$ = this.proveedoresServ.actualizar.subscribe((resp: any) =>{
@@ -106,7 +104,7 @@ export class FormularioProveedoresComponent implements OnInit {
   };
   catalogoEscogido() {
     this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      console.log(resp);
+       
       
       resp.forEach(element => {
         if (element.tipo_cuenta !== "normal") {
@@ -139,13 +137,10 @@ export class FormularioProveedoresComponent implements OnInit {
 
           case 'paises':
             this.paises = element.data;
-            console.log(this.paises);            
             break; 
 
           case 'tipo documento':
-            this.documento = element.data;
-            console.log(this.documento);
-            
+            this.documento = element.data;           
             this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.descripcion === 'cedula'));
             break; 
 
@@ -226,7 +221,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   guardarProveedor(){
     //this.guardando = true;     
-    console.log(this.forma);
+     
           
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -245,7 +240,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   actualizarProveedor(){
     // this.actualizando = true;  
-    console.log(this.forma);     
+          
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
