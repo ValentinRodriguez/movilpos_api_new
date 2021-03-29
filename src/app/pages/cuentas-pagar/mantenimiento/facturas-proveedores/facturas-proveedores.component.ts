@@ -18,7 +18,7 @@ export class FacturasProveedoresComponent implements OnInit {
   facturas: any[] = [];
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+  listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -28,13 +28,13 @@ export class FacturasProveedoresComponent implements OnInit {
               @Inject(DOCUMENT) private document: Document) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.todasLasFacturas();
-
-    this.coTransaccionesServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
+    this.listObserver();
 
     this.cols = [
       { field: 'id', header: 'Código' },
@@ -50,25 +50,31 @@ export class FacturasProveedoresComponent implements OnInit {
       { field: 'retencion', header: 'Retención'},
       { field: 'acciones', header: 'Acciones' },
     ] 
-    
-    this.coTransaccionesServ.facturaGuardada.subscribe((resp: any)=>{
+  }
+
+  listObserver = () => {
+    const observer1$ = this.coTransaccionesServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.coTransaccionesServ.facturaGuardada.subscribe(()=>{
       this.todasLasFacturas();
     })
 
-    this.coTransaccionesServ.facturaBorrada.subscribe((resp: any)=>{      
+    const observer3$ = this.coTransaccionesServ.facturaBorrada.subscribe(()=>{      
       this.todasLasFacturas();   
     })
 
-    this.coTransaccionesServ.facturaAct.subscribe((resp: any) => {
+    const observer4$ = this.coTransaccionesServ.facturaAct.subscribe(() => {
       this.todasLasFacturas();
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+  };
 
   todasLasFacturas() {
-    this.loading = true;
     this.coTransaccionesServ.getDatos().then((resp: any) => {      
       this.facturas = resp;
-      this.loading = false;
     });
   }
   

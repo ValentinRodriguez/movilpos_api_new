@@ -84,7 +84,6 @@ export class ClientesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {    
-          console.log(resp);          
           if (resp['code'] === 200) {    
             this.ClienteCreado.emit( resp.data );                                   
             resolve(resp.data);       

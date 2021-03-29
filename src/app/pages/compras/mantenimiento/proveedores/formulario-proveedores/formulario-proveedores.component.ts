@@ -22,7 +22,7 @@ export class FormularioProveedoresComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  selectedMulti: any[] = [];
+  selectedMultiMoneda: any[] = [];
   cuenta_no: any;
   proveedorExiste = 3;
   tipo_proveedor=[];
@@ -53,7 +53,6 @@ export class FormularioProveedoresComponent implements OnInit {
 
   ngOnInit(): void {
     this.todaLaData();
-    this.catalogoEscogido();
     this.listObserver();
 
     this.cols2 = [
@@ -89,6 +88,7 @@ export class FormularioProveedoresComponent implements OnInit {
         this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago)); 
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
         this.forma.get('id_moneda').setValue(JSON.parse(res.moneda));      
+        this.selectedMultiMoneda = JSON.parse(res.moneda);
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
           this.ciudades = resp;
           this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
@@ -101,16 +101,7 @@ export class FormularioProveedoresComponent implements OnInit {
       })
     })
 
-    // const observer3$ = this.cgCatalogoServ.catalogoGuardado.subscribe((resp: any) => {
-    //   this.cgcatalogos.push(resp);
-    // })
-
-    this.listSubscribers = [observer1$,observer2$];
-  };
-  catalogoEscogido() {
-    this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-       
-      
+    const observer3$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
       resp.forEach(element => {
         if (element.tipo_cuenta !== "normal") {
           this.cgcatalogos.push(element);
@@ -118,7 +109,9 @@ export class FormularioProveedoresComponent implements OnInit {
         }
       });               
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$];
+  };
 
   todaLaData() {
     this.proveedoresServ.autoLlenado().then((resp: any)  => {
@@ -221,45 +214,42 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   setValue() {
-    this.selectedMulti = this.forma.get("id_moneda").value
+    this.selectedMultiMoneda = this.forma.get("id_moneda").value
   }
 
   guardarProveedor(){
-    //this.guardando = true;     
-     
+    //this.guardando = true; 
+    console.log(this.forma.value);
           
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
-    }else{      
-      this.guardando = false;
-      this.proveedoresServ.crearProveedor(this.forma.value).then((resp: any)=>{
+    }else{            
+      this.proveedoresServ.crearProveedor(this.forma.value).then(()=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Proveedor creado exitosamente!!");      
         this.restaurarFormulario();
       })
     } 
+    this.guardando = false;
   } 
 
   actualizarProveedor(){
-    // this.actualizando = true;  
-          
+    // this.actualizando = true;            
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
     }else{      
-      this.guardando = false;
       this.proveedoresServ.actualizarProveedor(this.id, this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
         this.restaurarFormulario();            
       })
     } 
+    this.guardando = false;
   } 
 
 
@@ -298,20 +288,17 @@ export class FormularioProveedoresComponent implements OnInit {
 
   restaurarFormulario() {
     let i = 0;
+    this.forma.reset();
     while (0 !== this.cuentas_no.length) {
       this.cuentas_no.removeAt(0);
       i++
     }
-    for(var name in this.forma.controls) {        
-      if (name !== 'cuentas_no') {            
-        (<FormControl>this.forma.controls[name]).setValue('')
-        this.forma.controls[name].setErrors(null);          
-      }          
-    }
     this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == 1)); 
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.selectedMultiMoneda = [];
     this.cgcatalogos = [];
+    console.log(this.forma.value);
     this.cd.detectChanges();
   }
 

@@ -63,7 +63,7 @@ export class FormularioDireccionesComponent implements OnInit {
   }
 
   guardarDirecciones(){
-    //this.guardando = true;    
+    this.guardando = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -110,7 +110,7 @@ export class FormularioDireccionesComponent implements OnInit {
   }
 
   actualizarDirecciones(){
-    //this.actualizando = true;
+    this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      

@@ -51,8 +51,7 @@ export class PeriodosFiscalesService {
 
   crearPeriodo(periodo: any) {    
     return new Promise( resolve => {
-      this.http.post(`${ URL }/periodos-fiscales`, periodo).subscribe( (resp:any) => {
-          console.log(resp);                                 
+      this.http.post(`${ URL }/periodos-fiscales`, periodo).subscribe( (resp:any) => {                     
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.periodoGuardado.emit( resp.data );       

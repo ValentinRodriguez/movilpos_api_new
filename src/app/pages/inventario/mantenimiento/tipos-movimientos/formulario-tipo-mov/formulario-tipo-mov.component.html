@@ -23,15 +23,15 @@
         </div>
 
         <div class="p-field p-col-12">
-            <p-toolbar>	
-                <div class="p-toolbar-group-left">
-                </div>						
-                <div class="p-toolbar-group-right">
-                    <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaCuentas()"></button>	
-                </div>
-            </p-toolbar>
-            <br>
             <p-panel header="Cuentas vinculadas al movimiento" [toggleable]="true">		
+                <p-toolbar>	
+                    <div class="p-toolbar-group-left">
+                    </div>						
+                    <div class="p-toolbar-group-right">
+                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaCuentas()"></button>	
+                    </div>
+                </p-toolbar>
+                <br>
                 <p-table #dt [columns]="cols2" [value]="cgcatalogos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
                         [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','cuenta_no','origen','tipo_cuenta','catalogo']">
                     

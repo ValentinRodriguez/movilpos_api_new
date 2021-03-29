@@ -27,6 +27,7 @@ export class FormularioTipoMovComponent implements OnInit {
   usuarios: any[] = [];  
   cols2: { field: string; header: string; }[];
   id: number;
+  listSubscribers: any = [];
 
   origenes = [
     {label: 'Débito', value: 'debito'},
@@ -48,12 +49,10 @@ export class FormularioTipoMovComponent implements OnInit {
       this.crearFormulario();
     }
 
-  ngOnInit(): void {
-     ;
-    
+  ngOnInit(): void {    
     this.todosLosCatalogos();
     this.todosLosUsuarios(); 
-    this.catalogoEscogido();
+    this.listObserver();
 
     this.cols2 = [
       { field: 'descripcion', header: 'Descripción' },
@@ -63,8 +62,18 @@ export class FormularioTipoMovComponent implements OnInit {
       { field: 'catalogo', header: 'Catálogo' },
       { field: 'acciones', header: 'Acciones' },
     ]
+  }
 
-    this.CodMovServ.actualizar.subscribe((resp: any) =>{
+  listObserver = () => {
+    const observer1$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {             
+      this.cgcatalogos
+      resp.forEach(element => {
+        this.cgcatalogos.push(element);
+      });
+      this.forma.controls['cuenta_no'].setValue(this.cgcatalogos);     
+    })
+
+    const observer2$ = this.CodMovServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
@@ -81,7 +90,9 @@ export class FormularioTipoMovComponent implements OnInit {
         this.forma.controls['cuenta_no'].setValue(cuenta);  
       })
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$];
+   };
   
   crearFormulario() {
     this.forma = this.fb.group({
@@ -101,17 +112,7 @@ export class FormularioTipoMovComponent implements OnInit {
       usuario_modificador:   ['']
     })
   }
-
-  catalogoEscogido() {
-    this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {      
-      let cuenta = [] 
-      this.cgcatalogos = resp;
-      this.cgcatalogos.forEach(element => {
-        cuenta.push(element.cuenta_no);
-      });     
-      this.forma.controls['cuenta_no'].setValue(cuenta);     
-    })
-  }
+ 
   todosLosCatalogos() {
     this.cgCatalogoServ.getDatosAux().then((resp: any) => {
       this.cuentas_no = resp;     

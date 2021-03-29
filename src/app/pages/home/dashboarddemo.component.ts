@@ -29,8 +29,7 @@ export class DashboardDemoComponent implements OnInit {
     constructor(private homeService: HomeService,
                 public dialogService: DialogService,
                 private productService: ProductService, 
-                private usuarioServ:UsuarioService,
-                private breadcrumbService: BreadcrumbService) { }
+                private usuarioServ:UsuarioService) { }
 
     ngOnInit() {        
         this.homeService.autoLlenado().then((resp: any) => {

@@ -17,6 +17,7 @@ export class PuertosComponent implements OnInit {
   puerto: any[] = [];
   cols: any[];
   loading: boolean;
+  listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -26,32 +27,44 @@ export class PuertosComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+            
   ngOnInit(): void {
     this.todosLospuertos();
+    this.listObserver();
 
-    this.puertosService.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-
+    
     this.cols = [
       { field: 'id', header: 'Código' },
       { field: 'descripcion', header: 'Descripción' },
       { field: 'dias', header: 'Días' },
       { field: 'acciones', header: 'Acciones' },
-    ] 
+    ]
 
-    this.puertosService.puertoGuardada.subscribe((resp: any)=>{
+  }
+
+  listObserver = () => {
+    
+    const observer1$ = this.puertosService.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.puertosService.puertoGuardada.subscribe(()=>{
       this.todosLospuertos();
     })
 
-    this.puertosService.puertoBorrada.subscribe((resp: any)=>{      
+    const observer3$ = this.puertosService.puertoBorrada.subscribe(()=>{      
       this.todosLospuertos();   
     })
 
-    this.puertosService.puertoActualizada.subscribe((resp: any) => {
+    const observer4$ = this.puertosService.puertoActualizada.subscribe(() => {
       this.todosLospuertos();
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+   };
 
   todosLospuertos() {
     this.loading = true;

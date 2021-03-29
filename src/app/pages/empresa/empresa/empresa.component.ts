@@ -18,6 +18,7 @@ export class EmpresaComponent implements OnInit {
   cols: any[];
   loading: boolean;
   index: number = 0;
+  listSubscribers: any = [];
 
   constructor(private usuariosServ: UsuarioService,
               private empresasServ: EmpresaService,
@@ -25,29 +26,39 @@ export class EmpresaComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {   
     this.todasLasEmpresas();
+    this.listObserver();
+
     this.cols = [
       { field: 'id', header: 'Código' },
       { field: 'nombre', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
     ] 
+  }
 
-    this.empresasServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
+  listObserver = () => {
+    const observer1$ = this.empresasServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;         
     })
 
-    this.empresasServ.empresaEscogida.subscribe((resp: any)=>{  
+    const observer2$ = this.empresasServ.empresaEscogida.subscribe(()=>{  
       this.todasLasEmpresas();
     })
 
-    this.empresasServ.empresaBorrada.subscribe((resp: any)=>{  
+    const observer3$ = this.empresasServ.empresaBorrada.subscribe(()=>{  
       this.todasLasEmpresas();
     })
 
-    this.empresasServ.empresaAct.subscribe((resp: any)=>{  
+    const observer4$ = this.empresasServ.empresaAct.subscribe(()=>{  
       this.todasLasEmpresas();
     })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   }
 
   todasLasEmpresas() {
