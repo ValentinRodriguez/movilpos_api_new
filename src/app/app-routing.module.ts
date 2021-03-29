@@ -71,7 +71,7 @@ import { MenuCuentasPagarComponent } from './pages/menues/menu-cuentas-pagar/men
 import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimiento/entrada-diario/entrada-diario.component';
 import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
 import { TransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/transacciones-pago.component';
-import { FacturasProveedoresComponent } from './pages/compras/mantenimiento/facturas-proveedores/facturas-proveedores.component';
+import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimiento/facturas-proveedores/facturas-proveedores.component';
 
 @NgModule({
     imports: [

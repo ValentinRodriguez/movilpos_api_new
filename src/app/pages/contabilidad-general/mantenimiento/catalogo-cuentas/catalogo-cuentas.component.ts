@@ -21,6 +21,7 @@ export class CatalogoCuentasComponent implements OnInit {
   cols: any[];
   data: any[] = [];
   index: number = 0;
+  listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -31,14 +32,12 @@ export class CatalogoCuentasComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.todosLosCatalogos();
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {    
-    this.cgcatalogoServ.guardar.subscribe((resp: any)=>{  
-      console.log(resp);
-      
-      this.index = resp;
-    })
-
+    this.listObserver();
     this.cols = [
       { field: 'descripcion_c', header: 'Descripción'},
       { field: 'cuenta_no', header: 'Cuenta'},
@@ -52,20 +51,28 @@ export class CatalogoCuentasComponent implements OnInit {
       { field: 'selectivo_consumo', header: 'Selectivo Consumo'},
       { field: 'retencion', header: 'Retención'},
       { field: 'acciones', header: 'Acciones'},
-    ] 
+    ]
+  }
 
-    this.cgcatalogoServ.catalogoGuardado.subscribe((resp: any)=>{
+  listObserver = () => {
+    const observer1$ = this.cgcatalogoServ.guardar.subscribe((resp: any)=>{      
+      this.index = resp;
+    })
+
+    const observer2$ = this.cgcatalogoServ.catalogoGuardado.subscribe(()=>{
       this.todosLosCatalogos();
     })
 
-    this.cgcatalogoServ.catalogoActualizado.subscribe((resp: any)=>{      
+    const observer3$ = this.cgcatalogoServ.catalogoActualizado.subscribe(()=>{      
       this.todosLosCatalogos();   
     })
 
-    this.cgcatalogoServ.catalogoBorrado.subscribe((resp: any) => {
+    const observer4$ = this.cgcatalogoServ.catalogoBorrado.subscribe(() => {
       this.todosLosCatalogos();
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+  };
 
   todosLosCatalogos() {
     this.cgcatalogoServ.getDatos().then((resp: any) => {
@@ -77,7 +84,6 @@ export class CatalogoCuentasComponent implements OnInit {
     this.index = 1;   
     this.cgcatalogoServ.actualizando(data);
   }
-
 
   borrarTransportista(transportista) { 
     this.confirmationService.confirm({

@@ -18,6 +18,7 @@ export class TransaccionesPagoComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   loading: boolean;
+  listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -26,13 +27,13 @@ export class TransaccionesPagoComponent implements OnInit {
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.todasLasCuentas();
-
-    this.cgTransaccionesServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
+    this.listObserver();
 
     this.cols = [
       { field: 'fecha', header: 'fecha' },
@@ -40,23 +41,30 @@ export class TransaccionesPagoComponent implements OnInit {
       { field: 'cuenta_banco', header: 'Cuenta Banco' },
       { field: 'acciones', header: 'Acciones' },
     ] 
+  }
 
-    this.cgTransaccionesServ.transaccionGuardada.subscribe((resp: any)=>{
+  listObserver = () => {
+    const observer1$ = this.cgTransaccionesServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.cgTransaccionesServ.transaccionGuardada.subscribe(()=>{
       this.todasLasCuentas();
     })
 
-    this.cgTransaccionesServ.transaccionAct.subscribe((resp: any)=>{      
+    const observer3$ = this.cgTransaccionesServ.transaccionAct.subscribe(()=>{      
       this.todasLasCuentas();   
     })
 
-    this.cgTransaccionesServ.transaccionBorrada.subscribe((resp: any) => {
+    const observer4$ = this.cgTransaccionesServ.transaccionBorrada.subscribe(() => {
       this.todasLasCuentas();
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+   };
 
   todasLasCuentas() {
-    this.cgTransaccionesServ.getDatos().then((resp: any) => {
-             
+    this.cgTransaccionesServ.getDatos().then((resp: any) => {             
       this.cuentas = resp;
     });
   }
@@ -76,6 +84,4 @@ export class TransaccionesPagoComponent implements OnInit {
       }
     })
   }
-
-
 }

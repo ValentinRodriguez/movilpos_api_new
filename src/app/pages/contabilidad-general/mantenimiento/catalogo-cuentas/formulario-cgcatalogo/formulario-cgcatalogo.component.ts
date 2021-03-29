@@ -28,6 +28,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   id: number;
+  listSubscribers: any = [];
 
   sino = [
     {label: 'Sí', value: 'si'},
@@ -57,6 +58,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
     {label: 'Deudor', value: 'deudor'},
     {label: 'Acreedor', value: 'acreedor'},
   ];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -66,6 +68,11 @@ export class FormularioCgcatalogoComponent implements OnInit {
                 this.crearFormulario();
   }
 
+  ngOnDestroy(): void {    
+    this.listObserver();
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.forma.get('aplica_a').disable();
 
@@ -73,9 +80,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.catalogoServ.getDato(resp).then((res: any) => {
-        console.log(res);
-         
+      this.catalogoServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
         this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
         this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
@@ -87,9 +92,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
         this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
         this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
         this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
-        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));
-        console.log(this.forma.value);
-        
+        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
       })
     })
 
@@ -101,6 +104,30 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.zonas = resp;
     })
   }
+
+  listObserver = () => {
+    const observer1$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;   
+      this.id = Number(resp);      
+      this.catalogoServ.getDato(resp).then((res: any) => {         
+        this.forma.patchValue(res);
+        this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
+        this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
+        this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
+        this.forma.get('codigo_isr').setValue(this.codigosRetencion.find(codigo => codigo.codigo_isr == res.codigo_isr));
+        this.forma.get('tipo_cuenta').setValue(this.tipo_cuenta.find(tipo_cuenta => tipo_cuenta.value === res.tipo_cuenta));
+        this.forma.get('analitico').setValue(this.sino.find(sino => sino.value === res.analitico));
+        this.forma.get('catalogo').setValue(this.sino.find(sino => sino.value === res.catalogo));
+        this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
+        this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
+        this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
+        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
+      })
+    })
+
+    this.listSubscribers = [observer1$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -161,9 +188,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
   
   ActualizarCatalogo(){
-    // this.actualizando = true;
-    console.log(this.forma);
-    
+    // this.actualizando = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -182,7 +207,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
           break;
 
         default:
-          console.log(this.forma.value);
           this.forma.get('usuario_modificador').setValue(this.usuario.username);
           this.catalogoServ.actualizarCatalogo(this.id, this.forma.value).then(()=>{
             this.resetFormulario();

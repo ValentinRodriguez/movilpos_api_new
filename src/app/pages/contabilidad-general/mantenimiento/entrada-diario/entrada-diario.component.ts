@@ -24,6 +24,7 @@ export class EntradaDiarioComponent implements OnInit {
   cols: any[];
   loading: boolean;
   index: number = 0;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -32,27 +33,16 @@ export class EntradaDiarioComponent implements OnInit {
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
-                this.crearFormulario();
-              
+                this.crearFormulario();              
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+            
   ngOnInit(): void {
     this.todasLasEntradas();
-    this.EntradaServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-
-    this.EntradaServ.entradaGuardada.subscribe(resp =>{
-      this.todasLasEntradas();
-    })
-
-    this.EntradaServ.marcaBorrada.subscribe((resp: any)=>{      
-      this.todasLasEntradas();   
-    })
-
-    this.EntradaServ.entradaAct.subscribe(resp =>{
-      this.todasLasEntradas();
-    })
+    this.listObserver();
 
     this.cols = [
       { field: 'ref', header: 'No. Entrada' },
@@ -62,10 +52,29 @@ export class EntradaDiarioComponent implements OnInit {
     ]
   }
 
+  listObserver = () => {
+    const observer1$ = this.EntradaServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.EntradaServ.entradaGuardada.subscribe(() =>{
+      this.todasLasEntradas();
+    })
+
+    const observer3$ = this.EntradaServ.marcaBorrada.subscribe(()=>{      
+      this.todasLasEntradas();   
+    })
+
+    const observer4$ = this.EntradaServ.entradaAct.subscribe(() =>{
+      this.todasLasEntradas();
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+   };
+
   todasLasEntradas() {
     this.loading = true;
     this.EntradaServ.getDatos().then((resp: any) =>{
-     //  
       this.loading = false;
       this.marcas = resp;      
     })
@@ -81,8 +90,7 @@ export class EntradaDiarioComponent implements OnInit {
   }
 
   actualizarEntrada(data){
-    this.index = 1;   
-    
+    this.index = 1;       
     this.EntradaServ.actualizando(data);
   }
 

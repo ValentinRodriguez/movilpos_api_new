@@ -40,6 +40,7 @@ export class FormularioEmpresaComponent implements OnInit {
   paisesFiltrados: any[] = [];  
   ciudadesFiltradas: any[] = [];  
   id: number;
+  listSubscribers: any = [];
 
   sino = [
     {label: 'Sí', value: 'si'},
@@ -68,15 +69,22 @@ export class FormularioEmpresaComponent implements OnInit {
     this.crearFormulario();
   }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {  
     this.todosLosPaises();
-    // this.datosEmpresa();
+    this.listObserver();
 
     this.monedasServ.getDatos().then((resp: any) =>{
       this.monedas = resp;   
     })
 
-    this.empresasServ.actualizar.subscribe((resp: any) =>{
+  }
+
+  listObserver = () => {
+    const observer1$ = this.empresasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
@@ -93,7 +101,9 @@ export class FormularioEmpresaComponent implements OnInit {
         })
       })
     })
-  }
+    
+    this.listSubscribers = [observer1$];
+  };
 
   todosLosPaises() {
     this.paisesCiudadesServ.getPaises().then((resp: any)=>{

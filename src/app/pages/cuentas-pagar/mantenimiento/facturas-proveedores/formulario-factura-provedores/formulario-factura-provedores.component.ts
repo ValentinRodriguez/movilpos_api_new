@@ -40,6 +40,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   tipoOrden:any[] = [];
   itbis: string = "si";
   opciones: any[];
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -54,7 +55,13 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
                 this.crearFormulario();
   }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
+    this.todaLaData();
+    this.listObserver();
 
     this.cols = [
       { field: 'cuenta_no', header: 'Cuenta' },
@@ -75,46 +82,20 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       { id:3, descripcion:'Locales' },
       { id:4, descripcion:'Miscelaneas' },
     ]
-
-    this.todaLaData();
-    this.catalogoEscogido();
-    this.setDataActualizar();
   }
 
-  todaLaData() {
-    this.coTransaccionescxpServ.autoLlenado().then((resp: any)  => {
-      resp.forEach(element => {        
-        switch (element.label) {
-          case 'monedas':            
-            this.monedas = element.data;
-            break;
-
-          case 'condiciones':
-            this.cond_pago = element.data;
-            break;  
-
-          case 'proveedores':
-            this.proveedores = element.data;
-            break; 
-
-          case 'tipo gastos':
-            this.tipoGastos = element.data;
-            break; 
-
-          case 'departamento':
-            this.departamentos = element.data;
-            break;
-
-          default:
-            break;
+  listObserver = () => {
+    const observer1$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
+      this.cuentas = [];
+      resp.forEach(cuentas => {
+        if (cuentas.tipo_cuenta !== "normal") {
+          this.cuentas.push(cuentas);
+          this.agregarFormulario(cuentas);
         }
-      });  
-      this.autollenado(resp);  
+      });               
     })
-  }
 
-  setDataActualizar() {
-    this.coTransaccionescxpServ.actualizar.subscribe((resp: any) =>{
+    const observer2$ = this.coTransaccionescxpServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
@@ -168,17 +149,39 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         });
       })
     })
-  }
+    
+    this.listSubscribers = [observer1$,observer2$];
+  };
 
-  catalogoEscogido() {
-    this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      this.cuentas = [];
-      resp.forEach(cuentas => {
-        if (cuentas.tipo_cuenta !== "normal") {
-          this.cuentas.push(cuentas);
-          this.agregarFormulario(cuentas);
+  todaLaData() {
+    this.coTransaccionescxpServ.autoLlenado().then((resp: any)  => {
+      resp.forEach(element => {        
+        switch (element.label) {
+          case 'monedas':            
+            this.monedas = element.data;
+            break;
+
+          case 'condiciones':
+            this.cond_pago = element.data;
+            break;  
+
+          case 'proveedores':
+            this.proveedores = element.data;
+            break; 
+
+          case 'tipo gastos':
+            this.tipoGastos = element.data;
+            break; 
+
+          case 'departamento':
+            this.departamentos = element.data;
+            break;
+
+          default:
+            break;
         }
-      });               
+      });  
+      this.autollenado(resp);  
     })
   }
 
@@ -322,6 +325,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','La transaccion es mayor al valor de la factura.'); 
         return;
       }         
+      console.log(this.forma);
       
       this.coTransaccionescxpServ.crearFactura(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
@@ -366,6 +370,11 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         this.forma.controls[name].setErrors(null);          
       }          
     }
+    this.totalC = 0;
+    this.totalD = 0;    
+    this.itbis = 'si';
+    this.cuentas = [];  
+    this.forma.get('itbis').setValue('si');
     this.forma.get('fecha_orig').setValue('');
     this.forma.get('fecha_proc').setValue('');
     this.forma.get('valor').setValue('');
@@ -384,28 +393,31 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.forma.get('fecha_orig').disable()
     this.forma.get('fecha_proc').disable()
     this.forma.get('valor').disable()
-    this.totalC = 0;
-    this.totalD = 0;    
-    this.itbis = 'si';
-    this.cuentas = [];  
     this.cd.detectChanges();
   }
 
   calcula(data) {
-    let index = 0;    
+    let index = 0;        
+    console.log(1);
      
     if (this.itbis == 'si') {
+      console.log(7);
+      console.log(this.cuentas);
+      
       this.cuentas.forEach(element => {
         if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {
           const porciento = Number(element.porciento);
           const itbis = porciento / 100 * Number(data);    
           this.forma.get('monto_itbi').setValue(itbis);
+          console.log(2);
+          
           ((this.cuentas_no).at(index) as FormGroup).get("debito").setValue(itbis);
         }
         if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {
           const porciento = Number(element.porciento);
           const itbis = porciento / 100 * Number(data);
           const retencion = porciento / 100 * itbis
+          console.log(3);
           this.forma.get('retencion').setValue(retencion);          
           ((this.cuentas_no).at(index) as FormGroup).get("debito").disable(); 
         }     
@@ -413,14 +425,12 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       });      
     } else {
       this.forma.get('monto_itbi').setValue(0);
+      console.log(4);
     }
     this.calculaTotal(this.cuentas_no.value)
   }
 
-  calculaTipo(data, index) {
-    const debito =  ((this.cuentas_no).at(index) as FormGroup).get("debito").value;
-    const credito =  ((this.cuentas_no).at(index) as FormGroup).get("credito").value;
-    
+  calculaTipo(data, index) {    
     switch (data.tipo_cuenta) {
       case 'bienes':         
         this.forma.get(data.tipo_cuenta).setValue(this.calculaTotalTipo(this.cuentas_no.value, 'bienes'))
@@ -493,22 +503,27 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     })
   }
 
-  setVencimiento(data, accion) {    
-    if (!accion && data.value.descripcion === 'prestamo') {
+  setVencimiento(data) {    
+    if (data === 'prestamo') {
       this.forma.get('cuotas').enable();
-      
-    }else{
-      const fecha_orig = this.forma.get('fecha_orig').value;
-      const vencimiento = this.forma.get('cond_pago').value;
-      const tmpDate = new Date(fecha_orig);     
-      const now = tmpDate.getTime();
-      if (accion) {        
-        this.forma.get('fecha_proc').setValue(this.sumarDias(new Date(now),vencimiento.dias));        
-      }
+      console.log('prestamo');      
+    }else{   
+      this.forma.get('cuotas').disable();   
+      this.vencimiento()
     }
   }
 
-  setCuotas(data) { 
+  vencimiento() {
+    const fecha_orig = this.forma.get('fecha_orig').value;
+    const vencimiento = this.forma.get('cond_pago').value;
+    const tmpDate = new Date(fecha_orig);     
+    console.log('suma dias');    
+    console.log(vencimiento.dias);
+    const now = tmpDate.getTime();
+    this.forma.get('fecha_proc').setValue(this.sumarDias(new Date(now),vencimiento.dias));
+  }
+
+  setCuotas() { 
     const fecha_orig = this.forma.get('fecha_orig').value;
     const tmpDate = new Date(fecha_orig);     
     const now = tmpDate.getTime();

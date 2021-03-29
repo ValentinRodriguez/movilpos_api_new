@@ -18,8 +18,9 @@ export class FormularioPuertosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   puertoExiste = 3;
-  
+  listSubscribers: any = [];
   id: number;
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -28,9 +29,18 @@ export class FormularioPuertosComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
-    this.puertosServ.actualizar.subscribe((resp: any) =>{
+  ngOnInit(): void {
+    this.listObserver();
+
+
+  }
+
+  listObserver = () => {
+    const observer1$ = this.puertosServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
@@ -38,8 +48,10 @@ export class FormularioPuertosComponent implements OnInit {
         this.forma.patchValue(res);
       })
     })
-  }
 
+    this.listSubscribers = [observer1$];
+  };
+  
   crearFormulario() {
     this.forma = this.fb.group({
       descripcion:         ['', Validators.required],

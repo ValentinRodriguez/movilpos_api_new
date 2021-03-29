@@ -19,6 +19,8 @@ export class TiposProveedoresComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   index: number = 0;
+  listSubscribers: any = [];
+
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoProveedorServ: TipoProveedorService,
@@ -27,33 +29,40 @@ export class TiposProveedoresComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.todosLosTiposP();
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
-    
+    this.listObserver();
     this.cols = [
       { field: 'descripcion', header: 'Descripción' },
       { field: 'cuenta_no', header: 'Cuenta' },
       { field: 'acciones', header: 'Acciones' },
     ] 
 
-    this.tipoProveedorServ.guardar.subscribe((resp: any)=>{
-             
+  }
+
+  listObserver = () => {    
+    const observer1$ = this.tipoProveedorServ.guardar.subscribe((resp: any)=>{             
       this.index = resp;
     })
 
-    this.tipoProveedorServ.tipoPguardado.subscribe((resp: any)=>{
+    const observer2$ = this.tipoProveedorServ.tipoPguardado.subscribe(()=>{
       this.todosLosTiposP();
     })
 
-    this.tipoProveedorServ.tipoPborrado.subscribe((resp: any)=>{      
+    const observer3$ = this.tipoProveedorServ.tipoPborrado.subscribe(()=>{      
       this.todosLosTiposP();    
     })
 
-    this.tipoProveedorServ.tipoPact.subscribe((resp: any) => {
+    const observer4$ = this.tipoProveedorServ.tipoPact.subscribe(() => {
       this.todosLosTiposP();
     })
-  }
 
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+  };
+  
   todosLosTiposP() {
     this.tipoProveedorServ.getDatos().then((resp: any) => {
       this.tipo = resp;

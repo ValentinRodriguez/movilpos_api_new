@@ -145,8 +145,7 @@ export class ProveedoresService {
     
     return new Promise( resolve => {      
       this.http.put(`${ URL }/proveedores/${id}`, data)
-              .subscribe( (resp: any) => {        
-                        
+              .subscribe( (resp: any) => {     
                 if (resp['code'] === 200) {
                   this.proveeact.emit( resp.data );                            
                   resolve(resp);                               

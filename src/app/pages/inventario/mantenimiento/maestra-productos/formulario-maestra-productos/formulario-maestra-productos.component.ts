@@ -168,8 +168,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   guardarProducto() {   
-    this.guardando = false;
-    console.log(this.forma);    
+    this.guardando = false; 
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{

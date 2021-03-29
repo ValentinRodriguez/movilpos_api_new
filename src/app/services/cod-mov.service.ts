@@ -82,11 +82,26 @@ export class CodMovService {
   }
 
   actualizarTipoMov(id:number, tipoMov: any) {
+    let data = {};
+
+    for (const key in tipoMov) {
+      switch (key) {
+        case 'origen':
+          data[key] = tipoMov[key].value;
+          break;
+      
+        default:
+          data[key] = tipoMov[key]
+          break;
+      }
+    }
+
+    console.log(data);
     
     return new Promise( resolve => {      
-      this.http.put(`${ URL }/codigosmovimientos/${id}`, tipoMov)
+      this.http.put(`${ URL }/codigosmovimientos/${id}`, data)
           .subscribe( (resp: any) => {    
-             
+            console.log(resp);             
             if (resp['code'] === 200) {
               this.tipoMovActualizado.emit( resp.data );                            
               resolve(resp);            

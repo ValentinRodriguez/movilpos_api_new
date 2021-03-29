@@ -24,6 +24,7 @@ export class PeriodosFiscalesComponent implements OnInit {
   index: number = 0;
   periodos: any[] = [];
   meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  listSubscribers: any = [];
 
   constructor(private confirmationService: ConfirmationService,
               private periodoFserv: PeriodosFiscalesService,
@@ -33,25 +34,13 @@ export class PeriodosFiscalesComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+            
   ngOnInit(): void {
     this.obtenerPeriodos();
-
-    this.periodoFserv.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-
-    this.periodoFserv.periodoGuardado.subscribe(resp => {
-      this.obtenerPeriodos();
-    })
-
-    this.periodoFserv.periodoActualizado.subscribe(resp => {
-      this.obtenerPeriodos();
-    })
-
-    this.periodoFserv.periodoBorrado.subscribe(resp => {
-      this.obtenerPeriodos();
-    })
-
+    this.listObserver();
     this.cols = [
       { field: 'anio', header: 'Año' },
       { field: 'mes', header: 'Mes' },
@@ -63,6 +52,26 @@ export class PeriodosFiscalesComponent implements OnInit {
     ] 
   }
   
+  listObserver = () => {
+    const observer4$ = this.periodoFserv.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer1$ = this.periodoFserv.periodoGuardado.subscribe(() => {
+      this.obtenerPeriodos();
+    })
+
+    const observer2$ = this.periodoFserv.periodoActualizado.subscribe(() => {
+      this.obtenerPeriodos();
+    })
+
+    const observer3$ =this.periodoFserv.periodoBorrado.subscribe(() => {
+      this.obtenerPeriodos();
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+  };
+
   obtenerPeriodos() {
     this.periodoFserv.getDatos().then((resp: any) => {
       this.periodos = resp;      
@@ -104,7 +113,7 @@ export class PeriodosFiscalesComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.periodoFserv.borrarPeriodo(periodo).then((resp: any)=>{
+        this.periodoFserv.borrarPeriodo(periodo).then(()=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','periodo eliminado de manera correcta');   
         })       
       }
@@ -115,7 +124,7 @@ export class PeriodosFiscalesComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de restaurar este registro?",
       accept:() =>{ 
-        this.periodoFserv.restaurarPeriodo(periodo).then((resp: any)=>{
+        this.periodoFserv.restaurarPeriodo(periodo).then(()=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','periodo eliminado de manera correcta');   
         })       
       }
