@@ -74,23 +74,19 @@ export class FormularioBodegasComponent implements OnInit {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
-      })
-      this.guardando = false;
+      })      
     }else{ 
       switch (this.bodegaExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
           break;
 
         default:
-          this.bodegasServ.crearBodega(this.forma.value).then((resp: any)=>{
-            this.guardando = false;
+          this.bodegasServ.crearBodega(this.forma.value).then((resp: any)=>{            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
             this.forma.get('descripcion').reset();
             this.forma.get('id_pais').reset();
@@ -99,6 +95,7 @@ export class FormularioBodegasComponent implements OnInit {
           break;
       } 
     }  
+    this.guardando = false;
   }
 
   actualizarBodega() {

@@ -188,38 +188,35 @@ export class FormularioTipoMovComponent implements OnInit {
   }
     
   guardarcodMov(){
-    //this.guardando = true;
+    this.guardando = true;
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');  
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
-      })
-      this.guardando = false;    
+      })          
     }else{   
       switch (this.movimientoExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe un tipo de movimiento con este nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe un tipo de movimiento con este nombre');          
           break;
 
         default:
-          this.CodMovServ.crearTipoMov(this.forma.value).then((resp: any)=>{
-            this.guardando = false;
+          this.CodMovServ.crearTipoMov(this.forma.value).then((resp: any)=>{            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
             this.resetFormulario();
           })
         break;
       } 
     }
+    this.guardando = false;
   }
 
   actualizarMov(){    
-     //this.actualizando = true;
+     this.actualizando = true;
      this.forma.get('usuario_modificador').setValue(this.usuario.username);    
      if (this.forma.invalid) {       
        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -229,13 +226,11 @@ export class FormularioTipoMovComponent implements OnInit {
      }else{ 
       switch (this.movimientoExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe un tipo de movimiento con este nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe un tipo de movimiento con este nombre');          
           break;
 
         default:
@@ -247,6 +242,7 @@ export class FormularioTipoMovComponent implements OnInit {
         break;
       }    
     }
+    this.actualizando = false;
   }
 
   cancelar() {

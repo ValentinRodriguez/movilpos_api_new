@@ -1,6 +1,6 @@
 
 <p-table #dt [value]="cuentas_no" [rows]="5" [paginator]="true" [globalFilterFields]="['descripcion_c','cuenta_no','origen']"
-        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id" closeOnEscape="true" [showCurrentPageReport]="true"
+        [(selection)]="cuentasSeleccionadas" [rowHover]="true" dataKey="id" closeOnEscape="true" [showCurrentPageReport]="true"
         [lazy]="true" (onLazyLoad)="todosLosCatalogos()" [loading]="loading">
     <ng-template pTemplate="caption">
         <div class="p-d-flex p-ai-center p-jc-between">

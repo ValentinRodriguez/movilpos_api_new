@@ -146,11 +146,11 @@ export class FormularioCgcatalogoComponent implements OnInit {
       retencion:         [{label: 'No', value: 'no'}, Validators.required],
       cuenta_resultado:  [''],      
       codigo_isr:        [''],
-      estado_bg:         ['XXXXXX'],
-      estado_resultado:  ['XXXXXX'],
-      estado_a:          ['XXXXXX'],
-      estado_m:          ['XXXXXX'],
-      codigo_estado:     ['XXXXXX'],
+      estado_bg:         [''],
+      estado_resultado:  [''],
+      estado_a:          [''],
+      estado_m:          [''],
+      codigo_estado:     [''],
       estado:            ['activo', Validators.required],
       usuario_creador:   [this.usuario.username, Validators.required],
       usuario_modificador : ['']
@@ -168,23 +168,23 @@ export class FormularioCgcatalogoComponent implements OnInit {
       switch (this.descripExiste) {
         case 0:
           this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
           break;
 
         case 2:
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-          this.guardando = false;
           break;
 
         default:
           this.catalogoServ.crearCgcatalogos(this.forma.value).then((resp: any)=>{
-            this.resetFormulario();
-            this.guardando = false;
+            console.log(resp);            
+            this.resetFormulario();            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");
           })
           break;
       } 
     }
+    console.log(this.guardando);    
+    this.guardando = false;
   }
   
   ActualizarCatalogo(){

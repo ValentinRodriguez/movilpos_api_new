@@ -141,19 +141,18 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   guardarEntradas(){
-    //this.guardando = true;
+    this.guardando = true;
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
     }else{      
-      this.guardando = false;  
       this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{       
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);           
       })
     } 
+    this.guardando = false;
   } 
 
   onSelectDate(event) {
