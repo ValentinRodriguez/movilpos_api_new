@@ -218,8 +218,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       fecha:           [''],
       cod_sp:          [''], //
       cod_sp_sec:      [''], //
-      debito:          [cuentas.debito || 0],  
-      credito:         [cuentas.credito || 0],
+      debito:          [cuentas.debito || ''],  
+      credito:         [cuentas.credito || ''],
       porciento:       [cuentas.porciento || 0],
       factura:         [''], //
       tipo_doc:        [''], //
