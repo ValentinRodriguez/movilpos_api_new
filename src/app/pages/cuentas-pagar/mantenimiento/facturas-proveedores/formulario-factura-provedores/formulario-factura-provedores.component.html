@@ -270,19 +270,11 @@
                                 </span>
                                         
                                 <span *ngIf="col.field === 'debito'">
-                                    <!-- <div class="p-inputgroup">
-                                        <span class="p-inputgroup-addon">{{this.simbolo}}</span> -->
-                                        <!-- <p-inputNumber formControlName="debito" mode="decimal" (onBlur)="calculaTipo(rowData,i)"></p-inputNumber> -->
-                                        <input type="number" pInputText formControlName="debito" (blur)="calculaTipo(rowData,i)"/>
-                                    <!-- </div> -->
+                                    <input type="number" pInputText formControlName="debito" (blur)="calcula()"/>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
-                                    <!-- <div class="p-inputgroup">
-                                        <span class="p-inputgroup-addon">{{this.simbolo}}</span>                                         -->
-                                        <!-- <p-inputNumber formControlName="credito" mode="decimal" (onBlur)="calculaTipo(rowData,i)"></p-inputNumber> -->
-                                        <input type="number" pInputText formControlName="credito" (blur)="calculaTipo(rowData,i)"/>
-                                    <!-- </div> -->
+                                    <input type="number" pInputText formControlName="credito" (blur)="calcula()"/>
                                 </span>
     
                                 <span *ngIf="col.field === 'acciones'">
