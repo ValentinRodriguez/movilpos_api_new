@@ -84,25 +84,21 @@ export class FormularioTipoProveedoresComponent implements OnInit {
     }else{   
       switch (this.proveedorExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
           break;
 
         default:
           this.tipoProveedorServ.crearTproveedor(this.forma.value).then((resp: any)=>{
-            if (resp) {
-              this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-            }               
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
           })
           break;
       } 
     }
+    this.guardando = false;
   }
   
   verificaTproveedor(data){  

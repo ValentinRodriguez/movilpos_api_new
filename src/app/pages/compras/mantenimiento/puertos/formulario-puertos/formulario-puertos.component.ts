@@ -18,8 +18,9 @@ export class FormularioPuertosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   puertoExiste = 3;
-  
+  listSubscribers: any = [];
   id: number;
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -28,9 +29,18 @@ export class FormularioPuertosComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
-    this.puertosServ.actualizar.subscribe((resp: any) =>{
+  ngOnInit(): void {
+    this.listObserver();
+
+
+  }
+
+  listObserver = () => {
+    const observer1$ = this.puertosServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
@@ -38,8 +48,10 @@ export class FormularioPuertosComponent implements OnInit {
         this.forma.patchValue(res);
       })
     })
-  }
 
+    this.listSubscribers = [observer1$];
+  };
+  
   crearFormulario() {
     this.forma = this.fb.group({
       descripcion:         ['', Validators.required],
@@ -51,7 +63,7 @@ export class FormularioPuertosComponent implements OnInit {
   }
 
   guardarPuerto(){
-    //this.guardando = true;
+    this.guardando = true;
     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -61,25 +73,21 @@ export class FormularioPuertosComponent implements OnInit {
     }else{   
       switch (this.puertoExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
           break;
 
         default:
           this.puertosServ.crearPuerto(this.forma.value).then((resp: any)=>{
-            if (resp) {
-              this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-            }               
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
           })
           break;
       } 
     }
+    this.guardando = false;
   }
   
   verificaPuerto(data){  

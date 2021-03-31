@@ -1,11 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, NumberValueAccessor } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
-import { BrandsService } from 'src/app/services/brands.service';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { EntradasDiarioService } from 'src/app/services/entradas-diario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -33,6 +31,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   mask:string;
   cuenta1:any[]=[];
   valor:number;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -44,42 +43,13 @@ export class FormularioEntradaDiarioComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
   }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.mask="ED.99-99/9999"
-
-    this.entradasServ.actualizar.subscribe((resp: any) =>{
-      this.guardar = false;
-      this.actualizar = true;   
-      this.id = Number(resp);      
-      this.entradasServ.getDato(resp).then((res: any) => {
-       //  
-        this.forma.get('fecha').setValue(new Date(res.fecha));
-        this.forma.get('ref').setValue(res.ref);
-        this.forma.get('detalle').setValue(res.detalle);
-        this.forma.get('mes').setValue(res.mes);
-        this.forma.get('periodo').setValue(res.periodo);
-        
-        res.cuentas.forEach(element => {
-          this.cuentas.push(element);
-          (<FormArray>this.forma.get('cuentas')).push(this.fb.group({
-            cuenta_no:        [element.cuenta_no, Validators.required],
-            departamento:     [element.departamento],
-            cod_aux:          [element.cod_aux],
-            cod_sec:          [element.cod_sec],
-            num_doc:          [element.num_doc],
-            debito:           [element.debito],
-            credito:          [element.credito]
-          }));   
-          
-       //         
-        });
-      })
-    })
-
-    this.cuentaServices.catalogoEscogido.subscribe((resp:any)=>{
-      this.cuentas=resp;
-    })
+    this.listObserver();
 
     this.entradasServ.getEdsec().then((resp: any) => {
       this.secuencia = resp;
@@ -99,15 +69,42 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     //  this.catalogoEscogido()
     this.agregarRegistro();
   }
-/*
-  catalogoEscogido() {
-    this.cuentaServices.catalogoEscogido.subscribe((resp: any) => {
-      resp.forEach(element => {
-        this.cuenta1.push(element);
-        this.agregarFormulario(element);
-      });               
+
+  listObserver = () => {
+    
+    const observer1$ = this.entradasServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;   
+      this.id = Number(resp);      
+
+      this.entradasServ.getDato(resp).then((res: any) => {
+        this.forma.get('fecha').setValue(new Date(res.fecha));
+        this.forma.get('ref').setValue(res.ref);
+        this.forma.get('detalle').setValue(res.detalle);
+        this.forma.get('mes').setValue(res.mes);
+        this.forma.get('periodo').setValue(res.periodo);
+        
+        res.cuentas.forEach(element => {
+          this.cuentas.push(element);
+          (<FormArray>this.forma.get('cuentas')).push(this.fb.group({
+            cuenta_no:        [element.cuenta_no, Validators.required],
+            departamento:     [element.departamento],
+            cod_aux:          [element.cod_aux],
+            cod_sec:          [element.cod_sec],
+            num_doc:          [element.num_doc],
+            debito:           [element.debito],
+            credito:          [element.credito]
+          }));        
+        });
+      })
     })
-  }*/
+
+    const observer2$ = this.cuentaServices.catalogoEscogido.subscribe((resp:any)=>{
+      this.cuentas=resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
   
   crearFormulario() {
     this.forma = this.fb.group({
@@ -120,23 +117,18 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: [''],
       cuentas: this.fb.array([])     
-    })
-    
+    })    
   }
 
   get cuenta() {   
     return this.forma.get('cuentas') as FormArray;
   }
   
-
   agregarFormulario() {
-
-    (<FormArray>this.forma.get('cuentas')).push(this.agregarFormularioTransacciones());    
- 
+    (<FormArray>this.forma.get('cuentas')).push(this.agregarFormularioTransacciones());  
   }
   
-  agregarFormularioTransacciones(): FormGroup {
-    
+  agregarFormularioTransacciones(): FormGroup {    
     return this.fb.group({
       cuenta_no:        ['', Validators.required],
       departamento:     [""],
@@ -149,28 +141,19 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   guardarEntradas(){
-    //this.guardando = true;
- 
-     
-    
+    this.guardando = true;
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
     }else{      
-      this.guardando = false;
-   
-      this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{
-       
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj); 
-           
+      this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{       
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);           
       })
     } 
-
+    this.guardando = false;
   } 
-
 
   onSelectDate(event) {
     let d = new Date(Date.parse(event));
@@ -180,8 +163,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     if (Number(this.mes) < 10){
         this.mes="0"+this.mes
     }
-    this.ano=d.getFullYear().toString().substr(-2)
-   
+    this.ano=d.getFullYear().toString().substr(-2)   
 
     if (Number(this.secuencia) < 10){
       this.secuencia="0"+this.secuencia
@@ -204,14 +186,11 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       width: '50%'
     });
   }
-  ActualizarMarca(){
-     
 
-    const fecha = this.forma.get('fecha').value;
-   
-    this.forma.get('fecha').setValue(this.onSelectDate1(fecha));
-     
+  ActualizarMarca(){    
     // this.actualizando = true;
+    const fecha = this.forma.get('fecha').value;   
+    this.forma.get('fecha').setValue(this.onSelectDate1(fecha));     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -219,13 +198,13 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         control.markAllAsTouched();
      })
     }else{
-      this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {
-        
+      this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {        
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
         this.actualizando = false;
       })
     }
   }
+
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
@@ -235,14 +214,11 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     this.entradasServ.guardando();    
   }
 
-
-
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 
-  verificaCuenta(data){  
-   
+  verificaCuenta(data){     
     if (data === "") {
       this.cuentaExiste = 3;
       return;
@@ -260,8 +236,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   borrarCuenta(id) {
-    this.cuentas.splice(id,1)  
-    
+    this.cuentas.splice(id,1)      
   }
 
   agregarRegistro(){  
@@ -274,7 +249,6 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     link.target = '_blank';
     link.href = `${URL}/reporte/orden-compras/${num_oc}`;
     link.click();
-    link.remove();
-  }
+    link.remove();  }
 
 }

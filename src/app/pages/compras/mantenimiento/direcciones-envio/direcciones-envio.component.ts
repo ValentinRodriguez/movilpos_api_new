@@ -18,7 +18,7 @@ export class DireccionesEnvioComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   loading: boolean;
-
+  listSubscribers: any = [];
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private dirService: DireccionesService,
@@ -27,13 +27,14 @@ export class DireccionesEnvioComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.todasLasDirecciones();
+    this.listObserver();
 
-    this.dirService.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-    
     this.cols = [
       { field: 'id', header: 'Código' },
       { field: 'nombre', header: 'Representante' },
@@ -44,19 +45,27 @@ export class DireccionesEnvioComponent implements OnInit {
       { field: 'telefono', header: 'Teléfono' },
       { field: 'acciones', header: 'Acciones' },
     ] 
+  }
 
-    this.dirService.direccionGuardada.subscribe((resp: any)=>{
+  listObserver = () => {
+    const observer1$ = this.dirService.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.dirService.direccionGuardada.subscribe(()=>{
       this.todasLasDirecciones();
     })
 
-    this.dirService.direccionBorrada.subscribe((resp: any)=>{      
+    const observer3$ = this.dirService.direccionBorrada.subscribe(()=>{      
       this.todasLasDirecciones();   
     })
 
-    this.dirService.direccionActualizada.subscribe((resp: any) => {
+    const observer4$ = this.dirService.direccionActualizada.subscribe(() => {
       this.todasLasDirecciones();
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+   };
 
   todasLasDirecciones() {
     this.loading = true;

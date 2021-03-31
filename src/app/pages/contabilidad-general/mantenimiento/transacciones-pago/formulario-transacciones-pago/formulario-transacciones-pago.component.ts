@@ -57,6 +57,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   sFragment: string;
   opciones: any[];
   value1: string = "no";
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -65,28 +66,18 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
               private cgCatalogoServ: CgcatalogoService,
               private transaccionescxpServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
-              // private secuenciaDocumentosServ: SecuenciasService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];
                 this.crearFormulario();
   }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.setMinDate();
-    // this.secuenciaDocumentosServ.secuenciaDocumentos
-    this.forma.statusChanges.subscribe( value =>{
-      if (value === 'VALID' && this.esValido === false) {
-        this.esValido = true;
-        this.confirmationService.confirm({
-          message:"Desea afectar CUENTAS POR PAGAR?",
-          accept:() =>{ 
-            this.dialogCxp();
-            this.value1 = 'si';
-          }
-        })
-      }   
-    })
+    this.listObserver();
     
     this.transaccionsServ.autoLlenado().then((resp: any)  => {      
         resp.forEach(element => {
@@ -114,22 +105,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       //this.autollenado(resp);  
     })
 
-    this.transaccionsServ.actualizar.subscribe((resp: any) =>{
-      this.guardar = false;
-      this.actualizar = true;   
-      this.id = Number(resp);      
-      this.transaccionsServ.getDato(resp).then((res: any) => {
-         
-        
-        // this.forma.get('divisa').setValue(res.divisa);
-        // this.forma.get('simbolo').setValue(res.simbolo);
-        // this.forma.patchValue(res);
-      })
-    })    
-
-    this.catalogoEscogido();
-    this.facturaEscogida();
-
     this.cols = [
       { field: 'tipo_orden',      header: 'Tipo Orden' },
       { field: 'orden_no',        header: 'No. Orden' },
@@ -152,16 +127,53 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     ] 
   }  
 
-  // buscaSecuencia() {
-  //   const tipo = this.forma.get('tipo_doc').value;
-  //   const cuenta_no = this.forma.get('cuenta_no').value;    
-  //   if (tipo !== '' && cuenta_no !== '') {
-  //     this.secuenciaDocumentosServ.secuenciaDocumentos(tipo.ref, cuenta_no).then((resp: any) => {
-  //           
-  //       this.forma.get("documento").setValue(resp.documento)
-  //     })
-  //   }    
-  // }
+  listObserver = () => {
+    const observer1$ = this.forma.statusChanges.subscribe( value =>{
+      if (value === 'VALID' && this.esValido === false) {
+        this.esValido = true;
+        this.confirmationService.confirm({
+          message:"Desea afectar CUENTAS POR PAGAR?",
+          accept:() =>{ 
+            this.dialogCxp();
+            this.value1 = 'si';
+          }
+        })
+      }   
+    })
+
+    const observer2$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
+      resp.forEach(cuenta => {
+        if (cuenta.tipo_cuenta !== "normal") {
+          cuenta.tipo = this.forma.get('tipo_doc').value
+          cuenta.fecha = this.forma.get('fecha').value
+          // cuenta.documento = this.forma.get('documento').value;
+          cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
+
+          this.detalleCuentas.push(cuenta);
+          this.agregarFormularioDetallesCuentas(cuenta);
+        }
+      });               
+    })
+
+    const observer3$ = this.transaccionescxpServ.facturaEscogida.subscribe((resp: any) => {
+      resp.forEach(factura => {
+        factura.pendiente = Number(factura.valor) - Number (factura.pagado);
+        factura.fecha_orig = this.forma.get('fecha').value;
+        factura.cod_sp = this.forma.get('cod_sp').value;
+        factura.cod_sp_sec = this.forma.get('cod_sp_sec').value;
+        factura.moneda = this.forma.get('moneda').value.id;
+        factura.tipo_doc = this.forma.get('tipo_doc').value.ref;
+        // factura.documento = this.forma.get('documento').value;
+        
+        this.totalF += factura.valor;
+        this.totalVpen += factura.pendiente;
+        this.detalleCxp.push(factura);
+        this.agregarFormularioDetallesCXP(factura)
+      });               
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$];
+  };
 
   afectaCuentasPagar(e) {
     if (e === 'si') {
@@ -195,41 +207,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       detalle_cxp:         this.fb.array([]),
       detalle_cuentas:     this.fb.array([]),
       usuario_modificador: ['']
-    })
-  }
-
-  catalogoEscogido() {
-    this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      resp.forEach(cuenta => {
-        if (cuenta.tipo_cuenta !== "normal") {
-          cuenta.tipo = this.forma.get('tipo_doc').value
-          cuenta.fecha = this.forma.get('fecha').value
-          // cuenta.documento = this.forma.get('documento').value;
-          cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
-
-          this.detalleCuentas.push(cuenta);
-          this.agregarFormularioDetallesCuentas(cuenta);
-        }
-      });               
-    })
-  }
-
-  facturaEscogida() {
-    this.transaccionescxpServ.facturaEscogida.subscribe((resp: any) => {
-      resp.forEach(factura => {
-        factura.pendiente = Number(factura.valor) - Number(factura.pagado);
-        factura.fecha_orig = this.forma.get('fecha').value;
-        factura.cod_sp = this.forma.get('cod_sp').value;
-        factura.cod_sp_sec = this.forma.get('cod_sp_sec').value;
-        factura.moneda = this.forma.get('moneda').value.id;
-        factura.tipo_doc = this.forma.get('tipo_doc').value.ref;
-        // factura.documento = this.forma.get('documento').value;
-        
-        this.totalF += factura.valor;
-        this.totalVpen += factura.pendiente;
-        this.detalleCxp.push(factura);
-        this.agregarFormularioDetallesCXP(factura)
-      });               
     })
   }
 

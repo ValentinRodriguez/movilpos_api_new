@@ -24,11 +24,12 @@
 
         <div class="p-field p-col-12 p-md-3" *ngIf="this.cedula">
             <label for="documento">Cédula</label>
-            <span class=" p-input-icon-right">
-                <input   type="text" pInputText formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
-                       [class.ng-dirty]="getNoValido('documento')">
+            <span class=" p-input-icon-right">                
+                <p-inputMask mask="999-9999999-9" formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
+                             [class.ng-dirty]="getNoValido('documento')">
+                </p-inputMask>
+
             </span>
-            <small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
         
         <div class="p-field p-col-12 p-md-3" *ngIf="this.rnc">
@@ -102,10 +103,10 @@
                            class="multiselect-custom" (onChange)="setValue()" [class.ng-invalid]="getNoValido('id_moneda')" 
                            [class.ng-dirty]="getNoValido('id_moneda')">
                 <ng-template let-value pTemplate="selectedItems">
-                    <div class="country-item country-item-value" *ngFor="let option of selectedMulti">
+                    <div class="country-item country-item-value" *ngFor="let option of selectedMultiMoneda">
                         <div>{{option.simbolo}} {{option.divisa | titlecase}}</div>
                     </div>
-                    <div *ngIf="!selectedMulti || selectedMulti.length === 0" class="country-placeholder">
+                    <div *ngIf="!selectedMultiMoneda || selectedMultiMoneda.length === 0" class="country-placeholder">
                         Seleccione Moneda
                     </div>
                 </ng-template>
@@ -195,7 +196,7 @@
                                 </span>
     
                                 <span *ngIf="col.field === 'porciento'">
-                                    <input type="number" pInputText class="fit-input" formControlName="porciento"/>
+                                    <p-inputNumber formControlName="porciento" [min]="0" [max]="100"></p-inputNumber>
                                 </span>
                                         
                                 <span *ngIf="col.field === 'acciones'">

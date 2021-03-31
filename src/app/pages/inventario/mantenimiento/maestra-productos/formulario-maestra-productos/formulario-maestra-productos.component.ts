@@ -167,9 +167,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     })
   }
 
-  guardarProducto() {   
-    this.guardando = false;
-    console.log(this.forma);    
+  guardarProducto() {
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
@@ -177,11 +175,11 @@ export class FormularioMaestraProductosComponent implements OnInit {
       })
     }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
-        this.guardando = false; 
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
         this.resetFormulario();
       })
     }  
+    this.guardando = false;
   }
   
   actualizarProducto() {

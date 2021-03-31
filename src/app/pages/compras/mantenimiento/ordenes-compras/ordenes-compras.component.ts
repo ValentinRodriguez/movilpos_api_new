@@ -70,7 +70,7 @@ export class OrdenesComprasComponent implements OnInit {
   minDate: Date;
   selectedMulti: any[] = [];
   loading: boolean;
-  
+  listSubscribers: any = [];
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -86,8 +86,13 @@ export class OrdenesComprasComponent implements OnInit {
                 this.crearFormulario()
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.todosLasOrdenes();
+    this.listObserver();
     this.setMinDate();
     this.productosEscogidos();
     this.direccionEscogida();
@@ -154,20 +159,25 @@ export class OrdenesComprasComponent implements OnInit {
     this.datosEstaticosServ.getMetEnvios().then((resp: any) => {
       this.metodosEnv = resp;      
     })
-    
-    this.ordenServ.ordenGuardada.subscribe(resp =>{
-      this.todosLasOrdenes();
-    })
 
-    this.ordenServ.ordenBorrada.subscribe(resp =>{
-      this.todosLasOrdenes();
-    })
-
-    this.ordenServ.ordenact.subscribe(resp =>{
-      this.todosLasOrdenes();
-    })
   }
 
+  listObserver = () => {
+    
+    const observer1$ = this.ordenServ.ordenGuardada.subscribe(() =>{
+      this.todosLasOrdenes();
+    })
+
+    const observer2$ = this.ordenServ.ordenBorrada.subscribe(() =>{
+      this.todosLasOrdenes();
+    })
+
+    const observer3$ = this.ordenServ.ordenact.subscribe(() =>{
+      this.todosLasOrdenes();
+    })
+    this.listSubscribers = [observer1$,observer2$,observer3$];
+  };
+  
   autollenado(data) {
     let existe = null;
     data.forEach(element => {            
@@ -295,7 +305,7 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   guardarOrdenes(){
-    //this.guardando = true;
+    this.guardando = true;
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("total_desc").setValue(this.totalDescuento)
     this.forma.get("total_itbis").setValue(this.totalItbis)
@@ -310,16 +320,13 @@ export class OrdenesComprasComponent implements OnInit {
           control.markAllAsTouched();
         }
       })
-      this.guardando = false;
-    }else{      
-      this.guardando = false;
-      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
-      
+    }else{
+      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{      
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);
-        this.imprimirOrden(resp.data.num_oc)    
-     
+        this.imprimirOrden(resp.data.num_oc);     
       })
     }  
+    this.guardando = false;
   } 
 
   imprimirOrden(num_oc) {

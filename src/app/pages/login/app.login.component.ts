@@ -46,11 +46,6 @@ export class AppLoginComponent implements OnInit{
     this.usuarioServ.handleToken(data);
     this.router.navigateByUrl('/');
     this.guardando = false;
-    // if(data.user.isLogged === null) {
-    // } else {
-    //   this.isLoggedInMsg();
-    //   this.guardando = false;
-    // }
   }
 
   handlerError(error) {

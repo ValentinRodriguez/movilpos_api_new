@@ -134,7 +134,6 @@ export class CgcatalogoService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {
-        console.log(resp);        
         if (resp['code'] === 200) {
           resolve(resp.data);       
           this.catalogoGuardado.emit(resp.data);
@@ -160,11 +159,10 @@ export class CgcatalogoService {
         case 'nivel':
         case 'grupo':
         case 'origen':
-        case 'selectivo_consumo':
-          console.log(key);
-          
+        case 'selectivo_consumo':          
           formData[key] = cgcatalogo[key].value
           break;
+
         case 'cuenta_resultado':
           if (cgcatalogo[key] === true) {
             formData[key] = 'si';
@@ -172,6 +170,7 @@ export class CgcatalogoService {
             formData[key] = 'no';
           }
           break;
+
         case 'codigo_isr':
           formData[key] =cgcatalogo[key].id
           break;
@@ -184,7 +183,6 @@ export class CgcatalogoService {
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
-            console.log(resp);            
             if (resp['code'] === 200) {
               this.catalogoActualizado.emit( resp.data );                            
               resolve(resp);            

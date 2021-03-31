@@ -10,8 +10,9 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 })
 export class CatalogoCuentasComponent implements OnInit {
   cuentas_no = [];
-  selectedProducts = [];
+  cuentasSeleccionadas = [];
   loading: boolean;
+  
   constructor(public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private cgCatalogoServ: CgcatalogoService,
@@ -23,15 +24,15 @@ export class CatalogoCuentasComponent implements OnInit {
   
   todosLosCatalogos() {
     this.loading = true;
-    this.cgCatalogoServ.getDatosAux().then((resp: any) => {
+    this.cgCatalogoServ.getDatosAux().then((resp: any) => {      
       this.cuentas_no = resp;
       this.loading = false;
     })
   }
 
   enviarCatalogo() {
-    if (this.selectedProducts.length !== 0) {   
-      this.cgCatalogoServ.listadocatalogoEscogidos(this.selectedProducts);
+    if (this.cuentasSeleccionadas.length !== 0) {        
+      this.cgCatalogoServ.listadocatalogoEscogidos(this.cuentasSeleccionadas);
       this.ref.close();      
     } else {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe escoger al menos una cuenta');

@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
@@ -18,23 +17,22 @@ export class FacturasProveedoresComponent implements OnInit {
   facturas: any[] = [];
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+  listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private usuariosServ: UsuarioService,
               private coTransaccionesServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService,
-              @Inject(DOCUMENT) private document: Document) { 
+              private uiMessage: UiMessagesService,
+              public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.todasLasFacturas();
-
-    this.coTransaccionesServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
+    this.listObserver();
 
     this.cols = [
       { field: 'id', header: 'Código' },
@@ -50,25 +48,32 @@ export class FacturasProveedoresComponent implements OnInit {
       { field: 'retencion', header: 'Retención'},
       { field: 'acciones', header: 'Acciones' },
     ] 
-    
-    this.coTransaccionesServ.facturaGuardada.subscribe((resp: any)=>{
+  }
+
+  listObserver = () => {
+    const observer1$ = this.coTransaccionesServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.coTransaccionesServ.facturaGuardada.subscribe(()=>{
       this.todasLasFacturas();
     })
 
-    this.coTransaccionesServ.facturaBorrada.subscribe((resp: any)=>{      
+    const observer3$ = this.coTransaccionesServ.facturaBorrada.subscribe(()=>{      
       this.todasLasFacturas();   
     })
 
-    this.coTransaccionesServ.facturaAct.subscribe((resp: any) => {
+    const observer4$ = this.coTransaccionesServ.facturaAct.subscribe(() => {
       this.todasLasFacturas();
     })
-  }
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+  };
 
   todasLasFacturas() {
-    this.loading = true;
     this.coTransaccionesServ.getDatos().then((resp: any) => {      
       this.facturas = resp;
-      this.loading = false;
+      console.log(resp);      
     });
   }
   
@@ -79,7 +84,7 @@ export class FacturasProveedoresComponent implements OnInit {
 
   borrarFactura(id:number) { 
     this.confirmationService.confirm({
-      message:"Esta seguro de borrar este registro?",
+      message:"Esta seguro de anular este registro?",
       accept:() =>{ 
         this.coTransaccionesServ.borrarFactura(id).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   

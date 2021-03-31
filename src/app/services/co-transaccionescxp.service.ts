@@ -72,6 +72,17 @@ export class CoTransaccionescxpService {
     })
   }
 
+  verificaNCF(proveedor, ncf) {   
+    let params = new HttpParams().set('proveedor',proveedor).set('ncf',ncf);
+    return new Promise( resolve => {
+      this.http.get(`${URL}/transacciones-cxp/verificancf`,{params}).subscribe((resp: any) => {
+          if (resp['code'] === 200) {          
+            resolve(resp.data);            
+          }
+        })
+    })
+  }
+
   crearFactura(factura: any) {
     let data = {}
     for (const key in factura) {   
@@ -95,8 +106,11 @@ export class CoTransaccionescxpService {
           break;
       }      
     }
+    console.log(data);
+    
     return new Promise( resolve => {
       this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {  
+                     console.log(resp);
                      
           if (resp['code'] === 200) {                                      
             resolve(resp);    
@@ -142,10 +156,11 @@ export class CoTransaccionescxpService {
 
   borrarFactura(id: number) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/transacciones-cxp/${id}`)
-          .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {            
-              this.facturaBorrada.emit(id);    
+      this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {
+          console.log(resp);
+          
+          if (resp['code'] === 200) {            
+            this.facturaBorrada.emit(id);    
               resolve(resp);            
             }
           });

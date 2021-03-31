@@ -83,14 +83,11 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       this.clientes.push(resp)
     })
 
-    const observer2$ = this.transportistasServ.trasnportistaGuardado.subscribe((resp: any) =>{
-      console.log(resp);
-      
+    const observer2$ = this.transportistasServ.trasnportistaGuardado.subscribe((resp: any) =>{      
       this.transportistas.push(resp)
     })
 
     const observer3$ = this.proveedoresServ.proveedoresCreados.subscribe((resp: any) =>{
-      console.log(resp);      
       this.proveedores.push(resp)
     })
 

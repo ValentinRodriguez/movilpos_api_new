@@ -194,13 +194,12 @@ export class FormularioClientesComponent implements OnInit {
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
-    }else{      
-      this.guardando = false;
+    }else{
       this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);              
       })
     }  
+    this.guardando = false;
   } 
 
   filtrarVendedores(event) {
@@ -238,7 +237,6 @@ export class FormularioClientesComponent implements OnInit {
   }
   
   actualizarCliente() {
-    this.guardar=false;  
     this.actualizar=true;   
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
@@ -246,15 +244,12 @@ export class FormularioClientesComponent implements OnInit {
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
     }else{      
-      this.guardando = false;
-      this.clientesServ.actualizarCliente(this.id, this.forma.value).then((resp: any)=>{
-    
+      this.clientesServ.actualizarCliente(this.id, this.forma.value).then((resp: any)=>{    
         this.actualizando=false;
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
-                 
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
       })
     } 
+    this.actualizando = false;
   } 
 }
