@@ -156,10 +156,11 @@ export class CoTransaccionescxpService {
 
   borrarFactura(id: number) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/transacciones-cxp/${id}`)
-          .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {            
-              this.facturaBorrada.emit(id);    
+      this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {
+          console.log(resp);
+          
+          if (resp['code'] === 200) {            
+            this.facturaBorrada.emit(id);    
               resolve(resp);            
             }
           });

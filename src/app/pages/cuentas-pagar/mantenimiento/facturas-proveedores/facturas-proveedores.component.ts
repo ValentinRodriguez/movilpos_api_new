@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
+import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -19,6 +21,8 @@ export class FacturasProveedoresComponent implements OnInit {
 
   constructor(private usuariosServ: UsuarioService,
               private coTransaccionesServ: CoTransaccionescxpService,
+              private confirmationService: ConfirmationService,
+              private uiMessage: UiMessagesService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
@@ -79,14 +83,14 @@ export class FacturasProveedoresComponent implements OnInit {
   }
 
   borrarFactura(id:number) { 
-    // this.confirmationService.confirm({
-    //   message:"Esta seguro de borrar este registro?",
-    //   accept:() =>{ 
-    //     this.coTransaccionesServ.borrarFactura(id).then((resp: any)=>{
-    //       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
-    //     })       
-    //   }
-    // })
+    this.confirmationService.confirm({
+      message:"Esta seguro de anular este registro?",
+      accept:() =>{ 
+        this.coTransaccionesServ.borrarFactura(id).then((resp: any)=>{
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+        })       
+      }
+    })
   }
 
 }
