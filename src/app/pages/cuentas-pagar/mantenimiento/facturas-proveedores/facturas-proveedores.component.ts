@@ -1,9 +1,6 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -20,12 +17,9 @@ export class FacturasProveedoresComponent implements OnInit {
   cols: any[];
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private usuariosServ: UsuarioService,
               private coTransaccionesServ: CoTransaccionescxpService,
-              private confirmationService: ConfirmationService,
-              public dialogService: DialogService,
-              @Inject(DOCUMENT) private document: Document) { 
+              public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
   ngOnDestroy(): void {
@@ -75,6 +69,7 @@ export class FacturasProveedoresComponent implements OnInit {
   todasLasFacturas() {
     this.coTransaccionesServ.getDatos().then((resp: any) => {      
       this.facturas = resp;
+      console.log(resp);      
     });
   }
   
@@ -84,14 +79,14 @@ export class FacturasProveedoresComponent implements OnInit {
   }
 
   borrarFactura(id:number) { 
-    this.confirmationService.confirm({
-      message:"Esta seguro de borrar este registro?",
-      accept:() =>{ 
-        this.coTransaccionesServ.borrarFactura(id).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
-        })       
-      }
-    })
+    // this.confirmationService.confirm({
+    //   message:"Esta seguro de borrar este registro?",
+    //   accept:() =>{ 
+    //     this.coTransaccionesServ.borrarFactura(id).then((resp: any)=>{
+    //       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+    //     })       
+    //   }
+    // })
   }
 
 }

@@ -135,6 +135,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
    }
 
   guardarOrdenes() {
+    this.guardando = true;
     let subtotal = Number(this.totalBruto) - Number(this.totalDescuento)
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("monto_desc").setValue(this.totalDescuento)
@@ -147,14 +148,13 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
      Object.values(this.forma.controls).forEach(control =>{          
        control.markAllAsTouched();
      })
-     this.guardando = false;
    }else{      
      this.forma.value.usuario_creador = this.usuario.username;
-     this.guardando = false;
      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);       
      })
    }
+   this.guardando = false;
  }
 
  actualizarMoneda(){

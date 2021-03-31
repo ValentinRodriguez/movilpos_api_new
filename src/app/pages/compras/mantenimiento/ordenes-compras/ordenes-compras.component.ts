@@ -305,7 +305,7 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   guardarOrdenes(){
-    //this.guardando = true;
+    this.guardando = true;
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("total_desc").setValue(this.totalDescuento)
     this.forma.get("total_itbis").setValue(this.totalItbis)
@@ -320,16 +320,13 @@ export class OrdenesComprasComponent implements OnInit {
           control.markAllAsTouched();
         }
       })
-      this.guardando = false;
-    }else{      
-      this.guardando = false;
-      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
-      
+    }else{
+      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{      
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);
-        this.imprimirOrden(resp.data.num_oc)    
-     
+        this.imprimirOrden(resp.data.num_oc);     
       })
     }  
+    this.guardando = false;
   } 
 
   imprimirOrden(num_oc) {

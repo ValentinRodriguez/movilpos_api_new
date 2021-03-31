@@ -43,8 +43,7 @@ export class FormularioDepartamentosComponent implements OnInit {
   }
 
   guardarDepartamento(){
-    //this.guardando = true;
-    
+    this.guardando = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -53,25 +52,21 @@ export class FormularioDepartamentosComponent implements OnInit {
     }else{   
       switch (this.deptoExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-          this.guardando = false;
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
           break;
 
         default:
           this.departamentoServ.crearDepartamento(this.forma.value).then((resp: any)=>{
-            if (resp) {
-              this.guardando = false;
-              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-            }               
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
           })
           break;
       } 
     }
+    this.guardando = false;
   }
   
   verificaDepartamento(data){  

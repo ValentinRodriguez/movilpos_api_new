@@ -6,6 +6,7 @@
     <p-selectButton [options]="opciones" [(ngModel)]="this.itbis" optionLabel="label" optionValue="value" (onChange)="setItbis($event)"	 ></p-selectButton>	
     </div>
 </p-toolbar>
+<br>
 <form (ngSubmit)="guardarFproveedor()" [formGroup]="forma">
     <p-panel header="Facturas u Orden de compra" >
         <div class="p-fluid p-formgrid p-grid">
@@ -74,7 +75,8 @@
 
             <div class="p-field p-col-12 p-md-2">
                 <label for="cond_pago">Condiciones de Pago</label>
-                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" (onChange)="setVencimiento($event.value.descripcion)"
+                <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" 
+                            (onChange)="setVencimiento($event.value.descripcion)"
                             [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')">
                 </p-dropdown>
                 <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>
@@ -103,7 +105,7 @@
                 <label for="valor">Monto Factura</label>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">{{this.simbolo}}</span>
-                    <p-inputNumber formControlName="valor" (onBlur)="calcula($event.target.ariaValueNow)"
+                    <p-inputNumber formControlName="valor" (onBlur)="calcula()"
                                    [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')">
                     </p-inputNumber>
                 </div>
@@ -142,7 +144,7 @@
                 <label for="ncf">NCF</label>
                 <span class=" p-input-icon-right">
                     <input id="ncf" type="text" pInputText formControlName="ncf" [class.p-invalid]="getNoValido('ncf')"
-                           [class.ng-invalid]="getNoValido('ncf')" [class.ng-dirty]="getNoValido('ncf')">
+                           [class.ng-invalid]="getNoValido('ncf')" [class.ng-dirty]="getNoValido('ncf')" (blur)="verificaNCF($event.target.value)">
                 </span>
                 <small *ngIf="getNoValido('ncf')" class="p-invalid">Este campo es obligatorio.</small>
             </div>    
@@ -208,7 +210,8 @@
                 <p-toolbar>	
                     <div class="p-toolbar-group-left"></div>						
                     <div class="p-toolbar-group-right">
-                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaCuentas()"></button>	
+                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaCuentas()"
+                                [disabled]="this.montoFactura.value === ''"></button>	
                     </div>
                 </p-toolbar>
                 <br>
@@ -270,14 +273,14 @@
                                 <span *ngIf="col.field === 'debito'">
                                     <div class="p-inputgroup">
                                         <span class="p-inputgroup-addon">{{this.simbolo}}</span>
-                                        <p-inputNumber formControlName="debito" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
+                                        <p-inputNumber formControlName="debito" mode="decimal" (onBlur)="calculaTipo(rowData,i)"></p-inputNumber>
                                     </div>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
                                     <div class="p-inputgroup">
                                         <span class="p-inputgroup-addon">{{this.simbolo}}</span>                                        
-                                        <p-inputNumber formControlName="credito" (onBlur)="calculaTipo(rowData, i)"></p-inputNumber>
+                                        <p-inputNumber formControlName="credito" mode="decimal" (onBlur)="calculaTipo(rowData,i)"></p-inputNumber>
                                     </div>
                                 </span>
     

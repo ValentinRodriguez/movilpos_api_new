@@ -80,7 +80,7 @@ export class FormularioTransportistaComponent implements OnInit {
   }
 
   guardarTransportista(){
-    //this.guardando = true;
+    this.guardando = true;
          
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      

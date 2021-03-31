@@ -218,7 +218,7 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    //this.guardando = true; 
+    this.guardando = true; 
     console.log(this.forma.value);
           
     if (this.forma.invalid) {      
@@ -236,7 +236,7 @@ export class FormularioProveedoresComponent implements OnInit {
   } 
 
   actualizarProveedor(){
-    // this.actualizando = true;            
+    this.actualizando = true;            
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -249,7 +249,7 @@ export class FormularioProveedoresComponent implements OnInit {
         this.restaurarFormulario();            
       })
     } 
-    this.guardando = false;
+    this.actualizando = false;
   } 
 
 
