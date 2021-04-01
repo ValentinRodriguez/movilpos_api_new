@@ -6,8 +6,8 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="ordenes" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="num_oc" [lazy]="true" (onLazyLoad)="todosLasOrdenes()" 
-						[loading]="loading" [globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="num_oc" 
+						  [globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
 					
 						<ng-template pTemplate="caption">
 							<div class="table-header">

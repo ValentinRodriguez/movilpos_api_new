@@ -6,7 +6,7 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search" >				
 					<p-table #dt [columns]="cols" [value]="direcciones" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [lazy]="true" (onLazyLoad)="todasLasDirecciones()" [loading]="loading"
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"
 						[globalFilterFields]="['nombre','direccion_a','direccion_b','pais','ciudad','telefono','estado']">
 		
 						<ng-template pTemplate="caption">

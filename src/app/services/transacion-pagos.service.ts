@@ -91,8 +91,7 @@ export class TransacionPagosService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {
-           
-          
+          console.log(resp);
           if (resp['code'] === 200) {                                      
             resolve(resp);    
             this.transaccionGuardada.emit(resp.data);       

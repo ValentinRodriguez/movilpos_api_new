@@ -6,7 +6,7 @@
             <p-tabView orientation="left">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="condiciones" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [lazy]="true" (onLazyLoad)="todasLasCondiciones()" [loading]="loading"
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  
 						[globalFilterFields]="['descripcion','defecto','dias']">
 					
 						<ng-template pTemplate="caption">

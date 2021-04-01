@@ -263,9 +263,8 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.cuentaExiste = 3;
       return;
     }
-    let param = {'cuenta_no': data};
     this.cuentaExiste = 0;
-    this.catalogoServ.busquedaCatalogo(param).then((resp: any)=>{
+    this.catalogoServ.busquedaCatalogo(data).then((resp: any)=>{
       if (this.isControl) {
         this.cuentaAplicaExiste = 1;
         this.forma.get('aplica_a').setValue(Number(data));
@@ -283,9 +282,8 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.cuentaAplicaExiste = 3;
       return;
     }
-    let param = {'cuenta_no': data};
     this.cuentaAplicaExiste = 0;
-    this.catalogoServ.busquedaCatalogo(param).then((resp: any)=>{     
+    this.catalogoServ.busquedaCatalogo(data).then((resp: any)=>{     
       if(resp.length === 0) {
         this.cuentaAplicaExiste = 2;
       }else{

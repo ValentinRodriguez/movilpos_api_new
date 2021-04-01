@@ -37,19 +37,12 @@ export class CgcatalogoService {
     })
   }
 
-  busquedaCatalogo(parametro?: any) {
-    let params = new HttpParams();
-    if (parametro === undefined) {
-      parametro = {};
-    }
-    if (parametro.parametro === undefined || parametro.parametro === null) {
-      parametro.parametro = '';
-    }     
-    
-    params = params.append('cuenta_no',parametro.cuenta_no);    
+  busquedaCatalogo(parametro) {
+    let params = new HttpParams();    
+    params = params.append('cuenta_no',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {  
-                     
+          console.log(resp);                               
           if (resp['code'] === 200) {          
             resolve(resp.data);            
           }
@@ -57,7 +50,7 @@ export class CgcatalogoService {
     })
   }
 
-  getDatos(parametro?: any) {
+  getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/cgcatalogo`).subscribe((resp: any) => {
         if (resp['code'] === 200) {          

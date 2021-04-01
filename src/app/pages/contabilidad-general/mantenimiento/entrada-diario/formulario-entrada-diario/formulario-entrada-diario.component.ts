@@ -223,10 +223,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.cuentaExiste = 3;
       return;
     }
-    let param = {'cuenta_no': data};
-    this.cuentaExiste = 0;
-    
-    this.cuentaServices.busquedaCatalogo(param).then((resp: any)=>{
+    this.cuentaExiste = 0;    
+    this.cuentaServices.busquedaCatalogo(data).then((resp: any)=>{
       if(resp.length === 0) {
         this.cuentaExiste = 2;
       }else{

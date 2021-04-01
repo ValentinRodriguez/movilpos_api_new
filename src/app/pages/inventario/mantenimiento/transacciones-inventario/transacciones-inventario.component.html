@@ -7,8 +7,7 @@
             <p-tabView orientation="left">
                 <p-tabPanel  header="Consultar" leftIcon="pi pi-search">							
 					<p-table #dt [columns]="cols" [value]="transacciones" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="num_doc" [lazy]="true" (onLazyLoad)="todasLastransacciones()" [loading]="loading"
-            				 [globalFilterFields]="['num_doc','descripcion','condicion_recibo','fecha']">
+						     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="num_doc"  [globalFilterFields]="['num_doc','descripcion','condicion_recibo','fecha']">
 						
 						<ng-template pTemplate="caption">
 							<div class="table-header">
