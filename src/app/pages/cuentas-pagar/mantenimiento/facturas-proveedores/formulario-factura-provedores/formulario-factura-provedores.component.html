@@ -238,7 +238,7 @@
     
                     <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                         <tr [formGroupName]="i" class="p-selectable-row">	
-                            <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'  || col.field === 'acciones'}">
+                            <td *ngFor="let col of columns" [ngClass]="{'centrar': (col.field === 'imagen'  || col.field === 'acciones')}">
                                 <span class="p-column-title">{{col.header}}</span>
     
                                 <span *ngIf="col.field === 'cuenta_no'">
@@ -270,15 +270,20 @@
                                 </span>
                                         
                                 <span *ngIf="col.field === 'debito'">
-                                    <input type="number" pInputText formControlName="debito" (blur)="calcula()"/>
+                                    <input type="number" pInputText formControlName="debito" (blur)="calcula()" 
+                                           [ngClass]="{'read-only': rowData['cuenta_no'] === this.cuentaForm}"
+                                           [readonly]="rowData['cuenta_no'] === this.cuentaForm"/>
                                 </span>
     
                                 <span *ngIf="col.field === 'credito'">
-                                    <input type="number" pInputText formControlName="credito" (blur)="calcula()"/>
+                                    <input type="number" pInputText formControlName="credito" (blur)="calcula()" 
+                                           [ngClass]="{'read-only': rowData['cuenta_no'] === this.cuentaForm}"
+                                           [readonly]="rowData['cuenta_no'] === this.cuentaForm"/>
                                 </span>
     
                                 <span *ngIf="col.field === 'acciones'">
-                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCatEscogido(i)"></button>
+                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" 
+                                            (click)="borrarCatEscogido(i)" [disabled]="rowData['cuenta_no'] === this.cuentaForm"></button>
                                 </span>
                             </td>											
                         </tr>

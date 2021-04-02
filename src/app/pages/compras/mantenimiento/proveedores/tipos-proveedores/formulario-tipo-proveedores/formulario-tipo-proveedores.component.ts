@@ -74,7 +74,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   }
 
   guardarTproveedor(){
-    // this.guardando = true;    
+    this.guardando = true;    
      
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -94,6 +94,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
         default:
           this.tipoProveedorServ.crearTproveedor(this.forma.value).then((resp: any)=>{
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.resetFormulario();
           })
           break;
       } 
@@ -130,7 +131,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   }
 
   actualizarTproveedor() {
-    //this.actualizando = true;
+    this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -148,13 +149,16 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.tipoProveedorServ.guardando();
+  }
+
+  resetFormulario() {
     this.forma.get('descripcion').reset();
     this.forma.get('cuenta_no').reset();
-    this.tipoProveedorServ.guardando();
   }
 
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
-
 }

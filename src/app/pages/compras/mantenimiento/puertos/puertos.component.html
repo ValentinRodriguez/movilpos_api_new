@@ -6,8 +6,7 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search" >				
 					<p-table #dt [columns]="cols" [value]="puerto" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [lazy]="true" (onLazyLoad)="todosLospuertos()" [loading]="loading"
-						[globalFilterFields]="['id','descripcion','dias']">
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['id','descripcion','dias']">
 		
 						<ng-template pTemplate="caption">
 							<div class="table-header">

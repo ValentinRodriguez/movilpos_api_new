@@ -28,7 +28,7 @@
                 <p-inputMask mask="999-9999999-9" formControlName="documento" [class.ng-invalid]="getNoValido('documento')" 
                              [class.ng-dirty]="getNoValido('documento')">
                 </p-inputMask>
-
+                <small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
             </span>
         </div>
         
@@ -186,8 +186,8 @@
                     </ng-template>
     
                     <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                        <tr [formGroupName]="i" class="p-selectable-row">							
-                            <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'acciones'}">
+                        <tr [formGroupName]="i" class="p-selectable-row" [ngClass]="{'disable': rowData['cuenta_no'] === this.cuentaForm.value }">							
+                            <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'acciones', 'disable': rowData['cuenta_no'] === this.cuentaForm.value }">
                                 <span class="p-column-title">{{col.header}}</span>	
     
                                 <span *ngIf="col.field === 'descripcion' || col.field === 'origen' || 
@@ -196,11 +196,16 @@
                                 </span>
     
                                 <span *ngIf="col.field === 'porciento'">
-                                    <p-inputNumber formControlName="porciento" [min]="0" [max]="100"></p-inputNumber>
+                                    <input type="number" pInputText formControlName="porciento" [readonly]="rowData['cuenta_no'] === this.cuentaForm.value"
+                                           [ngClass]="{'read-only': rowData['cuenta_no'] === this.cuentaForm.value }" [class.ng-invalid]="getNoValidoArray('porciento', i)" 
+                                           [class.ng-dirty]="getNoValidoArray('porciento', i)"/>
+                                    <small *ngIf="getNoValidoArray('porciento', i)" class="p-invalid">Este campo es obligatorio.</small>
                                 </span>
                                         
                                 <span *ngIf="col.field === 'acciones'">
-                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCatEscogido(i, rowData)"></button>
+                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" 
+                                            (click)="borrarCatEscogido(i)" [disabled]="rowData['cuenta_no'] === this.cuentaForm.value">
+                                    </button>
                                 </span>
                             </td>								
                         </tr>
@@ -224,7 +229,7 @@
             </div>
         </p-panel>      
     </div>
-
+    <br>
     <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
     <button *ngIf="this.guardando && this.guardar" pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" type="button" disabled="true"></button>
 
