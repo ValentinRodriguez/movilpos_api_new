@@ -78,10 +78,6 @@ export class ProveedoresService {
     })
   }
 
-  listadoProveedoresEscogidos(proveedores: any) {
-    this.proveedorEscogido.emit(proveedores);
-  }
-
   crearProveedor(provee: any) {
     let data = {}
       for(let key in provee){         
@@ -168,6 +164,49 @@ export class ProveedoresService {
     })
   }
 
+  reporteCatalogoProveedores(provee: any) {
+    console.log(provee);
+    
+    let data = {}
+      for(let key in provee){         
+        switch (key) {
+          case 'cod_sp':
+          case 'cond_pago':
+          case 'id_ciudad':
+          case 'id_pais':            
+            data[key] = provee[key].id  || "";          
+          break;
+
+          case 'tipo_doc':            
+              data[key] = provee[key].tipo_documento || "";          
+          break;
+      
+          case 'id_moneda':    
+            if (provee[key] === "") {
+              data[key] = provee[key];               
+            }else{
+              data[key] = JSON.stringify(provee[key])              
+            }        
+          break;
+
+          default:
+            data[key] = provee[key]
+            break;
+        }
+      }       
+      console.log(data);
+      return new Promise( resolve => {
+        this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {  
+            console.log(resp);
+                                       
+            if (resp['code'] === 200) {    
+              this.proveedoresCreados.emit( resp.data );                                   
+              resolve(resp.data);       
+            }
+        });
+      }); 
+  }
+
   actualizando(cod_sp:number, cod_sp_sec:number) {
     const data = [cod_sp, cod_sp_sec]
     this.actualizar.emit(data);
@@ -177,4 +216,7 @@ export class ProveedoresService {
     this.guardar.emit(0);
   }
     
+  listadoProveedoresEscogidos(proveedores: any) {
+    this.proveedorEscogido.emit(proveedores);
+  }
 }

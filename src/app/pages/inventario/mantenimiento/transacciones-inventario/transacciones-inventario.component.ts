@@ -63,11 +63,7 @@ export class TransaccionesInventarioComponent implements OnInit {
   }
   
   imprimirTransaccion(num_doc) { 
-    const link = this.document.createElement('a');
-    link.target = '_blank';
-    link.href = `${URL}/reporte/invtransacciones-visualizar/${num_doc}/${this.usuario.id}`;
-    link.click();
-    link.remove();
+ 
   }  
 
   actualizarTransaccion() {

@@ -72,6 +72,7 @@ import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimien
 import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
 import { TransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/transacciones-pago.component';
 import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimiento/facturas-proveedores/facturas-proveedores.component';
+import { CatalogoProveedoresComponent } from './pages/compras/reportes/catalogo-proveedores/catalogo-proveedores.component';
 
 @NgModule({
     imports: [
@@ -119,7 +120,8 @@ import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimient
                     {path: 'gestion-de-puertos', component: PuertosComponent},
                     {path: 'gestion-direcciones-envio', component: DireccionesEnvioComponent},
                     {path: 'gestion-factura-proveedores', component: FacturasProveedoresComponent},
-
+                    {path: 'catalogo-de-proveedores', component: CatalogoProveedoresComponent},
+                    
                     //RRHH
                     {path: 'gestion-de-empleados', component: GestionEmpleadosComponent},
                     {path: 'gestion-de-departamentos', component: DepartamentosComponent},
