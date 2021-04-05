@@ -26,6 +26,8 @@
         "@fullcalendar/timegrid": "4.0.1",
         "@kamiazya/ngx-speech-recognition": "^0.4.3",
         "chart.js": "2.9.4",
+        "jspdf": "^2.3.1",
+        "jspdf-autotable": "^3.5.14",
         "lodash-es": "^4.17.20",
         "primeflex": "2.0.0",
         "primeicons": "4.1.0",

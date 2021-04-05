@@ -72,8 +72,7 @@ export class FacturasProveedoresComponent implements OnInit {
 
   todasLasFacturas() {
     this.coTransaccionesServ.getDatos().then((resp: any) => {      
-      this.facturas = resp;
-      console.log(resp);      
+      this.facturas = resp;  
     });
   }
   

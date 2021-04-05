@@ -434,44 +434,35 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
           const porciento = Number(((this.cuentas_no).at(index) as FormGroup).get("porciento").value);
           ((this.cuentas_no).at(0) as FormGroup).get("credito").setValue(this.montoFactura.value);
-          
+          console.log(element.descripcion+'-'+porciento);
           if (porciento !== 0) {
             itbis = Math.round(this.montoFactura.value - (this.montoFactura.value / ( (porciento/100) + 1) ));    
             if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {
-              itbis = Number(((this.cuentas_no).at(index) as FormGroup).get("debito").value);
+              itbis = Number(((this.cuentas_no).at(index) as FormGroup).get("porciento").value);
+              this.forma.get('monto_itbi').setValue(itbis);
               ((this.cuentas_no).at(index) as FormGroup).get("debito").setValue(itbis);
             }
-            
+            console.log(element.descripcion+'-'+itbis);  
             if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {         
               retencion = (porciento / 100) * itbis;                        
               // this.forma.get('retencion').setValue(retencion);                  
-              ((this.cuentas_no).at(index) as FormGroup).get("credito").setValue(retencion);       
-               
+              ((this.cuentas_no).at(index) as FormGroup).get("credito").setValue(retencion);   
             } 
-          }else{
+          }else{            
             if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {            
               itbis = Number(((this.cuentas_no).at(index) as FormGroup).get("debito").value);
-              console.log(itbis);              
+              this.forma.get('monto_itbi').setValue(itbis)
             }
-            
+            console.log(element.descripcion+'-'+itbis);              
+            console.log(element.descripcion+'-'+porciento);
             if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {         
               retencion = Number(((this.cuentas_no).at(index) as FormGroup).get("credito").value); 
               ((this.cuentas_no).at(index) as FormGroup).get("debito").disable();           
             } 
           }
-          console.log(itbis);
-          this.forma.get('monto_itbi').setValue(itbis)
+          console.log(element.descripcion+'-'+itbis);          
           this.forma.get('retencion').setValue(retencion);    
-          ((this.cuentas_no).at(0) as FormGroup).get("credito").setValue(this.montoFactura.value - retencion); 
-          // ((this.cuentas_no).at(index) as FormGroup).get("debito").disable();
-
-          if (element.tipo_cuenta === 'bienes') {       
-            this.forma.get('bienes').setValue(this.calculaTotalTipo(this.cuentas_no.value, 'bienes'))
-          }
-
-          if (element.tipo_cuenta === 'servicios') {       
-            this.forma.get('servicios').setValue(this.calculaTotalTipo(this.cuentas_no.value, 'servicios'))
-          }
+          ((this.cuentas_no).at(0) as FormGroup).get("credito").setValue(this.montoFactura.value - retencion);
           index++;
           
           this.calculaTotal(this.cuentas_no.value)
@@ -480,19 +471,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         this.forma.get('monto_itbi').setValue(0);
       }      
     }
-  }
-
-  calculaTotalTipo(data, tipo) {
-    let totalD = 0;
-    let totalC = 0;
-    
-    data.forEach((element:any) => {
-      if (element.tipo_cuenta === tipo) {        
-        totalD += element.debito;        
-        totalC += element.credito;   
-      }
-    });    
-    return Number(totalD) + Number(totalC);
   }
 
   calculaTotal(data) {

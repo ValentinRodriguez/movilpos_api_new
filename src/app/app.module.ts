@@ -254,6 +254,7 @@ import { StepFacturaProvedoresComponent } from './pages/cuentas-pagar/mantenimie
 
 import { SecuenciasService } from "./services/secuencias.service";
 import { DgiiService } from "./services/dgii.service";
+import { CatalogoProveedoresComponent } from './pages/compras/reportes/catalogo-proveedores/catalogo-proveedores.component';
 
 @NgModule({
     imports: [
@@ -449,7 +450,8 @@ import { DgiiService } from "./services/dgii.service";
         StepTransaccionesPagoComponent,
         FacturasProveedoresComponent,
         FormularioFacturaProvedoresComponent,
-        StepFacturaProvedoresComponent
+        StepFacturaProvedoresComponent,
+        CatalogoProveedoresComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
