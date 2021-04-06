@@ -5,6 +5,7 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 
 @Component({
   selector: 'app-catalogo-proveedores',
@@ -27,12 +28,13 @@ export class CatalogoProveedoresComponent implements OnInit {
   selectedProducts: [];
   cols: any[];
   exportColumns: any[];
-  proveedores: any[];
+  proveedores: any[] = [];
 
   constructor(private proveedoresServ:ProveedoresService,
               private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
-              private paisesCiudadesServ: PaisesCiudadesService) { 
+              private paisesCiudadesServ: PaisesCiudadesService,
+              private datosEstaticos: DatosEstaticosService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.crearFormulario()
               }
@@ -136,21 +138,33 @@ export class CatalogoProveedoresComponent implements OnInit {
 
   exportPdf() {
     const doc = new jsPDF('p', 'mm', 'a4');
-
-    const columns = [['First Column', 'Second Column', 'Third Column']];
-    const data = [
-    ['Data 1', 'Data 2', 'Data 3'],
-    ['Data 1', 'Data 2', 'Data 3']
-    ];
-    
-     autoTable(doc, {
-          head: columns,
-          body: data,
-          didDrawPage: (dataArg) => { 
-           doc.text('PAGE', dataArg.settings.margin.left, 10);
-          }
+    autoTable(doc, {
+        head: this.headRows(),
+        body: this.bodyRows(this.proveedores),
+        didDrawPage: (dataArg) => { 
+          doc.text('PAGE', dataArg.settings.margin.left, 10);
+        }
      }); 
     
-    doc.save('table.pdf');
+    doc.save('catalogo-proveedores.pdf');
+  }
+
+  headRows() {
+    return [{ nom_sp: 'Nombre', dir_sp: 'Dirección', tel_sp: 'Teléfono', email: 'Email', cont_sp: 'Contacto', condicion_pago: 'Condición Pago' }]
+  }
+
+  bodyRows(data) {
+    var body = []
+    data.forEach(element => {
+      body.push({
+        nom_sp: this.datosEstaticos.capitalizeFirstLetter(element.nom_sp),
+        dir_sp: element.dir_sp,
+        tel_sp: element.tel_sp,
+        email: element.email,
+        cont_sp: this.datosEstaticos.capitalizeFirstLetter(element.cont_sp),
+        condicion_pago: element.condicion_pago
+      })      
+    });
+    return body
   }
 }
