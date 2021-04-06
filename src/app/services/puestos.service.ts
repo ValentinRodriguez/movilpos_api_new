@@ -57,8 +57,7 @@ export class PuestosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {
-         
+      this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {         
         if (resp['code'] === 200) {                                      
           resolve(resp);    
           this.puestoGuardada.emit(resp.data);       

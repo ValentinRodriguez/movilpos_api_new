@@ -22,6 +22,17 @@ export class RrhhService {
     })
   }
 
+  getBancos() {
+    return new Promise( resolve => {
+        this.http.get(`${URL}/bancos`).subscribe((resp: any) => {
+          console.log(resp);
+          if (resp['code'] === 200) {        
+            resolve(resp.data);            
+          }
+      })
+    })
+  }
+
   autoLlenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/empleados`).subscribe((resp: any) => {

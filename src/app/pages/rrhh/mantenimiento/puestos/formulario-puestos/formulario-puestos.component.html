@@ -3,18 +3,20 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="titulo">Título</label>
             <span class=" p-input-icon-right">
-                <input   type="text" pInputText formControlName="titulo" [class.p-invalid]="getNoValido('titulo')"
-                       (keyup)="verificaPuesto($event.target.value)">
+                <input type="text" pInputText formControlName="titulo" [class.ng-invalid]="getNoValido('titulo')" 
+                       [class.ng-dirty]="getNoValido('titulo')" (keyup)="verificaPuesto($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="puestoExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="puestoExiste === 1" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="puestoExiste === 2" style="color:#d83131"></i>
                 <i class="pi pi-file-o" *ngIf="puestoExiste === 3"></i>
             </span>
+            <small *ngIf="getNoValido('titulo')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-2">
             <label for="sueldo_inicial">Sueldo Inicial</label>
-            <p-inputNumber inputId="sueldo_inicial" mode="decimal" name="sueldo_inicial" formControlName="sueldo_inicial">
+            <p-inputNumber inputId="sueldo_inicial" mode="decimal" name="sueldo_inicial" formControlName="sueldo_inicial" 
+                           [class.ng-invalid]="getNoValido('titulo')" [class.ng-dirty]="getNoValido('titulo')">
             </p-inputNumber>
             <small *ngIf="getNoValido('sueldo_inicial')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -23,12 +25,11 @@
             <label for="sueldo_actual">Sueldo Final</label>
             <p-inputNumber inputId="sueldo_actual" mode="decimal" name="sueldo_actual" formControlName="sueldo_actual">
             </p-inputNumber>
-            <small *ngIf="getNoValido('sueldo_actual')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12">
             <label for="descripcion">Descripción</label>
-            <textarea   type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"></textarea>
+            <textarea type="text" rows="4" pInputTextarea name="descripcion" formControlName="descripcion"></textarea>
             <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>

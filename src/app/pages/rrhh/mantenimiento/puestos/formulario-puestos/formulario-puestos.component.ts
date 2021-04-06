@@ -34,8 +34,7 @@ export class FormularioPuestosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.puestosServ.getDato(resp).then((res: any) => {
-         
+      this.puestosServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
       })
     })
@@ -46,7 +45,7 @@ export class FormularioPuestosComponent implements OnInit {
       titulo:              ['', Validators.required],
       descripcion:         ['', Validators.required],
       sueldo_inicial:      ['', Validators.required],
-      sueldo_actual:       ['', Validators.required],
+      sueldo_actual:       [''],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
@@ -73,6 +72,7 @@ export class FormularioPuestosComponent implements OnInit {
         default:
           this.puestosServ.crearPuesto(this.forma.value).then((resp: any)=>{
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.resetFormulario();
           })
           break;
       } 
@@ -96,7 +96,7 @@ export class FormularioPuestosComponent implements OnInit {
     })
   }
 
-  actualizarMoneda(){
+  actualizarPuesto(){
     //this.actualizando = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
@@ -108,6 +108,7 @@ export class FormularioPuestosComponent implements OnInit {
       this.puestosServ.actualizarPuesto(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
         this.actualizando = false;
+        this.resetFormulario();
       })
     }
   }
@@ -115,12 +116,15 @@ export class FormularioPuestosComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.resetFormulario();
     this.puestosServ.guardando();    
   }
 
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
