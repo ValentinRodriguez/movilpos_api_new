@@ -2173,7 +2173,7 @@
   /*#__PURE__*/
   function () {
     function Library() {
-      _classCallCheck(this, Library);
+      _classCallCheck( Library);
 
       this.definitions = {};
     }

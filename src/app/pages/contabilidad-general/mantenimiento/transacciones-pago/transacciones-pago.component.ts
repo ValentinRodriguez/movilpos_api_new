@@ -17,7 +17,8 @@ export class TransaccionesPagoComponent implements OnInit {
   cuentas: any[] = [];
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
@@ -60,7 +61,11 @@ export class TransaccionesPagoComponent implements OnInit {
       this.todasLasCuentas();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.cgTransaccionesServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
    };
 
   todasLasCuentas() {

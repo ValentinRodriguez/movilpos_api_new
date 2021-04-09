@@ -10,13 +10,15 @@ export class DepartamentosService {
   departamentoEscogido = new EventEmitter();
   departamentoBorrado = new EventEmitter();
   departamentoAct= new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/departamentos`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -26,7 +28,8 @@ export class DepartamentosService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {    
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -42,7 +45,8 @@ export class DepartamentosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/departamentos`, formData).subscribe( resp => {  
              
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.departamentoEscogido.emit( resp );                                   
             resolve(resp);       
           }
@@ -61,7 +65,8 @@ export class DepartamentosService {
       this.http.put(`${ URL }/departamentos/${id}`, departamento)
           .subscribe( (resp: any) => {                                      
              
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.departamentoAct.emit( resp.data );                            
               resolve(resp);            
             }
@@ -73,7 +78,8 @@ export class DepartamentosService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/departamentos/${id}`)
           .subscribe( (resp: any) => {                                         
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.departamentoBorrado.emit(id);    
               resolve(resp);            
             }
@@ -94,7 +100,8 @@ export class DepartamentosService {
 
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/departamentos', {params}).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })

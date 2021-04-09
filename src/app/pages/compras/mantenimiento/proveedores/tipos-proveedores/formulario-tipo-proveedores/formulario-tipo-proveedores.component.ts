@@ -22,6 +22,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   cuenta_no: any[] = [];
   cuentasFiltradas: any[] = [];
   id: number;
+    formSubmitted = false;
   listSubscribers: any = [];
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -60,7 +61,11 @@ export class FormularioTipoProveedoresComponent implements OnInit {
       })
     })
 
-    this.listSubscribers = [observer1$,observer3$];
+    const observer5$ = this.tipoProveedorServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer3$];
   };
 
   crearFormulario() {
@@ -74,7 +79,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   }
 
   guardarTproveedor(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
      
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -99,7 +104,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaTproveedor(data){  
@@ -131,7 +136,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   }
 
   actualizarTproveedor() {
-    this.actualizando = true;
+    this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -141,7 +146,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
     }else{ 
       this.tipoProveedorServ.actualizarProveedor(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

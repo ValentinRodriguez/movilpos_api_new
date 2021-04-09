@@ -12,6 +12,7 @@ export class PuertosService {
   puertoActualizada = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
@@ -20,7 +21,8 @@ export class PuertosService {
     params = params.append('puerto',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/puerto', {params}).subscribe((resp: any) => { 
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -30,7 +32,8 @@ export class PuertosService {
   getDatos() {
     return new Promise( resolve => {
       return this.http.get(`${URL}/puertos`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -40,7 +43,8 @@ export class PuertosService {
   getDato(id) {
     return new Promise( resolve => {
       return this.http.get(`${URL}/puertos/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -57,7 +61,8 @@ export class PuertosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/puertos`, formData)
           .subscribe( (resp:any) => {
-          if (resp['code'] === 200) {                                      
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
             resolve(resp);    
             this.puertoGuardada.emit( resp.data );       
           }
@@ -69,7 +74,8 @@ export class PuertosService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/puertos/${id}`, puerto)
           .subscribe( (resp: any) => { 
-            if (resp['code'] === 200) {                  
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                  
               this.puertoActualizada.emit( resp.data );                            
               resolve(resp);            
             }
@@ -81,7 +87,8 @@ export class PuertosService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/puertos/${id}`)
           .subscribe( (resp: any) => {                             
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.puertoBorrada.emit(id);    
               resolve(resp);            
             } else {

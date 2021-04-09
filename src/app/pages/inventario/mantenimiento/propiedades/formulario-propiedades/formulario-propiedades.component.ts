@@ -15,6 +15,10 @@ export class FormularioPropiedadesComponent implements OnInit {
   usuario: any;
   guardando = false;
   propiedadExiste = 3;
+  formSubmitted = false;
+  guardar = true;
+  actualizar = false;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -24,8 +28,21 @@ export class FormularioPropiedadesComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
   }
+
+  ngOnInit(): void {
+    this.listObserver();
+  }
+
+  listObserver = () => {
+    const observer1$ = this.propiedadServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$];
+   };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -36,7 +53,7 @@ export class FormularioPropiedadesComponent implements OnInit {
   }
 
   guardarPropiedad(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -60,7 +77,7 @@ export class FormularioPropiedadesComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaPropiedad(data){  

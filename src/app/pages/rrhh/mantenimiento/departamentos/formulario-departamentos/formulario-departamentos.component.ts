@@ -15,7 +15,8 @@ export class FormularioDepartamentosComponent implements OnInit {
   usuario: any;
   guardando = false;
   deptoExiste = 3;
-
+  formSubmitted = false;
+  
   tipo = [
     {label: 'Producción', value: 'produccion'},
     {label: 'Administración', value: 'administracion'},
@@ -43,7 +44,7 @@ export class FormularioDepartamentosComponent implements OnInit {
   }
 
   guardarDepartamento(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -66,7 +67,7 @@ export class FormularioDepartamentosComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaDepartamento(data){  

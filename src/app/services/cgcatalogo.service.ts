@@ -15,7 +15,8 @@ export class CgcatalogoService {
   catalogoGuardado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   busqueda(parametro?: any) {
@@ -30,7 +31,8 @@ export class CgcatalogoService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {
                      
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -43,7 +45,8 @@ export class CgcatalogoService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {  
           console.log(resp);                               
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -53,7 +56,8 @@ export class CgcatalogoService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/cgcatalogo`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -63,7 +67,8 @@ export class CgcatalogoService {
   getDatosAux() {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -73,7 +78,8 @@ export class CgcatalogoService {
   codigosRetencion() {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/codigos-retencion`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -83,7 +89,8 @@ export class CgcatalogoService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/cgcatalogo/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -127,7 +134,8 @@ export class CgcatalogoService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200) {
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
           resolve(resp.data);       
           this.catalogoGuardado.emit(resp.data);
         }
@@ -176,7 +184,8 @@ export class CgcatalogoService {
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.catalogoActualizado.emit( resp.data );                            
               resolve(resp);            
             }
@@ -188,7 +197,8 @@ export class CgcatalogoService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/cgcatalogo/${id}`)
           .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.catalogoBorrado.emit(id);    
               resolve(resp);            
             }

@@ -28,6 +28,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   id: number;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   sino = [
@@ -76,26 +77,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.forma.get('aplica_a').disable();
 
-    this.catalogoServ.actualizar.subscribe((resp: any) =>{
-      this.guardar = false;
-      this.actualizar = true;   
-      this.id = Number(resp);      
-      this.catalogoServ.getDato(resp).then((res: any) => {         
-        this.forma.patchValue(res);
-        this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
-        this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
-        this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
-        this.forma.get('codigo_isr').setValue(this.codigosRetencion.find(codigo => codigo.codigo_isr == res.codigo_isr));
-        this.forma.get('tipo_cuenta').setValue(this.tipo_cuenta.find(tipo_cuenta => tipo_cuenta.value === res.tipo_cuenta));
-        this.forma.get('analitico').setValue(this.sino.find(sino => sino.value === res.analitico));
-        this.forma.get('catalogo').setValue(this.sino.find(sino => sino.value === res.catalogo));
-        this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
-        this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
-        this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
-        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
-      })
-    })
-
     this.catalogoServ.codigosRetencion().then((resp: any) => {
       this.codigosRetencion = resp;
     })
@@ -126,7 +107,31 @@ export class FormularioCgcatalogoComponent implements OnInit {
       })
     })
 
-    this.listSubscribers = [observer1$];
+    const observer5$ = this.catalogoServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    const observer2$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;   
+      this.id = Number(resp);      
+      this.catalogoServ.getDato(resp).then((res: any) => {         
+        this.forma.patchValue(res);
+        this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
+        this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
+        this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
+        this.forma.get('codigo_isr').setValue(this.codigosRetencion.find(codigo => codigo.codigo_isr == res.codigo_isr));
+        this.forma.get('tipo_cuenta').setValue(this.tipo_cuenta.find(tipo_cuenta => tipo_cuenta.value === res.tipo_cuenta));
+        this.forma.get('analitico').setValue(this.sino.find(sino => sino.value === res.analitico));
+        this.forma.get('catalogo').setValue(this.sino.find(sino => sino.value === res.catalogo));
+        this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
+        this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
+        this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
+        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
+      })
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$];
   };
 
   crearFormulario() {
@@ -158,7 +163,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   guardarCatalogo(){
-    this.guardando = true;
+    this.formSubmitted = true;
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -184,11 +189,11 @@ export class FormularioCgcatalogoComponent implements OnInit {
       } 
     }
     console.log(this.guardando);    
-    this.guardando = false;
+     
   }
   
   ActualizarCatalogo(){
-    // this.actualizando = true;    
+    // this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -198,19 +203,19 @@ export class FormularioCgcatalogoComponent implements OnInit {
       switch (this.descripExiste) {
         case 0:
           this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-          this.actualizando = false;
+           
           break;
 
         case 2:
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-          this.actualizando = false;
+           
           break;
 
         default:
           this.forma.get('usuario_modificador').setValue(this.usuario.username);
           this.catalogoServ.actualizarCatalogo(this.id, this.forma.value).then(()=>{
             this.resetFormulario();
-            this.actualizando = false;
+             
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");           
           })
           break;

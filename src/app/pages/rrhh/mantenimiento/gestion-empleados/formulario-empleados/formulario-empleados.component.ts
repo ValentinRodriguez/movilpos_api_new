@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { PuestosService } from 'src/app/services/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -34,6 +35,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   supervisoresFiltrados: any[];
   departamento: any[] = [];
   supervisores: any[] = [];
+  bancos: any[] = [];
 
   educacion = [
     { label: 'ninguna', value: 'Ninguna' },
@@ -50,6 +52,14 @@ export class FormularioEmpleadosComponent implements OnInit {
     { label: 'Soltero/a', value: 'soltero'},
     { label: 'Casado/a', value: 'casado'},
     { label: 'Divorciado/a', value: 'divorciado'},
+    { label: 'Viudo/a', value: 'viudo'},
+    { label: 'Union Libre', value: 'union-libre'}
+  ] 
+
+  tipo_empleado = [
+    { label: 'Fijo', value: 'fijo'},
+    { label: 'Temporal', value: 'temporal'},
+    { label: 'Contratista', value: 'contratista'},
     { label: 'Viudo/a', value: 'viudo'},
     { label: 'Union Libre', value: 'union-libre'}
   ] 
@@ -92,13 +102,20 @@ export class FormularioEmpleadosComponent implements OnInit {
     { label: 'nocturno', value:'Nocturno'},
     { label: 'rotativo', value:'Rotativo'},
   ] 
-  
+
+    formSubmitted = false;
+  listSubscribers: any = [];
+
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,           
               public dialogService: DialogService,
+              private puestosServ: PuestosService,
               private datosEstaticosServ: DatosEstaticosService) {     
     this.usuario = this.usuariosServ.getUserLogged();
     this.crearFormulario();
@@ -107,7 +124,9 @@ export class FormularioEmpleadosComponent implements OnInit {
   ngOnInit(): void {
     this.setMinDate();
     this.rangoAnio();
-
+    this.listObserver();
+    this.getBancos();
+    
     this.empleadosServ.autoLlenado().then((resp: any) => {
       resp.forEach(element => {
         switch (element.label) {
@@ -139,6 +158,23 @@ export class FormularioEmpleadosComponent implements OnInit {
     })
   }
   
+  listObserver = () => {
+    const observer1$ = this.puestosServ.puestoGuardada.subscribe((resp: any)=>{
+      this.puestos.push(resp);
+    })
+
+    const observer5$ = this.puestosServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer5$];
+  };
+
+  getBancos() {
+    this.empleadosServ.getBancos().then((resp: any) =>{
+      this.bancos = resp;
+    })
+  }
   rangoAnio() {
     const today = new Date();
     const date = today.getFullYear();
@@ -164,17 +200,19 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    this.guardando = true;    
+    // this.formSubmitted = true;    
+    console.log(this.forma);    
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
+       
     }else{ 
-      this.empleadosServ.crearEmpleado(this.forma.value).then((resp: any) => {
+      this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Empleado creado de manera correcta');        
       })
+       
     } 
   }
   
@@ -201,48 +239,48 @@ export class FormularioEmpleadosComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({      
       foto_empleado: [""],
-      nom1_emp: ["valentin"],
+      nom1_emp: ["valentin", Validators.required],
       nom2_emp: ["antonio"],
-      apell1_emp: ["rodriguez"],
+      apell1_emp: ["rodriguez", Validators.required],
       apell2_emp: ["martinez"],      
-      cedula: ["22500192319"],
-      telefono: ["(809)-859-8542"],
+      cedula: ["22500192319", Validators.required],
+      telefono: ["(809)-859-8542", Validators.required],
       email: ["asdad@dfdf.com"],
       licencia: ["234234"],
       cod_tss: ["234234"],
       nomina: ["23"],
-      sueldo_ac: ["ssdfsfd"],
+      sueldo_ac: ["ssdfsfd", Validators.required],
       tasa: ["2323"], //
       cuenta_fi: ["2323"],
       codigo_es: ["234234"], //
       codigo_retiro_bco: ["345435"],
       cuenta_no: ["234"],
-      calle: ["asdads"],
-      casa_num: ["67"],
-      barrio: ["zfzxfsadf"],
-      urbanizacion: ["asdfadsfasdf"],
-      is_sup: [""],
-      departamento: [""],
-      cod_puesto: [""],
-      nivel_emp: [""],
-      educacion: [""], //
+      calle: ["asdads", Validators.required],
+      casa_num: ["67", Validators.required],
+      barrio: ["zfzxfsadf", Validators.required],
+      urbanizacion: ["asdfadsfasdf", Validators.required],
+      is_sup: ["", Validators.required],
+      departamento: ["", Validators.required],
+      cod_puesto: ["", Validators.required],
+      nivel_emp: ["", Validators.required],
+      educacion: ["", Validators.required], //
       num_emp_supervisor: [""],
 
-      fech_nac: [""],
-      id_pais: [""],
+      fech_nac: ["", Validators.required],
+      id_pais: ["", Validators.required],
       cod_nac: [""],
-      estado_civil: [""],
+      estado_civil: ["", Validators.required],
       tipo_sangre: [""],
-      fech_efec: [""],
-      paga_seg: [""],
-      tipo_sueldo: [""],
+      fech_efec: ["", Validators.required],
+      paga_seg: ["", Validators.required],
+      tipo_sueldo: ["", Validators.required],
       
       observacion: [""],  
       credito: [""],
-      sucid: [""],
-      sexo: [""], //
-      poncha: [""], //
-      moneda: [""],
+      sucid: ["", Validators.required],
+      sexo: ["", Validators.required], //
+      poncha: ["", Validators.required], //
+      moneda: ["", Validators.required],
       fecha_salida: [""],
       tipocuenta: [""],
       codbancodestino: [""],
@@ -251,10 +289,10 @@ export class FormularioEmpleadosComponent implements OnInit {
       fecha_ultimo_aumento: [""],
       fecha_termino_c: [""],
       
-      tipo_empleado: [""],
-      horario: [""],
-      horario_inicial: [""],
-      horario_final: [""],
+      tipo_empleado: ["", Validators.required],
+      horario: ["", Validators.required],
+      horario_inicial: ["", Validators.required],
+      horario_final: ["", Validators.required],
       serie: [""],
       cod_seg1: [""],
       cod_seg2: [""],
@@ -346,9 +384,7 @@ export class FormularioEmpleadosComponent implements OnInit {
 
   buscaSupervisor(id:string) {
     this.empleadosServ.buscaSupervisores(id).then((resp: any) => {
-      this.supervisores = resp;     
-       
-      
+      this.supervisores = resp;
     })
   }
 

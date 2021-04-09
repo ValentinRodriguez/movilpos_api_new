@@ -18,7 +18,7 @@ export class FormularioCotizacionesComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   monedaExiste = 3;
-  
+  formSubmitted = false;
   id: number;
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -54,7 +54,7 @@ export class FormularioCotizacionesComponent implements OnInit {
   }
 
   guardarMoneda(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -77,7 +77,7 @@ export class FormularioCotizacionesComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaMoneda(data){  
@@ -97,7 +97,7 @@ export class FormularioCotizacionesComponent implements OnInit {
   }
 
   actualizarMoneda(){
-    //this.actualizando = true;
+     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -107,7 +107,7 @@ export class FormularioCotizacionesComponent implements OnInit {
     }else{ 
       this.monedasServ.actualizarMoneda(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

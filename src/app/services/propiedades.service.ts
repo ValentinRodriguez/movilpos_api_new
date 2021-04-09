@@ -12,6 +12,8 @@ export class PropiedadesService {
   propiedadGuardada = new EventEmitter();
   propiedadBorrada = new EventEmitter();
   propiedadActualizada = new EventEmitter();
+  formSubmitted = new EventEmitter();
+  
   construct: string;
   usuario: any;
 
@@ -29,7 +31,8 @@ export class PropiedadesService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/propiedades', {params}).subscribe((resp: any) => {  
           
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -39,7 +42,8 @@ export class PropiedadesService {
   getDatos() {
     return new Promise( resolve => {
       return this.http.get(`${URL}/propiedades`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         } else {
           resolve(false);
@@ -51,7 +55,8 @@ export class PropiedadesService {
   getDato(id) {
     return new Promise( resolve => {
       return this.http.get(`${URL}/propiedades/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         } else {
           resolve(false);
@@ -69,7 +74,8 @@ export class PropiedadesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/propiedades`, formData)
                .subscribe( (resp:any) => {              
-               if (resp['code'] === 200) {                                      
+                this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
                  resolve(resp);    
                  this.propiedadGuardada.emit( resp.data );       
                } else {
@@ -84,7 +90,8 @@ export class PropiedadesService {
       this.http.put(`${ URL }/propiedades/${id}`, propiedad)
               .subscribe( (resp: any) => {                                
                  
-                if (resp['code'] === 200) {                  
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                  
                   this.propiedadActualizada.emit( resp.data );                            
                   resolve(resp);            
                 } else {
@@ -98,7 +105,8 @@ export class PropiedadesService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/propiedades/${id}`)
           .subscribe( (resp: any) => {                             
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.propiedadBorrada.emit(id);    
               resolve(resp);            
             } else {

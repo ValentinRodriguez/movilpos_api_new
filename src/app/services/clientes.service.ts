@@ -12,7 +12,7 @@ export class ClientesService {
   ClienteCreado = new EventEmitter();
   clienteBorrado = new EventEmitter();
   clientAct      = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
 
@@ -21,7 +21,8 @@ export class ClientesService {
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/mclientes`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -31,7 +32,8 @@ export class ClientesService {
   autollenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/clientes`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -41,7 +43,8 @@ export class ClientesService {
   getdato(id) {
     return new Promise( resolve => {
         this.http.get(`${URL}/mclientes/${id}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -84,7 +87,8 @@ export class ClientesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {    
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.ClienteCreado.emit( resp.data );                                   
             resolve(resp.data);       
           }
@@ -96,7 +100,8 @@ export class ClientesService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/mclientes/${id}`, client)
           .subscribe( (resp: any) => {  
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.clientAct.emit( resp.data );                            
               resolve(resp);          
             }
@@ -107,7 +112,8 @@ export class ClientesService {
   getCiudad() {
     return new Promise( resolve => {
         this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -117,7 +123,8 @@ export class ClientesService {
   getPais() {
     return new Promise( resolve => {
         this.http.get(`${URL}/pais`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -127,7 +134,8 @@ export class ClientesService {
   getZonas() {
     return new Promise( resolve => {
         this.http.get(`${URL}/zonas`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -137,7 +145,8 @@ export class ClientesService {
   getVendedor() {
     return new Promise( resolve => {
         this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -147,7 +156,8 @@ export class ClientesService {
   getDocumento(){
     return new Promise( resolve => {
         this.http.get(`${URL}/documento`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })

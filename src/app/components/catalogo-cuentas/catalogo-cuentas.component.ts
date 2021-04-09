@@ -11,7 +11,6 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 export class CatalogoCuentasComponent implements OnInit {
   cuentas_no = [];
   cuentasSeleccionadas = [];
-  loading: boolean;
   
   constructor(public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
@@ -23,10 +22,8 @@ export class CatalogoCuentasComponent implements OnInit {
   }
   
   todosLosCatalogos() {
-    this.loading = true;
     this.cgCatalogoServ.getDatosAux().then((resp: any) => {      
       this.cuentas_no = resp;
-      this.loading = false;
     })
   }
 

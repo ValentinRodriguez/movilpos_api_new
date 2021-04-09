@@ -15,7 +15,8 @@ export class UsuarioService {
   usuarioBorrado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   private iss = {
     login: `${URL}/login`,
     signup: `${URL}/signup`,
@@ -38,7 +39,8 @@ export class UsuarioService {
 
        return new Promise( resolve => {
       this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {                   
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -67,7 +69,8 @@ export class UsuarioService {
     });     
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/username', {params}).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -81,7 +84,8 @@ export class UsuarioService {
        return new Promise( resolve => {
       this.http.get(URL+'/busqueda/numemp', {params}).subscribe((resp: any) => {
                    
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           } else {
                      }
@@ -93,7 +97,8 @@ export class UsuarioService {
     return new Promise( resolve => {
       this.http.get(`${URL}/users`).subscribe((resp: any) => {
                  
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
       })
@@ -103,7 +108,8 @@ export class UsuarioService {
   getUser(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/users/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
       })
@@ -113,7 +119,8 @@ export class UsuarioService {
   getPerfiles() {
     return new Promise( resolve => {
       this.http.get(`${URL}/perfiles`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
       })
@@ -140,7 +147,8 @@ export class UsuarioService {
   logout(email) {
        this.http.post(`${URL}/logout`, email).subscribe((resp: any) => {
                
-      if (resp['code'] === 200) {  
+       this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {  
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('empleado');
@@ -172,7 +180,8 @@ export class UsuarioService {
     return new Promise( resolve => {
       this.http.post(`${URL}/signup`, formData).subscribe((resp: any) => {
                  
-        if (resp['code'] === 200) {  
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {  
           this.usuarioGuardado.emit( resp.data );        
           resolve(resp.data);  
         }
@@ -205,7 +214,8 @@ export class UsuarioService {
       this.http.post(`${ URL }/act/usuario/${id}`, formData)
           .subscribe( (resp: any) => {
             
-          if (resp['code'] === 200) {  
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {  
             this.usuarioActualizado.emit( resp.data );                                     
             resolve(resp.data);
           }
@@ -216,7 +226,8 @@ export class UsuarioService {
   eliminarUsuario(id) {
     return new Promise( resolve => {
       this.http.delete(`${URL}/users/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {  
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {  
           this.usuarioBorrado.emit( resp.data );        
           resolve(resp.data);  
         }
@@ -244,7 +255,8 @@ export class UsuarioService {
     return new Promise( resolve => {
       this.http.post(`${URL}/lockLogin`, formData).subscribe((resp: any) => {
                  
-        if (resp['code'] === 200) { 
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
       })
@@ -258,7 +270,8 @@ export class UsuarioService {
     return new Promise( resolve => {
       this.http.post(`${URL}/unlocklogin`, formData).subscribe((resp: any) => {
                  
-        if (resp['code'] === 200) { 
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
       })
@@ -272,7 +285,8 @@ export class UsuarioService {
     return new Promise( resolve => {
       this.http.post(`${URL}/desactivar`, formData).subscribe((resp: any) => {
                  
-        if (resp['code'] === 200) { 
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
       })
@@ -283,7 +297,8 @@ export class UsuarioService {
     return new Promise( resolve => {
       this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {
                  
-        if (resp['code'] === 200) { 
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
       })

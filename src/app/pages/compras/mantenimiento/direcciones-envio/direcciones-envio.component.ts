@@ -16,8 +16,8 @@ export class DireccionesEnvioComponent implements OnInit {
   index: number = 0;
   direcciones: any[] = [];
   id_categoria: any;
-  cols: any[];
-  loading: boolean;
+  cols: any[];   
+  formSubmitted = false;
   listSubscribers: any = [];
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -64,14 +64,18 @@ export class DireccionesEnvioComponent implements OnInit {
       this.todasLasDirecciones();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.dirService.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$];
    };
 
   todasLasDirecciones() {
-    this.loading = true;
+     
     this.dirService.getDatos().then((resp: any) => {
       this.direcciones = resp;
-      this.loading = false;
+       
     });
   }
   

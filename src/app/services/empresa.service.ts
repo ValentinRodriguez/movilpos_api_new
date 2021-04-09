@@ -15,6 +15,7 @@ export class EmpresaService {
   empresaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
@@ -29,7 +30,8 @@ export class EmpresaService {
     params = params.append('empresa',parametro.empresa);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => {         
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -39,7 +41,8 @@ export class EmpresaService {
   getEmpresa() {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -50,7 +53,8 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa`).subscribe((resp: any) => {
          
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -61,7 +65,8 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
          
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -71,7 +76,8 @@ export class EmpresaService {
   showEmpresa(empresa: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -116,7 +122,8 @@ export class EmpresaService {
                .subscribe( resp => {  
                 
                  
-               if (resp['code'] === 200) {                                      
+                this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
                  resolve(resp);       
                }
       });
@@ -148,7 +155,8 @@ export class EmpresaService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/empresa`, formData).subscribe( resp => {              
-          if (resp['code'] === 200) {                                      
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
             resolve(resp);      
           }
       });

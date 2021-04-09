@@ -20,9 +20,10 @@ export class MarcasComponent implements OnInit {
   marcaExiste = 3;
   actualizar = false;
   id_marca: any;
-  cols: any[];
-  loading: boolean;
+  cols: any[];   
   index: number = 0;
+    formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -35,22 +36,12 @@ export class MarcasComponent implements OnInit {
                 this.todasLasMarcas();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
-    this.marcasServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-
-    this.marcasServ.marcaGuardada.subscribe(resp =>{
-      this.todasLasMarcas();
-    })
-
-    this.marcasServ.marcaBorrada.subscribe((resp: any)=>{      
-      this.todasLasMarcas();   
-    })
-
-    this.marcasServ.marcaAct.subscribe(resp =>{
-      this.todasLasMarcas();
-    })
+    this.listObserver();
 
     this.cols = [
       { field: 'id_brand', header: 'Código' },
@@ -58,11 +49,30 @@ export class MarcasComponent implements OnInit {
       { field: 'acciones', header: 'Acciones' },
     ]
   }
+  listObserver = () => {
+    const observer1$ = this.marcasServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+    const observer2$ = this.marcasServ.marcaGuardada.subscribe(() =>{
+      this.todasLasMarcas();
+    })
 
-  todasLasMarcas() {
-    this.loading = true;
-    this.marcasServ.getDatos().then((resp: any) =>{
-      this.loading = false;
+    const observer3$ = this.marcasServ.marcaBorrada.subscribe(()=>{      
+      this.todasLasMarcas();   
+    })
+    const observer4$ = this.marcasServ.marcaAct.subscribe(() =>{
+      this.todasLasMarcas();
+    })
+
+    const observer5$ = this.marcasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+   };
+ 
+  todasLasMarcas() {     
+    this.marcasServ.getDatos().then((resp: any) =>{       
       this.marcas = resp;      
     })
   }

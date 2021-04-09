@@ -13,7 +13,7 @@ export class BodegasService {
   bodegaActualizada = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  
+  formSubmitted = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +24,8 @@ export class BodegasService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/bodega', {params}).subscribe((resp: any) => {  
           
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -34,7 +35,8 @@ export class BodegasService {
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -44,7 +46,8 @@ export class BodegasService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/bodegas/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -72,7 +75,8 @@ export class BodegasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/bodegas`, formData).subscribe( (resp: any) => {                   
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.bodegaGuardada.emit( resp.data );                                   
             resolve(resp.data);       
           }
@@ -94,7 +98,8 @@ export class BodegasService {
       this.http.put(`${ URL }/bodegas/${id}`, formdata)
           .subscribe( (resp: any) => {                                      
              
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.bodegaActualizada.emit( resp.data );                            
               resolve(resp);            
             }
@@ -106,7 +111,8 @@ export class BodegasService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/bodegas/${id}`)
           .subscribe( (resp: any) => {                             
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.bodegaBorrada.emit(id);    
               resolve(resp);            
             }
@@ -125,7 +131,8 @@ export class BodegasService {
       this.http.post(`${ URL }/permisos/bodegas`, formData).subscribe( resp => {  
          
         
-        if (resp['code'] === 200) {    
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
           //this.bodegaGuardada.emit( resp );                                   
           resolve(resp);       
         }
@@ -136,7 +143,8 @@ export class BodegasService {
   usuariosPermisosBodegas(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/usuarios/bodega/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -147,7 +155,8 @@ export class BodegasService {
   autoLlenado(email: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/autollenado/bodega/${email}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -157,7 +166,8 @@ export class BodegasService {
   bodegasConpermisos(email: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/bodegas-usuarios/${email}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

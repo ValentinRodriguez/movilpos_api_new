@@ -10,13 +10,15 @@ export class RequisicionesService {
   requisicionact = new EventEmitter();
   requisicionGuardada= new EventEmitter();
   requisicionBorrada = new EventEmitter();
+  formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/requisiciones`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -73,7 +75,8 @@ export class RequisicionesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones`, formData).subscribe( resp => {  
                                   
-                if (resp['code'] === 200) {    
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
                   this.requisicionGuardada.emit( resp );                                   
                   resolve(resp);       
                 }
@@ -84,7 +87,8 @@ export class RequisicionesService {
   getDato(id:any) {
     return new Promise( resolve => {
         this.http.get(`${URL}/requisiciones/${id}`).subscribe((resp: any) => {         
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);                         
         }
       })
@@ -94,7 +98,8 @@ export class RequisicionesService {
   buscaRequisicion(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/requisicion/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -125,7 +130,8 @@ export class RequisicionesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones/${id}`, formData)
                 .subscribe( (resp: any) => {        
-                if (resp['code'] === 200) {  
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {  
                   this.requisicionact.emit(1);               
                   resolve(resp);          
                 }
@@ -158,7 +164,8 @@ export class RequisicionesService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/requisicion', {params}).subscribe((resp: any) => {  
           
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })

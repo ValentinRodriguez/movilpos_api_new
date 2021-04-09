@@ -23,8 +23,8 @@ export class GlobalFunctionsService {
 
   editando(id: string, ruta: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/${ruta}/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+      this.http.get(`${URL}/${ruta}/${id}`).subscribe((resp: any) => {  
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

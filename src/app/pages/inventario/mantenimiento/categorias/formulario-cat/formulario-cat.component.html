@@ -13,11 +13,9 @@
             <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
-    <button *ngIf="!this.guardando && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
-    <button *ngIf="this.guardando && this.guardar" pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" type="button" disabled="true"></button>
-
-    <button *ngIf="!this.actualizando && this.actualizar" (click)="actualizarCategoria()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
-    <button *ngIf="this.actualizando && this.actualizar" pButton pRipple label="Actualizando" icon="pi pi-spin pi-spinner" type="button" class="p-button-warning p-mr-2 p-mb-2" disabled="true"></button>
-
-    <button *ngIf="this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button>
+    <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarCategoria()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
 </form>
+<br>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>

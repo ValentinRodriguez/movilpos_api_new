@@ -103,39 +103,43 @@
                     </div>
                 </div>
                 <br>
-                <button pButton pRipple label="Ver Reporte" icon="pi pi-eye" type="submit"></button>                
+                <button pButton pRipple label="Ver Reporte" icon="pi pi-eye" type="submit" class="p-mr-2 p-mb-2"></button>                
+                <button pButton pRipple label="Limpiar Formulario" icon="pi pi-trash" type="button" (click)="limpiarForm()" class="p-button-warning p-mr-2 p-mb-2"></button> 
             </form>
         </div>
     </div>
-<!-- selectionMode="multiple" [(selection)]="selectedProducts" -->
-    <div id="htmlData">
-        <p-table #dt [columns]="cols" [value]="proveedores" >
-            <ng-template pTemplate="caption">
-                <div class="p-d-flex">
-                    <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-                    <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
-                    <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-                    <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
-                </div>
-            </ng-template>
-            
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns">
-                        {{col.header}}
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr [pSelectableRow]="rowData">
-                    <td *ngFor="let col of columns">
-                        {{rowData[col.field]}}
-                        <span *ngIf="col.field === 'id' || col.field === 'num_doc'">
-                            {{ rowData[col.field] }}
-                        </span>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
+    
+    <p-table #dt [columns]="cols" [value]="proveedores" *ngIf="this.proveedores.length !== 0">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
+                <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+                <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">                    
+                    <span *ngIf="col.field === 'nom_sp' || col.field === 'cont_sp'">
+                        {{ rowData[col.field] | titlecase}}
+                    </span>
+
+                    <span *ngIf="col.field === 'dir_sp' || col.field === 'tel_sp' || col.field === 'email' || col.field === 'condicion_pago'">
+                        {{ rowData[col.field] }}
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+<p-toast key="tst"></p-toast>

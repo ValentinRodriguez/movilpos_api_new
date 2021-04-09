@@ -14,7 +14,8 @@ export class CodMovService {
   tipoMovActualizado = new EventEmitter();  
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient, private uimessage: UiMessagesService) {}
 
   busquedaCodMov(parametro?: any) {
@@ -28,7 +29,8 @@ export class CodMovService {
     params = params.append('titulo',parametro.titulo);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => {  
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -38,7 +40,8 @@ export class CodMovService {
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -48,7 +51,8 @@ export class CodMovService {
   getDato(cuenta: string) {
     return new Promise( resolve => {
         this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -73,7 +77,8 @@ export class CodMovService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.tipoMovGuardado.emit( resp.data );                                   
             resolve(resp.data);       
           }
@@ -102,7 +107,8 @@ export class CodMovService {
       this.http.put(`${ URL }/codigosmovimientos/${id}`, data)
           .subscribe( (resp: any) => {    
             console.log(resp);             
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.tipoMovActualizado.emit( resp.data );                            
               resolve(resp);            
             }
@@ -116,7 +122,8 @@ export class CodMovService {
           .subscribe( (resp: any) => {                  
             
                        
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.tipoMovBorrado.emit(id);    
               resolve(resp);            
             }
@@ -134,7 +141,8 @@ export class CodMovService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( resp => {  
          
-        if (resp['code'] === 200) {
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
           resolve(resp);       
         }
       });
@@ -144,7 +152,8 @@ export class CodMovService {
   usuariosPermisosMov(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

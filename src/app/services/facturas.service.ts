@@ -11,13 +11,15 @@ export class FacturasService {
   display = false
   facturaCreada = new EventEmitter()
   modoVenta = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) {}
   
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -27,7 +29,8 @@ export class FacturasService {
   buscaFactura(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/factura/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -38,7 +41,8 @@ export class FacturasService {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/orden/${id}`).subscribe((resp: any) => { 
                         
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -59,7 +63,8 @@ export class FacturasService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/vefacturas`, factura).subscribe( resp => {
                    
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.facturaCreada.emit( resp );                                   
             resolve(resp);       
           }

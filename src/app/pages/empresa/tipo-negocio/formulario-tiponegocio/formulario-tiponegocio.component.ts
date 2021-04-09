@@ -20,6 +20,13 @@ export class FormularioTiponegocioComponent implements OnInit {
   actualizar = false;
   actualizando = false;
   id: number;
+  formSubmitted = false;
+  listSubscribers: any = [];
+
+
+
+
+
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -28,21 +35,30 @@ export class FormularioTiponegocioComponent implements OnInit {
     this.usuario = this.usuariosServ.getUserLogged()
     this.crearFormulario();
   }
-
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
   ngOnInit(): void {
-    this.tipoNegocioServ.actualizar.subscribe((resp: any) =>{
+    this.listObserver();
+  }
+
+  listObserver = () => {  
+    const observer1$ = this.tipoNegocioServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
-      this.id = Number(resp);      
-       
-      
-      this.tipoNegocioServ.getDato(resp).then((res: any) => {
-         
+      this.id = Number(resp);  
+      this.tipoNegocioServ.getDato(resp).then((res: any) => {         
         this.forma.get('descripcion').setValue(res.descripcion);
       })
     })
-  }
 
+    const observer2$ = this.tipoNegocioServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
+ 
   crearFormulario() {
     this.forma = this.fb.group({
       descripcion:         ['', Validators.required],
@@ -53,6 +69,7 @@ export class FormularioTiponegocioComponent implements OnInit {
   }
 
   guardarTipoNegocio() {
+    this.formSubmitted = true;
     if (this.negocioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de negocio ya existe');
       return;
@@ -77,11 +94,11 @@ export class FormularioTiponegocioComponent implements OnInit {
   }
 
   actTipoNegocio() {
-    this.actualizando = true;
+    this.formSubmitted = true;
     if (this.forma.valid) {  
       this.forma.get('usuario_modificador').setValue(this.usuario.username);
       this.tipoNegocioServ.actualizarTipoNegocio(this.id, this.forma.value).then((resp: any) => {
-        this.actualizando = false;    
+             
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
       })  
     }else{

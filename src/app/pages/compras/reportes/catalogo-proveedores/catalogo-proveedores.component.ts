@@ -5,6 +5,8 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
 @Component({
   selector: 'app-catalogo-proveedores',
@@ -27,18 +29,27 @@ export class CatalogoProveedoresComponent implements OnInit {
   selectedProducts: [];
   cols: any[];
   exportColumns: any[];
-  proveedores: any[];
+  proveedores: any[] = [];
+  formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private proveedoresServ:ProveedoresService,
               private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
-              private paisesCiudadesServ: PaisesCiudadesService) { 
+              private paisesCiudadesServ: PaisesCiudadesService,
+              private uiMessage: UiMessagesService,
+              private datosEstaticos: DatosEstaticosService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.crearFormulario()
               }
+              
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.todaLaData();
+    this.listObserver();
 
     this.cols = [
       { field: 'nom_sp', header: 'Nombre' },
@@ -52,6 +63,14 @@ export class CatalogoProveedoresComponent implements OnInit {
   this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
   }
   
+  listObserver = () => {
+    const observer1$ = this.proveedoresServ.formSubmitted.subscribe((resp:any) =>{
+      this.formSubmitted = resp; 
+    })
+
+    this.listSubscribers = [observer1$];
+  };
+ 
   crearFormulario() {
     this.forma = this.fb.group({
       cod_sp:              [''],  
@@ -71,10 +90,20 @@ export class CatalogoProveedoresComponent implements OnInit {
   }
   
   verReporte() {
+    this.formSubmitted = true;
     this.proveedoresServ.reporteCatalogoProveedores(this.forma.value).then((resp:any) =>{
-      console.log(resp);     
+      if (resp.length === 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');
+        this.proveedores = [];
+        return;
+      }   
       this.proveedores = resp; 
     })
+  }
+
+  limpiarForm(){
+    this.crearFormulario();
+    this.proveedores = []; 
   }
 
   todaLaData() {
@@ -136,21 +165,69 @@ export class CatalogoProveedoresComponent implements OnInit {
 
   exportPdf() {
     const doc = new jsPDF('p', 'mm', 'a4');
+    let pageWidth = doc.internal.pageSize.getWidth();
+    const totalPagesExp = '{total_pages_count_string}'
+    const anio = this.datosEstaticos.getDate();
+    const hora = this.datosEstaticos.getHourAmp();
+    const empresa = this.usuario.empresa.nombre || 'No Identificada'
+    const nombre = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primernombre);
+    const apellido = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primerapellido);
 
-    const columns = [['First Column', 'Second Column', 'Third Column']];
-    const data = [
-    ['Data 1', 'Data 2', 'Data 3'],
-    ['Data 1', 'Data 2', 'Data 3']
-    ];
-    
-     autoTable(doc, {
-          head: columns,
-          body: data,
-          didDrawPage: (dataArg) => { 
-           doc.text('PAGE', dataArg.settings.margin.left, 10);
+    autoTable(doc, {
+        head: this.headRows(),
+        body: this.bodyRows(this.proveedores),
+        headStyles: { fillColor: [0, 128, 255] },
+        didDrawPage: (dataArg) => { 
+          // doc.text(anio+' '+hora, dataArg.settings.margin.right, 22, { align: "right" });
+          // var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+          // var pageSize = doc.internal.pageSize
+          
+          //NOMBRE DE LA EMPRESA
+          doc.text(empresa, pageWidth / 2, 10, { align: "center" });
+          
+          //NOMBRE DEL REPORTE      
+          doc.setFontSize(10);              
+          doc.text('Catálogo de Proveedores', pageWidth / 2, 15, { align: "center" });
+
+          // NUMERO DE PAGINA  
+          var str = 'Página ' + doc.getNumberOfPages()
+          
+          if (typeof doc.putTotalPages === 'function') {
+            str = str + ' / ' + totalPagesExp;
           }
-     }); 
-    
-    doc.save('table.pdf');
+          doc.text(str, 235, 15, {align: 'right',});
+          
+          //USUARIO CREADOR REPORTE
+          doc.text(nombre+' '+apellido, dataArg.settings.margin.left, 20);
+          
+          //HORA CREACION REPORTE          
+          doc.text(anio+' '+hora, 195, 20, {align: 'right',});
+        },
+        margin: { top: 30 },
+        theme: 'grid',
+    });
+    if (typeof doc.putTotalPages === 'function') {
+      doc.putTotalPages(totalPagesExp)      
+    }
+    doc.save('catalogo-proveedores.pdf');
+  }
+
+  headRows() {
+    return [{ nom_sp: 'Nombre', dir_sp: 'Dirección', tel_sp: 'Teléfono', email: 'Email', cont_sp: 'Contacto', condicion_pago: 'Condición Pago' }]
+  }
+
+  bodyRows(data) {
+    var body = []
+    data.forEach(element => {
+      body.push({
+        nom_sp: this.datosEstaticos.capitalizeFirstLetter(element.nom_sp),
+        dir_sp: element.dir_sp,
+        tel_sp: element.tel_sp,
+        email: element.email,
+        cont_sp: this.datosEstaticos.capitalizeFirstLetter(element.cont_sp),
+        condicion_pago: element.condicion_pago
+      })      
+    });
+    return body
   }
 }

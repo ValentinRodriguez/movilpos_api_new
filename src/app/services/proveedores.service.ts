@@ -13,13 +13,15 @@ export class ProveedoresService {
   proveedorBorrado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/proveedores`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -29,7 +31,8 @@ export class ProveedoresService {
   autoLlenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -39,7 +42,8 @@ export class ProveedoresService {
   autollenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -51,7 +55,8 @@ export class ProveedoresService {
       this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => { 
          
                
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -71,7 +76,8 @@ export class ProveedoresService {
       this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => { 
          
         
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -108,7 +114,8 @@ export class ProveedoresService {
         this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
             console.log(resp);
                                        
-            if (resp['code'] === 200) {    
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
               this.proveedoresCreados.emit( resp.data );                                   
               resolve(resp.data);       
             }
@@ -144,7 +151,8 @@ export class ProveedoresService {
     return new Promise( resolve => {      
       this.http.put(`${ URL }/proveedores/${id}`, data)
               .subscribe( (resp: any) => {     
-                if (resp['code'] === 200) {
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
                   this.proveeact.emit( resp.data );                            
                   resolve(resp);                               
                 }
@@ -198,8 +206,9 @@ export class ProveedoresService {
       return new Promise( resolve => {
         this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {  
             console.log(resp);
-                                       
-            if (resp['code'] === 200) {    
+            this.formSubmitted.emit(false);                           
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
               this.proveedoresCreados.emit( resp.data );                                   
               resolve(resp.data);       
             }

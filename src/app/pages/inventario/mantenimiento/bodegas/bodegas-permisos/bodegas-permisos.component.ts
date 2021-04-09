@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { BodegasService } from 'src/app/services/bodegas.service';
-import { CodMovService } from 'src/app/services/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 

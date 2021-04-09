@@ -15,11 +15,15 @@ export class FormularioCondicionesComponent implements OnInit {
   guardando = false;
   condicionExiste = 3;
   usuario: any;
-  
+  guardar = true;
+  actualizar = false;
+  formSubmitted = false;
+  listSubscribers: any = [];
   sino = [
     {label: 'Sí', value: 'si'},
     {label: 'No', value: 'no'},
   ];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -27,9 +31,22 @@ export class FormularioCondicionesComponent implements OnInit {
     this.usuario = this.usuariosServ.getUserLogged()
     this.crearFormulario();
   }
+  
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
+    this.listObserver();
   }
+  
+  listObserver = () => {
+    const observer1$ = this.condicionServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -42,6 +59,7 @@ export class FormularioCondicionesComponent implements OnInit {
   }
 
   guardarCondicion() {
+    this.formSubmitted = true;
     if (this.condicionExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Esta condición ya existe');
       return;

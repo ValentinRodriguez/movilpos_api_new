@@ -358,10 +358,10 @@
 							</div>
 						</p-panel>
 						<br>
-						<button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
-						<button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
-								type="button" disabled="true"></button>
+						<button *ngIf="!this.formSubmitted" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>						
 					</form>
+					<br>
+					<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
                 </p-tabPanel>
             </p-tabView>
 		</div>	

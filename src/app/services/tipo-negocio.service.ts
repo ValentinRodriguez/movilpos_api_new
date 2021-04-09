@@ -14,6 +14,7 @@ export class TipoNegocioService {
   tipoNegocioAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) {}
 
@@ -26,7 +27,8 @@ export class TipoNegocioService {
       
       this.http.get(URL+'/busqueda/tiponegocios', {params}).subscribe((resp: any) => {
          
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -36,7 +38,8 @@ export class TipoNegocioService {
   getDatos(){
     return new Promise( resolve => {
         this.http.get(`${URL}/tiponegocios`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -46,7 +49,8 @@ export class TipoNegocioService {
   getDato(id:number){
     return new Promise( resolve => {
         this.http.get(`${URL}/tiponegocios/${id}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -57,7 +61,8 @@ export class TipoNegocioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/tiponegocios`, tipoNegocio).subscribe( (resp: any) => {  
         
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.tipoNegocioguardado.emit( resp.data );                                   
             resolve(resp.data);       
           }
@@ -69,7 +74,8 @@ export class TipoNegocioService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/tiponegocios/${id}`)
           .subscribe( (resp: any) => {                             
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.tipoNegocioBorrado.emit(id);    
               resolve(resp.data);            
             }
@@ -81,7 +87,8 @@ export class TipoNegocioService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/tiponegocios/${id}`, tipo)
           .subscribe( (resp: any) => {            
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.tipoNegocioAct.emit( resp.data );                            
               resolve(resp.data);            
             }

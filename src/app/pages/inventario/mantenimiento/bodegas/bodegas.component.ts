@@ -23,9 +23,10 @@ export class BodegasComponent implements OnInit {
   usuario: any;
   permisos = false;
   id_bodega: any;
-  cols: any[];
-  loading: boolean;
+  cols: any[];   
   index: number = 0;
+    formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private bodegasServ: BodegasService,
               private usuariosServ: UsuarioService,
@@ -35,11 +36,14 @@ export class BodegasComponent implements OnInit {
               private paisesCiudadesServ: PaisesCiudadesService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.todasLasBodegas();
     this.todosLosPaises();
-    
+    this.listObserver();
     this.cols = [
       { field: 'descripcion', header: 'Bodega' },
       { field: 'id_bodega', header: 'Código' },
@@ -47,29 +51,35 @@ export class BodegasComponent implements OnInit {
       { field: 'ciudad', header: 'Ciudad' },
       { field: 'acciones', header: 'Acciones' },
     ] 
+  }  
 
-    this.bodegasServ.bodegaActualizada.subscribe(resp => {
+  listObserver = () => {
+    const observer1$ = this.bodegasServ.bodegaActualizada.subscribe(() => {
       this.todasLasBodegas();      
     })
 
-    this.bodegasServ.bodegaGuardada.subscribe((resp: any)=>{
+    const observer2$ = this.bodegasServ.bodegaGuardada.subscribe(()=>{
       this.todasLasBodegas();
     })
-    
-    this.bodegasServ.bodegaBorrada.subscribe((resp: any)=>{      
+
+    const observer3$ = this.bodegasServ.bodegaBorrada.subscribe(()=>{      
       this.todasLasBodegas();    
     })
     
-    this.bodegasServ.guardar.subscribe((resp: any)=>{  
+    const observer4$ = this.bodegasServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })
-  }  
+  
+    const observer5$ = this.bodegasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
 
-  todasLasBodegas() {
-    this.loading = true;    
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+  };
+
+  todasLasBodegas() {         
     this.bodegasServ.getDatos().then((resp: any ) => {
-      this.bodegas = resp;
-      this.loading = false;
+      this.bodegas = resp;       
     })
   }
 

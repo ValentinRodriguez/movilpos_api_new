@@ -19,17 +19,22 @@ export class MaestraProductosComponent implements OnInit {
   selectedState: any = null;
   states: any[] = [];
   index: number = 0;
-  cols: any[] = [];
-  loading: boolean;
+  cols: any[] = [];   
+    formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private inventarioServ: InventarioService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
+  ngOnInit(): void {
     this.todosLosProductos();
-    
+    this.listObserver();
+
     this.cols = [
       { field: 'imagen', header: 'Imagen' },
       { field: 'codigo', header: 'Código' },
@@ -40,30 +45,36 @@ export class MaestraProductosComponent implements OnInit {
       { field: 'tipoinventario', header: 'Tipo inventario' },
       { field: 'cantidad', header: 'Cantidad' },
       { field: 'acciones', header: 'Acciones' },
-    ] 
-
-    this.inventarioServ.productoGuardado.subscribe((resp: any)=>{
+    ]
+  }
+   
+  listObserver = () => {
+    const observer1$ = this.inventarioServ.productoGuardado.subscribe(()=>{
       this.todosLosProductos();
     })
 
-    this.inventarioServ.productoActualizado.subscribe((resp: any)=>{
+    const observer2$ = this.inventarioServ.productoActualizado.subscribe(()=>{
       this.todosLosProductos();
     })
-    
-    this.inventarioServ.productoBorrado.subscribe((resp: any)=>{      
+
+    const observer3$ = this.inventarioServ.productoBorrado.subscribe(()=>{      
       this.todosLosProductos();    
     })
 
-    this.inventarioServ.guardar.subscribe((resp: any)=>{    
+    const observer4$ = this.inventarioServ.guardar.subscribe((resp: any)=>{    
       this.index = resp;
     })
-  }
 
-  todosLosProductos() {
-    this.loading = true;
+    const observer5$ = this.inventarioServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+ };
+
+  todosLosProductos() {     
     this.inventarioServ.getDatos().then((resp: any) =>{
-      this.productos = resp; 
-      this.loading = false;
+      this.productos = resp;        
     })
   }
 
@@ -71,12 +82,12 @@ export class MaestraProductosComponent implements OnInit {
     let value = event.value;
 
     if (value.indexOf('!') === 0) {
-        this.sortOrder = -1;
-        this.sortField = value.substring(1, value.length);
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
     }
     else {
-        this.sortOrder = 1;
-        this.sortField = value;
+      this.sortOrder = 1;
+      this.sortField = value;
     }
   }
 

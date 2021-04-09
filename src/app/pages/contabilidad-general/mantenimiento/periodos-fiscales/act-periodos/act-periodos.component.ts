@@ -18,6 +18,7 @@ export class ActPeriodosComponent implements OnInit {
   meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
   month = [ "January","February","March","April","May","June","July","August","September","October","November","December" ];
   deadline: any[] = [];
+  formSubmitted = false;
   
   constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
@@ -53,7 +54,7 @@ export class ActPeriodosComponent implements OnInit {
   }
 
   actualizarPeriodo() {
-    this.actualizando = true;
+    this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);
     const divide = this.forma.get('fecha_ini_fin').value;
     this.forma.get("fecha_inicio").patchValue(this.transformarFecha(divide[0]));
@@ -65,7 +66,7 @@ export class ActPeriodosComponent implements OnInit {
     } else {
       this.periodoServ.actualizarPeriodo(this.periodo, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro Actualizado');
-        this.actualizando = false;
+         
         this.ref.close();
       })      
     }

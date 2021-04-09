@@ -40,6 +40,7 @@ export class FormularioEmpresaComponent implements OnInit {
   paisesFiltrados: any[] = [];  
   ciudadesFiltradas: any[] = [];  
   id: number;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   sino = [
@@ -102,7 +103,11 @@ export class FormularioEmpresaComponent implements OnInit {
       })
     })
     
-    this.listSubscribers = [observer1$];
+    const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$];
   };
 
   todosLosPaises() {
@@ -135,7 +140,7 @@ export class FormularioEmpresaComponent implements OnInit {
   }
 
   guardarEmpresa() {
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
@@ -166,50 +171,50 @@ export class FormularioEmpresaComponent implements OnInit {
         this.resetFormulario();
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
       })
-      this.guardando = false;
+       
     } 
   }
 
   actualizarEmpresa(){
-    this.actualizando = true;    
+    this.formSubmitted = true;    
     this.forma.get('usuario_modificador').setValue(this.usuario.username);
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios.');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.actualizando = false;
+       
     }else{ 
       switch (this.nombreExiste) {
         case 0:
           this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');
-          this.actualizando = false;
+           
           break;
 
         case 2:
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre.');
-          this.actualizando = false;
+           
           break;
       } 
 
       switch (this.rncExiste) {
         case 0:
           this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');
-          this.actualizando = false;
+           
           break;
 
         case 1:
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');
-          this.actualizando = false;
+           
           break;
       } 
       
       this.empresasServ.actEmpresa(this.forma.value, this.id).then((resp: any)=>{
-        this.actualizando = false;
+         
         this.resetFormulario();
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
       })
-      this.actualizando = false;
+       
     } 
   }
 

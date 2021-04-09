@@ -13,7 +13,7 @@ export class ListadoDireccionesComponent implements OnInit {
   direccioneSeleccionada = [];
   productos: any[] = [];
   cols: any[];
-  loading: boolean;
+   
 
   constructor(private direccionServ: DireccionesService,
               private ref: DynamicDialogRef,
@@ -34,10 +34,10 @@ export class ListadoDireccionesComponent implements OnInit {
   }
 
   todasLasDirecciones() {
-    this.loading = true;    
+         
     this.direccionServ.getDatos().then((resp: any) => {
       this.direcciones = resp;      
-      this.loading = false;
+       
     })
   }
   

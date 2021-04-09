@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { UsuarioService } from './usuario.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 const URL = environment.url;
 @Injectable({
   providedIn: 'root'
@@ -13,9 +12,9 @@ export class EntradasDiarioService {
   entradaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
-  constructor(private http: HttpClient,
-              private usuarioService:UsuarioService) { }
+  formSubmitted = new EventEmitter();
+  
+  constructor(private http: HttpClient) { }
 
   busquedaMarca(parametro?: any) {
   
@@ -23,7 +22,8 @@ export class EntradasDiarioService {
     params = params.append('marca',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/marca', {params}).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -33,7 +33,8 @@ export class EntradasDiarioService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/cgentradasdiarios`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -44,7 +45,8 @@ export class EntradasDiarioService {
     return new Promise( resolve => {
       this.http.get(`${URL}/cgentradasdiarios/${id}`).subscribe((resp: any) => {
          
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -54,7 +56,8 @@ export class EntradasDiarioService {
   getEdsec() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/ed/secuencia`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -66,7 +69,8 @@ export class EntradasDiarioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgentradasdiarios`, entradas).subscribe( (resp: any) => { 
        //  
-          if (resp['code'] === 200) {                                      
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
             resolve(resp.data);    
           
             this.entradaGuardada.emit(resp.data);  
@@ -82,7 +86,8 @@ export class EntradasDiarioService {
       this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent)
               .subscribe( (resp: any) => {  
                        
-                if (resp['code'] === 200) {
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
                   this.entradaAct.emit( resp.data );                            
                   resolve(resp);            
                 }
@@ -94,7 +99,8 @@ export class EntradasDiarioService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/marca/${id}`)
           .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.marcaBorrada.emit(id);    
               resolve(resp);            
             } else {

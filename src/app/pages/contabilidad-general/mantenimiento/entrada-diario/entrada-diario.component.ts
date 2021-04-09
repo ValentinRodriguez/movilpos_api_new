@@ -22,8 +22,9 @@ export class EntradaDiarioComponent implements OnInit {
   actualizar = false;
   id_marca: any;
   cols: any[];
-  loading: boolean;
+   
   index: number = 0;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
@@ -69,13 +70,17 @@ export class EntradaDiarioComponent implements OnInit {
       this.todasLasEntradas();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.EntradaServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
    };
 
   todasLasEntradas() {
-    this.loading = true;
+     
     this.EntradaServ.getDatos().then((resp: any) =>{
-      this.loading = false;
+       
       this.marcas = resp;      
     })
   }

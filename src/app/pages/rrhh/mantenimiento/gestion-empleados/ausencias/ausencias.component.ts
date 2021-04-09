@@ -25,7 +25,8 @@ export class AusenciasComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   minDate: Date;
-
+  formSubmitted = false;
+  
   motivo = [
     { label: 'ninguna', value: 'Ninguna' },
     { label: 'basica', value: 'Basica' },
@@ -71,7 +72,7 @@ export class AusenciasComponent implements OnInit {
   }
 
   guardarCategoria(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -94,7 +95,7 @@ export class AusenciasComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
 
   actualizarCategoria(categoria) {

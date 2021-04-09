@@ -13,13 +13,15 @@ export class FormularioMonedasComponent implements OnInit {
 
   forma: FormGroup;
   usuario: any;
-  guardando = false;
+  
   guardar = true;
   actualizando = false;
   actualizar = false;
   monedaExiste = 3;
-  
+  formSubmitted = false;
   id: number;
+  listSubscribers: any = [];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -28,24 +30,37 @@ export class FormularioMonedasComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
-    this.monedasServ.actualizar.subscribe((resp: any) =>{
+  ngOnInit(): void {
+    this.listObserver();
+  }
+
+  listObserver = () => {
+    const observer1$ = this.monedasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.monedasServ.getDato(resp).then((res: any) => {
-         
+      this.monedasServ.getDato(resp).then((res: any) => {         
         this.forma.get('divisa').setValue(res.divisa);
         this.forma.get('simbolo').setValue(res.simbolo);
         this.forma.patchValue(res);
       })
     })
-  }
+
+    const observer2$ = this.monedasServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$];
+   };
 
   crearFormulario() {
     this.forma = this.fb.group({
       divisa:              ['', Validators.required],
+      descripcion:         ['', Validators.required],
       simbolo:             ['', Validators.required],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
@@ -54,8 +69,7 @@ export class FormularioMonedasComponent implements OnInit {
   }
 
   guardarMoneda(){
-    this.guardando = true;
-    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -97,7 +111,7 @@ export class FormularioMonedasComponent implements OnInit {
   }
 
   actualizarMoneda(){
-    //this.actualizando = true;
+    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -107,7 +121,7 @@ export class FormularioMonedasComponent implements OnInit {
     }else{ 
       this.monedasServ.actualizarMoneda(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

@@ -36,6 +36,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder, 
@@ -110,7 +111,11 @@ export class FormularioProveedoresComponent implements OnInit {
       });               
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
   };
 
   todaLaData() {
@@ -222,7 +227,7 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    this.guardando = true; 
+    this.formSubmitted = true; 
     console.log(this.forma.value);
           
     if (this.forma.invalid) {      
@@ -243,11 +248,11 @@ export class FormularioProveedoresComponent implements OnInit {
         this.restaurarFormulario();
       })
     } 
-    this.guardando = false;
+     
   } 
 
   actualizarProveedor(){
-    this.actualizando = true;            
+    this.formSubmitted = true;            
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -260,7 +265,7 @@ export class FormularioProveedoresComponent implements OnInit {
         this.restaurarFormulario();            
       })
     } 
-    this.actualizando = false;
+     
   } 
 
   verificaProveedor(data){        
