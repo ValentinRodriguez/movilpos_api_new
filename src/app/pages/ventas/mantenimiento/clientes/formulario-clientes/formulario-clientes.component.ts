@@ -37,6 +37,7 @@ export class FormularioClientesComponent implements OnInit {
   ciudades: any[] = [];
   tipo_proveedor=[];
   actualizando = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   sino = [
@@ -65,9 +66,25 @@ export class FormularioClientesComponent implements OnInit {
     this.listObserver();
     this.autoLlenado();    
 
-    this.clientesServ.actualizar.subscribe((resp: any) =>{
+
+  }
+
+  listObserver = () => {
+    const observer1$ = this.tiponegocioServ.tipoNegocioguardado.subscribe((resp: any) => {
+      this.tiponegocio.push(resp);
+    })
+
+    const observer2$ = this.tipoClienteServ.tipoClienteguardado.subscribe((resp: any) => {
+      this.tipo_cliente.push(resp);                                                                                               
+    })
+
+    const observer4$ = this.tipoClienteServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    const observer3$ = this.clientesServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
-      this.actualizar=true;   
+      this.formSubmitted = true;   
       this.id = Number(resp);      
        
       this.clientesServ.getdato(resp).then((res: any) => {     
@@ -84,18 +101,8 @@ export class FormularioClientesComponent implements OnInit {
         })       
       })
     })
-  }
 
-  listObserver = () => {
-    const observer1$ = this.tiponegocioServ.tipoNegocioguardado.subscribe((resp: any) => {
-      this.tiponegocio.push(resp);
-    })
-
-    const observer2$ = this.tipoClienteServ.tipoClienteguardado.subscribe((resp: any) => {
-      this.tipo_cliente.push(resp);                                                                                               
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   autoLlenado() {
@@ -188,7 +195,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    this.guardando = true;         
+    this.formSubmitted = true;         
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{          
@@ -198,8 +205,7 @@ export class FormularioClientesComponent implements OnInit {
       this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);              
       })
-    }  
-    this.guardando = false;
+    }       
   } 
 
   filtrarVendedores(event) {
@@ -237,7 +243,7 @@ export class FormularioClientesComponent implements OnInit {
   }
   
   actualizarCliente() {
-    this.actualizar=true;   
+    this.formSubmitted = true;   
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -250,6 +256,6 @@ export class FormularioClientesComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
       })
     } 
-    this.actualizando = false;
+     
   } 
 }

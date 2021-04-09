@@ -13,13 +13,15 @@ export class TransportistasService {
   trasnportistaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) {}
 
   getDatos() {
     return new Promise( resolve => {      
       this.http.get(`${URL}/transportistas`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -29,7 +31,8 @@ export class TransportistasService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/transportistas/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -55,7 +58,8 @@ export class TransportistasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/transportistas`, formData).subscribe( (resp: any) => {        
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.trasnportistaGuardado.emit( resp.data );                                   
             resolve(resp.data);       
           }
@@ -83,7 +87,8 @@ export class TransportistasService {
       this.http.put(`${ URL }/transportistas/${id}`, formdata)
           .subscribe( (resp: any) => {                                      
              
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.trasnportistaAct.emit( resp.data );                            
               resolve(resp);            
             }
@@ -95,7 +100,8 @@ export class TransportistasService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/transportistas/${id}`)
           .subscribe( (resp: any) => {                             
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.trasnportistaBorrado.emit(id);    
               resolve(resp);            
             }

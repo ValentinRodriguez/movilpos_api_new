@@ -18,7 +18,7 @@ export class TipoClientesComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
   index: number = 0;
 
   constructor(private uiMessage: UiMessagesService,
@@ -55,11 +55,11 @@ export class TipoClientesComponent implements OnInit {
   }
 
   obtenerTipoClientes() {    
-    this.loading = true;
+     
     this.tipoClienteServ.getDatos().then((resp: any) =>{
       this.tipoClientes = resp;   
                 
-      this.loading = false;
+       
     })
   }
 

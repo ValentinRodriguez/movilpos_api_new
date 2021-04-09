@@ -14,7 +14,8 @@ export class TipoProveedorService {
   tipoPact = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   busquedaTproveedor(parametro?: any) {
@@ -28,7 +29,8 @@ export class TipoProveedorService {
     params = params.append('tipo',parametro.tipo);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/tipo-proveedor', {params}).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -38,7 +40,8 @@ export class TipoProveedorService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -48,7 +51,8 @@ export class TipoProveedorService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/tipo-proveedores/${id}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -67,7 +71,8 @@ export class TipoProveedorService {
       }
       this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {   
                                
-          if (resp['code'] === 200) {                                      
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
             resolve(resp);    
             this.tipoPguardado.emit(resp.data);       
           }
@@ -90,7 +95,8 @@ export class TipoProveedorService {
       this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata)
               .subscribe( (resp: any) => {   
                                               
-                if (resp['code'] === 200) {
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
                   this.tipoPact.emit( resp.data );                            
                   resolve(resp);            
                 }
@@ -103,7 +109,8 @@ export class TipoProveedorService {
       this.http.delete(`${ URL }/tipo-proveedores/${id}`)
           .subscribe( (resp: any) => {
                          
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.tipoPborrado.emit(id);    
               resolve(resp);            
             } else {

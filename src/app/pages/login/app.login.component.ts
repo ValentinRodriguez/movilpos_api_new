@@ -21,6 +21,8 @@ export class AppLoginComponent implements OnInit{
   interval;
   guardando = false;
   msgs: Message[] = [];
+  formSubmitted = false;
+  
   constructor(private usuarioServ: UsuarioService,
               private router: Router,
               private datosEstaticosServ: DatosEstaticosService) { }
@@ -31,7 +33,7 @@ export class AppLoginComponent implements OnInit{
   }
 
   onSubmit() {
-    this.guardando = true;
+    this.formSubmitted = true;
     this.usuarioServ.login(this.form).subscribe(
       data => this.handleResponse(data),
       error => this.handlerError(error)
@@ -45,7 +47,7 @@ export class AppLoginComponent implements OnInit{
      
     this.usuarioServ.handleToken(data);
     this.router.navigateByUrl('/');
-    this.guardando = false;
+     
   }
 
   handlerError(error) {
@@ -63,7 +65,7 @@ export class AppLoginComponent implements OnInit{
       default:
         break;
     }
-    this.guardando = false;
+     
   }
 
   showErrorViaMessages() {

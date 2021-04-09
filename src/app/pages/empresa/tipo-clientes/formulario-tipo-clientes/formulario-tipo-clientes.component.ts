@@ -19,6 +19,8 @@ export class FormularioTipoClientesComponent implements OnInit {
   actualizar = false;
   tipoCliExiste = 3;
   id: number;
+  formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -27,19 +29,31 @@ export class FormularioTipoClientesComponent implements OnInit {
               this.usuario = this.usuariosServ.getUserLogged();
                           this.crearFormulario();
             }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
-    this.tipoClientesServ.actualizar.subscribe((resp: any) =>{
+    this.listObserver();
+  }
+
+  listObserver = () => {
+    const observer1$ = this.tipoClientesServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.tipoClientesServ.getDato(resp).then((res: any) => {
-         
+      this.tipoClientesServ.getDato(resp).then((res: any) => {         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.patchValue(res);
       })
     })
-  }
+
+    const observer2$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$];
+   };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -51,11 +65,9 @@ export class FormularioTipoClientesComponent implements OnInit {
 
   
   actTipoCliente() {
-    // this.actualizando = true;
-     ;
+    this.formSubmitted = true;
     if (this.forma.valid) {  
-      this.tipoClientesServ.actualizarTipoCliente(this.id, this.forma.value).then((resp: any) => {
-        this.actualizando = false;    
+      this.tipoClientesServ.actualizarTipoCliente(this.id, this.forma.value).then((resp: any) => {             
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
       })  
     }else{
@@ -68,6 +80,7 @@ export class FormularioTipoClientesComponent implements OnInit {
   }
 
   guardarTipoCliente() {
+    this.formSubmitted = true;
     if (this.tipoCliExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de cliente ya existe');
       return;

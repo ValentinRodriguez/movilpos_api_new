@@ -31,6 +31,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   tipos: any[] = [];
   noFisico = true;
   productoExiste = 3;
+    formSubmitted = false;
   listSubscribers: any = [];
   tipoInventario: any[] = [];
   fechafabricacion: any[] = [];
@@ -132,7 +133,11 @@ export class FormularioMaestraProductosComponent implements OnInit {
       })
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+    const observer7$ = this.inventarioServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$];
   };
 
   crearFormulario() {
@@ -168,6 +173,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   guardarProducto() {
+    this.formSubmitted = true;
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
@@ -178,12 +184,11 @@ export class FormularioMaestraProductosComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
         this.resetFormulario();
       })
-    }  
-    this.guardando = false;
+    }       
   }
   
   actualizarProducto() {
-    //this.actualizando = true;
+    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
@@ -191,8 +196,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{
-      this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{
-        this.actualizando = false;
+      this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{         
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
         this.resetFormulario();
       })

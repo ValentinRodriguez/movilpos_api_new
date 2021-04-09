@@ -19,6 +19,9 @@ export class FormularioCatComponent implements OnInit {
   actualizar = false;
   categoriaExiste = 3;
   id: number;
+    formSubmitted = false;
+  listSubscribers: any = [];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -27,19 +30,31 @@ export class FormularioCatComponent implements OnInit {
                 this.crearFormulario();
   }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
-    
-    this.categoriasServ.actualizar.subscribe((resp: any) =>{
+    this.listObserver();
+  }
+
+  listObserver = () => {
+    const observer1$ = this.categoriasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.categoriasServ.getDato(resp).then((res: any) => {
-         
+      this.categoriasServ.getDato(resp).then((res: any) => {         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.patchValue(res);
       })
     })
-  }
+
+    const observer5$ = this.categoriasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+   this.listSubscribers = [observer1$,observer5$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -50,8 +65,7 @@ export class FormularioCatComponent implements OnInit {
   }
 
   guardarCategoria(){
-    this.guardando = true;
-    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -78,10 +92,9 @@ export class FormularioCatComponent implements OnInit {
   }
   
   actualizarCategoria(){
-    this.actualizando = true;
+    this.formSubmitted = true; 
     this.categoriasServ.actualizarCategoria(this.id, this.forma.value).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-      this.actualizando = false;
+      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);       
     })
   }
 
@@ -93,6 +106,7 @@ export class FormularioCatComponent implements OnInit {
     this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.categoriasServ.guardando();    
   }
+  
   verificaCategoria(data){  
     if (data === "") {
       this.categoriaExiste = 3;

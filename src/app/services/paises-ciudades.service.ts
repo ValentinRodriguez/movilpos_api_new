@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UiMessagesService } from './ui-messages.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
@@ -10,8 +9,7 @@ const URL = environment.url;
 })
 export class PaisesCiudadesService {
 
-  constructor(private http: HttpClient,
-              private uimessage: UiMessagesService) { }
+  constructor(private http: HttpClient) { }
 
   getPaises() {
     return new Promise( resolve => {
@@ -25,8 +23,8 @@ export class PaisesCiudadesService {
 
   getCiudades() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+      this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -35,8 +33,8 @@ export class PaisesCiudadesService {
 
   getCiudadesXpaises(id: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/ciudad/pais/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+      this.http.get(`${URL}/ciudad/pais/${id}`).subscribe((resp: any) => {  
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

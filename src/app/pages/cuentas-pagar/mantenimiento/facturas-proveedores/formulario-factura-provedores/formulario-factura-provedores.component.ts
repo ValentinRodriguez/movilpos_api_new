@@ -40,6 +40,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   tipoOrden:any[] = [];
   itbis: string = "si";
   opciones: any[];
+  formSubmitted = false;
   listSubscribers: any = [];
   cuentaForm = '';
   constructor(private fb: FormBuilder,
@@ -151,7 +152,11 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       })
     })
     
-    this.listSubscribers = [observer1$,observer2$];
+    const observer5$ = this.coTransaccionescxpServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$];
   };
 
   todaLaData() {
@@ -287,7 +292,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   guardarFproveedor(){
-    // this.guardando = true;
+    // this.formSubmitted = true;
     this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -323,14 +328,14 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       
       this.coTransaccionescxpServ.crearFactura(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.guardando = false;
+         
         this.restaurarFormulario();
       })
     }
   }
 
   actualizarFactura(){
-    //this.actualizando = true;
+     this.formSubmitted = true; 
     const fecha_orig = this.forma.get('fecha_orig').value;
     const fecha_proc = this.forma.get('fecha_proc').value;
     
@@ -346,7 +351,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     }else{ 
       this.coTransaccionescxpServ.actualizarFactura(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
         this.restaurarFormulario();
       })
     }

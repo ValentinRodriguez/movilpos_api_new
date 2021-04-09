@@ -59,6 +59,8 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   actualizar = false;
   id: number;
   simbolo = '$RD'
+  formSubmitted = false;
+  
   constructor(private uiMessage: UiMessagesService,
               private fb: FormBuilder,              
               private ordenServ :OrdenPedidosService,
@@ -135,7 +137,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
    }
 
   guardarOrdenes() {
-    this.guardando = true;
+    this.formSubmitted = true;
     let subtotal = Number(this.totalBruto) - Number(this.totalDescuento)
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("monto_desc").setValue(this.totalDescuento)
@@ -154,23 +156,22 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);       
      })
    }
-   this.guardando = false;
+    
  }
 
- actualizarMoneda(){
-  //this.actualizando = true;
-  this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{ 
-      this.ordenServ.actualizarPedido(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
-      })
-    }
+ actualizarPedido(){
+    this.formSubmitted = true; 
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);    
+      if (this.forma.invalid) {       
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+        Object.values(this.forma.controls).forEach(control =>{          
+          control.markAllAsTouched();
+        })
+      }else{ 
+        this.ordenServ.actualizarPedido(this.id, this.forma.value).then((resp: any) => {
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);         
+        })
+      }
   }
 
   cancelar() {

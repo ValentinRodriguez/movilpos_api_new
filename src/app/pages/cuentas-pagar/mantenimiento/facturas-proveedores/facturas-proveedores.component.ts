@@ -17,6 +17,7 @@ export class FacturasProveedoresComponent implements OnInit {
   facturas: any[] = [];
   id_categoria: any;
   cols: any[];
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private usuariosServ: UsuarioService,
@@ -67,7 +68,11 @@ export class FacturasProveedoresComponent implements OnInit {
       this.todasLasFacturas();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.coTransaccionesServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
   };
 
   todasLasFacturas() {

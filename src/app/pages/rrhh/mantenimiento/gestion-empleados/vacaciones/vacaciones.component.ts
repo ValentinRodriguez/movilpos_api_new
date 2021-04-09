@@ -25,7 +25,7 @@ export class VacacionesComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   minDate: Date;
-
+  formSubmitted = false;
   motivo = [
     { label: 'ninguna', value: 'Ninguna' },
     { label: 'basica', value: 'Basica' },
@@ -71,7 +71,7 @@ export class VacacionesComponent implements OnInit {
   }
 
   guardarCategoria(){
-    this.guardando = true;
+    this.formSubmitted = true;
     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      

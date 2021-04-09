@@ -57,6 +57,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   minDate: Date;
   cols2: any[] = [];
   vendedorFiltrado: any[];
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
@@ -103,7 +104,10 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       this.productos.push(resp)
     })   
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+    const observer7$ = this.transportistasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$];
   };
 
   ngOnDestroy(): void {

@@ -16,6 +16,8 @@ export class InventarioService {
   productoEscogido = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
+  
   construct = '';
   usuario: any;
   params: any;
@@ -33,7 +35,8 @@ export class InventarioService {
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -51,7 +54,8 @@ export class InventarioService {
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -61,7 +65,8 @@ export class InventarioService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -72,7 +77,8 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.get(`${URL}/invproductos`)
           .subscribe((resp: any) => {
-            if (resp['code'] === 200) {          
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
               resolve(resp.data);            
             }
           })
@@ -98,7 +104,8 @@ export class InventarioService {
   getTipoProducto() {
     return new Promise( resolve => {
       this.http.get(`${URL}/tipo/invproducto`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -108,7 +115,8 @@ export class InventarioService {
   getMedidas() {
     return new Promise( resolve => {
       this.http.get(`${URL}/medidas/invproducto`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -118,7 +126,8 @@ export class InventarioService {
   getPropiedades() {
     return new Promise( resolve => {
       this.http.get(`${URL}/propiedades/invproducto`).subscribe((resp: any) => {        
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -129,7 +138,8 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.get(`${URL}/autollenado/invproducto`)
           .subscribe((resp: any) => {
-            if (resp['code'] === 200) {          
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
               resolve(resp.data);            
             }
           })
@@ -192,7 +202,8 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => {     
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.productoGuardado.emit(resp.data);                            
               resolve(resp.data);            
             }
@@ -258,7 +269,8 @@ export class InventarioService {
       this.http.post(`${ URL }/act/productos/${id}`, formData)
           .subscribe( resp => {   
                          
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.productoActualizado.emit( resp );                            
               resolve(resp);            
             }
@@ -279,7 +291,8 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto)      
           .subscribe( resp => {    
-            if (resp['code'] === 200) {                            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                            
               resolve(resp);            
             }
           });
@@ -291,7 +304,8 @@ export class InventarioService {
       this.http.delete(`${ URL }/invproductos/${id}`)
           .subscribe( (resp: any) => {   
                                                
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.productoBorrado.emit(id);    
               resolve(resp);            
             } else {
@@ -336,7 +350,8 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                   
-          if (resp['code'] === 200) {  
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {  
             resolve(resp.specification);            
           }
         })

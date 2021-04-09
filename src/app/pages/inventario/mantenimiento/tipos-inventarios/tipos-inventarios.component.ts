@@ -18,13 +18,16 @@ export class TiposInventariosComponent implements OnInit {
   usuario: any;
   actualizando = false;
   actualizar = false;
-  id_tipoInv: any;
-  loading: boolean;
+  id_tipoInv: any;   
   tipoInventario: any[] = [];
   cols: any[];
   cuenta_no: any;
   index: number = 0;
+    formSubmitted = false;
+  listSubscribers: any = [];
 
+
+ 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoInventarioServ: TipoInventarioService,
@@ -33,51 +36,50 @@ export class TiposInventariosComponent implements OnInit {
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
               }
+              ngOnDestroy(): void {
+                this.listSubscribers.forEach(a => a.unsubscribe());
+              }
+            
+            
 
   ngOnInit(): void {
-    this.tipoInventarioServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-
-    this.tipoInventarioServ.TipoInventarioAct.subscribe((resp: any)=>{  
-      this.todosLosInvtipos();
-    })
-
-    this.tipoInventarioServ.TipoInventarioBorrado.subscribe((resp: any)=>{  
-      this.todosLosInvtipos();
-    })
-
-    this.tipoInventarioServ.TipoInventarioGuardado.subscribe((resp: any)=>{  
-      this.todosLosInvtipos();
-    })
-
+    this.listObserver();
     this.todosLosInvtipos();
     
     this.cols = [
       { field: 'cuenta_no', header: 'Cuenta' },
       { field: 'descripcion', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
-    ] 
-
-    
-
-    this.tipoInventarioServ.TipoInventarioGuardado.subscribe(resp =>{
-      this.todosLosInvtipos();
-    })
-
-    this.tipoInventarioServ.TipoInventarioAct.subscribe(resp =>{
-      this.todosLosInvtipos();
-    })
-
-    this.tipoInventarioServ.TipoInventarioBorrado.subscribe((resp: any)=>{      
-      this.todosLosInvtipos();
-    })
+    ]    
   }
 
-  todosLosInvtipos() {
-    this.loading = true;    
-    this.tipoInventarioServ.getDatos().then((resp: any) => {
-      this.loading = false;
+              
+  listObserver = () => {
+    const observer1$ = this.tipoInventarioServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer2$ = this.tipoInventarioServ.TipoInventarioAct.subscribe(()=>{  
+      this.todosLosInvtipos();
+    })
+
+    const observer3$ = this.tipoInventarioServ.TipoInventarioBorrado.subscribe(()=>{  
+      this.todosLosInvtipos();
+    })
+
+    const observer4$ = this.tipoInventarioServ.TipoInventarioGuardado.subscribe(()=>{  
+      this.todosLosInvtipos();
+    })
+
+    const observer5$ = this.tipoInventarioServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+  };
+
+  todosLosInvtipos() {         
+    this.tipoInventarioServ.getDatos().then((resp: any) => {       
       this.tipoInventario = resp;      
     })
   }

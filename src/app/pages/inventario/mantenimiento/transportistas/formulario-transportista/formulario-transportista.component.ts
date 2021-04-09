@@ -24,6 +24,8 @@ export class FormularioTransportistaComponent implements OnInit {
   id: number;
   ciudades=[];
   paises=[];
+    formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -35,7 +37,13 @@ export class FormularioTransportistaComponent implements OnInit {
                 this.crearFormulario();
   }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
+    this.listObserver();
+
     this.zonasServ.getDatos().then((resp: any) => {
       this.zonas = resp;
     })
@@ -43,13 +51,14 @@ export class FormularioTransportistaComponent implements OnInit {
     this.paisesCiudadesServ.getPaises().then((resp: any) => {
       this.paises = resp;
     })
+  }
 
-    this.transportistaServ.actualizar.subscribe((resp: any) =>{
+  listObserver = () => {
+    const observer1$ = this.transportistaServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.transportistaServ.getDato(resp).then((res: any) => {
-         
+      this.transportistaServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
@@ -57,8 +66,14 @@ export class FormularioTransportistaComponent implements OnInit {
           this.forma.get('cod_provincia').setValue(this.ciudades.find(ciudad => ciudad.cod_provincia === res.id_ciudad));
         })
       })
+    }) 
+    
+    const observer5$ = this.transportistaServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
     })
-  }
+
+    this.listSubscribers = [observer1$,observer5$,observer5$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -80,7 +95,7 @@ export class FormularioTransportistaComponent implements OnInit {
   }
 
   guardarTransportista(){
-    this.guardando = true;
+    this.formSubmitted = true;
          
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -88,16 +103,14 @@ export class FormularioTransportistaComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{   
-      this.transportistaServ.crearTransportista(this.forma.value).then((resp: any)=>{
-        this.guardando = false;
+      this.transportistaServ.crearTransportista(this.forma.value).then((resp: any)=>{         
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
       })
     }
   }
     
   ActualizarCategoria(){
-    // this.actualizando = true;
-     ;
+    this.formSubmitted = true;
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -106,8 +119,7 @@ export class FormularioTransportistaComponent implements OnInit {
     }else{   
       this.forma.get('usuario_modificador').setValue(this.usuario.username);
       this.transportistaServ.actualizarTransportista(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-        this.actualizando = false;
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');         
       })
     }
   }

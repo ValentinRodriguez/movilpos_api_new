@@ -68,9 +68,10 @@ export class OrdenesComprasComponent implements OnInit {
   simbolo: any = '$';
   uploadedFiles: any[] = [];
   minDate: Date;
-  selectedMulti: any[] = [];
-  loading: boolean;
+  selectedMulti: any[] = [];   
+  formSubmitted = false;
   listSubscribers: any = [];
+
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -175,7 +176,12 @@ export class OrdenesComprasComponent implements OnInit {
     const observer3$ = this.ordenServ.ordenact.subscribe(() =>{
       this.todosLasOrdenes();
     })
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+
+    const observer5$ = this.ordenServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
   };
   
   autollenado(data) {
@@ -198,18 +204,15 @@ export class OrdenesComprasComponent implements OnInit {
     }
   }
 
-  todosLasOrdenes() {
-    this.loading = true;
-    this.ordenServ.getDatos().then((resp: any) => {
-      this.loading = false;
+  todosLasOrdenes() {     
+    this.ordenServ.getDatos().then((resp: any) => {       
       this.ordenes = resp;
     })
   }
 
   direccionEscogida() {
     this.direccionServ.direccionEscogida.subscribe((resp: any) => {
-      this.direccion = resp;
-      
+      this.direccion = resp;      
       this.forma.get('nombre').setValue(resp.nombre);
       this.forma.get('id_pais').setValue(resp.id_pais);
       this.forma.get('id_ciudad').setValue(resp.id_ciudad);
@@ -279,7 +282,6 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   agregarFormulario(producto) {
-
     let porc_desc = 0;
     let monto_desc = 0;
     let cantidad1 = 1;
@@ -305,7 +307,7 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   guardarOrdenes(){
-    this.guardando = true;
+    this.formSubmitted = true;
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("total_desc").setValue(this.totalDescuento)
     this.forma.get("total_itbis").setValue(this.totalItbis)
@@ -326,7 +328,6 @@ export class OrdenesComprasComponent implements OnInit {
         this.imprimirOrden(resp.data.num_oc);     
       })
     }  
-    this.guardando = false;
   } 
 
   imprimirOrden(num_oc) {

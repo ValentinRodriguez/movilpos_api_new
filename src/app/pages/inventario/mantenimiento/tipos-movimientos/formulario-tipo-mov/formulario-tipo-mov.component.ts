@@ -16,7 +16,7 @@ export class FormularioTipoMovComponent implements OnInit {
 
   forma: FormGroup;
   usuario: any;
-  loading: boolean;
+   
   guardando = false;
   guardar = true;
   actualizando = false;
@@ -27,6 +27,7 @@ export class FormularioTipoMovComponent implements OnInit {
   usuarios: any[] = [];  
   cols2: { field: string; header: string; }[];
   id: number;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   origenes = [
@@ -91,7 +92,11 @@ export class FormularioTipoMovComponent implements OnInit {
       })
     })
 
-    this.listSubscribers = [observer1$,observer2$];
+    const observer5$ = this.CodMovServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$];
    };
   
   crearFormulario() {
@@ -188,7 +193,7 @@ export class FormularioTipoMovComponent implements OnInit {
   }
     
   guardarcodMov(){
-    this.guardando = true;
+    this.formSubmitted = true;
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');  
       Object.values(this.forma.controls).forEach(control =>{          
@@ -212,11 +217,11 @@ export class FormularioTipoMovComponent implements OnInit {
         break;
       } 
     }
-    this.guardando = false;
+     
   }
 
   actualizarMov(){    
-     this.actualizando = true;
+     this.formSubmitted = true; 
      this.forma.get('usuario_modificador').setValue(this.usuario.username);    
      if (this.forma.invalid) {       
        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -242,7 +247,7 @@ export class FormularioTipoMovComponent implements OnInit {
         break;
       }    
     }
-    this.actualizando = false;
+     
   }
 
   cancelar() {

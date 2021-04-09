@@ -18,7 +18,7 @@ export class TipoNegocioComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
   index: number = 0;
 
   constructor(
@@ -58,10 +58,9 @@ export class TipoNegocioComponent implements OnInit {
   }
 
   obtenerTipoNegocios() {
-    this.loading = true;
+     
     this.tipoNegocioServ.getDatos().then((resp: any) =>{
-      this.tipoNegocios = resp;           
-      this.loading = false;
+      this.tipoNegocios = resp;  
     })
   }
 

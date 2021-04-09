@@ -15,10 +15,8 @@ export class SecuenciasService {
                                  .set('cuenta_no',cuenta_no);
 
     return new Promise( resolve => {
-      return this.http.get(`${URL}/secuencias/cgtransacciones`,{params}).subscribe((resp: any) => {
-         
-        
-        if (resp['code'] === 200) {          
+      return this.http.get(`${URL}/secuencias/cgtransacciones`,{params}).subscribe((resp: any) => {                          
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

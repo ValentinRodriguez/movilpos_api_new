@@ -45,6 +45,20 @@ export class DatosEstaticosService {
     return `${hora}:${minuto}:${segundos}`;
   }
 
+  getHourAmp() {
+    let today = new Date();
+    let minutos: any;
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutos = minutes < 10 ? '0'+minutes : minutes;
+
+    var strTime = hours + ':' + minutos + ' ' + ampm;
+    return strTime;
+  }
+
   getCountries() {
     return this.http.get<any>('https://restcountries.eu/rest/v2/lang/es')
       .toPromise()

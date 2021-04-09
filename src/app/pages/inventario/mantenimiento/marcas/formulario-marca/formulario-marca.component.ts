@@ -20,6 +20,8 @@ export class FormularioMarcaComponent implements OnInit {
   usuario: any;
   marcaExiste = 3;
   id: number;
+    formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -30,18 +32,31 @@ export class FormularioMarcaComponent implements OnInit {
                 this.crearFormulario();
   }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
-    this.marcasServ.actualizar.subscribe((resp: any) =>{
+    this.listObserver();
+  }
+
+  listObserver = () => {
+    const observer1$ =  this.marcasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.marcasServ.getDato(resp).then((res: any) => {
-         
+      this.marcasServ.getDato(resp).then((res: any) => {         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.patchValue(res);
       })
     })
-  }
+
+    const observer5$ = this.marcasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -53,7 +68,7 @@ export class FormularioMarcaComponent implements OnInit {
   }
 
   guardarMarca(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -77,11 +92,11 @@ export class FormularioMarcaComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
 
   ActualizarMarca(){
-    this.actualizando = true;       
+    this.formSubmitted = true;       
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -100,14 +115,13 @@ export class FormularioMarcaComponent implements OnInit {
         default:
           this.forma.get('usuario_modificador').setValue(this.usuario.username); 
           this.marcasServ.actualizarMarca(this.id, this.forma.value).then((resp: any) => {
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-            this.actualizando = false;
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);             
             this.resetFormulario();
           })
           break;
       }      
     }
-    this.actualizando = false;
+     
   }
 
   cancelar() {

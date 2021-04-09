@@ -12,13 +12,15 @@ export class OrdenescomprasService {
   ordenact = new EventEmitter();
   ordenGuardada= new EventEmitter();
   ordenBorrada = new EventEmitter();
+  formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/ordenescompras`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -28,7 +30,8 @@ export class OrdenescomprasService {
   autoLlenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/ordenescompras`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -78,7 +81,8 @@ export class OrdenescomprasService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/ordenescompras`, formData).subscribe( resp => {  
                             
-          if (resp['code'] === 200) {    
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
             this.ordenGuardada.emit( resp );                                   
             resolve(resp);       
           }
@@ -89,7 +93,8 @@ export class OrdenescomprasService {
   getDato(id:any) {
     return new Promise( resolve => {
         this.http.get(`${URL}/ordenescompras/${id}`).subscribe((resp: any) => {         
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);                         
         }
       })
@@ -101,7 +106,8 @@ export class OrdenescomprasService {
       this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {   
          
              
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -130,7 +136,8 @@ export class OrdenescomprasService {
     return new Promise( resolve => {   
       this.http.post(`${ URL }/actualizarcompras/${id}`, formData)
                 .subscribe( (resp: any) => {        
-                if (resp['code'] === 200) {   
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {   
                   this.ordenact.emit(1);
                   resolve(resp);          
                 }
@@ -162,7 +169,8 @@ export class OrdenescomprasService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {  
           
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })

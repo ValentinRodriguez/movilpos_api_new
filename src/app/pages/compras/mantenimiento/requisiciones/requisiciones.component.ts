@@ -205,9 +205,9 @@ export class RequisicionesComponent implements OnInit {
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
+       
     }else{      
-      this.guardando = false;
+       
       this.requisicionesServ.crearRequisiciones(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);       
       })

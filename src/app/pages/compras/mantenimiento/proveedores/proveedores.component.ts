@@ -15,6 +15,7 @@ export class ProveedoresComponent implements OnInit {
   cols: any[]; 
   index: number = 0;
   cuenta_no: any;  
+    formSubmitted = false;
   listSubscribers: any = [];
   constructor(private uiMessage: UiMessagesService,
     private proveedoresServ:ProveedoresService,
@@ -57,7 +58,11 @@ export class ProveedoresComponent implements OnInit {
       this.todosLosProveedores();
     })
     
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer5$,observer2$,observer3$,observer4$];
    };
 
   todosLosProveedores() {

@@ -18,6 +18,7 @@ export class FormularioPuertosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   puertoExiste = 3;
+  formSubmitted = false;
   listSubscribers: any = [];
   id: number;
 
@@ -49,7 +50,11 @@ export class FormularioPuertosComponent implements OnInit {
       })
     })
 
-    this.listSubscribers = [observer1$];
+    const observer5$ = this.puertosServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$];
   };
   
   crearFormulario() {
@@ -63,7 +68,7 @@ export class FormularioPuertosComponent implements OnInit {
   }
 
   guardarPuerto(){
-    this.guardando = true;
+    this.formSubmitted = true;
     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -87,7 +92,7 @@ export class FormularioPuertosComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaPuerto(data){  
@@ -107,7 +112,7 @@ export class FormularioPuertosComponent implements OnInit {
   }
 
   actualizarPuerto(){
-    //this.actualizando = true;
+    this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -117,7 +122,7 @@ export class FormularioPuertosComponent implements OnInit {
     }else{ 
       this.puertosServ.actualizarPuerto(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

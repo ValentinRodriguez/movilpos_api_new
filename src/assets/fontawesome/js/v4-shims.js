@@ -6,7 +6,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global['fontawesome-free-shims'] = factory());
-}(this, (function () { 'use strict';
+}( (function () { 'use strict';
 
   var _WINDOW = {};
   var _DOCUMENT = {};

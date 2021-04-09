@@ -17,6 +17,8 @@ export class PropiedadesComponent implements OnInit {
   actualizando = false; 
   actualizar = false;
   cols: any[];
+    formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -26,31 +28,37 @@ export class PropiedadesComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.todasLasPropiedades();
               }
-
+              ngOnDestroy(): void {
+                this.listSubscribers.forEach(a => a.unsubscribe());
+              }
   ngOnInit(): void {
-    
+    this.listObserver();
     this.cols = [
       { field: 'id', header: 'Código' },
       { field: 'descripcion', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
     ] 
-
-    this.propiedadesServ.propiedadGuardada.subscribe((resp: any)=>{
-      this.todasLasPropiedades();
-    })
-
-    this.propiedadesServ.propiedadBorrada.subscribe((resp: any)=>{      
-      const nuevoArray = this.propiedades.filter( (propiedad: any) => {
-        return propiedad.id !== resp;
-      });
-      this.propiedades =  nuevoArray;     
-    })
-
-    this.propiedadesServ.propiedadActualizada.subscribe((resp: any) => {
-      this.todasLasPropiedades();
-    })
   }
 
+  listObserver = () => {    
+    const observer1$ = this.propiedadesServ.propiedadActualizada.subscribe(() => {
+      this.todasLasPropiedades();
+    })
+
+    const observer2$ = this.propiedadesServ.propiedadGuardada.subscribe(()=>{
+      this.todasLasPropiedades();
+    })
+
+    const observer3$ = this.propiedadesServ.propiedadBorrada.subscribe(()=>{      
+      this.todasLasPropiedades();    
+    })
+
+    const observer5$ = this.propiedadesServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+    
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
+  };
   todasLasPropiedades() {
     this.propiedadesServ.getDatos().then((resp: any) => {
       if (resp) {

@@ -19,7 +19,8 @@ export class FormularioPuestosComponent implements OnInit {
   actualizar = false;
   puestoExiste = 3;  
   id: number;
-
+  formSubmitted = false;
+  
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -53,7 +54,7 @@ export class FormularioPuestosComponent implements OnInit {
   }
 
   guardarPuesto(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -77,7 +78,7 @@ export class FormularioPuestosComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaPuesto(data){  
@@ -97,7 +98,7 @@ export class FormularioPuestosComponent implements OnInit {
   }
 
   actualizarPuesto(){
-    //this.actualizando = true;
+     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -107,7 +108,7 @@ export class FormularioPuestosComponent implements OnInit {
     }else{ 
       this.puestosServ.actualizarPuesto(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
         this.resetFormulario();
       })
     }

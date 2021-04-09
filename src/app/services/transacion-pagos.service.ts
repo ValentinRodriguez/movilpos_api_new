@@ -14,7 +14,8 @@ export class TransacionPagosService {
   transaccionAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   busquedaTransaccion(parametro?: any) {
@@ -29,7 +30,8 @@ export class TransacionPagosService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cgtransacciones', {params}).subscribe((resp: any) => {  
                      
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -39,7 +41,21 @@ export class TransacionPagosService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/cgtransacciones`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+        })
+    })
+  }
+
+  gastosXdepartamentos(gastos) {   
+    return new Promise( resolve => {
+      this.http.post(`${URL}/gastos-dep/cgtransacciones`,gastos).subscribe((resp: any) => {
+        console.log(resp);        
+        this.formSubmitted.emit(false);  
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -49,9 +65,8 @@ export class TransacionPagosService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/autollenado/cgtransacciones`).subscribe((resp: any) => {
-           
-        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -60,9 +75,9 @@ export class TransacionPagosService {
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/cgtransacciones/${id}`).subscribe((resp: any) => {
-           
-          if (resp['code'] === 200) {          
+      this.http.get(`${URL}/cgtransacciones/${id}`).subscribe((resp: any) => {           
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -92,7 +107,8 @@ export class TransacionPagosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {
           console.log(resp);
-          if (resp['code'] === 200) {                                      
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
             resolve(resp);    
             this.transaccionGuardada.emit(resp.data);       
           }
@@ -106,7 +122,8 @@ export class TransacionPagosService {
           .subscribe( (resp: any) => {                
              
             
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.transaccionAct.emit( resp.data );                            
               resolve(resp);            
             }
@@ -118,7 +135,8 @@ export class TransacionPagosService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/cgtransacciones/${id}`)
           .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.transaccionBorrada.emit(id);    
               resolve(resp);            
             } else {

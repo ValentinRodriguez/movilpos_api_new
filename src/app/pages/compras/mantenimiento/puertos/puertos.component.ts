@@ -16,7 +16,8 @@ export class PuertosComponent implements OnInit {
   index: number = 0;
   puerto: any[] = [];
   cols: any[];
-  loading: boolean;
+   
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
@@ -63,14 +64,17 @@ export class PuertosComponent implements OnInit {
       this.todosLospuertos();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.puertosService.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
    };
 
   todosLospuertos() {
-    this.loading = true;
+     
     this.puertosService.getDatos().then((resp: any) => {
       this.puerto = resp;
-      this.loading = false;
     });
   }
   

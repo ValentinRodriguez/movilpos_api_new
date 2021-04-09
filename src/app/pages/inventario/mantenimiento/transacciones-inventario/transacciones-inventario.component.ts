@@ -21,7 +21,15 @@ export class TransaccionesInventarioComponent implements OnInit {
   transacciones:any[] = [];
   facturas
   cols: any[] = [];
-  loading: boolean;
+    formSubmitted = false;
+  listSubscribers: any = [];
+
+
+ 
+ 
+ 
+
+ 
   
   constructor(private transaccionesServ: TransaccionesService,
               private usuariosServ: UsuarioService,
@@ -31,18 +39,15 @@ export class TransaccionesInventarioComponent implements OnInit {
               private confirmationService: ConfirmationService) {  
                 this.usuario = this.usuariosServ.getUserLogged();
               }
-  
+
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.todasLastransacciones();
     this.pendientesEntrada();
-
-    this.transaccionesServ.transaccionGuardado.subscribe(() => {
-      this.todasLastransacciones();
-    })   
-
-    this.transaccionesServ.transaccionBorrada.subscribe(() => {
-      this.todasLastransacciones();
-    }) 
+    this.listObserver();
 
     this.cols = [
       { field: 'num_doc', header: 'Documento' },
@@ -54,11 +59,25 @@ export class TransaccionesInventarioComponent implements OnInit {
     ]  
   }
 
-  todasLastransacciones() {
-    this.loading = true;
+  listObserver = () => {
+    const observer1$ = this.transaccionesServ.transaccionGuardado.subscribe(() => {
+      this.todasLastransacciones();
+    })   
+
+    const observer2$ = this.transaccionesServ.transaccionBorrada.subscribe(() => {
+      this.todasLastransacciones();
+    }) 
+
+    const observer5$ = this.transaccionesServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$];
+  };
+
+  todasLastransacciones() {     
     this.transaccionesServ.getDatos().then((resp: any)=>{      
       this.transacciones = resp;
-      this.loading = false;
     })
   }
   

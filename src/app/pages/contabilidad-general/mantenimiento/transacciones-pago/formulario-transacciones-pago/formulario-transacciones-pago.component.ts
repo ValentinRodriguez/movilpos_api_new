@@ -57,6 +57,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   sFragment: string;
   opciones: any[];
   value1: string = "no";
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
@@ -172,7 +173,11 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       });               
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    const observer5$ = this.transaccionescxpServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
   };
 
   afectaCuentasPagar(e) {
@@ -282,8 +287,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   guardarTransaccion(){
-    // this.guardando = true;    
-     
+    this.formSubmitted = true;        
     
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -313,7 +317,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       
       this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
         if (resp) {
-          this.guardando = false;
+           
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
         }               
       })
@@ -321,7 +325,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
  
   actualizarTransaccion(){
-    //this.actualizando = true;
+    this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -331,7 +335,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     }else{ 
       this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

@@ -103,6 +103,7 @@ export class FormularioEmpleadosComponent implements OnInit {
     { label: 'rotativo', value:'Rotativo'},
   ] 
 
+    formSubmitted = false;
   listSubscribers: any = [];
 
   ngOnDestroy(): void {
@@ -162,7 +163,11 @@ export class FormularioEmpleadosComponent implements OnInit {
       this.puestos.push(resp);
     })
 
-    this.listSubscribers = [observer1$];
+    const observer5$ = this.puestosServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer5$];
   };
 
   getBancos() {
@@ -195,19 +200,19 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    // this.guardando = true;    
+    // this.formSubmitted = true;    
     console.log(this.forma);    
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.guardando = false;
+       
     }else{ 
       this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Empleado creado de manera correcta');        
       })
-      this.guardando = false;
+       
     } 
   }
   

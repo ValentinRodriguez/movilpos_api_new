@@ -31,6 +31,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   mask:string;
   cuenta1:any[]=[];
   valor:number;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
@@ -103,7 +104,11 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.cuentas=resp;
     })
 
-    this.listSubscribers = [observer1$,observer2$];
+    const observer5$ = this.entradasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$];
   };
   
   crearFormulario() {
@@ -141,7 +146,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   guardarEntradas(){
-    this.guardando = true;
+    this.formSubmitted = true;
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
@@ -152,7 +157,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);           
       })
     } 
-    this.guardando = false;
+     
   } 
 
   onSelectDate(event) {
@@ -187,8 +192,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     });
   }
 
-  ActualizarMarca(){    
-    // this.actualizando = true;
+  actualizarEntrada(){    
+    this.formSubmitted = true; 
     const fecha = this.forma.get('fecha').value;   
     this.forma.get('fecha').setValue(this.onSelectDate1(fecha));     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
@@ -200,7 +205,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     }else{
       this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {        
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

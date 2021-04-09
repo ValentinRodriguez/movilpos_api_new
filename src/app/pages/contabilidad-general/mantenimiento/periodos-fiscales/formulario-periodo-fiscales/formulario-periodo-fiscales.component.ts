@@ -27,7 +27,8 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
   es: any;
   periodoExiste = 3;
   today = new Date();
-  
+  formSubmitted = false;
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -122,7 +123,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
   }
 
   guardarPeriodo() {
-    this.guardando = true;
+    this.formSubmitted = true;
     let divide = this.mes.value;
     let i = 0;    
     divide.forEach(element => {
@@ -150,7 +151,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
             this.forma.get('usuario_creador').setValue(this.usuario.username);
           })
         }
-        this.guardando = false;
+         
       })
     }else{
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
@@ -159,7 +160,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
   }
 
   actualizarPeriodo() {
-    //this.actualizando = true;
+    this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -169,7 +170,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
     }else{ 
       this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Período actualizado de manera correcta');
-        this.actualizando = false;
+         
       })
     }
   }
