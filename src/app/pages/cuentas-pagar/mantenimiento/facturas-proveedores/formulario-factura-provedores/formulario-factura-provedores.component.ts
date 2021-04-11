@@ -40,8 +40,9 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   tipoOrden:any[] = [];
   itbis: string = "si";
   opciones: any[];
+  formSubmitted = false;
   listSubscribers: any = [];
-
+  cuentaForm = '';
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -89,8 +90,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       // this.cuentas = [];
       resp.forEach(cuentas => {
         if (cuentas.tipo_cuenta !== "normal") {
-          console.log(cuentas);
-          
           this.cuentas.push(cuentas);
           this.agregarFormulario(cuentas);
         }
@@ -153,7 +152,11 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       })
     })
     
-    this.listSubscribers = [observer1$,observer2$];
+    const observer5$ = this.coTransaccionescxpServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$];
   };
 
   todaLaData() {
@@ -289,7 +292,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   guardarFproveedor(){
-    // this.guardando = true;
+    // this.formSubmitted = true;
     this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -325,14 +328,14 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       
       this.coTransaccionescxpServ.crearFactura(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.guardando = false;
+         
         this.restaurarFormulario();
       })
     }
   }
 
   actualizarFactura(){
-    //this.actualizando = true;
+     this.formSubmitted = true; 
     const fecha_orig = this.forma.get('fecha_orig').value;
     const fecha_proc = this.forma.get('fecha_proc').value;
     
@@ -348,15 +351,14 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     }else{ 
       this.coTransaccionescxpServ.actualizarFactura(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
         this.restaurarFormulario();
       })
     }
   }
     
   datosProv(event) {
-    console.log(event);
-    
+    this.cuentaForm = event.cuenta_no;
     const cuenta = event.cuentas_proveedor;
     this.monedas = JSON.parse(event.moneda) 
     this.cuentas = [];
@@ -423,59 +425,57 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  calcula() {   
-    console.log(this.cuentas);
-    
+  calcula() {    
     let index = 0;    
     if (this.cuentas.length === 0) {    
       return;
     } else {
-      if (this.itbis == 'si') {        
-        let porciento = 0;  
-        let itbis = 0
+      if (this.itbis == 'si') {
+        
+        let itbis = 0;
+        let retencion = 0;
 
-        this.cuentas.forEach(element => {            
-          if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {            
-            porciento = Number(((this.cuentas_no).at(index) as FormGroup).get("porciento").value)
-            itbis = Math.round(this.montoFactura.value - (this.montoFactura.value / ( (porciento/100) + 1) ));      
-            this.forma.get('monto_itbi').setValue(itbis);            
-            ((this.cuentas_no).at(index) as FormGroup).get("debito").setValue(itbis);
-          }
-          
-          if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {         
-            const retencion = 0.3 * itbis;                        
-            this.forma.get('retencion').setValue(retencion);    
-            ((this.cuentas_no).at(index) as FormGroup).get("credito").setValue(retencion);       
-            ((this.cuentas_no).at(index) as FormGroup).get("debito").disable(); 
-          } 
+        this.cuentas.forEach(element => {           
 
-          if (element.tipo_cuenta === 'bienes') {       
-            this.forma.get('bienes').setValue(this.calculaTotalTipo(this.cuentas_no.value, 'bienes'))
+          const porciento = Number(((this.cuentas_no).at(index) as FormGroup).get("porciento").value);
+          ((this.cuentas_no).at(0) as FormGroup).get("credito").setValue(this.montoFactura.value);
+          console.log(element.descripcion+'-'+porciento);
+          if (porciento !== 0) {
+            itbis = Math.round(this.montoFactura.value - (this.montoFactura.value / ( (porciento/100) + 1) ));    
+            if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {
+              itbis = Number(((this.cuentas_no).at(index) as FormGroup).get("porciento").value);
+              this.forma.get('monto_itbi').setValue(itbis);
+              ((this.cuentas_no).at(index) as FormGroup).get("debito").setValue(itbis);
+            }
+            console.log(element.descripcion+'-'+itbis);  
+            if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {         
+              retencion = (porciento / 100) * itbis;                        
+              // this.forma.get('retencion').setValue(retencion);                  
+              ((this.cuentas_no).at(index) as FormGroup).get("credito").setValue(retencion);   
+            } 
+          }else{            
+            if (element.tipo_cuenta === 'impuestos' && element.retencion === 'no') {            
+              itbis = Number(((this.cuentas_no).at(index) as FormGroup).get("debito").value);
+              this.forma.get('monto_itbi').setValue(itbis)
+            }
+            console.log(element.descripcion+'-'+itbis);              
+            console.log(element.descripcion+'-'+porciento);
+            if (element.tipo_cuenta === 'impuestos' && element.retencion === 'si') {         
+              retencion = Number(((this.cuentas_no).at(index) as FormGroup).get("credito").value); 
+              ((this.cuentas_no).at(index) as FormGroup).get("debito").disable();           
+            } 
           }
-
-          if (element.tipo_cuenta === 'servicios') {       
-            this.forma.get('servicios').setValue(this.calculaTotalTipo(this.cuentas_no.value, 'servicios'))
-          }
+          console.log(element.descripcion+'-'+itbis);          
+          this.forma.get('retencion').setValue(retencion);    
+          ((this.cuentas_no).at(0) as FormGroup).get("credito").setValue(this.montoFactura.value - retencion);
           index++;
+          
           this.calculaTotal(this.cuentas_no.value)
         });      
       } else {
         this.forma.get('monto_itbi').setValue(0);
       }      
     }
-  }
-
-  calculaTotalTipo(data, tipo) {
-    let totalD = 0;
-    let totalC = 0;
-    
-    data.forEach((element:any) => {
-      if (element.tipo_cuenta === tipo) {        
-        totalD += element.debito;        
-        totalC += element.credito;   
-      }
-    });    
-    return Number(totalD) + Number(totalC);
   }
 
   calculaTotal(data) {

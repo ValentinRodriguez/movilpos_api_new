@@ -15,7 +15,8 @@ export class TipoInventarioService {
   TipoInventarioAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();  
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient,
               private uimessage: UiMessagesService) { 
                 
@@ -32,7 +33,8 @@ export class TipoInventarioService {
     params = params.append('invtipo',parametro.invtipo);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/invtipos', {params}).subscribe((resp: any) => {  
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -42,7 +44,8 @@ export class TipoInventarioService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/invtipos`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {                    
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                    
           resolve(resp.data);            
         }
       })
@@ -52,7 +55,8 @@ export class TipoInventarioService {
   getDato(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/invtipos/${id}`).subscribe((resp: any) =>{
-        if (resp['code'] === 200) {                    
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                    
           resolve(resp.data);            
         }
       })
@@ -73,7 +77,8 @@ export class TipoInventarioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtipos`, formData).subscribe( (resp: any) => {
           
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           resolve(resp);    
           this.TipoInventarioGuardado.emit(resp.data);        
         }
@@ -85,7 +90,8 @@ export class TipoInventarioService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/invtipos/${id}`)
           .subscribe( (resp: any) => {     
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.TipoInventarioBorrado.emit(id);    
               resolve(resp);            
             }
@@ -106,7 +112,8 @@ export class TipoInventarioService {
       this.http.put(`${ URL }/invtipos/${id}`, formData)
           .subscribe( (resp: any) => {
                          
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.TipoInventarioAct.emit( resp.data );                            
               resolve(resp);            
             }

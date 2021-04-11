@@ -18,7 +18,7 @@ export class CondicionesPagoComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
 
   constructor(
               private uiMessage: UiMessagesService,
@@ -53,9 +53,9 @@ export class CondicionesPagoComponent implements OnInit {
   }
 
   todasLasCondiciones() {
-    this.loading = true;    
+         
     this.condicionServ.getDatos().then((resp: any) =>{
-      this.loading = false;
+       
       this.condiciones = resp;   
                 
     })

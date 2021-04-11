@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MovimientoPermisosComponent } from 'src/app/pages/inventario/mantenimiento/tipos-movimientos/movimiento-permisos/movimiento-permisos.component';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CodMovService } from 'src/app/services/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-tipos-movimientos',
   templateUrl: './tipos-movimientos.component.html',
   styleUrls: ['./tipos-movimientos.component.scss']
 })
+
 export class TiposMovimientosComponent implements OnInit {
-
-
   forma: FormGroup;
   usuario: any;
   cuentas_permisos: any[] = []; 
@@ -29,20 +26,24 @@ export class TiposMovimientosComponent implements OnInit {
   id_mov: any;
   mov_nombre: any
   index: number = 0;
-
   cols:any = [];
   cols2: { field: string; header: string; }[];
-
+    formSubmitted = false;
+  listSubscribers: any = [];
+  
   constructor(private uiMessage: UiMessagesService,              
               public dialogService: DialogService,             
               private confirmationService: ConfirmationService,
               private CodMovServ: CodMovService,
               ) { }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
-    this.todosLosMov();      
-    this.movBorrado();
-    this.movGuardado();
+    this.listObserver();
+    this.todosLosMov();     
         
     this.cols = [
       { field: 'titulo', header: 'Titulo' },
@@ -56,11 +57,31 @@ export class TiposMovimientosComponent implements OnInit {
       { field: 'control_orden_compra', header: 'Compra' },
       { field: 'acciones', header: 'Acciones' },
     ]
+  }
 
-    this.CodMovServ.guardar.subscribe((resp: any)=>{  
+  listObserver = () => {
+    const observer1$ = this.CodMovServ.tipoMovBorrado.subscribe(()=>{      
+      this.todosLosMov();
+    })
+
+    const observer2$ = this.CodMovServ.tipoMovGuardado.subscribe(()=>{
+      this.todosLosMov();
+    })
+
+    const observer3$ = this.CodMovServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })
-  }
+
+    const observer4$=this.CodMovServ.tipoMovActualizado.subscribe(()=>{
+      this.todosLosMov();
+    })
+
+    const observer5$ = this.CodMovServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+  };
 
   todosLosMov() {
     this.movimientos = [];    
@@ -70,18 +91,6 @@ export class TiposMovimientosComponent implements OnInit {
     })
   }
 
-  movBorrado() {
-    this.CodMovServ.tipoMovBorrado.subscribe((resp: any)=>{      
-      this.todosLosMov();
-    })
-  }
-
-  movGuardado() {
-    this.CodMovServ.tipoMovGuardado.subscribe((resp: any)=>{
-      this.todosLosMov();
-    })
-  }
- 
   actualizarMov(data){ 
     this.index = 1;   
     this.CodMovServ.actualizando(data);
@@ -100,12 +109,9 @@ export class TiposMovimientosComponent implements OnInit {
 
   permisosMovimientos(id: string) {
     const ref = this.dialogService.open(MovimientoPermisosComponent, {
-      data: {
-        id_tipomov: id
-      },
+      data: {id_tipomov: id},
       header: 'Gestión de permisos a bodegas',
       width: '50%'
     });
   }
-
 }

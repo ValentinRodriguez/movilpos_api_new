@@ -15,7 +15,7 @@ export class ListadoEmpleadosComponent implements OnInit {
   empleadosSeleccionados: any;
   productos: any[] = [];
   cols: any[]= [];
-  loading: boolean;
+   
 
   constructor(private empleadosServ: RrhhService,
               private ref: DynamicDialogRef,
@@ -33,10 +33,10 @@ export class ListadoEmpleadosComponent implements OnInit {
   }
 
   todosLosEmpleados() {
-    this.loading = true;
+     
     this.empleadosServ.getDatos().then((resp: any) => {
       this.empleado = resp;
-      this.loading = false;
+       
     })
   }
 

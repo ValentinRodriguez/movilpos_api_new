@@ -1,7 +1,6 @@
 <p-table #dt [columns]="cols" [value]="direcciones" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
         [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [(selection)]="direccioneSeleccionada" closeOnEscape="true"
-        [globalFilterFields]="['pais','ciudad','direccion_a','direccion_b','nombre','telefono']" [lazy]="true" (onLazyLoad)="todasLasDirecciones()" 
-        [loading]="loading">
+        [globalFilterFields]="['pais','ciudad','direccion_a','direccion_b','nombre','telefono']">
 
     <ng-template pTemplate="caption">
         <div class="table-header">

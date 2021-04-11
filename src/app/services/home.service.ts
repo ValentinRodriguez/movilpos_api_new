@@ -12,10 +12,8 @@ export class HomeService {
 
   autoLlenado() {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/autollenado/home`).subscribe((resp: any) => {
-         
-        
-        if (resp['code'] === 200) {          
+      return this.http.get(`${URL}/autollenado/home`).subscribe((resp: any) => {                           
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

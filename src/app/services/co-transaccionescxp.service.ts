@@ -15,7 +15,8 @@ export class CoTransaccionescxpService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   facturaEscogida  = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   busquedaFactura(parametro?: any) {
@@ -24,7 +25,8 @@ export class CoTransaccionescxpService {
     params = params.append('factura',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/transacciones-cxp', {params}).subscribe((resp: any) => {  
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -34,7 +36,8 @@ export class CoTransaccionescxpService {
   autoLlenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/transacciones-cxp`).subscribe((resp: any) => {      
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }
       })
@@ -44,7 +47,8 @@ export class CoTransaccionescxpService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/transacciones-cxp`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -53,9 +57,9 @@ export class CoTransaccionescxpService {
 
   facturasPendientes() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/facturas-pendientes/transacciones-cxp`).subscribe((resp: any) => {
-                     
-          if (resp['code'] === 200) {          
+      this.http.get(`${URL}/facturas-pendientes/transacciones-cxp`).subscribe((resp: any) => {                     
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -65,7 +69,8 @@ export class CoTransaccionescxpService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/transacciones-cxp/${id}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -76,7 +81,8 @@ export class CoTransaccionescxpService {
     let params = new HttpParams().set('proveedor',proveedor).set('ncf',ncf);
     return new Promise( resolve => {
       this.http.get(`${URL}/transacciones-cxp/verificancf`,{params}).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -112,7 +118,8 @@ export class CoTransaccionescxpService {
       this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {  
                      console.log(resp);
                      
-          if (resp['code'] === 200) {                                      
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
             resolve(resp);    
             this.facturaGuardada.emit(resp.data);       
           }
@@ -146,7 +153,8 @@ export class CoTransaccionescxpService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/transacciones-cxp/${id}`, data)      
           .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.facturaAct.emit( resp.data );                            
               resolve(resp);            
             }
@@ -159,7 +167,8 @@ export class CoTransaccionescxpService {
       this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {
           console.log(resp);
           
-          if (resp['code'] === 200) {            
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
             this.facturaBorrada.emit(id);    
               resolve(resp);            
             }

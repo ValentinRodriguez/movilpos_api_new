@@ -72,6 +72,8 @@ import { EntradaDiarioComponent } from './pages/contabilidad-general/mantenimien
 import { AnalisisSaldoComponent } from './pages/cuentas-pagar/reportes/analisis-saldo/analisis-saldo.component';
 import { TransaccionesPagoComponent } from './pages/contabilidad-general/mantenimiento/transacciones-pago/transacciones-pago.component';
 import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimiento/facturas-proveedores/facturas-proveedores.component';
+import { CatalogoProveedoresComponent } from './pages/compras/reportes/catalogo-proveedores/catalogo-proveedores.component';
+import { GastosDepartamentosComponent } from './pages/contabilidad-general/reportes/gastos-departamentos/gastos-departamentos.component';
 
 @NgModule({
     imports: [
@@ -117,9 +119,9 @@ import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimient
                     {path: 'gestion-de-ordenes-compras', component: OrdenesComprasComponent},
                     {path: 'gestion-de-requisiciones', component: RequisicionesComponent},
                     {path: 'gestion-de-puertos', component: PuertosComponent},
-                    {path: 'gestion-direcciones-envio', component: DireccionesEnvioComponent},
-                    {path: 'gestion-factura-proveedores', component: FacturasProveedoresComponent},
-
+                    {path: 'gestion-direcciones-envio', component: DireccionesEnvioComponent},                    
+                    {path: 'catalogo-de-proveedores', component: CatalogoProveedoresComponent},
+                    
                     //RRHH
                     {path: 'gestion-de-empleados', component: GestionEmpleadosComponent},
                     {path: 'gestion-de-departamentos', component: DepartamentosComponent},
@@ -139,10 +141,12 @@ import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimient
                     {path: 'gestion-periodos-fiscales', component: PeriodosFiscalesComponent},
                     {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
                     {path: 'gestion-transacciones-pago', component: TransaccionesPagoComponent},
-                    
+                    {path: 'gastos-departamento', component: GastosDepartamentosComponent},
+
                     // CUENTAS POR PAGAR
                     {path: 'reporte-analisis-saldo', component: AnalisisSaldoComponent},                   
-
+                    {path: 'gestion-factura-proveedores', component: FacturasProveedoresComponent},
+                    
                     // MISCELANEOS
                     {path: 'gestion-de-actividades', component: GestionActividadesComponent}                    
                 ]

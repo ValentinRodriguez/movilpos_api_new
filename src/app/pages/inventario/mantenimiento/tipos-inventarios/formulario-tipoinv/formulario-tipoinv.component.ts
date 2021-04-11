@@ -22,6 +22,9 @@ export class FormularioTipoinvComponent implements OnInit {
   cuenta_no: any;
   cuentasFiltradas: any[] = [];
   id: number;
+    formSubmitted = false;
+  listSubscribers: any = [];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private tipoInventarioServ: TipoInventarioService,
@@ -29,37 +32,49 @@ export class FormularioTipoinvComponent implements OnInit {
               private cgcatalogoServ: CgcatalogoService) {
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.crearFormulario();
-               }
+              }
+
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
+    this.listObserver();
     this.cgcatalogoServ.getDatosAux().then((resp: any) => {
       this.cuenta_no = resp;
     })
+  }
 
-    this.tipoInventarioServ.actualizar.subscribe((resp: any) =>{
+  listObserver = () => {
+    const observer1$ = this.tipoInventarioServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.tipoInventarioServ.getDato(resp).then((res: any) => {
-         
+      this.tipoInventarioServ.getDato(resp).then((res: any) => {         
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.get('cuenta_no').setValue(this.cuenta_no.find(cuenta => cuenta.cuenta_no === res.cuenta_no));
       })
     })
-  }
+
+    const observer5$ = this.tipoInventarioServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
-      descripcion:     ['', Validators.required],
-      cuenta_no:       ['', Validators.required],
-      estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required],
+      descripcion:         ['', Validators.required],
+      cuenta_no:           ['', Validators.required],
+      estado:              ['activo', Validators.required],
+      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }
   
   guardarTipoInventario(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -106,14 +121,14 @@ export class FormularioTipoinvComponent implements OnInit {
         default:
           this.forma.get('usuario_modificador').setValue(this.usuario.username);
           this.tipoInventarioServ.actualizartipoInv(this.id, this.forma.value).then((resp: any) => {
-            this.actualizando = false;
+             
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
             this.resetFormulario();
           })
           break;
       } 
     }
-    this.actualizando = false;
+     
   }
 
   cancelar() {

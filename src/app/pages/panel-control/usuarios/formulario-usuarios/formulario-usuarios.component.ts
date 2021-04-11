@@ -94,7 +94,11 @@ export class FormularioUsuariosComponent implements OnInit {
 
   guardarUsuario() {
     this.formSubmitted = true;
+<<<<<<< HEAD
    // this.guardando = true;
+=======
+    this.formSubmitted = true;
+>>>>>>> 1b08b58f2400897e6053be2993ed849786caf92b
     if (this.usuarioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este usuario ya esta registrado');
       return;
@@ -126,7 +130,7 @@ export class FormularioUsuariosComponent implements OnInit {
   }
 
   actualizarUsuario() {
-    //this.actualizando = true;
+     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -136,7 +140,7 @@ export class FormularioUsuariosComponent implements OnInit {
     }else{ 
       this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario actualizado de manera correcta');
-        this.actualizando = false;
+         
       })
     }
   }

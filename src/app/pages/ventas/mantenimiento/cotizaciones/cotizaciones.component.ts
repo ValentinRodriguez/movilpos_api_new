@@ -17,7 +17,7 @@ export class CotizacionesComponent implements OnInit {
   monedas: any[] = [];
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -57,10 +57,10 @@ export class CotizacionesComponent implements OnInit {
   }
 
   todasLasMonedas() {
-    this.loading = true;
+     
     this.monedasServ.getDatos().then((resp: any) => {
       this.monedas = resp;
-      this.loading = false;
+       
     });
   }
   

@@ -13,7 +13,8 @@ export class PuestosService {
   puestoAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   busquedaPuesto(parametro?: any) {
@@ -22,7 +23,8 @@ export class PuestosService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/nopuestos', {params}).subscribe((resp: any) => {  
                      
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -32,7 +34,8 @@ export class PuestosService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/nopuestos`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -43,7 +46,8 @@ export class PuestosService {
     return new Promise( resolve => {
       this.http.get(`${URL}/nopuestos/${id}`).subscribe((resp: any) => {
            
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -57,9 +61,9 @@ export class PuestosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {
-         
-        if (resp['code'] === 200) {                                      
+      this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {         
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           resolve(resp);    
           this.puestoGuardada.emit(resp.data);       
         }
@@ -73,7 +77,8 @@ export class PuestosService {
           .subscribe( (resp: any) => {                
              
             
-            if (resp['code'] === 200) {
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
               this.puestoAct.emit( resp.data );                            
               resolve(resp);            
             }
@@ -85,7 +90,8 @@ export class PuestosService {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/nopuestos/${id}`)
           .subscribe( (resp: any) => {
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.puestoBorrada.emit(id);    
               resolve(resp);            
             } else {

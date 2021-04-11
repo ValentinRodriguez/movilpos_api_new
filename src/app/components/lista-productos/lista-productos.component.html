@@ -1,6 +1,6 @@
 <p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  [(selection)]="selectedProducts" 
-    [globalFilterFields]="['imagen','titulo','codigo','precio_venta','cantidad1']" [lazy]="true" (onLazyLoad)="todosLosProductos()" [loading]="loading">
+    [globalFilterFields]="['imagen','titulo','codigo','precio_venta','cantidad1']">
 
     <ng-template pTemplate="caption">
         <div class="table-header">

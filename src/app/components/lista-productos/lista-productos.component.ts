@@ -12,7 +12,7 @@ export class ListaProductosComponent implements OnInit {
   productos: any[] = [];
   selectedProducts = [];
   cols: any[];
-  loading: boolean;
+   
 
   constructor(private inventarioServ: InventarioService,
               private ref: DynamicDialogRef,
@@ -30,11 +30,9 @@ export class ListaProductosComponent implements OnInit {
     ] 
   }
 
-  todosLosProductos() {
-    this.loading = true;    
+  todosLosProductos() {    
     this.inventarioServ.getDatos().then((resp:any)=>{
-      this.productos = resp      
-      this.loading = false;
+      this.productos = resp   
     })
   }
   

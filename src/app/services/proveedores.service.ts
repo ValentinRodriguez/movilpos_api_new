@@ -13,13 +13,15 @@ export class ProveedoresService {
   proveedorBorrado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/proveedores`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -29,7 +31,8 @@ export class ProveedoresService {
   autoLlenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -39,7 +42,8 @@ export class ProveedoresService {
   autollenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -51,7 +55,8 @@ export class ProveedoresService {
       this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => { 
          
                
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -71,15 +76,12 @@ export class ProveedoresService {
       this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => { 
          
         
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
     })
-  }
-
-  listadoProveedoresEscogidos(proveedores: any) {
-    this.proveedorEscogido.emit(proveedores);
   }
 
   crearProveedor(provee: any) {
@@ -109,8 +111,11 @@ export class ProveedoresService {
        
       
       return new Promise( resolve => {
-        this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {                               
-            if (resp['code'] === 200) {    
+        this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
+            console.log(resp);
+                                       
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
               this.proveedoresCreados.emit( resp.data );                                   
               resolve(resp.data);       
             }
@@ -146,7 +151,8 @@ export class ProveedoresService {
     return new Promise( resolve => {      
       this.http.put(`${ URL }/proveedores/${id}`, data)
               .subscribe( (resp: any) => {     
-                if (resp['code'] === 200) {
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {
                   this.proveeact.emit( resp.data );                            
                   resolve(resp);                               
                 }
@@ -166,6 +172,50 @@ export class ProveedoresService {
     })
   }
 
+  reporteCatalogoProveedores(provee: any) {
+    console.log(provee);
+    
+    let data = {}
+      for(let key in provee){         
+        switch (key) {
+          case 'cod_sp':
+          case 'cond_pago':
+          case 'id_ciudad':
+          case 'id_pais':            
+            data[key] = provee[key].id  || "";          
+          break;
+
+          case 'tipo_doc':            
+              data[key] = provee[key].tipo_documento || "";          
+          break;
+      
+          case 'id_moneda':    
+            if (provee[key] === "") {
+              data[key] = provee[key];               
+            }else{
+              data[key] = JSON.stringify(provee[key])              
+            }        
+          break;
+
+          default:
+            data[key] = provee[key]
+            break;
+        }
+      }       
+      console.log(data);
+      return new Promise( resolve => {
+        this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {  
+            console.log(resp);
+            this.formSubmitted.emit(false);                           
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
+              this.proveedoresCreados.emit( resp.data );                                   
+              resolve(resp.data);       
+            }
+        });
+      }); 
+  }
+
   actualizando(cod_sp:number, cod_sp_sec:number) {
     const data = [cod_sp, cod_sp_sec]
     this.actualizar.emit(data);
@@ -175,4 +225,7 @@ export class ProveedoresService {
     this.guardar.emit(0);
   }
     
+  listadoProveedoresEscogidos(proveedores: any) {
+    this.proveedorEscogido.emit(proveedores);
+  }
 }

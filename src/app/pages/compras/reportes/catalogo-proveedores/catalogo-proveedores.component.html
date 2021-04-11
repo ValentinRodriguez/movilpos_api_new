@@ -1,0 +1,145 @@
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <h5>Catálogo de proveedores</h5>
+            <form (ngSubmit)="verReporte()" [formGroup]="forma">
+                <div class="p-fluid p-formgrid p-grid">
+                    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="nom_sp">Nombre</label>
+                        <input id="nom_sp" type="text" pInputText formControlName="nom_sp">                        
+                    </div>
+                    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="tipo_doc">Documento</label>
+                        <p-dropdown inputId="tipo_doc" [options]="documento"
+                                    name="tipo_doc" formControlName="tipo_doc" id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value)">
+                        </p-dropdown>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3" *ngIf="this.cedula">
+                        <label for="documento">Cédula</label>
+                        <span class=" p-input-icon-right">                
+                            <p-inputMask mask="999-9999999-9" formControlName="documento" placeholder="Escoje.."></p-inputMask>                            
+                        </span>
+                    </div>
+                    
+                    <div class="p-field p-col-12 p-md-3" *ngIf="this.rnc">
+                        <label for="documento">RNC</label>
+                        <span class=" p-input-icon-right">
+                            <input type="text" pInputText formControlName="documento" maxlength="11" placeholder="Escoje..">
+                        </span>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="email">Email</label>
+                        <span class=" p-input-icon-right">
+                            <input type="text" pInputText formControlName="email">
+                        </span>                        
+                    </div>
+                                        
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="tel_sp">Teléfono</label>
+                        <span class=" p-input-icon-right">
+                            <p-inputMask mask="(999)-999-9999" formControlName="tel_sp" placeholder="(999)-999-9999">
+                            </p-inputMask>
+                        </span>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="cod_sp">Tipo Proveedor</label>
+                        <p-dropdown inputId="cod_sp" [options]="tipo_proveedor" (onChange)="setCuenta($event.value.cuenta_no)" 
+                                    name="cod_sp" formControlName="cod_sp" id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+                        </p-dropdown>                        
+                    </div>
+                        
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="cond_pago">Condición Pago</label>
+                        <p-dropdown [options]="condpago" name="cond_pago" formControlName="cond_pago" 
+                                    id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+                        </p-dropdown>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="id_moneda">Moneda</label>
+                        <p-multiSelect [options]="monedas" formControlName="id_moneda" defaultLabel="Seleccione Moneda" optionLabel="descripcion" 
+                                       class="multiselect-custom">
+                            <ng-template let-value pTemplate="selectedItems">
+                                <div class="country-item country-item-value" *ngFor="let option of selectedMultiMoneda">
+                                    <div>{{option.simbolo}} {{option.divisa | titlecase}}</div>
+                                </div>
+                                <div *ngIf="!selectedMultiMoneda || selectedMultiMoneda.length === 0" class="country-placeholder">
+                                    Seleccione Moneda
+                                </div>
+                            </ng-template>
+                            <ng-template let-country pTemplate="item">
+                                <div class="country-item">
+                                    <div>{{country.simbolo}} {{country.divisa | titlecase}}</div>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="cont_sp">Persona de Contacto</label>
+                        <span class=" p-input-icon-right">
+                            <input id="cont_sp" type="text" pInputText formControlName="cont_sp">
+                        </span>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="id_pais">Pais</label>
+                        <p-dropdown input [options]="paises" name="id_pais" formControlName="id_pais" 
+                                    id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
+                        </p-dropdown>                        
+                    </div>
+            
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="id_ciudad">Ciudad</label>
+                        <p-dropdown input  [options]="ciudades" name="id_ciudad" formControlName="id_ciudad" 
+                                    id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+                        </p-dropdown>                        
+                    </div>
+                </div>
+                <br>
+                <button pButton pRipple label="Ver Reporte" icon="pi pi-eye" type="submit" class="p-mr-2 p-mb-2"></button>                
+                <button pButton pRipple label="Limpiar Formulario" icon="pi pi-trash" type="button" (click)="limpiarForm()" class="p-button-warning p-mr-2 p-mb-2"></button> 
+            </form>
+        </div>
+    </div>
+    
+    <p-table #dt [columns]="cols" [value]="proveedores" *ngIf="this.proveedores.length !== 0">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
+                <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+                <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">                    
+                    <span *ngIf="col.field === 'nom_sp' || col.field === 'cont_sp'">
+                        {{ rowData[col.field] | titlecase}}
+                    </span>
+
+                    <span *ngIf="col.field === 'dir_sp' || col.field === 'tel_sp' || col.field === 'email' || col.field === 'condicion_pago'">
+                        {{ rowData[col.field] }}
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+<p-toast key="tst"></p-toast>

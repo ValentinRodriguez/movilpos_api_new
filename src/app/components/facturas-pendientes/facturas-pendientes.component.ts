@@ -13,7 +13,6 @@ export class FacturasPendientesComponent implements OnInit {
   facturas: any[] = [];
   facturasSeleccionadas = [];
   cols: any[];
-  loading: boolean;
 
   constructor(private facturasServ: CoTransaccionescxpService,
               private ref: DynamicDialogRef,
@@ -31,11 +30,9 @@ export class FacturasPendientesComponent implements OnInit {
     ] 
   }
 
-  todosLasFacturas() {
-    this.loading = true;    
+  todosLasFacturas() {  
     this.facturasServ.facturasPendientes().then((resp:any)=>{      
-      this.facturas = resp      
-      this.loading = false;
+      this.facturas = resp   
     })
   }
   

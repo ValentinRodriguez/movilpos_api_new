@@ -22,6 +22,8 @@ export class FormularioDireccionesComponent implements OnInit {
   ciudades=[];
   paises=[]; 
   id: number;
+  listSubscribers: any = [];
+  formSubmitted = false;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -32,9 +34,20 @@ export class FormularioDireccionesComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
-    this.dirServ.actualizar.subscribe((resp: any) =>{
+  ngOnInit(): void {
+    this.listObserver();
+
+    this.paisesCiudadesServ.getPaises().then((resp: any) => {
+      this.paises = resp;
+    })
+  } 
+   
+  listObserver = () => {
+    const observer1$ = this.dirServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
@@ -43,11 +56,13 @@ export class FormularioDireccionesComponent implements OnInit {
       })
     })
 
-    this.paisesCiudadesServ.getPaises().then((resp: any) => {
-      this.paises = resp;
+    const observer2$ = this.dirServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
     })
-  }
-  
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
+
   crearFormulario() {
     this.forma = this.fb.group({
       nombre:              ['', Validators.required],
@@ -63,7 +78,7 @@ export class FormularioDireccionesComponent implements OnInit {
   }
 
   guardarDirecciones(){
-    this.guardando = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -86,7 +101,7 @@ export class FormularioDireccionesComponent implements OnInit {
           break;
       } 
     }
-    this.guardando = false;
+     
   }
   
   verificaDirecciones(data){  
@@ -106,7 +121,7 @@ export class FormularioDireccionesComponent implements OnInit {
   }
 
   actualizarDirecciones(){
-    this.actualizando = true;
+    this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -116,7 +131,7 @@ export class FormularioDireccionesComponent implements OnInit {
     }else{ 
       this.dirServ.actualizarDireccion(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
+         
       })
     }
   }

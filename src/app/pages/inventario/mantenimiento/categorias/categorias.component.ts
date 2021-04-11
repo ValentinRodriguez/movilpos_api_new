@@ -17,9 +17,16 @@ export class CategoriasComponent implements OnInit {
   actualizando = false; 
   actualizar = false;
   id_categoria: any;
-  cols: any[];
-  loading: boolean;
+  cols: any[];   
   index: number = 0;
+    formSubmitted = false;
+  listSubscribers: any = [];
+
+
+
+
+
+
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private categoriasServ: CategoriasService,
@@ -28,36 +35,45 @@ export class CategoriasComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
                 this.todasLasCategorias();
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
-    
+    this.listObserver();
     this.cols = [
       { field: 'id', header: 'Código' },
       { field: 'descripcion', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
     ] 
+  }
 
-    this.categoriasServ.categoriaGuardada.subscribe((resp: any)=>{
+  listObserver = () => {
+    const observer1$ = this.categoriasServ.categoriaGuardada.subscribe(()=>{
       this.todasLasCategorias();
     })
 
-    this.categoriasServ.categoriaBorrada.subscribe((resp: any)=>{
+    const observer2$ = this.categoriasServ.categoriaActualizada.subscribe(() => {
+      this.todasLasCategorias();
+    })
+
+    const observer3$ = this.categoriasServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
+    const observer4$ = this.categoriasServ.categoriaBorrada.subscribe(()=>{
       this.todasLasCategorias();   
     })
 
-    this.categoriasServ.categoriaActualizada.subscribe((resp: any) => {
-      this.todasLasCategorias();
+    const observer5$ = this.categoriasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
     })
 
-    this.categoriasServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-  }
-
-  todasLasCategorias() {    
-    this.loading = true;    
-    this.categoriasServ.getDatos().then((resp: any) => {
-      this.loading = false;
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+  };
+   
+  todasLasCategorias() {
+    this.categoriasServ.getDatos().then((resp: any) => {       
       this.categorias = resp;
     })
   }

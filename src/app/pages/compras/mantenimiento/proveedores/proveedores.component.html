@@ -6,7 +6,7 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar Proveedores" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="proveedores" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                                 [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                                 [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="documento"
                                  [globalFilterFields]="['nombre','num_rnc','email','celular','vendedor']">
 					
 						<ng-template pTemplate="caption">
@@ -27,7 +27,7 @@
 							</tr>
 						</ng-template>
 						
-						<ng-template pTemplate="body" let-rowData let-columns="columns">
+						<ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
 							<tr class="p-selectable-row">
 							
 								<td *ngFor="let col of columns">
@@ -51,7 +51,7 @@
 									</div>
 
 									<div *ngIf="col.field === 'acciones'">
-										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
+										<button pButton pRipple type="button" [pRowToggler]="rowData" [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
 										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarProveedor(rowData.cod_sp, rowData.cod_sp_sec)" pTooltip="Actualizar"></button>
 										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarProveedor(rowData.id)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
@@ -59,11 +59,38 @@
 								</td>								
 							</tr>
 						</ng-template>
+
+						<ng-template pTemplate="rowexpansion" let-rowData>
+							<tr>
+								<td [attr.colspan]="cols.length">
+									<div class="p-p-3">
+										<p-table [value]="rowData.cuentas_proveedor" dataKey="documento">
+											<ng-template pTemplate="header">
+												<tr>													
+													<th class="centrar" pSortableColumn="descripcion">descripcion <p-sortIcon field="descripcion"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="cuenta_no">cuenta_no <p-sortIcon field="cuenta_no"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="porciento">porciento <p-sortIcon field="porciento"></p-sortIcon></th>
+												</tr>
+											</ng-template>
+											<ng-template pTemplate="body" let-detalle>
+												<tr>
+													<td class="centrar">{{detalle.descripcion | titlecase}}</td>
+													<td class="centrar">{{detalle.cuenta_no}}</td>
+													<td class="centrar">{{detalle.porciento}}</td>
+												</tr>
+											</ng-template>
+										</p-table>
+									</div>
+								</td>
+							</tr>
+						</ng-template>
+
 						<ng-template pTemplate="emptymessage">
 							<tr>
 								<td colspan="8">No existen proveedores en la base de datos.</td>
 							</tr>
 						</ng-template>
+						
 						<ng-template pTemplate="summary">
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="proveedores.length !== 1">
 								Existen {{proveedores ? proveedores.length : 0 }} proveedores en total.

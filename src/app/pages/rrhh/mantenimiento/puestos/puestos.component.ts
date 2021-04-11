@@ -17,7 +17,7 @@ export class PuestosComponent implements OnInit {
   puestos: any[] = [];
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -57,11 +57,11 @@ export class PuestosComponent implements OnInit {
   }
 
   todasLosPuestos() {
-    this.loading = true;
+     
     this.puestosServ.getDatos().then((resp: any) => {
        
       this.puestos = resp;
-      this.loading = false;
+       
     });
   }
   

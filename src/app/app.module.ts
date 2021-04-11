@@ -254,7 +254,9 @@ import { StepFacturaProvedoresComponent } from './pages/cuentas-pagar/mantenimie
 
 import { SecuenciasService } from "./services/secuencias.service";
 import { DgiiService } from "./services/dgii.service";
-
+import { CatalogoProveedoresComponent } from './pages/compras/reportes/catalogo-proveedores/catalogo-proveedores.component';
+import { GastosDepartamentosComponent } from './pages/contabilidad-general/reportes/gastos-departamentos/gastos-departamentos.component';
+import { GlobalFunctionsService } from "./services/global-functions.service";
 @NgModule({
     imports: [
         BrowserModule,
@@ -449,7 +451,9 @@ import { DgiiService } from "./services/dgii.service";
         StepTransaccionesPagoComponent,
         FacturasProveedoresComponent,
         FormularioFacturaProvedoresComponent,
-        StepFacturaProvedoresComponent
+        StepFacturaProvedoresComponent,
+        CatalogoProveedoresComponent,
+        GastosDepartamentosComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -520,6 +524,7 @@ import { DgiiService } from "./services/dgii.service";
         TransacionPagosService,
         SecuenciasService,
         DgiiService,
+        GlobalFunctionsService,
         EntradasDiarioService
     ],
     entryComponents:[

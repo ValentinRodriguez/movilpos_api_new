@@ -36,6 +36,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder, 
@@ -110,7 +111,11 @@ export class FormularioProveedoresComponent implements OnInit {
       });               
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
   };
 
   todaLaData() {
@@ -169,7 +174,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      cod_sp:              [''],  
+      cod_sp:              ['', Validators.required],  
       email:               ['', Validators.compose([ Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])],  
       cod_sp_sec:          [''], 
       nom_sp:              ['', Validators.required],          
@@ -179,7 +184,7 @@ export class FormularioProveedoresComponent implements OnInit {
       cont_sp:             ['', Validators.required],
       tipo_doc:            ['', Validators.required],
       cond_pago:           ['', Validators.required],          
-      documento:           [''],        
+      documento:           ['', Validators.required],        
       id_moneda:           ['', Validators.required],        
       cuenta_no:           ['', Validators.required],
       id_pais:             ['', Validators.required],            
@@ -194,6 +199,10 @@ export class FormularioProveedoresComponent implements OnInit {
   get cuentas_no() {   
     return this.forma.get('cuentas_no') as FormArray;
   }
+
+  get cuentaForm() {   
+    return this.forma.get('cuenta_no') as FormGroup;
+  }
   
   agregarFormulario(cuentas) {
     (<FormArray>this.forma.get('cuentas_no')).push(this.agregarFormularioTransacciones(cuentas));    
@@ -203,7 +212,7 @@ export class FormularioProveedoresComponent implements OnInit {
     return this.fb.group({
       descripcion: [cuentas.descripcion, Validators.required],  
       cuenta_no:   [cuentas.cuenta_no, Validators.required],  
-      porciento:   [cuentas.porciento || '', Validators.required],  
+      porciento:   [cuentas.porciento],  
     });
   }
 
@@ -218,13 +227,20 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    this.guardando = true; 
+    this.formSubmitted = true; 
     console.log(this.forma.value);
           
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
+        if (control instanceof FormArray) {    
+          Object.values(control.controls).forEach(control => {
+            control.markAsTouched();
+            console.log(control);
+          });
+        } else {
+          control.markAllAsTouched();
+        }
       })
     }else{            
       this.proveedoresServ.crearProveedor(this.forma.value).then(()=>{
@@ -232,11 +248,11 @@ export class FormularioProveedoresComponent implements OnInit {
         this.restaurarFormulario();
       })
     } 
-    this.guardando = false;
+     
   } 
 
   actualizarProveedor(){
-    this.actualizando = true;            
+    this.formSubmitted = true;            
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -249,10 +265,8 @@ export class FormularioProveedoresComponent implements OnInit {
         this.restaurarFormulario();            
       })
     } 
-    this.actualizando = false;
+     
   } 
-
-
 
   verificaProveedor(data){        
     if (data === "") {
@@ -271,7 +285,14 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   setCuenta(data) {
-    this.forma.get('cuenta_no').setValue(data)
+    this.forma.get('cuenta_no').setValue(data);
+    this.cgCatalogoServ.busquedaCatalogo(data).then((resp: any) => {
+      console.log(resp);
+      if (resp[0].tipo_cuenta !== "normal") {
+        this.cgcatalogos.push(resp[0]);
+        this.agregarFormulario(resp[0]);
+      }
+    })
   }
 
   tipoDoc(doc) {
@@ -325,4 +346,9 @@ export class FormularioProveedoresComponent implements OnInit {
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
+
+  getNoValidoArray(input: string, index:number) {
+     return ((this.cuentas_no).at(index) as FormGroup).get(input).invalid && ((this.cuentas_no).at(index) as FormGroup).get(input).touched;
+  }
+
 }

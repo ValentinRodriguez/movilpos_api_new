@@ -13,13 +13,15 @@ export class OrdenPedidosService {
   ordenBorrada = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/ordenespedidos`).subscribe((resp: any) => {          
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -29,7 +31,8 @@ export class OrdenPedidosService {
   getDato(id:number) {
     return new Promise( resolve => {
         this.http.get(`${URL}/ordenespedidos/${id}`).subscribe((resp: any) => {          
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -40,7 +43,8 @@ export class OrdenPedidosService {
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/orden-pedido/${id}`).subscribe((resp: any) => {  
          
-        if (resp['code'] === 200) {          
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -97,7 +101,8 @@ export class OrdenPedidosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( resp => {  
                                   
-                if (resp['code'] === 200) {    
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {    
                   this.ordenCreada.emit( resp );                                   
                   resolve(resp);       
                 }
@@ -109,7 +114,8 @@ export class OrdenPedidosService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/categorias/${id}`, categoria)
               .subscribe( (resp: any) => { 
-                if (resp['code'] === 200) {                  
+                 this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                  
                   this.ordenAct.emit( resp.data );                            
                   resolve(resp);            
                 }

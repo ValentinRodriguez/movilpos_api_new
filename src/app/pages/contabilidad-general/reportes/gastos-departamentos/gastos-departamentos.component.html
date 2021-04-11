@@ -1,0 +1,73 @@
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <h5>Gastos por Departamentos</h5>
+            <form (ngSubmit)="verReporte()" [formGroup]="forma">
+                <div class="p-fluid p-formgrid p-grid">
+                    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="cuenta_no">Cuenta</label>
+                        <input id="cuenta_no" type="text" pInputText formControlName="cuenta_no">                        
+                    </div>
+                    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fecha_inicial">Fecha Inicial</label>
+                        <span class=" p-input-icon-right">
+                            <p-calendar formControlName="fecha_inicial" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_inicial')">
+                            </p-calendar>
+                        </span>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fecha_final">Fecha Final</label>
+                        <span class=" p-input-icon-right">
+                            <p-calendar formControlName="fecha_final" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_final')">
+                            </p-calendar>
+                        </span>
+                    </div>
+                </div>
+                <br>
+                <button pButton pRipple label="Ver Reporte" icon="pi pi-eye" type="submit" class="p-mr-2 p-mb-2"></button>   
+                <button pButton pRipple label="Limpiar Formulario" icon="pi pi-trash" type="button" (click)="limpiarForm()" class="p-button-warning p-mr-2 p-mb-2"></button>              
+            </form>
+        </div>
+    </div>
+    <p-table #dt [columns]="cols" [value]="gastos" *ngIf="this.gastos.length !== 0">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
+                <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+                <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    <span *ngIf="col.field === 'descripcion'">
+                       ({{rowData['departamento']}}) {{ rowData[col.field]}}
+                    </span>
+
+                    <span *ngIf="col.field === 'factura' || col.field === 'gasto'">
+                        {{ rowData[col.field]}}
+                    </span>
+
+                    <span *ngIf="col.field === 'nom_sp' || col.field === 'fecha'">
+                        {{ rowData[col.field] | titlecase}}
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+<p-toast key="tst"></p-toast>

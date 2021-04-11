@@ -18,8 +18,10 @@ export class TransportistasComponent implements OnInit {
   actualizando = false; 
   actualizar = false;
   id_categoria: any;
-  cols: any[];
-  loading: boolean;
+  cols: any[];   
+    formSubmitted = false;
+  listSubscribers: any = [];
+
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private transportistasServ: TransportistasService,
@@ -29,8 +31,12 @@ export class TransportistasComponent implements OnInit {
                 this.todosLosTransportistas();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
-    
+    this.listObserver();
     this.cols = [
       { field: 'nombre', header: 'Nombre'},
       { field: 'cedula', header: 'Cédula'},
@@ -38,30 +44,36 @@ export class TransportistasComponent implements OnInit {
       { field: 'sec_transp', header: 'Código'},
       { field: 'telefono', header: 'Teléfono'},
       { field: 'acciones', header: 'Acciones'},
-    ] 
+    ]
+  }
 
-    this.transportistasServ.trasnportistaGuardado.subscribe((resp: any)=>{
-      this.todosLosTransportistas();
+  listObserver = () => {
+    const observer1$ = this.transportistasServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
     })
 
-    this.transportistasServ.trasnportistaBorrado.subscribe((resp: any)=>{      
+    const observer2$ = this.transportistasServ.trasnportistaAct.subscribe((resp: any) => {
+      this.todosLosTransportistas();
+    })
+    
+    const observer3$ = this.transportistasServ.trasnportistaGuardado.subscribe((resp: any)=>{
+      this.todosLosTransportistas();
+    })
+    
+    const observer4$ = this.transportistasServ.trasnportistaBorrado.subscribe((resp: any)=>{      
       this.todosLosTransportistas();   
     })
 
-    this.transportistasServ.trasnportistaAct.subscribe((resp: any) => {
-      this.todosLosTransportistas();
+    const observer5$ = this.transportistasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
     })
 
-    this.transportistasServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
-  }
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+   };
 
-  todosLosTransportistas() {
-    this.loading = true;    
+  todosLosTransportistas() {        
     this.transportistasServ.getDatos().then((resp: any) => {
-      this.transportistas = resp;
-      this.loading = false;
+      this.transportistas = resp;     
     })
   }
 

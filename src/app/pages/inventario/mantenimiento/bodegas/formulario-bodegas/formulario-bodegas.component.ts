@@ -22,7 +22,7 @@ export class FormularioBodegasComponent implements OnInit {
   paises: any[] = [];
   ciudades: any[] = [];
   id: number;
-
+  formSubmitted = false;
   constructor(private uiMessage: UiMessagesService,
               private bodegasServ: BodegasService,
               private fb: FormBuilder, 
@@ -69,7 +69,7 @@ export class FormularioBodegasComponent implements OnInit {
   }
 
   guardarBodega(){
-    this.guardando = true;   
+    this.formSubmitted = true;   
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
@@ -95,23 +95,21 @@ export class FormularioBodegasComponent implements OnInit {
           break;
       } 
     }  
-    this.guardando = false;
+     
   }
 
   actualizarBodega() {
-     //this.actualizando = true;
-     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-     if (this.forma.invalid) {       
+    this.formSubmitted = true; 
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);    
+    if (this.forma.invalid) {       
        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
        Object.values(this.forma.controls).forEach(control =>{          
          control.markAllAsTouched();
        })
-     }else{  
-      this.actualizando = true;
+    }else{  
       this.bodegasServ.actualizarBodega(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-        this.actualizando = false;
-      })
+      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+    })
   }
   }
 

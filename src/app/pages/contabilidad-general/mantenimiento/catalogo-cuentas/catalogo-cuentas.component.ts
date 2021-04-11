@@ -21,6 +21,7 @@ export class CatalogoCuentasComponent implements OnInit {
   cols: any[];
   data: any[] = [];
   index: number = 0;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
@@ -71,7 +72,11 @@ export class CatalogoCuentasComponent implements OnInit {
       this.todosLosCatalogos();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.cgcatalogoServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
   };
 
   todosLosCatalogos() {

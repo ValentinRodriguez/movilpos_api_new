@@ -24,6 +24,7 @@ export class PeriodosFiscalesComponent implements OnInit {
   index: number = 0;
   periodos: any[] = [];
   meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private confirmationService: ConfirmationService,
@@ -69,7 +70,11 @@ export class PeriodosFiscalesComponent implements OnInit {
       this.obtenerPeriodos();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.periodoFserv.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
   };
 
   obtenerPeriodos() {

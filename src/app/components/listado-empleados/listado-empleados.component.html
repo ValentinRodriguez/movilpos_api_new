@@ -1,6 +1,6 @@
 <p-table #dt [columns]="cols" [value]="empleado" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
              [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [(selection)]="empleadosSeleccionados" closeOnEscape="true"
-             [globalFilterFields]="['primernombre','primerapellido','cedula','depto']" [lazy]="true" (onLazyLoad)="todosLosEmpleados()" [loading]="loading">
+             [globalFilterFields]="['primernombre','primerapellido','cedula','depto']">
 
     <ng-template pTemplate="caption">
         <div class="table-header">

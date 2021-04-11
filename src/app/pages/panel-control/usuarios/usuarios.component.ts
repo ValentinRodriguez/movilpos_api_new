@@ -24,7 +24,7 @@ export class UsuariosComponent implements OnInit {
   fileUser: any;
   index: number = 0;
   empleados: any[] = [];
-  loading: boolean;
+   
 
   constructor(private confirmationService: ConfirmationService,
               private empleadoServ: RrhhService,
@@ -68,10 +68,10 @@ export class UsuariosComponent implements OnInit {
   }
   
   obtenerUsuarios() {
-    this.loading = true;    
+         
     this.usuariosServ.getUsers().then((resp: any) => {
       this.usuarios = resp;
-      this.loading = false;
+       
     })
   }
 

@@ -14,7 +14,7 @@ export class OrdenesPedidosComponent implements OnInit {
   cols: any[];  
   simbolo: any = '$';
   ordenes: any[] = [];
-  loading: boolean;
+   
   displayPosition: boolean;
   detalleDireccion: any = {};
   index: number = 0;
@@ -58,10 +58,9 @@ export class OrdenesPedidosComponent implements OnInit {
   }
 
   todosLasOrdenes() {
-    this.loading = true;
+     
     this.ordenServ.getDatos().then((resp: any) => { 
-      this.ordenes = resp;      
-      this.loading = false
+      this.ordenes = resp;   
     })
   }
 

@@ -16,8 +16,9 @@ export class EmpresaComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
   index: number = 0;
+    formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private usuariosServ: UsuarioService,
@@ -58,14 +59,18 @@ export class EmpresaComponent implements OnInit {
       this.todasLasEmpresas();
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
   }
 
   todasLasEmpresas() {
-    this.loading = true;
+     
     this.empresasServ.getDatos().then((resp: any) => {
       this.empresas = resp;
-      this.loading = false;
+       
     })
   }
 

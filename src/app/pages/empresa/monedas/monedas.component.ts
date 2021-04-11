@@ -17,7 +17,7 @@ export class MonedasComponent implements OnInit {
   monedas: any[] = [];
   id_categoria: any;
   cols: any[];
-  loading: boolean;
+   
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

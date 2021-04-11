@@ -5,8 +5,8 @@
             <p-tabView orientation="left">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="ordenes" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="id" [lazy]="true" (onLazyLoad)="todosLasOrdenes()" 
-						[loading]="loading" [globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="id"
+						  [globalFilterFields]="['descripcion','id_bodega','categoria','pais','ciudad']">
 					
 						<ng-template pTemplate="caption">
 							<div class="table-header">
@@ -358,10 +358,10 @@
 							</div>
 						</p-panel>
 						<br>
-						<button *ngIf="!this.guardando" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
-						<button pButton pRipple label="Guardando" icon="pi pi-spin pi-spinner" *ngIf="this.guardando"
-								type="button" disabled="true"></button>
+						<button *ngIf="!this.formSubmitted" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>						
 					</form>
+					<br>
+					<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
                 </p-tabPanel>
             </p-tabView>
 		</div>	

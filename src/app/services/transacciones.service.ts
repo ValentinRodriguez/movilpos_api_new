@@ -9,12 +9,15 @@ export class TransaccionesService {
 
   transaccionGuardado = new EventEmitter();
   transaccionBorrada = new EventEmitter();
+  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient ) { }
 
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/invtransacciones`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -24,7 +27,8 @@ export class TransaccionesService {
   autoLlenado() {
     return new Promise( resolve => {
         this.http.get(`${URL}/autollenado/invtransacciones`).subscribe((resp: any) => {        
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -74,7 +78,8 @@ export class TransaccionesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {
                    
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);
         }
@@ -94,7 +99,8 @@ export class TransaccionesService {
       this.http.post(`${ URL }/recibir/invtransaccion/${transaccion.id}`, transaccion).subscribe( (resp: any) => {  
          
              
-        if (resp['code'] === 200) {                                      
+         this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);
         }
@@ -105,7 +111,8 @@ export class TransaccionesService {
   transaccionesPendientes(email: string) {
     return new Promise( resolve => {
         this.http.get(`${URL}/busqueda/invtransacciones-pendientes/${email}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -115,7 +122,8 @@ export class TransaccionesService {
   repTransaccionesPendientes() {
     return new Promise( resolve => {
         this.http.get(`${URL}/reporte/invtransacciones-visualizar`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -125,7 +133,8 @@ export class TransaccionesService {
   detalleTransaccion(id: string) {
     return new Promise( resolve => {
         this.http.get(`${URL}/detalle/transaccion/${id}`).subscribe((resp: any) => {
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -138,7 +147,8 @@ export class TransaccionesService {
           .subscribe( (resp: any) => {           
              
                               
-            if (resp['code'] === 200) {            
+             this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {            
               this.transaccionBorrada.emit(id);    
               resolve(resp);            
             }
@@ -158,7 +168,8 @@ export class TransaccionesService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {  
           
-          if (resp['code'] === 200) {          
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
