@@ -94,7 +94,7 @@ export class FormularioUsuariosComponent implements OnInit {
 
   guardarUsuario() {
     this.formSubmitted = true;
-    this.guardando = true;
+   // this.guardando = true;
     if (this.usuarioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este usuario ya esta registrado');
       return;
