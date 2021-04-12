@@ -106,7 +106,7 @@ export class PeriodosFiscalesComponent implements OnInit {
   }
 
   actualizarPeriodo(data) {
-    const ref = this.dialogService.open(ActPeriodosComponent, {
+     this.dialogService.open(ActPeriodosComponent, {
       data,
       header: `Actualizar Periodo`,
       width: '60%',
@@ -119,7 +119,7 @@ export class PeriodosFiscalesComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.periodoFserv.borrarPeriodo(periodo).then(()=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','periodo eliminado de manera correcta');   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })
@@ -130,7 +130,7 @@ export class PeriodosFiscalesComponent implements OnInit {
       message:"Esta seguro de restaurar este registro?",
       accept:() =>{ 
         this.periodoFserv.restaurarPeriodo(periodo).then(()=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','periodo eliminado de manera correcta');   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })

@@ -16,6 +16,7 @@ export class InventarioService {
   productoEscogido = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  finalizar = new EventEmitter();
   formSubmitted = new EventEmitter();
   
   construct = '';
@@ -385,6 +386,10 @@ export class InventarioService {
 
   guardando() {
     this.guardar.emit(0);
+  }
+
+  finalizando() {
+    this.finalizar.emit(1);
   }
 
 }

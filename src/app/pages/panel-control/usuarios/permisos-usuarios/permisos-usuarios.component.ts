@@ -130,7 +130,7 @@ export class PermisosUsuariosComponent implements OnInit {
       message:"Esta de quitar todos los permisos?",
       accept:() =>{ 
         this.rolesServ.eliminarRoles(this.user.email).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro restablecido de manera correcta'); 
           this.todosLosPerfiles();
           this.todosLosModulos();
           this.todosLosProgramas();

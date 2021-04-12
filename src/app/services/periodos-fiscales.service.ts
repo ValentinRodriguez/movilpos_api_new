@@ -20,21 +20,18 @@ export class PeriodosFiscalesService {
     let params = new HttpParams();      
     params = params.append('periodos',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/periodos-fiscales', {params}).subscribe((resp: any) => { 
-              
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/periodos-fiscales', {params}).subscribe((resp: any) => {                     
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/periodos-fiscales`).subscribe((resp: any) => {             
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/periodos-fiscales`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -43,9 +40,8 @@ export class PeriodosFiscalesService {
 
   getDato(id) {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/periodos-fiscales/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/periodos-fiscales/${id}`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -55,55 +51,49 @@ export class PeriodosFiscalesService {
   crearPeriodo(periodo: any) {    
     return new Promise( resolve => {
       this.http.post(`${ URL }/periodos-fiscales`, periodo).subscribe( (resp:any) => {                     
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp);    
-            this.periodoGuardado.emit( resp.data );       
-          }
-         });
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp);    
+          this.periodoGuardado.emit( resp.data );       
+        }
+      });
     });    
   }
 
   actualizarPeriodo(id:string, periodo: any) {        
     return new Promise( resolve => {
-      this.http.put(`${ URL }/periodos-fiscales/${id}`, periodo)
-              .subscribe( (resp: any) => { 
-                                 
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                  
-                  this.periodoActualizado.emit( resp.data );                            
-                  resolve(resp);            
-                }
-              });
+      this.http.put(`${ URL }/periodos-fiscales/${id}`, periodo).subscribe( (resp: any) => {                                  
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                  
+          this.periodoActualizado.emit( resp.data );                            
+          resolve(resp);            
+        }
+      });
     });
   }
 
   borrarPeriodo(id: string) {    
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/periodos-fiscales/${id}`)
-          .subscribe( (resp: any) => {  
-                                                    
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.periodoBorrado.emit(id);    
-              resolve(resp);            
-            }
-          });
+      this.http.delete(`${ URL }/periodos-fiscales/${id}`).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {            
+          this.periodoBorrado.emit(id);    
+          resolve(resp);            
+        }
+      });
     });
   }
 
   restaurarPeriodo(id: string) {
     const periodo = {"periodo": id}
     return new Promise( resolve => {      
-      this.http.post(`${ URL }/restaurar/periodo-fiscal`,periodo)
-          .subscribe( (resp: any) => {  
-                                                    
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.periodoBorrado.emit(id);    
-              resolve(resp);            
-            }
-          });
+      this.http.post(`${ URL }/restaurar/periodo-fiscal`,periodo).subscribe( (resp: any) => {                                                      
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {            
+          this.periodoBorrado.emit(id);    
+          resolve(resp);            
+        }
+      });
     });
   }
 }

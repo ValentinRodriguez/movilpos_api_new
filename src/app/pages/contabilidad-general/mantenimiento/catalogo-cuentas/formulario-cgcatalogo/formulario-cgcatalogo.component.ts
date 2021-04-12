@@ -69,12 +69,13 @@ export class FormularioCgcatalogoComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnDestroy(): void {    
-    this.listObserver();
+  ngOnDestroy(): void { 
     this.listSubscribers.forEach(a => a.unsubscribe());
   }
 
   ngOnInit(): void {
+    this.listObserver();
+
     this.forma.get('aplica_a').disable();
 
     this.catalogoServ.codigosRetencion().then((resp: any) => {
@@ -109,6 +110,8 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
     const observer5$ = this.catalogoServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
+      console.log(resp);
+      
     })
 
     const observer2$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
@@ -188,12 +191,10 @@ export class FormularioCgcatalogoComponent implements OnInit {
           break;
       } 
     }
-    console.log(this.guardando);    
-     
   }
   
   ActualizarCatalogo(){
-    // this.formSubmitted = true;    
+    this.formSubmitted = true;    
     if (this.forma.invalid) {       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
@@ -202,21 +203,18 @@ export class FormularioCgcatalogoComponent implements OnInit {
     }else{   
       switch (this.descripExiste) {
         case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');
-           
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');           
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
-           
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');           
           break;
 
         default:
           this.forma.get('usuario_modificador').setValue(this.usuario.username);
           this.catalogoServ.actualizarCatalogo(this.id, this.forma.value).then(()=>{
-            this.resetFormulario();
-             
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");           
+            this.resetFormulario();             
           })
           break;
       } 

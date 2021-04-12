@@ -37,43 +37,10 @@ export class FormularioEmpleadosComponent implements OnInit {
   supervisores: any[] = [];
   bancos: any[] = [];
 
-  educacion = [
-    { label: 'ninguna', value: 'Ninguna' },
-    { label: 'basica', value: 'Basica' },
-    { label: 'bachiller', value: 'Bachiller' },
-    { label: 'tecnico', value: 'Técnico' },
-    { label: 'universitario', value: 'Universitario' },
-    { label: 'maestria', value: 'Maestria' },
-    { label: 'postgrado', value: 'Postgrado' },
-    { label: 'doctorado', value: 'Doctorado' }
-  ] 
-
-  estado_civil = [
-    { label: 'Soltero/a', value: 'soltero'},
-    { label: 'Casado/a', value: 'casado'},
-    { label: 'Divorciado/a', value: 'divorciado'},
-    { label: 'Viudo/a', value: 'viudo'},
-    { label: 'Union Libre', value: 'union-libre'}
-  ] 
-
-  tipo_empleado = [
-    { label: 'Fijo', value: 'fijo'},
-    { label: 'Temporal', value: 'temporal'},
-    { label: 'Contratista', value: 'contratista'},
-    { label: 'Viudo/a', value: 'viudo'},
-    { label: 'Union Libre', value: 'union-libre'}
-  ] 
-
-  tipo_sangre = [
-    { label: 'O+', value:'O+'},
-    { label: 'O-', value:'O-'},
-    { label: 'A+', value:'A+'},
-    { label: 'A-', value:'A-'},
-    { label: 'B+', value:'B+'},
-    { label: 'B-', value:'B-'},
-    { label: 'AB+', value:'AB+-'},
-    { label: 'AB-', value:'AB-'},
-  ] 
+  educacion = [] 
+  estado_civil = [] 
+  tipo_empleado = [] 
+  tipo_sangre = [] 
 
   sino = [
     { label: 'Si', value:'si'},
@@ -81,14 +48,14 @@ export class FormularioEmpleadosComponent implements OnInit {
   ] 
 
   sexo = [
-    { label: 'Masculino', value:'masculino'},
-    { label: 'Femenino', value:'femenino'},
+    { label: 'Masculino', value:'M'},
+    { label: 'Femenino', value:'F'},
   ] 
 
   tipo_sueldo = [
-    { label: 'Quincenal', value:'quincenal'},
-    { label: 'Mensual', value:'mensual'},    
-    { label: 'Ajuste', value:'ajuste'},
+    { label: 'Quincenal', value:'Q'},
+    { label: 'Mensual', value:'M'},    
+    { label: 'Ajuste', value:'A'},
   ] 
 
   estado = [
@@ -97,13 +64,13 @@ export class FormularioEmpleadosComponent implements OnInit {
   ] 
 
   horario = [
-    { label: 'matutino', value:'Matutino'},
-    { label: 'vespertino', value:'Vespertino'},
-    { label: 'nocturno', value:'Nocturno'},
-    { label: 'rotativo', value:'Rotativo'},
+    { label: 'Matutino', value:'M'},
+    { label: 'Vespertino', value:'V'},
+    { label: 'Nocturno', value:'N'},
+    { label: 'Rotativo', value:'R'},
   ] 
 
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   ngOnDestroy(): void {
@@ -125,7 +92,6 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.setMinDate();
     this.rangoAnio();
     this.listObserver();
-    this.getBancos();
     
     this.empleadosServ.autoLlenado().then((resp: any) => {
       resp.forEach(element => {
@@ -150,6 +116,26 @@ export class FormularioEmpleadosComponent implements OnInit {
             this.paises = element.data;
             break;
 
+          case 'bancos':
+            this.bancos = element.data;
+            break;
+
+          case 'educacion':
+            this.educacion = element.data;
+            break;
+
+          case 'estadoCivil':
+            this.estado_civil = element.data;
+            break;
+
+          case 'tipoEmpleado':
+            this.tipo_empleado = element.data;
+            break;
+
+          case 'tipoSangre':
+            this.tipo_sangre = element.data;
+            break;
+            
           default:
             break;
         }
@@ -170,11 +156,6 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.listSubscribers = [observer1$,observer5$,observer5$];
   };
 
-  getBancos() {
-    this.empleadosServ.getBancos().then((resp: any) =>{
-      this.bancos = resp;
-    })
-  }
   rangoAnio() {
     const today = new Date();
     const date = today.getFullYear();
@@ -190,7 +171,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepEmpleadosComponent, {
+       this.dialogService.open(StepEmpleadosComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios',
@@ -200,7 +181,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    // this.formSubmitted = true;    
+    this.formSubmitted = true;    
     console.log(this.forma);    
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -210,9 +191,8 @@ export class FormularioEmpleadosComponent implements OnInit {
        
     }else{ 
       this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
-        this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Empleado creado de manera correcta');        
-      })
-       
+        this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Registro creado de manera correcta');        
+      })       
     } 
   }
   

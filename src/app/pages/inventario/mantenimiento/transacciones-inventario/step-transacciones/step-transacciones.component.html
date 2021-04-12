@@ -1,18 +1,30 @@
 <div class="card">
-    <p-tabView styleClass="tabview-custom">
-        <p-tabPanel *ngFor="let item of data">
-            <ng-template pTemplate = "header">
-                <i [attr.class]="item.icono" style="padding-right: 5px;"></i>
-                <span>{{item.label | titlecase}}</span>
-            </ng-template> 
-            <app-formulario-clientes *ngIf="item.label === 'clientes'"></app-formulario-clientes>     
-            <app-formulario-proveedores *ngIf="item.label === 'proveedores'"></app-formulario-proveedores>
-            <app-formulario-transportista *ngIf="item.label === 'transportistas'"></app-formulario-transportista>
-            <!-- <app-formulario-departamentos *ngIf="item.label === 'departamentos'"></app-formulario-departamentos> -->
-            <app-formulario-empleados *ngIf="item.label === 'vendedor'"></app-formulario-empleados>
-            <app-formulario-bodegas *ngIf="item.label === 'bodegas'"></app-formulario-bodegas>
-            <app-formulario-maestra-productos *ngIf="item.label === 'productos'"></app-formulario-maestra-productos>
-            <app-formulario-tipo-mov *ngIf="item.label === 'movimientos'"></app-formulario-tipo-mov>
-        </p-tabPanel>
-    </p-tabView>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" (activeIndexChange)="cambiaIndex($event)"></p-steps>
 </div>
+
+<div class="card">
+    <ng-template pTemplate = "header">
+        <i [attr.class]="item.icono" style="padding-right: 5px;"></i>
+        <span>{{item.label | titlecase}}</span>
+    </ng-template> 
+
+    <div *ngFor="let item of items">
+        <app-formulario-clientes *ngIf="item.label === 'Clientes' && this.activeIndex === 0"></app-formulario-clientes>     
+        <app-formulario-proveedores *ngIf="item.label === 'Proveedores' && this.activeIndex === 1"></app-formulario-proveedores>
+        <app-formulario-transportista *ngIf="item.label === 'Transportistas' && this.activeIndex === 2"></app-formulario-transportista>
+        <app-formulario-empleados *ngIf="item.label === 'Vendedor' && this.activeIndex === 3"></app-formulario-empleados>
+        <app-formulario-bodegas *ngIf="item.label === 'Bodegas' && this.activeIndex === 4"></app-formulario-bodegas>
+        <app-formulario-maestra-productos *ngIf="item.label === 'Productos' && this.activeIndex === 5"></app-formulario-maestra-productos>
+        <app-formulario-tipo-mov *ngIf="item.label === 'Movimientos' && this.activeIndex === 6"></app-formulario-tipo-mov>
+    </div>
+</div>
+
+<p-toolbar>	
+    <div class="p-toolbar-group-left">
+        <button label="Anterior" (click)="prevPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-left" iconPos="right" *ngIf="this.activeIndex !== 0"></button>
+    </div>						
+    <div class="p-toolbar-group-right">
+        <button label="Siguiente" (click)="nextPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-right" iconPos="right" *ngIf="this.activeIndex !== this.items.length - 1"></button>
+        <button label="Finalizar" (click)="finalizar()" class="p-button-danger" pButton pRipple type="button" icon="pi pi-times" iconPos="right" *ngIf="this.activeIndex === this.items.length - 1"></button>
+    </div>
+</p-toolbar>

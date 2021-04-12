@@ -86,8 +86,9 @@ export class FormularioMonedasComponent implements OnInit {
           break;
 
         default:
-          this.monedasServ.crearMoneda(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+          this.monedasServ.crearMoneda(this.forma.value).then(()=>{
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta'); 
+            this.resetFormulario(); 
           })
           break;
       } 
@@ -120,8 +121,8 @@ export class FormularioMonedasComponent implements OnInit {
       })
     }else{ 
       this.monedasServ.actualizarMoneda(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-         
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormulario();
       })
     }
   }
@@ -129,10 +130,14 @@ export class FormularioMonedasComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.monedasServ.guardando();    
+  }
+
+  resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    this.monedasServ.guardando();    
   }
 
   getNoValido(input: string) {

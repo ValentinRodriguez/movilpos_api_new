@@ -15,6 +15,7 @@ export class ClientesService {
   formSubmitted = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  finalizar = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
@@ -177,12 +178,15 @@ export class ClientesService {
   }
 
   actualizando(data: any) {
-    this.actualizar.emit(data);
-  
+    this.actualizar.emit(data);  
   }
 
   guardando() {
     this.guardar.emit(0);
+  }
+
+  finalizando() {
+    this.finalizar.emit(1);
   }
 
 }

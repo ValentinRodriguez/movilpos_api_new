@@ -318,7 +318,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
         if (resp) {
            
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
         }               
       })
     }
@@ -334,7 +334,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       })
     }else{ 
       this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }
@@ -428,7 +428,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   buscaFacturas() {
-    const ref = this.dialogService.open(FacturasPendientesComponent, {
+     this.dialogService.open(FacturasPendientesComponent, {
       header: 'Facturas Pendientes',
       width: '70%'
     });

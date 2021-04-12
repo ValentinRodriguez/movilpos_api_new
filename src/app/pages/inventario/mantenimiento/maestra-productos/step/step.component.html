@@ -1,15 +1,25 @@
 <div class="card">
-    <p-tabView styleClass="tabview-custom">
-        <p-tabPanel *ngFor="let item of data">
-            <ng-template pTemplate = "header">
-                <span>{{item.label | titlecase}}</span>
-            </ng-template>            
-            <app-formulario-marca *ngIf="item.label === 'marcas'"></app-formulario-marca>
-            <app-formulario-bodegas *ngIf="item.label === 'bodegas'"></app-formulario-bodegas>
-            <app-formulario-tipoinv *ngIf="item.label === 'tipo inventario'"></app-formulario-tipoinv>
-            <app-formulario-cat *ngIf="item.label === 'modelos'"></app-formulario-cat>
-            <app-formulario-cgcatalogo *ngIf="item.label === 'catalogo'"></app-formulario-cgcatalogo>
-            <app-formulario-propiedades *ngIf="item.label === 'color'"></app-formulario-propiedades>
-        </p-tabPanel>
-    </p-tabView>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" (activeIndexChange)="cambiaIndex($event)"></p-steps>
 </div>
+
+<div class="card">
+    <ng-template pTemplate = "title">
+        <span>{{item.label | titlecase}}</span>
+    </ng-template>          
+ 
+    <div *ngFor="let item of items">
+        <app-formulario-tipoinv *ngIf="item.label === 'Tipo inventario' && this.activeIndex === 0"></app-formulario-tipoinv>
+        <app-formulario-marca *ngIf="item.label === 'Marcas' && this.activeIndex === 1"></app-formulario-marca>
+        <app-formulario-cat *ngIf="item.label === 'Modelos' && this.activeIndex === 2"></app-formulario-cat>
+        <app-formulario-propiedades *ngIf="item.label === 'Color' && this.activeIndex === 3"></app-formulario-propiedades>
+    </div>
+</div>
+<p-toolbar>	
+    <div class="p-toolbar-group-left">
+        <button label="Anterior" (click)="prevPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-left" iconPos="right" *ngIf="this.activeIndex !== 0"></button>
+    </div>						
+    <div class="p-toolbar-group-right">
+        <button label="Siguiente" (click)="nextPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-right" iconPos="right" *ngIf="this.activeIndex !== this.items.length - 1"></button>
+        <button label="Finalizar" (click)="finalizar()" class="p-button-danger" pButton pRipple type="button" icon="pi pi-times" iconPos="right" *ngIf="this.activeIndex === this.items.length - 1"></button>
+    </div>
+</p-toolbar>

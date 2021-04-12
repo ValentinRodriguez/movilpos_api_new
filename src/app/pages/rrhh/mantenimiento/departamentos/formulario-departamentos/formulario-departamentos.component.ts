@@ -62,7 +62,7 @@ export class FormularioDepartamentosComponent implements OnInit {
 
         default:
           this.departamentoServ.crearDepartamento(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           })
           break;
       } 

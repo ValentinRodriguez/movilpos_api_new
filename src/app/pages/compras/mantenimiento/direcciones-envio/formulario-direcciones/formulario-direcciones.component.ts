@@ -96,7 +96,8 @@ export class FormularioDireccionesComponent implements OnInit {
 
         default:
           this.dirServ.crearDireccion(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
+            this.resetFormulario();
           })
           break;
       } 
@@ -130,8 +131,8 @@ export class FormularioDireccionesComponent implements OnInit {
       })
     }else{ 
       this.dirServ.actualizarDireccion(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-         
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormulario();
       })
     }
   }
@@ -145,10 +146,14 @@ export class FormularioDireccionesComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.dirServ.guardando();    
+  }
+
+  resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    this.dirServ.guardando();    
   }
 
   getNoValido(input: string) {

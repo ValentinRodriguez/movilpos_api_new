@@ -21,21 +21,14 @@ export class TransaccionesInventarioComponent implements OnInit {
   transacciones:any[] = [];
   facturas
   cols: any[] = [];
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
-
-
- 
- 
- 
-
- 
+  index = 0;
   
   constructor(private transaccionesServ: TransaccionesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
-              @Inject(DOCUMENT) private document: Document,
               private confirmationService: ConfirmationService) {  
                 this.usuario = this.usuariosServ.getUserLogged();
               }
@@ -72,7 +65,11 @@ export class TransaccionesInventarioComponent implements OnInit {
       this.formSubmitted = resp;
     })
 
-    this.listSubscribers = [observer1$,observer5$,observer2$];
+    const observer3$ = this.transaccionesServ.finalizar.subscribe((resp) => {
+      this.index = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer5$];
   };
 
   todasLastransacciones() {     
@@ -98,7 +95,7 @@ export class TransaccionesInventarioComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{
         this.transaccionesServ.borrarTransaccion(id).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');  
         })      
       }
     })  
@@ -108,7 +105,7 @@ export class TransaccionesInventarioComponent implements OnInit {
   pendientesEntrada() : void {    
     this.transaccionesServ.transaccionesPendientes(this.usuario.email).then((resp: any) => {    
       if (resp.length !== 0) {
-        const ref = this.dialogService.open(PendientesEntradaComponent, {
+         this.dialogService.open(PendientesEntradaComponent, {
           data: { lista: resp },
           header: `Listado de direcciones`,
           width: '80%'

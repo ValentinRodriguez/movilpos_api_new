@@ -192,7 +192,7 @@ export class OrdenesComprasComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepOrdenesComprasComponent, {
+       this.dialogService.open(StepOrdenesComprasComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos necesarios creación ordenes de compras',
@@ -324,7 +324,7 @@ export class OrdenesComprasComponent implements OnInit {
       })
     }else{
       this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{      
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');
         this.imprimirOrden(resp.data.num_oc);     
       })
     }  
@@ -381,14 +381,14 @@ export class OrdenesComprasComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.ordenServ.borrar(orden).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })   
   }
 
   buscaProductos() {
-    const ref = this.dialogService.open(ListaProductosComponent, {
+     this.dialogService.open(ListaProductosComponent, {
       header: 'Catálogo de productos',
       width: '70%'
     });
@@ -416,7 +416,7 @@ export class OrdenesComprasComponent implements OnInit {
   }
 
   listadoDirecciones() {
-    const ref = this.dialogService.open(ListadoDireccionesComponent, {
+     this.dialogService.open(ListadoDireccionesComponent, {
       header: `Listado de direcciones`,
       width: '70%'
     });

@@ -72,7 +72,7 @@ export class FormularioCotizacionesComponent implements OnInit {
 
         default:
           this.monedasServ.crearMoneda(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           })
           break;
       } 
@@ -106,7 +106,7 @@ export class FormularioCotizacionesComponent implements OnInit {
       })
     }else{ 
       this.monedasServ.actualizarMoneda(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

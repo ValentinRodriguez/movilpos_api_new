@@ -248,7 +248,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     });
     
     if (existe === true) {
-      const ref = this.dialogService.open(StepFacturaProvedoresComponent, {
+       this.dialogService.open(StepFacturaProvedoresComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación Factura Proveedores',
@@ -327,7 +327,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       }         
       
       this.coTransaccionescxpServ.crearFactura(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
          
         this.restaurarFormulario();
       })
@@ -350,7 +350,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       })
     }else{ 
       this.coTransaccionescxpServ.actualizarFactura(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
         this.restaurarFormulario();
       })
@@ -588,7 +588,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(CatalogoCuentasComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

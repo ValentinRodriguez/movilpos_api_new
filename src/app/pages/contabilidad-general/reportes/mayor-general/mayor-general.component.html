@@ -33,7 +33,7 @@
             </form>
         </div>
     </div>
-    <p-table #dt [columns]="cols" [value]="gastos" *ngIf="this.gastos.length !== 0">
+    <p-table #dt [columns]="cols" [value]="mayor" *ngIf="this.mayor.length !== 0">
         <ng-template pTemplate="caption">
             <div class="p-d-flex">
                 <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
@@ -57,12 +57,14 @@
                        ({{rowData['departamento']}}) {{ rowData[col.field]}}
                     </span>
 
-                    <span *ngIf="col.field === 'factura' || col.field === 'gasto' || col.field === 'fecha'">
+                    <span *ngIf="col.field === 'factura' || col.field === 'gasto' || col.field === 'cuenta_no' || col.field === 'departamento' || col.field === 'detalle_1' ||
+                                 col.field === 'detalle_2'|| col.field === 'debito'|| col.field === 'credito'|| col.field === 'cod_aux'|| col.field === 'cod_sec'|| 
+                                 col.field === 'analitico' || col.field === 'catalogo'|| col.field === 'depto' || col.field === 'fecha'">
                         {{ rowData[col.field]}}
                     </span>
 
-                    <span *ngIf="col.field === 'nom_sp'">
-                        {{ rowData[col.field] | titlecase}}
+                    <span *ngIf="col.field === 'nom_sp' ">
+                        {{ rowData[col.field] || 'NO DATA' | titlecase}}
                     </span>
                 </td>
             </tr>

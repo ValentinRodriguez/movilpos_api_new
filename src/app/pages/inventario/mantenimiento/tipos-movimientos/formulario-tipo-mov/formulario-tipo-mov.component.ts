@@ -211,7 +211,7 @@ export class FormularioTipoMovComponent implements OnInit {
 
         default:
           this.CodMovServ.crearTipoMov(this.forma.value).then((resp: any)=>{            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
             this.resetFormulario();
           })
         break;
@@ -278,7 +278,7 @@ export class FormularioTipoMovComponent implements OnInit {
 
   buscaCuentas() {
     // this.catalogos = true
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(CatalogoCuentasComponent, {
       data: {
         cuentas: this.cuentas_no
       },

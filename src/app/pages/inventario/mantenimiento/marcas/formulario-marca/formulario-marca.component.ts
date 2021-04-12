@@ -86,7 +86,7 @@ export class FormularioMarcaComponent implements OnInit {
 
         default:
           this.marcasServ.crearMarca(this.forma.value).then((resp: any)=>{            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.resetFormulario();
           })
           break;
@@ -115,7 +115,7 @@ export class FormularioMarcaComponent implements OnInit {
         default:
           this.forma.get('usuario_modificador').setValue(this.usuario.username); 
           this.marcasServ.actualizarMarca(this.id, this.forma.value).then((resp: any) => {
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);             
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');             
             this.resetFormulario();
           })
           break;

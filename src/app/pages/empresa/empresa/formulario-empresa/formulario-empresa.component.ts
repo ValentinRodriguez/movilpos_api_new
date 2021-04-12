@@ -166,10 +166,9 @@ export class FormularioEmpresaComponent implements OnInit {
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');          
           break;
       } 
-
-      this.empresasServ.crearEmpresa(this.forma.value).then((resp: any)=>{        
+      this.empresasServ.crearEmpresa(this.forma.value).then(()=>{        
         this.resetFormulario();
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta');               
       })
        
     } 
@@ -209,10 +208,9 @@ export class FormularioEmpresaComponent implements OnInit {
           break;
       } 
       
-      this.empresasServ.actEmpresa(this.forma.value, this.id).then((resp: any)=>{
-         
+      this.empresasServ.actEmpresa(this.forma.value, this.id).then((resp: any)=>{         
         this.resetFormulario();
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);               
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');               
       })
        
     } 

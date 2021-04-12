@@ -64,9 +64,7 @@ export class FormularioClientesComponent implements OnInit {
   ngOnInit(): void {    
     this.todosLosPaises();
     this.listObserver();
-    this.autoLlenado();    
-
-
+    this.autoLlenado(); 
   }
 
   listObserver = () => {
@@ -78,7 +76,7 @@ export class FormularioClientesComponent implements OnInit {
       this.tipo_cliente.push(resp);                                                                                               
     })
 
-    const observer4$ = this.tipoClienteServ.formSubmitted.subscribe((resp) => {
+    const observer4$ = this.clientesServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
     })
 
@@ -145,7 +143,7 @@ export class FormularioClientesComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepclientesComponent, {
+       this.dialogService.open(StepclientesComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación de Clientes',
@@ -203,7 +201,7 @@ export class FormularioClientesComponent implements OnInit {
       })
     }else{
       this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);              
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');              
       })
     }       
   } 
@@ -253,7 +251,7 @@ export class FormularioClientesComponent implements OnInit {
     }else{      
       this.clientesServ.actualizarCliente(this.id, this.forma.value).then((resp: any)=>{    
         this.actualizando=false;
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
       })
     } 
      

@@ -94,7 +94,7 @@ export class BodegasComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.bodegasServ.borrarBodega(bodega).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })
@@ -106,7 +106,7 @@ export class BodegasComponent implements OnInit {
   }
 
   permisosBodegas(id: string) {
-    const ref = this.dialogService.open(BodegasPermisosComponent, {
+     this.dialogService.open(BodegasPermisosComponent, {
       data: {
         bodega: id
       },

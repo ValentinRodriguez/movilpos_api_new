@@ -181,7 +181,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       })
     }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
         this.resetFormulario();
       })
     }       
@@ -197,7 +197,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       })
     }else{
       this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{         
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
         this.resetFormulario();
       })
     }
@@ -253,7 +253,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepComponent, {
+       this.dialogService.open(StepComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación de Productos',

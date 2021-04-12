@@ -47,7 +47,7 @@ export class MovimientoPermisosComponent implements OnInit {
     }
       
     this.CodMovServ.permisosMovimientos(param).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);      
+      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');      
     })
   }
 

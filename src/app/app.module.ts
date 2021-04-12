@@ -257,6 +257,7 @@ import { DgiiService } from "./services/dgii.service";
 import { CatalogoProveedoresComponent } from './pages/compras/reportes/catalogo-proveedores/catalogo-proveedores.component';
 import { GastosDepartamentosComponent } from './pages/contabilidad-general/reportes/gastos-departamentos/gastos-departamentos.component';
 import { GlobalFunctionsService } from "./services/global-functions.service";
+import { MayorGeneralComponent } from './pages/contabilidad-general/reportes/mayor-general/mayor-general.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -453,7 +454,8 @@ import { GlobalFunctionsService } from "./services/global-functions.service";
         FormularioFacturaProvedoresComponent,
         StepFacturaProvedoresComponent,
         CatalogoProveedoresComponent,
-        GastosDepartamentosComponent
+        GastosDepartamentosComponent,
+        MayorGeneralComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
