@@ -142,18 +142,15 @@
                                     </span>
 
                                     <span *ngIf="col.field === 'total'">
-                                        <p-inputNumber formControlName="total" mode="currency" >
-                                        </p-inputNumber>
+                                        <input type="text" pInputText formControlName="total">
                                     </span>
                                             
                                     <span *ngIf="col.field === 'valor_pendiente'">
-                                        <p-inputNumber formControlName="valor_pendiente" mode="currency" >
-                                        </p-inputNumber>
+                                        <input type="text" pInputText formControlName="valor_pendiente">
                                     </span>
         
                                     <span *ngIf="col.field === 'valor'">
-                                        <p-inputNumber formControlName="valor" mode="currency"  (onBlur)="totalMontoPagar()">
-                                        </p-inputNumber>
+                                        <input type="text" pInputText formControlName="valor" (blur)="totalMontoPagar()">
                                     </span>
     
                                     <span *ngIf="col.field === 'acciones'">
@@ -266,11 +263,11 @@
                                 </span> -->
 
                                 <span *ngIf="col.field === 'debito'">
-                                    <p-inputNumber formControlName="debito" mode="currency"  (onBlur)="calculaTotal($event.value)"></p-inputNumber>
+                                    <input type="text" pInputText formControlName="debito"  (blur)="calculaTotal()">
                                 </span>
 
                                 <span *ngIf="col.field === 'credito'">
-                                    <p-inputNumber formControlName="credito" mode="currency"  (onBlur)="calculaTotal($event.value)"></p-inputNumber>
+                                    <input type="text" pInputText formControlName="credito"  (blur)="calculaTotal()">
                                 </span>
 
                                 <span *ngIf="col.field === 'acciones'">

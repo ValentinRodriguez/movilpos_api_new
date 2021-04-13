@@ -168,6 +168,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
          
       })
     }else{
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
       return;
     }
@@ -176,7 +177,8 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
   actualizarPeriodo() {
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

@@ -14,17 +14,21 @@
                     <div class="p-field p-col-12 p-md-3">
                         <label for="fecha_inicial">Fecha Inicial</label>
                         <span class=" p-input-icon-right">
-                            <p-calendar formControlName="fecha_inicial" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_inicial')">
+                            <p-calendar formControlName="fecha_inicial" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_inicial')"
+                                        [class.ng-invalid]="getNoValido('fecha_inicial')" [class.ng-dirty]="getNoValido('fecha_inicial')">
                             </p-calendar>
                         </span>
+                        <small *ngIf="getNoValido('fecha_inicial')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
 
                     <div class="p-field p-col-12 p-md-3">
                         <label for="fecha_final">Fecha Final</label>
                         <span class=" p-input-icon-right">
-                            <p-calendar formControlName="fecha_final" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_final')">
+                            <p-calendar formControlName="fecha_final" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_final')"
+                                        [class.ng-invalid]="getNoValido('fecha_final')" [class.ng-dirty]="getNoValido('fecha_final')">
                             </p-calendar>
                         </span>
+                        <small *ngIf="getNoValido('fecha_final')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
                 </div>
                 <br>
@@ -53,13 +57,13 @@
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr [pSelectableRow]="rowData">
                 <td *ngFor="let col of columns">
-                    <span *ngIf="col.field === 'descripcion'">
-                       ({{rowData['departamento']}}) {{ rowData[col.field]}}
+                    <span *ngIf="col.field === 'descripcion' || col.field === 'cod_aux'|| col.field === 'analitico' || 
+                                 col.field === 'catalogo'|| col.field === 'depto'">
+                        {{ rowData[col.field] | titlecase}}
                     </span>
 
                     <span *ngIf="col.field === 'factura' || col.field === 'gasto' || col.field === 'cuenta_no' || col.field === 'departamento' || col.field === 'detalle_1' ||
-                                 col.field === 'detalle_2'|| col.field === 'debito'|| col.field === 'credito'|| col.field === 'cod_aux'|| col.field === 'cod_sec'|| 
-                                 col.field === 'analitico' || col.field === 'catalogo'|| col.field === 'depto' || col.field === 'fecha'">
+                                 col.field === 'detalle_2'|| col.field === 'debito'|| col.field === 'credito' || col.field === 'cod_sec'|| col.field === 'fecha'">
                         {{ rowData[col.field]}}
                     </span>
 

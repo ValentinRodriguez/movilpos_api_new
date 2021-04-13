@@ -110,7 +110,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
     const observer5$ = this.catalogoServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
-      console.log(resp);
+       (resp);
       
     })
 
@@ -167,7 +167,8 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
   guardarCatalogo(){
     this.formSubmitted = true;
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -184,7 +185,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
         default:
           this.catalogoServ.crearCgcatalogos(this.forma.value).then((resp: any)=>{
-            console.log(resp);            
+             (resp);            
             this.resetFormulario();            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");
           })
@@ -195,7 +196,8 @@ export class FormularioCgcatalogoComponent implements OnInit {
   
   ActualizarCatalogo(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

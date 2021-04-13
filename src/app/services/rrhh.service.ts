@@ -16,7 +16,7 @@ export class RrhhService {
   getDatos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
-          console.log(resp);
+           (resp);
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {        
             resolve(resp.data);            
@@ -28,7 +28,7 @@ export class RrhhService {
   getBancos() {
     return new Promise( resolve => {
         this.http.get(`${URL}/bancos`).subscribe((resp: any) => {
-          console.log(resp);
+           (resp);
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {        
             resolve(resp.data);            
@@ -79,12 +79,11 @@ export class RrhhService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData)
-               .subscribe( resp => {
-                this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-                 resolve(resp);      
-               }
+      this.http.post(`${ URL }/empresa`, formData).subscribe( (resp:any) => {
+          this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {                                      
+            resolve(resp.data);      
+          }
       });
     });    
   }

@@ -67,6 +67,7 @@ export class FormularioTipoClientesComponent implements OnInit {
   actTipoCliente() {
     this.formSubmitted = true;
     if (this.forma.valid) {  
+      this.formSubmitted = false;
       this.tipoClientesServ.actualizarTipoCliente(this.id, this.forma.value).then((resp: any) => {             
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
       })  
@@ -86,7 +87,8 @@ export class FormularioTipoClientesComponent implements OnInit {
       return;
     }
 
-    if (this.forma.valid) {      
+    if (this.forma.valid) {  
+      this.formSubmitted = false;    
       this.tipoClientesServ.crearTipoCliente(this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
       })  

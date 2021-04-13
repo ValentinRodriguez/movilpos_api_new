@@ -76,7 +76,7 @@ export class PropiedadesService {
                .subscribe( (resp:any) => {              
                 this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-                 resolve(resp);    
+                 resolve(resp.data);    
                  this.propiedadGuardada.emit( resp.data );       
                } else {
                  resolve(false)
@@ -93,7 +93,7 @@ export class PropiedadesService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                  
                   this.propiedadActualizada.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 } else {
                   resolve(false);
                 }
@@ -108,7 +108,7 @@ export class PropiedadesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.propiedadBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
               resolve(false);
             }

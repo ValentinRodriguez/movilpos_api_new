@@ -118,14 +118,11 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/empresa/${id}`, formData)
-               .subscribe( resp => {  
-                
-                 
-                this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-                 resolve(resp);       
-               }
+      this.http.post(`${ URL }/act/empresa/${id}`, formData).subscribe( (resp: any) => { 
+          this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {                                      
+            resolve(resp.data);       
+          }
       });
     });    
   }
@@ -154,10 +151,10 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData).subscribe( resp => {              
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp);      
+      this.http.post(`${ URL }/empresa`, formData).subscribe( (resp: any) => {              
+          this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {                                      
+            resolve(resp.data);      
           }
       });
     });    

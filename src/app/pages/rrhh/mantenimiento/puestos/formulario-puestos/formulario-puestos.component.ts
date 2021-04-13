@@ -55,7 +55,8 @@ export class FormularioPuestosComponent implements OnInit {
 
   guardarPuesto(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -100,7 +101,8 @@ export class FormularioPuestosComponent implements OnInit {
   actualizarPuesto(){
      this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {     
+      this.formSubmitted = false;  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

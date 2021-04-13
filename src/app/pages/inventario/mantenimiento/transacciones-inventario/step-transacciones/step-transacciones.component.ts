@@ -23,8 +23,7 @@ export class StepTransaccionesComponent implements OnInit {
     let data = this.config.data;
     for (let index = 0; index < data.length; index++) {      
       if (data[index].data.length === 0) {     
-        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)})
-        console.log(this.items);          
+        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)}) 
       }      
     }
   }
@@ -42,7 +41,7 @@ export class StepTransaccionesComponent implements OnInit {
   }
 
   finalizar() {
-    console.log('cerrar dialogo');  
+     ('cerrar dialogo');  
     this.ref.close();  
     this.transaccionesServ.finalizando();
   }

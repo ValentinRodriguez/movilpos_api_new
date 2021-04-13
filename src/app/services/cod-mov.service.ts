@@ -77,7 +77,7 @@ export class CodMovService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
-          console.log(resp);
+           (resp);
           
           this.formSubmitted.emit(false);                           
           if (resp['code'] === 200)  {    
@@ -103,16 +103,16 @@ export class CodMovService {
       }
     }
 
-    console.log(data);
+     (data);
     
     return new Promise( resolve => {      
       this.http.put(`${ URL }/codigosmovimientos/${id}`, data)
           .subscribe( (resp: any) => {    
-            console.log(resp);             
+             (resp);             
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.tipoMovActualizado.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -127,7 +127,7 @@ export class CodMovService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.tipoMovBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -141,11 +141,10 @@ export class CodMovService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( resp => {  
-         
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-          resolve(resp);       
+      this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => { 
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {
+          resolve(resp.data);       
         }
       });
     });    

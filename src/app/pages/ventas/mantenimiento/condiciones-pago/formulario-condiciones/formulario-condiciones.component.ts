@@ -75,6 +75,7 @@ export class FormularioCondicionesComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
       })
     }else{
+      this.formSubmitted = false;
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })

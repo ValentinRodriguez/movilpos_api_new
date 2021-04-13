@@ -68,7 +68,7 @@ export class ProveedoresComponent implements OnInit {
   todosLosProveedores() {
     this.proveedoresServ.getDatos().then((resp: any) => {
       this.proveedores = resp; 
-      console.log(resp);
+       (resp);
     })
   }
 

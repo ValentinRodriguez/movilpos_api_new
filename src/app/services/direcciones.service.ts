@@ -71,12 +71,10 @@ export class DireccionesService {
     
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/direccion-envio`, data)
-          .subscribe( (resp:any) => {
-             
-           this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/direccion-envio`, data).subscribe( (resp:any) => {             
+          this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.direccionGuardada.emit( resp.data );       
           }
       });
@@ -103,7 +101,7 @@ export class DireccionesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                  
               this.direccionActualizada.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -116,7 +114,7 @@ export class DireccionesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.direccionBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });

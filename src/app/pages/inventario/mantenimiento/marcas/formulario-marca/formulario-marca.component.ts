@@ -69,7 +69,8 @@ export class FormularioMarcaComponent implements OnInit {
 
   guardarMarca(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -97,7 +98,8 @@ export class FormularioMarcaComponent implements OnInit {
 
   ActualizarMarca(){
     this.formSubmitted = true;       
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

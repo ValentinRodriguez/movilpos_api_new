@@ -60,8 +60,8 @@ export class ActPeriodosComponent implements OnInit {
     this.forma.get("fecha_inicio").patchValue(this.transformarFecha(divide[0]));
     this.forma.get("fecha_corte").patchValue(this.transformarFecha(divide[1]));
 
-     ;   
     if (this.forma.invalid) {
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
     } else {
       this.periodoServ.actualizarPeriodo(this.periodo, this.forma.value).then((resp: any) => {

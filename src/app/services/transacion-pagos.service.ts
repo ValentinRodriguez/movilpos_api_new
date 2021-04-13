@@ -52,7 +52,7 @@ export class TransacionPagosService {
   gastosXdepartamentos(gastos) {   
     return new Promise( resolve => {
       this.http.post(`${URL}/gastos-dep/cgtransacciones`,gastos).subscribe((resp: any) => {
-          console.log(resp);        
+           (resp);        
           this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
@@ -64,7 +64,7 @@ export class TransacionPagosService {
   mayorGeneral(gastos) {   
     return new Promise( resolve => {
       this.http.post(`${URL}/mayor-general/cgtransacciones`,gastos).subscribe((resp: any) => {
-        console.log(resp);         
+         (resp);         
          this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
@@ -112,15 +112,13 @@ export class TransacionPagosService {
           data[key] = transaccion[key]
           break;
       }
-    }
-     
+    }     
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {
-          console.log(resp);
           this.formSubmitted.emit(false);                           
           if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.transaccionGuardada.emit(resp.data);       
           }
       });
@@ -133,7 +131,7 @@ export class TransacionPagosService {
         this.formSubmitted.emit(false);                           
           if (resp['code'] === 200)  {
             this.transaccionAct.emit( resp.data );                            
-            resolve(resp);            
+            resolve(resp.data);            
           }
       });
     });
@@ -146,9 +144,9 @@ export class TransacionPagosService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.transaccionBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

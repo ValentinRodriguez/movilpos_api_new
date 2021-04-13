@@ -81,6 +81,7 @@ export class FormularioTiponegocioComponent implements OnInit {
     }
 
     if (this.forma.invalid) {
+      this.formSubmitted = false;
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
@@ -103,6 +104,7 @@ export class FormularioTiponegocioComponent implements OnInit {
         this.resetFormulario();
       })  
     }else{
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       return;
     }

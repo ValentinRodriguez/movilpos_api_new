@@ -179,7 +179,7 @@ export class CgcatalogoService {
           this.formSubmitted.emit(false);                           
           if (resp['code'] === 200)  {
             this.catalogoActualizado.emit( resp.data );                            
-            resolve(resp);            
+            resolve(resp.data);            
           }
       });
     });
@@ -190,7 +190,7 @@ export class CgcatalogoService {
       this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => {                         
           if (resp['code'] === 200)  {
             this.catalogoBorrado.emit(id);    
-            resolve(resp);            
+            resolve(resp.data);            
           }
         });
     });
