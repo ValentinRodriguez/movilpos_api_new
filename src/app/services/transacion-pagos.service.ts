@@ -52,8 +52,19 @@ export class TransacionPagosService {
   gastosXdepartamentos(gastos) {   
     return new Promise( resolve => {
       this.http.post(`${URL}/gastos-dep/cgtransacciones`,gastos).subscribe((resp: any) => {
-        console.log(resp);        
-        this.formSubmitted.emit(false);  
+          console.log(resp);        
+          this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+        })
+    })
+  }
+
+  mayorGeneral(gastos) {   
+    return new Promise( resolve => {
+      this.http.post(`${URL}/mayor-general/cgtransacciones`,gastos).subscribe((resp: any) => {
+        console.log(resp);         
          this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
@@ -65,7 +76,7 @@ export class TransacionPagosService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/autollenado/cgtransacciones`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
+            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
@@ -76,7 +87,7 @@ export class TransacionPagosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/cgtransacciones/${id}`).subscribe((resp: any) => {           
-           this.formSubmitted.emit(false);                           
+            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
@@ -107,8 +118,8 @@ export class TransacionPagosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {
           console.log(resp);
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+          this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {                                      
             resolve(resp);    
             this.transaccionGuardada.emit(resp.data);       
           }
@@ -118,16 +129,13 @@ export class TransacionPagosService {
 
   actualizarTransaccion(id:number, transaccion: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/cgtransacciones/${id}`, transaccion)
-          .subscribe( (resp: any) => {                
-             
-            
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-              this.transaccionAct.emit( resp.data );                            
-              resolve(resp);            
-            }
-          });
+      this.http.put(`${ URL }/cgtransacciones/${id}`, transaccion).subscribe( (resp: any) => {                
+        this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {
+            this.transaccionAct.emit( resp.data );                            
+            resolve(resp);            
+          }
+      });
     });
   }
 

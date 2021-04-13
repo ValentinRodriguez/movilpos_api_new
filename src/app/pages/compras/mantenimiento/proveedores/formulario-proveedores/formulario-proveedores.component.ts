@@ -163,7 +163,7 @@ export class FormularioProveedoresComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepProveedoresComponent, {
+       this.dialogService.open(StepProveedoresComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación Proveedores',
@@ -189,7 +189,7 @@ export class FormularioProveedoresComponent implements OnInit {
       cuenta_no:           ['', Validators.required],
       id_pais:             ['', Validators.required],            
       id_ciudad:           ['', Validators.required],          
-      usuario_creador:     [this.usuario.username],
+      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: [''],
       estado:              ['activo'],
       cuentas_no:          this.fb.array([])
@@ -261,7 +261,7 @@ export class FormularioProveedoresComponent implements OnInit {
       })
     }else{      
       this.proveedoresServ.actualizarProveedor(this.id, this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');   
         this.restaurarFormulario();            
       })
     } 
@@ -331,7 +331,7 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(CatalogoCuentasComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

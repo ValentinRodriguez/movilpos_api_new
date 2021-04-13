@@ -153,7 +153,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
    }else{      
      this.forma.value.usuario_creador = this.usuario.username;
      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
-       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);       
+       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');       
      })
    }
     
@@ -169,7 +169,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
         })
       }else{ 
         this.ordenServ.actualizarPedido(this.id, this.forma.value).then((resp: any) => {
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);         
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');         
         })
       }
   }
@@ -324,7 +324,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   }
 
   buscaProductos() {
-    const ref = this.dialogService.open(ListaProductosComponent, {
+     this.dialogService.open(ListaProductosComponent, {
       header: 'Catálogo de productos',
       width: '70%'
     });

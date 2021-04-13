@@ -98,7 +98,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
 
         default:
           this.tipoProveedorServ.crearTproveedor(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.resetFormulario();
           })
           break;
@@ -145,7 +145,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
       })
     }else{ 
       this.tipoProveedorServ.actualizarProveedor(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

@@ -85,7 +85,7 @@ export class UsuariosComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.usuariosServ.eliminarUsuario(usuario).then(()=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario eliminado de manera correcta');   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })
@@ -109,7 +109,7 @@ export class UsuariosComponent implements OnInit {
     if (this.empleados.length !== 0) {
       setTimeout(() => {
         if (data === 1) {
-          const ref = this.dialogService.open(ListadoEmpleadosComponent, {
+           this.dialogService.open(ListadoEmpleadosComponent, {
             header: 'Listado de empleados',
             width: '50%'
           });      
@@ -119,7 +119,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   permisosUsuarios() {
-    const ref = this.dialogService.open(PermisosUsuariosComponent, {
+     this.dialogService.open(PermisosUsuariosComponent, {
       data: this.usuario,
       header: 'Permisos a usuarios',
       width: '70%'

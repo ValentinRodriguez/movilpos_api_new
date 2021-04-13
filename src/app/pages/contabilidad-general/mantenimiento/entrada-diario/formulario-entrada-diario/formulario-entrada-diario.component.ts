@@ -154,7 +154,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       })
     }else{      
       this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{       
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);           
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');           
       })
     } 
      
@@ -186,7 +186,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(CatalogoCuentasComponent, {
       header: 'Catalogo de Productos',
       width: '50%'
     });
@@ -204,7 +204,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
      })
     }else{
       this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {        
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

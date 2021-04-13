@@ -71,7 +71,7 @@ export class FormularioPropiedadesComponent implements OnInit {
 
         default:
           this.propiedadServ.crearPropiedad(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.forma.get('descripcion').reset();
           })
           break;

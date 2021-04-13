@@ -47,7 +47,7 @@ export class BodegasPermisosComponent implements OnInit {
     }
       
     this.bodegasServ.permisosBodega(param).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);      
+      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');      
     })
   }
 

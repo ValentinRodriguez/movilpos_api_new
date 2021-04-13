@@ -83,7 +83,7 @@ export class FormularioCatComponent implements OnInit {
 
         default:
           this.categoriasServ.crearCategoria(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.forma.get('descripcion').reset();
           })
           break;
@@ -94,7 +94,7 @@ export class FormularioCatComponent implements OnInit {
   actualizarCategoria(){
     this.formSubmitted = true; 
     this.categoriasServ.actualizarCategoria(this.id, this.forma.value).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);       
+      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
     })
   }
 

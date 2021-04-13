@@ -87,7 +87,7 @@ export class TransportistasComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.transportistasServ.borrarTransportista(transportista).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })

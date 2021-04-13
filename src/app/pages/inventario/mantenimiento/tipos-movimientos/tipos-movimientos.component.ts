@@ -101,14 +101,14 @@ export class TiposMovimientosComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.CodMovServ.borrarTipoMov(mov).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })
   }
 
   permisosMovimientos(id: string) {
-    const ref = this.dialogService.open(MovimientoPermisosComponent, {
+     this.dialogService.open(MovimientoPermisosComponent, {
       data: {id_tipomov: id},
       header: 'Gestión de permisos a bodegas',
       width: '50%'

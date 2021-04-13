@@ -92,7 +92,7 @@ export class FormularioTipoinvComponent implements OnInit {
 
         default:
           this.tipoInventarioServ.crearTipoInventario(this.forma.value).then((resp: any)=>{            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
             this.resetFormulario();
           })
           break;
@@ -122,7 +122,7 @@ export class FormularioTipoinvComponent implements OnInit {
           this.forma.get('usuario_modificador').setValue(this.usuario.username);
           this.tipoInventarioServ.actualizartipoInv(this.id, this.forma.value).then((resp: any) => {
              
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
             this.resetFormulario();
           })
           break;

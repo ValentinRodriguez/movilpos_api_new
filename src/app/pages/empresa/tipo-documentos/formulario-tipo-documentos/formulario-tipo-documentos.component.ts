@@ -111,7 +111,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
         return;
       } else {
         this.usuariosServ.register(this.forma.value).then((resp: any) => {  
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario creado de manera correcta');
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           this.forma.reset();
           this.forma.get('usuario_creador').setValue(this.usuario.username);
         })  
@@ -132,7 +132,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
       })
     }else{ 
       this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario actualizado de manera correcta');
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }
@@ -191,7 +191,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   listadoEmpleados(data) {
     setTimeout(() => {
       if (data === 1) {
-        const ref = this.dialogService.open(ListadoEmpleadosComponent, {
+         this.dialogService.open(ListadoEmpleadosComponent, {
           header: 'Listado de empleados',
           width: '50%'
         });      

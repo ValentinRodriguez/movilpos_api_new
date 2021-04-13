@@ -114,7 +114,7 @@ export class ProveedoresService {
         this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
             console.log(resp);
                                        
-             this.formSubmitted.emit(false);                           
+            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {    
               this.proveedoresCreados.emit( resp.data );                                   
               resolve(resp.data);       

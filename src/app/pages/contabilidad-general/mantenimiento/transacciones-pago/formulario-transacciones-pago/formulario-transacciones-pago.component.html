@@ -51,8 +51,8 @@
 
         <div class="p-field p-col-12 p-md-2">
             <label for="valor">Monto</label>
-            <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US"
-            [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"  ></p-inputNumber>
+            <p-inputNumber formControlName="valor" mode="decimal" [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"  ></p-inputNumber>
+            <!-- <input type="number" pInputText formControlName="valor" [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"/> -->
         </div>
 
         <!-- <div class="p-field p-col-12 p-md-2">
@@ -142,17 +142,17 @@
                                     </span>
 
                                     <span *ngIf="col.field === 'total'">
-                                        <p-inputNumber formControlName="total" mode="currency" [currency]="this.divisa" locale="en-US">
+                                        <p-inputNumber formControlName="total" mode="currency" >
                                         </p-inputNumber>
                                     </span>
                                             
                                     <span *ngIf="col.field === 'valor_pendiente'">
-                                        <p-inputNumber formControlName="valor_pendiente" mode="currency" [currency]="this.divisa" locale="en-US">
+                                        <p-inputNumber formControlName="valor_pendiente" mode="currency" >
                                         </p-inputNumber>
                                     </span>
         
                                     <span *ngIf="col.field === 'valor'">
-                                        <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="totalMontoPagar()">
+                                        <p-inputNumber formControlName="valor" mode="currency"  (onBlur)="totalMontoPagar()">
                                         </p-inputNumber>
                                     </span>
     
@@ -266,11 +266,11 @@
                                 </span> -->
 
                                 <span *ngIf="col.field === 'debito'">
-                                    <p-inputNumber formControlName="debito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTotal($event.value)"></p-inputNumber>
+                                    <p-inputNumber formControlName="debito" mode="currency"  (onBlur)="calculaTotal($event.value)"></p-inputNumber>
                                 </span>
 
                                 <span *ngIf="col.field === 'credito'">
-                                    <p-inputNumber formControlName="credito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTotal($event.value)"></p-inputNumber>
+                                    <p-inputNumber formControlName="credito" mode="currency"  (onBlur)="calculaTotal($event.value)"></p-inputNumber>
                                 </span>
 
                                 <span *ngIf="col.field === 'acciones'">

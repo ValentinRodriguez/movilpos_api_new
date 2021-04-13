@@ -80,16 +80,17 @@ export class FormularioTiponegocioComponent implements OnInit {
       return;
     }
 
-    if (this.forma.valid) {      
-      this.tipoNegocioServ.crearTipoNegocio(this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
-      })  
-    }else{
+    if (this.forma.invalid) {
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       return;
+    }else{
+      this.tipoNegocioServ.crearTipoNegocio(this.forma.value).then((resp: any) => {
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
+        this.resetFormulario();
+      })
     }
   }
 
@@ -97,9 +98,9 @@ export class FormularioTiponegocioComponent implements OnInit {
     this.formSubmitted = true;
     if (this.forma.valid) {  
       this.forma.get('usuario_modificador').setValue(this.usuario.username);
-      this.tipoNegocioServ.actualizarTipoNegocio(this.id, this.forma.value).then((resp: any) => {
-             
+      this.tipoNegocioServ.actualizarTipoNegocio(this.id, this.forma.value).then((resp: any) => {             
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormulario();
       })  
     }else{
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -110,12 +111,15 @@ export class FormularioTiponegocioComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.resetFormulario();
     this.tipoNegocioServ.guardando();    
   }
 
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
   verificaTipoNegocio(data){
     if (data === "") {
       this.negocioExiste = 3;
