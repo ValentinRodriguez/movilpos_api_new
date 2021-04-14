@@ -272,8 +272,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       num_doc:         [],
       cod_aux:         [cuenta.catalogo],
       cod_sec:         [12],
-      detalle_1:       [''],
-      detalle_2:       [''],
       estado:          ['activo', Validators.required],
       usuario_creador: [this.usuario.username, Validators.required],
     });

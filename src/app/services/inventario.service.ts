@@ -219,61 +219,62 @@ export class InventarioService {
         
     for(let key in invProducto){ 
       switch (key) {
-        case 'galeriaImagenes':
-          if (typeof imagesSec !== 'string') {   
-            formData.append('galeriaImagenes', imagesSec, imagesSec.name );    
-            formData.append('galeriaImagenes', imagesSec.length)          
-          } else {
-            formData.append('galeriaImagenes', imagesSec);
-          }  
-          break;
+        // case 'galeriaImagenes':
+        //   if (typeof imagesSec !== 'string') {   
+        //     formData.append('galeriaImagenes', imagesSec, imagesSec.name );    
+        //     formData.append('galeriaImagenes', imagesSec.length)          
+        //   } else {
+        //     formData.append('galeriaImagenes', imagesSec);
+        //   }  
+        //   break;
 
         case 'fabricacion':
-          formData.append(key, invProducto[key].value);
+          invProducto[key] = invProducto[key].value
           break;
 
         case 'id_bodega':
-          formData.append(key, invProducto[key].id_bodega);
+          invProducto[key] = invProducto[key].id_bodega
           break;
 
         case 'id_brand':
-          formData.append(key, invProducto[key].id_brand);
+          invProducto[key] = invProducto[key].id_brand
           break;
 
         case 'id_categoria':
-          formData.append(key, invProducto[key].id_categoria);
+          invProducto[key] = invProducto[key].id_categoria
           break;
 
         case 'id_tipoinventario':
-          formData.append(key, invProducto[key].id_tipoinventario);
+          invProducto[key] = invProducto[key].id_tipoinventario
           break;
 
         case 'id_propiedad':
-          formData.append(key, invProducto[key].id_propiedad);
+          invProducto[key] = invProducto[key].id_propiedad
           break;
 
         case 'tipo_producto':
-          formData.append(key, invProducto[key].id_tipo);
+          invProducto[key] = invProducto[key].id_tipo
           break;
 
         case 'unidadMed':
-          formData.append(key, invProducto[key].id);
+          invProducto[key] = invProducto[key].id
           break;
 
-        default:
-          formData.append(key, invProducto[key]);
+        default: 
+          invProducto[key] = invProducto[key]
           break;
       }     
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {                            
-            this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-              this.productoActualizado.emit( resp );                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.post(`${ URL }/act/productos/${id}`, invProducto).subscribe( (resp: any) => {         
+        console.log(resp);                           
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {
+          this.productoActualizado.emit( resp );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
   

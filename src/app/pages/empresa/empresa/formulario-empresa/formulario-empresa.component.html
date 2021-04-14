@@ -143,7 +143,7 @@
         <div class="p-field p-col-12 p-md-3" >
             <label for="valuacion_inv">Valuación de inventario</label>
             <p-dropdown inputId="valuacion_inv" [options]="valuacion_inv" name="valuacion_inv" formControlName="valuacion_inv" 
-                        [class.ng-invalid]="getNoValido('valuacion_inv')" [class.ng-dirty]="getNoValido('valuacion_inv')"placeholder="Escoge...">
+                        [class.ng-invalid]="getNoValido('valuacion_inv')" [class.ng-dirty]="getNoValido('valuacion_inv')" placeholder="Escoge...">
             </p-dropdown>
             <small *ngIf="getNoValido('valuacion_inv')" class="p-invalid">Este campo es obligatorio.</small>
         </div>

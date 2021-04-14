@@ -294,7 +294,8 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   guardarFproveedor(){
     this.formSubmitted = true;
     this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);
-
+    console.log(this.forma);
+    
     if (this.forma.invalid) {  
       this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      

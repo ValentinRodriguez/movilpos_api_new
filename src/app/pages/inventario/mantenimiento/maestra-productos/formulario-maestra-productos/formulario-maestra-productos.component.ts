@@ -117,8 +117,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);
       this.inventarioServ.getDato(resp).then((res: any) => {   
-         
-        
         this.forma.patchValue(res);
         this.imgURL = `${URL}/storage/${res.galeriaImagenes}`;
         this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
@@ -271,7 +269,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
        temp.push({value: 1950 + (index)})
     }  
     this.fechafabricacion = temp.reverse();      
-   }
+  }
 
   verificaProducto(data){    
     if (data === "") {
