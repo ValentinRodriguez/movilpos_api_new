@@ -173,8 +173,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       });               
     })
 
-    const observer5$ = this.transaccionescxpServ.formSubmitted.subscribe((resp) => {
+    const observer5$ = this.transaccionsServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
+      console.log(resp);      
     })
 
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
@@ -281,15 +282,21 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   totalMontoPagar() {
     this.totalVpag = 0;
     
-    this.detalle_cxp.value.forEach((element:any) => {         
-      this.totalVpag += element.valor || 0;    
+    this.detalle_cxp.value.forEach((element:any) => {     
+      console.log(element.valor);
+          
+      this.totalVpag += Number(element.valor) || 0;    
     });
+
+    console.log(this.totalVpag, this.MontoPago);
+    
   }
 
   guardarTransaccion(){
     this.formSubmitted = true;        
     
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -316,10 +323,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       }
       
       this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
-        if (resp) {
-           
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
-        }               
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
+        
       })
     }
   }
@@ -327,7 +332,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   actualizarTransaccion(){
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {      
+      this.formSubmitted = false; 
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -340,13 +346,15 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     }
   }
 
-  calculaTotal(e) { 
+  calculaTotal() { 
     this.totalD = 0;
     this.totalC = 0;
     
-    this.detalle_cuentas.value.forEach((element:any) => {         
-      this.totalD += element.debito || 0;        
-      this.totalC += element.credito || 0;      
+    this.detalle_cuentas.value.forEach((element:any) => {   
+      console.log(element);
+            
+      this.totalD += Number(element.debito) || 0;        
+      this.totalC += Number(element.credito) || 0;      
     });    
   }
 
@@ -402,7 +410,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         index++;
       });
     }
-    // this.buscaSecuencia();
   }
 
   borrarCuentaCxPEscogida(id) {
@@ -437,12 +444,15 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.resetFormaulario();
     this.transaccionsServ.guardando();    
   }
 
+  resetFormaulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
   padLeft(value, length) {
     return (value.toString().length < length) ? this.padLeft("0" + value, length) : 
     value;

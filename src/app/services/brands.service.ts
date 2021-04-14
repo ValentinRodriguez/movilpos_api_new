@@ -81,7 +81,7 @@ export class BrandsService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
                   this.marcaAct.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 }
               });
     });
@@ -94,9 +94,9 @@ export class BrandsService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.marcaBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

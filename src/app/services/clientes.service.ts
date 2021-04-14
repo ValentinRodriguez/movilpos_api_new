@@ -104,7 +104,7 @@ export class ClientesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.clientAct.emit( resp.data );                            
-              resolve(resp);          
+              resolve(resp.data);          
             }
         });
       });
@@ -171,7 +171,7 @@ export class ClientesService {
       .subscribe((resp:any)=>{
         if(resp['code']==200){
           this.clienteBorrado.emit(id);
-          resolve(resp);
+          resolve(resp.data);
         }
       })
     })

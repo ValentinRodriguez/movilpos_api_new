@@ -147,7 +147,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
 
   guardarEntradas(){
     this.formSubmitted = true;
-    if (this.forma.invalid) {      
+    if (this.forma.invalid) { 
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -197,7 +198,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     const fecha = this.forma.get('fecha').value;   
     this.forma.get('fecha').setValue(this.onSelectDate1(fecha));     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

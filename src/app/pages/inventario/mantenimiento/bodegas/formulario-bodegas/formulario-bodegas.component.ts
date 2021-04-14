@@ -92,6 +92,7 @@ export class FormularioBodegasComponent implements OnInit {
   guardarBodega(){
     this.formSubmitted = true;   
     if (this.forma.invalid) {  
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -120,11 +121,12 @@ export class FormularioBodegasComponent implements OnInit {
   actualizarBodega() {
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
-       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-       Object.values(this.forma.controls).forEach(control =>{          
-         control.markAllAsTouched();
-       })
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
     }else{  
       this.bodegasServ.actualizarBodega(this.id, this.forma.value).then((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');

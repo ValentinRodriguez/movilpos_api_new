@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
@@ -72,23 +72,31 @@ export class GastosDepartamentosComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       cuenta_no:     [''],           
-      fecha_inicial: [''],           
-      fecha_final:   ['']           
+      fecha_inicial: ['', Validators.required],           
+      fecha_final:   ['', Validators.required]           
     })
   }
   
   verReporte() {
     this.formSubmitted = true;
-    this.cgtransaccionesSev.gastosXdepartamentos(this.forma.value).then((resp:any) =>{      
-      if (resp.length === 0) {
-        console.log(resp);
-        this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');3
-        this.gastos = [];
-        return;
-      }
-      this.gastos = resp; 
-      console.log(this.gastos);      
-    })
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+    }else{ 
+      this.cgtransaccionesSev.gastosXdepartamentos(this.forma.value).then((resp:any) =>{      
+        if (resp.length === 0) {
+           (resp);
+          this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');3
+          this.gastos = [];
+          return;
+        }
+        this.gastos = resp; 
+         (this.gastos);      
+      })
+    }
   }
 
   limpiarForm(){
@@ -166,5 +174,9 @@ export class GastosDepartamentosComponent implements OnInit {
       })      
     });
     return body
+  }
+
+  getNoValido(input: string) {
+    return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 }

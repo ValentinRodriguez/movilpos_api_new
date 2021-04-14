@@ -151,7 +151,7 @@ export class TransaccionesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.transaccionBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });

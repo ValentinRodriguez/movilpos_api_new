@@ -174,7 +174,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   guardarProducto() {
     this.formSubmitted = true;
-    if (this.forma.invalid) {      
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();
@@ -190,7 +191,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
   actualizarProducto() {
     this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {      
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();

@@ -99,13 +99,12 @@ export class OrdenPedidosService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( resp => {  
-                                  
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {    
-                  this.ordenCreada.emit( resp );                                   
-                  resolve(resp);       
-                }
+      this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( (resp: any) => {  
+          this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {    
+            this.ordenCreada.emit( resp );                                   
+            resolve(resp.data);       
+          }
       });
     });    
   }
@@ -117,7 +116,7 @@ export class OrdenPedidosService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                  
                   this.ordenAct.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 }
               });
     });
@@ -130,7 +129,7 @@ export class OrdenPedidosService {
                          
             if(resp['code']==200){
               this.ordenBorrada.emit(id);
-              resolve(resp);
+              resolve(resp.data);
             }
           })
     })

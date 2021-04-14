@@ -64,7 +64,7 @@ export class PuestosService {
       this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {         
          this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-          resolve(resp);    
+          resolve(resp.data);    
           this.puestoGuardada.emit(resp.data);       
         }
       });
@@ -80,7 +80,7 @@ export class PuestosService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.puestoAct.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -93,9 +93,9 @@ export class PuestosService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.puestoBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

@@ -44,13 +44,14 @@ export class AppLoginComponent implements OnInit{
   }
 
   handleResponse(data) {
-     
+    this.formSubmitted = false;
     this.usuarioServ.handleToken(data);
     this.router.navigateByUrl('/');
      
   }
 
   handlerError(error) {
+    this.formSubmitted = false;
     switch (error.status) {
       case 401:
         this.error = error.error.error;

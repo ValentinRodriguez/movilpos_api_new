@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
@@ -51,18 +51,10 @@ export class MayorGeneralComponent implements OnInit {
 
     this.cols = [
       { field: 'fecha', header: 'Fecha' },
-      { field: 'descripcion', header: 'Descripción' },
-      { field: 'cuenta_no', header: 'Cuenta' },
-      { field: 'departamento', header: 'Departamento'},
-      { field: 'detalle_1', header: 'Detalle 1'},
-      { field: 'detalle_2', header: 'Detalle 2'},
+      { field: 'documento', header: 'Documento'},
+      { field: 'detalle', header: 'Detalle'},
       { field: 'debito', header: 'Débito'},
       { field: 'credito', header: 'Crédito'},
-      { field: 'cod_aux', header: 'Cod Aux'},
-      { field: 'cod_sec', header: 'Cod Sec'},
-      { field: 'analitico', header: 'Analítico'},
-      { field: 'catalogo', header: 'Catálogo'},
-      { field: 'depto', header: 'Depto'},
     ];    
     this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
   }
@@ -78,23 +70,31 @@ export class MayorGeneralComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       cuenta_no:     [''],           
-      fecha_inicial: [''],           
-      fecha_final:   ['']           
+      fecha_inicial: ['', Validators.required],           
+      fecha_final:   ['', Validators.required]           
     })
   }
   
   verReporte() {
     this.formSubmitted = true;
-    this.cgtransaccionesSev.mayorGeneral(this.forma.value).then((resp:any) =>{      
-      if (resp.length === 0) {
-        console.log(resp);
-        this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');3
-        this.mayor = [];
-        return;
-      }
-      this.mayor = resp; 
-      console.log(this.mayor);      
-    })
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+    }else{ 
+      this.cgtransaccionesSev.mayorGeneral(this.forma.value).then((resp:any) =>{      
+        if (resp.length === 0) {
+           (resp);
+          this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');3
+          this.mayor = [];
+          return;
+        }
+        this.mayor = resp; 
+         (this.mayor);      
+      })
+    }
   }
 
   limpiarForm(){
@@ -157,8 +157,7 @@ export class MayorGeneralComponent implements OnInit {
   }
 
   headRows() {
-    return [ {fecha:'Fecha' ,descripcion:'Descripción',cuenta_no:'Cuenta',departamento:'Departamento',detalle_1:'Detalle',detalle_2:'Detalle',debito:'Débito',credito:'Crédito',cod_aux:'Cod Aux',
-              cod_sec:'Cod Sec',analitico:'Analítico',catalogo:'Catálogo',depto:'Depto'}]
+    return [ {fecha:'Fecha' ,documento:'Documento', detalle:'Detalle', debito:'Debito', credito: 'Credito'}]
   }  
 
   bodyRows(data) {
@@ -166,20 +165,16 @@ export class MayorGeneralComponent implements OnInit {
     data.forEach(element => {
       body.push({
         fecha: element.fecha,
-        descripcion: element.descripcion,
-        cuenta_no: element.cuenta_no,
-        departamento: element.departamento,
-        detalle_1: element.detalle_1,
-        detalle_2: element.detalle_2,
+        documento:element.debito,
+        detalle: element.detalle,
         debito: element.debito,
         credito: element.credito,
-        cod_aux: element.cod_aux,
-        cod_sec: element.cod_sec,
-        analitico: element.analitico,
-        catalogo: element.catalogo,
-        depto: element.depto,
       })      
     });
     return body
+  }
+
+  getNoValido(input: string) {
+    return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 }

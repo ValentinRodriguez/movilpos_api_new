@@ -79,7 +79,7 @@ export class TipoInventarioService {
           
          this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-          resolve(resp);    
+          resolve(resp.data);    
           this.TipoInventarioGuardado.emit(resp.data);        
         }
       });
@@ -93,7 +93,7 @@ export class TipoInventarioService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.TipoInventarioBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -115,7 +115,7 @@ export class TipoInventarioService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.TipoInventarioAct.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });

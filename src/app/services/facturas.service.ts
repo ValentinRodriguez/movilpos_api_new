@@ -61,12 +61,11 @@ export class FacturasService {
     // }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/vefacturas`, factura).subscribe( resp => {
-                   
+      this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {    
             this.facturaCreada.emit( resp );                                   
-            resolve(resp);       
+            resolve(resp.data);       
           }
       });
     });    

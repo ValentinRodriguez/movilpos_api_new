@@ -70,7 +70,7 @@ export class CondicionesPagoService {
           
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.condicionGuardada.emit(resp.data);       
           }
       });
@@ -86,7 +86,7 @@ export class CondicionesPagoService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
                   this.condicionAct.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 }
               });
     });
@@ -101,9 +101,9 @@ export class CondicionesPagoService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.condicionBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

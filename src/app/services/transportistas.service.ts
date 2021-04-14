@@ -90,7 +90,7 @@ export class TransportistasService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.trasnportistaAct.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -103,7 +103,7 @@ export class TransportistasService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.trasnportistaBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });

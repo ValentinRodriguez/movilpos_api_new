@@ -53,7 +53,7 @@ export class PeriodosFiscalesService {
       this.http.post(`${ URL }/periodos-fiscales`, periodo).subscribe( (resp:any) => {                     
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {                                      
-          resolve(resp);    
+          resolve(resp.data);    
           this.periodoGuardado.emit( resp.data );       
         }
       });
@@ -66,7 +66,7 @@ export class PeriodosFiscalesService {
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {                  
           this.periodoActualizado.emit( resp.data );                            
-          resolve(resp);            
+          resolve(resp.data);            
         }
       });
     });
@@ -78,7 +78,7 @@ export class PeriodosFiscalesService {
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {            
           this.periodoBorrado.emit(id);    
-          resolve(resp);            
+          resolve(resp.data);            
         }
       });
     });
@@ -91,7 +91,7 @@ export class PeriodosFiscalesService {
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {            
           this.periodoBorrado.emit(id);    
-          resolve(resp);            
+          resolve(resp.data);            
         }
       });
     });

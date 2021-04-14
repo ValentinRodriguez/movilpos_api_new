@@ -43,12 +43,11 @@ export class DepartamentosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/departamentos`, formData).subscribe( resp => {  
-             
+      this.http.post(`${ URL }/departamentos`, formData).subscribe( (resp: any) => {               
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {    
             this.departamentoEscogido.emit( resp );                                   
-            resolve(resp);       
+            resolve(resp.data);       
           }
       });
     });    
@@ -68,7 +67,7 @@ export class DepartamentosService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.departamentoAct.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -81,7 +80,7 @@ export class DepartamentosService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.departamentoBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });

@@ -24,8 +24,7 @@ export class StepclientesComponent implements OnInit {
     let data = this.config.data;
     for (let index = 0; index < data.length; index++) {      
       if (data[index].data.length === 0) {     
-        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)})
-        console.log(this.items);          
+        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)})       
       }      
     }
   }

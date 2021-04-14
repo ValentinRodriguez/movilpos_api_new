@@ -21,10 +21,10 @@
 
 <p-toolbar>	
     <div class="p-toolbar-group-left">
-        <button label="Anterior" (click)="prevPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-left" iconPos="right" *ngIf="this.activeIndex !== 0"></button>
+        <button label="Anterior" (click)="prevPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-left" iconPos="left" *ngIf="this.activeIndex !== 0"></button>
     </div>						
     <div class="p-toolbar-group-right">
         <button label="Siguiente" (click)="nextPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-right" iconPos="right" *ngIf="this.activeIndex !== this.items.length - 1"></button>
-        <button label="Finalizar" (click)="finalizar()" class="p-button-danger" pButton pRipple type="button" icon="pi pi-times" iconPos="right" *ngIf="this.activeIndex === this.items.length - 1"></button>
+        <button label="Finalizar" (click)="finalizar()" class="p-button-warning" pButton pRipple type="button" icon="pi pi-times" iconPos="right" *ngIf="this.activeIndex === this.items.length - 1"></button>
     </div>
 </p-toolbar>

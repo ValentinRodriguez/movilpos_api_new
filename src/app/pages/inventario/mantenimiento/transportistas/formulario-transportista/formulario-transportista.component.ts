@@ -95,14 +95,17 @@ export class FormularioTransportistaComponent implements OnInit {
   }
 
   guardarTransportista(){
-    this.formSubmitted = true;         
-    if (this.forma.invalid) {       
+    this.formSubmitted = true;     
+    console.log(this.forma);
+        
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{   
-      this.transportistaServ.crearTransportista(this.forma.value).then((resp: any)=>{         
+      this.transportistaServ.crearTransportista(this.forma.value).then(()=>{         
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
         this.resetFormulario();
       })
@@ -111,7 +114,8 @@ export class FormularioTransportistaComponent implements OnInit {
     
   ActualizarCategoria(){
     this.formSubmitted = true;
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {     
+      this.formSubmitted = false;  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

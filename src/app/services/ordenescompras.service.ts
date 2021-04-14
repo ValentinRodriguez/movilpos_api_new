@@ -13,6 +13,7 @@ export class OrdenescomprasService {
   ordenGuardada= new EventEmitter();
   ordenBorrada = new EventEmitter();
   formSubmitted = new EventEmitter();
+  finalizar = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
@@ -79,12 +80,12 @@ export class OrdenescomprasService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/ordenescompras`, formData).subscribe( resp => {  
+      this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => {  
                             
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {    
             this.ordenGuardada.emit( resp );                                   
-            resolve(resp);       
+            resolve(resp.data);       
           }
       });
     });    
@@ -139,7 +140,7 @@ export class OrdenescomprasService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {   
                   this.ordenact.emit(1);
-                  resolve(resp);          
+                  resolve(resp.data);          
                 }
               });
     });  
@@ -151,7 +152,7 @@ export class OrdenescomprasService {
           .subscribe((resp:any)=>{
             if(resp['code']==200){
               this.ordenBorrada.emit(id);
-              resolve(resp);
+              resolve(resp.data);
             }
           })
     })
@@ -175,5 +176,9 @@ export class OrdenescomprasService {
           }
         })
     })
+    }
+
+    finalizando() {
+      this.finalizar.emit(1);
     }
 }

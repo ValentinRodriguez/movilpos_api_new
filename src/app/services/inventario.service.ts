@@ -267,13 +267,11 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/productos/${id}`, formData)
-          .subscribe( resp => {   
-                         
-             this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {                            
+            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.productoActualizado.emit( resp );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -290,11 +288,10 @@ export class InventarioService {
     }
 
     return new Promise( resolve => {
-      this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto)      
-          .subscribe( resp => {    
-             this.formSubmitted.emit(false);                           
+      this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {    
+            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -308,9 +305,9 @@ export class InventarioService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.productoBorrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

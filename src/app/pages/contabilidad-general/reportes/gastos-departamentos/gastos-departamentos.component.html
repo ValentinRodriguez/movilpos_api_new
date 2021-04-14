@@ -17,6 +17,7 @@
                             <p-calendar formControlName="fecha_inicial" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_inicial')">
                             </p-calendar>
                         </span>
+                        <small *ngIf="getNoValido('fecha_inicial')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
 
                     <div class="p-field p-col-12 p-md-3">
@@ -25,6 +26,7 @@
                             <p-calendar formControlName="fecha_final" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha_final')">
                             </p-calendar>
                         </span>
+                        <small *ngIf="getNoValido('fecha_final')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
                 </div>
                 <br>
