@@ -134,13 +134,8 @@ export class ClientesService {
       this.http.put(`${ URL }/mclientes/${id}`, data)
       
           .subscribe( (resp: any) => {  
-<<<<<<< HEAD
-          
-            if (resp['code'] === 200) {
-=======
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
->>>>>>> 1b08b58f2400897e6053be2993ed849786caf92b
               this.clientAct.emit( resp.data );                            
               resolve(resp);          
             }

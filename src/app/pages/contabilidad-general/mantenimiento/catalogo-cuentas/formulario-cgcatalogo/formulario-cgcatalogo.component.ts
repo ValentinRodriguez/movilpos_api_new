@@ -75,6 +75,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.listObserver();
     this.forma.get('aplica_a').disable();
 
     this.catalogoServ.codigosRetencion().then((resp: any) => {
@@ -87,12 +88,15 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   listObserver = () => {
+    console.log('aqui');
     const observer1$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
+      console.log(resp);
       this.catalogoServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
+        console.log(res);
         this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
         this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
         this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
@@ -103,7 +107,9 @@ export class FormularioCgcatalogoComponent implements OnInit {
         this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
         this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
         this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
-        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
+        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia)); 
+        this.forma.get('descripcion').setValue(res.descripcion);  
+        this.forma.get('cuenta_no').setValue(res.cuenta_no);     
       })
     })
 
@@ -115,8 +121,10 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
+      console.log(resp);
       this.catalogoServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
+       
         this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
         this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
         this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
@@ -128,6 +136,9 @@ export class FormularioCgcatalogoComponent implements OnInit {
         this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
         this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
         this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
+        this.forma.get('descripcion').setValue(res.descripcion);  
+        this.forma.get('cuenta_no').setValue(res.cuenta_no);     
+        
       })
     })
 

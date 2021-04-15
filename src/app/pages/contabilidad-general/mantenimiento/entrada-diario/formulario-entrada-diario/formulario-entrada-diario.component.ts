@@ -14,7 +14,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./formulario-entrada-diario.component.scss']
 })
 export class FormularioEntradaDiarioComponent implements OnInit {
-
+  totalC = 0;
+  totalD = 0;
   guardando = false;
   guardar = true;
   actualizando = false;
@@ -33,6 +34,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   valor:number;
     formSubmitted = false;
   listSubscribers: any = [];
+  cliente:any[] = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -68,7 +70,9 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     ]
 
     //  this.catalogoEscogido()
-    this.agregarRegistro();
+   // this.agregarRegistro();
+
+    
   }
 
   listObserver = () => {
@@ -77,7 +81,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-
+      let index = 0;
       this.entradasServ.getDato(resp).then((res: any) => {
         this.forma.get('fecha').setValue(new Date(res.fecha));
         this.forma.get('ref').setValue(res.ref);
@@ -95,7 +99,9 @@ export class FormularioEntradaDiarioComponent implements OnInit {
             num_doc:          [element.num_doc],
             debito:           [element.debito],
             credito:          [element.credito]
-          }));        
+          }));   
+          this.totalC += Number(((this.cuenta_no).at(index) as FormGroup).get("credito").value); 
+          this.totalD += Number(((this.cuenta_no).at(index) as FormGroup).get("debito").value);     
         });
       })
     })
@@ -146,13 +152,20 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   guardarEntradas(){
-    this.formSubmitted = true;
+  //  this.formSubmitted = true;
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-    }else{      
+    }else{    
+      console.log("esto",this.cuenta_no.value);
+      const diferencia = this.calculaTotal(this.cuenta_no.value);  
+
+      if (diferencia !== 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','La transaccion no esta cuadrada.'); 
+        return;
+      }
       this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{       
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);           
       })
@@ -187,7 +200,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
 
   buscaCuentas() {
     const ref = this.dialogService.open(CatalogoCuentasComponent, {
-      header: 'Catalogo de Productos',
+      header: 'Catalogo de Cuentas',
       width: '50%'
     });
   }
@@ -252,6 +265,24 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     link.target = '_blank';
     link.href = `${URL}/reporte/orden-compras/${num_oc}`;
     link.click();
-    link.remove();  }
+    link.remove();  
+  }
+
+  calculaTotal(data) {
+    this.totalD = 0;
+    this.totalC = 0;
+      
+    data.forEach((element:any) => {      
+      this.totalD += element.debito || 0;        
+      this.totalC += element.credito || 0;
+    });
+     
+      return Number(this.totalD) - Number(this.totalC);
+  }
+  get cuenta_no() {  
+   
+    return this.forma.get('cuentas') as FormArray;
+  }
 
 }
+
