@@ -98,8 +98,42 @@ export class ClientesService {
   }
 
   actualizarCliente(id:number, client: any) {
+    let data = {}
+    for(let key in client){         
+      switch (key) {
+        case 'tipo_cliente':
+          data[key] = client[key].tipo_cliente;          
+          break;
+        case 'cond_pago':
+          data[key] = client[key].cond_pago;          
+          break;
+        case 'id_ciudad':
+          data[key] = client[key].id_ciudad;          
+          break;
+        case 'id_pais':            
+          data[key] = client[key].id;          
+          break;
+
+        case 'tipo_documento':            
+          data[key] = client[key].tipo_documento;          
+          break;
+
+        case 'vendedor':            
+         data[key] = client[key].id_numemp;          
+         break;
+
+        case 'tipo_negocio':            
+          data[key] = client[key].tipo_negocio;          
+          break;
+
+        default:
+          data[key] = client[key]
+          break;
+      }
+    }
     return new Promise( resolve => {
-      this.http.put(`${ URL }/mclientes/${id}`, client)
+      this.http.put(`${ URL }/mclientes/${id}`, data)
+      
           .subscribe( (resp: any) => {  
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
