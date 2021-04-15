@@ -87,7 +87,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      // this.cuentas = [];
       resp.forEach(cuentas => {
         if (cuentas.tipo_cuenta !== "normal") {
           this.cuentas.push(cuentas);

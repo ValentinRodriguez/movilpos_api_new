@@ -144,15 +144,12 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
     const observer2$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
       resp.forEach(cuenta => {
-        if (cuenta.tipo_cuenta !== "normal") {
-          cuenta.tipo = this.forma.get('tipo_doc').value
-          cuenta.fecha = this.forma.get('fecha').value
-          // cuenta.documento = this.forma.get('documento').value;
-          cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
-
-          this.detalleCuentas.push(cuenta);
-          this.agregarFormularioDetallesCuentas(cuenta);
-        }
+        cuenta.tipo = this.forma.get('tipo_doc').value
+        cuenta.fecha = this.forma.get('fecha').value
+        // cuenta.documento = this.forma.get('documento').value;
+        cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
+        this.detalleCuentas.push(cuenta);
+        this.agregarFormularioDetallesCuentas(cuenta);
       });               
     })
 
