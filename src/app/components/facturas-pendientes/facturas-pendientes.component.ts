@@ -13,6 +13,8 @@ export class FacturasPendientesComponent implements OnInit {
   facturas: any[] = [];
   facturasSeleccionadas = [];
   cols: any[];
+  total = 0;
+  totalSeleccionado = 0;
 
   constructor(private facturasServ: CoTransaccionescxpService,
               private ref: DynamicDialogRef,
@@ -33,10 +35,24 @@ export class FacturasPendientesComponent implements OnInit {
   todosLasFacturas() {  
     this.facturasServ.facturasPendientes().then((resp:any)=>{      
       this.facturas = resp   
+      
+      this.facturas.forEach(element => {
+        console.log(element);        
+        this.total += (element.valor + element.monto_itbi);
+      });
+
+      console.log(this.total);      
     })
   }
+
+  sumaTotal() {
+    this.totalSeleccionado = 0;
+    this.facturasSeleccionadas.forEach(element => {
+      this.totalSeleccionado += (element.valor + element.monto_itbi);
+    });     
+  }
   
-  enviarFacturas() {
+  enviarFacturas() {  
     if (this.facturasSeleccionadas.length !== 0) {   
       this.facturasServ.listadoFacturasEscogidas(this.facturasSeleccionadas);
       this.ref.close();      
@@ -44,5 +60,4 @@ export class FacturasPendientesComponent implements OnInit {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe escoger al menos un producto');
     }
   }
-
 }

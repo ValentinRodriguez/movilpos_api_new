@@ -278,21 +278,14 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   totalMontoPagar() {
-    this.totalVpag = 0;
-    
-    this.detalle_cxp.value.forEach((element:any) => {     
-      console.log(element.valor);
-          
+    this.totalVpag = 0;    
+    this.detalle_cxp.value.forEach((element:any) => {           
       this.totalVpag += Number(element.valor) || 0;    
-    });
-
-    console.log(this.totalVpag, this.MontoPago);
-    
+    });    
   }
 
   guardarTransaccion(){
-    this.formSubmitted = true;        
-    
+    this.formSubmitted = true;
     if (this.forma.invalid) {  
       this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -320,9 +313,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         return;  
       }
       
-      this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
+      this.transaccionsServ.crearTransaccion(this.forma.value).then(()=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
-        
+        this.resetFormaulario();
       })
     }
   }
@@ -337,9 +330,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{ 
-      this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then((resp: any) => {
+      this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-         
+        this.resetFormaulario();
       })
     }
   }
@@ -348,9 +341,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     this.totalD = 0;
     this.totalC = 0;
     
-    this.detalle_cuentas.value.forEach((element:any) => {   
-      console.log(element);
-            
+    this.detalle_cuentas.value.forEach((element:any) => {             
       this.totalD += Number(element.debito) || 0;        
       this.totalC += Number(element.credito) || 0;      
     });    

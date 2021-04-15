@@ -96,10 +96,9 @@ export class MayorGeneralComponent implements OnInit {
           return;
         }
         this.mayor = resp; 
-        let test = this.agrupaData(resp, 'cuenta_no');
-        console.log(test);
+        console.log(this.mayor);
         
-        console.log(resp);              
+        let test = this.agrupaData(resp, 'cuenta_no');              
       })
     }
   }
@@ -128,6 +127,9 @@ export class MayorGeneralComponent implements OnInit {
     const nombre = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primernombre);
     const apellido = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primerapellido);
 
+    var raw = this.bodyRows(this.mayor);
+    console.log(raw);
+    
     autoTable(doc, {
         head: this.headRows(),
         body: this.bodyRows(this.mayor),
@@ -181,6 +183,9 @@ export class MayorGeneralComponent implements OnInit {
         debito: element.debito || 0,
         credito: element.credito || 0,
         balance: element.balance || 0,
+        Tbalance: element.Tbalance || 0,
+        Tcredito: element.Tcredito || 0,
+        Tdebito: element.Tdebito || 0
       })      
     });
     return body
@@ -208,17 +213,14 @@ export class MayorGeneralComponent implements OnInit {
 
             totalBalance  += this.mayor[i].balance;
             this.mayor[i].Tbalance = totalBalance;
-            console.log(this.mayor);
 
             if (i == 0) {
               this.rowGroupMetadata[representativeName] = { index: 0, size: 1 };
-              // console.log('t-'+i);
               totalDebito = 0;
               totalCredito = 0;
               totalBalance = 0;
             }
             else {
-              // console.log('p-'+i);  
               let previousRowData = this.mayor[i - 1];
               let previousRowGroup = previousRowData.cuenta_no;
               if (representativeName === previousRowGroup)
