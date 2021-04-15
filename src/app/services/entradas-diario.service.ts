@@ -117,4 +117,16 @@ export class EntradasDiarioService {
   guardando() {
     this.guardar.emit(0);
   }
+
+  verificaEntrada(ref) {   
+    let params = new HttpParams().set('ref',ref);
+    return new Promise( resolve => {
+      this.http.get(`${URL}/transacciones-cg/verificaEntrada`,{params}).subscribe((resp: any) => {
+           this.formSubmitted.emit(false);                           
+            if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+        })
+    })
+  }
 }

@@ -286,5 +286,20 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     return this.forma.get('cuentas') as FormArray;
   }
 
+  get ref() {   
+    return this.forma.get('ref') as FormGroup;
+  }
+
+  verificaRef(event){
+    this.entradasServ.verificaEntrada(this.ref.value).then((resp: any) => { 
+      console.log(resp);
+      if (resp !== null) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este NCF ya ha ido registrado con este proveedor'); 
+        this.ref.reset();
+        return
+      }
+    })
+  }
+
 }
 

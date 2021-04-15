@@ -10,9 +10,9 @@
             <label for="ref">Referencia</label>
             <span class=" p-input-icon-right">
                 <!--<input id="ref" type="text" pInputText formControlName="ref" [class.p-invalid]="getNoValido('ref')">-->
-                <p-inputMask formControlName="ref" [mask]="this.mask"> [class.p-invalid]="getNoValido('ref')"</p-inputMask>
+                <p-inputMask formControlName="ref" [mask]="this.mask"> [class.p-invalid]="getNoValido('ref')" (ng-blur)="verificaRef($event.target.value)"</p-inputMask>
             </span>
-            <small class="p-invalid" *ngIf="getNoValido('ref')">Este campo es obligatorio.</small>
+            <small class="p-invalid" *ngIf="getNoValido('ref')" >Este campo es obligatorio.</small>
         </div>
         
         <div class="p-field p-col-12 p-md-3">
