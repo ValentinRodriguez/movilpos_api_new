@@ -6,6 +6,7 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { groupBy, sumBy } from 'lodash-es';
 
 @Component({
   selector: 'app-mayor-general',
@@ -32,6 +33,9 @@ export class MayorGeneralComponent implements OnInit {
   mayor: any[] = [];
   formSubmitted = false;
   listSubscribers: any = [];
+  rowGroupMetadata: any;
+
+
 
   constructor(private cgtransaccionesSev:TransacionPagosService,
               private usuariosServ: UsuarioService,
@@ -55,8 +59,9 @@ export class MayorGeneralComponent implements OnInit {
       { field: 'detalle', header: 'Detalle'},
       { field: 'debito', header: 'Débito'},
       { field: 'credito', header: 'Crédito'},
+      { field: 'balance', header: 'Balance'},
     ];    
-    this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
+    // this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
   }
   
   listObserver = () => {
@@ -86,13 +91,14 @@ export class MayorGeneralComponent implements OnInit {
     }else{ 
       this.cgtransaccionesSev.mayorGeneral(this.forma.value).then((resp:any) =>{      
         if (resp.length === 0) {
-           (resp);
           this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');3
           this.mayor = [];
           return;
         }
         this.mayor = resp; 
-         (this.mayor);      
+        console.log(this.mayor);
+        
+        let test = this.agrupaData(resp, 'cuenta_no');              
       })
     }
   }
@@ -107,8 +113,12 @@ export class MayorGeneralComponent implements OnInit {
     this.forma.get(campo).setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
   }
 
+  agrupaData(value: any, column: string) {   
+    return groupBy(value, column)    
+  }
+
   exportPdf() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('p', 'mm', 'a4');
     let pageWidth = doc.internal.pageSize.getWidth();
     const totalPagesExp = '{total_pages_count_string}'
     const anio = this.datosEstaticos.getDate();
@@ -117,6 +127,9 @@ export class MayorGeneralComponent implements OnInit {
     const nombre = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primernombre);
     const apellido = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primerapellido);
 
+    var raw = this.bodyRows(this.mayor);
+    console.log(raw);
+    
     autoTable(doc, {
         head: this.headRows(),
         body: this.bodyRows(this.mayor),
@@ -139,13 +152,13 @@ export class MayorGeneralComponent implements OnInit {
           if (typeof doc.putTotalPages === 'function') {
             str = str + ' / ' + totalPagesExp;
           }
-          doc.text(str, 320, 15, {align: 'right',});
+          doc.text(str, 235, 15, {align: 'right',});
           
           //USUARIO CREADOR REPORTE
           doc.text(nombre+' '+apellido, dataArg.settings.margin.left, 20);
           
           //HORA CREACION REPORTE          
-          doc.text(anio+' '+hora, 280, 20, {align: 'right',});
+          doc.text(anio+' '+hora, 195, 20, {align: 'right',});
         },
         margin: { top: 30 },
         theme: 'grid',
@@ -157,7 +170,7 @@ export class MayorGeneralComponent implements OnInit {
   }
 
   headRows() {
-    return [ {fecha:'Fecha' ,documento:'Documento', detalle:'Detalle', debito:'Debito', credito: 'Credito'}]
+    return [ {fecha:'Fecha' ,documento:'Documento', detalle:'Detalle', debito:'Debito', credito: 'Credito', balance: 'Balance'}]
   }  
 
   bodyRows(data) {
@@ -165,13 +178,58 @@ export class MayorGeneralComponent implements OnInit {
     data.forEach(element => {
       body.push({
         fecha: element.fecha,
-        documento:element.debito,
+        documento:element.documento,
         detalle: element.detalle,
-        debito: element.debito,
-        credito: element.credito,
+        debito: element.debito || 0,
+        credito: element.credito || 0,
+        balance: element.balance || 0,
+        Tbalance: element.Tbalance || 0,
+        Tcredito: element.Tcredito || 0,
+        Tdebito: element.Tdebito || 0
       })      
     });
     return body
+  }
+  
+  onSort() {
+    this.updateRowGroupMetaData();
+  }
+
+  updateRowGroupMetaData() {
+    this.rowGroupMetadata = {};
+    let totalDebito = 0;
+    let totalCredito = 0;
+    let totalBalance = 0;
+    if (this.mayor) {
+        for (let i = 0; i < this.mayor.length; i++) {
+            let rowData = this.mayor[i];
+            let representativeName = rowData.cuenta_no;
+
+            totalDebito  += this.mayor[i].debito;
+            this.mayor[i].Tdebito = totalDebito;
+
+            totalCredito  += this.mayor[i].credito;
+            this.mayor[i].Tcredito = totalCredito;
+
+            totalBalance  += this.mayor[i].balance;
+            this.mayor[i].Tbalance = totalBalance;
+
+            if (i == 0) {
+              this.rowGroupMetadata[representativeName] = { index: 0, size: 1 };
+              totalDebito = 0;
+              totalCredito = 0;
+              totalBalance = 0;
+            }
+            else {
+              let previousRowData = this.mayor[i - 1];
+              let previousRowGroup = previousRowData.cuenta_no;
+              if (representativeName === previousRowGroup)
+                  this.rowGroupMetadata[representativeName].size++;
+              else
+                  this.rowGroupMetadata[representativeName] = { index: i, size: 1 };
+            }
+        }
+    }
   }
 
   getNoValido(input: string) {

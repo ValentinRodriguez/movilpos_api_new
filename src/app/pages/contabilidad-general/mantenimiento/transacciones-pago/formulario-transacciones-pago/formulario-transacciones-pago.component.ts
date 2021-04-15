@@ -144,15 +144,12 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
     const observer2$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
       resp.forEach(cuenta => {
-        if (cuenta.tipo_cuenta !== "normal") {
-          cuenta.tipo = this.forma.get('tipo_doc').value
-          cuenta.fecha = this.forma.get('fecha').value
-          // cuenta.documento = this.forma.get('documento').value;
-          cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
-
-          this.detalleCuentas.push(cuenta);
-          this.agregarFormularioDetallesCuentas(cuenta);
-        }
+        cuenta.tipo = this.forma.get('tipo_doc').value
+        cuenta.fecha = this.forma.get('fecha').value
+        // cuenta.documento = this.forma.get('documento').value;
+        cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
+        this.detalleCuentas.push(cuenta);
+        this.agregarFormularioDetallesCuentas(cuenta);
       });               
     })
 
@@ -272,29 +269,20 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       num_doc:         [],
       cod_aux:         [cuenta.catalogo],
       cod_sec:         [12],
-      detalle_1:       [''],
-      detalle_2:       [''],
       estado:          ['activo', Validators.required],
       usuario_creador: [this.usuario.username, Validators.required],
     });
   }
 
   totalMontoPagar() {
-    this.totalVpag = 0;
-    
-    this.detalle_cxp.value.forEach((element:any) => {     
-      console.log(element.valor);
-          
+    this.totalVpag = 0;    
+    this.detalle_cxp.value.forEach((element:any) => {           
       this.totalVpag += Number(element.valor) || 0;    
-    });
-
-    console.log(this.totalVpag, this.MontoPago);
-    
+    });    
   }
 
   guardarTransaccion(){
-    this.formSubmitted = true;        
-    
+    this.formSubmitted = true;
     if (this.forma.invalid) {  
       this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -322,9 +310,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         return;  
       }
       
-      this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
+      this.transaccionsServ.crearTransaccion(this.forma.value).then(()=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
-        
+        this.resetFormaulario();
       })
     }
   }
@@ -339,9 +327,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{ 
-      this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then((resp: any) => {
+      this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-         
+        this.resetFormaulario();
       })
     }
   }
@@ -350,9 +338,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     this.totalD = 0;
     this.totalC = 0;
     
-    this.detalle_cuentas.value.forEach((element:any) => {   
-      console.log(element);
-            
+    this.detalle_cuentas.value.forEach((element:any) => {             
       this.totalD += Number(element.debito) || 0;        
       this.totalC += Number(element.credito) || 0;      
     });    

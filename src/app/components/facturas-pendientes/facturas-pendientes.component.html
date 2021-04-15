@@ -1,21 +1,23 @@
 <p-table #dt [columns]="cols" [value]="facturas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  [(selection)]="facturasSeleccionadas" 
-    [globalFilterFields]="['num_doc']">
+         [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+         [(selection)]="facturasSeleccionadas" [globalFilterFields]="['num_doc']">
 
-    <ng-template pTemplate="caption">
-        <div class="table-header">
-            <span class="p-input-icon-left">
+    <ng-template pTemplate="caption">   
+
+        <div class="p-d-flex">
+            <h5>Total seleccionado: <strong class="verde">${{this.totalSeleccionado}}</strong></h5>
+            <span class="p-input-icon-left p-ml-auto">
                 <i class="pi pi-search"></i>
                 <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
             </span>
         </div>
+
     </ng-template>
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'id'}">
-                
-                <p-tableHeaderCheckbox *ngIf="col.field === 'id'"></p-tableHeaderCheckbox>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'id'}">                
+                <p-tableHeaderCheckbox (click)="sumaTotal()" *ngIf="col.field === 'id'"></p-tableHeaderCheckbox>
                 <span *ngIf="col.field !== 'id'">{{col.header}} 
                     <p-sortIcon [field]="col.field" *ngIf="col.field !=='imagen'"></p-sortIcon>
                 </span> 
@@ -29,7 +31,7 @@
                 <span class="p-column-title">{{col.header}}</span>								
 
                 <span *ngIf="col.field === 'id'">
-                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="rowData" (click)="sumaTotal()"></p-tableCheckbox>
                 </span>
 
                 <span *ngIf="col.field === 'num_doc'">
@@ -60,11 +62,11 @@
 
     <ng-template pTemplate="summary">
         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length !== 1">
-            Existen {{facturas ? facturas.length : 0 }} facturas en total.
+             <span> Existen {{facturas ? facturas.length : 0 }} facturas con un monto total de <strong class="verde">${{this.total}}</strong></span> 
         </div>
 
         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length === 1">
-            Existe solo {{facturas ? facturas.length : 0 }} producto en total.
+            No existen facturas pendientes.
         </div>
     </ng-template>
 </p-table>
