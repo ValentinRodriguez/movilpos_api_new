@@ -1,13 +1,25 @@
 <div class="card">
-    <p-tabView styleClass="tabview-custom">
-        <p-tabPanel *ngFor="let item of data">
-            <ng-template pTemplate = "header">
-                <i [attr.class]="item.icono" style="padding-right: 5px;"></i>
-                <span>{{item.label | titlecase}}</span>
-            </ng-template>  
-            <app-formulario-tiponegocio *ngIf="item.label === 'tipo negocio'"></app-formulario-tiponegocio>   
-            <app-formulario-tipo-clientes *ngIf="item.label === 'tipo cliente'"></app-formulario-tipo-clientes> 
-            <app-formulario-condiciones *ngIf="item.label === 'condiciones'"></app-formulario-condiciones>
-        </p-tabPanel>
-    </p-tabView>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" (activeIndexChange)="cambiaIndex($event)"></p-steps>
 </div>
+
+<div class="card">
+    <ng-template pTemplate = "title">
+        <span>{{item.label | titlecase}}</span>
+    </ng-template> 
+        
+    <div *ngFor="let item of items">
+        <app-formulario-tiponegocio *ngIf="item.label === 'Tipo negocio' && this.activeIndex === 0"></app-formulario-tiponegocio>   
+        <app-formulario-tipo-clientes *ngIf="item.label === 'Tipo cliente' && this.activeIndex === 1"></app-formulario-tipo-clientes> 
+        <app-formulario-condiciones *ngIf="item.label === 'Condiciones' && this.activeIndex === 2"></app-formulario-condiciones>
+    </div>
+</div>
+
+<p-toolbar>	
+    <div class="p-toolbar-group-left">
+        <p-button label="Anterior" (onClick)="prevPage()" class="p-button-secondary" icon="pi pi-angle-left" iconPos="left" *ngIf="this.activeIndex !== 0"></p-button>
+    </div>						
+    <div class="p-toolbar-group-right">
+        <p-button label="Siguiente" (onClick)="nextPage()" class="p-button-secondary" icon="pi pi-angle-right" iconPos="right" *ngIf="this.activeIndex !== this.items.length - 1"></p-button>
+        <p-button label="Finalizar" (onClick)="finalizar()" class="p-button-warning" icon="pi pi-times" iconPos="right" *ngIf="this.activeIndex === this.items.length - 1"></p-button>
+    </div>
+</p-toolbar>

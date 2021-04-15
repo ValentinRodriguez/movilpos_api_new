@@ -237,7 +237,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepTransaccionesComponent, {
+       this.dialogService.open(StepTransaccionesComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Transacciones de Inventarios',
@@ -287,7 +287,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       }         
       
       this.transaccionesServ.crearTransaccion(this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Datos guardados correctamente');
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Registro creado de manera correcta');
              
         this.imprimirTransaccion(resp.num_doc);
       })
@@ -679,7 +679,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   buscaProductos() {
-    const ref = this.dialogService.open(ListaProductosComponent, {
+     this.dialogService.open(ListaProductosComponent, {
       header: 'Catalogo de Productos',
       width: '50%'
     });

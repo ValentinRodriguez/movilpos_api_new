@@ -94,7 +94,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
 
   guardarUsuario() {
     this.formSubmitted = true;
-    this.formSubmitted = true;
+
     if (this.usuarioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este usuario ya esta registrado');
       return;
@@ -111,12 +111,13 @@ export class FormularioTipoDocumentosComponent implements OnInit {
         return;
       } else {
         this.usuariosServ.register(this.forma.value).then((resp: any) => {  
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario creado de manera correcta');
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           this.forma.reset();
           this.forma.get('usuario_creador').setValue(this.usuario.username);
         })  
       }
     }else{
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
       return;
     }
@@ -125,14 +126,15 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   actualizarUsuario() {
      this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
       this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario actualizado de manera correcta');
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }
@@ -191,7 +193,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   listadoEmpleados(data) {
     setTimeout(() => {
       if (data === 1) {
-        const ref = this.dialogService.open(ListadoEmpleadosComponent, {
+         this.dialogService.open(ListadoEmpleadosComponent, {
           header: 'Listado de empleados',
           width: '50%'
         });      

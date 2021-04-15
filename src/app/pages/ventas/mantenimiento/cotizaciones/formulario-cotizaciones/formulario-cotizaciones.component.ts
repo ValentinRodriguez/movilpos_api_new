@@ -56,6 +56,7 @@ export class FormularioCotizacionesComponent implements OnInit {
   guardarMoneda(){
     this.formSubmitted = true;    
     if (this.forma.invalid) {       
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -72,7 +73,7 @@ export class FormularioCotizacionesComponent implements OnInit {
 
         default:
           this.monedasServ.crearMoneda(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           })
           break;
       } 
@@ -99,14 +100,15 @@ export class FormularioCotizacionesComponent implements OnInit {
   actualizarMoneda(){
      this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {      
+      this.formSubmitted = false; 
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
       this.monedasServ.actualizarMoneda(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

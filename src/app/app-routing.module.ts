@@ -74,6 +74,7 @@ import { TransaccionesPagoComponent } from './pages/contabilidad-general/manteni
 import { FacturasProveedoresComponent } from './pages/cuentas-pagar/mantenimiento/facturas-proveedores/facturas-proveedores.component';
 import { CatalogoProveedoresComponent } from './pages/compras/reportes/catalogo-proveedores/catalogo-proveedores.component';
 import { GastosDepartamentosComponent } from './pages/contabilidad-general/reportes/gastos-departamentos/gastos-departamentos.component';
+import { MayorGeneralComponent } from './pages/contabilidad-general/reportes/mayor-general/mayor-general.component';
 
 @NgModule({
     imports: [
@@ -142,6 +143,7 @@ import { GastosDepartamentosComponent } from './pages/contabilidad-general/repor
                     {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
                     {path: 'gestion-transacciones-pago', component: TransaccionesPagoComponent},
                     {path: 'gastos-departamento', component: GastosDepartamentosComponent},
+                    {path: 'reporte-mayor-general', component: MayorGeneralComponent},
 
                     // CUENTAS POR PAGAR
                     {path: 'reporte-analisis-saldo', component: AnalisisSaldoComponent},                   

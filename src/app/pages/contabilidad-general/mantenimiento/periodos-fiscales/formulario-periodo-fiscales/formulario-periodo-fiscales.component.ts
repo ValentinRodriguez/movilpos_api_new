@@ -28,6 +28,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
   periodoExiste = 3;
   today = new Date();
   formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -39,7 +40,12 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
                 this.crearFormulario();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
+    this.listObserver();
     this.es = {
         firstDayOfWeek: 0,
         dayNames: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
@@ -67,6 +73,14 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
     });
   }
 
+  listObserver = () => {
+    const observer1$ = this.periodoServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$];
+  };
+   
   autoGenerar() {
     if (this.periodoExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Este periodo fiscal ya esta registrado');
@@ -145,7 +159,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
           this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Este periodo fiscal ya esta registrado');
         } else {
           this.periodoServ.crearPeriodo(this.forma.value).then((resp: any) => {  
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Periodo creado de manera correcta');
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.forma.reset();
             this.forma.get('estado').setValue('activo');
             this.forma.get('usuario_creador').setValue(this.usuario.username);
@@ -154,6 +168,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
          
       })
     }else{
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
       return;
     }
@@ -162,14 +177,15 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
   actualizarPeriodo() {
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
       this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Período actualizado de manera correcta');
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

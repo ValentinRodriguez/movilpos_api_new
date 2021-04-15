@@ -59,11 +59,10 @@ export class PuertosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/puertos`, formData)
-          .subscribe( (resp:any) => {
+      this.http.post(`${ URL }/puertos`, formData).subscribe( (resp:any) => {
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.puertoGuardada.emit( resp.data );       
           }
       });
@@ -72,29 +71,27 @@ export class PuertosService {
 
   actualizarPuerto(id:number, puerto: any) {        
     return new Promise( resolve => {
-      this.http.put(`${ URL }/puertos/${id}`, puerto)
-          .subscribe( (resp: any) => { 
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                  
-              this.puertoActualizada.emit( resp.data );                            
-              resolve(resp);            
-            }
-          });
+      this.http.put(`${ URL }/puertos/${id}`, puerto).subscribe( (resp: any) => { 
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                  
+          this.puertoActualizada.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarPuerto(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/puertos/${id}`)
-          .subscribe( (resp: any) => {                             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.puertoBorrada.emit(id);    
-              resolve(resp);            
-            } else {
-              resolve(false);
-            }
-          });
+      this.http.delete(`${ URL }/puertos/${id}`).subscribe( (resp: any) => {                             
+          this.formSubmitted.emit(false);                           
+          if (resp['code'] === 200)  {            
+            this.puertoBorrada.emit(id);    
+            resolve(resp.data);            
+          } else {
+            resolve(false);
+          }
+      });
     });
   }
 

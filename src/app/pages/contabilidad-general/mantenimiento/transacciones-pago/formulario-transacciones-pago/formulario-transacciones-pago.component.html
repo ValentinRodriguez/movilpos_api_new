@@ -51,8 +51,8 @@
 
         <div class="p-field p-col-12 p-md-2">
             <label for="valor">Monto</label>
-            <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US"
-            [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"  ></p-inputNumber>
+            <p-inputNumber formControlName="valor" mode="decimal" [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"  ></p-inputNumber>
+            <!-- <input type="number" pInputText formControlName="valor" [class.ng-invalid]="getNoValido('valor')" [class.ng-dirty]="getNoValido('valor')"/> -->
         </div>
 
         <!-- <div class="p-field p-col-12 p-md-2">
@@ -142,18 +142,15 @@
                                     </span>
 
                                     <span *ngIf="col.field === 'total'">
-                                        <p-inputNumber formControlName="total" mode="currency" [currency]="this.divisa" locale="en-US">
-                                        </p-inputNumber>
+                                        <input type="text" pInputText formControlName="total">
                                     </span>
                                             
                                     <span *ngIf="col.field === 'valor_pendiente'">
-                                        <p-inputNumber formControlName="valor_pendiente" mode="currency" [currency]="this.divisa" locale="en-US">
-                                        </p-inputNumber>
+                                        <input type="text" pInputText formControlName="valor_pendiente">
                                     </span>
         
                                     <span *ngIf="col.field === 'valor'">
-                                        <p-inputNumber formControlName="valor" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="totalMontoPagar()">
-                                        </p-inputNumber>
+                                        <input type="text" pInputText formControlName="valor" (blur)="totalMontoPagar()">
                                     </span>
     
                                     <span *ngIf="col.field === 'acciones'">
@@ -266,11 +263,11 @@
                                 </span> -->
 
                                 <span *ngIf="col.field === 'debito'">
-                                    <p-inputNumber formControlName="debito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTotal($event.value)"></p-inputNumber>
+                                    <input type="text" pInputText formControlName="debito"  (blur)="calculaTotal()">
                                 </span>
 
                                 <span *ngIf="col.field === 'credito'">
-                                    <p-inputNumber formControlName="credito" mode="currency" [currency]="this.divisa" locale="en-US" (onBlur)="calculaTotal($event.value)"></p-inputNumber>
+                                    <input type="text" pInputText formControlName="credito"  (blur)="calculaTotal()">
                                 </span>
 
                                 <span *ngIf="col.field === 'acciones'">
@@ -308,7 +305,8 @@
     </p-panel>
 
     <br>
-    <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <!-- <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button> -->
     <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarTransaccion()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
     <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
 </form>

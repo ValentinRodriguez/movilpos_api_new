@@ -152,8 +152,9 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   guardarEntradas(){
-  //  this.formSubmitted = true;
-    if (this.forma.invalid) {      
+    this.formSubmitted = true;
+    if (this.forma.invalid) { 
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -167,7 +168,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         return;
       }
       this.entradasServ.crearEntrada(this.forma.value).then((resp: any)=>{       
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);           
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');           
       })
     } 
      
@@ -199,8 +200,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
-      header: 'Catalogo de Cuentas',
+     this.dialogService.open(CatalogoCuentasComponent, {
+      header: 'Catalogo de Productos',
       width: '50%'
     });
   }
@@ -210,14 +211,15 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     const fecha = this.forma.get('fecha').value;   
     this.forma.get('fecha').setValue(this.onSelectDate1(fecha));     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
      })
     }else{
       this.entradasServ.actualizarEntrada(this.id, this.forma.value).then((resp: any) => {        
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

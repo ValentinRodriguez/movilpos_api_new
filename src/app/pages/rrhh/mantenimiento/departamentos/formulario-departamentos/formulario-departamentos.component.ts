@@ -46,6 +46,7 @@ export class FormularioDepartamentosComponent implements OnInit {
   guardarDepartamento(){
     this.formSubmitted = true;    
     if (this.forma.invalid) {       
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -62,7 +63,7 @@ export class FormularioDepartamentosComponent implements OnInit {
 
         default:
           this.departamentoServ.crearDepartamento(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           })
           break;
       } 

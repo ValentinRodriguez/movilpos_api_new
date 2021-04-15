@@ -113,6 +113,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
     const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
+       (resp);      
     })
 
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
@@ -163,7 +164,7 @@ export class FormularioProveedoresComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepProveedoresComponent, {
+       this.dialogService.open(StepProveedoresComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación Proveedores',
@@ -189,7 +190,7 @@ export class FormularioProveedoresComponent implements OnInit {
       cuenta_no:           ['', Validators.required],
       id_pais:             ['', Validators.required],            
       id_ciudad:           ['', Validators.required],          
-      usuario_creador:     [this.usuario.username],
+      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: [''],
       estado:              ['activo'],
       cuentas_no:          this.fb.array([])
@@ -228,15 +229,15 @@ export class FormularioProveedoresComponent implements OnInit {
 
   guardarProveedor(){
     this.formSubmitted = true; 
-    console.log(this.forma.value);
+     (this.forma.value);
           
-    if (this.forma.invalid) {      
+    if (this.forma.invalid) { 
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         if (control instanceof FormArray) {    
           Object.values(control.controls).forEach(control => {
             control.markAsTouched();
-            console.log(control);
           });
         } else {
           control.markAllAsTouched();
@@ -253,15 +254,17 @@ export class FormularioProveedoresComponent implements OnInit {
 
   actualizarProveedor(){
     this.formSubmitted = true;            
-    this.forma.get('usuario_modificador').setValue(this.usuario.username);     
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);   
+
     if (this.forma.invalid) {      
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{      
       this.proveedoresServ.actualizarProveedor(this.id, this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');   
         this.restaurarFormulario();            
       })
     } 
@@ -287,7 +290,7 @@ export class FormularioProveedoresComponent implements OnInit {
   setCuenta(data) {
     this.forma.get('cuenta_no').setValue(data);
     this.cgCatalogoServ.busquedaCatalogo(data).then((resp: any) => {
-      console.log(resp);
+       (resp);
       if (resp[0].tipo_cuenta !== "normal") {
         this.cgcatalogos.push(resp[0]);
         this.agregarFormulario(resp[0]);
@@ -319,7 +322,7 @@ export class FormularioProveedoresComponent implements OnInit {
     this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.selectedMultiMoneda = [];
     this.cgcatalogos = [];
-    console.log(this.forma.value);
+     (this.forma.value);
     this.cd.detectChanges();
   }
 
@@ -331,7 +334,7 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(CatalogoCuentasComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

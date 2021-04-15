@@ -61,7 +61,7 @@ export class ActividadesService {
           .subscribe( (resp:any) => {
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.actividadGuardada.emit( resp.data );       
           }
       });
@@ -77,7 +77,7 @@ export class ActividadesService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                  
                   this.actividadActualizada.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 } else {
                   resolve(false);
                 }
@@ -94,7 +94,7 @@ export class ActividadesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.actividadBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
               resolve(false);
             }

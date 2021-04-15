@@ -144,15 +144,12 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
     const observer2$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
       resp.forEach(cuenta => {
-        if (cuenta.tipo_cuenta !== "normal") {
-          cuenta.tipo = this.forma.get('tipo_doc').value
-          cuenta.fecha = this.forma.get('fecha').value
-          // cuenta.documento = this.forma.get('documento').value;
-          cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
-
-          this.detalleCuentas.push(cuenta);
-          this.agregarFormularioDetallesCuentas(cuenta);
-        }
+        cuenta.tipo = this.forma.get('tipo_doc').value
+        cuenta.fecha = this.forma.get('fecha').value
+        // cuenta.documento = this.forma.get('documento').value;
+        cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
+        this.detalleCuentas.push(cuenta);
+        this.agregarFormularioDetallesCuentas(cuenta);
       });               
     })
 
@@ -173,8 +170,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       });               
     })
 
-    const observer5$ = this.transaccionescxpServ.formSubmitted.subscribe((resp) => {
+    const observer5$ = this.transaccionsServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
+      console.log(resp);      
     })
 
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
@@ -271,25 +269,22 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       num_doc:         [],
       cod_aux:         [cuenta.catalogo],
       cod_sec:         [12],
-      detalle_1:       [''],
-      detalle_2:       [''],
       estado:          ['activo', Validators.required],
       usuario_creador: [this.usuario.username, Validators.required],
     });
   }
 
   totalMontoPagar() {
-    this.totalVpag = 0;
-    
-    this.detalle_cxp.value.forEach((element:any) => {         
-      this.totalVpag += element.valor || 0;    
-    });
+    this.totalVpag = 0;    
+    this.detalle_cxp.value.forEach((element:any) => {           
+      this.totalVpag += Number(element.valor) || 0;    
+    });    
   }
 
   guardarTransaccion(){
-    this.formSubmitted = true;        
-    
-    if (this.forma.invalid) {       
+    this.formSubmitted = true;
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -315,11 +310,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         return;  
       }
       
-      this.transaccionsServ.crearTransaccion(this.forma.value).then((resp: any)=>{
-        if (resp) {
-           
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
-        }               
+      this.transaccionsServ.crearTransaccion(this.forma.value).then(()=>{
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
+        this.resetFormaulario();
       })
     }
   }
@@ -327,26 +320,27 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   actualizarTransaccion(){
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {      
+      this.formSubmitted = false; 
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
-      this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-         
+      this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then(() => {
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormaulario();
       })
     }
   }
 
-  calculaTotal(e) { 
+  calculaTotal() { 
     this.totalD = 0;
     this.totalC = 0;
     
-    this.detalle_cuentas.value.forEach((element:any) => {         
-      this.totalD += element.debito || 0;        
-      this.totalC += element.credito || 0;      
+    this.detalle_cuentas.value.forEach((element:any) => {             
+      this.totalD += Number(element.debito) || 0;        
+      this.totalC += Number(element.credito) || 0;      
     });    
   }
 
@@ -402,7 +396,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
         index++;
       });
     }
-    // this.buscaSecuencia();
   }
 
   borrarCuentaCxPEscogida(id) {
@@ -428,7 +421,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   buscaFacturas() {
-    const ref = this.dialogService.open(FacturasPendientesComponent, {
+     this.dialogService.open(FacturasPendientesComponent, {
       header: 'Facturas Pendientes',
       width: '70%'
     });
@@ -437,12 +430,15 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.resetFormaulario();
     this.transaccionsServ.guardando();    
   }
 
+  resetFormaulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
   padLeft(value, length) {
     return (value.toString().length < length) ? this.padLeft("0" + value, length) : 
     value;

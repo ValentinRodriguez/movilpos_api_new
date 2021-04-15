@@ -55,7 +55,7 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   ausenciasEmpleado(empleado) {
-    const ref = this.dialogService.open(AusenciasComponent, {
+     this.dialogService.open(AusenciasComponent, {
       data: { empleado },
       header: `Ausencias ${empleado.primernombre} ${empleado.primerapellido}`,
       width: '70%'
@@ -63,7 +63,7 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   amonestacionesEmpleado(empleado) {
-    const ref = this.dialogService.open(AmonestacionesComponent, {
+     this.dialogService.open(AmonestacionesComponent, {
       data: { empleado },
       header: `Amonestaciones ${empleado.primernombre} ${empleado.primerapellido}`,
       width: '70%'
@@ -71,7 +71,7 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   horasExtrasEmpleado(empleado) {
-    const ref = this.dialogService.open(HorasExtrasComponent, {
+     this.dialogService.open(HorasExtrasComponent, {
       data: { empleado },
       header: `Horas Extras ${empleado.primernombre} ${empleado.primerapellido}`,
       width: '70%'
@@ -79,7 +79,7 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   incentivosEmpleado(empleado) {
-    const ref = this.dialogService.open(HorasExtrasComponent, {
+     this.dialogService.open(HorasExtrasComponent, {
       data: { empleado },
       header: `Horas Extras ${empleado.primernombre} ${empleado.primerapellido}`,
       width: '70%'
@@ -87,7 +87,7 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   descuentosEmpleado(empleado) {
-    const ref = this.dialogService.open(DescuentosComponent, {
+     this.dialogService.open(DescuentosComponent, {
       data: { empleado },
       header: `Descuentos ${empleado.primernombre} ${empleado.primerapellido}`,
       width: '70%'
@@ -95,7 +95,7 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   vacacionesEmpleado(empleado) {
-    const ref = this.dialogService.open(VacacionesComponent, {
+     this.dialogService.open(VacacionesComponent, {
       data: { empleado },
       header: `Vacaciones ${empleado.primernombre} ${empleado.primerapellido}`,
       width: '70%'

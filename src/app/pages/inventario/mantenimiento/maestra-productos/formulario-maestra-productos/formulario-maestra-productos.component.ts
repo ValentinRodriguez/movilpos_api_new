@@ -117,8 +117,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);
       this.inventarioServ.getDato(resp).then((res: any) => {   
-         
-        
         this.forma.patchValue(res);
         this.imgURL = `${URL}/storage/${res.galeriaImagenes}`;
         this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
@@ -174,14 +172,15 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   guardarProducto() {
     this.formSubmitted = true;
-    if (this.forma.invalid) {      
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();
       })
     }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
         this.resetFormulario();
       })
     }       
@@ -190,14 +189,15 @@ export class FormularioMaestraProductosComponent implements OnInit {
   actualizarProducto() {
     this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {      
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();
       })
     }else{
       this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{         
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
         this.resetFormulario();
       })
     }
@@ -253,7 +253,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       }
     });
     if (existe === true) {
-      const ref = this.dialogService.open(StepComponent, {
+       this.dialogService.open(StepComponent, {
         data,
         closeOnEscape: false,
         header: 'Datos Necesarios Creación de Productos',
@@ -269,7 +269,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
        temp.push({value: 1950 + (index)})
     }  
     this.fechafabricacion = temp.reverse();      
-   }
+  }
 
   verificaProducto(data){    
     if (data === "") {

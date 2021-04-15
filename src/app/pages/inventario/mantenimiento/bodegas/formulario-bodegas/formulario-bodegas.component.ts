@@ -23,6 +23,15 @@ export class FormularioBodegasComponent implements OnInit {
   ciudades: any[] = [];
   id: number;
   formSubmitted = false;
+
+  listSubscribers: any = [];
+
+
+
+
+
+
+
   constructor(private uiMessage: UiMessagesService,
               private bodegasServ: BodegasService,
               private fb: FormBuilder, 
@@ -32,15 +41,21 @@ export class FormularioBodegasComponent implements OnInit {
                 this.crearFormulario();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
-    this.todosLosPaises();    
-    this.bodegasServ.actualizar.subscribe((resp: any) =>{
+    this.todosLosPaises();   
+    this.listObserver(); 
+  }
+
+  listObserver = () => {
+    const observer1$ = this.bodegasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
       this.bodegasServ.getDato(resp).then((res: any) => {
-         
-        
         this.forma.get('descripcion').setValue(res.descripcion);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));
         this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
@@ -49,7 +64,13 @@ export class FormularioBodegasComponent implements OnInit {
         })      
       })
     })
-  }
+
+    const observer2$ = this.bodegasServ.formSubmitted.subscribe((resp:any) =>{
+      this.formSubmitted = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
 
   todosLosPaises() {
     this.paisesCiudadesServ.getPaises().then((resp: any)=>{
@@ -71,6 +92,7 @@ export class FormularioBodegasComponent implements OnInit {
   guardarBodega(){
     this.formSubmitted = true;   
     if (this.forma.invalid) {  
+      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -87,39 +109,43 @@ export class FormularioBodegasComponent implements OnInit {
 
         default:
           this.bodegasServ.crearBodega(this.forma.value).then((resp: any)=>{            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj); 
-            this.forma.get('descripcion').reset();
-            this.forma.get('id_pais').reset();
-            this.forma.get('id_ciudad').reset();
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
+            this.resetFormulario();
           })
           break;
       } 
-    }  
+    } 
      
   }
 
   actualizarBodega() {
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
-       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-       Object.values(this.forma.controls).forEach(control =>{          
-         control.markAllAsTouched();
-       })
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
     }else{  
       this.bodegasServ.actualizarBodega(this.id, this.forma.value).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-    })
-  }
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormulario();
+      })
+    }
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.bodegasServ.guardando();    
+  }
+
+  resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    this.bodegasServ.guardando();    
   }
 
   verificaBodega(data){  

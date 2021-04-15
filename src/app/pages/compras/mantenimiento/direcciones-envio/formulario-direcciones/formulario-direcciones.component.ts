@@ -79,7 +79,8 @@ export class FormularioDireccionesComponent implements OnInit {
 
   guardarDirecciones(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -96,7 +97,8 @@ export class FormularioDireccionesComponent implements OnInit {
 
         default:
           this.dirServ.crearDireccion(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
+            this.resetFormulario();
           })
           break;
       } 
@@ -123,15 +125,16 @@ export class FormularioDireccionesComponent implements OnInit {
   actualizarDirecciones(){
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {
+      this.formSubmitted = false;       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
       this.dirServ.actualizarDireccion(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
-         
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormulario();
       })
     }
   }
@@ -145,10 +148,14 @@ export class FormularioDireccionesComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.dirServ.guardando();    
+  }
+
+  resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    this.dirServ.guardando();    
   }
 
   getNoValido(input: string) {

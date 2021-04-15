@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ClientesService } from 'src/app/services/clientes.service';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 
 @Component({
   selector: 'app-stepclientes',
@@ -10,22 +12,39 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 export class StepclientesComponent implements OnInit {
 
   data: any[] = [];
-
-  constructor(public ref: DynamicDialogRef, 
+  items: MenuItem[] = [];
+  activeIndex = 0;
+  
+  constructor(public clientesServ: ClientesService,
+              public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
-              private route: Router) { }
+              public datosEstaticosServ: DatosEstaticosService) { }
 
   ngOnInit(): void {
     let data = this.config.data;
-    for (const key in data) {
-      if (data[key].data.length === 0) {
-        this.data.push(data[key])        
-      }
-    } 
+    for (let index = 0; index < data.length; index++) {      
+      if (data[index].data.length === 0) {     
+        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)})       
+      }      
+    }
   }
 
-  crearEmpleado() {
-    this.route.navigateByUrl('/gestion-de-empleados');
+  cambiaIndex(index) {
+    this.activeIndex = index;    
+  }
+
+  prevPage() {
+    this.cambiaIndex(this.activeIndex - 1)
+  }
+
+  nextPage() {
+    this.cambiaIndex(this.activeIndex + 1)
+  }
+
+  finalizar() {
+    console.log('cerrar dialogo');  
+    this.ref.close();  
+    this.clientesServ.finalizando();
   }
 
 }

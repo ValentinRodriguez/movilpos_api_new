@@ -81,7 +81,8 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   guardarTproveedor(){
     this.formSubmitted = true;    
      
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -98,7 +99,7 @@ export class FormularioTipoProveedoresComponent implements OnInit {
 
         default:
           this.tipoProveedorServ.crearTproveedor(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.resetFormulario();
           })
           break;
@@ -138,14 +139,15 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   actualizarTproveedor() {
     this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {   
+      this.formSubmitted = false;    
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
       this.tipoProveedorServ.actualizarProveedor(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
     }

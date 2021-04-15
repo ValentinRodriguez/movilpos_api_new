@@ -99,14 +99,14 @@
 
         <div class="p-field p-col-12 p-md-3">
             <label for="id_moneda">Moneda</label>
-            <p-multiSelect [options]="monedas" formControlName="id_moneda" defaultLabel="Seleccione Moneda" optionLabel="descripcion" 
-                           class="multiselect-custom" [class.ng-invalid]="getNoValido('id_moneda')" 
-                           [class.ng-dirty]="getNoValido('id_moneda')">
+            <p-multiSelect [options]="monedas" formControlName="id_moneda" defaultLabel="Seleccione Moneda" 
+                           optionLabel="descripcion" class="multiselect-custom" (onChange)="setValue()"
+                           [class.ng-invalid]="getNoValido('id_moneda')" [class.ng-dirty]="getNoValido('id_moneda')">
                 <ng-template let-value pTemplate="selectedItems">
-                    <div class="country-item country-item-value" *ngFor="let option of selectedMultiMoneda">
+                    <div class="country-item country-item-value" *ngFor="let option of selectedMulti">
                         <div>{{option.simbolo}} {{option.divisa | titlecase}}</div>
                     </div>
-                    <div *ngIf="!selectedMultiMoneda || selectedMultiMoneda.length === 0" class="country-placeholder">
+                    <div *ngIf="!selectedMulti || selectedMulti.length === 0" class="country-placeholder">
                         Seleccione Moneda
                     </div>
                 </ng-template>

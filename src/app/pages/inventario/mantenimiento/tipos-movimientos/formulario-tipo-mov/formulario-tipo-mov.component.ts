@@ -194,7 +194,8 @@ export class FormularioTipoMovComponent implements OnInit {
     
   guardarcodMov(){
     this.formSubmitted = true;
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');  
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -211,7 +212,7 @@ export class FormularioTipoMovComponent implements OnInit {
 
         default:
           this.CodMovServ.crearTipoMov(this.forma.value).then((resp: any)=>{            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);  
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
             this.resetFormulario();
           })
         break;
@@ -224,6 +225,7 @@ export class FormularioTipoMovComponent implements OnInit {
      this.formSubmitted = true; 
      this.forma.get('usuario_modificador').setValue(this.usuario.username);    
      if (this.forma.invalid) {       
+      this.formSubmitted = false;
        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
        Object.values(this.forma.controls).forEach(control =>{          
          control.markAllAsTouched();
@@ -278,7 +280,7 @@ export class FormularioTipoMovComponent implements OnInit {
 
   buscaCuentas() {
     // this.catalogos = true
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(CatalogoCuentasComponent, {
       data: {
         cuentas: this.cuentas_no
       },

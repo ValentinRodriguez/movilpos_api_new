@@ -73,7 +73,7 @@ export class TipoProveedorService {
                                
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.tipoPguardado.emit(resp.data);       
           }
       });
@@ -98,7 +98,7 @@ export class TipoProveedorService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
                   this.tipoPact.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 }
               });
     });
@@ -112,9 +112,9 @@ export class TipoProveedorService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.tipoPborrado.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

@@ -209,7 +209,7 @@ export class RequisicionesComponent implements OnInit {
     }else{      
        
       this.requisicionesServ.crearRequisiciones(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!',resp.msj);       
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');       
       })
     }  
   } 
@@ -227,14 +227,14 @@ export class RequisicionesComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.requisicionesServ.borrarRequisicion(requisicion).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })   
   }
 
   buscaProductos() {
-    const ref = this.dialogService.open(ListaProductosComponent, {
+     this.dialogService.open(ListaProductosComponent, {
       header: 'Catálogo de productos',
       width: '70%'
     });

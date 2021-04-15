@@ -1,10 +1,13 @@
 <form (ngSubmit)="guardarTransportista()" [formGroup]="forma">
-    <div class="p-fluid p-formgrid p-grid">
+    <div class="p-fluid p-formgrid p-grid">        
         <div class="p-field p-col-12 p-md-3">
             <label for="cedula">Cédula</label>
-            <input pInputText type="text" inputId="cedula" mode="decimal" name="cedula" formControlName="cedula"
-            [class.ng-invalid]="getNoValido('cedula')" [class.ng-dirty]="getNoValido('cedula')"/>
-            <small *ngIf="getNoValido('cedula')" class="p-invalid">Este campo es obligatorio.</small>
+            <span class=" p-input-icon-right">                
+                <p-inputMask mask="999-9999999-9" formControlName="cedula" [class.ng-invalid]="getNoValido('cedula')" 
+                             [class.ng-dirty]="getNoValido('cedula')">
+                </p-inputMask>
+                <small *ngIf="getNoValido('cedula')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
         </div>
         <div class="p-field p-col-12 p-md-3">
             <label for="nombre">Nombre</label>

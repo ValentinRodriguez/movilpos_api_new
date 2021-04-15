@@ -55,7 +55,8 @@ export class FormularioPuestosComponent implements OnInit {
 
   guardarPuesto(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -72,7 +73,7 @@ export class FormularioPuestosComponent implements OnInit {
 
         default:
           this.puestosServ.crearPuesto(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.resetFormulario();
           })
           break;
@@ -100,14 +101,15 @@ export class FormularioPuestosComponent implements OnInit {
   actualizarPuesto(){
      this.formSubmitted = true; 
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {     
+      this.formSubmitted = false;  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{ 
       this.puestosServ.actualizarPuesto(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
         this.resetFormulario();
       })

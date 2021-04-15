@@ -63,7 +63,7 @@ export class CategoriasService {
           .subscribe( (resp:any) => {
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.categoriaGuardada.emit( resp.data );       
           }
       });
@@ -77,7 +77,7 @@ export class CategoriasService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                  
               this.categoriaActualizada.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -90,7 +90,7 @@ export class CategoriasService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.categoriaBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
               resolve(false);
             }

@@ -89,7 +89,7 @@ export class EntradasDiarioService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
                   this.entradaAct.emit( resp.data );                            
-                  resolve(resp);            
+                  resolve(resp.data);            
                 }
               });
     });
@@ -102,9 +102,9 @@ export class EntradasDiarioService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {            
               this.marcaBorrada.emit(id);    
-              resolve(resp);            
+              resolve(resp.data);            
             } else {
-              resolve(resp);
+              resolve(resp.data);
             }
           });
     });

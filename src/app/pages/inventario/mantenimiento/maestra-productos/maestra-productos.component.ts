@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, SelectItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { StepComponent } from './step/step.component';
 
 @Component({
   selector: 'app-maestra-productos',
@@ -20,7 +22,7 @@ export class MaestraProductosComponent implements OnInit {
   states: any[] = [];
   index: number = 0;
   cols: any[] = [];   
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private inventarioServ: InventarioService,
@@ -69,7 +71,11 @@ export class MaestraProductosComponent implements OnInit {
       this.formSubmitted = resp;
     })
 
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    const observer6$ = this.inventarioServ.finalizar.subscribe((resp: number) =>{
+      this.index = resp;
+    })
+    
+    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$,observer6$];
  };
 
   todosLosProductos() {     
@@ -101,7 +107,7 @@ export class MaestraProductosComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.inventarioServ.borrarInvProducto(id).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })

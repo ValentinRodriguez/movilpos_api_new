@@ -88,7 +88,7 @@ export class PuertosComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.puertosService.borrarPuerto(puerto).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })

@@ -54,7 +54,8 @@ export class FormularioPropiedadesComponent implements OnInit {
 
   guardarPropiedad(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {     
+      this.formSubmitted = false;  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -71,7 +72,7 @@ export class FormularioPropiedadesComponent implements OnInit {
 
         default:
           this.propiedadServ.crearPropiedad(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.forma.get('descripcion').reset();
           })
           break;

@@ -15,6 +15,7 @@ export class ClientesService {
   formSubmitted = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
+  finalizar = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
@@ -137,7 +138,7 @@ export class ClientesService {
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.clientAct.emit( resp.data );                            
-              resolve(resp);          
+              resolve(resp.data);          
             }
         });
       });
@@ -204,20 +205,22 @@ export class ClientesService {
       .subscribe((resp:any)=>{
         if(resp['code']==200){
           this.clienteBorrado.emit(id);
-          resolve(resp);
+          resolve(resp.data);
         }
       })
     })
   }
 
   actualizando(data: any) {
-   
-    this.actualizar.emit(data);
-  
+    this.actualizar.emit(data);  
   }
 
   guardando() {
     this.guardar.emit(0);
+  }
+
+  finalizando() {
+    this.finalizar.emit(1);
   }
 
 }

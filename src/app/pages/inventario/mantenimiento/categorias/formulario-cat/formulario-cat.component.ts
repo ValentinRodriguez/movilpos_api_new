@@ -66,7 +66,8 @@ export class FormularioCatComponent implements OnInit {
 
   guardarCategoria(){
     this.formSubmitted = true;    
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) { 
+      this.formSubmitted = false;      
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -83,7 +84,7 @@ export class FormularioCatComponent implements OnInit {
 
         default:
           this.categoriasServ.crearCategoria(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.forma.get('descripcion').reset();
           })
           break;
@@ -93,9 +94,31 @@ export class FormularioCatComponent implements OnInit {
   
   actualizarCategoria(){
     this.formSubmitted = true; 
-    this.categoriasServ.actualizarCategoria(this.id, this.forma.value).then((resp: any) => {
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);       
-    })
+    if (this.forma.invalid) { 
+      this.formSubmitted = false;      
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+    }else{   
+      switch (this.categoriaExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
+          break;
+
+        case 2:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
+          break;
+
+        default:
+          this.categoriasServ.actualizarCategoria(this.id, this.forma.value).then((resp: any) => {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
+            this.forma.get('descripcion').reset();
+          })
+          break;
+      } 
+    }
+
   }
 
   cancelar() {

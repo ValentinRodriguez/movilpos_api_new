@@ -95,23 +95,27 @@ export class FormularioTransportistaComponent implements OnInit {
   }
 
   guardarTransportista(){
-    this.formSubmitted = true;
-         
-    if (this.forma.invalid) {       
+    this.formSubmitted = true;     
+    console.log(this.forma);
+        
+    if (this.forma.invalid) {    
+      this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
     }else{   
-      this.transportistaServ.crearTransportista(this.forma.value).then((resp: any)=>{         
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);
+      this.transportistaServ.crearTransportista(this.forma.value).then(()=>{         
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
+        this.resetFormulario();
       })
     }
   }
     
   ActualizarCategoria(){
     this.formSubmitted = true;
-    if (this.forma.invalid) {       
+    if (this.forma.invalid) {     
+      this.formSubmitted = false;  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -119,7 +123,8 @@ export class FormularioTransportistaComponent implements OnInit {
     }else{   
       this.forma.get('usuario_modificador').setValue(this.usuario.username);
       this.transportistaServ.actualizarTransportista(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');         
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
+        this.resetFormulario();  
       })
     }
   }
@@ -127,10 +132,14 @@ export class FormularioTransportistaComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
+    this.resetFormulario();
+    this.transportistaServ.guardando();    
+  }
+
+  resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
-    this.transportistaServ.guardando();    
   }
 
   buscaPaises(id) {    

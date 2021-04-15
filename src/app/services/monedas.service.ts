@@ -68,7 +68,7 @@ export class MonedasService {
       this.http.post(`${ URL }/monedas`, formData).subscribe( (resp: any) => {
            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {                                      
-            resolve(resp);    
+            resolve(resp.data);    
             this.monedaGuardada.emit(resp.data);       
           }
       });
@@ -81,7 +81,7 @@ export class MonedasService {
             this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
               this.monedaAct.emit( resp.data );                            
-              resolve(resp);            
+              resolve(resp.data);            
             }
           });
     });
@@ -93,7 +93,7 @@ export class MonedasService {
           this.formSubmitted.emit(false);                           
           if (resp['code'] === 200)  {            
             this.monedaBorrada.emit(id);    
-            resolve(resp);            
+            resolve(resp.data);            
           }
       });
     });

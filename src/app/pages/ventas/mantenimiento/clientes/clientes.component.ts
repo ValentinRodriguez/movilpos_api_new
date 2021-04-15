@@ -12,8 +12,6 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ClientesComponent implements OnInit {
 
-  
-
   clientes : any[] = [];
   page = 1;
   actualizando = false; 
@@ -24,6 +22,7 @@ export class ClientesComponent implements OnInit {
   usuario: any;
   cols: any[];
   index: number = 0;
+  listSubscribers: any = [];
 
   constructor( private uiMessage: UiMessagesService,
                private usuariosServ: UsuarioService,
@@ -32,9 +31,13 @@ export class ClientesComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
   }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
   ngOnInit(): void {
     this.todosLosClientes();
-
+    this.listObserver();
     this.cols = [
       { field: 'nombre', header: 'Cliente' },
       { field: 'documento', header: 'Documento' },
@@ -42,33 +45,37 @@ export class ClientesComponent implements OnInit {
       { field: 'celular', header: 'Celular' },
       { field: 'acciones', header: 'Acciones' },
     ] 
-
-    this.clientesServ.ClienteCreado.subscribe(()=>{
+  }
+  
+  listObserver = () => {
+    const observer1$ = this.clientesServ.ClienteCreado.subscribe(()=>{
       this.todosLosClientes()
     })
-
-    this.clientesServ.clientAct.subscribe(()=>{
+  
+    const observer2$ = this.clientesServ.clientAct.subscribe(()=>{
       this.todosLosClientes()
     })
-
-    this.clientesServ.clienteBorrado.subscribe(()=>{
+  
+    const observer3$ = this.clientesServ.clienteBorrado.subscribe(()=>{
       this.todosLosClientes()
     })   
-  }
   
+    const observer4$ = this.clientesServ.finalizar.subscribe((resp: number)=>{
+      this.index = resp;
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+  };
+   
   todosLosClientes() {
     this.clientesServ.getDatos().then((resp: any) => {
-      this.clientes = resp; 
-   //    
-       
+      this.clientes = resp;  
     })
   }
   
-  actualizarCliente(data) { 
-    
+  actualizarCliente(data) {     
     this.index = 1;   
-    this.clientesServ.actualizando(data);
-     
+    this.clientesServ.actualizando(data);     
   }
 
   borrarCliente(id) {
@@ -76,13 +83,9 @@ export class ClientesComponent implements OnInit {
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
         this.clientesServ.borrarCliente(id).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',resp.msj);   
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }
     })
   }
-   
-  buscaPersona(data) {
-         
-  }  
 }

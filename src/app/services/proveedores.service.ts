@@ -108,13 +108,11 @@ export class ProveedoresService {
             break;
         }
       }
-       
-      
+
       return new Promise( resolve => {
         this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
-            console.log(resp);
-                                       
-             this.formSubmitted.emit(false);                           
+             (resp);                                       
+            this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {    
               this.proveedoresCreados.emit( resp.data );                                   
               resolve(resp.data);       
@@ -154,7 +152,7 @@ export class ProveedoresService {
                  this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {
                   this.proveeact.emit( resp.data );                            
-                  resolve(resp);                               
+                  resolve(resp.data);                               
                 }
               });
     });
@@ -166,14 +164,14 @@ export class ProveedoresService {
       .subscribe((resp:any)=>{
         if(resp['code']==200){
           this.proveedorBorrado.emit(id);
-          resolve(resp);
+          resolve(resp.data);
         }
       })
     })
   }
 
   reporteCatalogoProveedores(provee: any) {
-    console.log(provee);
+     (provee);
     
     let data = {}
       for(let key in provee){         
@@ -202,10 +200,10 @@ export class ProveedoresService {
             break;
         }
       }       
-      console.log(data);
+       (data);
       return new Promise( resolve => {
         this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {  
-            console.log(resp);
+             (resp);
             this.formSubmitted.emit(false);                           
              this.formSubmitted.emit(false);                           
             if (resp['code'] === 200)  {    
