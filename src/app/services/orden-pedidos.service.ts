@@ -19,11 +19,10 @@ export class OrdenPedidosService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/ordenespedidos`).subscribe((resp: any) => {          
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/ordenespedidos`).subscribe((resp: any) => {                                              
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
@@ -31,20 +30,17 @@ export class OrdenPedidosService {
   getDato(id:number) {
     return new Promise( resolve => {
         this.http.get(`${URL}/ordenespedidos/${id}`).subscribe((resp: any) => {          
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   buscaOrdenPedido(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/orden-pedido/${id}`).subscribe((resp: any) => {  
-         
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/busqueda/orden-pedido/${id}`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -99,39 +95,36 @@ export class OrdenPedidosService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( (resp: any) => {  
-          this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {    
-            this.ordenCreada.emit( resp );                                   
-            resolve(resp.data);       
-          }
+      this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {    
+          this.ordenCreada.emit( resp );                                   
+          resolve(resp.data);       
+        }
       });
     });    
   }
 
   actualizarPedido(id:number, categoria: any) {        
     return new Promise( resolve => {
-      this.http.put(`${ URL }/categorias/${id}`, categoria)
-              .subscribe( (resp: any) => { 
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                  
-                  this.ordenAct.emit( resp.data );                            
-                  resolve(resp.data);            
-                }
-              });
+      this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {                  
+          this.ordenAct.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarOrden(id:string){
     return new Promise(resolve =>{
-      this.http.delete(`${ URL }/ordenespedidos/${id}`)
-          .subscribe((resp:any)=>{
-                         
-            if(resp['code']==200){
-              this.ordenBorrada.emit(id);
-              resolve(resp.data);
-            }
-          })
+      this.http.delete(`${ URL }/ordenespedidos/${id}`).subscribe((resp:any)=>{                         
+        if(resp['code']==200){
+          this.ordenBorrada.emit(id);
+          resolve(resp.data);
+        }
+      })
     })
   }
 

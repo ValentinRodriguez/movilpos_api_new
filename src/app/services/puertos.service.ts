@@ -21,19 +21,17 @@ export class PuertosService {
     params = params.append('puerto',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/puerto', {params}).subscribe((resp: any) => { 
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
       return this.http.get(`${URL}/puertos`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -42,9 +40,8 @@ export class PuertosService {
 
   getDato(id) {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/puertos/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/puertos/${id}`).subscribe((resp: any) => {                     
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -59,12 +56,12 @@ export class PuertosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/puertos`, formData).subscribe( (resp:any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp.data);    
-            this.puertoGuardada.emit( resp.data );       
-          }
+      this.http.post(`${ URL }/puertos`, formData).subscribe( (resp:any) => {     
+        this.formSubmitted.emit(false);                                 
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.puertoGuardada.emit( resp.data );       
+        }
       });
     });    
   }
@@ -72,7 +69,7 @@ export class PuertosService {
   actualizarPuerto(id:number, puerto: any) {        
     return new Promise( resolve => {
       this.http.put(`${ URL }/puertos/${id}`, puerto).subscribe( (resp: any) => { 
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {                  
           this.puertoActualizada.emit( resp.data );                            
           resolve(resp.data);            
@@ -83,14 +80,11 @@ export class PuertosService {
 
   borrarPuerto(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/puertos/${id}`).subscribe( (resp: any) => {                             
-          this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {            
-            this.puertoBorrada.emit(id);    
-            resolve(resp.data);            
-          } else {
-            resolve(false);
-          }
+      this.http.delete(`${ URL }/puertos/${id}`).subscribe( (resp: any) => {                                                                  
+        if (resp['code'] === 200)  {            
+          this.puertoBorrada.emit(id);    
+          resolve(resp.data);            
+        }
       });
     });
   }

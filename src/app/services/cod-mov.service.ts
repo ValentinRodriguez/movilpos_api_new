@@ -1,6 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { UiMessagesService } from './ui-messages.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
@@ -16,7 +15,7 @@ export class CodMovService {
   guardar = new EventEmitter();
   formSubmitted = new EventEmitter();
   
-  constructor(private http: HttpClient, private uimessage: UiMessagesService) {}
+  constructor(private http: HttpClient) {}
 
   busquedaCodMov(parametro?: any) {
     let params = new HttpParams();
@@ -29,21 +28,21 @@ export class CodMovService {
     params = params.append('titulo',parametro.titulo);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => {  
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
@@ -51,10 +50,10 @@ export class CodMovService {
   getDato(cuenta: string) {
     return new Promise( resolve => {
         this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
@@ -72,18 +71,15 @@ export class CodMovService {
           data[key] = tipoMov[key]
           break;
       }
-    }
-     
+    }     
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
-           (resp);
-          
-          this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {    
-            this.tipoMovGuardado.emit( resp.data );                                   
-            resolve(resp.data);       
-          }
+      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {            
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {    
+          this.tipoMovGuardado.emit( resp.data );                                   
+          resolve(resp.data);       
+        }
       });
     });    
   }
@@ -102,34 +98,26 @@ export class CodMovService {
           break;
       }
     }
-
-     (data);
     
     return new Promise( resolve => {      
-      this.http.put(`${ URL }/codigosmovimientos/${id}`, data)
-          .subscribe( (resp: any) => {    
-             (resp);             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-              this.tipoMovActualizado.emit( resp.data );                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.put(`${ URL }/codigosmovimientos/${id}`, data).subscribe( (resp: any) => {          
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {
+          this.tipoMovActualizado.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
   
   borrarTipoMov(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/codigosmovimientos/${id}`)
-          .subscribe( (resp: any) => {                  
-            
-                       
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.tipoMovBorrado.emit(id);    
-              resolve(resp.data);            
-            }
-          });
+      this.http.delete(`${ URL }/codigosmovimientos/${id}`).subscribe( (resp: any) => {                            
+        if (resp['code'] === 200)  {            
+          this.tipoMovBorrado.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
@@ -141,8 +129,7 @@ export class CodMovService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => { 
-        this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {
           resolve(resp.data);       
         }
@@ -152,9 +139,8 @@ export class CodMovService {
 
   usuariosPermisosMov(id) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {                   
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

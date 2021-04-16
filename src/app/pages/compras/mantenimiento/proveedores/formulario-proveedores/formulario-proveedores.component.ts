@@ -228,8 +228,8 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    this.formSubmitted = true; 
-     (this.forma.value);
+    // this.formSubmitted = true; 
+         console.log(this.forma);
           
     if (this.forma.invalid) { 
       this.formSubmitted = false;     
@@ -248,8 +248,7 @@ export class FormularioProveedoresComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Proveedor creado exitosamente!!");      
         this.restaurarFormulario();
       })
-    } 
-     
+    }      
   } 
 
   actualizarProveedor(){
@@ -267,18 +266,16 @@ export class FormularioProveedoresComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');   
         this.restaurarFormulario();            
       })
-    } 
-     
-  } 
+    }
+  }
 
   verificaProveedor(data){        
     if (data === "") {
       this.proveedorExiste = 3;
       return;
     }
-    let param = {'proveedor': data};
     this.proveedorExiste = 0;
-    this.proveedoresServ.busquedaProveedor(param).then((resp: any)=>{
+    this.proveedoresServ.busquedaProveedor(data).then((resp: any)=>{
       if(resp.length === 0) {
         this.proveedorExiste = 1;
       }else{
@@ -322,7 +319,6 @@ export class FormularioProveedoresComponent implements OnInit {
     this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.selectedMultiMoneda = [];
     this.cgcatalogos = [];
-     (this.forma.value);
     this.cd.detectChanges();
   }
 

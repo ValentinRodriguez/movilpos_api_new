@@ -16,11 +16,10 @@ export class RequisicionesService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/requisiciones`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/requisiciones`).subscribe((resp: any) => {               
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
@@ -74,19 +73,18 @@ export class RequisicionesService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones`, formData).subscribe( (resp: any) => {  
-        this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {    
-            this.requisicionGuardada.emit( resp );                                   
-            resolve(resp.data);       
-          }
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {    
+          this.requisicionGuardada.emit( resp );                                   
+          resolve(resp.data);       
+        }
       });
     });    
   }
 
   getDato(id:any) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/requisiciones/${id}`).subscribe((resp: any) => {         
-        this.formSubmitted.emit(false);                           
+        this.http.get(`${URL}/requisiciones/${id}`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);                         
         }
@@ -96,8 +94,7 @@ export class RequisicionesService {
 
   buscaRequisicion(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/requisicion/${id}`).subscribe((resp: any) => {        
-        this.formSubmitted.emit(false);                           
+      this.http.get(`${URL}/busqueda/requisicion/${id}`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -105,10 +102,7 @@ export class RequisicionesService {
     })
   }
 
-  actualizarRequisicion(id:string, orden: any) {
-
-    const formDataAct = new FormData();
-    
+  actualizarRequisicion(id:string, orden: any) {    
     let productos=orden.variaciones;
     let i=0;
     const formData = new FormData(); 
@@ -128,7 +122,7 @@ export class RequisicionesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones/${id}`, formData).subscribe( (resp: any) => {        
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);         
         if (resp['code'] === 200)  {  
           this.requisicionact.emit(1);               
           resolve(resp.data);          
@@ -140,7 +134,6 @@ export class RequisicionesService {
   borrarRequisicion(id:string){
     return new Promise(resolve =>{
       this.http.delete(`${ URL }/requisiciones/${id}`).subscribe((resp:any)=>{  
-        this.formSubmitted.emit(false);                        
         if(resp['code']==200){
           this.requisicionBorrada.emit(id);
           resolve(resp.data);
@@ -159,8 +152,7 @@ export class RequisicionesService {
     }     
     params = params.append('requisicion',parametro.requisicion);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/requisicion', {params}).subscribe((resp: any) => {  
-        this.formSubmitted.emit(false);                           
+      this.http.get(URL+'/busqueda/requisicion', {params}).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

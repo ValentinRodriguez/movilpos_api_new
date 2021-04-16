@@ -20,20 +20,18 @@ export class CategoriasService {
     let params = new HttpParams();      
     params = params.append('categoria',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => { 
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {                            
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/categorias`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/categorias`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -42,9 +40,8 @@ export class CategoriasService {
 
   getDato(id) {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/categorias/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/categorias/${id}`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -59,42 +56,37 @@ export class CategoriasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/categorias`, formData)
-          .subscribe( (resp:any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp.data);    
-            this.categoriaGuardada.emit( resp.data );       
-          }
+      this.http.post(`${ URL }/categorias`, formData).subscribe( (resp:any) => {
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.categoriaGuardada.emit( resp.data );       
+        }
       });
     });    
   }
 
   actualizarCategoria(id:number, categoria: any) {        
     return new Promise( resolve => {   
-      this.http.put(`${ URL }/categorias/${id}`, categoria)
-          .subscribe( (resp: any) => { 
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                  
-              this.categoriaActualizada.emit( resp.data );                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => { 
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                  
+          this.categoriaActualizada.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarCategoria(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/categorias/${id}`)
-          .subscribe( (resp: any) => {                             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.categoriaBorrada.emit(id);    
-              resolve(resp.data);            
-            } else {
-              resolve(false);
-            }
-          });
+      this.http.delete(`${ URL }/categorias/${id}`).subscribe( (resp: any) => {                             
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {            
+          this.categoriaBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 

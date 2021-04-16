@@ -36,11 +36,10 @@ export class InventarioService {
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
@@ -54,20 +53,18 @@ export class InventarioService {
     }     
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {                
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -76,24 +73,20 @@ export class InventarioService {
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invproductos`)
-          .subscribe((resp: any) => {
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-              resolve(resp.data);            
-            }
-          })
+      this.http.get(`${URL}/invproductos`).subscribe((resp: any) => {                                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getChasis(chasis) {
     return new Promise( resolve => {  
-
       const headers = new HttpHeaders({
         "x-rapidapi-key":"2c9e85a058mshf1042b431dadc78p1f24fajsn64bcd991b70b",
         "x-rapidapi-host":"vindecoder.p.rapidapi.com"
-      });
-      
+      });      
       this.http.get(`${URLAPI}${chasis}`,{headers}).subscribe((resp: any) => {
         if (resp.success) {
           resolve(resp.specification);
@@ -104,9 +97,8 @@ export class InventarioService {
 
   getTipoProducto() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipo/invproducto`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/tipo/invproducto`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -115,9 +107,8 @@ export class InventarioService {
 
   getMedidas() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/medidas/invproducto`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/medidas/invproducto`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -126,9 +117,8 @@ export class InventarioService {
 
   getPropiedades() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/propiedades/invproducto`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/propiedades/invproducto`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -137,31 +127,19 @@ export class InventarioService {
 
   autoLlenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/invproducto`)
-          .subscribe((resp: any) => {
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-              resolve(resp.data);            
-            }
-          })
+      this.http.get(`${URL}/autollenado/invproducto`).subscribe((resp: any) => {                                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   crearInvProducto( invProducto: any ) {    
-    const formData = new FormData();
-    // let imagesSec = invProducto.galeriaImagenes || [];
-    
+    const formData = new FormData();    
     
     for(let key in invProducto){ 
       switch (key) {
-        // case 'galeriaImagenes':
-        //   if (imagesSec.length !== 0) {
-        //     for (let i = 0; i < imagesSec.length; i++) {           
-        //       formData.append('galeriaImagenes'+[i], imagesSec[i], imagesSec[i].name );
-        //     }        
-        //     formData.append('imagesSec', imagesSec.length);            
-        //   }
-        //   break;
 
         case 'fabricacion':
           formData.append(key, invProducto[key].value);
@@ -202,32 +180,19 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => {     
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-              this.productoGuardado.emit(resp.data);                            
-              resolve(resp.data);            
-            }
-        });
+      this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => { 
+        this.formSubmitted.emit(false);  
+        if (resp['code'] === 200)  {
+          this.productoGuardado.emit(resp.data);                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
-  actualizarInvProducto( id:any, invProducto: any ) {   
-    const formData = new FormData();
-    let imagesSec = invProducto.galeriaImagenes || [];
-    
-        
+  actualizarInvProducto( id:any, invProducto: any ) {  
     for(let key in invProducto){ 
       switch (key) {
-        // case 'galeriaImagenes':
-        //   if (typeof imagesSec !== 'string') {   
-        //     formData.append('galeriaImagenes', imagesSec, imagesSec.name );    
-        //     formData.append('galeriaImagenes', imagesSec.length)          
-        //   } else {
-        //     formData.append('galeriaImagenes', imagesSec);
-        //   }  
-        //   break;
-
         case 'fabricacion':
           invProducto[key] = invProducto[key].value
           break;
@@ -267,9 +232,8 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/productos/${id}`, invProducto).subscribe( (resp: any) => {         
-        console.log(resp);                           
-        this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/act/productos/${id}`, invProducto).subscribe( (resp: any) => {                              
+        this.formSubmitted.emit(false);        
         if (resp['code'] === 200)  {
           this.productoActualizado.emit( resp );                            
           resolve(resp.data);            
@@ -289,33 +253,26 @@ export class InventarioService {
     }
 
     return new Promise( resolve => {
-      this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {    
-            this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {                 
+        if (resp['code'] === 200)  {                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarInvProducto(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/invproductos/${id}`)
-          .subscribe( (resp: any) => {   
-                                               
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.productoBorrado.emit(id);    
-              resolve(resp.data);            
-            } else {
-              resolve(resp.data);
-            }
-          });
+      this.http.delete(`${ URL }/invproductos/${id}`).subscribe( (resp: any) => {
+        if (resp['code'] === 200)  {            
+          this.productoBorrado.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
-  repCatalogoProductos(parametro) {
-    
+  repCatalogoProductos(parametro) {    
     if (parametro.parametro === undefined || parametro.parametro === null) {
       parametro.parametro = '';
     } 
@@ -348,12 +305,11 @@ export class InventarioService {
     });
     
     return new Promise( resolve => {
-      this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                   
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {  
-            resolve(resp.specification);            
-          }
-        })
+      this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                      
+        if (resp['code'] === 200)  {  
+          resolve(resp.specification);            
+        }
+      })
     })
   }
 

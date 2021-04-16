@@ -29,24 +29,19 @@ export class PropiedadesService {
     }     
     params = params.append('propiedad',parametro.propiedad);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/propiedades', {params}).subscribe((resp: any) => {  
-          
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/propiedades', {params}).subscribe((resp: any) => {                                    
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/propiedades`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/propiedades`).subscribe((resp: any) => {                     
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
-        } else {
-          resolve(false);
         }
       })
     })
@@ -54,12 +49,9 @@ export class PropiedadesService {
 
   getDato(id) {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/propiedades/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/propiedades/${id}`).subscribe((resp: any) => {                      
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
-        } else {
-          resolve(false);
         }
       })
     })
@@ -72,47 +64,36 @@ export class PropiedadesService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/propiedades`, formData)
-               .subscribe( (resp:any) => {              
-                this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-                 resolve(resp.data);    
-                 this.propiedadGuardada.emit( resp.data );       
-               } else {
-                 resolve(false)
-               }
+      this.http.post(`${ URL }/propiedades`, formData).subscribe( (resp:any) => {  
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.propiedadGuardada.emit( resp.data );       
+        }
       });
     });    
   }
 
   actualizarPropiedad(id:string, propiedad: any) {        
     return new Promise( resolve => {
-      this.http.put(`${ URL }/propiedades/${id}`, propiedad)
-              .subscribe( (resp: any) => {                                
-                 
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                  
-                  this.propiedadActualizada.emit( resp.data );                            
-                  resolve(resp.data);            
-                } else {
-                  resolve(false);
-                }
-              });
+      this.http.put(`${ URL }/propiedades/${id}`, propiedad).subscribe( (resp: any) => {   
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {                  
+          this.propiedadActualizada.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarPropiedad(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/propiedades/${id}`)
-          .subscribe( (resp: any) => {                             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.propiedadBorrada.emit(id);    
-              resolve(resp.data);            
-            } else {
-              resolve(false);
-            }
-          });
+      this.http.delete(`${ URL }/propiedades/${id}`).subscribe( (resp: any) => {
+        if (resp['code'] === 200)  {            
+          this.propiedadBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 }

@@ -17,10 +17,7 @@ export class TipoInventarioService {
   guardar = new EventEmitter();  
   formSubmitted = new EventEmitter();
   
-  constructor(private http: HttpClient,
-              private uimessage: UiMessagesService) { 
-                
-              }
+  constructor(private http: HttpClient) { }
 
   busquedaTipoInv(parametro?: any) {
     let params = new HttpParams();
@@ -32,20 +29,18 @@ export class TipoInventarioService {
     }     
     params = params.append('invtipo',parametro.invtipo);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/invtipos', {params}).subscribe((resp: any) => {  
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/invtipos', {params}).subscribe((resp: any) => { 
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invtipos`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                    
+      this.http.get(`${URL}/invtipos`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {                    
           resolve(resp.data);            
         }
       })
@@ -54,9 +49,8 @@ export class TipoInventarioService {
 
   getDato(id) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invtipos/${id}`).subscribe((resp: any) =>{
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                    
+      this.http.get(`${URL}/invtipos/${id}`).subscribe((resp: any) =>{                       
+        if (resp['code'] === 200)  {                    
           resolve(resp.data);            
         }
       })
@@ -76,9 +70,8 @@ export class TipoInventarioService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtipos`, formData).subscribe( (resp: any) => {
-          
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.TipoInventarioGuardado.emit(resp.data);        
         }
@@ -88,14 +81,12 @@ export class TipoInventarioService {
 
   borrarTipoInventario(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/invtipos/${id}`)
-          .subscribe( (resp: any) => {     
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.TipoInventarioBorrado.emit(id);    
-              resolve(resp.data);            
-            }
-          });
+      this.http.delete(`${ URL }/invtipos/${id}`).subscribe( (resp: any) => {                          
+        if (resp['code'] === 200)  {            
+          this.TipoInventarioBorrado.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
@@ -109,15 +100,13 @@ export class TipoInventarioService {
       }
     }
     return new Promise( resolve => {
-      this.http.put(`${ URL }/invtipos/${id}`, formData)
-          .subscribe( (resp: any) => {
-                         
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-              this.TipoInventarioAct.emit( resp.data );                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.put(`${ URL }/invtipos/${id}`, formData).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);  
+        if (resp['code'] === 200)  {
+          this.TipoInventarioAct.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   } 
 

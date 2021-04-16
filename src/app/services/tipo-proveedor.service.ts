@@ -28,34 +28,31 @@ export class TipoProveedorService {
     }     
     params = params.append('tipo',parametro.tipo);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/tipo-proveedor', {params}).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/tipo-proveedor', {params}).subscribe((resp: any) => {                                     
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {                                     
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipo-proveedores/${id}`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/tipo-proveedores/${id}`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
@@ -69,13 +66,12 @@ export class TipoProveedorService {
           formData.append(key, tipo[key]);
         }
       }
-      this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {   
-                               
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp.data);    
-            this.tipoPguardado.emit(resp.data);       
-          }
+      this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {    
+        this.formSubmitted.emit(false);                   
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.tipoPguardado.emit(resp.data);       
+        }
       });
     });    
   }
@@ -92,31 +88,24 @@ export class TipoProveedorService {
         }
       }
       
-      this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata)
-              .subscribe( (resp: any) => {   
-                                              
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-                  this.tipoPact.emit( resp.data );                            
-                  resolve(resp.data);            
-                }
-              });
+      this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata).subscribe( (resp: any) => {  
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {
+          this.tipoPact.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarTproveedor(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/tipo-proveedores/${id}`)
-          .subscribe( (resp: any) => {
-                         
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.tipoPborrado.emit(id);    
-              resolve(resp.data);            
-            } else {
-              resolve(resp.data);
-            }
-          });
+      this.http.delete(`${ URL }/tipo-proveedores/${id}`).subscribe( (resp: any) => {               
+        if (resp['code'] === 200)  {            
+          this.tipoPborrado.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
