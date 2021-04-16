@@ -141,8 +141,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       titulo:               ['testfgfgfgfg', Validators.required],
-      chasis:               ['5TDZK3EH9AS004144', Validators.required],
-      motor:                ['234234', Validators.required],
+      chasis:               ['5TDZK3EH9AS004144'],
+      motor:                [''],
       fabricacion:          ['', Validators.required],
       asientos:             ['1', Validators.required],
       asientosAd:           [''],
