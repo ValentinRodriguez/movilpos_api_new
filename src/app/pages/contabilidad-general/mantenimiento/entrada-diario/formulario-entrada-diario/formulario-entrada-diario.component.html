@@ -10,9 +10,9 @@
             <label for="ref">Referencia</label>
             <span class=" p-input-icon-right">
                 <!--<input id="ref" type="text" pInputText formControlName="ref" [class.p-invalid]="getNoValido('ref')">-->
-                <p-inputMask formControlName="ref" [mask]="this.mask"> [class.p-invalid]="getNoValido('ref')"</p-inputMask>
+                <p-inputMask formControlName="ref" [mask]="this.mask"> [class.p-invalid]="getNoValido('ref')" (ng-blur)="verificaRef($event.target.value)"</p-inputMask>
             </span>
-            <small class="p-invalid" *ngIf="getNoValido('ref')">Este campo es obligatorio.</small>
+            <small class="p-invalid" *ngIf="getNoValido('ref')" >Este campo es obligatorio.</small>
         </div>
         
         <div class="p-field p-col-12 p-md-3">
@@ -90,7 +90,7 @@
                                 </span>
 
                                 <span *ngIf="col.field === 'credito'">
-                                    <input type="number" pInputText class="fit-input" formControlName="credito" (keydown.Tab)="agregarRegistro()"/>
+                                    <input type="number" pInputText class="fit-input" formControlName="credito" />
                                 </span>
                                 <span *ngIf="col.field === 'acciones'">
                                     <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCuenta(i)"></button>
@@ -114,21 +114,24 @@
                             Existe solo {{cuentas ? cuentas.length : 0 }} producto en total.
                         </div>
                     </ng-template>
-                  <!--  <ng-template pTemplate="footer">
+                    <ng-template pTemplate="footer">
                         <tr>
-                            
-                            <td>Totales:</td>											
+                            <td><strong>Totales:</strong></td>											
                             <td></td>
                             <td></td>
-                            <td><strong>{{simbolo}}{{ totalDescuento }}</strong></td>
-                            <td><strong>{{simbolo}}{{ totalItbis }}</strong></td>
-                            <td><strong>{{ totalCantidad }}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) !== 0" class="rojo"><strong>{{this.simbolo}}{{this.totalD}}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) !== 0" class="rojo"><strong>{{this.simbolo}}{{this.totalC}}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) === 0" class="verde"><strong>{{this.simbolo}}{{this.totalD}}</strong></td>
+                            <td *ngIf="(this.totalC - this.totalD) === 0" class="verde"><strong>{{this.simbolo}}{{this.totalC}}</strong></td>
                             <td></td>
-                            <td><strong>{{simbolo}}{{ totalBruto }}</strong></td>
-                            <td><strong>{{simbolo}}{{ totalNeto }}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                         </tr>
-                    </ng-template>-->
+                    </ng-template>
+                 
+                         
                 </p-table>
             </div>
         </p-panel>

@@ -191,6 +191,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   get cuentas_no() {   
+   
     return this.forma.get('cuentas_no') as FormArray;
   }
 

@@ -88,7 +88,7 @@ export class FormularioClientesComponent implements OnInit {
       this.clientesServ.getdato(resp).then((res: any) => {     
         this.forma.patchValue(res);
         this.forma.get('tipo_documento').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_documento)); 
-        this.forma.get('tipo_cliente').setValue(this.tipo_cliente.find(doc => doc.id == res.tipo_cliente)); 
+        this.forma.get('tipo_cliente').setValue(this.tipo_cliente.find(doc => doc.tipo_cliente == res.tipo_cliente)); 
         this.forma.get('vendedor').setValue(this.vendedor.find(doc => doc.id_numemp == res.vendedor)); 
         this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago));
         this.forma.get('tipo_negocio').setValue(this.tiponegocio.find(doc => doc.tipo_negocio == res.tipo_negocio)); 
