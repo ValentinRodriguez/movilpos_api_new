@@ -74,8 +74,7 @@ export class PeriodosFiscalesService {
 
   borrarPeriodo(id: string) {    
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/periodos-fiscales/${id}`).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+      this.http.delete(`${ URL }/periodos-fiscales/${id}`).subscribe( (resp: any) => {                                 
         if (resp['code'] === 200)  {            
           this.periodoBorrado.emit(id);    
           resolve(resp.data);            
@@ -87,8 +86,7 @@ export class PeriodosFiscalesService {
   restaurarPeriodo(id: string) {
     const periodo = {"periodo": id}
     return new Promise( resolve => {      
-      this.http.post(`${ URL }/restaurar/periodo-fiscal`,periodo).subscribe( (resp: any) => {                                                      
-        this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/restaurar/periodo-fiscal`,periodo).subscribe( (resp: any) => {                         
         if (resp['code'] === 200)  {            
           this.periodoBorrado.emit(id);    
           resolve(resp.data);            

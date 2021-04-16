@@ -19,20 +19,18 @@ export class TransportistasService {
 
   getDatos() {
     return new Promise( resolve => {      
-      this.http.get(`${URL}/transportistas`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/transportistas`).subscribe((resp: any) => {                 
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/transportistas/${id}`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/transportistas/${id}`).subscribe((resp: any) => {      
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -58,11 +56,11 @@ export class TransportistasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/transportistas`, formData).subscribe( (resp: any) => {        
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {    
-            this.trasnportistaGuardado.emit( resp.data );                                   
-            resolve(resp.data);       
-          }
+        this.formSubmitted.emit(false);                           
+         if (resp['code'] === 200)  {    
+          this.trasnportistaGuardado.emit( resp.data );                                   
+          resolve(resp.data);       
+        }
       });
     });    
   }
@@ -70,8 +68,7 @@ export class TransportistasService {
   actualizarTransportista(id:number, transportista: any) {
     let formdata: any = {};
     for(let key in transportista){  
-      switch (key) {
-        // case 'cod_zona':
+      switch (key) {        
         case 'id_pais':
         case 'cod_provincia':
           formdata[key] = transportista[key].id    
@@ -84,28 +81,24 @@ export class TransportistasService {
     }
       
     return new Promise( resolve => {
-      this.http.put(`${ URL }/transportistas/${id}`, formdata)
-          .subscribe( (resp: any) => {                                      
-             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-              this.trasnportistaAct.emit( resp.data );                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.put(`${ URL }/transportistas/${id}`, formdata).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {
+          this.trasnportistaAct.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarTransportista(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/transportistas/${id}`)
-          .subscribe( (resp: any) => {                             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.trasnportistaBorrado.emit(id);    
-              resolve(resp.data);            
-            }
-          });
+      this.http.delete(`${ URL }/transportistas/${id}`).subscribe( (resp: any) => {                          
+        if (resp['code'] === 200)  {            
+          this.trasnportistaBorrado.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 

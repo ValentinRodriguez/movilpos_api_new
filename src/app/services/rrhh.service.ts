@@ -15,44 +15,38 @@ export class RrhhService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
-           (resp);
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {        
-            resolve(resp.data);            
-          }
+        this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {        
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   getBancos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/bancos`).subscribe((resp: any) => {
-           (resp);
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {        
-            resolve(resp.data);            
-          }
+        this.http.get(`${URL}/bancos`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {        
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/empleados`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {        
-            resolve(resp.data);            
-          }
+        this.http.get(`${URL}/autollenado/empleados`).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {        
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   buscaVendedores() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  { 
+      this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  { 
           resolve(resp.data);            
         }
       })
@@ -61,10 +55,8 @@ export class RrhhService {
 
   buscaSupervisores(id:string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/supervisores/${id}`).subscribe((resp: any) => {  
-                       
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  { 
+      this.http.get(`${URL}/busqueda/supervisores/${id}`).subscribe((resp: any) => {                            
+        if (resp['code'] === 200)  { 
           resolve(resp.data);            
         }
       })
@@ -80,10 +72,10 @@ export class RrhhService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/empresa`, formData).subscribe( (resp:any) => {
-          this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {                                      
-            resolve(resp.data);      
-          }
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);      
+        }
       });
     });    
   }

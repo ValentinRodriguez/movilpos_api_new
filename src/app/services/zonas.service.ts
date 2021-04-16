@@ -13,11 +13,11 @@ export class ZonasService {
 
   getDatos() {
     return new Promise( resolve => {      
-      this.http.get(`${URL}/zonas`).subscribe((resp: any) => {      
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/zonas`).subscribe((resp: any) => {  
+        this.formSubmitted.emit(false);                            
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }

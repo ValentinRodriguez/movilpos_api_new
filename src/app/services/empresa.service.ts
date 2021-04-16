@@ -29,20 +29,18 @@ export class EmpresaService {
     }     
     params = params.append('empresa',parametro.empresa);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => {         
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => { 
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
   
   getEmpresa() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {                                    
+        if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -51,10 +49,8 @@ export class EmpresaService {
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {
-         
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {                                    
+        if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -64,9 +60,7 @@ export class EmpresaService {
   getDato(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
-         
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+        if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -75,9 +69,8 @@ export class EmpresaService {
 
   showEmpresa(empresa: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+      this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {                                    
+        if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
       })
@@ -119,10 +112,10 @@ export class EmpresaService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/empresa/${id}`, formData).subscribe( (resp: any) => { 
-          this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {                                      
-            resolve(resp.data);       
-          }
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);       
+        }
       });
     });    
   }
@@ -151,11 +144,11 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData).subscribe( (resp: any) => {              
-          this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {                                      
-            resolve(resp.data);      
-          }
+      this.http.post(`${ URL }/empresa`, formData).subscribe((resp: any) => {              
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);      
+        }
       });
     });    
   }

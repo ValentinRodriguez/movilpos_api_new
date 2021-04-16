@@ -24,7 +24,7 @@ export class DireccionesService {
     params = params.append('direccion',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/direccion', {params}).subscribe((resp: any) => { 
-           this.formSubmitted.emit(false);                           
+                                      
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
@@ -35,7 +35,7 @@ export class DireccionesService {
   getDatos() {
     return new Promise( resolve => {
       return this.http.get(`${URL}/direccion-envio`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
+                                    
             if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -45,9 +45,8 @@ export class DireccionesService {
 
   getDato(id) {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/direccion-envio/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      return this.http.get(`${URL}/direccion-envio/${id}`).subscribe((resp: any) => {                                   
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -56,27 +55,25 @@ export class DireccionesService {
 
   crearDireccion(direccion: any) {
     let data = {}
-      for(let key in direccion){         
-        switch (key) {
-          case 'id_ciudad':
-          case 'id_pais':            
-            data[key] = direccion[key].id;          
+    for(let key in direccion){         
+      switch (key) {
+        case 'id_ciudad':
+        case 'id_pais':            
+          data[key] = direccion[key].id;          
+        break;
+
+        default:
+          data[key] = direccion[key]
           break;
-
-          default:
-            data[key] = direccion[key]
-            break;
-        }
       }
-    
-
+    }
     return new Promise( resolve => {
       this.http.post(`${ URL }/direccion-envio`, data).subscribe( (resp:any) => {             
-          this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp.data);    
-            this.direccionGuardada.emit( resp.data );       
-          }
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.direccionGuardada.emit( resp.data );       
+        }
       });
     });    
   }
@@ -96,27 +93,24 @@ export class DireccionesService {
       }
     }       
     return new Promise( resolve => {
-      this.http.put(`${ URL }/direccion-envio/${id}`, data)
-          .subscribe( (resp: any) => { 
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                  
-              this.direccionActualizada.emit( resp.data );                            
-              resolve(resp.data);            
-            }
-          });
+      this.http.put(`${ URL }/direccion-envio/${id}`, data).subscribe( (resp: any) => { 
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {                  
+          this.direccionActualizada.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarDireccion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/direccion-envio/${id}`)
-          .subscribe( (resp: any) => {                             
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.direccionBorrada.emit(id);    
-              resolve(resp.data);            
-            }
-          });
+      this.http.delete(`${ URL }/direccion-envio/${id}`).subscribe( (resp: any) => {
+        if (resp['code'] === 200)  {            
+          this.direccionBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 

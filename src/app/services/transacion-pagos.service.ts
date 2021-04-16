@@ -28,70 +28,61 @@ export class TransacionPagosService {
     }     
     params = params.append('transacciones',parametro.transacciones);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/cgtransacciones', {params}).subscribe((resp: any) => {  
-                     
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/cgtransacciones', {params}).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/cgtransacciones`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/cgtransacciones`).subscribe((resp: any) => {              
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   gastosXdepartamentos(gastos) {   
     return new Promise( resolve => {
-      this.http.post(`${URL}/gastos-dep/cgtransacciones`,gastos).subscribe((resp: any) => {
-           (resp);        
-          this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.post(`${URL}/gastos-dep/cgtransacciones`,gastos).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   mayorGeneral(gastos) {   
     return new Promise( resolve => {
-      this.http.post(`${URL}/mayor-general/cgtransacciones`,gastos).subscribe((resp: any) => {
-         (resp);         
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.post(`${URL}/mayor-general/cgtransacciones`,gastos).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   autoLlenado() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/cgtransacciones`).subscribe((resp: any) => {
-            this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/autollenado/cgtransacciones`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/cgtransacciones/${id}`).subscribe((resp: any) => {           
-            this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/cgtransacciones/${id}`).subscribe((resp: any) => {                     
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
@@ -115,41 +106,34 @@ export class TransacionPagosService {
     }     
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {
-          this.formSubmitted.emit(false);     
-          console.log(resp);                                
-          if (resp['code'] === 200)  {                                      
-            resolve(resp.data);    
-            this.transaccionGuardada.emit(resp.data);       
-          }
+      this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {                     
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.transaccionGuardada.emit(resp.data);       
+        }
       });
     });    
   }
 
   actualizarTransaccion(id:number, transaccion: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/cgtransacciones/${id}`, transaccion).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
-          if (resp['code'] === 200)  {
-            this.transaccionAct.emit( resp.data );                            
-            resolve(resp.data);            
-          }
+      this.http.put(`${ URL }/cgtransacciones/${id}`, transaccion).subscribe( (resp: any) => {                 
+        if (resp['code'] === 200)  {
+          this.transaccionAct.emit( resp.data );                            
+          resolve(resp.data);            
+        }
       });
     });
   }
 
   borrarTransaccion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/cgtransacciones/${id}`)
-          .subscribe( (resp: any) => {
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.transaccionBorrada.emit(id);    
-              resolve(resp.data);            
-            } else {
-              resolve(resp.data);
-            }
-          });
+      this.http.delete(`${ URL }/cgtransacciones/${id}`).subscribe( (resp: any) => {                       
+        if (resp['code'] === 200)  {            
+          this.transaccionBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 

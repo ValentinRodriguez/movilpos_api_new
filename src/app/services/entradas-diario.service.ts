@@ -22,8 +22,7 @@ export class EntradasDiarioService {
     params = params.append('marca',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/marca', {params}).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+          if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
         })
@@ -33,80 +32,65 @@ export class EntradasDiarioService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/cgentradasdiarios`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/cgentradasdiarios/${id}`).subscribe((resp: any) => {
-         
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/cgentradasdiarios/${id}`).subscribe((resp: any) => {               
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getEdsec() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/ed/secuencia`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(`${URL}/ed/secuencia`).subscribe((resp: any) => {                                      
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   crearEntrada(entradas: any) {
-        
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgentradasdiarios`, entradas).subscribe( (resp: any) => { 
-       //  
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
-            resolve(resp.data);    
-          
-            this.entradaGuardada.emit(resp.data);  
-             
-          }
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);   
+          this.entradaGuardada.emit(resp.data); 
+        }
       });
-    });    
-    
+    });      
   }
+
   actualizarEntrada(id:number, ent: any) {      
-    return new Promise( resolve => {
-     
-      this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent)
-              .subscribe( (resp: any) => {  
-                       
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {
-                  this.entradaAct.emit( resp.data );                            
-                  resolve(resp.data);            
-                }
-              });
+    return new Promise( resolve => {  
+      this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);          
+        if (resp['code'] === 200)  {
+          this.entradaAct.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
   borrarMarca(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/marca/${id}`)
-          .subscribe( (resp: any) => {
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.marcaBorrada.emit(id);    
-              resolve(resp.data);            
-            } else {
-              resolve(resp.data);
-            }
-          });
+      this.http.delete(`${ URL }/marca/${id}`).subscribe( (resp: any) => {                                        
+        if (resp['code'] === 200)  {            
+          this.marcaBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 

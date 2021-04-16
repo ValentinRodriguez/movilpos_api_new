@@ -16,22 +16,20 @@ export class TransaccionesService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/invtransacciones`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/invtransacciones`).subscribe((resp: any) => {                          
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/invtransacciones`).subscribe((resp: any) => {        
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/autollenado/invtransacciones`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
@@ -77,10 +75,8 @@ export class TransaccionesService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {
-                   
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+      this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {                       
+        if (resp['code'] === 200)  {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);
         }
@@ -97,11 +93,8 @@ export class TransaccionesService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/recibir/invtransaccion/${transaccion.id}`, transaccion).subscribe( (resp: any) => {  
-         
-             
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {                                      
+      this.http.post(`${ URL }/recibir/invtransaccion/${transaccion.id}`, transaccion).subscribe( (resp: any) => {                        
+        if (resp['code'] === 200)  {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);
         }
@@ -111,49 +104,42 @@ export class TransaccionesService {
 
   transaccionesPendientes(email: string) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/busqueda/invtransacciones-pendientes/${email}`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/busqueda/invtransacciones-pendientes/${email}`).subscribe((resp: any) => {                           
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   repTransaccionesPendientes() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/reporte/invtransacciones-visualizar`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/reporte/invtransacciones-visualizar`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   detalleTransaccion(id: string) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/detalle/transaccion/${id}`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+      this.http.get(`${URL}/detalle/transaccion/${id}`).subscribe((resp: any) => {                          
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   borrarTransaccion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/invtransacciones/${id}`)
-          .subscribe( (resp: any) => {           
-             
-                              
-             this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {            
-              this.transaccionBorrada.emit(id);    
-              resolve(resp.data);            
-            }
-          });
+      this.http.delete(`${ URL }/invtransacciones/${id}`).subscribe( (resp: any) => {                             
+        if (resp['code'] === 200)  {            
+          this.transaccionBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 
@@ -167,13 +153,11 @@ export class TransaccionesService {
     }     
     params = params.append('categoria',parametro.categoria);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {  
-          
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {                          
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 

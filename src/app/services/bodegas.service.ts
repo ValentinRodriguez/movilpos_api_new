@@ -22,32 +22,28 @@ export class BodegasService {
     
     params = params.append('bodega',parametro.bodega);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/bodega', {params}).subscribe((resp: any) => {  
-          
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/bodega', {params}).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+        this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
       })
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/bodegas/${id}`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/bodegas/${id}`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -55,8 +51,7 @@ export class BodegasService {
   }
 
   crearBodega(bodega: any) {
-    const formData = new FormData(); 
-    
+    const formData = new FormData();     
     for(let key in bodega){  
       switch (key) {          
         case 'id_pais':
@@ -72,14 +67,13 @@ export class BodegasService {
           break;
       }
     }
-
     return new Promise( resolve => {
       this.http.post(`${ URL }/bodegas`, formData).subscribe( (resp: any) => {                   
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {    
-            this.bodegaGuardada.emit( resp.data );                                   
-            resolve(resp.data);       
-          }
+      this.formSubmitted.emit(false);                           
+      if (resp['code'] === 200)  {    
+        this.bodegaGuardada.emit( resp.data );                                   
+        resolve(resp.data);       
+      }
       });
     });    
   }
@@ -117,12 +111,10 @@ export class BodegasService {
   }
 
   permisosBodega(permisos: any) {    
-    const formData = new FormData(); 
-      
+    const formData = new FormData();       
     for(let key in permisos){  
       formData.append(key, permisos[key])
     }
-
     return new Promise( resolve => {
       this.http.post(`${ URL }/permisos/bodegas`, formData).subscribe( (resp: any) => {  
         this.formSubmitted.emit(false);                           
@@ -156,9 +148,8 @@ export class BodegasService {
 
   bodegasConpermisos(email: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/bodegas-usuarios/${email}`).subscribe((resp: any) => {        
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/bodegas-usuarios/${email}`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })

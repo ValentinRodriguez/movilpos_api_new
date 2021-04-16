@@ -30,10 +30,10 @@ export class CgcatalogoService {
     params = params.append('descripcion',parametro.descripcion);  
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {                                              
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
@@ -42,10 +42,10 @@ export class CgcatalogoService {
     params = params.append('cuenta_no',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
   }
 
@@ -187,12 +187,13 @@ export class CgcatalogoService {
 
   borrarCatalogo(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => {                         
-          if (resp['code'] === 200)  {
-            this.catalogoBorrado.emit(id);    
-            resolve(resp.data);            
-          }
-        });
+      this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => {   
+        this.formSubmitted.emit(false);                       
+        if (resp['code'] === 200)  {
+          this.catalogoBorrado.emit(id);    
+          resolve(resp.data);            
+        }
+      });
     });
   }
 

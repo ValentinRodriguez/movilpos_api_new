@@ -19,8 +19,7 @@ export class ModulosService {
           if (resp['code'] === 200)  {                           
             resolve(resp['data']);            
           }
-          if (resp.data === false && resp.msj === 'double-login' ) { 
-            // this.router.navigate(['/login']);  
+          if (resp.data === false && resp.msj === 'double-login' ) {
             this.usuarioServ.logout(this.usuarioServ.getUserLogged().email)        
           }
       });

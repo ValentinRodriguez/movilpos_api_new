@@ -19,20 +19,18 @@ export class OrdenescomprasService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/ordenescompras`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-      })
+      this.http.get(`${URL}/ordenescompras`).subscribe((resp: any) => {                                    
+      if (resp['code'] === 200)  {          
+        resolve(resp.data);            
+      }
+     })
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/ordenescompras`).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+        this.http.get(`${URL}/autollenado/ordenescompras`).subscribe((resp: any) => {                                      
+          if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
       })
@@ -44,10 +42,7 @@ export class OrdenescomprasService {
     let archivos = orden.archivos;
     let i = 0;
     const formData = new FormData(); 
-
-
     for(let key in orden){   
-
       switch (key) {
         case 'archivos':
           for (let i = 0; i < archivos.length; i++) {           
@@ -80,22 +75,20 @@ export class OrdenescomprasService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => {  
-                            
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {    
-            this.ordenGuardada.emit( resp );                                   
-            resolve(resp.data);       
-          }
+      this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => { 
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {    
+          this.ordenGuardada.emit( resp );                                   
+          resolve(resp.data);       
+        }
       });
     });    
   }
 
   getDato(id:any) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/ordenescompras/${id}`).subscribe((resp: any) => {         
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+        this.http.get(`${URL}/ordenescompras/${id}`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);                         
         }
       })
@@ -104,11 +97,8 @@ export class OrdenescomprasService {
 
   buscaOrdenCompra(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {   
-         
-             
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -116,7 +106,6 @@ export class OrdenescomprasService {
   }
 
   actualizarOrden(id:string, orden: any) {
-    const formDataAct = new FormData();    
     let productos=orden.variaciones;
     let i=0;
     const formData = new FormData(); 
@@ -135,26 +124,24 @@ export class OrdenescomprasService {
     }
 
     return new Promise( resolve => {   
-      this.http.post(`${ URL }/actualizarcompras/${id}`, formData)
-                .subscribe( (resp: any) => {        
-                 this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {   
-                  this.ordenact.emit(1);
-                  resolve(resp.data);          
-                }
-              });
+      this.http.post(`${ URL }/actualizarcompras/${id}`, formData).subscribe( (resp: any) => {   
+        this.formSubmitted.emit(false); 
+        if (resp['code'] === 200)  {   
+          this.ordenact.emit(1);
+          resolve(resp.data);          
+        }
+      });
     });  
   }
 
   borrar(id:string){
     return new Promise(resolve =>{
-      this.http.delete(`${ URL }/ordenescompras/${id}`)
-          .subscribe((resp:any)=>{
-            if(resp['code']==200){
-              this.ordenBorrada.emit(id);
-              resolve(resp.data);
-            }
-          })
+      this.http.delete(`${ URL }/ordenescompras/${id}`).subscribe((resp:any)=>{
+        if(resp['code']==200){
+          this.ordenBorrada.emit(id);
+          resolve(resp.data);
+        }
+      })
     })
   }
 
@@ -168,17 +155,15 @@ export class OrdenescomprasService {
     }     
     params = params.append('orden',parametro.orden);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {  
-          
-           this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => { 
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
     })
-    }
+  }
 
-    finalizando() {
-      this.finalizar.emit(1);
-    }
+  finalizando() {
+    this.finalizar.emit(1);
+  }
 }
