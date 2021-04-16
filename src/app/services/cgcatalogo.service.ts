@@ -61,7 +61,9 @@ export class CgcatalogoService {
 
   getDatosAux() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {                          
+      this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {  
+        console.log(resp);
+                                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

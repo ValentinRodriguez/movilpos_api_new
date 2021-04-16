@@ -35,19 +35,15 @@
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="fabricacion">Año Fabricación</label>
                     <p-dropdown inputId="fabricacion" [options]="fechafabricacion" name="fabricacion" formControlName="fabricacion"
-                                placeholder="Escoge..." optionLabel="value" [class.ng-invalid]="getNoValido('fabricacion')" 
-                                [class.ng-dirty]="getNoValido('fabricacion')">
+                                placeholder="Escoge..." optionLabel="value">
                     </p-dropdown>
-                    <small *ngIf="getNoValido('fabricacion')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="motor">Motor</label>
                     <span class=" p-input-icon-right">
-                        <input id="motor" type="text" pInputText formControlName="motor" [class.ng-invalid]="getNoValido('motor')" 
-                               [class.ng-dirty]="getNoValido('motor')">
+                        <input id="motor" type="text" pInputText formControlName="motor">
                     </span>
-                    <small *ngIf="getNoValido('motor')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
 
                 <div class="p-field p-col-12 p-md-4">

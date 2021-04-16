@@ -61,12 +61,8 @@
     </ng-template>
 
     <ng-template pTemplate="summary">
-        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length !== 1">
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length !== 0">
              <span> Existen {{facturas ? facturas.length : 0 }} facturas con un monto total de <strong class="verde">${{this.total}}</strong></span> 
-        </div>
-
-        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="facturas.length === 1">
-            No existen facturas pendientes.
         </div>
     </ng-template>
 </p-table>

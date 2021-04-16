@@ -143,10 +143,11 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     })
 
     const observer2$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
+      console.log(resp);
+      
       resp.forEach(cuenta => {
         cuenta.tipo = this.forma.get('tipo_doc').value
         cuenta.fecha = this.forma.get('fecha').value
-        // cuenta.documento = this.forma.get('documento').value;
         cuenta.tipo_doc = this.forma.get('tipo_doc').value.ref;
         this.detalleCuentas.push(cuenta);
         this.agregarFormularioDetallesCuentas(cuenta);
@@ -172,7 +173,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
     const observer5$ = this.transaccionsServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
-      console.log(resp);      
     })
 
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
@@ -259,6 +259,8 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   formularioDetallesCuentas(cuenta): FormGroup {
     return this.fb.group({
       cuenta_no:       [cuenta.cuenta_no],
+      cuenta_nivel1:   [cuenta.cuenta_nivel1],
+      cuenta_nivel2:   [cuenta.cuenta_nivel2],
       departamento:    [''],
       ref:             [''],
       // cuenta_banco:    [cuenta.documento],
@@ -282,7 +284,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   guardarTransaccion(){
-    this.formSubmitted = true;
+    // this.formSubmitted = true;
     if (this.forma.invalid) {  
       this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
