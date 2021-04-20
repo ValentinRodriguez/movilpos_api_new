@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 //COMPONENTES DEL PROYECTO
 import { DashboardDemoComponent } from './dashboarddemo.component';
 import { FormularioEmpresaComponent } from '../empresa/empresa/formulario-empresa/formulario-empresa.component';
+import { TestComponent } from './test/test.component';
 import { FormularioCgcatalogoComponent } from '../contabilidad-general/mantenimiento/catalogo-cuentas/formulario-cgcatalogo/formulario-cgcatalogo.component';
 
 @NgModule({
@@ -12,7 +13,7 @@ import { FormularioCgcatalogoComponent } from '../contabilidad-general/mantenimi
       {
        path: '',
        children: [
-        {path: 'dashboard', component: DashboardDemoComponent, children:[
+        {path: '', component: DashboardDemoComponent, children:[
           {path:'', redirectTo: 'empresa', pathMatch: 'full'},
           {path: 'empresa', component: FormularioEmpresaComponent},
           {path: 'catalogo', component: FormularioCgcatalogoComponent},

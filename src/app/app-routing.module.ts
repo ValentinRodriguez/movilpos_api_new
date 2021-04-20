@@ -1,12 +1,10 @@
 import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {AppMainComponent} from './app.main.component';
-import { DashboardDemoComponent } from './pages/home/dashboarddemo.component';
 
 // PAGINAS
 import { AppLoginComponent } from "./pages/login/app.login.component";
 import { AppAccessdeniedComponent } from "./pages/access-denied/app.accessdenied.component";
-import { AppHelpComponent } from "./pages/help/app.help.component";
 import { AppNotfoundComponent } from "./pages/notfound/app.notfound.component";
 import { AppErrorComponent } from "./pages/errores/app.error.component";
 
@@ -26,7 +24,7 @@ import { LoginGuard } from "./services/guards/login.guard";
                     // {path: 'pages/help', component: AppHelpComponent},
                     // {path: '', component: DashboardDemoComponent},
 
-                    {path: '', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
+                    {path: 'dashboard', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
 
                     //MENUES
                     {path: 'menues', loadChildren: () => import('./pages/menues/menues.module').then(m => m.MenuesModule) },
