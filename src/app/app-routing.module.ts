@@ -22,7 +22,7 @@ import { LoginGuard } from "./services/guards/login.guard";
                 canActivate: [LoginGuard],
                 children: [
                     // {path: 'pages/help', component: AppHelpComponent},
-                    // {path: '', component: DashboardDemoComponent},
+                    {path:'', redirectTo: 'dashboard', pathMatch: 'full'},
 
                     {path: 'dashboard', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
 

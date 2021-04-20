@@ -2,11 +2,13 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
 import { BodegasService } from 'src/app/services/bodegas.service';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { CodMovService } from 'src/app/services/cod-mov.service';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { DgiiService } from 'src/app/services/dgii.service';
 import { FacturasService } from 'src/app/services/facturas.service';
 import { InventarioService } from 'src/app/services/inventario.service';
@@ -66,7 +68,8 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   listSubscribers: any = [];
   noPermisos = false;
   rncExiste= 3;
-
+  items: MenuItem[] = [];
+  
   constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,   
@@ -83,6 +86,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
               private bodegasServ: BodegasService,
               public dialogService: DialogService,
               private dgiiServ: DgiiService,
+              private datosEstaticosServ: DatosEstaticosService,
               @Inject(DOCUMENT) private document: Document,
               private cd: ChangeDetectorRef) { 
     this.usuario = this.usuariosServ.getUserLogged();
@@ -241,20 +245,11 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   autollenado(data) {
-    let existe = null;
     data.forEach(element => {            
       if (element.data.length === 0) {
-        existe = true;
+        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
       }
-    });
-    if (existe === true) {
-       this.dialogService.open(StepTransaccionesComponent, {
-        data,
-        closeOnEscape: false,
-        header: 'Datos Necesarios Transacciones de Inventarios',
-        width: '70%'
-      });
-    }
+    })
   }
 
   guardarTransaccion() {  

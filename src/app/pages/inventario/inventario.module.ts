@@ -56,6 +56,8 @@ import { FormularioTransportistaComponent } from './mantenimiento/transportistas
 import { StepTransportistasComponent } from './mantenimiento/transportistas/step-transportistas/step-transportistas.component';
 import { TransportistasComponent } from './mantenimiento/transportistas/transportistas.component';
 import { ExistenciasAlmacenesComponent } from './mantenimiento/existencias-almacenes/existencias-almacenes.component';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -109,7 +111,9 @@ import { ExistenciasAlmacenesComponent } from './mantenimiento/existencias-almac
     InputTextModule,
     InputTextareaModule,
     PipesModule,
-    CheckboxModule
+    CheckboxModule,
+    ComponentsModule,
+    ProgressBarModule
   ],
   entryComponents: [
     BodegasPermisosComponent,

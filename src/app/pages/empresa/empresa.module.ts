@@ -33,6 +33,7 @@ import { FormularioTipoDocumentosComponent } from './tipo-documentos/formulario-
 import { TipoDocumentosComponent } from './tipo-documentos/tipo-documentos.component';
 import { FormularioTiponegocioComponent } from './tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
 import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
     InputTextModule,
     PipesModule,
     InputMaskModule,
-    InputTextareaModule
+    InputTextareaModule,
+    ProgressBarModule
   ],
   entryComponents: [
     FormularioEmpresaComponent

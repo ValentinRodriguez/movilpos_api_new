@@ -67,11 +67,13 @@ export class FormularioTiponegocioComponent implements OnInit {
     this.formSubmitted = true;
     if (this.negocioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de negocio ya existe');
+      this.formSubmitted = false;
       return;
     }
 
     if (this.negocioExiste === 0) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Verificando disponibilidad de nombre');
+      this.formSubmitted = false;
       return;
     }
 

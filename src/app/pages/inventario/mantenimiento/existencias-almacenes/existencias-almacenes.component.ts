@@ -60,10 +60,10 @@ export class ExistenciasAlmacenesComponent implements OnInit {
 
     this.cols = [
       { field: 'producto', header: 'Producto' },
-      { field: 'descripcion', header: 'descripcion'},
+      { field: 'descripcion', header: 'Descripcion'},
       { field: 'almacen', header: 'Bodega'},
-      { field: 'existencia', header: 'Existencia'},
-      { field: 'cantidad1', header: 'Cantidad'},
+      { field: 'cantidad1', header: 'Existencia'},
+      { field: 'cantidad_orden', header: 'Cantidad Orden'},
       { field: 'disponible', header: 'Disponible'},
       { field: 'reservado', header: 'Reservado'},
       { field: 'transito', header: 'Tránsito'},
@@ -210,7 +210,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   }
 
   headRows() {
-    return [ {producto:'Producto' ,descripcion:'Descripción', bodega:'Bodega', existencia:'Existencia', cantidad1: 'Cantidad', 
+    return [ {producto:'Producto' ,descripcion:'Descripción', bodega:'Bodega', cantidad1:'Existencia', cantidad_orden: 'Cantidad Orden', 
               disponible: 'Disponible', reservado: 'Reservado', transito: 'Tránsito'}]}  
  
   bodyRows(data) {

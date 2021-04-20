@@ -42,7 +42,8 @@ export class ExistenciaAlmacenesService {
     }
     return new Promise( resolve => {
       this.http.post(`${URL}/existencias-almacen`,data).subscribe((resp: any) => {  
-        console.log(resp);                          
+        console.log(resp);      
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
