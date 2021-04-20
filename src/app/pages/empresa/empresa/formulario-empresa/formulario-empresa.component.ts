@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DgiiService } from 'src/app/services/dgii.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { MonedasService } from 'src/app/services/monedas.service';
@@ -64,6 +65,7 @@ export class FormularioEmpresaComponent implements OnInit {
               private empresasServ: EmpresaService,
               private monedasServ: MonedasService,
               private usuariosServ: UsuarioService,
+              public router: Router,
               private paisesCiudadesServ: PaisesCiudadesService,
               private dgiiServ: DgiiService) { 
     this.usuario = this.usuariosServ.getUserLogged()
@@ -74,7 +76,7 @@ export class FormularioEmpresaComponent implements OnInit {
     this.listSubscribers.forEach(a => a.unsubscribe());
   }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {      
     this.todosLosPaises();
     this.listObserver();
 

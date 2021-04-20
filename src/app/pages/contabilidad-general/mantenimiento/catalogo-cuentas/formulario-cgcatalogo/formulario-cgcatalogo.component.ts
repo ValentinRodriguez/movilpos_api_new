@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -64,6 +65,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private catalogoServ: CgcatalogoService,
+              public router: Router,
               private zonasServ: ZonasService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
@@ -114,9 +116,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
     })
 
     const observer5$ = this.catalogoServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-       (resp);
-      
+      this.formSubmitted = resp;      
     })
 
     const observer2$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{

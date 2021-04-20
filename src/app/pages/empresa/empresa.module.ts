@@ -19,6 +19,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { EmpresaComponent } from './empresa/empresa.component';
@@ -59,7 +61,9 @@ import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
     ToolbarModule,
     DropdownModule,
     InputTextModule,
-    PipesModule
+    PipesModule,
+    InputMaskModule,
+    InputTextareaModule
   ],
   entryComponents: [
     FormularioEmpresaComponent

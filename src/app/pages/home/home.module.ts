@@ -13,18 +13,19 @@ import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { StepsModule } from 'primeng/steps';
 import {ToastModule} from 'primeng/toast';
+import {AccordionModule} from 'primeng/accordion';
 
+//RUTAS DEL COMPONENTE
 import { HomeRoutingModule } from "./home-routing.module";
 
 // COMPONENTES DEL MODULO HOME
 import { DashboardDemoComponent } from './dashboarddemo.component';
-import { StepHomeComponent } from './step-home/step-home.component';
 import { TestComponent } from './test/test.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
     DashboardDemoComponent,
-    StepHomeComponent,
     TestComponent
   ],
   imports: [
@@ -41,10 +42,10 @@ import { TestComponent } from './test/test.component';
     ButtonModule,
     ToolbarModule,
     StepsModule,
-    ToastModule
+    ToastModule,
+    AccordionModule,
+    ComponentsModule
   ],
-  entryComponents:[ 
-      StepHomeComponent
-  ]
+  entryComponents:[ ]
 })
 export class HomeModule { }

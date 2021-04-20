@@ -3,7 +3,8 @@ import { RouterModule } from '@angular/router';
 
 //COMPONENTES DEL PROYECTO
 import { DashboardDemoComponent } from './dashboarddemo.component';
-import { TestComponent } from './test/test.component';
+import { FormularioEmpresaComponent } from '../empresa/empresa/formulario-empresa/formulario-empresa.component';
+import { FormularioCgcatalogoComponent } from '../contabilidad-general/mantenimiento/catalogo-cuentas/formulario-cgcatalogo/formulario-cgcatalogo.component';
 
 @NgModule({
   imports: [
@@ -11,9 +12,10 @@ import { TestComponent } from './test/test.component';
       {
        path: '',
        children: [
-        {path: '', component: DashboardDemoComponent, children:[
-          {path:'', redirectTo: 'test', pathMatch: 'full'},
-          {path: 'test', component: TestComponent},
+        {path: 'dashboard', component: DashboardDemoComponent, children:[
+          {path:'', redirectTo: 'empresa', pathMatch: 'full'},
+          {path: 'empresa', component: FormularioEmpresaComponent},
+          {path: 'catalogo', component: FormularioCgcatalogoComponent},
         ]},
        ]
       }

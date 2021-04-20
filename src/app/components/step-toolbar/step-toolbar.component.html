@@ -1,0 +1,9 @@
+<p-toolbar>	
+    <div class="p-toolbar-group-left">
+        <button *ngIf="this.index !== 0" label="Anterior" (click)="prevPage(1)" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-left" iconPos="left" ></button>
+    </div>						
+    <div class="p-toolbar-group-right">
+        <button *ngIf="this.index !== this.items.length - 1" label="Siguiente" (click)="nextPage(1)" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-right" iconPos="right"></button>
+        <button *ngIf="this.index === this.items.length - 1" label="Finalizar" (click)="finalizar()" class="p-button-warning" pButton pRipple type="button" icon="pi pi-times" iconPos="right"></button>
+    </div>
+</p-toolbar>

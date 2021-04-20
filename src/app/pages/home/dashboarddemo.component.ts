@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { Product } from 'src/app/demo/domain/product';
 import { ProductService } from 'src/app/demo/service/productservice';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { HomeService } from 'src/app/services/home.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { StepHomeComponent } from './step-home/step-home.component';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -15,7 +14,7 @@ import { StepHomeComponent } from './step-home/step-home.component';
 export class DashboardDemoComponent implements OnInit {
 
     cols: any[];
-    items: MenuItem[];
+    items: MenuItem[] = [];
     ordersChart: any;
     ordersChartOptions: any;
     orderWeek: any;
@@ -24,39 +23,46 @@ export class DashboardDemoComponent implements OnInit {
     productsThisWeek: Product[];
     productsLastWeek: Product[];
     revenueChart: any;
-    ref: DynamicDialogRef;
 
     constructor(private homeService: HomeService,
                 public dialogService: DialogService,
-                private productService: ProductService) { }
+                private productService: ProductService,
+                private router: Router,
+                private datosEstaticosServ: DatosEstaticosService) { }
 
     ngOnInit() {        
-        // this.homeService.autoLlenado().then((resp: any) => {
-        //     this.autollenado(resp);
-        // })
-         this.items = [{
-                label: 'Personal',
-                routerLink: 'personal'
-            },
-            {
-                label: 'Seat',
-                routerLink: 'seat'
-            },
-            {
-                label: 'Payment',
-                routerLink: 'payment'
-            },
-            {
-                label: 'Confirmation',
-                routerLink: 'confirmation'
-            }
-        ];
+        console.log(this.router.url);
+        
+        this.homeService.autoLlenado().then((resp: any) => {
+            console.log(resp);            
+            for (let index = 0; index < resp.length; index++) {      
+                if (resp[index].data.length === 0) {     
+                  this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(resp[index].label), routerLink: resp[index].label})
+                }      
+            }   
+        })
+
+        //  this.items = [{
+        //         label: 'Personal',
+        //         routerLink: 'personal'
+        //     },
+        //     {
+        //         label: 'Seat',
+        //         routerLink: 'seat'
+        //     },
+        //     {
+        //         label: 'Payment',
+        //         routerLink: 'payment'
+        //     },
+        //     {
+        //         label: 'Confirmation',
+        //         routerLink: 'confirmation'
+        //     }
+        // ];
     }
 
     ngOnDestroy() {
-        if (this.ref) {
-            this.ref.close();
-        }
+
     }
 
     changeDataset(event) {
@@ -156,29 +162,6 @@ export class DashboardDemoComponent implements OnInit {
         }
         return this.products;
     }
-    todaLaData() {
-        this.homeService.autoLlenado().then((resp: any) =>{
-            this.autollenado(resp);   
-        })
-    }
+    
 
-    autollenado(data) {
-        let existe = null;
-        data.forEach(element => {            
-            if (element.data.length === 0) {
-            existe = true;
-            }
-        });
-        if (existe === true) {
-            this.ref = this.dialogService.open(StepHomeComponent, {
-                data,
-                closeOnEscape: false,
-                header: 'Datos Necesarios',
-                width: '70%'
-            });  
-            // ref.onClose.subscribe(() => {
-            //   location.reload();        
-            // });
-        }
-    }
 }

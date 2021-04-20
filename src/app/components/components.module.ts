@@ -34,6 +34,7 @@ import { PendientesEntradaComponent } from './pendientes-entrada/pendientes-entr
 import { ListadoEmpleadosComponent } from './listado-empleados/listado-empleados.component';
 import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pendientes.component';
 import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
+import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cu
     PendientesEntradaComponent,
     ListadoEmpleadosComponent,
     FacturasPendientesComponent,
-    ListadoCatalogoCuentasComponentsComponent
+    ListadoCatalogoCuentasComponentsComponent,
+    StepToolbarComponent
   ],
   
   exports: [
@@ -56,7 +58,8 @@ import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cu
     RightMenuPageComponent,
     ListaProductosComponent,
     ListadoDireccionesComponent,
-    PendientesEntradaComponent
+    PendientesEntradaComponent,
+    StepToolbarComponent
   ],
 
   imports: [
