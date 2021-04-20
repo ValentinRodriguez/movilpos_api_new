@@ -2,11 +2,10 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
 import { FacturasPendientesComponent } from 'src/app/components/facturas-pendientes/facturas-pendientes.component';
+import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { SecuenciasService } from 'src/app/services/secuencias.service';
 import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -435,7 +434,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+    const ref = this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

@@ -21,6 +21,6 @@ export class MenuComprasComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`compras/${ruta}`]);
   }
 }

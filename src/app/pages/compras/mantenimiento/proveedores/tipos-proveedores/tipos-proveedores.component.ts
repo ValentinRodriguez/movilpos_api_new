@@ -11,15 +11,14 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./tipos-proveedores.component.scss']
 })
 export class TiposProveedoresComponent implements OnInit {
-
-
+  
   usuario: any; 
   tipo: any[] = [];
   actualizando = false; 
   id_categoria: any;
   cols: any[];
   index: number = 0;
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,

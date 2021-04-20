@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { MenuItem } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { HomeService } from 'src/app/services/home.service';
 
 @Component({
   selector: 'app-step-home',
@@ -9,16 +12,41 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 export class StepHomeComponent implements OnInit {
 
   data: any[] = [];
+  items: MenuItem[] = [];
+  activeIndex = 0;
 
-  constructor(public config: DynamicDialogConfig) { }
+  constructor(public ref: DynamicDialogRef, 
+              public config: DynamicDialogConfig,
+              private homeServ: HomeService,
+              public datosEstaticosServ: DatosEstaticosService) { }
 
   ngOnInit(): void {
     let data = this.config.data;
-    for (const key in data) {
-      if (data[key].data.length === 0) {
-        this.data.push(data[key])        
-      }
+    console.log(data);
+    
+    for (let index = 0; index < data.length; index++) {      
+      if (data[index].data.length === 0) {     
+        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)})
+      }      
     }
+  }
+  
+  cambiaIndex(index) {
+    this.activeIndex = index;    
+  }
+
+  prevPage() {
+    this.cambiaIndex(this.activeIndex - 1)
+  }
+
+  nextPage() {
+    this.cambiaIndex(this.activeIndex + 1)
+  }
+
+  finalizar() {
+      
+    this.ref.close();  
+    this.homeServ.finalizando();
   }
 
 }

@@ -22,7 +22,7 @@ export class MenuPanelControlComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`panel-control/${ruta}`]);
   }
 
 }

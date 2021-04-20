@@ -39,7 +39,7 @@ export class StepComponent implements OnInit {
   }
 
   finalizar() {
-     ('cerrar dialogo');  
+      
     this.ref.close();  
     this.inventarioServ.finalizando();
   }

@@ -29,7 +29,8 @@ export class TransaccionesInventarioComponent implements OnInit {
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
-              private confirmationService: ConfirmationService) {  
+              private confirmationService: ConfirmationService,
+              @Inject(DOCUMENT) private document: Document) {  
                 this.usuario = this.usuariosServ.getUserLogged();
               }
 
@@ -79,12 +80,12 @@ export class TransaccionesInventarioComponent implements OnInit {
   }
   
   imprimirTransaccion(num_doc) { 
- 
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = `${URL}/reporte/invtransacciones-visualizar/${num_doc}/${this.usuario.id}`;
+    link.click();
+    link.remove();
   }  
-
-  actualizarTransaccion() {
-
-  }
   
   verTransaccion(transaccion) {
 

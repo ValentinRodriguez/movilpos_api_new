@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
+import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { StepComponent } from './step/step.component';
 
 @Component({
   selector: 'app-maestra-productos',

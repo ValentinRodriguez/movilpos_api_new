@@ -21,7 +21,7 @@ export class MenuCuentasPagarComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`cuentas-pagar/${ruta}`]);
   }
 
 }

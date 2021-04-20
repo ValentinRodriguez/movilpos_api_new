@@ -32,13 +32,9 @@
 								<td *ngFor="let col of columns">
 									<span class="p-column-title">{{col.header}}</span>								
                                     
-                                    <span *ngIf="col.field === 'tipo_cliente'">
+                                    <span>
                                         {{rowData[col.field]}}
-                                    </span>
-
-									<span *ngIf="col.field === 'descripcion'">
-										{{rowData[col.field] | titlecase}}
-									</span>							
+                                    </span>					
 							
 									<span *ngIf="col.field === 'acciones'">										
 										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actTipoCliente(rowData.id)" pTooltip="Eliminar"></button>

@@ -31,7 +31,7 @@ export class AppMenuComponent implements OnInit {
                                             items: [{
                                                 label: element.label,
                                                 icon: element.icon,
-                                                routerLink: element.routerLink
+                                                routerLink: 'menues/'+element.routerLink
                                             }] 
                                         })
                         });     

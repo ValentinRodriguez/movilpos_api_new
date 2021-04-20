@@ -142,7 +142,7 @@ export class InventarioService {
       switch (key) {
 
         case 'fabricacion':
-          formData.append(key, invProducto[key].value);
+          formData.append(key, invProducto[key].value || '');
           break;
 
         case 'id_bodega':
@@ -181,6 +181,7 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => { 
+        console.log(resp);        
         this.formSubmitted.emit(false);  
         if (resp['code'] === 200)  {
           this.productoGuardado.emit(resp.data);                            

@@ -21,7 +21,7 @@ export class MenuInventarioComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`inventario/${ruta}`]);
   }
 
 }

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
 @Component({
-  selector: 'app-catalogo-cuentas',
-  templateUrl: './catalogo-cuentas.component.html',
-  styleUrls: ['./catalogo-cuentas.component.scss']
+  selector: 'app-listado-catalogo-cuentas-components',
+  templateUrl: './listado-catalogo-cuentas-components.component.html',
+  styleUrls: ['./listado-catalogo-cuentas-components.component.scss']
 })
-export class CatalogoCuentasComponent implements OnInit {
+export class ListadoCatalogoCuentasComponentsComponent implements OnInit {
+
   cuentas_no = [];
   cuentasSeleccionadas = [];
   

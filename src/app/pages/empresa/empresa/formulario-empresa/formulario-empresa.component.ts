@@ -148,30 +148,20 @@ export class FormularioEmpresaComponent implements OnInit {
         control.markAllAsTouched();
       })      
     }else{ 
-      switch (this.nombreExiste) {
-        case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');          
-          break;
+      if (this.nombreExiste === 1) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre.');  
+        return;
+      }
 
-        case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre.');          
-          break;
-      } 
+      if (this.rncExiste === 1) {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');  
+        return;
+      }
 
-      switch (this.rncExiste) {
-        case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre.');          
-          break;
-
-        case 1:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');          
-          break;
-      } 
       this.empresasServ.crearEmpresa(this.forma.value).then(()=>{        
         this.resetFormulario();
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta');               
-      })
-       
+      })       
     } 
   }
 

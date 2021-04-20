@@ -143,7 +143,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       titulo:               ['testfgfgfgfg', Validators.required],
       chasis:               ['5TDZK3EH9AS004144'],
       motor:                [''],
-      fabricacion:          ['', Validators.required],
+      fabricacion:          [''],
       asientos:             ['1', Validators.required],
       asientosAd:           [''],
       id_propiedad:         [''],
@@ -171,7 +171,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   guardarProducto() {
-    this.formSubmitted = true;
+    this.formSubmitted = true;    
     if (this.forma.invalid) {  
       this.formSubmitted = false;     
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
@@ -293,8 +293,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
     const id_bodega = this.forma.get('id_bodega');
     // const galeriaImagenes = this.forma.get('galeriaImagenes');
     const chasis = this.forma.get('chasis');
-    const motor = this.forma.get('motor');
-    const fabricacion = this.forma.get('fabricacion');
     const asientos = this.forma.get('asientos');
     const id_propiedad = this.forma.get('id_propiedad');
     const controlDeExistencias = this.forma.get('controlDeExistencias');
@@ -311,9 +309,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       existenciaMinima.clearValidators();
       id_bodega.clearValidators();   
       // galeriaImagenes.clearValidators();   
-      chasis.clearValidators();  
-      motor.clearValidators();  
-      fabricacion.clearValidators();  
+      chasis.clearValidators();      
       asientos.clearValidators();  
       id_propiedad.clearValidators();  
       controlDeExistencias.clearValidators();  

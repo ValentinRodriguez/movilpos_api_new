@@ -42,7 +42,6 @@ export class StepclientesComponent implements OnInit {
   }
 
   finalizar() {
-    console.log('cerrar dialogo');  
     this.ref.close();  
     this.clientesServ.finalizando();
   }

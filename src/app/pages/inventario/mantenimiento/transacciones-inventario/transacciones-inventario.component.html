@@ -36,13 +36,9 @@
 										{{rowData[col.field] }}
 									</span>
 
-									<span *ngIf="col.field === 'titulo_mov'">										
+									<span *ngIf="col.field === 'titulo_mov' || col.field === 'comentario'">										
 										{{rowData[col.field] | titlecase}}
-									</span>
-									
-									<span *ngIf="col.field === 'comentario'">
-										{{rowData[col.field]}}
-									</span>
+									</span>									
 
 									<span *ngIf="col.field === 'fecha'">
 										{{rowData[col.field]}}
@@ -82,14 +78,14 @@
 											<ng-template pTemplate="body" let-detalle>
 												<tr>
 													<td class="centrar">
-														<img [alt]="detalle.galeriaImagenes" [src]="detalle.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/>
-														<div>{{detalle.titulo}}</div>
+														<img [alt]="detalle.galeriaImagenes" [src]="detalle.galeriaImagenes | invProductos " width="64" style="vertical-align: middle"/>
+														<div>{{detalle.titulo | titlecase}}</div>
 													</td>
 													<td class="centrar">{{detalle.codigo}}</td>
-													<td class="centrar">{{detalle.categoria}}</td>
+													<td class="centrar">{{detalle.categoria | titlecase}}</td>
 													<td class="centrar">${{detalle.precio_venta}}</td>
 													<td class="centrar">{{detalle.cantidad}}</td>
-													<td class="centrar">{{detalle.almacen}}</td>
+													<td class="centrar">{{detalle.almacen | titlecase}}</td>
 												</tr>
 											</ng-template>
 										</p-table>

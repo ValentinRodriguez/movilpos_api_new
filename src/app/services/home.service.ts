@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -8,6 +8,8 @@ const URL = environment.url;
 })
 export class HomeService {
 
+  finalizar = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   autoLlenado() {
@@ -18,5 +20,10 @@ export class HomeService {
         }
       })
     })
+  }
+
+  
+  finalizando() {
+    this.finalizar.emit(1);
   }
 }

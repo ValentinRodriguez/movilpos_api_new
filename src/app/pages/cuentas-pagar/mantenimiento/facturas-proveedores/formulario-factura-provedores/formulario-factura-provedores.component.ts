@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
+import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
 import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
@@ -634,7 +634,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   buscaCuentas() {
-     this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

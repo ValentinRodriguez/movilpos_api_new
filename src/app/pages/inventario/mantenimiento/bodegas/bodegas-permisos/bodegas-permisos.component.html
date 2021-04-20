@@ -1,14 +1,14 @@
 <p-pickList [source]="this.usuarios" [target]="this.usuariosPermisos" sourceHeader="Disponibles" targetHeader="Seleccionados" dragdrop="true"
-    [responsive]="true" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" filterBy="name"
-    sourceFilterPlaceholder="Buscar por nombre" targetFilterPlaceholder="Buscar por nombre">
+            [responsive]="true" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" filterBy="name"
+            sourceFilterPlaceholder="Buscar por nombre" targetFilterPlaceholder="Buscar por nombre">
     <ng-template let-usuario pTemplate="item">
         <div class="product-item">
             <div class="image-container">
-                    <img src="assets/demo/images/avatar/amyelsner.png" [alt]="usuario.name"  />
+                <img [src]="usuario.foto | usuario" [alt]="usuario.name" width="64" height="64" class="media-object rounded" />
             </div>
             <div class="product-list-detail">
                 <h5 class="p-mb-2">{{ usuario.name | titlecase }} {{ usuario.surname | titlecase }}</h5>
-                <i class="pi pi-user product-category-icon"></i>
+                <i class="pi pi-user product-category-icon" style="margin-right: 5px;"></i>
                 <span class="product-category">{{ usuario.puesto }}</span>
             </div>
             <div class="product-list-action">
@@ -18,6 +18,8 @@
         </div>
     </ng-template>
 </p-pickList>
+<br>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
 <br>
 <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="right">

@@ -1,4 +1,5 @@
 import { DOCUMENT } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -6,6 +7,7 @@ import { ListaProductosComponent } from 'src/app/components/lista-productos/list
 import { BodegasService } from 'src/app/services/bodegas.service';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { CodMovService } from 'src/app/services/cod-mov.service';
+import { DgiiService } from 'src/app/services/dgii.service';
 import { FacturasService } from 'src/app/services/facturas.service';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { OrdenPedidosService } from 'src/app/services/orden-pedidos.service';
@@ -15,7 +17,10 @@ import { TransaccionesService } from 'src/app/services/transacciones.service';
 import { TransportistasService } from 'src/app/services/transportistas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { environment } from 'src/environments/environment';
 import { StepTransaccionesComponent } from '../step-transacciones/step-transacciones.component';
+
+const URL = environment.url;
 
 @Component({
   selector: 'app-formulario-inv-transacciones',
@@ -57,8 +62,10 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   minDate: Date;
   cols2: any[] = [];
   vendedorFiltrado: any[];
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
+  noPermisos = false;
+  rncExiste= 3;
 
   constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
@@ -75,7 +82,9 @@ export class FormularioInvTransaccionesComponent implements OnInit {
               private codMovServ: CodMovService,              
               private bodegasServ: BodegasService,
               public dialogService: DialogService,
-              @Inject(DOCUMENT) private document: Document) { 
+              private dgiiServ: DgiiService,
+              @Inject(DOCUMENT) private document: Document,
+              private cd: ChangeDetectorRef) { 
     this.usuario = this.usuariosServ.getUserLogged();
   }
 
@@ -107,7 +116,15 @@ export class FormularioInvTransaccionesComponent implements OnInit {
     const observer7$ = this.transportistasServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
     })
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$];
+
+    const observer8$ = this.invProductosServ.productoEscogido.subscribe((resp: any) => {
+      this.productos = resp;
+      this.productos.forEach(element => {
+        this.agregarFormulario(element);
+      });
+    })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$,observer8$];
   };
 
   ngOnDestroy(): void {
@@ -131,22 +148,12 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       { field: 'solicitado', header: 'Cantidad'},
       { field: 'solicitado_esp', header: 'Cantidad_ESP'},
     ]    
-   
-
-
-    this.invProductosServ.productoEscogido.subscribe((resp: any) => {
-      this.productos = resp;
-      this.productos.forEach(element => {
-        this.agregarFormulario(element);
-      });
-    })
-
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
       id_tipomov:        [''],
-      conduce_no:        ['234234'],
+      conduce_no:        [''],
       id_bodega:         ['', Validators.required],
       id_bodega_d:       [''],
       orden_pedido:      [''],
@@ -168,13 +175,17 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       cod_tarifa:        ['', Validators.required],
       placa:             ['', Validators.required],
       num_doc_entrada:   [''],
-      comentario:        ['kjkljlkjlkj'],
+      comentario:        [''],
       estado:            ['activo'],      
       condicion_recibo:  ['si'],
       cuenta_no:         [''],
       productos:         this.fb.array([]),
       usuario_creador:   [this.usuario.username]
     })
+  }
+
+  get _productos() {   
+    return this.forma.get('productos') as FormArray;
   }
 
   autoLlenado() {
@@ -216,6 +227,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       this.autollenado(resp);  
     })
   }
+
   todosLosMov() {
     this.codMovServ.getDatos().then((resp: any) => {  
       this.movimientos = resp.codigosmov;
@@ -224,8 +236,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
 
   todasLasBodegasConPermisos() {
     this.bodegasServ.bodegasConpermisos(this.usuariosServ.getUserLogged().email).then((resp: any)=>{
-      this.bodegasPermisos = resp;   
-       
+      this.bodegasPermisos = resp; 
     })
   }
 
@@ -247,63 +258,88 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   guardarTransaccion() {  
-     
-    if (this.movimientos !== null) {
-      if (this.ordenPedidoExiste === 2 || this.facturaExiste === 2) {
-        this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La orden de pedido ó factura no existe'); 
-        return;
-      }
-
-      if (this.productos.length === 0) {
-        this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','No hay productos agregados en esta transaccion');
-        return;
-      } 
-
-      if (this.movimientos[0].control_clientes === "si") {
-        this.controlClientes();     
-      } 
-  
-      if (this.movimientos[0].control_despachos === "si") {       
-        this.controlDespacho();
-        if (this.cantidadExcede) {
-          this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La cantidad especificada es mayor a la de la orden/factura');
+    // this.formSubmitted = true;    
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })      
+    }else{ 
+      if (this.movimientos !== null) {  
+        if (this.ordenPedidoExiste === 2 || this.facturaExiste === 2) {
+          this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La orden de pedido ó factura no existe'); 
+          return;
         }
-      } 
-      
-      if (this.movimientos[0].control_devoluciones === "si") {       
-        this.controlDevoluciones();
-      } 
   
-      if (this.movimientos[0].control_transferencia === "si") {       
-        this.controlTransferencia();
-      } 
+        if (this.rncExiste === 1) {
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');          
+          return; 
+        }
   
-      if (this.movimientos[0].control_departamento === "si") {       
-        this.controlDepartamento();
-      }    
-
-      if (this.movimientos[0].control_orden_compra === "si") {       
-        this.controlOrdenCompra();
-      }         
-      
-      this.transaccionesServ.crearTransaccion(this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Registro creado de manera correcta');
-             
-        this.imprimirTransaccion(resp.num_doc);
-      })
-    } else {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe escoger un tipo de movimiento');
-    }
+        if (this.productos.length === 0) {
+          this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','No hay productos agregados en esta transaccion');
+          return;
+        } 
+  
+        if (this.movimientos[0].control_clientes === "si") {
+          this.controlClientes();     
+        } 
+    
+        if (this.movimientos[0].control_despachos === "si") {       
+          this.controlDespacho();
+          if (this.cantidadExcede) {
+            this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','La cantidad especificada es mayor a la de la orden/factura');
+          }
+        } 
+        
+        if (this.movimientos[0].control_devoluciones === "si") {       
+          this.controlDevoluciones();
+        } 
+    
+        if (this.movimientos[0].control_transferencia === "si") {       
+          this.controlTransferencia();
+        } 
+    
+        if (this.movimientos[0].control_departamento === "si") {       
+          this.controlDepartamento();
+        }    
+  
+        if (this.movimientos[0].control_orden_compra === "si") {       
+          this.controlOrdenCompra();
+        }         
+        
+        this.transaccionesServ.crearTransaccion(this.forma.value).then((resp: any) => {
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Registro creado de manera correcta');  
+          this.resetFormulario();
+          console.log(this.forma);        
+          this.imprimirTransaccion(resp.num_doc);
+        })
+      } else {
+        this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe escoger un tipo de movimiento');
+      }
+    } 
   }
 
-  verificaFechaOrden(fecha) {
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('condicion_recibo').setValue('si');
+
+    let i = 0;
+    while (0 !== this._productos.length) {
+      this._productos.removeAt(0);
+      i++
+    }
+    this.productos = [];
+    this.cd.detectChanges();
   }
 
   agregarFormulario(producto) {
     let cantidad1 = 1;
     let cantidad =1;
     let margen = 1;
-    (<FormArray>this.forma.get('productos')).push(this.agregarFormularioTransacciones(producto,cantidad1,cantidad,margen));    
+    this._productos.push(this.agregarFormularioTransacciones(producto,cantidad1,cantidad,margen));    
   }
   
   agregarFormularioTransacciones(producto,cantidad1,cantidad,margen): FormGroup {
@@ -318,6 +354,8 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   verMovimiento(mov) {    
+    console.log(mov);
+    
     this.productos = [];
     this.cfactura = false;
     this.cCliente = false;
@@ -382,6 +420,9 @@ export class FormularioInvTransaccionesComponent implements OnInit {
         case 'control_transferencia':
           if (mov.value.origen === 'credito') {
             this.forma.controls['condicion_recibo'].setValue('no')
+          }
+          if (this.bodegasPermisos.length === 0) {
+            this.noPermisos = true;
           }
           this.forma.controls['orden_pedido'].enable();
           this.forma.controls['id_bodega_d'].enable();
@@ -620,6 +661,22 @@ export class FormularioInvTransaccionesComponent implements OnInit {
     }
   }
 
+  verificaRNC(data){  
+    if (data === "") {
+      this.rncExiste = 3;
+      return;
+    }
+    this.rncExiste = 0;
+    this.dgiiServ.busquedaRNC(data).then((resp: any)=>{
+      if(resp.length === 0) {
+        this.rncExiste = 1;
+      }else{
+        this.rncExiste = 2;
+        // this.forma.get('nombre').setValue(resp[0].nombre_empresa);
+        // this.forma.get('telefono_empresa').setValue(resp[0].telefono);
+      }
+    })
+  }
 
   filtrarDepto(event) {
     const filtered: any[] = [];
@@ -665,12 +722,22 @@ export class FormularioInvTransaccionesComponent implements OnInit {
      
   }
 
+  concederPermisos() {
+    this.noPermisos = false;
+    // this.dialogService.open(BodegasPermisosComponent, {
+    //   data: {
+    //     bodega: id
+    //   },
+    //   header: 'Gestión de permisos a bodegas',
+    //   width: '50%'
+    // });
+  }
+
   filtrarCliente(event) {
     const filtered: any[] = [];
     const query = event.query;
     for (let i = 0; i < this.clientes.length; i++) {
-      const size = this.clientes[i];
-      
+      const size = this.clientes[i];      
       if (size.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
           filtered.push(size);
       }

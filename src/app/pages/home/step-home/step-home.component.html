@@ -1,13 +1,23 @@
 <div class="card">
-    <p-tabView styleClass="tabview-custom">
-        <p-tabPanel *ngFor="let item of data">
-            <ng-template pTemplate = "header">
-                <i [attr.class]="item.icono" style="padding-right: 5px;"></i>
-                <span>{{item.label | titlecase}}</span>
-            </ng-template>       
-            <app-formulario-cgcatalogo *ngIf="item.label === 'catalogo'"></app-formulario-cgcatalogo>
-            <app-formulario-empresa *ngIf="item.label === 'empresa'"></app-formulario-empresa>
-            <app-formulario-condiciones *ngIf="item.label === 'condiciones'"></app-formulario-condiciones>
-        </p-tabPanel>
-    </p-tabView>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" (activeIndexChange)="cambiaIndex($event)"></p-steps>
 </div>
+
+<!-- <div class="card">
+    <ng-template pTemplate = "title">
+        <span>{{item.label | titlecase}}</span>
+    </ng-template>          
+ 
+    <div *ngFor="let item of items">
+        <app-formulario-empresa *ngIf="item.label === 'Empresa' && this.activeIndex === 0"></app-formulario-empresa>
+        <app-formulario-cgcatalogo *ngIf="item.label === 'Catalogo' && this.activeIndex === 1"></app-formulario-cgcatalogo>        
+    </div>
+</div> -->
+<p-toolbar>	
+    <div class="p-toolbar-group-left">
+        <button label="Anterior" (click)="prevPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-left" iconPos="left" *ngIf="this.activeIndex !== 0"></button>
+    </div>						
+    <div class="p-toolbar-group-right">
+        <button label="Siguiente" (click)="nextPage()" class="p-button-secondary" pButton pRipple type="button" icon="pi pi-angle-right" iconPos="right" *ngIf="this.activeIndex !== this.items.length - 1"></button>
+        <button label="Finalizar" (click)="finalizar()" class="p-button-warning" pButton pRipple type="button" icon="pi pi-times" iconPos="right" *ngIf="this.activeIndex === this.items.length - 1"></button>
+    </div>
+</p-toolbar>

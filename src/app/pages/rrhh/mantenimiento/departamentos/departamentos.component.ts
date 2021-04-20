@@ -11,14 +11,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./departamentos.component.scss']
 })
 export class DepartamentosComponent implements OnInit {
-
-
-  usuario: any;
- 
+  
+  usuario: any; 
   departamentos: any[] = [];
-
-  actualizando = false;
- 
+  actualizando = false; 
   actualizar = false;
   id_categoria: any;
   cols: any[];

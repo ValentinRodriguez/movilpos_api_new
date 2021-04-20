@@ -30,10 +30,12 @@ export class FormularioUsuariosComponent implements OnInit {
   actualizar = false;
   formSubmitted = false;
   id: number;
+  listSubscribers: any = [];
   estado = [
     {label: 'Activo', value: 'activo'},
     {label: 'Inactivo', value: 'inactivo'},
   ];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -43,10 +45,20 @@ export class FormularioUsuariosComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
+    this.listObserver();
     
-    this.usuariosServ.actualizar.subscribe((resp: any) =>{
+    this.puestosServ.getDatos().then((resp: any) => {
+      this.puestos = resp;      
+    })
+  }
+
+  listObserver = () => {
+    const observer1$ = this.usuariosServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
@@ -63,18 +75,21 @@ export class FormularioUsuariosComponent implements OnInit {
       })
     })
 
-    this.puestosServ.getDatos().then((resp: any) => {
-      this.puestos = resp;      
+    const observer2$ = this.empleadosServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
     })
 
-    this.empleadosServ.empleadoEscogido.subscribe(resp =>{
+    const observer3$ = this.empleadosServ.empleadoEscogido.subscribe(resp =>{
       this.forma.get('name').setValue((resp.primernombre));
       this.forma.get('surname').setValue(resp.primerapellido);
       this.forma.get('email').setValue(resp.email);
       this.forma.get('id_numemp').setValue(resp.id_numemp);
     })
-  }
 
+    this.listSubscribers = [observer1$,observer2$,observer3$];
+   };
+
+   
   crearFormulario() {
     this.forma = this.fb.group({
       name:                  ['', Validators.required],
@@ -96,23 +111,26 @@ export class FormularioUsuariosComponent implements OnInit {
     this.formSubmitted = true;
     if (this.usuarioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este usuario ya esta registrado');
+      this.formSubmitted = false;
       return;
     }
 
     if (this.emailExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este email ya esta registrado');
+      this.formSubmitted = false;
       return;
     }
 
     if (this.forma.valid) {      
       if (this.imgURLUser === null) {
         this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe escoger una imagen');
+        this.formSubmitted = false;
         return;
       } else {
-        this.usuariosServ.register(this.forma.value).then((resp: any) => {  
+        this.usuariosServ.register(this.forma.value).then(() => {  
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
-          this.forma.reset();
-          this.forma.get('usuario_creador').setValue(this.usuario.username);
+          this.resetFormulario();
+          this.formSubmitted = false;
         })  
       }
     }else{
@@ -145,14 +163,9 @@ export class FormularioUsuariosComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.imgUser = null;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
-
+    this.resetFormulario();
     const password = this.forma.get('password');
     const password_confirmation = this.forma.get('password_confirmation');
-
     password.setValidators(Validators.required) 
     password_confirmation.setValidators(Validators.required) 
     password.updateValueAndValidity
@@ -160,6 +173,13 @@ export class FormularioUsuariosComponent implements OnInit {
     this.usuariosServ.guardando();    
   }
 
+  resetFormulario() {
+    this.imgUser = null;
+    this.imgURLUser = null;
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
   verificaUsuario(data){  
     if (data === "") {
       this.usuarioExiste = 3;

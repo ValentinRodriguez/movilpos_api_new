@@ -6,7 +6,7 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { groupBy, sumBy } from 'lodash-es';
+import { groupBy } from 'lodash-es';
 
 @Component({
   selector: 'app-mayor-general',
