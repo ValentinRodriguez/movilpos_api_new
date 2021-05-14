@@ -26,6 +26,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { BlockUIModule } from 'primeng/blockui';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
+import { AccordionModule } from 'primeng/accordion';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 // RUTAS DEL MODULO
 import { ComprasRoutingModule } from "./compras-routing.module";
@@ -70,6 +72,7 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
     CommonModule,
     FormsModule,
     RouterModule,
+    AccordionModule,
     ComprasRoutingModule,
     ReactiveFormsModule,
     DropdownModule,
@@ -90,7 +93,8 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
     BlockUIModule,
     PipesModule,
     InputTextareaModule,
-    InputMaskModule
+    InputMaskModule,
+    ComponentsModule
   ],
   entryComponents:[
     StepProveedoresComponent,

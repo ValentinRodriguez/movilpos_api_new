@@ -7,6 +7,7 @@ import { FormularioClientesComponent } from '../ventas/mantenimiento/clientes/fo
 import { BodegasComponent } from './mantenimiento/bodegas/bodegas.component';
 import { CategoriasComponent } from './mantenimiento/categorias/categorias.component';
 import { ExistenciasAlmacenesComponent } from './mantenimiento/existencias-almacenes/existencias-almacenes.component';
+import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/liquidacion-mercancias.component';
 import { FormularioMaestraProductosComponent } from './mantenimiento/maestra-productos/formulario-maestra-productos/formulario-maestra-productos.component';
 import { MaestraProductosComponent } from './mantenimiento/maestra-productos/maestra-productos.component';
 import { MarcasComponent } from './mantenimiento/marcas/marcas.component';
@@ -25,7 +26,6 @@ import { TransportistasComponent } from './mantenimiento/transportistas/transpor
        path: '',
        children: [
         {path: '', component: TransaccionesInventarioComponent, children:[
-          {path:'', redirectTo: 'clientes', pathMatch: 'full'},
           {path: 'clientes', component: FormularioClientesComponent},
           {path: 'transportistas', component: FormularioTransportistaComponent},
           {path: 'proveedores', component: FormularioProveedoresComponent},
@@ -41,7 +41,8 @@ import { TransportistasComponent } from './mantenimiento/transportistas/transpor
         {path: 'gestion-transacciones-inventario', component: TransaccionesInventarioComponent},
         {path: 'gestion-de-transportistas', component: TransportistasComponent},
         {path: 'gestion-de-propiedades', component: PropiedadesComponent},
-        {path: 'existencias-almacenes', component: ExistenciasAlmacenesComponent}
+        {path: 'gestion-existencias-almacenes', component: ExistenciasAlmacenesComponent},
+        {path: 'gestion-liquidacion-mercancias', component: LiquidacionMercanciasComponent},
        ]
       }
     ])

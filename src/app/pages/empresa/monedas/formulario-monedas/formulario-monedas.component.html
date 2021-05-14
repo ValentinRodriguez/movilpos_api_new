@@ -1,38 +1,38 @@
 <form (ngSubmit)="guardarMoneda()" [formGroup]="forma">
-        <div class="p-fluid p-formgrid p-grid">
-            <div class="p-field p-col-12 p-md-3">
-                <label for="divisa">Divisa</label>
-                <span class=" p-input-icon-right">
-                    <input id="divisa" type="text" pInputText formControlName="divisa" 
-                           [class.ng-invalid]="getNoValido('divisa')" [class.ng-dirty]="getNoValido('divisa')" 
-                           (keyup)="verificaMoneda($event.target.value)">
-                    <i class="pi pi-spin pi-spinner" *ngIf="monedaExiste === 0" style="color:#f5df18"></i>
-                    <i class="pi pi-check" *ngIf="monedaExiste === 1" style="color:#36b61d"></i>
-                    <i class="pi pi-times" *ngIf="monedaExiste === 2" style="color:#d83131"></i>
-                    <i class="pi pi-file-o" *ngIf="monedaExiste === 3"></i>
-                    <small *ngIf="getNoValido('divisa')" class="p-invalid">Este campo es obligatorio.</small>
-                </span>
-            </div>
-
-            <div class="p-field p-col-12 p-md-3">
-                <label for="descripcion">Descripción</label>
-                <span class=" p-input-icon-right">
-                    <input id="descripcion" type="text" pInputText formControlName="descripcion" 
-                           [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')">
-                    <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
-                </span>
-            </div>
-    
-            <div class="p-field p-col-12 p-md-3">
-                <label for="simbolo">Símbolo</label>
-                <input id="simbolo" type="text" pInputText formControlName="simbolo" 
-                       [class.ng-invalid]="getNoValido('simbolo')" [class.ng-dirty]="getNoValido('simbolo')">
-                <small *ngIf="getNoValido('simbolo')" class="p-invalid">Este campo es obligatorio.</small>
-            </div>
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="divisa">Divisa</label>
+            <span class=" p-input-icon-right">
+                <input id="divisa" type="text" pInputText formControlName="divisa" 
+                        [class.ng-invalid]="getNoValido('divisa')" [class.ng-dirty]="getNoValido('divisa')" 
+                        (keyup)="verificaMoneda($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="monedaExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="monedaExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="monedaExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="monedaExiste === 3"></i>
+                <small *ngIf="getNoValido('divisa')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
         </div>
-        <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
-        <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarMoneda()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
-        <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="descripcion">Descripción</label>
+            <span class=" p-input-icon-right">
+                <input id="descripcion" type="text" pInputText formControlName="descripcion" 
+                        [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')">
+                <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="simbolo">Símbolo</label>
+            <input id="simbolo" type="text" pInputText formControlName="simbolo" 
+                    [class.ng-invalid]="getNoValido('simbolo')" [class.ng-dirty]="getNoValido('simbolo')">
+            <small *ngIf="getNoValido('simbolo')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+    </div>
+    <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarMoneda()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
 </form>
 <br>
 <p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>

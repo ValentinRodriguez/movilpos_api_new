@@ -69,11 +69,11 @@
 
     <ng-template pTemplate="summary">
         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="pendientes.length !== 1">
-            Existen {{pendientes ? pendientes.length : 0 }} pendientes en total.
+            Existen {{pendientes ? pendientes.length : 0 }} entradas pendientes en total.
         </div>
 
         <div class="p-d-flex p-ai-center p-jc-between" *ngIf="pendientes.length === 1">
-            Existe solo {{pendientes ? pendientes.length : 0 }} bodega en total.
+            Existe solo {{pendientes ? pendientes.length : 0 }} entrada pendiente en total.
         </div>
     </ng-template>
 </p-table>

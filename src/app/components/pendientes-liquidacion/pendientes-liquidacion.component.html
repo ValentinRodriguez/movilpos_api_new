@@ -1,0 +1,77 @@
+<p-table #dt [columns]="cols" [value]="pendientes" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+        [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [(selection)]="pendientesSeleccionados" closeOnEscape="true"
+        [globalFilterFields]="['pais','ciudad','direccion_a','direccion_b','nombre','telefono']">
+
+    <ng-template pTemplate="caption">
+        <div class="table-header">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}									
+                <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'id')"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr class="p-selectable-row">
+
+            <td *ngFor="let col of columns">
+                <span class="p-column-title">{{col.header}}</span>	
+
+                <span *ngIf="col.field === 'id'">
+                    <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+                </span>
+
+                <span *ngIf="col.field == 'fecha'">
+                    {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field == 'tipo_doc'">
+                    {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field == 'id_num_oc'">
+                    {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field == 'num_doc'">
+                    {{ rowData[col.field] }}
+                </span>
+
+                <span *ngIf="col.field == 'proveedores_nom_sp'">
+                    {{ rowData[col.field] | titlecase }}
+                </span>
+            </td>								
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No existen liquidaciones pendientes en la base de datos.</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="pendientes.length !== 1">
+            Existen {{pendientes ? pendientes.length : 0 }} liquidaciones pendientes en total.
+        </div>
+
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="pendientes.length === 1">
+            Existe solo {{pendientes ? pendientes.length : 0 }} liquidación pendiente en total.
+        </div>
+    </ng-template>
+</p-table>   
+<br>   
+<!-- <p-progressBar mode="indeterminate" *ngIf="this.pendientes.length === 0"></p-progressBar>              
+<br> -->
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="right">
+        <button pButton pRipple label="Enviar" class="p-button-success p-mr-2" (click)="enviarPendiente()"></button>          
+    </ng-template>
+</p-toolbar>

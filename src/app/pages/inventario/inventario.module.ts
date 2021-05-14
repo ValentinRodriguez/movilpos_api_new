@@ -29,6 +29,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
+import {SelectButtonModule} from 'primeng/selectbutton';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { BodegasComponent } from './mantenimiento/bodegas/bodegas.component';
@@ -58,6 +59,8 @@ import { TransportistasComponent } from './mantenimiento/transportistas/transpor
 import { ExistenciasAlmacenesComponent } from './mantenimiento/existencias-almacenes/existencias-almacenes.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/liquidacion-mercancias.component';
+import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/formulario-liquidacion-mercancias/formulario-liquidacion-mercancias.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,9 @@ import { ProgressBarModule } from 'primeng/progressbar';
     StepTransportistasComponent,
     FormularioInvTransaccionesComponent,
     FormularioTransportistaComponent,
-    ExistenciasAlmacenesComponent
+    ExistenciasAlmacenesComponent,
+    LiquidacionMercanciasComponent,
+    FormularioLiquidacionMercanciasComponent
   ],
   imports: [
     CommonModule,
@@ -105,6 +110,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
     AutoCompleteModule,
     PanelModule,
     InputMaskModule,
+    SelectButtonModule,
     DialogModule,
     InputNumberModule,
     CalendarModule,

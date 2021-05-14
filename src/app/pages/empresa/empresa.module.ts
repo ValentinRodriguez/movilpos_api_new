@@ -67,6 +67,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
     InputTextareaModule,
     ProgressBarModule
   ],
+  exports:[
+    FormularioTiponegocioComponent,
+    FormularioTipoClientesComponent
+  ],
   entryComponents: [
     FormularioEmpresaComponent
   ]

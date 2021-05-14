@@ -22,6 +22,7 @@ import { InputSwitchModule} from 'primeng/inputswitch';
 import { SelectButtonModule} from 'primeng/selectbutton';
 import { AutoCompleteModule} from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
@@ -35,6 +36,7 @@ import { ListadoEmpleadosComponent } from './listado-empleados/listado-empleados
 import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pendientes.component';
 import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
+import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendientes-liquidacion.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
     ListadoEmpleadosComponent,
     FacturasPendientesComponent,
     ListadoCatalogoCuentasComponentsComponent,
-    StepToolbarComponent
+    StepToolbarComponent,
+    PendientesLiquidacionComponent
   ],
   
   exports: [
@@ -66,6 +69,7 @@ import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
     CommonModule,
     DropdownModule,
     FormsModule,
+    ProgressBarModule,
     RouterModule,
     MenubarModule,
     TableModule,

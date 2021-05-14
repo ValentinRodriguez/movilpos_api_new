@@ -84,8 +84,10 @@
 													<th class="centrar" pSortableColumn="titulo">Producto <p-sortIcon field="titulo"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="categoria">Categoría <p-sortIcon field="categoria"></p-sortIcon></th>
-													<th class="centrar" pSortableColumn="precio_venta">Precio <p-sortIcon field="precio_venta"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="precio">Precio <p-sortIcon field="precio"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="cantidad">Cantidad <p-sortIcon field="cantidad"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="itbis">ITBIS <p-sortIcon field="itbis"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="valor_neto">Total <p-sortIcon field="valor_neto"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="almacen">Almacen <p-sortIcon field="almacen"></p-sortIcon></th>
 												</tr>
 											</ng-template>
@@ -97,8 +99,10 @@
 													</td>
 													<td class="centrar">{{detalle.codigo}}</td>
 													<td class="centrar">{{detalle.categoria}}</td>
-													<td class="centrar">${{detalle.precio_venta}}</td>
+													<td class="centrar">${{detalle.precio}}</td>
 													<td class="centrar">{{detalle.cantidad}}</td>
+													<td class="centrar">${{detalle.itbis}}</td>
+													<td class="centrar">${{detalle.valor_neto}}</td>
 													<td class="centrar">{{detalle.almacen}}</td>
 												</tr>
 											</ng-template>

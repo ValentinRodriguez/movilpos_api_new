@@ -38,6 +38,15 @@ export class PermisosUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.config.data;
+    
+    this.cols = [
+      { field:'codigo', header:'Programa'},
+      { field:'todo', header:'Todo'},
+      { field:'lectura', header:'Lectura'},
+      { field:'escritura', header:'Escritura'},      
+      { field:'eliminar', header:'Eliminar'}
+    ]
+
     this.rolesServ.getRolFull(this.user.email, this.user.username).then((resp: any) => {      
       if (resp.length !== 0) {
         this.modulosServ.getModulos().then((resp2: any) =>{
@@ -48,61 +57,69 @@ export class PermisosUsuariosComponent implements OnInit {
           this.listanotificaciones = JSON.parse(resp[0].notificaciones);
         })
       }else{
-        this.todosLosPerfiles();
-        this.todosLosModulos();
-        this.todosLosProgramas();
-      }      
-    })
+        
+        this.modulosServ.autoLlenado().then((resp: any) =>{
+          console.log(resp);    
+          resp.forEach(element => {
+            switch (element.label) {
+              case 'modulos':
+                this.modulos = element.data;
+                this.todosLosModulos()
+                break;
 
-    this.cols = [
-      { field:'codigo', header:'Programa'},
-      { field:'todo', header:'Todo'},
-      { field:'lectura', header:'Lectura'},
-      { field:'escritura', header:'Escritura'},      
-      { field:'eliminar', header:'Eliminar'}
-    ] 
+              case 'perfiles':
+                this.perfiles = element.data;
+                this.todosLosPerfiles();
+                break;
+
+              case 'menu':
+                // this.programas = element.data;
+                this.todosLosProgramas(element.data);
+                break;
+
+              default:
+                break;
+            }
+          });      
+        })
+      }      
+    }) 
   }
 
   todosLosModulos() {
-    this.modulosServ.getModulos().then((resp: any) => {
-      this.modulos = resp;
-      this.modulos.forEach(modulo => {
-        this.listaModulos.push({'modulo': modulo.modulo, 'valor': false, acciones: this.todasLasAccionesModulos(modulo)});        
-      });
-      this.listanotificaciones = this.listaModulos
-    })
+    this.modulos.forEach(modulo => {
+      console.log(modulo);      
+      this.listaModulos.push({'modulo': modulo.modulo, 
+                              'valor': false, 
+                              'acciones': this.todasLasAccionesModulos(modulo),
+                              'icon': modulo.icon,
+                              'routerLink': modulo.routerLink
+                            });        
+    });
+    this.listanotificaciones = this.listaModulos
   }
 
   todosLosPerfiles() {
-    this.usuariosServ.getPerfiles().then((resp: any) =>{
-       
-      this.perfiles = resp;                  
-      this.perfiles.forEach(modulo => {
-        this.listaPerfiles.push({'modulo': modulo.descripcion, 'valor':false});        
-      });  
-    })
+    this.perfiles.forEach(modulo => {
+      this.listaPerfiles.push({'modulo': modulo.descripcion, 'valor':false});        
+    });
   }
 
-  todosLosProgramas() {
-    this.menuesServ.getMenues().then((resp: any) => {   
-      let programas = []
-
-      programas.push(...resp);                
-      programas.forEach(programa => {                                 
-        this.programas.push({'codigo': programa.codigo, 
-                             'estado': programa.estado,
-                             'id': programa.id,
-                             'id_menu': programa.id_menu,
-                             'modulo': programa.modulo,
-                             'nombre':  programa.nombre,
-                             'status': programa.status,
-                             'url': programa.url,
-                             'todo': false,
-                             'lectura': false,
-                             'escritura': false,
-                             'eliminar': false});        
-      });
-    }) 
+  todosLosProgramas(data) {               
+    data.forEach(programa => {                                 
+      this.programas.push({'codigo': programa.codigo, 
+                           'estado': programa.estado,
+                           'id': programa.id,
+                           'id_menu': programa.id_menu,
+                           'modulo': programa.modulo,
+                           'nombre':  programa.nombre,
+                           'status': programa.status,
+                           'url': programa.url,
+                           'todo': false,
+                           'lectura': false,
+                           'escritura': false,
+                           'eliminar': false});        
+    });
   }
 
   todasLasAccionesModulos(modulo) {   
@@ -127,13 +144,13 @@ export class PermisosUsuariosComponent implements OnInit {
 
   restablecerPermisos() {
     this.confirmationService.confirm({
-      message:"Esta de quitar todos los permisos?",
+      message:"Esta seguro de quitar todos los permisos?",
       accept:() =>{ 
         this.rolesServ.eliminarRoles(this.user.email).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro restablecido de manera correcta'); 
           this.todosLosPerfiles();
           this.todosLosModulos();
-          this.todosLosProgramas();
+          this.todosLosProgramas(this.programas);
         })       
       }
     })

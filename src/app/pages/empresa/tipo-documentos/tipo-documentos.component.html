@@ -70,16 +70,16 @@
 						</ng-template>
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen usuarios en la base de datos.</td>
+								<td colspan="8">No existen tipos de documentos en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="usuarios.length !== 1">
-								Existen {{usuarios ? usuarios.length : 0 }} usuarios en total.
+								Existen {{usuarios ? usuarios.length : 0 }} tipos de documentos en total.
 							</div>
 							
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="usuarios.length === 1">
-								Existe solo {{usuarios ? usuarios.length : 0 }} categoria en total.
+								Existe solo {{usuarios ? usuarios.length : 0 }} tipo de documento en total.
 							</div>
 						</ng-template>
 					</p-table>

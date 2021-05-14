@@ -36,7 +36,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder, 
@@ -112,8 +112,7 @@ export class FormularioProveedoresComponent implements OnInit {
     })
 
     const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-       (resp);      
+      this.formSubmitted = resp;    
     })
 
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
@@ -228,8 +227,8 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    // this.formSubmitted = true; 
-         console.log(this.forma);
+    this.formSubmitted = true; 
+    console.log(this.forma);
           
     if (this.forma.invalid) { 
       this.formSubmitted = false;     

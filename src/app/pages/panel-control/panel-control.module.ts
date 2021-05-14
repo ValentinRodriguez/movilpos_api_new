@@ -16,6 +16,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 //MODULOS DE RUTAS DEL PROYECTO
 import { PanelControlRoutingModule } from "./panel-control-routing.module";
@@ -45,6 +46,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     DropdownModule,
     InputTextModule,
     PipesModule,
+    InputSwitchModule,
     PanelControlRoutingModule
   ],
   entryComponents: [

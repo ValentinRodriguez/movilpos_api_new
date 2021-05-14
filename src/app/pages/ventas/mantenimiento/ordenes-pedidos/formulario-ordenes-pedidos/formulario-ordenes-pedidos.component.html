@@ -258,17 +258,17 @@
 
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No existen productos en la base de datos.</td>
+                        <td colspan="8">No existen ordenes de pedidos en la base de datos.</td>
                     </tr>
                 </ng-template>
 
                 <ng-template pTemplate="summary">
                     <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length !== 1">
-                        Existen {{productos ? productos.length : 0 }} productos en total.
+                        Existen {{productos ? productos.length : 0 }} ordenes de pedidos en total.
                     </div>
 
                     <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length === 1">
-                        Existe solo {{productos ? productos.length : 0 }} producto en total.
+                        Existe solo {{productos ? productos.length : 0 }} orden de pedido en total.
                     </div>
                 </ng-template>
                 <ng-template pTemplate="footer">

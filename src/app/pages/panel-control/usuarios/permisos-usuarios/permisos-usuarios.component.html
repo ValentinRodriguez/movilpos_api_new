@@ -12,7 +12,7 @@
                  </ul>
             </p-tabPanel>   
 
-            <p-tabPanel header="Modulos" leftIcon="pi-th-large">
+            <p-tabPanel header="Modulos" leftIcon="pi pi-th-large">
                 <div class="p-col-12">
                     <p-accordion>
                         <p-accordionTab [header]="modulo.modulo | uppercase" *ngFor="let modulo of listaModulos; let z = index">
@@ -56,10 +56,9 @@
                                 </ng-template>
                                 
                                 <ng-template pTemplate="body" let-rowData let-i="rowIndex" let-columns="columns">
-                                    <tr class="p-selectable-row" [ngClass]="{'nomostrar': rowData.modulo !== modulo.id}">                                        
+                                    <tr class="p-selectable-row" [ngClass]="{'nomostrar': rowData.modulo != modulo.id}">                                        
                                         <td *ngFor="let col of columns" class="centrar">
                                             <span class="p-column-title">{{col.header}}</span>
-
                                             <span *ngIf="col.field === 'codigo'">
                                                 <i *ngIf="rowData['id_menu'] === 2" class="pi pi-chart-bar" style="font-size: 2rem; padding-right: 10px;"></i>
                                                 <i *ngIf="rowData['id_menu'] === 1" class="pi pi-desktop" style="font-size: 2rem; padding-right: 10px;"></i>

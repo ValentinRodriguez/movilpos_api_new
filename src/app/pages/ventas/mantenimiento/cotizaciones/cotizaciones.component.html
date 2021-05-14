@@ -49,16 +49,16 @@
 						</ng-template>
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen modelos en la base de datos.</td>
+								<td colspan="8">No existen cotizaciones en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="monedas.length !== 1">
-								Existen {{monedas ? monedas.length : 0 }} modelos en total.
+								Existen {{monedas ? monedas.length : 0 }} cotizaciones en total.
 							</div>
 							
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="monedas.length === 1">
-								Existe solo {{monedas ? monedas.length : 0 }} modelos en total.
+								Existe solo {{monedas ? monedas.length : 0 }} cotizacion en total.
 							</div>
 						</ng-template>
 					</p-table>

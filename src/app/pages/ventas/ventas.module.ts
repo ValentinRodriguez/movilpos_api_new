@@ -26,6 +26,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {AccordionModule} from 'primeng/accordion';
+
 
 // COMPONENTES DEL MODULO DE VENTAS
 import { ClientesComponent } from './mantenimiento/clientes/clientes.component';
@@ -39,6 +44,9 @@ import { FormularioOrdenesPedidosComponent } from './mantenimiento/ordenes-pedid
 import { OrdenesPedidosComponent } from './mantenimiento/ordenes-pedidos/ordenes-pedidos.component';
 import { StepOrdenesPedidosComponent } from './mantenimiento/ordenes-pedidos/step-ordenes-pedidos/step-ordenes-pedidos.component';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { RecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/recepcion-vehiculos.component';
+import { FormularioRecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/formulario-recepcion-vehiculos/formulario-recepcion-vehiculos.component';
+import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +59,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormularioCondicionesComponent,
     ClientesComponent,
     StepclientesComponent,
-    FormularioClientesComponent
+    FormularioClientesComponent,
+    RecepcionVehiculosComponent,
+    FormularioRecepcionVehiculosComponent
   ],
   imports: [
     CommonModule,
@@ -61,11 +71,13 @@ import { ComponentsModule } from 'src/app/components/components.module';
     VentasRoutingModule,
     DropdownModule,
     TableModule,
+    SelectButtonModule,
     TabViewModule,
     ConfirmDialogModule,
     DialogModule,
     ToastModule,
     AutoCompleteModule,
+    AccordionModule,
     OverlayPanelModule,
     CalendarModule,
     ToolbarModule,
@@ -77,11 +89,14 @@ import { ComponentsModule } from 'src/app/components/components.module';
     InputTextModule,
     InputTextareaModule,
     InputMaskModule,
-    InputNumberModule
+    InputNumberModule,
+    CheckboxModule,
+    PipesModule
   ],
   entryComponents:[
     StepclientesComponent,
     FormularioClientesComponent,
+    FormularioTipoClientesComponent
   ]
 })
 export class VentasModule { }

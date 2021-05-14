@@ -12,21 +12,31 @@ import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { StepsModule } from 'primeng/steps';
-import {ToastModule} from 'primeng/toast';
-import {AccordionModule} from 'primeng/accordion';
+import { ToastModule } from 'primeng/toast';
+import { AccordionModule } from 'primeng/accordion';
 
 //RUTAS DEL COMPONENTE
 import { HomeRoutingModule } from "./home-routing.module";
 
 // COMPONENTES DEL MODULO HOME
 import { DashboardDemoComponent } from './dashboarddemo.component';
-import { TestComponent } from './test/test.component';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { CardsComponent } from './cards/cards.component';
+import { ChartMenuComponent } from './chart-menu/chart-menu.component';
+import { ChartTableComponent } from './chart-table/chart-table.component';
+import { ChartTaskComponent } from './chart-task/chart-task.component';
+import { ChartPieComponent } from "./chart-pie/chart-pie.component";
+import { ChartTopListComponent } from "./chart-top-list/chart-top-list.component";
 
 @NgModule({
   declarations: [
     DashboardDemoComponent,
-    TestComponent
+    CardsComponent,
+    ChartMenuComponent,
+    ChartTableComponent,
+    ChartTaskComponent,
+    ChartPieComponent,
+    ChartTopListComponent
   ],
   imports: [
     CommonModule,

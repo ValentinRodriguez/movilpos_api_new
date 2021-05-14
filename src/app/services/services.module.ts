@@ -49,6 +49,8 @@ import { CoTransaccionescxpService } from './co-transaccionescxp.service';
 import { EntradasDiarioService } from './entradas-diario.service';
 import { TransacionPagosService } from "./transacion-pagos.service";
 import { ExistenciaAlmacenesService } from "./existencia-almacenes.service";
+import { LiquidacionMercanciasService } from "./liquidacion-mercancias.service";
+import { RecepcionVehiculosService } from "./recepcion-vehiculos.service";
 
 @NgModule({
   declarations: [],
@@ -103,7 +105,9 @@ import { ExistenciaAlmacenesService } from "./existencia-almacenes.service";
     DgiiService,
     GlobalFunctionsService,
     EntradasDiarioService,
-    ExistenciaAlmacenesService
+    ExistenciaAlmacenesService,
+    LiquidacionMercanciasService,
+    RecepcionVehiculosService
   ]
 })
 export class ServicesModule { }

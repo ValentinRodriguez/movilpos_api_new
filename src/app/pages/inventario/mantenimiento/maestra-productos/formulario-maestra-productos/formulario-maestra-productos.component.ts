@@ -117,8 +117,10 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);
       this.inventarioServ.getDato(resp).then((res: any) => {   
+        console.log(res );
+        
         this.forma.patchValue(res);
-        this.imgURL = `${URL}/storage/${res.galeriaImagenes}`;
+        this.imgURL = res.galeriaImagenes;
         this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
         this.forma.get('fabricacion').setValue({value: Number(res.fabricacion)});
         this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand));
@@ -187,7 +189,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
   
   actualizarProducto() {
-    this.formSubmitted = true;
+    // this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {   
       this.formSubmitted = false;   

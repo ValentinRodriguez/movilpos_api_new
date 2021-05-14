@@ -21,6 +21,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 //RUTAS DEL MODULO
 import { ContabilidadGeneralRoutingModule } from "./contabilidad-general-routing.module";
@@ -73,7 +75,9 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
     AutoCompleteModule,
     InputTextModule,
     PipesModule,
-    ProgressBarModule
+    InputNumberModule,
+    ProgressBarModule,
+    InputTextareaModule
   ], 
   entryComponents: [
     FormularioCgcatalogoComponent,

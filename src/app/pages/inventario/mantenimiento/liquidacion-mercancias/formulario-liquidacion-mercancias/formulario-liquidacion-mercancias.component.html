@@ -1,0 +1,219 @@
+<p-toolbar>	
+    <div class="p-toolbar-group-left"></div>						
+    <div class="p-toolbar-group-right">
+        <span style="margin-right: 10px;"><strong>Desea afectar CUENTAS POR PAGAR?</strong></span>
+    <p-selectButton [options]="opciones" [(ngModel)]="value1" optionLabel="label" optionValue="value"></p-selectButton>	
+    </div>
+</p-toolbar>
+<br>
+<form (ngSubmit)="guardarLiquidacion()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="num_oc">Orden de Compra</label>
+            <span class=" p-input-icon-right">
+                <input id="num_oc" type="text" pInputText formControlName="num_oc"
+                       [class.ng-invalid]="getNoValido('num_oc')" [class.ng-dirty]="getNoValido('num_oc')" 
+                       (keyup)="verificaOrdenCompra($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="ocExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="ocExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="ocExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="ocExiste === 3"></i>
+                <small *ngIf="getNoValido('num_oc')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nombre_sp">Proveedor</label>	
+            <p-autoComplete formControlName="nombre_sp" [suggestions]="ProveedoresFiltrados" [class.ng-invalid]="getNoValido('nombre_sp')" 
+                            [class.ng-dirty]="getNoValido('nombre_sp')" (completeMethod)="filtrarProveedor($event)" 
+                            (onSelect)="datosProv($event)" field="nom_sp" [dropdown]="true">
+                <ng-template let-proveedor pTemplate="item">
+                    <div class="country-item">
+                        <div>{{proveedor.nom_sp | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('nombre_sp')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="fecha">Fecha</label>
+            <span class=" p-input-icon-right">
+                <p-calendar formControlName="fecha" dateFormat="yy/mm/dd" [showIcon]="true" inputId="icon"
+                            (onSelect)="onSelectDate($event)" [minDate]="minDate" [class.ng-invalid]="getNoValido('fecha')" 
+                            [class.ng-dirty]="getNoValido('fecha')">
+                </p-calendar>
+            </span>
+            <small *ngIf="getNoValido('fecha')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="rep_entrada">Reporte de Entrada</label>
+            <span class=" p-input-icon-right">
+                <input id="rep_entrada" type="text" pInputText formControlName="rep_entrada" 
+                       [class.ng-invalid]="getNoValido('rep_entrada')" [class.ng-dirty]="getNoValido('rep_entrada')">
+                <small *ngIf="getNoValido('rep_entrada')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="status_orden">Estado Orden</label>
+            <span class=" p-input-icon-right">
+                <input id="status_orden" type="text" pInputText formControlName="status_orden" 
+                       [class.ng-invalid]="getNoValido('status_orden')" [class.ng-dirty]="getNoValido('status_orden')">
+                <small *ngIf="getNoValido('status_orden')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="factura">Factura Comercial</label>
+            <span class=" p-input-icon-right">
+                <input id="factura" type="text" pInputText formControlName="factura" 
+                       [class.ng-invalid]="getNoValido('factura')" [class.ng-dirty]="getNoValido('factura')">
+                <small *ngIf="getNoValido('factura')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="prima">Prima</label>
+            <span class=" p-input-icon-right">
+                <input id="prima" type="text" pInputText formControlName="prima" 
+                       [class.ng-invalid]="getNoValido('prima')" [class.ng-dirty]="getNoValido('prima')">
+                <small *ngIf="getNoValido('prima')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+    </div>
+    
+    <p-panel header="Totales">        
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-col-12 p-md-3">
+                <label for="porciento">Porciento</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">%</span>
+                    <input type="number" pInputText formControlName="porciento"
+                           [class.ng-invalid]="getNoValido('porciento')" [class.ng-dirty]="getNoValido('porciento')">
+                </div>
+                <small *ngIf="getNoValido('porciento')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <div class="p-col-12 p-md-3">
+                <label for="total_impuestos">Total Impuestos</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">$</span>
+                    <input type="number" pInputText formControlName="total_impuestos" readonly="true" class="read-only"
+                           [class.ng-invalid]="getNoValido('total_impuestos')" [class.ng-dirty]="getNoValido('total_impuestos')">
+                </div>
+                <small *ngIf="getNoValido('total_impuestos')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-col-12 p-md-3">
+                <label for="total_gastos">Total Gastos</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">$</span>
+                    <input type="number" pInputText formControlName="total_gastos" readonly="true" class="read-only"
+                           [class.ng-invalid]="getNoValido('total_gastos')" [class.ng-dirty]="getNoValido('total_gastos')">
+                </div>
+                <small *ngIf="getNoValido('total_gastos')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-col-12 p-md-3">
+                <label for="flete">flete</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">$</span>
+                    <input type="number" pInputText formControlName="flete" readonly="true" class="read-only"
+                           [class.ng-invalid]="getNoValido('flete')" [class.ng-dirty]="getNoValido('flete')">
+                </div>
+                <small *ngIf="getNoValido('flete')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>            
+        </div>
+    </p-panel>
+
+    <p-panel #pnl header="Detalle" styleClass="p-mt-4">
+        <div formArrayName="productos">
+            <p-toolbar>	
+                <div class="p-toolbar-group-left">
+                </div>						
+                <div class="p-toolbar-group-right">
+                    <button pButton pRipple label="Buscar Productos" icon="pi pi-search" type="button" (click)="buscaProductos()"></button>	
+                </div>
+            </p-toolbar>
+            <br>				
+            <p-table #dt2 [columns]="cols2" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
+                     [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+
+                <ng-template pTemplate="caption">
+                    <div class="table-header">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                    <tr [formGroupName]="i" class="p-selectable-row">
+                        <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'  || col.field === 'acciones'}">
+                            <span class="p-column-title">{{col.header}}</span>
+
+                            <!-- <span *ngIf="col.field === 'imagen'">
+                                <img [alt]="rowData[col.field]" [src]="rowData.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/>
+                                <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate p-text-center" 
+                                     style="width: 10rem" [pTooltip]="rowData['titulo'] | titlecase">
+                                    {{rowData['titulo'] | titlecase}}
+                                </div>
+                            </span>
+
+                           
+                            <div *ngIf="col.field === 'valor_bruto'">
+                                <input type="number" pInputText class="fit-input" class="read-only" readonly="true" formControlName="valor_bruto"/>
+                            </div>
+
+                            <div *ngIf="col.field === 'valor_neto'">
+                                <input type="number" pInputText class="fit-input" class="read-only" readonly="true" formControlName="valor_neto"/>
+                            </div>	
+
+                            <span *ngIf="col.field === 'acciones'">
+                                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarProducto(i)"></button>
+                            </span> -->
+                        </td>											
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr><td colspan="8">No hay productos seleccionados.</td></tr>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td>Totales:</td>											
+                        <td></td>
+                        <td></td>
+                        <td></td>                        
+                        <td><strong>${{ this.totalFlete }}</strong></td>
+                        <td><strong>${{ this.totalFOB }}</strong></td>
+                        <td><strong>${{ this.totalImpuestos }}</strong></td>
+                        <td><strong>${{ this.totalGastos }}</strong></td>
+                        <td></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-panel>
+    <br>
+
+    <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarMoneda()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
+</form>
+<br>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>

@@ -14,8 +14,7 @@ export class StepToolbarComponent implements OnInit {
 
   constructor(public router: Router) { }
 
-  ngOnInit(): void {
-    console.log(this.items);    
+  ngOnInit(): void { 
     this.inicio = this.router.url.split("/");       
     this.navegacion(this.index)
   }

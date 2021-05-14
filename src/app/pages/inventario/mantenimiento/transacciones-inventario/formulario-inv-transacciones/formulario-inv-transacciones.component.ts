@@ -148,17 +148,17 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       { field: 'codigo', header: 'Código' },
       { field: 'marca', header: 'Marca' },
       { field: 'almacen', header: 'Almacen' },
-      { field: 'precio_venta', header: 'Precio' },
-      { field: 'solicitado', header: 'Cantidad'},
-      { field: 'solicitado_esp', header: 'Cantidad_ESP'},
+      { field: 'precio', header: 'Precio' },
+      { field: 'cantidad1', header: 'Cantidad'},
+      // { field: 'solicitado_esp', header: 'Cantidad_ESP'},
     ]    
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
-      id_tipomov:        [''],
+      id_tipomov:        ['', Validators.required],
       conduce_no:        [''],
-      id_bodega:         ['', Validators.required],
+      id_bodega:         [''],
       id_bodega_d:       [''],
       orden_pedido:      [''],
       factura:           [''],
@@ -173,11 +173,12 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       cod_sp_sec:        [''],      
       fecha:             ['', Validators.required],
       direccion:         ['aasdfadsfasdf'],
-      num_rnc:           [''],
+      documento:         [''],
+      tipo_documento:    [''],
       id_numemp:         [''],
-      cod_transportista: ['', Validators.required],      
-      cod_tarifa:        ['', Validators.required],
-      placa:             ['', Validators.required],
+      cod_transportista: [''],      
+      cod_tarifa:        [''],
+      placa:             [''],
       num_doc_entrada:   [''],
       comentario:        [''],
       estado:            ['activo'],      
@@ -253,7 +254,9 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   guardarTransaccion() {  
-    // this.formSubmitted = true;    
+    // this.formSubmitted = true;      
+    console.log(this.forma);  
+
     if (this.forma.invalid) {  
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -306,8 +309,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
         
         this.transaccionesServ.crearTransaccion(this.forma.value).then((resp: any) => {
           this.uiMessage.getMiniInfortiveMsg('tst','success','Atención','Registro creado de manera correcta');  
-          this.resetFormulario();
-          console.log(this.forma);        
+          this.resetFormulario();        
           this.imprimirTransaccion(resp.num_doc);
         })
       } else {
@@ -331,19 +333,20 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   agregarFormulario(producto) {
-    let cantidad1 = 1;
-    let cantidad =1;
+    // let cantidad1 = 1;
+    // let cantidad =1;
     let margen = 1;
-    this._productos.push(this.agregarFormularioTransacciones(producto,cantidad1,cantidad,margen));    
+    console.log(producto);    
+    this._productos.push(this.agregarFormularioTransacciones(producto,margen));    
   }
   
-  agregarFormularioTransacciones(producto,cantidad1,cantidad,margen): FormGroup {
+  agregarFormularioTransacciones(producto,margen): FormGroup {
     return this.fb.group({
       codigo:       [producto.codigo, Validators.required],
-      cantidad1:    [cantidad1, Validators.required],
-      cantidad:     [cantidad, Validators.required],
+      cantidad1:    [producto.cantidad, Validators.required],
+      cantidad:     [0, Validators.required],
       margen:       [margen, Validators.required],
-      precio_venta: [producto.precio_venta, Validators.required],
+      precio:       [producto.precio, Validators.required],
       costo:        [producto.costo, Validators.required],
     });
   }
@@ -365,17 +368,24 @@ export class FormularioInvTransaccionesComponent implements OnInit {
     // this.forma.get('cuenta_no').setValue(mov.cuenta_no)
     this.forma.controls['cliente'].reset();
     this.forma.controls['email'].reset();
-    this.forma.controls['num_rnc'].reset();
+    this.forma.controls['documento'].reset();
     this.forma.controls['tipo_cliente'].reset();
     this.forma.controls['sec_cliente'].reset();
 
     this.forma.controls['cliente'].enable();
     this.forma.controls['email'].enable();
-    this.forma.controls['num_rnc'].enable();
+    this.forma.controls['documento'].enable();
     this.forma.controls['cod_sp'].enable();
     this.forma.controls['cod_sp_sec'].enable();
     this.forma.controls['condicion_recibo'].setValue('si');
+
     
+    // id_bodega.clearValidators();
+    
+
+    
+    // id_bodega_d.clearValidators();
+
     let control = [
       { control: 'control_clientes', value: mov.value.control_clientes },
       { control: 'control_departamento', value: mov.value.control_departamento },
@@ -405,6 +415,11 @@ export class FormularioInvTransaccionesComponent implements OnInit {
         break;
 
         case 'control_orden_compra':
+          console.log('control_orden_compra');   
+          const id_bodega_d = this.forma.get('id_bodega_d')        
+          id_bodega_d.setValidators(Validators.required);
+          // id_bodega_d.updateValueAndValidity
+
           this.forma.controls['id_num_oc'].enable();
           this.forma.controls['factura'].disable();
           this.forma.controls['factura'].reset();
@@ -413,12 +428,22 @@ export class FormularioInvTransaccionesComponent implements OnInit {
         break;
 
         case 'control_transferencia':
+          // const id_bodega = this.forma.get('id_bodega') 
+          // const id_bodega_d = this.forma.get('id_bodega_d') 
+          // id_bodega.setValidators(Validators.required);
+          // id_bodega.updateValueAndValidity
+
+          // id_bodega_d.setValidators(Validators.required);
+          // id_bodega_d.updateValueAndValidity
+
           if (mov.value.origen === 'credito') {
             this.forma.controls['condicion_recibo'].setValue('no')
           }
           if (this.bodegasPermisos.length === 0) {
             this.noPermisos = true;
           }
+            
+
           this.forma.controls['orden_pedido'].enable();
           this.forma.controls['id_bodega_d'].enable();
           this.forma.controls['factura'].disable();
@@ -547,11 +572,11 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.get('fecha').setValue(new Date(resp[0].created_at));
           this.forma.get('sec_cliente').setValue(resp[0].sec_cliente);
           this.forma.get('email').setValue(resp[0].email);
-          this.forma.get('num_rnc').setValue(resp[0].num_rnc);
+          this.forma.get('documento').setValue(resp[0].documento);
            
           // this.forma.controls['cliente'].disable();
           // this.forma.controls['email'].disable();
-          // this.forma.controls['num_rnc'].disable();
+          // this.forma.controls['documento'].disable();
         }else{
           //this.uiMessage.getMiniInfortiveMsg('tst','Esta orden no existe','error');
           this.ordenPedidoExiste = 2;
@@ -559,7 +584,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.get('tipo_cliente').reset();
           this.forma.get('sec_cliente').reset();
           this.forma.get('email').reset();
-          this.forma.get('num_rnc').reset();
+          this.forma.get('documento').reset();
           this.productos = [];
           // this.forma.get('productos').reset()
            
@@ -581,7 +606,8 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       }
       this.ocExiste = 0;
       this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
-         
+        console.log(resp);
+        
         const proveedor = resp[0].proveedor;
         if(resp.length !== 0){          
           this.productos = resp[0].productos;     
@@ -592,14 +618,15 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.controls['proveedor'].setValue(this.proveedores.find(proveedor => proveedor.cod_sp === resp[0].cod_sp && 
                                                                                        proveedor.cod_sp_sec === resp[0].cod_sp_sec))
           this.forma.controls['email'].setValue(resp[0].email);
-          this.forma.controls['num_rnc'].setValue(resp[0].rnc);
+          this.forma.controls['documento'].setValue(resp[0].documento);
           this.forma.controls['fecha'].setValue(new Date(resp[0].created_at));
           this.forma.controls['cod_sp'].setValue(resp[0].cod_sp);
           this.forma.controls['cod_sp_sec'].setValue(resp[0].cod_sp_sec);  
-
+          this.forma.controls['tipo_documento'].setValue(resp[0].proveedor.tipo_doc); 
+          
           // this.forma.controls['proveedor'].disable();
           // this.forma.controls['email'].disable();
-          // this.forma.controls['num_rnc'].disable();
+          // this.forma.controls['documento'].disable();
         }else{
           this.ocExiste = 2;
           return;
@@ -630,11 +657,11 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.controls['tipo_cliente'].setValue(resp[0].tipo_cliente);
           this.forma.controls['sec_cliente'].setValue(resp[0].sec_cliente);
           this.forma.controls['email'].setValue(resp[0].email);
-          this.forma.controls['num_rnc'].setValue(resp[0].num_rnc);
+          this.forma.controls['documento'].setValue(resp[0].documento);
           
           // this.forma.controls['cliente'].disable();
           // this.forma.controls['email'].disable();
-          // this.forma.controls['num_rnc'].disable();
+          // this.forma.controls['documento'].disable();
 
         }else{
           this.facturaExiste = 2;
@@ -642,7 +669,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.controls['tipo_cliente'].reset();
           this.forma.controls['sec_cliente'].reset();
           this.forma.controls['email'].reset();
-          this.forma.controls['num_rnc'].reset();
+          this.forma.controls['documento'].reset();
           this.productos = [];
           this.forma.get('productos').reset()
            

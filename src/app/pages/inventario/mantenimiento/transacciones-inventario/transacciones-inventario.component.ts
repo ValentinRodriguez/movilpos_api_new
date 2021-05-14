@@ -80,6 +80,7 @@ export class TransaccionesInventarioComponent implements OnInit {
   todasLastransacciones() {     
     this.transaccionesServ.getDatos().then((resp: any)=>{      
       this.transacciones = resp;
+      console.log(resp);      
     })
   }
   

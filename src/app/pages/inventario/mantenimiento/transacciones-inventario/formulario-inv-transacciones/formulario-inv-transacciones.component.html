@@ -166,16 +166,16 @@
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="num_rnc">RNC</label>
+            <label for="documento">Documento</label>
             <span class=" p-input-icon-right">
-                <input id="num_rnc" type="number" pInputText formControlName="num_rnc" 
-                [class.ng-invalid]="getNoValido('num_rnc')" [class.ng-dirty]="getNoValido('num_rnc')"
+                <input id="documento" type="text" pInputText formControlName="documento" 
+                [class.ng-invalid]="getNoValido('documento')" [class.ng-dirty]="getNoValido('documento')"
                        (keyup)="verificaRNC($event.target.value)">
                 <i class="pi pi-spin pi-spinner" *ngIf="rncExiste === 0" style="color:#f5df18"></i>
                 <i class="pi pi-check" *ngIf="rncExiste === 2" style="color:#36b61d"></i>
                 <i class="pi pi-times" *ngIf="rncExiste === 1" style="color:#d83131"></i>
                 <i class="pi pi-file-o" *ngIf="rncExiste === 3"></i>
-                <small *ngIf="getNoValido('num_rnc')" class="p-invalid">Este campo es obligatorio.</small>
+                <small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
             </span>
         </div>
 
@@ -237,7 +237,7 @@
         </div>
 
         <div class="p-field p-col-12">
-            <label for="comentario">Observación</label>
+            <label for="comentario">Comentario</label>
             <textarea id="comentario" type="text" rows="4" pInputTextarea name="comentario" formControlName="comentario"
                 [class.p-invalid]="getNoValido('comentario')" [class.ng-dirty]="getNoValido('comentario')">
             </textarea>
@@ -256,10 +256,8 @@
                 </div>
             </p-toolbar>
             <br>
-            <p-table [columns]="cols2" [value]="productos"
-                styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped" [rowHover]="true"
-                [rows]="20" [paginator]="true" [filterDelay]="0"
-                [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+            <p-table [columns]="cols2" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped" [rowHover]="true"
+                [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
 
                 <ng-template pTemplate="header" let-columns>
                     <tr>
@@ -283,27 +281,16 @@
                                     {{rowData['titulo']}}</div>
                             </div>
 
-                            <div *ngIf="col.field !== 'cantidad' && col.field !== 'precio_venta'">
+                            <div *ngIf="col.field !== 'cantidad1' && col.field !== 'precio'">
                                 {{rowData[col.field] | titlecase}}
                             </div>
-
-                            <div *ngIf="col.field === 'precio_venta'">
-                                ${{rowData[col.field]}}
-                            </div>
-
-                            <!-- <div *ngIf="col.field === 'cantidad'">
-                                <span *ngIf="rowData.cantidad >= rowData.existenciaMaxima * 0.7" class="p-badge p-badge-lg p-badge-success">{{rowData.cantidad}}</span>
-                                <span *ngIf="rowData.cantidad < rowData.existenciaMaxima * 0.7 && rowData.cantidad >= rowData.existenciaMinima * 3" class="p-badge p-badge-lg p-badge-info">{{rowData.cantidad}}</span>
-                                <span *ngIf="rowData.cantidad < rowData.existenciaMinima * 3 && rowData.cantidad > 0" class="p-badge p-badge-lg p-badge-warning">{{rowData.cantidad}}</span>
-                                <span *ngIf="rowData.cantidad === 0 || rowData.cantidad === null" class="p-badge p-badge-lg p-badge-danger">0</span>
-                            </div> -->
-
-                            <div *ngIf="col.field === 'solicitado'">
+                            
+                            <div *ngIf="col.field === 'cantidad1'">
                                 <input pInputText [min]="1" [max]="1000" formControlName="cantidad1" type="number" />
                             </div>
 
-                            <div *ngIf="col.field === 'solicitado_esp'">
-                                <input pInputText [min]="1" [max]="1000" formControlName="cantidad" type="number" />
+                            <div *ngIf="col.field === 'precio'">
+                                ${{rowData[col.field]}}
                             </div>
                         </td>
                     </tr>
