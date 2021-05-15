@@ -47,6 +47,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { RecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/recepcion-vehiculos.component';
 import { FormularioRecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/formulario-recepcion-vehiculos/formulario-recepcion-vehiculos.component';
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
+import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formul
     StepclientesComponent,
     FormularioClientesComponent,
     RecepcionVehiculosComponent,
-    FormularioRecepcionVehiculosComponent
+    FormularioRecepcionVehiculosComponent,
+    ActoDescargoComponent
   ],
   imports: [
     CommonModule,

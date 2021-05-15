@@ -10,6 +10,7 @@ import { RecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos
 import { FormularioCatComponent } from '../inventario/mantenimiento/categorias/formulario-cat/formulario-cat.component';
 import { FormularioMarcaComponent } from '../inventario/mantenimiento/marcas/formulario-marca/formulario-marca.component';
 import { FormularioPropiedadesComponent } from '../inventario/mantenimiento/propiedades/formulario-propiedades/formulario-propiedades.component';
+import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { FormularioPropiedadesComponent } from '../inventario/mantenimiento/prop
         {path: 'gestion-de-clientes', component: ClientesComponent},
         {path: 'gestion-de-ordenes-de-pedidos', component: OrdenesPedidosComponent},
         {path: 'condiciones-de-pago', component: CondicionesPagoComponent},
+        {path: 'acto-descargo', component: ActoDescargoComponent},
         {path: 'gestion-recepcion-vehiculos', component: RecepcionVehiculosComponent}      
        ]},
     ])
