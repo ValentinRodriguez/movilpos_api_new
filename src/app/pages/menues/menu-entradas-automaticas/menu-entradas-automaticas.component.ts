@@ -7,8 +7,6 @@ import { MenuesService } from 'src/app/services/menues.service';
   styleUrls: ['./menu-entradas-automaticas.component.scss']
 })
 export class MenuEntradasAutomaticasComponent implements OnInit {
-
-
   menu: any[] = [];
 
   constructor(private menuServ: MenuesService) { }

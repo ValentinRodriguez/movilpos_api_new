@@ -21,7 +21,7 @@ export class MenuMiscelaneosComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`miscelaneos/${ruta}`]);
   }
 
 }

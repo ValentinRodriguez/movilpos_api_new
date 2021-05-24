@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ClientesService } from 'src/app/services/clientes.service';
 import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -23,11 +22,6 @@ export class FormularioTiponegocioComponent implements OnInit {
   formSubmitted = false;
   listSubscribers: any = [];
 
-
-
-
-
-
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -35,6 +29,7 @@ export class FormularioTiponegocioComponent implements OnInit {
     this.usuario = this.usuariosServ.getUserLogged()
     this.crearFormulario();
   }
+  
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());
   }
@@ -72,11 +67,13 @@ export class FormularioTiponegocioComponent implements OnInit {
     this.formSubmitted = true;
     if (this.negocioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de negocio ya existe');
+      this.formSubmitted = false;
       return;
     }
 
     if (this.negocioExiste === 0) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Verificando disponibilidad de nombre');
+      this.formSubmitted = false;
       return;
     }
 

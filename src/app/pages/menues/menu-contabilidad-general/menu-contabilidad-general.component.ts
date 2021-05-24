@@ -22,7 +22,7 @@ export class MenuContabilidadGeneralComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`contabilidad-general/${ruta}`]);
   }
 
 

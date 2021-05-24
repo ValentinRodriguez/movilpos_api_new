@@ -57,7 +57,8 @@ export class BrandsService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => {                         
+      this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => {      
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.marcaGuardada.emit(resp.data);       

@@ -21,7 +21,7 @@ export class MenuEmpresaComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([`mi-negocio/${ruta}`]);
   }
 
 }

@@ -114,16 +114,16 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No existen categorias en la base de datos.</td>
+                        <td colspan="8">No existen vacaciones registradas  en la base de datos.</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="p-d-flex p-ai-center p-jc-between" *ngIf="categorias.length !== 1">
-                        Existen {{categorias ? categorias.length : 0 }} categorias en total.
+                        Existen {{categorias ? categorias.length : 0 }} vacaciones registradas en total.
                     </div>
                     
                     <div class="p-d-flex p-ai-center p-jc-between" *ngIf="categorias.length === 1">
-                        Existe solo {{categorias ? categorias.length : 0 }} categoria en total.
+                        Existe solo {{categorias ? categorias.length : 0 }} vacacion registradas en total.
                     </div>
                 </ng-template>
             </p-table>

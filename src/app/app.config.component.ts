@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AppMainComponent } from './app.main.component';
 import { SettingsService } from './services/settings.service';
 
@@ -9,46 +9,46 @@ import { SettingsService } from './services/settings.service';
             <i class="pi pi-cog"></i>
         </a>
         <div class="layout-config" [ngClass]="{'layout-config-active': app.configActive}" (click)="app.onConfigClick($event)">
-            <h5>Menu Type</h5>
+            <h5>Tipo de Menu</h5>
             <div class="p-field-radiobutton">
-                <p-radioButton name="menuMode" value="static" [(ngModel)]="app.menuMode" inputId="mode1"></p-radioButton>
-                <label for="mode1">Static</label>
+                <p-radioButton name="menuMode" value="static" [(ngModel)]="app.menuMode" inputId="mode1" (onClick)="tipoMenu()"></p-radioButton>
+                <label for="mode1">Estatico</label>
             </div>
             <div class="p-field-radiobutton">
-                <p-radioButton name="menuMode" value="overlay" [(ngModel)]="app.menuMode" inputId="mode2"></p-radioButton>
-                <label for="mode2">Overlay</label>
+                <p-radioButton name="menuMode" value="overlay" [(ngModel)]="app.menuMode" inputId="mode2" (onClick)="tipoMenu()"></p-radioButton>
+                <label for="mode2">Oculto</label>
             </div>
             <div class="p-field-radiobutton">
-                <p-radioButton name="menuMode" value="slim" [(ngModel)]="app.menuMode" inputId="mode3"></p-radioButton>
-                <label for="mode3">Slim</label>
+                <p-radioButton name="menuMode" value="slim" [(ngModel)]="app.menuMode" inputId="mode3" (onClick)="tipoMenu()"></p-radioButton>
+                <label for="mode3">Mini Menu</label>
             </div>
 
             <hr />
 
-            <h5>Color Scheme</h5>
+            <h5>Esquema de Colores</h5>
             <div class="p-field-radiobutton">
                 <p-radioButton name="colorScheme" value="dark" [(ngModel)]="app.colorScheme" inputId="theme1" (onClick)="changeColorScheme('dark')"></p-radioButton>
-                <label for="theme1">Dark</label>
+                <label for="theme1">Oscuro</label>
             </div>
             <div class="p-field-radiobutton">
                 <p-radioButton name="colorScheme" value="dim" [(ngModel)]="app.colorScheme" inputId="theme2" (onClick)="changeColorScheme('dim')"></p-radioButton>
-                <label for="theme2">Dim</label>
+                <label for="theme2">Azulado</label>
             </div>
             <div class="p-field-radiobutton">
                 <p-radioButton name="colorScheme" value="light" [(ngModel)]="app.colorScheme" inputId="theme3" (onClick)="changeColorScheme('light')"></p-radioButton>
-                <label for="theme3">Light</label>
+                <label for="theme3">Claro</label>
             </div>
 
             <hr />
 
-            <h5>Input Style</h5>
+            <h5>Estilo de los campos</h5>
             <div class="p-field-radiobutton">
-                <p-radioButton name="inputStyle" value="outlined" [(ngModel)]="app.inputStyle" inputId="inputStyle1"></p-radioButton>
-                <label for="inputStyle1">Outlined</label>
+                <p-radioButton name="inputStyle" value="outlined" [(ngModel)]="app.inputStyle" (onClick)="tipoInput()" inputId="inputStyle1"></p-radioButton>
+                <label for="inputStyle1">Esbozado</label>
             </div>
             <div class="p-field-radiobutton">
-                <p-radioButton name="inputStyle" value="filled" [(ngModel)]="app.inputStyle" inputId="inputStyle2"></p-radioButton>
-                <label for="inputStyle2">Filled</label>
+                <p-radioButton name="inputStyle" value="filled" [(ngModel)]="app.inputStyle" (onClick)="tipoInput()" inputId="inputStyle2"></p-radioButton>
+                <label for="inputStyle2">Relleno</label>
             </div>
 
             <hr />
@@ -58,14 +58,14 @@ import { SettingsService } from './services/settings.service';
 
             <hr />
 
-            <h5>Menu Themes</h5>
+            <h5>Estilo de Menu</h5>
             <div class="layout-themes" *ngIf="app.colorScheme === 'light'">
                 <div *ngFor="let theme of menuThemes">
                     <a style="cursor: pointer" (click)="changeMenuTheme(theme.name, theme.logoColor, theme.componentTheme)" [ngStyle]="{'background-color': theme.color}"></a>
                 </div>
             </div>
             <div *ngIf="app.colorScheme !== 'light'">
-                <p>Menu themes are only available in light mode by design as large surfaces can emit too much brightness in dark mode.</p>
+                <p>Los temas del menú solo están disponibles en el modo claro por diseño, ya que las superficies grandes pueden emitir demasiado brillo en el modo oscuro.</p>
             </div>
 
             <hr />
@@ -91,6 +91,23 @@ export class AppConfigComponent implements OnInit {
                 public setting: SettingsService) {}
 
     ngOnInit() {
+        if (localStorage.getItem('esquema-color')) {
+            this.changeColorScheme(this.app.colorScheme);        
+        }
+
+        Promise.resolve().then(()=>{
+            if (localStorage.getItem('tema-menu')) {
+                const temaMenu = JSON.parse(localStorage.getItem('tema-menu'));
+                this.changeMenuTheme(temaMenu[0],temaMenu[1],temaMenu[2]); 
+            }
+        })
+
+        // if (localStorage.getItem('esquema-color')) {
+        //     const temaComp = JSON.parse(localStorage.getItem('esquema-color'));       
+        //     this.changeComponentTheme(temaComp)
+        // }
+
+
         this.componentThemes = [
             {name: 'blue', color: '#42A5F5'},
             {name: 'green', color: '#66BB6A'},
@@ -121,43 +138,65 @@ export class AppConfigComponent implements OnInit {
         ];
     }
 
+    tipoMenu() {
+        console.log(this.app.menuMode);   
+        localStorage.setItem('tipo-menu', this.app.menuMode);   
+        const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
+
+        if (this.app.menuMode === 'slim') {
+            appLogoLink.src = 'assets/layout/images/mini-logo.PNG';
+        }else{
+            appLogoLink.src = 'assets/layout/images/logo.png';
+        }   
+    }
+
+    tipoInput() {
+        localStorage.setItem('tipo-input', this.app.inputStyle);  
+    }
+
     changeColorScheme(scheme) {
+        localStorage.setItem('esquema-color', scheme);
 
         this.changeStyleSheetsColor('layout-css', 'layout-' + scheme + '.css', 1);
         this.changeStyleSheetsColor('theme-css', 'theme-' + scheme + '.css', 1);
 
-        const mobileLogoLink: HTMLImageElement = document.getElementById('logo-mobile') as HTMLImageElement;
-        const invoiceLogoLink: HTMLImageElement = document.getElementById('invoice-logo') as HTMLImageElement;
-        const footerLogoLink: HTMLImageElement = document.getElementById('footer-logo') as HTMLImageElement;
+        // const mobileLogoLink: HTMLImageElement = document.getElementById('logo-mobile') as HTMLImageElement;
+        // const invoiceLogoLink: HTMLImageElement = document.getElementById('invoice-logo') as HTMLImageElement;
+        // const footerLogoLink: HTMLImageElement = document.getElementById('footer-logo') as HTMLImageElement;
 
-        if (scheme === 'light') {
-            mobileLogoLink.src = 'assets/layout/images/logo-dark.svg';
-            invoiceLogoLink.src = 'assets/layout/images/logo-dark.svg';
-            footerLogoLink.src = 'assets/layout/images/logo-dark.svg';
-        }
-        else {
-            mobileLogoLink.src = 'assets/layout/images/logo-white.svg';
-            // invoiceLogoLink.src = 'assets/layout/images/logo-white.svg';
-            footerLogoLink.src = 'assets/layout/images/logo-white.svg';
-        }
+        // if (scheme === 'light') {
+        //     mobileLogoLink.src = 'assets/layout/images/logo-dark.svg';
+        //     // invoiceLogoLink.src = 'assets/layout/images/logo.png';
+        //     footerLogoLink.src = 'assets/layout/images/logo-dark.svg';
+        // }
+        // else {
+        //     mobileLogoLink.src = 'assets/layout/images/logo-white.svg';
+        //     // invoiceLogoLink.src = 'assets/layout/images/logo-white.svg';
+        //     footerLogoLink.src = 'assets/layout/images/logo-white.svg';
+        // }
     }
 
     changeMenuTheme(name, logoColor, componentTheme) {
+
+        const temaMenu = [name, logoColor, componentTheme]
+        localStorage.setItem('tema-menu', JSON.stringify(temaMenu));
+        
         this.app.menuTheme = 'layout-sidebar-' + name;
         this.changeStyleSheetsColor('theme-css', componentTheme, 2);
 
-        const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
+        // const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
 
-        if (logoColor === 'dark') {
-            appLogoLink.src = 'assets/layout/images/logo-dark.svg';
-        }
-        else {
-            appLogoLink.src = 'assets/layout/images/logo-white.svg';
-        }
+        // if (logoColor === 'dark') {
+        //     appLogoLink.src = 'assets/layout/images/logo-dark.svg';
+        // }
+        // else {
+        //     appLogoLink.src = 'assets/layout/images/logo.png';
+        // }
     }
 
     changeComponentTheme(theme) {
         this.changeStyleSheetsColor('theme-css', theme, 3);
+        localStorage.setItem('tema-componente', JSON.stringify(theme));
     }
 
     changeStyleSheetsColor(id, value, from) {

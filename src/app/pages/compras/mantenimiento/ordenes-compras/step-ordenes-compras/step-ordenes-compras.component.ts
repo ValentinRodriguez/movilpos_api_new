@@ -41,7 +41,7 @@ export class StepOrdenesComprasComponent implements OnInit {
   }
 
   finalizar() {
-     ('cerrar dialogo');  
+      
     this.ref.close();  
     this.ordCompras.finalizando();
   }

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
+import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
@@ -36,7 +36,7 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder, 
@@ -112,8 +112,7 @@ export class FormularioProveedoresComponent implements OnInit {
     })
 
     const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-       (resp);      
+      this.formSubmitted = resp;    
     })
 
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
@@ -228,8 +227,8 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    // this.formSubmitted = true; 
-         console.log(this.forma);
+    this.formSubmitted = true; 
+    console.log(this.forma);
           
     if (this.forma.invalid) { 
       this.formSubmitted = false;     
@@ -330,7 +329,7 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   buscaCuentas() {
-     this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

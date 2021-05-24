@@ -36,7 +36,8 @@ export class TransaccionesService {
 
   crearTransaccion(transaccion: any) {
     let data = {}
-
+    console.log(transaccion);
+    
     for(let key in transaccion){  
       switch (key) {
         case 'id_bodega':
@@ -57,7 +58,11 @@ export class TransaccionesService {
           break;
 
         case 'cliente':
-          data[key] = transaccion[key].id || null;
+          if (transaccion[key] != null) {
+            data[key] = transaccion[key].id || null;            
+          }else{
+            data[key] = null;
+          }
           break; 
 
         case 'departamento':
@@ -75,7 +80,8 @@ export class TransaccionesService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {                       
+      this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {      
+        console.log(resp);                         
         if (resp['code'] === 200)  {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);

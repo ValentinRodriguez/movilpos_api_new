@@ -3,8 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';

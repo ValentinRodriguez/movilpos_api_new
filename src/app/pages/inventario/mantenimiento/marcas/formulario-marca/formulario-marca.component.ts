@@ -20,7 +20,7 @@ export class FormularioMarcaComponent implements OnInit {
   usuario: any;
   marcaExiste = 3;
   id: number;
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
@@ -86,7 +86,7 @@ export class FormularioMarcaComponent implements OnInit {
           break;
 
         default:
-          this.marcasServ.crearMarca(this.forma.value).then((resp: any)=>{            
+          this.marcasServ.crearMarca(this.forma.value).then(()=>{            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.resetFormulario();
           })

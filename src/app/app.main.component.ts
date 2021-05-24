@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { MenuService } from './app.menu.service';
 import { PrimeNGConfig } from 'primeng/api';
+import { RolesService } from './services/roles.service';
+import { UsuarioService } from './services/usuario.service';
 
 @Component({
     selector: 'app-main',
@@ -8,51 +10,61 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppMainComponent implements OnInit{
     menuMode = 'static';
-
     colorScheme = 'light';
-
     menuTheme = 'layout-sidebar-darkgray';
-
     overlayMenuActive: boolean;
-
     staticMenuDesktopInactive: boolean;
-
     staticMenuMobileActive: boolean;
-
     menuClick: boolean;
-
     search = false;
-
     searchClick = false;
-
     userMenuClick: boolean;
-
     topbarUserMenuActive: boolean;
-
     notificationMenuClick: boolean;
-
     topbarNotificationMenuActive: boolean;
-
     rightMenuClick: boolean;
-
     rightMenuActive: boolean;
-
     configActive: boolean;
-
     configClick: boolean;
-
     resetMenu: boolean;
-
     menuHoverActive = false;
-
     inputStyle = 'outlined';
-
     ripple: boolean;
-
-    constructor(private menuService: MenuService, private primengConfig: PrimeNGConfig) { }
+    usuario: any;
+    permisos: any;
+    
+    constructor(private menuService: MenuService, 
+                private primengConfig: PrimeNGConfig,
+                private usuarioServ: UsuarioService,
+                private permisosServ:RolesService) {
+                    this.usuario = this.usuarioServ.getUserLogged();
+                }
 
     ngOnInit() {
         this.primengConfig.ripple = true;
+        
+        this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
+            this.permisos = resp;          
+        })
+
+        if (localStorage.getItem('tipo-menu')) {
+            this.menuMode = localStorage.getItem('tipo-menu');    
+            const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
+
+            if (this.menuMode === 'slim') {
+                appLogoLink.src = 'assets/layout/images/mini-logo.png';
+            }else{
+                appLogoLink.src = 'assets/layout/images/logo.png';
+            } 
+        }
+
+        if (localStorage.getItem('tipo-input')) {
+            this.inputStyle = localStorage.getItem('tipo-input');         
+        }
+
+        if (localStorage.getItem('esquema-color')) {
+            this.colorScheme = localStorage.getItem('esquema-color');         
+        }
     }
 
     onLayoutClick() {
@@ -163,7 +175,7 @@ export class AppMainComponent implements OnInit{
     }
 
     onConfigClick(event) {
-        this.configClick = true;
+        this.configClick = true;     
     }
 
     isSlim() {

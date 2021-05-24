@@ -137,12 +137,13 @@ export class InventarioService {
 
   crearInvProducto( invProducto: any ) {    
     const formData = new FormData();    
+    console.log(invProducto);
     
     for(let key in invProducto){ 
       switch (key) {
 
         case 'fabricacion':
-          formData.append(key, invProducto[key].value);
+          formData.append(key, invProducto[key].value || '');
           break;
 
         case 'id_bodega':
@@ -181,6 +182,7 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => { 
+        console.log(resp);        
         this.formSubmitted.emit(false);  
         if (resp['code'] === 200)  {
           this.productoGuardado.emit(resp.data);                            
@@ -191,48 +193,59 @@ export class InventarioService {
   }
 
   actualizarInvProducto( id:any, invProducto: any ) {  
+    const formData = new FormData(); 
     for(let key in invProducto){ 
       switch (key) {
         case 'fabricacion':
-          invProducto[key] = invProducto[key].value
+          formData.append(key, invProducto[key].value);
           break;
 
         case 'id_bodega':
-          invProducto[key] = invProducto[key].id_bodega
+          // invProducto[key] = invProducto[key].id_bodega
+          formData.append(key, invProducto[key].id_bodega);
           break;
 
         case 'id_brand':
-          invProducto[key] = invProducto[key].id_brand
+          // invProducto[key] = invProducto[key].id_brand
+          formData.append(key, invProducto[key].id_brand);
           break;
 
         case 'id_categoria':
-          invProducto[key] = invProducto[key].id_categoria
+          // invProducto[key] = invProducto[key].id_categoria
+          formData.append(key, invProducto[key].id_categoria);
           break;
 
         case 'id_tipoinventario':
-          invProducto[key] = invProducto[key].id_tipoinventario
+          // invProducto[key] = invProducto[key].id_tipoinventario
+          formData.append(key, invProducto[key].id_tipoinventario);
           break;
 
         case 'id_propiedad':
-          invProducto[key] = invProducto[key].id_propiedad
+          // invProducto[key] = invProducto[key].id_propiedad
+          formData.append(key, invProducto[key].id_propiedad);
           break;
 
         case 'tipo_producto':
-          invProducto[key] = invProducto[key].id_tipo
+          // invProducto[key] = invProducto[key].id_tipo
+          formData.append(key, invProducto[key].id_tipo);
           break;
 
         case 'unidadMed':
-          invProducto[key] = invProducto[key].id
+          // invProducto[key] = invProducto[key].id
+          formData.append(key, invProducto[key].id);
           break;
 
         default: 
-          invProducto[key] = invProducto[key]
+          // invProducto[key] = invProducto[key]
+          formData.append(key, invProducto[key]);
           break;
       }     
     }
-    
+    console.log(invProducto);
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/productos/${id}`, invProducto).subscribe( (resp: any) => {                              
+      this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {    
+        console.log(resp);
+                                  
         this.formSubmitted.emit(false);        
         if (resp['code'] === 200)  {
           this.productoActualizado.emit( resp );                            

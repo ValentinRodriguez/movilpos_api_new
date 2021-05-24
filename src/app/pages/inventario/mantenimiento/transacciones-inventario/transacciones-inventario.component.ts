@@ -1,8 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PendientesEntradaComponent } from 'src/app/components/pendientes-entrada/pendientes-entrada.component';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { TransaccionesService } from 'src/app/services/transacciones.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -24,12 +25,15 @@ export class TransaccionesInventarioComponent implements OnInit {
   formSubmitted = false;
   listSubscribers: any = [];
   index = 0;
-  
+  items: MenuItem[] = [];
+
   constructor(private transaccionesServ: TransaccionesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
-              private confirmationService: ConfirmationService) {  
+              private confirmationService: ConfirmationService,
+              private datosEstaticosServ: DatosEstaticosService,
+              @Inject(DOCUMENT) private document: Document) {  
                 this.usuario = this.usuariosServ.getUserLogged();
               }
 
@@ -39,6 +43,7 @@ export class TransaccionesInventarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.todasLastransacciones();
+    // this.autoLlenado();
     this.pendientesEntrada();
     this.listObserver();
 
@@ -75,16 +80,29 @@ export class TransaccionesInventarioComponent implements OnInit {
   todasLastransacciones() {     
     this.transaccionesServ.getDatos().then((resp: any)=>{      
       this.transacciones = resp;
+      console.log(resp);      
     })
   }
   
+  // autoLlenado() {
+  //   this.transaccionesServ.autoLlenado().then((resp: any)  => {
+  //     resp.forEach(element => {
+  //       if (element.data.length === 0) {     
+  //         this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
+  //       } 
+  //     });  
+  //     console.log();
+      
+  //   })
+  // }
+
   imprimirTransaccion(num_doc) { 
- 
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = `${URL}/reporte/invtransacciones-visualizar/${num_doc}/${this.usuario.id}`;
+    link.click();
+    link.remove();
   }  
-
-  actualizarTransaccion() {
-
-  }
   
   verTransaccion(transaccion) {
 

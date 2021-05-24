@@ -51,16 +51,16 @@
 						</ng-template>
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen tipos de inventarios en la base de datos.</td>
+								<td colspan="8">No existen tipos de marcas en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="marcas.length !== 1">
-								Existen {{marcas ? marcas.length : 0 }} existen tipos de inventarios  en total.
+								Existen {{marcas ? marcas.length : 0 }} existen tipos de marcas  en total.
 							</div>
 							
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="marcas.length === 1">
-								Existe solo {{marcas ? marcas.length : 0 }} un tipo de inventario en total.
+								Existe solo {{marcas ? marcas.length : 0 }} una marca en total.
 							</div>
 						</ng-template>
 					</p-table>

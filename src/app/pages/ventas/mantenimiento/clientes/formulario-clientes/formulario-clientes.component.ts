@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ClientesService } from 'src/app/services/clientes.service';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
 import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
@@ -39,7 +41,8 @@ export class FormularioClientesComponent implements OnInit {
   actualizando = false;
   formSubmitted = false;
   listSubscribers: any = [];
-
+  items: MenuItem[] = [];
+  
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -50,7 +53,8 @@ export class FormularioClientesComponent implements OnInit {
               private usuariosServ: UsuarioService,
               private clientesServ: ClientesService,     
               private tiponegocioServ: TipoNegocioService,
-              private tipoClienteServ: TipoClienteService,         
+              private tipoClienteServ: TipoClienteService, 
+              private datosEstaticosServ: DatosEstaticosService,        
               private paisesCiudadesServ: PaisesCiudadesService,
               public dialogService: DialogService) {
     this.usuario = this.usuariosServ.getUserLogged()
@@ -106,6 +110,11 @@ export class FormularioClientesComponent implements OnInit {
   autoLlenado() {
     this.clientesServ.autollenado().then((resp: any) => {
        resp.forEach(element => {
+        if (element.data.length === 0) {
+          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
+          console.log(this.items);
+          
+        }
          switch (element.label) {
            case 'vendedor':
              this.vendedor = element.data;
@@ -115,11 +124,11 @@ export class FormularioClientesComponent implements OnInit {
              this.documento = element.data;
              break;
  
-           case 'tipo negocio':
+           case 'tipo-negocio':
              this.tiponegocio = element.data;
              break;
  
-           case 'tipo cliente':
+           case 'tipo-cliente':
              this.tipo_cliente = element.data;
              break;
  
@@ -130,8 +139,8 @@ export class FormularioClientesComponent implements OnInit {
            default:
              break;
          }
-       });      
-       this.autollenado(resp); 
+       });   
+       this.autollenado(resp)
      })
   }
 
@@ -146,9 +155,12 @@ export class FormularioClientesComponent implements OnInit {
        this.dialogService.open(StepclientesComponent, {
         data,
         closeOnEscape: false,
-        header: 'Datos Necesarios Creación de Clientes',
+        header: 'Datos necesarios creación de clientes',
         width: '70%'
-      });
+      });  
+      // ref.onClose.subscribe(() => {
+      //   location.reload();        
+      // });
     }
   }
 

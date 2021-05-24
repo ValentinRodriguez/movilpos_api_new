@@ -76,7 +76,7 @@
             <div class="p-field p-col-12 p-md-2">
                 <label for="cond_pago">Condiciones de Pago</label>
                 <p-dropdown [options]="cond_pago" formControlName="cond_pago" optionLabel="descripcion" 
-                            (onChange)="setVencimiento($event.value.descripcion)"
+                            (onChange)="setVencimiento($event.value.descripcion)" placeholder="Escoge..."
                             [class.ng-invalid]="getNoValido('cond_pago')" [class.ng-dirty]="getNoValido('cond_pago')">
                 </p-dropdown>
                 <small *ngIf="getNoValido('cond_pago')" class="p-invalid">Este campo es obligatorio.</small>

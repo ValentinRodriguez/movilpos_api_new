@@ -1,6 +1,6 @@
 
-<div class="p-grid table-demo">
-	
+
+<div class="p-grid table-demo">	
 	<div class="p-col-12">
 		<div class="card">
             <h5>Gestión de Transacciones</h5>
@@ -36,13 +36,9 @@
 										{{rowData[col.field] }}
 									</span>
 
-									<span *ngIf="col.field === 'titulo_mov'">										
+									<span *ngIf="col.field === 'titulo_mov' || col.field === 'comentario'">										
 										{{rowData[col.field] | titlecase}}
-									</span>
-									
-									<span *ngIf="col.field === 'comentario'">
-										{{rowData[col.field]}}
-									</span>
+									</span>									
 
 									<span *ngIf="col.field === 'fecha'">
 										{{rowData[col.field]}}
@@ -74,22 +70,22 @@
 													<th class="centrar" pSortableColumn="titulo">Producto <p-sortIcon field="titulo"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="categoria">Categoría <p-sortIcon field="categoria"></p-sortIcon></th>
-													<th class="centrar" pSortableColumn="precio_venta">Precio <p-sortIcon field="precio_venta"></p-sortIcon></th>
-													<th class="centrar" pSortableColumn="cantidad">Cantidad <p-sortIcon field="cantidad"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="precio">Precio<p-sortIcon field="precio"></p-sortIcon></th>
+													<th class="centrar" pSortableColumn="cantidad1">Cantidad <p-sortIcon field="cantidad1"></p-sortIcon></th>
 													<th class="centrar" pSortableColumn="almacen">Almacen <p-sortIcon field="almacen"></p-sortIcon></th>
 												</tr>
 											</ng-template>
 											<ng-template pTemplate="body" let-detalle>
 												<tr>
 													<td class="centrar">
-														<img [alt]="detalle.galeriaImagenes" [src]="detalle.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/>
-														<div>{{detalle.titulo}}</div>
+														<img [alt]="detalle.galeriaImagenes" [src]="detalle.galeriaImagenes | invProductos " width="64" style="vertical-align: middle"/>
+														<div>{{detalle.titulo | titlecase}}</div>
 													</td>
 													<td class="centrar">{{detalle.codigo}}</td>
-													<td class="centrar">{{detalle.categoria}}</td>
-													<td class="centrar">${{detalle.precio_venta}}</td>
-													<td class="centrar">{{detalle.cantidad}}</td>
-													<td class="centrar">{{detalle.almacen}}</td>
+													<td class="centrar">{{detalle.categoria | titlecase}}</td>
+													<td class="centrar">${{detalle.precio}}</td>
+													<td class="centrar">{{detalle.cantidad1}}</td>
+													<td class="centrar">{{detalle.almacen | titlecase}}</td>
 												</tr>
 											</ng-template>
 										</p-table>
@@ -100,7 +96,7 @@
 
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen productos en la base de datos.</td>
+								<td colspan="8">No existen transacciones en la base de datos.</td>
 							</tr>
                         </ng-template>
                         <ng-template pTemplate="summary">

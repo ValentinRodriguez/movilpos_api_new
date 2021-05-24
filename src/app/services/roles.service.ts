@@ -9,7 +9,8 @@ const URL = environment.url;
 })
 export class RolesService {
   formSubmitted = new EventEmitter();
-  
+  permisos = new EventEmitter();
+
   constructor(private http: HttpClient,
               private usuarioServ: UsuarioService) { }
 
@@ -25,8 +26,9 @@ export class RolesService {
 
   getRol(email: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/roles/${email}`).subscribe((resp: any) => {                            
-        if (resp['code'] === 200)  {          
+      this.http.get(`${URL}/roles/${email}`).subscribe((resp: any) => {                                
+        if (resp['code'] === 200)  {  
+          this.permisos.emit(resp.data);       
           resolve(resp.data);            
         }
       })

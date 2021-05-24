@@ -16,9 +16,8 @@ export class TransaccionesPagoComponent implements OnInit {
   index: number = 0;
   cuentas: any[] = [];
   id_categoria: any;
-  cols: any[];
-   
-    formSubmitted = false;
+  cols: any[];   
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,

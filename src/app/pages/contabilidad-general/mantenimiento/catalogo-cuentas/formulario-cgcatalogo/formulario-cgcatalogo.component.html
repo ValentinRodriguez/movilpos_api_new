@@ -136,5 +136,5 @@
 </form>
 <br>
 <p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
-
 <p-toast key="tst"></p-toast>
+<app-step-toolbar *ngIf="this.router.url !== '/contabilidad-general/gestion-catalogo-cuentas'"></app-step-toolbar>

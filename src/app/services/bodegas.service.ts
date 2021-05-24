@@ -128,7 +128,9 @@ export class BodegasService {
 
   usuariosPermisosBodegas(id: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/usuarios/bodega/${id}`).subscribe((resp: any) => {                              
+      this.http.get(`${URL}/usuarios/bodega/${id}`).subscribe((resp: any) => {   
+        this.formSubmitted.emit(false);
+        console.log(resp);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

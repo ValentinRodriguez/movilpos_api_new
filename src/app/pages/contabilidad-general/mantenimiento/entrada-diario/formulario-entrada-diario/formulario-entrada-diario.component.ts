@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
+import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { EntradasDiarioService } from 'src/app/services/entradas-diario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
@@ -200,7 +200,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   buscaCuentas() {
-     this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       header: 'Catalogo de Productos',
       width: '50%'
     });

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
+import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
 import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
@@ -191,7 +191,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   get cuentas_no() {   
-   
     return this.forma.get('cuentas_no') as FormArray;
   }
 
@@ -269,7 +268,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       itbis:               ['si', Validators.required],
       valor_orden:         [0],
       valor_recibido:      [0],
-      cuotas:              [{value: 1, disabled: true},],
+      cuotas:              [{value: 1, disabled: true}],
       tipo_doc:            ['FT', Validators.required],
       cod_sp:              ['', Validators.required],
       cod_sp_sec:          ['', Validators.required],
@@ -350,7 +349,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{ 
-      this.coTransaccionescxpServ.actualizarFactura(this.id, this.forma.value).then((resp: any) => {
+      this.coTransaccionescxpServ.actualizarFactura(this.id, this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');         
         this.restaurarFormulario();
       })
@@ -365,6 +364,12 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
 
     while (0 !== this.cuentas_no.length) {
       this.cuentas_no.removeAt(0);
+    }
+
+    if (event.cond_pago === 1) {
+      this.forma.get("cuotas").enable();
+    }else{
+      this.forma.get("cond_pago").disable();
     }
 
     cuenta.forEach(cuentas => {
@@ -567,6 +572,12 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   vencimiento() {
+    if (this.forma.get('fecha_orig').value === '') {
+      const tiempoTranscurrido = Date.now();
+      const hoy = new Date(tiempoTranscurrido);
+      this.forma.get('fecha_orig').setValue(hoy);
+    }
+
     const fecha_orig = this.forma.get('fecha_orig').value;
     const vencimiento = this.forma.get('cond_pago').value;
     const tmpDate = new Date(fecha_orig); 
@@ -623,7 +634,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   buscaCuentas() {
-     this.dialogService.open(CatalogoCuentasComponent, {
+     this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });

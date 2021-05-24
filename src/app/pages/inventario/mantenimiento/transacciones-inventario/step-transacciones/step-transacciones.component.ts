@@ -21,6 +21,8 @@ export class StepTransaccionesComponent implements OnInit {
 
   ngOnInit(): void {
     let data = this.config.data;
+    console.log(data);
+    
     for (let index = 0; index < data.length; index++) {      
       if (data[index].data.length === 0) {     
         this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(data[index].label)}) 
@@ -29,7 +31,9 @@ export class StepTransaccionesComponent implements OnInit {
   }
 
   cambiaIndex(index) {
-    this.activeIndex = index;    
+    this.activeIndex = index;  
+    console.log(this.activeIndex);
+    console.log(this.config.data);
   }
 
   prevPage() {
@@ -41,7 +45,6 @@ export class StepTransaccionesComponent implements OnInit {
   }
 
   finalizar() {
-     ('cerrar dialogo');  
     this.ref.close();  
     this.transaccionesServ.finalizando();
   }

@@ -7,8 +7,8 @@ const URL = environment.urlImagenes;
 })
 export class InvProductosPipe implements PipeTransform {
 
-  transform(img: any): any {  
-    if (img === null || img === '' || img === '[]') {
+  transform(img: any): any {      
+    if (img === null || img === '' || img == '[]') {
       return "../assets/images/empty-image.png";
     }else{         
       // let tmp = JSON.parse(img);

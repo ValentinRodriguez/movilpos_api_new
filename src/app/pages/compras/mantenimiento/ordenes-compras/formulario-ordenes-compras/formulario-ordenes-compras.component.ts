@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
 import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
@@ -47,14 +48,14 @@ export class FormularioOrdenesComprasComponent implements OnInit {
   metodosEnv: any[];
   minDate: Date;
   puertos: any[] = [];
-  direcciones: any[] = [];
-  
+  direcciones: any[] = [];  
   productos = [];
   direccion: any;
   cols2: any[];
   usuario: any;
   uploadedFiles: any[] = [];
-
+  items: MenuItem[] = [];
+  
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private ordenServ :OrdenescomprasService,
@@ -76,8 +77,6 @@ export class FormularioOrdenesComprasComponent implements OnInit {
 
   ngOnInit(): void {    
     this.setMinDate();
-    this.productosEscogidos();
-    this.direccionEscogida();
     this.listObserver();
 
     this.direccion = {
@@ -88,6 +87,19 @@ export class FormularioOrdenesComprasComponent implements OnInit {
       "pais": "",
       "ciudad": ""
     }
+    
+    this.cols2 = [
+      { field: 'imagen', header: 'Producto' },
+      { field: 'num_req', header: 'Requisición' },
+      { field: 'porc_desc', header: '% Descuento' },
+      { field: 'monto_desc', header: 'Descuento' },
+      { field: 'itbis', header: 'ITBIS' },
+      { field: 'cantidad1', header: 'Cantidad' },
+      { field: 'precio', header: 'Precio' },
+      { field: 'valor_bruto', header: 'Valor Bruto'},
+      { field: 'valor_neto', header: 'Valor Neto'},
+      { field: 'acciones', header: 'Acciones'},
+    ]
 
     this.ordenServ.autoLlenado().then((resp: any)  => {      
       resp.forEach(element => {
@@ -134,7 +146,35 @@ export class FormularioOrdenesComprasComponent implements OnInit {
       this.puertos.push(resp);
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$ ];
+    const observer5$ =  this.invProductosServ.productoEscogido.subscribe((resp: any) => {      
+      resp.forEach(element => {
+        console.log(element);        
+        element.descuento = 0;    
+        this.agregarFormulario(element);
+        this.productos.push(element)
+      });
+      
+      let totalCantidad = 0;
+
+      for(let sale of this.productos) {
+        totalCantidad += 1;
+      }
+      this.totalCantidad = totalCantidad;
+      console.log(this.forma.value);
+      
+    })
+
+    const observer6$ = this.direccionesServ.direccionEscogida.subscribe((resp: any) => {
+      this.direccion = resp;      
+      this.forma.get('nombre').setValue(resp.nombre);
+      this.forma.get('id_pais').setValue(resp.id_pais);
+      this.forma.get('id_ciudad').setValue(resp.id_ciudad);
+      this.forma.get('direccion_a').setValue(resp.direccion_a);
+      this.forma.get('direccion_b').setValue(resp.direccion_b);
+      this.forma.get('telefono').setValue(resp.telefono);
+    }) 
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
   };
 
   crearFormulario() {                
@@ -191,62 +231,17 @@ export class FormularioOrdenesComprasComponent implements OnInit {
     });
   }
 
-  productosEscogidos() {
-    this.invProductosServ.productoEscogido.subscribe((resp: any) => {
-      this.productos = [];
-      this.producto.reset();
-      resp.forEach(element => {
-
-        //CALCULO VALOR NETO
-        element.descuento = 0;
-        let itbis = element.itbis || 30       
-        this.agregarFormulario(element);
-        this.productos.push(element)
-      });
-      
-      let totalCantidad = 0;
-
-      for(let sale of this.productos) {
-        totalCantidad += 1;
-      }
-      this.totalCantidad = totalCantidad;
-    })
-  }
-
   get producto() {   
     return this.forma.get('productos') as FormArray;
   }
   
   autollenado(data) {
-    let existe = null;
     data.forEach(element => {            
       if (element.data.length === 0) {
-        existe = true;
+        this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
       }
-    });
-    if (existe === true) {
-       this.dialogService.open(StepOrdenesComprasComponent, {
-        data,
-        closeOnEscape: false,
-        header: 'Datos necesarios creación ordenes de compras',
-        width: '70%'
-      });  
-      // ref.onClose.subscribe(() => {
-      //   location.reload();        
-      // });
-    }
-  }
-
-  direccionEscogida() {
-    this.direccionesServ.direccionEscogida.subscribe((resp: any) => {
-      this.direccion = resp;      
-      this.forma.get('nombre').setValue(resp.nombre);
-      this.forma.get('id_pais').setValue(resp.id_pais);
-      this.forma.get('id_ciudad').setValue(resp.id_ciudad);
-      this.forma.get('direccion_a').setValue(resp.direccion_a);
-      this.forma.get('direccion_b').setValue(resp.direccion_b);
-      this.forma.get('telefono').setValue(resp.telefono);
-    }) 
+    });    
+    console.log(this.items);    
   }
 
   guardarOrdenes(){
@@ -269,7 +264,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
     }else{
       this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{      
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');
-        this.imprimirOrden(resp.data.num_oc);     
+        this.imprimirOrden(resp.num_oc);     
       })
     }  
   } 

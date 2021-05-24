@@ -19,28 +19,6 @@ export class OrdenesComprasComponent implements OnInit {
   listSubscribers: any = [];
   index: number = 0;
   cols: any[];
-  // i=0;
-  // isDisabled=true;
-  // detalles = []; 
-
-  
-  // panelOpenState = false;
-  
-  
-  // categoriaExiste = 3;
-  
-
-  
-
-  // selectedCountry: any;
- 
-  
- 
-  // monto_desc: number;
-  
-  
-  
-
 
   constructor(private uiMessage: UiMessagesService,              
               private ordenServ :OrdenescomprasService,              
@@ -94,6 +72,7 @@ export class OrdenesComprasComponent implements OnInit {
   todosLasOrdenes() {     
     this.ordenServ.getDatos().then((resp: any) => {       
       this.ordenes = resp;
+      console.log(resp);      
     })
   }
 

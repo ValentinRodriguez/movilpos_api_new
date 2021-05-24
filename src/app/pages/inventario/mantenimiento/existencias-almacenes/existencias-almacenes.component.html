@@ -1,0 +1,132 @@
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <h5>Existencias por Almacenes</h5>
+            <form (ngSubmit)="verReporte()" [formGroup]="forma">
+                <div class="p-fluid p-formgrid p-grid">
+                                        
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fecha">Fecha Inicial</label>
+                        <span class=" p-input-icon-right">
+                            <p-calendar formControlName="fecha" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event,'fecha')"
+                                        [class.ng-invalid]="getNoValido('fecha')" [class.ng-dirty]="getNoValido('fecha')">
+                            </p-calendar>
+                        </span>
+                        <small *ngIf="getNoValido('fecha')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="id_tipoinventario">Inventario</label>
+                        <p-dropdown input [options]="tipoInventario" [class.ng-invalid]="getNoValido('id_tipoinventario')" [class.ng-dirty]="getNoValido('id_tipoinventario')" 
+                                    name="id_tipoinventario" formControlName="id_tipoinventario" placeholder="Escoje.." optionLabel="descripcion">
+                        </p-dropdown>
+                        <small *ngIf="getNoValido('id_tipoinventario')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="id_bodega">Bodega</label>
+                        <p-dropdown input [options]="bodegas" [class.ng-invalid]="getNoValido('id_bodega')" [class.ng-dirty]="getNoValido('id_bodega')" 
+                                    name="id_bodega" formControlName="id_bodega" placeholder="Escoje.." optionLabel="descripcion">
+                        </p-dropdown>
+                        <small *ngIf="getNoValido('id_bodega')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="id_producto">Producto</label>	
+                        <p-autoComplete formControlName="id_producto" [suggestions]="productosFiltrados" (completeMethod)="filtrarProducto($event)" field="titulo" 
+                                        [forceSelection]="true" [dropdown]="true" [class.ng-invalid]="getNoValido('id_producto')" [class.ng-dirty]="getNoValido('id_producto')">
+                            <ng-template let-cuenta pTemplate="item" >
+                                <div class="country-item">
+                                    <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                                    <div>{{cuenta.titulo}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                        <small *ngIf="getNoValido('id_producto')" class="p-invalid">Este campo es obligatorio.</small>						
+                    </div>
+                </div>
+                <br>
+                <button pButton pRipple label="Ver Reporte" icon="pi pi-eye" type="submit" class="p-mr-2 p-mb-2"></button>   
+                <button pButton pRipple label="Limpiar Formulario" icon="pi pi-trash" type="button" (click)="limpiarForm()" class="p-button-warning p-mr-2 p-mb-2"></button>              
+            </form>
+        </div>
+    </div>
+    <div class="table">
+        <p-table #dt [columns]="cols" [value]="mayor" *ngIf="this.mayor.length !== 0" sortField="cuenta_no" sortMode="single" (onSort)="onSort()"
+                 styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+                    <!-- <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button> -->
+                    <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
+                    <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button> -->
+                    <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
+                </div>
+            </ng-template>
+            
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                <tr *ngIf="rowGroupMetadata[rowData.id_bodega].index === rowIndex">
+                    <td [attr.colspan]="this.cols.length">                    
+                        <span class="p-text-bold p-ml-2"><strong>BODEGA: {{rowData.almacen | uppercase}}</strong></span>
+                    </td>
+                </tr>
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        <span *ngIf="col.field === 'producto'">
+                            <img [src]="rowData.galeriaImagenes | invProductos" width="64"
+                                style="vertical-align: middle"/>
+                            <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
+                                {{ rowData['titulo'] | titlecase}}
+                            </div>
+                        </span>
+
+                        <span *ngIf="col.field === 'descripcion' || col.field === 'almacen'">
+                            {{ rowData[col.field] | titlecase }}
+                        </span>
+                        
+                        <span *ngIf="col.field === 'cantidad1' || col.field === 'cantidad_orden' || col.field === 'reservado' || col.field === 'disponible' ||
+                                     col.field === 'transito'">
+                            {{ rowData[col.field] || 0}}
+                        </span>
+                        <!-- <span *ngIf=" col.field === 'balance'">                        
+                            <ng-container *ngIf="rowData[col.field] > 0; else elseTemplate">
+                                <span class="verde"> ${{ rowData[col.field] || 0}}</span>    
+                            </ng-container>
+                            <ng-template #elseTemplate>
+                                <span class="rojo"> ${{ rowData[col.field] || 0}}</span>    
+                            </ng-template>                        
+                        </span> -->
+                    </td>
+                </tr>
+                <!-- <tr *ngIf="rowGroupMetadata[rowData.cuenta_no].index === rowIndex" style="background: #D9D9D9;">
+                    <td [attr.colspan]="this.cols.length - 3">                    
+                        <span class="p-text-bold p-ml-2"><strong>TOTALES: </strong></span>
+                    </td>
+                    <td>
+                       <strong>${{rowData.Tdebito}}</strong>
+                    </td>
+                    <td>
+                        <strong>${{rowData.Tcredito}}</strong>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="rowData.Tbalance > 0; else elseTemplate">
+                            <strong><span class="verde"> ${{ rowData.Tbalance || 0}}</span></strong>    
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <strong><span class="rojo"> ${{ rowData.Tbalance || 0}}</span></strong>    
+                        </ng-template> 
+                    </td>
+                </tr> -->
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+<p-toast key="tst"></p-toast>

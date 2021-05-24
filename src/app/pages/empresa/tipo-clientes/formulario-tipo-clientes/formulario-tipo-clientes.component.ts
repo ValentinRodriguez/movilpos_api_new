@@ -49,6 +49,8 @@ export class FormularioTipoClientesComponent implements OnInit {
     })
 
     const observer2$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{
+      console.log(resp);
+      
       this.formSubmitted = resp;
     })
 
@@ -84,15 +86,16 @@ export class FormularioTipoClientesComponent implements OnInit {
     this.formSubmitted = true;
     if (this.tipoCliExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de cliente ya existe');
+      this.formSubmitted = false; 
       return;
     }
 
     if (this.forma.valid) {  
-      this.formSubmitted = false;    
-      this.tipoClientesServ.crearTipoCliente(this.forma.value).then((resp: any) => {
+      this.tipoClientesServ.crearTipoCliente(this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
       })  
     }else{
+      this.formSubmitted = false;  
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })

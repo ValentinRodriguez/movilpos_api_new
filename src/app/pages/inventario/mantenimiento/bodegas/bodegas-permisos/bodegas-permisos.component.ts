@@ -14,6 +14,8 @@ export class BodegasPermisosComponent implements OnInit {
   usuarios: any[] = [];
   usuariosPermisos: any[] = [];
   id_bodega: any;
+  formSubmitted = true;
+  listSubscribers: any = [];
 
   constructor(public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
@@ -22,16 +24,29 @@ export class BodegasPermisosComponent implements OnInit {
               private bodegasServ: BodegasService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
               }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
+    this.listObserver();
     this.id_bodega = this.config.data.bodega;
-    
     this.usuariosServ.getUsers().then((resp:any)=>{
+      console.log(resp);      
       this.usuarios = resp;      
       this.permisosBodega(this.usuario.id)
     })    
   }
 
+  listObserver = () => {
+    const observer1$ = this.bodegasServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+      console.log(resp);      
+    })
+    this.listSubscribers = [observer1$];
+  };
+
+   
   guardarPermisos() {
     if (this.usuariosPermisos.length === 0) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error','Debe agregar al menos una bodega.');   
@@ -51,8 +66,10 @@ export class BodegasPermisosComponent implements OnInit {
     })
   }
 
-  permisosBodega(id) {
+  permisosBodega(id) {    
     this.bodegasServ.usuariosPermisosBodegas(id).then((resp: any)=>{
+      console.log(resp);
+      
       this.usuariosPermisos = resp;              
       this.usuariosPermisos.forEach(element => {        
         this.usuarios = this.usuarios.filter( (data: any) => {   

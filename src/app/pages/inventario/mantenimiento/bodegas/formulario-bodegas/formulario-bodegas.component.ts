@@ -23,15 +23,8 @@ export class FormularioBodegasComponent implements OnInit {
   ciudades: any[] = [];
   id: number;
   formSubmitted = false;
-
   listSubscribers: any = [];
-
-
-
-
-
-
-
+  
   constructor(private uiMessage: UiMessagesService,
               private bodegasServ: BodegasService,
               private fb: FormBuilder, 

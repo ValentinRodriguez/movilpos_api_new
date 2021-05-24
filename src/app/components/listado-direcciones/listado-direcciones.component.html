@@ -51,47 +51,9 @@
         </div>
     </ng-template>
 </p-table>                    
-        
+<br>
 <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="right">
         <button pButton pRipple label="Enviar" class="p-button-success p-mr-2" (click)="enviarDireccion()"></button>          
     </ng-template>
 </p-toolbar>
-<!--                     
-<p-table #dt [value]="productos" [rows]="5" [paginator]="true" [globalFilterFields]="['titulo','codigo','precio','cantidad']"
-        [(selection)]="direccioneSeleccionada" [rowHover]="true" dataKey="id" closeOnEscape="true" [showCurrentPageReport]="true">
-   
-        <ng-template pTemplate="caption">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
-                </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>                
-                <th pSortableColumn="titulo">Título <p-sortIcon field="titulo"></p-sortIcon></th>               
-                <th pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon></th>
-                <th pSortableColumn="precio">Precio<p-sortIcon field="precio"></p-sortIcon></th>
-                <th pSortableColumn="cantidad">Cantidad<p-sortIcon field="cantidad"></p-sortIcon></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-producto>
-            <tr>
-                <td>
-                    <p-tableRadioButton [value]="producto"></p-tableRadioButton>
-                </td>
-                <td>{{producto.titulo | titlecase}}</td>
-                <td>{{producto.codigo}}</td>   
-                <td>{{producto.precio_venta}}</td>   
-                <td>{{producto.cantidad || 0}}</td>                
-            </tr>
-        </ng-template>
-    </p-table>
-        
-    <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="right">
-            <button pButton pRipple label="Enviar" class="p-button-success p-mr-2" (click)="enviarDireccion()"></button>          
-        </ng-template>
-    </p-toolbar> -->

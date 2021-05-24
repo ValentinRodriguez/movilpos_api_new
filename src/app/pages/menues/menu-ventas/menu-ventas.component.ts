@@ -21,7 +21,11 @@ export class MenuVentasComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    this.router.navigate([ruta]);
-  }
-
+    console.log(ruta);
+    if (ruta === 'interfaz-ventas') {
+      this.router.navigate([ruta]);
+    }else{
+      this.router.navigate([`ventas/${ruta}`]);
+    }
+  }  
 }

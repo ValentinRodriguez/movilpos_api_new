@@ -2,11 +2,10 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CatalogoCuentasComponent } from 'src/app/components/catalogo-cuentas/catalogo-cuentas.component';
 import { FacturasPendientesComponent } from 'src/app/components/facturas-pendientes/facturas-pendientes.component';
+import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { SecuenciasService } from 'src/app/services/secuencias.service';
 import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -314,7 +313,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       
       this.transaccionsServ.crearTransaccion(this.forma.value).then(()=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
-        this.resetFormaulario();
+        this.resetFormulario();
       })
     }
   }
@@ -331,7 +330,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     }else{ 
       this.transaccionsServ.actualizarTransaccion(this.id, this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-        this.resetFormaulario();
+        this.resetFormulario();
       })
     }
   }
@@ -360,6 +359,32 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     this.ProveedoresFiltrados = filtered;
   }
   
+  evitaDoble(data, index) {
+    switch (data) {
+      case 'debito':
+        ((this.detalle_cuentas).at(index) as FormGroup).get("credito").setValue('');        
+        
+        if (((this.detalle_cuentas).at(index) as FormGroup).get("debito").value !== null) {           
+          ((this.detalle_cuentas).at(index) as FormGroup).get("credito").disable();  
+        }else{          
+          ((this.detalle_cuentas).at(index) as FormGroup).get("credito").enable();
+        }
+        break;
+
+      case 'credito':
+        ((this.detalle_cuentas).at(index) as FormGroup).get("debito").setValue('');        
+        if (((this.detalle_cuentas).at(index) as FormGroup).get("credito").value !== null) {          
+          ((this.detalle_cuentas).at(index) as FormGroup).get("debito").disable();  
+        }else{          
+          ((this.detalle_cuentas).at(index) as FormGroup).get("debito").enable();
+        }
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   datosProv(event) {    
     this.monedas = JSON.parse(event.moneda) 
     this.forma.get("cod_sp").setValue(event.cod_sp);
@@ -409,7 +434,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   buscaCuentas() {
-    const ref = this.dialogService.open(CatalogoCuentasComponent, {
+    const ref = this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       header: 'Catalogo de cuentas',
       width: '50%'
     });
@@ -432,15 +457,28 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.resetFormaulario();
+    this.resetFormulario();
     this.transaccionsServ.guardando();    
   }
 
-  resetFormaulario() {
+  resetFormulario() {
+    // let i = 0;
+    // while (0 !== this.cuentas_no.length) {
+    //   this.cuentas_no.removeAt(0);
+    //   i++
+    // }
+    // for(var name in this.forma.controls) {        
+    //   if (name !== 'cuentas_no') {            
+    //     (<FormControl>this.forma.controls[name]).setValue('')
+    //     this.forma.controls[name].setErrors(null);          
+    //   }          
+    // }
+
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
+
   padLeft(value, length) {
     return (value.toString().length < length) ? this.padLeft("0" + value, length) : 
     value;

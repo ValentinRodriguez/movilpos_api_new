@@ -53,16 +53,16 @@
 						</ng-template>
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen modelos en la base de datos.</td>
+								<td colspan="8">No existen direcciones de envio en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="direcciones.length !== 1">
-								Existen {{direcciones ? direcciones.length : 0 }} modelos en total.
+								Existen {{direcciones ? direcciones.length : 0 }} direcciones de envio en total.
 							</div>
 							
 							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="direcciones.length === 1">
-								Existe solo {{direcciones ? direcciones.length : 0 }} modelos en total.
+								Existe solo {{direcciones ? direcciones.length : 0 }} direccion de envio en total.
 							</div>
 						</ng-template>
 					</p-table>
