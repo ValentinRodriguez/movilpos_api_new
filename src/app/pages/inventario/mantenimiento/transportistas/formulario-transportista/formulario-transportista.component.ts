@@ -61,7 +61,7 @@ export class FormularioTransportistaComponent implements OnInit {
       this.transportistaServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
-        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+        this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
           this.ciudades = resp;
           this.forma.get('cod_provincia').setValue(this.ciudades.find(ciudad => ciudad.cod_provincia === res.id_ciudad));
         })
@@ -143,7 +143,7 @@ export class FormularioTransportistaComponent implements OnInit {
   }
 
   buscaPaises(id) {    
-    this.paisesCiudadesServ.getCiudadesXpaises(id).then((resp:any) => {
+    this.paisesCiudadesServ.buscaCiudad(id).then((resp:any) => {
       this.ciudades = resp;     
     })  
   }

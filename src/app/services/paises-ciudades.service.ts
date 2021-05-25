@@ -31,9 +31,45 @@ export class PaisesCiudadesService {
     })
   }
 
-  getCiudadesXpaises(id: string) {
+  buscaRegion(id: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/ciudad/pais/${id}`).subscribe((resp: any) => {  
+      this.http.get(`${URL}/region/pais/${id}`).subscribe((resp: any) => {  
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  buscaMunicipios(id: string) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/municipios/region/${id}`).subscribe((resp: any) => {  
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  buscaCiudad(id: string) {
+    console.log(id);    
+    return new Promise( resolve => {
+      this.http.get(`${URL}/ciudad/municipio/${id}`).subscribe((resp: any) => {  
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  buscaSector(id: string) {
+    console.log(id);    
+    return new Promise( resolve => {
+      this.http.get(`${URL}/sectores/ciudad/${id}`).subscribe((resp: any) => {  
+        console.log(resp);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

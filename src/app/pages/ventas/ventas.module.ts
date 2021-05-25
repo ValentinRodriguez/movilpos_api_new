@@ -48,8 +48,10 @@ import { RecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos
 import { FormularioRecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/formulario-recepcion-vehiculos/formulario-recepcion-vehiculos.component';
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     OrdenesPedidosComponent,
     StepOrdenesPedidosComponent,

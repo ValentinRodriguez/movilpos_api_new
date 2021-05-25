@@ -14,7 +14,7 @@ import { StepclientesComponent } from '../stepclientes/stepclientes.component';
 @Component({
   selector: 'app-formulario-clientes',
   templateUrl: './formulario-clientes.component.html',
-  styleUrls: ['./formulario-clientes.component.scss']
+  styleUrls: ['./formulario-clientes.component.scss'],
 })
 export class FormularioClientesComponent implements OnInit {
 
@@ -36,13 +36,16 @@ export class FormularioClientesComponent implements OnInit {
   id1: number;
   condpago: any[];
   paises: any[] = [];
-  ciudades: any[] = [];
+  regiones: any[] = [];
   tipo_proveedor=[];
   actualizando = false;
   formSubmitted = false;
   listSubscribers: any = [];
   items: MenuItem[] = [];
-  
+  municipios: any[] = [];
+  ciudades: any[] = [];
+  sectores: any[] = [];
+
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -96,15 +99,17 @@ export class FormularioClientesComponent implements OnInit {
         this.forma.get('vendedor').setValue(this.vendedor.find(doc => doc.id_numemp == res.vendedor)); 
         this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago));
         this.forma.get('tipo_negocio').setValue(this.tiponegocio.find(doc => doc.tipo_negocio == res.tipo_negocio)); 
-        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
-        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
-          this.ciudades = resp;
-          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
-        })       
+        // this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
+        // this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
+        //   this.ciudades = resp;
+        //   this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        // })       
       })
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    const observer6$ = this.forma.valueChanges.subscribe(newVal => console.log(newVal));
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer6$];
   };
 
   autoLlenado() {
@@ -164,9 +169,33 @@ export class FormularioClientesComponent implements OnInit {
     }
   }
 
+  buscaRegion(event) {
+    this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+     this.regiones = resp;
+   })   
+ }
+
+  buscaMunicipio(event) {
+    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
+      this.municipios = resp;
+    })   
+  }
+  
   buscaPaises(event) {
-     this.paisesCiudadesServ.getCiudadesXpaises(event).then((resp:any) => {  
+     this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
+  
+  buscaCiudad(event) {
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
       this.ciudades = resp;
+    })   
+  }
+
+  buscaSector(event) {
+    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
+      this.sectores = resp;
     })   
   }
 
@@ -186,10 +215,16 @@ export class FormularioClientesComponent implements OnInit {
       tipo_negocio:         ['', Validators.required],
       ncf:                  ['B0100066853'],
       generico:             ['', Validators.required],
+      
       direccion:            ['santo domingo', Validators.required],
       urbanizacion:         ['dfgdfg', Validators.required],
+
       id_pais:              ['', Validators.required],
+      id_region:            ['', Validators.required],
+      id_municipio:         ['', Validators.required],
       id_ciudad:            ['', Validators.required],
+      id_sector:            ['', Validators.required],
+
       celular:              ['(555)-555-5555', Validators.required],
       telefono_casa:        ['(555)-555-5555'],
       email:                ['valentinrodriguez1427@gmail.com'],      
@@ -205,7 +240,9 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    this.formSubmitted = true;         
+    // this.formSubmitted = true;    
+    console.log(this.forma.value);
+         
     if (this.forma.invalid) {
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 

@@ -90,7 +90,7 @@ export class FormularioProveedoresComponent implements OnInit {
         this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
         this.forma.get('id_moneda').setValue(JSON.parse(res.moneda));      
         this.selectedMultiMoneda = JSON.parse(res.moneda);
-        this.paisesCiudadesServ.getCiudadesXpaises(res.id_pais).then((resp:any) => { 
+        this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
           this.ciudades = resp;
           this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
         })
@@ -217,7 +217,7 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   buscaPaises(id) {    
-    this.paisesCiudadesServ.getCiudadesXpaises(id).then((resp:any) => {
+    this.paisesCiudadesServ.buscaCiudad(id).then((resp:any) => {
       this.ciudades = resp;     
     })  
   }

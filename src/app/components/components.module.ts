@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 // COMPONENTES DE PRIMENG
 import { MenubarModule } from 'primeng/menubar';
@@ -23,6 +23,7 @@ import { SelectButtonModule} from 'primeng/selectbutton';
 import { AutoCompleteModule} from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { PanelModule } from 'primeng/panel';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
@@ -37,6 +38,7 @@ import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pend
 import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
 import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendientes-liquidacion.component';
+import { LocalizacionComponent } from './localizacion/localizacion.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendien
     FacturasPendientesComponent,
     ListadoCatalogoCuentasComponentsComponent,
     StepToolbarComponent,
-    PendientesLiquidacionComponent
+    PendientesLiquidacionComponent,
+    LocalizacionComponent
   ],
   
   exports: [
@@ -62,13 +65,16 @@ import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendien
     ListaProductosComponent,
     ListadoDireccionesComponent,
     PendientesEntradaComponent,
-    StepToolbarComponent
+    StepToolbarComponent,
+    LocalizacionComponent
   ],
 
   imports: [
     CommonModule,
     DropdownModule,
+    PanelModule,
     FormsModule,
+    ReactiveFormsModule,
     ProgressBarModule,
     RouterModule,
     MenubarModule,

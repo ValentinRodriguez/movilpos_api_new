@@ -1,0 +1,20 @@
+<!--  -->
+<p-panel header="Ubicación" [toggleable]="true" [formGroup]="forma">		
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_pais">Pais</label>
+            <p-dropdown input [options]="paises" name="id_pais" [formControlName]="'id_pais'"
+                        id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
+            </p-dropdown>
+            <!-- <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small> -->
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="id_region">Región</label>
+            <p-dropdown input [options]="paises" name="id_region"[formControlName]="'id_region'"
+                        id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+            </p-dropdown>
+            <!-- <small *ngIf="getNoValido('id_region')" class="p-invalid">Este campo es obligatorio.</small> -->
+        </div>
+    </div>
+</p-panel>
