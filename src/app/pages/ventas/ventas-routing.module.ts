@@ -11,6 +11,8 @@ import { FormularioCatComponent } from '../inventario/mantenimiento/categorias/f
 import { FormularioMarcaComponent } from '../inventario/mantenimiento/marcas/formulario-marca/formulario-marca.component';
 import { FormularioPropiedadesComponent } from '../inventario/mantenimiento/propiedades/formulario-propiedades/formulario-propiedades.component';
 import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
+import { FormularioTiponegocioComponent } from '../empresa/tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
+import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 
 @NgModule({
   imports: [
@@ -24,6 +26,11 @@ import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descar
           {path: 'modelos', component: FormularioCatComponent},
           {path: 'marcas', component: FormularioMarcaComponent},
           {path: 'propiedades', component: FormularioPropiedadesComponent},
+        ]},
+        {path: '', component: ClientesComponent, children:[
+          // {path:'', redirectTo: 'clientes', pathMatch: 'full'},          
+          {path: 'tipo-negocio', component: FormularioTiponegocioComponent},
+          {path: 'tipo-cliente', component: FormularioTipoClientesComponent},
         ]},
         {path: 'gestion-de-clientes', component: ClientesComponent},
         {path: 'gestion-de-ordenes-de-pedidos', component: OrdenesPedidosComponent},

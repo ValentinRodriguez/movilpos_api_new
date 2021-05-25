@@ -142,30 +142,9 @@ export class FormularioClientesComponent implements OnInit {
              break;
          }
        });   
-       this.autollenado(resp)
      })
   }
 
-  autollenado(data) {
-    let existe = null;
-    data.forEach(element => {            
-      if (element.data.length === 0) {
-        existe = true;
-      }
-    });
-    if (existe === true) {
-       this.dialogService.open(StepclientesComponent, {
-        data,
-        closeOnEscape: false,
-        header: 'Datos necesarios creación de clientes',
-        width: '70%'
-      });  
-      // ref.onClose.subscribe(() => {
-        //   location.reload();        
-        // });
-      }
-    }
-  
   todosLosPaises() {
     this.paisesCiudadesServ.getPaises().then((resp: any)=>{
       console.log(resp);      
