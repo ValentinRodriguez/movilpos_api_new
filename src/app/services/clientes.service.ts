@@ -71,9 +71,12 @@ export class ClientesService {
           break;
 
         case 'cond_pago':
+        case 'tipo_documento':
         case 'id_ciudad':
         case 'id_pais':
-        case 'tipo_documento':
+        case 'id_region':
+        case 'id_municipio':
+        case 'id_sector':
           formData.append(key, cliente[key].id)
           break;
 
@@ -84,7 +87,8 @@ export class ClientesService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {    
+      this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {  
+        console.log(resp)  
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {    
           this.ClienteCreado.emit( resp.data );                                   

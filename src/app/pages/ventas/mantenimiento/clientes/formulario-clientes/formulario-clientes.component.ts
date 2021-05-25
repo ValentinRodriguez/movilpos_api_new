@@ -45,7 +45,6 @@ export class FormularioClientesComponent implements OnInit {
   municipios: any[] = [];
   ciudades: any[] = [];
   sectores: any[] = [];
-
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -116,9 +115,7 @@ export class FormularioClientesComponent implements OnInit {
     this.clientesServ.autollenado().then((resp: any) => {
        resp.forEach(element => {
         if (element.data.length === 0) {
-          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
-          console.log(this.items);
-          
+          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})      
         }
          switch (element.label) {
            case 'vendedor':
@@ -164,31 +161,33 @@ export class FormularioClientesComponent implements OnInit {
         width: '70%'
       });  
       // ref.onClose.subscribe(() => {
-      //   location.reload();        
-      // });
+        //   location.reload();        
+        // });
+      }
     }
+  
+  todosLosPaises() {
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
+      console.log(resp);      
+      this.paises = resp;   
+    })
   }
-
+  
   buscaRegion(event) {
-    this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
-     this.regiones = resp;
-   })   
- }
+      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
 
   buscaMunicipio(event) {
     this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
       this.municipios = resp;
     })   
   }
-  
-  buscaPaises(event) {
-     this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
-      this.regiones = resp;
-    })   
-  }
-  
+ 
   buscaCiudad(event) {
     this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
+      console.log(resp);      
       this.ciudades = resp;
     })   
   }
@@ -199,11 +198,6 @@ export class FormularioClientesComponent implements OnInit {
     })   
   }
 
-  todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
-      this.paises = resp;   
-    })
-  }
 
   crearFormulario() {
     this.forma = this.fb.group({
