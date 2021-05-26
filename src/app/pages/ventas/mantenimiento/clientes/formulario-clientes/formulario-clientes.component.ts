@@ -18,7 +18,6 @@ import { StepclientesComponent } from '../stepclientes/stepclientes.component';
 })
 export class FormularioClientesComponent implements OnInit {
 
-  guardando = false;
   forma: FormGroup;
   usuario: any;
   documento=[];
@@ -38,7 +37,6 @@ export class FormularioClientesComponent implements OnInit {
   paises: any[] = [];
   regiones: any[] = [];
   tipo_proveedor=[];
-  actualizando = false;
   formSubmitted = false;
   listSubscribers: any = [];
   items: MenuItem[] = [];
@@ -177,7 +175,6 @@ export class FormularioClientesComponent implements OnInit {
     })   
   }
 
-
   crearFormulario() {
     this.forma = this.fb.group({
       nombre:               ['joselito perez', Validators.required],
@@ -213,7 +210,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    // this.formSubmitted = true;    
+    this.formSubmitted = true;    
     console.log(this.forma.value);
          
     if (this.forma.invalid) {
@@ -225,6 +222,7 @@ export class FormularioClientesComponent implements OnInit {
     }else{
       this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');              
+        this. resetFormulario();
       })
     }       
   } 
@@ -273,11 +271,16 @@ export class FormularioClientesComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{      
-      this.clientesServ.actualizarCliente(this.id, this.forma.value).then((resp: any)=>{    
-        this.actualizando=false;
+      this.clientesServ.actualizarCliente(this.id, this.forma.value).then(()=>{    
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
+        this. resetFormulario();
       })
-    } 
-     
+    }
   } 
+
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
 }

@@ -30,7 +30,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {AccordionModule} from 'primeng/accordion';
-
+import {DataViewModule} from 'primeng/dataview';
+import {SidebarModule} from 'primeng/sidebar';
 
 // COMPONENTES DEL MODULO DE VENTAS
 import { ClientesComponent } from './mantenimiento/clientes/clientes.component';
@@ -75,11 +76,13 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     VentasRoutingModule,
     DropdownModule,
     TableModule,
+    SidebarModule,
     SelectButtonModule,
     TabViewModule,
     ConfirmDialogModule,
     DialogModule,
     ToastModule,
+    DataViewModule,
     AutoCompleteModule,
     AccordionModule,
     OverlayPanelModule,

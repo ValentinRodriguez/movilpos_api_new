@@ -70,14 +70,17 @@ export class ClientesService {
           formData.append(key, cliente[key].tipo_negocio)
           break;
 
-        case 'cond_pago':
-        case 'tipo_documento':
+        case 'cond_pago':        
         case 'id_ciudad':
         case 'id_pais':
         case 'id_region':
         case 'id_municipio':
         case 'id_sector':
           formData.append(key, cliente[key].id)
+          break;
+        
+        case 'tipo_documento':
+          formData.append(key, cliente[key].tipo_documento)
           break;
 
         default:

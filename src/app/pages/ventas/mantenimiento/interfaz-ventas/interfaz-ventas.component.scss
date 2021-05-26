@@ -211,17 +211,13 @@
             margin-right: 0;
         }
     }
-    .p-ripple.pay-button {
-        width: 23.8%; 
+    
+    .pay-button {
+        width: 24.3% !important; 
         background-color: #689F38;
         color: white;
     }
-    .p-ripple.pay-button2 {
-        width: 100%; 
-        background-color: #689F38;
-        color: white;
-        margin-bottom: 0px !important; 
-    }
+    
     .warning-n-button{
         background-color: #FBC02D;
         color: white; 
@@ -271,23 +267,7 @@
     // position: absolute;
     // bottom: 60px;
     // height: 150px;
-    width: 96%;
-}
-
-.derecha {
-    width: 16rem;
-    height: 100%;
-    position: fixed;
-    right: 0px;
-    top: 0;
-    overflow: hidden;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    user-select: none;
-    transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+    width: 78%;
 }
 
 .no-border {

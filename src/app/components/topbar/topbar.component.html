@@ -1,20 +1,20 @@
 <div class="layout-topbar" [ngClass]="{'header-fijo': this.menu === 'no'}">
     <!-- <p-inputSwitch [(ngModel)]="checked1"></p-inputSwitch> -->
-    <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
-                    *ngIf="(this.menu === 'no')" optionValue="value" (onChange)="modoVenta($event)">
-    </p-selectButton>
-
-    <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" *ngIf="(this.menu === 'no' && this.facturaServ.display === true)" (click)="ocultar()">
-        <i class="pi pi-chevron-right"></i>
-    </a>
     
+    <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
+        *ngIf="(this.menu === 'no')" optionValue="value" (onChange)="modoVenta($event)">
+    </p-selectButton>
+        
     <div class="topbar-left">
         <a tabindex="0" class="menu-button" (click)="app.onMenuButtonClick($event)" *ngIf="this.menu !== 'no'">
             <i class="pi pi-chevron-left"></i>
         </a>
+        <a tabindex="0" class="menu-button" (click)="onMenuButtonClick($event)" *ngIf="this.menu === 'no'">
+            <i class="pi pi-chevron-left"></i>
+        </a>
         <span class="topbar-separator"></span>
 
-        <img id="logo-mobile" class="mobile-logo" src="assets/layout/images/logo-dark.svg" alt="diamond-layout" />
+        <!-- <img id="logo-mobile" class="mobile-logo" src="assets/layout/images/logo-dark.svg" alt="diamond-layout" /> -->
     </div>
 
     <div class="topbar-right">
@@ -128,15 +128,7 @@
                     <i class="pi pi-align-right"></i>
                 </a>
             </li> -->
-            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" 
-               *ngIf="(this.menu === 'no' && this.facturaServ.display === true)" (click)="ocultar()">
-                <i class="pi pi-chevron-right"></i>
-            </a>
-            
-            <a tabindex="0" class="menu-button" style="background: #2196f3; color: #ffffff;" 
-               *ngIf="(this.menu === 'no' && this.facturaServ.display === false)" (click)="desplegar()">
-                <i class="pi pi-chevron-left"></i>
-            </a>            
+                 
         </ul>
     </div>
 </div>
