@@ -1,4 +1,4 @@
-<div class="p-grid table-demo">
+<div class="p-grid table-demo" id="print-section">
 	<div class="p-col-12">
 		<div class="card">
             <h5 style="text-align:center; margin-bottom:30px; font-size:21px;">ACTO DE DESCARGO</h5>
@@ -6,7 +6,15 @@
                 
                 <div class="p-field">
                     <label for="part1">Quien subscribe, el(la) señor(a)</label>
-                    <input id="part1" type="text" pInputText> 
+                    <p-autoComplete [suggestions]="clientesFiltrados" (completeMethod)="filtrarProveedor($event)" 
+                                    (onSelect)="datosClientes($event)" field="nombre" [dropdown]="false">
+                        <ng-template let-proveedor pTemplate="item">
+                            <div class="country-item">
+                                <div>{{proveedor.nombre | titlecase}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+
                     <label for="part2">de nacionalidad</label>
                     <input id="part2" type="text" pInputText> 
                 </div>
@@ -43,7 +51,9 @@
 
                 <div class="p-field">
                     <label for="part9">AÑO DE FABRICACION:</label>
-                    <input id="part9" type="text" pInputText> 
+                    <p-dropdown inputId="fabricacion" [options]="fechafabricacion" name="fabricacion"
+                                placeholder="Escoge..." optionLabel="value">
+                    </p-dropdown>
                 </div>
 
                 <div class="p-field">
@@ -94,3 +104,4 @@
 		</div>
 	</div>	
 </div>
+<button (click)="print()">print</button>

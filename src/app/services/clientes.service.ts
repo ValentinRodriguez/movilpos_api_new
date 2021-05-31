@@ -76,7 +76,7 @@ export class ClientesService {
         case 'id_region':
         case 'id_municipio':
         case 'id_sector':
-          formData.append(key, cliente[key].id)
+          formData.append(key, cliente[key].id || null)
           break;
         
         case 'tipo_documento':

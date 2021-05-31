@@ -192,8 +192,8 @@ export class FormularioClientesComponent implements OnInit {
       id_pais:              ['', Validators.required],
       id_region:            ['', Validators.required],
       id_municipio:         ['', Validators.required],
-      id_ciudad:            ['', Validators.required],
-      id_sector:            ['', Validators.required],
+      id_ciudad:            [''],
+      id_sector:            [''],
 
       celular:              ['(555)-555-5555', Validators.required],
       telefono_casa:        ['(555)-555-5555'],
