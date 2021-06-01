@@ -47,6 +47,7 @@ export class FormularioClientesComponent implements OnInit {
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
   ]
+  provincias: any;
 
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
@@ -153,6 +154,12 @@ export class FormularioClientesComponent implements OnInit {
   buscaRegion(event) {
       this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
       this.regiones = resp;
+    })   
+  }
+
+  buscaProvincia(event) {
+      this.paisesCiudadesServ.buscaProvincia(event).then((resp:any) => {  
+      this.provincias = resp;
     })   
   }
 

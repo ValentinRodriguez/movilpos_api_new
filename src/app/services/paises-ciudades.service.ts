@@ -42,6 +42,17 @@ export class PaisesCiudadesService {
     })
   }
 
+  buscaProvincias(id: string) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/provincias/region/${id}`).subscribe((resp: any) => {  
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   buscaMunicipios(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/municipios/region/${id}`).subscribe((resp: any) => {  
