@@ -70,15 +70,34 @@ export class ClientesService {
           formData.append(key, cliente[key].tipo_negocio)
           break;
 
-        case 'cond_pago':        
-        case 'id_ciudad':
-        case 'id_pais':
-        case 'id_region':
-        case 'id_municipio':
-        case 'id_sector':
+        case 'cond_pago':
           formData.append(key, cliente[key].id || null)
           break;
-        
+
+        case 'id_ciudad':
+          formData.append(key, cliente[key].id_ciudad || null)
+          break;
+
+        case 'id_pais':
+          formData.append(key, cliente[key].id_pais || null)
+          break;
+
+        case 'id_region':
+            formData.append(key, cliente[key].id_region || null)
+            break;
+
+        case 'id_provincia':
+          formData.append(key, cliente[key].id_provincia || null)
+          break;
+
+        case 'id_municipio':
+            formData.append(key, cliente[key].id_municipio || null)
+            break;
+
+        case 'id_sector':
+          formData.append(key, cliente[key].id_sector || null)
+          break;
+          
         case 'tipo_documento':
           formData.append(key, cliente[key].tipo_documento)
           break;

@@ -8,9 +8,16 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
   styleUrls: ['./acto-descargo.component.scss']
 })
 export class ActoDescargoComponent implements OnInit {
+
   fechafabricacion: any[] = [];
   clientes: any[] = [];
   clientesFiltrados: any[] = [];
+
+  form = {
+    cedula: '',
+    direccion: '',
+    password: null
+  };
 
   constructor(private DatosEstaticos: DatosEstaticosService,
               private clientesServ: ClientesService) { }
@@ -56,7 +63,9 @@ export class ActoDescargoComponent implements OnInit {
   }
 
   datosClientes(data) {
-    console.log(data);    
+    console.log(data);  
+    this.form.cedula = data.documento;  
+    this.form.direccion = data.pais +','+ data.provincia +','+ data.municipio +','+ data.urbanizacion +','+ data.ciudad +','+ data.sector +','+ data.direccion
   }
 
   filtrarProveedor(event) {

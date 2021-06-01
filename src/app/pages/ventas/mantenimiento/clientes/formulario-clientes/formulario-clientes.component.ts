@@ -210,7 +210,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    this.formSubmitted = true;    
+    // this.formSubmitted = true;    
     console.log(this.forma.value);
          
     if (this.forma.invalid) {
