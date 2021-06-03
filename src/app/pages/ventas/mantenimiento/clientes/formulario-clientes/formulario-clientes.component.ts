@@ -158,7 +158,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   buscaProvincia(event) {
-      this.paisesCiudadesServ.buscaProvincia(event).then((resp:any) => {  
+      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
       this.provincias = resp;
     })   
   }
@@ -198,6 +198,7 @@ export class FormularioClientesComponent implements OnInit {
 
       id_pais:              ['', Validators.required],
       id_region:            ['', Validators.required],
+      id_provincia:         ['', Validators.required],
       id_municipio:         ['', Validators.required],
       id_ciudad:            [''],
       id_sector:            [''],

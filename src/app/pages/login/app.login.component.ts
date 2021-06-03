@@ -19,7 +19,7 @@ export class AppLoginComponent implements OnInit{
   year: any;
   timeLeft = 60;
   interval;
-  guardando = false;
+  // guardando = false;
   msgs: Message[] = [];
   formSubmitted = false;
   
@@ -29,7 +29,6 @@ export class AppLoginComponent implements OnInit{
 
   ngOnInit(): void {
     this.year = this.datosEstaticosServ.getYear();
-
   }
 
   onSubmit() {
@@ -38,16 +37,12 @@ export class AppLoginComponent implements OnInit{
       data => this.handleResponse(data),
       error => this.handlerError(error)
     );
-    // .subscribe((resp: any) => {
-    //    
-    // })
   }
 
   handleResponse(data) {
     this.formSubmitted = false;
     this.usuarioServ.handleToken(data);
-    this.router.navigateByUrl('/');
-     
+    this.router.navigateByUrl('/');     
   }
 
   handlerError(error) {
@@ -65,8 +60,7 @@ export class AppLoginComponent implements OnInit{
 
       default:
         break;
-    }
-     
+    }     
   }
 
   showErrorViaMessages() {
