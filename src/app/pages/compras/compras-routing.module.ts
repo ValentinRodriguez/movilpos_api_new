@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DireccionesEnvioComponent } from './mantenimiento/direcciones-envio/direcciones-envio.component';
 import { FormularioDireccionesComponent } from './mantenimiento/direcciones-envio/formulario-direcciones/formulario-direcciones.component';
 import { OrdenesComprasComponent } from './mantenimiento/ordenes-compras/ordenes-compras.component';
+import { FormularioProveedoresComponent } from './mantenimiento/proveedores/formulario-proveedores/formulario-proveedores.component';
 import { ProveedoresComponent } from './mantenimiento/proveedores/proveedores.component';
 import { FormularioPuertosComponent } from './mantenimiento/puertos/formulario-puertos/formulario-puertos.component';
 import { PuertosComponent } from './mantenimiento/puertos/puertos.component';
@@ -21,6 +22,7 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
           {path:'', redirectTo: 'puertos', pathMatch: 'full'},
           {path: 'puertos', component: FormularioPuertosComponent},
           {path: 'direcciones', component: FormularioDireccionesComponent},
+          {path: 'proveedores', component: FormularioProveedoresComponent},
         ]},
         {path: 'gestion-de-proveedores', component: ProveedoresComponent},
         {path: 'gestion-de-ordenes-compras', component: OrdenesComprasComponent},

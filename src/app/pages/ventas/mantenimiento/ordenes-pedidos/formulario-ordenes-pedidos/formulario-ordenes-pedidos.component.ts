@@ -373,7 +373,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
 
   buscaPaises(data) {  
     //this.forma.get('id_pais').setValue(data.id)  
-    this.paisesCiudadesServ.getCiudadesXpaises(data.id).then((resp:any) => {      
+    this.paisesCiudadesServ.buscaCiudad(data.id).then((resp:any) => {      
       this.ciudades = resp;      
     })  
   }

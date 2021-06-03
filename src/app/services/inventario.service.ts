@@ -73,7 +73,8 @@ export class InventarioService {
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invproductos`).subscribe((resp: any) => {                                        
+      this.http.get(`${URL}/invproductos`).subscribe((resp: any) => {       
+        console.log(resp);                                 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

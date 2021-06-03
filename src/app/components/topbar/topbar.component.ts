@@ -77,6 +77,10 @@ export class TopbarComponent implements OnDestroy, OnInit {
 
     }
 
+    onMenuButtonClick(data) {
+        console.log(data)
+    }
+    
     capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }

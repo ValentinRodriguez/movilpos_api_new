@@ -30,7 +30,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {AccordionModule} from 'primeng/accordion';
-
+import {DataViewModule} from 'primeng/dataview';
+import {SidebarModule} from 'primeng/sidebar';
 
 // COMPONENTES DEL MODULO DE VENTAS
 import { ClientesComponent } from './mantenimiento/clientes/clientes.component';
@@ -48,8 +49,10 @@ import { RecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos
 import { FormularioRecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/formulario-recepcion-vehiculos/formulario-recepcion-vehiculos.component';
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     OrdenesPedidosComponent,
     StepOrdenesPedidosComponent,
@@ -73,11 +76,13 @@ import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descar
     VentasRoutingModule,
     DropdownModule,
     TableModule,
+    SidebarModule,
     SelectButtonModule,
     TabViewModule,
     ConfirmDialogModule,
     DialogModule,
     ToastModule,
+    DataViewModule,
     AutoCompleteModule,
     AccordionModule,
     OverlayPanelModule,

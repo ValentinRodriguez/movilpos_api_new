@@ -3179,7 +3179,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 
 .p-sidebar-mask.p-component-overlay {
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .p-tooltip .p-tooltip-text {

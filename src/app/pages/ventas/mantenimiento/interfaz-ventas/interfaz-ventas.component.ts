@@ -41,7 +41,7 @@ export class InterfazVentasComponent implements OnInit {
     descuento = 0
     monto_itbis = 0
     neto = 0
-
+    display = false;
     efectivo = true;
     tarjeta = false;
     cheque = false;
@@ -53,7 +53,7 @@ export class InterfazVentasComponent implements OnInit {
     fecha: string;
     modo = 'pos';
     cols3: { field: string; header: string; }[];
-
+    test = [1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1]
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
@@ -126,7 +126,8 @@ export class InterfazVentasComponent implements OnInit {
 
     todosLosProductos() {
         this.inventarioServ.getDatos().then((resp: any) =>{
-          this.productos = resp;  
+            console.log(resp);
+            this.productos = resp;  
         })
     }
 
@@ -241,7 +242,8 @@ export class InterfazVentasComponent implements OnInit {
         this.calcularTotal(this.producto.value);        
     }
 
-    agregarProducto(producto) {        
+    agregarProducto(producto) {   
+        console.log(producto)     
         const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
             return data.id === producto.id;
         });
@@ -348,6 +350,7 @@ export class InterfazVentasComponent implements OnInit {
     }
 
     modoPago(tipo) {
+        this.display = true
         this.forma.get('efectivo').reset()
         this.forma.get('tarjeta').reset()
         this.forma.get('devuelta').reset()

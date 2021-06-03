@@ -71,10 +71,35 @@ export class ClientesService {
           break;
 
         case 'cond_pago':
+          formData.append(key, cliente[key].id || null)
+          break;
+
         case 'id_ciudad':
+          formData.append(key, cliente[key].id_ciudad || null)
+          break;
+
         case 'id_pais':
+          formData.append(key, cliente[key].id_pais || null)
+          break;
+
+        case 'id_region':
+            formData.append(key, cliente[key].id_region || null)
+            break;
+
+        case 'id_provincia':
+          formData.append(key, cliente[key].id_provincia || null)
+          break;
+
+        case 'id_municipio':
+            formData.append(key, cliente[key].id_municipio || null)
+            break;
+
+        case 'id_sector':
+          formData.append(key, cliente[key].id_sector || null)
+          break;
+          
         case 'tipo_documento':
-          formData.append(key, cliente[key].id)
+          formData.append(key, cliente[key].tipo_documento)
           break;
 
         default:
@@ -84,7 +109,8 @@ export class ClientesService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {    
+      this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {  
+        console.log(resp)  
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {    
           this.ClienteCreado.emit( resp.data );                                   

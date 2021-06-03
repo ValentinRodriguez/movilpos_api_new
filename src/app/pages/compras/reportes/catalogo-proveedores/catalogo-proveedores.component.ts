@@ -158,7 +158,7 @@ export class CatalogoProveedoresComponent implements OnInit {
   }
 
   buscaPaises(id) {    
-    this.paisesCiudadesServ.getCiudadesXpaises(id).then((resp:any) => {
+    this.paisesCiudadesServ.buscaCiudad(id).then((resp:any) => {
       this.ciudades = resp;     
     })  
   }
