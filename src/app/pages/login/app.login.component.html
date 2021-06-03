@@ -12,13 +12,14 @@
                     
                     <input pInputText   name="email" placeholder="Email" [(ngModel)]="this.form.email" required />
                     <input type="password"pPassword id="signin-password" name="password" [(ngModel)]="this.form.password" required />
-                    <button *ngIf="!this.guardando" pButton label="Acceder" type="submit" [disabled]="!loginForm.valid || this.wait"></button>
-                    <button *ngIf="this.guardando" pButton label="Accediendo" type="button" disabled="true" icon="pi pi-spin pi-spinner"></button>
+                    <p-progressSpinner *ngIf="this.formSubmitted" [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                    <button *ngIf="!this.formSubmitted" pButton label="Acceder" type="submit" [disabled]="!loginForm.valid || this.wait"></button>
+                    <button *ngIf="this.formSubmitted" pButton label="Accediendo" type="button" disabled="true" icon="pi pi-spin pi-spinner"></button>
                 </div>
             </form>
-
             <p>No puedes acceder? <a href="#">recupera tu clave</a></p>
         </div>
+        <!-- <p-progressBar mode="indeterminate" ></p-progressBar> -->
 
         <div class="login-image">
             <div class="login-image-content">

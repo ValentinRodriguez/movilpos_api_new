@@ -186,6 +186,7 @@ import { StepsModule } from 'primeng/steps';
         KeyFilterModule,
         BlockUIModule,
         PipesModule,
+        ProgressSpinnerModule,
         StepsModule,
         ToolbarModule      
     ],
@@ -216,8 +217,7 @@ import { StepsModule } from 'primeng/steps';
         CustomerService, 
         EventService, 
         IconService, 
-        NodeService,
-        ProgressSpinnerModule,
+        NodeService,        
         PhotoService, 
         ProductService, 
         MenuService, 
