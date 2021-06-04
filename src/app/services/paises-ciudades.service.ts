@@ -31,6 +31,16 @@ export class PaisesCiudadesService {
     })
   }
 
+  getProvincias() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/provincias`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   buscaRegion(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/region/pais/${id}`).subscribe((resp: any) => {  

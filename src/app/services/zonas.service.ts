@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -7,8 +7,14 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class ZonasService {
-  formSubmitted = new EventEmitter();
   
+  zonaGuardada = new EventEmitter();
+  zonaBorrada = new EventEmitter();
+  zonaAct = new EventEmitter();
+  actualizar = new EventEmitter();
+  guardar = new EventEmitter();
+  formSubmitted = new EventEmitter();
+
   constructor(private http: HttpClient) {}
 
   getDatos() {
@@ -20,5 +26,83 @@ export class ZonasService {
         }
       })
     })
+  }
+
+  busquedaZona(parametro?: any) {
+    let params = new HttpParams();
+    if (parametro === undefined) {
+      parametro = {};
+    }
+    if (parametro.parametro === undefined || parametro.parametro === null) {
+      parametro.parametro = '';
+    }     
+    params = params.append('zona',parametro.zona);    
+    return new Promise( resolve => {
+      this.http.get(URL+'/busqueda/zonas', {params}).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+  
+  getDato(id) {   
+    return new Promise( resolve => {
+      this.http.get(`${URL}/zonas/${id}`).subscribe((resp: any) => { 
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  crearZona(zona: any) {
+    const formData = new FormData();  
+    for(let key in zona){  
+      formData.append(key, zona[key]);
+    }
+
+    return new Promise( resolve => {
+      this.http.post(`${ URL }/zonas`, formData).subscribe( (resp: any) => {
+        this.formSubmitted.emit(false);        
+        console.log(resp);
+                           
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);    
+          this.zonaGuardada.emit(resp.data);       
+        }
+      });
+    });    
+  }
+
+  actualizarZona(id:number, zona: any) {  
+    return new Promise( resolve => {
+      this.http.put(`${ URL }/zonas/${id}`, zona).subscribe( (resp: any) => {                
+        this.formSubmitted.emit(false);                           
+        if (resp['code'] === 200)  {
+          this.zonaAct.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      });
+    });
+  }
+
+  borrarZona(id: string) {
+    return new Promise( resolve => {      
+      this.http.delete(`${ URL }/zonas/${id}`).subscribe( (resp: any) => {                          
+        if (resp['code'] === 200)  {            
+          this.zonaBorrada.emit(id);    
+          resolve(resp.data);            
+        }
+      });
+    });
+  }
+
+  actualizando(data: any) {
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
 }

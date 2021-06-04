@@ -21,6 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { PanelModule } from 'primeng/panel';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { EmpresaComponent } from './empresa/empresa.component';
@@ -34,6 +35,8 @@ import { TipoDocumentosComponent } from './tipo-documentos/tipo-documentos.compo
 import { FormularioTiponegocioComponent } from './tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
 import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ZonasComponent } from './zonas/zonas.component';
+import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zonas.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { ProgressBarModule } from 'primeng/progressbar';
     TipoClientesComponent,
     FormularioTipoClientesComponent,
     MonedasComponent,
-    FormularioMonedasComponent
+    FormularioMonedasComponent,
+    ZonasComponent,
+    FormularioZonasComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +60,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
     RouterModule,
     EmpresaRoutingModule,
     TableModule,
+    PanelModule,
     ConfirmDialogModule,
     ToastModule,
     TabViewModule,

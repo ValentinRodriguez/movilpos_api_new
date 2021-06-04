@@ -6,6 +6,7 @@ import { EmpresaComponent } from './empresa/empresa.component';
 import { MonedasComponent } from './monedas/monedas.component';
 import { TipoClientesComponent } from './tipo-clientes/tipo-clientes.component';
 import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
+import { ZonasComponent } from './zonas/zonas.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
         {path: 'gestion-de-tipo-negocios', component: TipoNegocioComponent},
         {path: 'gestion-de-tipo-clientes', component: TipoClientesComponent},
         {path: 'gestion-de-monedas', component: MonedasComponent},
+        {path: 'gestion-de-zonas', component: ZonasComponent},
        ]
       }
     ])
