@@ -12,17 +12,31 @@ export class ActoDescargoComponent implements OnInit {
   fechafabricacion: any[] = [];
   clientes: any[] = [];
   clientesFiltrados: any[] = [];
+  minDate: Date;
 
   form = {
+    fecha: '',
+    cliente: '',
     cedula: '',
     direccion: '',
-    password: null
+    tipo_vehiculo: '',
+    marca: '',
+    modelo: '',
+    color: '',
+    fabricacion: '',
+    placa: '',
+    chasis: '',
+    testigo1: '',
+    testigo2: '',
+    cedulatestigo1: '',
+    cedulatestigo2: '',
   };
 
   constructor(private DatosEstaticos: DatosEstaticosService,
               private clientesServ: ClientesService) { }
 
   ngOnInit(): void {
+    this.setMinDate();
     this.fechaFabricacion();
     this.todosLosClientes();
   }
@@ -80,6 +94,17 @@ export class ActoDescargoComponent implements OnInit {
       }
     }
     this.clientesFiltrados = filtered;
+  }
+
+  setMinDate() {
+    let today = new Date();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let day = today.getDate();
+    this.minDate = new Date();
+    this.minDate.setMonth(month);
+    this.minDate.setFullYear(year);
+    this.minDate.setDate(day);
   }
 
 }
