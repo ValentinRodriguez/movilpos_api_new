@@ -1,75 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { MonedasService } from 'src/app/services/monedas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { ZonasService } from 'src/app/services/zonas.service';
 
 @Component({
-  selector: 'app-zonas',
-  templateUrl: './zonas.component.html',
-  styleUrls: ['./zonas.component.scss']
+  selector: 'app-tabla-amortizaciones',
+  templateUrl: './tabla-amortizaciones.component.html',
+  styleUrls: ['./tabla-amortizaciones.component.scss']
 })
-export class ZonasComponent implements OnInit {
+export class TablaAmortizacionesComponent implements OnInit {
 
   usuario: any;
   index: number = 0;
-  zonas: any[] = [];
+  monedas: any[] = [];
   id_categoria: any;
-  cols: any[];   
+  cols: any[];
+   
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private zonasServ: ZonasService,
+              private monedasServ: MonedasService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
   ngOnInit(): void {
-    this.todasLasZonas();
+    this.todasLasMonedas();
 
-    this.zonasServ.guardar.subscribe((resp: any)=>{  
+    this.monedasServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })
 
     this.cols = [
       { field: 'id', header: 'Código' },
-      { field: 'descripcion', header: 'Descripcion' },
+      { field: 'divisa', header: 'Divisa' },
+      { field: 'simbolo', header: 'Símbolo' },
       { field: 'acciones', header: 'Acciones' },
     ] 
 
-    this.zonasServ.zonaGuardada.subscribe((resp: any)=>{
-      this.todasLasZonas();
+    this.monedasServ.monedaGuardada.subscribe((resp: any)=>{
+      this.todasLasMonedas();
     })
 
-    this.zonasServ.zonaBorrada.subscribe((resp: any)=>{      
-      this.todasLasZonas();   
+    this.monedasServ.monedaBorrada.subscribe((resp: any)=>{      
+      this.todasLasMonedas();   
     })
 
-    this.zonasServ.zonaAct.subscribe((resp: any) => {
-      this.todasLasZonas();
+    this.monedasServ.monedaAct.subscribe((resp: any) => {
+      this.todasLasMonedas();
     })
   }
 
-  todasLasZonas() {
-    this.zonasServ.getDatos().then((resp: any) => {
-      this.zonas = resp;
-      console.log(resp);
-      
+  todasLasMonedas() {
+    this.monedasServ.getDatos().then((resp: any) => {
+      this.monedas = resp;
     });
   }
   
   actualizarMoneda(data) {
     this.index = 1;   
-    this.zonasServ.actualizando(data);
+    this.monedasServ.actualizando(data);
   }
 
-  borrarZona(categoria) { 
+  borrarCategoria(categoria) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.zonasServ.borrarZona(categoria).then((resp: any)=>{
+        this.monedasServ.borrarMoneda(categoria).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

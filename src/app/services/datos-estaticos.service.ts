@@ -45,6 +45,13 @@ export class DatosEstaticosService {
     return `${hora}:${minuto}:${segundos}`;
   }
 
+  getDataFormated(fecha) {    
+    let month = fecha.getMonth();
+    let year = fecha.getFullYear();
+    let day = fecha.getDate();
+    return `${year}/${month+1}/${day}`;
+  }
+
   getHourAmp() {
     let today = new Date();
     let minutos: any;

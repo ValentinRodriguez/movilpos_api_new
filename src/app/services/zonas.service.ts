@@ -56,6 +56,18 @@ export class ZonasService {
     })
   }
 
+  getZonaProvincia(id) {   
+    return new Promise( resolve => {
+      this.http.get(`${URL}/busqueda/zonas-provincias/${id}`).subscribe((resp: any) => { 
+        // console.log(resp);
+        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   crearZona(zona: any) {
     const formData = new FormData();  
     for(let key in zona){  
@@ -63,7 +75,7 @@ export class ZonasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/zonas`, formData).subscribe( (resp: any) => {
+      this.http.post(`${ URL }/zonas`, zona).subscribe( (resp: any) => {
         this.formSubmitted.emit(false);        
         console.log(resp);
                            

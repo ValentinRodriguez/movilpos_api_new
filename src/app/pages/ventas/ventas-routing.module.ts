@@ -13,6 +13,7 @@ import { FormularioPropiedadesComponent } from '../inventario/mantenimiento/prop
 import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
 import { FormularioTiponegocioComponent } from '../empresa/tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
+import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/tabla-amortizaciones.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formul
         {path: 'gestion-de-ordenes-de-pedidos', component: OrdenesPedidosComponent},
         {path: 'condiciones-de-pago', component: CondicionesPagoComponent},
         {path: 'acto-descargo', component: ActoDescargoComponent},
+        {path: 'tabla-amortizaciones', component: TablaAmortizacionesComponent},
         {path: 'gestion-recepcion-vehiculos', component: RecepcionVehiculosComponent}      
        ]},
     ])

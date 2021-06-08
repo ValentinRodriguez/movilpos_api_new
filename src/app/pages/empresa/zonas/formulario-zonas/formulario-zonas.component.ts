@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ZonasService } from 'src/app/services/zonas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { Table } from 'primeng/table/table';
+
 
 @Component({
   selector: 'app-formulario-zonas',
@@ -23,7 +25,9 @@ export class FormularioZonasComponent implements OnInit {
   id: number;
   listSubscribers: any = [];
   provincias: any[] = [];
-  selectedProducts = [];
+  provinciasSeleccionadas = [];
+  result: any[] = [];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -42,11 +46,10 @@ export class FormularioZonasComponent implements OnInit {
 
     this.provinciasServ.getProvincias().then((resp:any)=>{
       this.provincias = resp;
-      console.log(resp);      
     })
 
     this.cols2 = [
-      { field: 'id', header: 'Código' },
+      // { field: 'id', header: 'Código' },
       { field: 'descripcion', header: 'Descripcion' }
     ] 
   }
@@ -107,7 +110,25 @@ export class FormularioZonasComponent implements OnInit {
       } 
     }
   }
-  
+
+  onRowSelect(event, e) {
+    this.zonasServ.getZonaProvincia(event.data.id_provincia).then((resp: any) => {  
+      console.log(resp);      
+      if (resp.length !== 0) {
+        let zona = resp[0].desc_zona.toUpperCase();
+        let element = e.tableViewChild.nativeElement.children[1].children;
+        (element[event.index].classList).remove('p-highlight');   
+        this.uiMessage.getMiniInfortiveMsg('tst','info','Invalido',`Esta provincia pertence a la zona ${zona}.`);   
+        // PARA ELIMINAR OBJETOS DE UN ARRAY
+        // result = this.provinciasSeleccionadas.filter(data => data.id_provincia !== event.data.id_provincia)   
+      } else {
+        this.result.push(event.data)
+      }
+      console.log(this.result);  
+      this.forma.get('provincias').setValue(this.result)               
+    })  
+  }
+
   verificaZona(data){  
     if (data === "") {
       this.zonaExiste = 3;
@@ -150,6 +171,7 @@ export class FormularioZonasComponent implements OnInit {
 
   resetFormulario() {
     this.forma.reset();
+    this.provinciasSeleccionadas = [];
     this.forma.get('estado').setValue('activo');
     this.forma.get('usuario_creador').setValue(this.usuario.username);
   }

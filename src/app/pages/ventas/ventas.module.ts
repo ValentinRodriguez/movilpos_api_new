@@ -50,6 +50,8 @@ import { FormularioRecepcionVehiculosComponent } from './mantenimiento/recepcion
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/tabla-amortizaciones.component';
+import { FormularioTablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
 @NgModule({
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
@@ -66,7 +68,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     FormularioClientesComponent,
     RecepcionVehiculosComponent,
     FormularioRecepcionVehiculosComponent,
-    ActoDescargoComponent
+    ActoDescargoComponent,
+    TablaAmortizacionesComponent,
+    FormularioTablaAmortizacionesComponent
   ],
   imports: [
     CommonModule,
