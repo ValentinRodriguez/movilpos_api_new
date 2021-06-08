@@ -197,7 +197,7 @@ export class FormularioClientesComponent implements OnInit {
       urbanizacion:         ['dfgdfg', Validators.required],
 
       id_pais:              ['', Validators.required],
-      id_zona:              ['', Validators.required],
+      id_zona:              [''],
       id_region:            ['', Validators.required],
       id_provincia:         ['', Validators.required],
       id_municipio:         ['', Validators.required],

@@ -222,7 +222,7 @@
 
             <div class="p-field p-col-12 p-md-3">
                 <label for="id_provincia">Provincia</label>
-                <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_provincia')" 
+                <p-dropdown input  [options]="provincias" [class.ng-invalid]="getNoValido('id_provincia')" 
                             [class.ng-dirty]="getNoValido('id_provincia')" name="id_provincia" formControlName="id_provincia" 
                             id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaMunicipio($event.value.id_provincia)">
                 </p-dropdown>

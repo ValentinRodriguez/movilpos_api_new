@@ -31,7 +31,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   tipos: any[] = [];
   noFisico = true;
   productoExiste = 3;
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
   tipoInventario: any[] = [];
   fechafabricacion: any[] = [];

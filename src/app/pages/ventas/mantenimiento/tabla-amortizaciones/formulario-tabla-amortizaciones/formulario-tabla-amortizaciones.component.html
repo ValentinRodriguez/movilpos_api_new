@@ -62,7 +62,7 @@
 
     <p-panel #pnl header="Detalles del prestamo" styleClass="p-mt-4">
         <div class="p-fluid p-formgrid p-grid" formArrayName="prestamo">
-            <p-table [value]="dPrestamo">
+            <p-table [value]="detalle_tb">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Pago</th>
@@ -82,30 +82,30 @@
                         <td>
                             <!-- <p-calendar selectionMode="range" [readonlyInput]="true" formControlName="fecha" dateFormat="yy/mm/dd">
                             </p-calendar> -->
-                            <span>{{dPrestamo[i].fecha | date}}</span>
+                            <span>{{detalle_tb[i].fecha | date}}</span>
                         </td>
 
                         <td> 
                             <span class=" p-input-icon-right">
-                                <span>{{dPrestamo[i].cuota | currency}}</span>
+                                <span>{{detalle_tb[i].cuota | currency}}</span>
                             </span>
                         </td>                        
 
                         <td> 
                             <span class=" p-input-icon-right">
-                                <span>{{dPrestamo[i].capital | currency}}</span>
+                                <span>{{detalle_tb[i].capital | currency}}</span>
                             </span>
                         </td>
 
                         <td> 
                             <span class=" p-input-icon-right">
-                                <span>{{dPrestamo[i].interes | currency}}</span>
+                                <span>{{detalle_tb[i].interes | currency}}</span>
                             </span>
                         </td>    
 
                         <td> 
                             <span class=" p-input-icon-right">
-                                <span>{{dPrestamo[i].balance | currency}}</span>
+                                <span>{{detalle_tb[i].balance | currency}}</span>
                             </span>
                         </td>                        
                     </tr>

@@ -23,7 +23,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   id: number;
   listSubscribers: any = [];
   cols: any = [];
-  dPrestamo: any = [];
+  detalle_tb: any = [];
   prestamoSeleccionado: any = [];
   today = new Date();
   balance = 0;
@@ -160,55 +160,62 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
     const MONTO = this.forma.get('monto_total').value;
     const INTA = this.forma.get('tasa').value;
     const PLAZO = this.forma.get('meses').value;
-    this.generar(MONTO,INTA,PLAZO)
+    const DATA = this.calculapmt(MONTO,INTA,PLAZO);
+
+    setTimeout(() => {
+      this.tablaamt(MONTO,DATA.interesm,DATA.pago_mensual,PLAZO);      
+    }, 300);
   }
 
-  generar(monto, interes, plazo) {
+  tablaamt(monto_prestamo,interes_m,pmt,plazos){
     const fechaActual = this.datosEst.getDate();
     let fecha = new Date(fechaActual);
-    const anio = this.today.getFullYear();
-    let tempSaldo = Number(this.forma.get('monto_total').value);
 
-    for (let index = 0; index < plazo; index++) {      
+    let xinteres = monto_prestamo*interes_m
+    let xcapital =  pmt - xinteres 
+    let xsaldo = monto_prestamo - xcapital
+    this.detalle_tb = [];
+
+    for (let index = 0; index < plazos; index++) {      
       let mesSiguiente = new Date(new Date(fecha).setMonth(fecha.getMonth()+index));
       let ultimoDia = this.obtenerUltimoDia(mesSiguiente.getFullYear(), mesSiguiente.getMonth() + 1);
       let mesConUltimoDia = new Date(`${mesSiguiente.getMonth() + 1} ${ultimoDia} ${mesSiguiente.getFullYear()}`);
-      
-      this.calculapmt(monto, interes, plazo)
-      tempSaldo = tempSaldo - Number(this.capital);
-      this.balance = tempSaldo;
-      // this.capital = this.forma.get('capital').value;
-      
-      const obj = {
-        balance: this.balance,
-        cuota: this.pago_mensual,
-        fecha: mesConUltimoDia,
-        capital: this.capital,
-        interes: this.monto_interes_mensual
+
+      if (index === 0) {        
+        const obj = {
+          balance: xsaldo,
+          capital: xcapital,
+          interes: xinteres,
+          cuota: xcapital + xinteres,
+          fecha: mesConUltimoDia
+        }      
+        this.detalle_tb.push(obj);         
+      }else{        
+        let interes = this.detalle_tb[index - 1].balance * interes_m;
+        let capital = pmt - interes;
+
+        const obj = {
+          cuota: pmt,
+          interes: interes,
+          capital: capital,
+          balance: this.detalle_tb[index - 1].balance - capital,
+          fecha: mesConUltimoDia
+        }  
+        this.detalle_tb.push(obj);        
       }
-      this.dPrestamo.push(obj);
-    }  
-    console.log(this.dPrestamo);    
+    }    
   }
 
-  calculapmt(monto_prestamo,inta,plazo) {
-    console.log(monto_prestamo,inta,plazo);
-    
+  calculapmt(monto_prestamo,inta,plazo) {    
     let intm = ((inta/100) / 12)+1
     let interesm = (inta/100) / 12
     let p_intm_m1 = Math.pow(intm,plazo) -1;
     let p_intm= Math.pow(intm,plazo)
     let factor = p_intm * interesm
     // let factor1 = factor*interesm
-    this.pago_mensual = monto_prestamo/( p_intm_m1/factor)
-    this.monto_interes_mensual = monto_prestamo * interesm;
-    this.capital = this.pago_mensual - this.monto_interes_mensual
-    // console.log(intm, interesm, p_intm_m1, p_intm, factor);
-
-    // return pago_mensual;
+    let pago_mensual = monto_prestamo/( p_intm_m1/factor)
+    return {pago_mensual, interesm};
   }
-
-  
 
   onRowSelect(data, dt) {
 
