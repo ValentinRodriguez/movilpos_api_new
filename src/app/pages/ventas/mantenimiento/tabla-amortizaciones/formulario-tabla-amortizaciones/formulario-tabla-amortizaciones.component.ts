@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
@@ -40,7 +41,8 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private monedasServ: MonedasService,
-              private datosEst: DatosEstaticosService) { 
+              private datosEst: DatosEstaticosService,
+              public config: DynamicDialogConfig) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
   }
@@ -50,6 +52,10 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let data = this.config.data || 0;
+    this.forma.get('monto_total').setValue(data);
+    console.log(data);
+    
     this.listObserver();
 
     this.cols = [

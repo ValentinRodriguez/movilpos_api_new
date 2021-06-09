@@ -86,6 +86,16 @@ export class PaisesCiudadesService {
     })
   }
 
+  getNacionalidades() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/nacionalidades`).subscribe((resp: any) => {
+        if (resp['code'] === 200) {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   buscaSector(id: string) {
     console.log(id);    
     return new Promise( resolve => {

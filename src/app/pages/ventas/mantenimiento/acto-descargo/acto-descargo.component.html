@@ -1,4 +1,4 @@
-<div class="p-grid table-demo" id="print-section">
+<div class="p-grid table-demo">
 	<div class="p-col-12">
 		<div class="card">
             <h5 style="text-align:center; margin-bottom:30px; font-size:21px;">ACTO DE DESCARGO</h5>
@@ -26,6 +26,18 @@
                     <span class=" p-input-icon-right">                
                         <p-inputMask mask="999-9999999-9" [(ngModel)]="this.form.cedula"></p-inputMask>
                     </span>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="nacionalidad">Nacionalidad</label>	
+                    <p-autoComplete [(ngModel)]="this.form.nacionalidad" [suggestions]="nacFiltrados" (completeMethod)="filtrarNacionalidad($event)" 
+                                    field="nacionalidad" [dropdown]="true">
+                        <ng-template let-nacionalidad pTemplate="item">
+                            <div class="country-item">
+                                <div>{{nacionalidad.nacionalidad | titlecase}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
                 </div>
 
                 <div class="p-field p-col-12 p-md-3">
@@ -168,69 +180,39 @@
                             </p-dropdown>
                         </div>
                     </div>
-                </p-panel>                
+                </p-panel>                    
+		    </div>
+	    </div>
+        <div class="card" id="print-section" *ngIf="display">
+            <p>Quien subscribe, el(la) señor(a) <strong>{{this.form.cliente.nombre | titlecase}}</strong> de nacionalidad <strong>{{this.nacionalidad | titlecase}}</strong>
+                mayor de edad, con la cédula de identidad y electoral No. <strong>{{this.form.cedula}}</strong>domiciliado(a) y residente en <strong>{{this.form.direccion}}</strong>
+                Mediante el presente acto declaro: PRIMERO: Que he adquirido en calidad de propietario, mediante acto de venta de fecha <strong>{{this.form.fecha_formateada}}</strong>
+                el vehículo que se describe a continuación:                
+            </p>
+            <p>
+                TIPO DE VEHICULO: <strong>{{this.form.tipo_vehiculo.label | titlecase}}</strong><br> 
+                MARCA: <strong>{{this.form.marca.descripcion | titlecase}}</strong> <br>
+                MODELO: <strong>{{this.form.modelo.descripcion | titlecase}}</strong><br>
+                AÑO DE FABRICACION: <strong>{{this.form.fabricacion.value }}</strong><br>
+                COLOR: <strong>{{this.form.color.descripcion | titlecase}}</strong><br>
+                PLACA: <strong>{{this.form.placa }}</strong><br>
+                CHASIS: <strong>{{this.form.chasis }}</strong><br>
+            </p>
+            <p>
+                SEGUNDO: Otorgo TOTAL Y ABSOLUTO descargo de responsabilidad legal en sentido general, a la 
+                entidad comercial, L&R AUTO IMPORT , C por A,  por cualquier daño que pudiera ocasionar el vehículo 
+                anteriormente descrito, en consecuencia, asumo todas las responsabilidades presentes y futuras, 
+                por cualquier acción, o perjuicio que ocasionare dicho vehículo, a partir de la suscripción del 
+                presente acto, el cual se hace ante los testigos instrumentales requeridos al efecto, libres de tachas y 
+                excepciones legales a los señores 
+                <strong>{{this.form.testigo1 | titlecase}}</strong> y <strong>{{this.form.testigo2 | titlecase}}</strong>
+                dominicanos mayores de edad, portadores de las cédulas de identidad y electoral NO.
+                <strong>{{this.form.cedulatestigo1 | titlecase}}</strong> y <strong>{{this.form.cedulatestigo2 | titlecase}}</strong>
+                respectivamente, domiciliados y residentes en esta ciudad. En el municipio de Santo Domingo Oeste, Provincia Santo Domingo, RD, 
+                a los días <strong>{{this.form.dias}}</strong> del mes <strong>{{this.form.mes}}</strong> del año
+                <strong>{{this.form.anio}}</strong>
+            </p>
 
-                <!-- <label for="part2">de nacionalidad</label> -->
-
-                <!-- <div class="p-field">
-                    <label for="part3">mayor de edad, con la cédula de identidad y electoral No.</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part4">domiciliado(a) y residente en</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part5">Mediante el presente acto declaro: PRIMERO: Que he adquirido en calidad de propietario, mediante acto de venta de fecha</label>                    
-                </div>
-
-                <div class="p-field">
-                    <label for="part6">el vehículo que se describe a continuación: TIPO DE VEHICULO:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part7">MARCA:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part8">MODELO:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part9">AÑO DE FABRICACION:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part10">COLOR:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part11">PLACA:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part12">CHASIS:</label>
-                </div>
-
-                <div class="p-field">
-                    <label for="part13">SEGUNDO: Otorgo TOTAL Y ABSOLUTO descargo de responsabilidad legal en sentido general, a la entidad comercial, L&R AUTO IMPORT , C por A,  por cualquier daño que pudiera ocasionar el vehículo anteriormente descrito, en consecuencia, asumo todas las responsabilidades presentes y futuras, por cualquier acción, o perjuicio que ocasionare dicho vehículo, a partir de la suscripción del presente acto, el cual se hace ante los testigos instrumentales requeridos al efecto, libres de tachas y excepciones legales a los señores</label>
-                    
-                    <label for="part14">y</label>
-
-                    <label for="part15">dominicanos mayores de edad, portadores de las cédulas de identidad y electoral NO.</label>
-                    
-                    <label for="part16">y</label>
-                    
-                    <label for="part17">respectivamente, domiciliados y residentes en esta ciudad. </label>
-                    <label for="part17">En el municipio de Santo Domingo Oeste, Provincia Santo Domingo, RD, a los</label>                    
-                    
-                    <label for="part18">días del mes de</label>
-                    
-                    <label for="part19">del año </label>
-                    
-                </div>
-            </div>
-            
             <div style=" margin: auto; width:20%; padding:10px; border-top: 1px solid; margin-top: 50px;">
                 <h5 style="text-align:center; margin-top:30px; font-size:21px;">DECLARANTE</h5>
             </div>
@@ -238,16 +220,10 @@
             <div style=" float: left; width:20%; padding:10px; border-top: 1px solid; margin-top: 50px;">
                 <h5 style="text-align:center; margin-top:30px; font-size:21px;">TESTIGO</h5>
             </div>
-
             <div style=" margin: auto; width:20%; padding:10px; border-top: 1px solid; margin-top: 50px;">
                 <h5 style="text-align:center; margin-top:30px; font-size:21px;">TESTIGO</h5>
-            </div> -->
-		</div>
-	</div>
-
-    <div class="card">
-        <p>Quien subscribe, el(la) señor(a)</p>
+            </div>
+        </div>
     </div>
-</div>
 
 <button (click)="print()" pButton pRipple label="Imprimir" icon="pi pi-save" type="button"></button>

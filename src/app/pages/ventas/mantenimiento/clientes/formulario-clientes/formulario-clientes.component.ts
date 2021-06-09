@@ -32,6 +32,7 @@ export class FormularioClientesComponent implements OnInit {
   guardar = true;
   actualizar = false;
   vendedoresFiltrados: any[];
+  nacFiltrados: any[];
   id1: number;
   condpago: any[];
   paises: any[] = [];
@@ -47,7 +48,8 @@ export class FormularioClientesComponent implements OnInit {
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
   ]
-  provincias: any;
+  provincias: any[] = [];
+  nacionalidades: any[] = [];
 
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
@@ -105,9 +107,7 @@ export class FormularioClientesComponent implements OnInit {
       })
     })
 
-    const observer6$ = this.forma.valueChanges.subscribe(newVal => console.log(newVal));
-
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer6$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   autoLlenado() {
@@ -135,7 +135,15 @@ export class FormularioClientesComponent implements OnInit {
  
            case 'condiciones':
              this.condpago = element.data;
-             break; 
+             break;
+           
+          case 'paises':
+            this.paises = element.data;
+             break;
+           
+           case 'nacionalidades':             
+             this.nacionalidades = element.data;             
+            break;
  
            default:
              break;
@@ -145,8 +153,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
-      console.log(resp);      
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
       this.paises = resp;   
     })
   }
@@ -170,8 +177,7 @@ export class FormularioClientesComponent implements OnInit {
   }
  
   buscaCiudad(event) {
-    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
-      console.log(resp);      
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
       this.ciudades = resp;
     })   
   }
@@ -191,11 +197,10 @@ export class FormularioClientesComponent implements OnInit {
       limite_credito:       [''],
       tipo_negocio:         ['', Validators.required],
       ncf:                  ['B0100066853'],
-      generico:             ['', Validators.required],
-      
+      generico:             ['', Validators.required],      
       direccion:            ['santo domingo', Validators.required],
       urbanizacion:         ['dfgdfg', Validators.required],
-
+      nacionalidad:         ['', Validators.required],
       id_pais:              ['', Validators.required],
       id_zona:              [''],
       id_region:            ['', Validators.required],
@@ -203,7 +208,6 @@ export class FormularioClientesComponent implements OnInit {
       id_municipio:         ['', Validators.required],
       id_ciudad:            [''],
       id_sector:            [''],
-
       celular:              ['(555)-555-5555', Validators.required],
       telefono_casa:        ['(555)-555-5555'],
       email:                ['valentinrodriguez1427@gmail.com'],      
@@ -219,9 +223,8 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    // this.formSubmitted = true;    
-    console.log(this.forma.value);
-         
+    // this.formSubmitted = true;  
+    console.log(this.forma.value);    
     if (this.forma.invalid) {
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
@@ -246,6 +249,19 @@ export class FormularioClientesComponent implements OnInit {
       }
     }
     this.vendedoresFiltrados = filtered;
+  }
+
+  filtrarNacionalidad(event) {
+    const filtered: any[] = [];
+    const query = event.query;    
+    
+    for (let i = 0; i < this.nacionalidades.length; i++) {
+      const size = this.nacionalidades[i];
+      if (size.nacionalidad.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.nacFiltrados = filtered;
   }
 
   getNoValido(input: string) {

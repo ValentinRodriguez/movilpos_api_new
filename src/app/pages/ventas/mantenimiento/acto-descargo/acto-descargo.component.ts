@@ -26,7 +26,15 @@ export class ActoDescargoComponent implements OnInit {
   ciudades: any[] = [];
   sectores: any[] = [];
   listSubscribers: any = [];
-
+  brands: any = [];
+  tipoInventario: any = [];
+  categorias: any = [];
+  propiedades: any = [];
+  bodegas: any = [];
+  nacionalidades: any = [];
+  nacFiltrados: any = [];
+  display = false;
+  nacionalidad = '';
   tipo = [
     {label: 'Importado', value: 'importado'},
     {label: 'Local', value: 'local'},
@@ -36,7 +44,7 @@ export class ActoDescargoComponent implements OnInit {
     fecha: '',
     anio: '',
     mes: '',
-    dia: '',
+    dias: '',
     cliente: '',
     cedula: '',
     direccion: '',
@@ -45,12 +53,14 @@ export class ActoDescargoComponent implements OnInit {
     modelo: '',
     color: '',
     fabricacion: '',
-    placa: '',
-    chasis: '',
+    placa: '4564654654',
+    chasis: '23423422',
     testigo1: 'ana',
     testigo2: 'jose',
-    cedulatestigo1: '',
-    cedulatestigo2: '',
+    cedulatestigo1: '111-1111111-1',
+    cedulatestigo2: '111-1111111-1',
+    nacionalidad: '',
+    fecha_formateada: '',
     id_pais: '',
     id_zona: '',
     id_region: '',
@@ -60,12 +70,6 @@ export class ActoDescargoComponent implements OnInit {
     id_sector: '',
   };
 
-  brands: any;
-  tipoInventario: any;
-  categorias: any;
-  propiedades: any;
-  bodegas: any;
-  
   constructor(private paisesCiudadesServ: PaisesCiudadesService,
               private inventarioServ: InventarioService,
               private DatosEstaticos: DatosEstaticosService,
@@ -77,7 +81,10 @@ export class ActoDescargoComponent implements OnInit {
 
   ngOnInit(): void {
     this.todaLaData();
-    this.todosLosPaises()
+    this.todosLosPaises();
+    this.paisesCiudadesServ.getNacionalidades().then((resp: any) => {
+      this.nacionalidades = resp;
+    });
     this.setMinDate();
     this.fechaFabricacion();
     this.todosLosClientes();
@@ -159,26 +166,43 @@ export class ActoDescargoComponent implements OnInit {
     let d = new Date(Date.parse(event));
     this.form.anio = d.getFullYear();
     this.form.mes = d.getMonth() + 1;
-    this.form.dia = d.getDate();
+    this.form.dias = d.getDate();
+    this.form.fecha_formateada = `${this.form.anio}/${this.form.mes}/${this.form.dia}`
   }
 
+  filtrarNacionalidad(event) {
+    const filtered: any[] = [];
+    const query = event.query;    
+    
+    for (let i = 0; i < this.nacionalidades.length; i++) {
+      const size = this.nacionalidades[i];
+      if (size.nacionalidad.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.nacFiltrados = filtered;
+  }
+  
   print(): void {
-    console.log(this.form);    
-    // let printContents, popupWin;
-    // printContents = document.getElementById('print-section').innerHTML;
-    // popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    // popupWin.document.open();
-    // popupWin.document.write(`
-    //   <html>
-    //     <head>
-    //       <title>Print tab</title>
-    //       <style>
-    //       //........Customized style.......
-    //       </style>
-    //     </head>
-    //       <body onload="window.print();window.close()">${printContents}</body>
-    //   </html>`
-    // );
+    console.log(this.form);
+    this.display = true;
+    setTimeout(() => {
+      let printContents, popupWin;
+      printContents = document.getElementById('print-section').innerHTML;
+      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin.document.open();
+      popupWin.document.write(`
+        <html>
+          <head>
+            <title>Print tab</title>
+            <style>
+            //........Customized style.......
+            </style>
+          </head>
+            <body onload="window.print();window.close()">${printContents}</body>
+        </html>`
+      );      
+    }, 500);
     // popupWin.document.close();
   }
 
@@ -193,7 +217,9 @@ export class ActoDescargoComponent implements OnInit {
 
   datosClientes(data) {
     console.log(data);  
-    this.form.cedula = data.documento;  
+    this.form.cedula = data.documento;
+    this.form.nacionalidad = this.nacionalidades.find(doc => doc.id == data.nacionalidad);
+    this.nacionalidad = this.form.nacionalidad.nacionalidad
     this.form.direccion = data.pais +','+ data.provincia +','+ data.municipio +','+ data.urbanizacion +','+ data.ciudad +','+ data.sector +','+ data.direccion
   }
 

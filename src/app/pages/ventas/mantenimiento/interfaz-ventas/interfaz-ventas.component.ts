@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem, PrimeNGConfig, SelectItem } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
@@ -12,6 +13,7 @@ import { FacturasService } from 'src/app/services/facturas.service';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
 @Component({
   selector: 'app-interfaz-ventas',
@@ -64,6 +66,7 @@ export class InterfazVentasComponent implements OnInit {
                 private categoriasServ: CategoriasService,
                 private uiMessage: UiMessagesService,
                 private clienteServ: ClientesService,
+                private dialogService: DialogService,
                 private primengConfig: PrimeNGConfig) {
 
                 this.usuario = this.usuarioServ.getUserLogged(); 
@@ -389,6 +392,15 @@ export class InterfazVentasComponent implements OnInit {
             
             break;
         }
+    }
+
+    financiar() {
+        this.dialogService.open(FormularioTablaAmortizacionesComponent, {
+            data: this.neto,
+            closeOnEscape: false,
+            header: 'Datos Necesarios Creación de Productos',
+            width: '70%'
+          });
     }
 
     getNoValido(input: string) {

@@ -59,6 +59,19 @@
                        [class.ng-dirty]="getNoValido('documento')">
             </span>
         </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="nacionalidad">Nacionalidad</label>	
+            <p-autoComplete formControlName="nacionalidad" [suggestions]="nacFiltrados" (completeMethod)="filtrarNacionalidad($event)" 
+                            field="nacionalidad" [dropdown]="true" [class.ng-invalid]="getNoValido('nacionalidad')" [class.ng-dirty]="getNoValido('nacionalidad')">
+                <ng-template let-nacionalidad pTemplate="item">
+                    <div class="country-item">
+                        <div>{{nacionalidad.nacionalidad | titlecase}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('nacionalidad')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
         
         <div class="p-field p-col-12 p-md-3">
             <label for="tipo_cliente">Tipo de Cliente</label>

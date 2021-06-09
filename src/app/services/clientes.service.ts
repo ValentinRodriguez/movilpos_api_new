@@ -70,7 +70,8 @@ export class ClientesService {
           formdata[key] = cliente[key].tipo_negocio;
           break;
 
-        case 'cond_pago':          
+        case 'cond_pago':
+        case 'nacionalidad': 
           formdata[key] = cliente[key].id;
           break;
 
