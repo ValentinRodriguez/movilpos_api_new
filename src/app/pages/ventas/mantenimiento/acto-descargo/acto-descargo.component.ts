@@ -194,7 +194,6 @@ export class ActoDescargoComponent implements OnInit {
       popupWin.document.write(`
         <html>
           <head>
-            <title>Print tab</title>
             <style>
             //........Customized style.......
             </style>
