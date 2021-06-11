@@ -11,11 +11,22 @@ export class FacturasService {
   display = false
   facturaCreada = new EventEmitter()
   modoVenta = new EventEmitter();
+  enviaData = new EventEmitter();
   formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) {}
   
   getDatos() {
+    return new Promise( resolve => {
+        this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
+          if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+      })
+    })
+  }
+
+  getDato() {
     return new Promise( resolve => {
         this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
           if (resp['code'] === 200)  {          
@@ -55,6 +66,23 @@ export class FacturasService {
         }
       });
     });    
+  }
+
+  crearFacturaPrestamo(factura: any) {
+    return new Promise( resolve => {
+      this.http.post(`${ URL }/cctransacciones`, factura).subscribe( (resp: any) => {                   
+        this.formSubmitted.emit(false);
+        console.log(resp);        
+        if (resp['code'] === 200)  {    
+          this.facturaCreada.emit( resp );                                   
+          resolve(resp.data);       
+        }
+      });
+    });    
+  }
+
+  enviarData(data) {
+    this.enviaData.emit(data)
   }
 
   modoDeVenta(modo) {

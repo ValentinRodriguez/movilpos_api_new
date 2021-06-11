@@ -214,29 +214,15 @@
     
     .pay-button {
         width: 24.3% !important; 
-        background-color: #689F38;
-        color: white;
+        background-color: #689F38;     
+        color: white;   
+    }
+
+    .financiar-button {
+        width: 24.3% !important; 
+        background-color: #ffc106;
     }
     
-    .warning-n-button{
-        background-color: #FBC02D;
-        color: white; 
-    }
-    .success-n-button{ 
-        background-color: var(--primary-color);
-        color: white;
-    }
-    .lock-n-button{ 
-        background-color: #CED4DA;
-    }
-    .trash-n-button{ 
-        color: white;
-        background-color: #D32F2F;
-    }
-    .cotizacion-n-button { 
-        color: white;
-        background-color: #9C27B0;
-    }
     .size-n-button {
         width: 7.5%;
     }
@@ -263,10 +249,6 @@
 .opcion-bottom {
     position: fixed;
     bottom: 0;
-    // flex-wrap: wrap;
-    // position: absolute;
-    // bottom: 60px;
-    // height: 150px;
     width: 78%;
 }
 
@@ -306,4 +288,8 @@
 .product-image {
     width: 50px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+}
+
+.chosen {
+    border: 5px solid #2196F3;
 }

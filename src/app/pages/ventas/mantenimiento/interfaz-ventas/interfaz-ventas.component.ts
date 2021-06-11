@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MenuItem, PrimeNGConfig, SelectItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -55,7 +55,8 @@ export class InterfazVentasComponent implements OnInit {
     fecha: string;
     modo = 'pos';
     cols3: { field: string; header: string; }[];
-    test = [1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1]
+    financiando = false;
+
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
@@ -71,17 +72,17 @@ export class InterfazVentasComponent implements OnInit {
 
                 this.usuario = this.usuarioServ.getUserLogged(); 
                 
-                
                 this.nombre = this.usuario.name+' '+this.usuario.surname;   
                 this.fecha = this.datosEstaticosServ.getDate();
                 this.crearFormulario();
     }
 
     ngOnInit(): void {
+        this.primengConfig.ripple = true;
         this.todosLosProductos();
         this.todosLasCategorias();
         this.todosLosClientes()  
-        this.primengConfig.ripple = true;
+        console.log(this.cliente);
 
         this.cols = [
             { field: 'imagen', header: 'Imagen' },
@@ -116,8 +117,13 @@ export class InterfazVentasComponent implements OnInit {
 
         this.facturaServ.modoVenta.subscribe((resp: any) => {
             this.modo = resp;
-             
-            
+        });
+
+        this.facturaServ.enviaData.subscribe((resp: any) => {
+            this.forma.get('financiado').reset;
+            this.forma.get('financiado').setValue(resp);
+            this.financiando = true;
+            console.log(resp);            
         })
     }
 
@@ -158,7 +164,7 @@ export class InterfazVentasComponent implements OnInit {
             tarjeta:         [''],
             tarjeta_no:      [''],
             conduce:         [1],
-            nombre_cli:      [''],
+            nombre_cli:      ['CLIENTE CONTADO'],
             direccion:       [''],
             id_pais:         [''],
             id_ciudad:       [''],
@@ -172,23 +178,27 @@ export class InterfazVentasComponent implements OnInit {
             monto_itbis:     ['', Validators.required],
             devuelta:        [''],
             neto:            ['', Validators.required],
+            financiado:      [''],
             productos:       this.fb.array([]),
             estado:          ['activo'],
             usuario_creador: [this.usuario.username]
         })
     }
+    
     get producto() {   
         return this.forma.get('productos') as FormArray;
     }
 
-    cobrarFactura() { 
-        
-         ;
+    get cliente() {   
+        return this.forma.get('nombre_cli').value as FormControl;
+    }
+
+    cobrarFactura() {
         if (this.forma.valid) {
+        
             let devuelta = Math.abs(Number(this.forma.get('devuelta').value));
-            this.forma.get('devuelta').setValue(devuelta);       
-            
-            
+            this.forma.get('devuelta').setValue(devuelta);  
+
             if (devuelta < 0 && !this.ambos) {
                 this.devueltaMenor = true;
                 this.uiMessage.getMiniInfortiveMsg('tc','error','Error','LA CANTIDAD PAGADA ES MENOR AL MONTO TOtAL');
@@ -213,6 +223,17 @@ export class InterfazVentasComponent implements OnInit {
                 this.uiMessage.getMiniInfortiveMsg('tc','error','Error','DEBE AGREGAR ARTICULOS A LA FACTURA');
                 return;
             }
+        }
+    }
+
+    financiarFactura() {
+        console.log(this.forma.value);
+        if (this.financiando) {
+            this.facturaServ.crearFacturaPrestamo(this.forma.get('financiar').value).then((resp: any) => {
+                console.log(resp);                
+            })
+        } else {
+            
         }
     }
 
@@ -395,12 +416,22 @@ export class InterfazVentasComponent implements OnInit {
     }
 
     financiar() {
-        this.dialogService.open(FormularioTablaAmortizacionesComponent, {
-            data: this.neto,
-            closeOnEscape: false,
-            header: 'Datos Necesarios Creación de Productos',
-            width: '70%'
-          });
+        if (this.financiando) {
+            this.financiando = false;
+            return;
+        }
+        console.log('siguio');
+        
+        if (this.neto !== 0) {
+            this.dialogService.open(FormularioTablaAmortizacionesComponent, {
+                data: this.neto,
+                closeOnEscape: false,
+                header: 'Datos Necesarios Creación de Productos',
+                width: '70%'
+              });            
+        } else {
+            this.uiMessage.getMiniInfortiveMsg('tc','info','','Debe agregar articulos para financiar.');           
+        }
     }
 
     getNoValido(input: string) {

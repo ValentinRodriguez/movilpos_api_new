@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { MonedasService } from 'src/app/services/monedas.service';
+import { FacturasService } from 'src/app/services/facturas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -19,7 +19,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  monedaExiste = 3;
+  facturaExiste = 3;
   formSubmitted = false;
   id: number;
   listSubscribers: any = [];
@@ -40,9 +40,10 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private monedasServ: MonedasService,
+              private facturasServ: FacturasService,
               private datosEst: DatosEstaticosService,
-              public config: DynamicDialogConfig) { 
+              public config: DynamicDialogConfig,
+              public ref: DynamicDialogRef) {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
   }
@@ -56,7 +57,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
     this.forma.get('monto_total').setValue(data);
     console.log(data);
     
-    this.listObserver();
+    // this.listObserver();
 
     this.cols = [
       { field: 'balance', header: 'Saldo' },
@@ -67,31 +68,31 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.monedasServ.actualizar.subscribe((resp: any) =>{
-      this.guardar = false;
-      this.actualizar = true;   
-      this.id = Number(resp);      
-      this.monedasServ.getDato(resp).then((res: any) => {         
-        this.forma.get('divisa').setValue(res.divisa);
-        this.forma.get('simbolo').setValue(res.simbolo);
-        this.forma.patchValue(res);
-      })
-    })
+    // const observer1$ = this.facturasServ.actualizar.subscribe((resp: any) =>{
+    //   this.guardar = false;
+    //   this.actualizar = true;   
+    //   this.id = Number(resp);      
+    //   this.facturasServ.getDato(resp).then((res: any) => {         
+    //     this.forma.get('divisa').setValue(res.divisa);
+    //     this.forma.get('simbolo').setValue(res.simbolo);
+    //     this.forma.patchValue(res);
+    //   })
+    // })
 
-    const observer2$ = this.monedasServ.formSubmitted.subscribe((resp: any) =>{
+    const observer2$ = this.facturasServ.formSubmitted.subscribe((resp: any) =>{
       this.formSubmitted = resp;
     })
 
-    this.listSubscribers = [observer1$,observer2$];
+    // this.listSubscribers = [observer1$,observer2$];
   };
 
   crearFormulario() {
     this.forma = this.fb.group({
       cliente:             ['sdfsdfs', Validators.required],
-      monto_inicial:       [''],
-      monto_total:         ['100000', Validators.required],
+      monto_inicial:       [0],
+      monto_total:         [0, Validators.required],
       itbis:               ['si', Validators.required],
-      factura:             ['234234234', Validators.required],
+      factura:             ['', Validators.required],
       meses:               ['12', Validators.required],
       tasa:                ['6', Validators.required],
       prestamo:            [''],
@@ -100,47 +101,19 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
       usuario_modificador: ['']
     })
   }
-  
-  guardarMoneda(){
-    this.formSubmitted = true;    
-    if (this.forma.invalid) {    
-      this.formSubmitted = false;   
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{   
-      switch (this.monedaExiste) {
-        case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
-          break;
-
-        case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
-          break;
-
-        default:
-          this.monedasServ.crearMoneda(this.forma.value).then(()=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta'); 
-            this.resetFormulario(); 
-          })
-          break;
-      } 
-    }
-  }
-  
+    
   verificaMoneda(data){  
     if (data === "") {
-      this.monedaExiste = 3;
+      this.facturaExiste = 3;
       return;
     }
     let param = {'monedas': data};
-    this.monedaExiste = 0;
-    this.monedasServ.busquedaMoneda(param).then((resp: any)=>{
+    this.facturaExiste = 0;
+    this.facturasServ.buscaFactura(param).then((resp: any)=>{
       if(resp.length === 0) {
-        this.monedaExiste = 1;
+        this.facturaExiste = 1;
       }else{
-        this.monedaExiste = 2;
+        this.facturaExiste = 2;
       }
     })
   }
@@ -155,15 +128,15 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{ 
-      this.monedasServ.actualizarMoneda(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-        this.resetFormulario();
-      })
+      // this.facturasServ.act(this.id, this.forma.value).then((resp: any) => {
+      //   this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+      //   this.resetFormulario();
+      // })
     }
   }
 
   calcula() {
-    const MONTO = this.forma.get('monto_total').value;
+    const MONTO = Number(this.forma.get('monto_total').value) - Number(this.forma.get('monto_inicial').value);
     const INTA = this.forma.get('tasa').value;
     const PLAZO = this.forma.get('meses').value;
     const DATA = this.calculapmt(MONTO,INTA,PLAZO);
@@ -223,6 +196,12 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
     return {pago_mensual, interesm};
   }
 
+  enviarDataFacturar() {
+    this.forma.get('prestamo').setValue(this.detalle_tb);
+    this.facturasServ.enviarData(this.forma.value);
+    this.ref.close();
+  }
+
   onRowSelect(data, dt) {
 
   }
@@ -236,7 +215,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
     this.actualizar = false;
     this.guardar = true;
     this.resetFormulario();
-    this.monedasServ.guardando();    
+    // this.facturasServ.guardando();    
   }
 
   resetFormulario() {

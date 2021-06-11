@@ -127,8 +127,9 @@
                                     </div>                              
                                 </div> 
                                 <div class="widget-pricing-card" style="position: absolute; right: 1rem;">
-                                    <h4>TOTAL A PAGAR:</h4>
                                     <h3>$RD {{this.neto}}</h3>
+                                    <h4>TOTAL A PAGAR</h4>
+                                    <h4>{{this.cliente | uppercase}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -317,13 +318,12 @@
                                 </div>
                             </div> 
                             <!-- BOTON PARA ANULAR FACTURAS -->
-                            <div class="card size-n-button styled-box-green styled-box-green" 
-                                 style="background-color: #FBC02D;" pRipple
-                                 (click)="financiar()">
+                            <div class="card size-n-button styled-box-green styled-box-green" [ngClass]="{'chosen': this.financiando}"
+                                 style="background-color: #FBC02D;" pRipple (click)="financiar()">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
                                         <i class="botones-bottom fas fa-comment-dollar"></i>
-                                        <div>Financiar</div>
+                                        <div>Detalles Financiamiento</div>
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@
         
                         <div class="card-container p-d-flex">
                             <!-- BOTON PARA GUARDAR FACTURA -->
-                            <div class="card size-n-button styled-box-green size-n-button" pRipple>
+                            <div class="card size-n-button styled-box-green" pRipple>
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
                                         <i class=" botones-bottom pi pi-save"></i>
@@ -379,11 +379,23 @@
                             </div>
         
                             <!-- BOTON DE COBRAR FACTURA -->
-                            <div class="card pay-button styled-box-orange" pRipple (click)="cobrarFactura()">
+                            <div class="card pay-button text-white styled-box-orange" *ngIf="!this.financiando" 
+                                 pRipple (click)="cobrarFactura()">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
                                         <i class=" botones-bottom fas fa-hand-holding-usd"></i>
                                         <div>Cobrar Factura</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BOTON DE FINANCIAR FACTURA -->
+                            <div class="card financiar-button styled-box-orange" *ngIf="this.financiando"
+                                 pRipple (click)="financiarFactura()">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class=" botones-bottom fas fa-hand-holding-usd"></i>
+                                        <div>Financiar Factura</div>
                                     </div>
                                 </div>
                             </div>
