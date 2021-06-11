@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { OverlayPanel } from 'primeng/overlaypanel';
+import { ClientesService } from 'src/app/services/clientes.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { FacturasService } from 'src/app/services/facturas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
@@ -15,11 +17,10 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
 
   forma: FormGroup;
   usuario: any;
-  
+  @ViewChild('op') overlay: OverlayPanel;
   guardar = true;
   actualizando = false;
   actualizar = false;
-  facturaExiste = 3;
   formSubmitted = false;
   id: number;
   listSubscribers: any = [];
@@ -29,17 +30,21 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   today = new Date();
   balance = 0;
   capital = 0;
+  clientesFiltrados: any = [];
+  monto_interes_mensual: number;
+  pago_mensual: number;
+  clientes: any = [];
 
   sino = [
     {label: 'Sí', value: 'si'},
     {label: 'No', value: 'no'},
   ];
-  monto_interes_mensual: number;
-  pago_mensual: number;
+  data: any;
  
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
+              private clientesServ: ClientesService,
               private facturasServ: FacturasService,
               private datosEst: DatosEstaticosService,
               public config: DynamicDialogConfig,
@@ -53,9 +58,10 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let data = this.config.data || 0;
-    this.forma.get('monto_total').setValue(data);
-    console.log(data);
+    this.todosLosClientes();
+    this.data = this.config.data;
+    this.forma.get('monto_total').setValue(this.data.neto);    
+    console.log(this.data);
     
     // this.listObserver();
 
@@ -65,6 +71,13 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
       { field: 'capital', header: 'Capital' },
       { field: 'interes', header: 'Interes' },
     ]
+  }
+
+  todosLosClientes() {
+    this.clientesServ.getDatos().then((resp: any) =>{
+      this.clientes = resp;
+      this.forma.get('cliente').setValue(this.clientes.find(doc => doc.tipo_cliente == this.data.tipo_cliente)); 
+    })
   }
 
   listObserver = () => {
@@ -88,7 +101,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      cliente:             ['sdfsdfs', Validators.required],
+      cliente:             ['', Validators.required],
       monto_inicial:       [0],
       monto_total:         [0, Validators.required],
       itbis:               ['si', Validators.required],
@@ -99,22 +112,6 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
-    })
-  }
-    
-  verificaMoneda(data){  
-    if (data === "") {
-      this.facturaExiste = 3;
-      return;
-    }
-    let param = {'monedas': data};
-    this.facturaExiste = 0;
-    this.facturasServ.buscaFactura(param).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.facturaExiste = 1;
-      }else{
-        this.facturaExiste = 2;
-      }
     })
   }
 
@@ -133,6 +130,36 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
       //   this.resetFormulario();
       // })
     }
+  }
+
+  filtrarCliente(event) {
+    const filtered: any[] = [];    
+    const query = event;
+    for (let i = 0; i < this.clientes.length; i++) {
+      const size = this.clientes[i];
+      
+      if (size.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.clientesFiltrados = filtered;
+  }
+
+  datosCliente(cliente) {    
+    this.forma.get('tipo_cliente').setValue(cliente.tipo_cliente);
+    this.forma.get('sec_cliente').setValue(cliente.sec_cliente);
+    this.forma.get('nombre_cliente').setValue(cliente.nombre);
+    // this.forma.get('direccion_cliente').setValue(cliente.direccion);
+    this.forma.get('pais_cliente').setValue(cliente.id_pais);
+    this.forma.get('ciudad_cliente').setValue(cliente.id_ciudad);
+    this.forma.get('urbanizacion_cliente').setValue(cliente.urbanizacion);
+  }
+
+  clienteSeleccionado(cliente) {  
+    this.forma.get('cliente').setValue(cliente) 
+    this.forma.get('tipo_cliente').setValue(cliente.tipo_cliente)
+    this.forma.get('sec_cliente').setValue(cliente.sec_cliente)
+    this.overlay.hide()
   }
 
   calcula() {

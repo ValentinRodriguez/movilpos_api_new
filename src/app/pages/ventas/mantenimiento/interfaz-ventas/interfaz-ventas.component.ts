@@ -56,7 +56,8 @@ export class InterfazVentasComponent implements OnInit {
     modo = 'pos';
     cols3: { field: string; header: string; }[];
     financiando = false;
-
+    loading = true;
+    
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
@@ -136,7 +137,8 @@ export class InterfazVentasComponent implements OnInit {
     todosLosProductos() {
         this.inventarioServ.getDatos().then((resp: any) =>{
             console.log(resp);
-            this.productos = resp;  
+            this.productos = resp;
+            this.loading = false;
         })
     }
 
@@ -339,8 +341,7 @@ export class InterfazVentasComponent implements OnInit {
     //     this.facturaServ.display = true
     // }
     
-    clienteSeleccionado(cliente) {
-        
+    clienteSeleccionado(cliente) {        
         this.forma.get('id_pais').setValue(cliente.id_pais)
         this.forma.get('id_ciudad').setValue(cliente.id_ciudad)
         this.forma.get('id_zonalocal').setValue(cliente.id_zonalocal)
@@ -420,11 +421,18 @@ export class InterfazVentasComponent implements OnInit {
             this.financiando = false;
             return;
         }
-        console.log('siguio');
         
         if (this.neto !== 0) {
+
+            let obj = {
+                nombre_cli: this.forma.get('nombre_cli').value,
+                tipo_cliente: this.forma.get('tipo_cliente').value || 1,
+                sec_cliente: this.forma.get('sec_cliente').value || 1,
+                neto: this.neto
+            }
+
             this.dialogService.open(FormularioTablaAmortizacionesComponent, {
-                data: this.neto,
+                data: obj,
                 closeOnEscape: false,
                 header: 'Datos Necesarios Creación de Productos',
                 width: '70%'

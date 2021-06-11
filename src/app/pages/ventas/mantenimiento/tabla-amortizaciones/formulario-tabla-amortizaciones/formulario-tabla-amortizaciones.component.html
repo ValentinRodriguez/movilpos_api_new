@@ -1,16 +1,21 @@
 <form [formGroup]="forma">
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-3">
-            <label for="cliente">Cliente</label>
-            <span class=" p-input-icon-right">
-                <input id="cliente" type="text" pInputText formControlName="cliente" 
-                        [class.ng-invalid]="getNoValido('cliente')" [class.ng-dirty]="getNoValido('cliente')">
-                <i class="pi pi-spin pi-spinner" *ngIf="facturaExiste === 0" style="color:#f5df18"></i>
-                <i class="pi pi-check" *ngIf="facturaExiste === 1" style="color:#36b61d"></i>
-                <i class="pi pi-times" *ngIf="facturaExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-file-o" *ngIf="facturaExiste === 3"></i>
-                <small *ngIf="getNoValido('cliente')" class="p-invalid">Este campo es obligatorio.</small>
-            </span>
+            <label for="cliente">Cliente</label>	
+            <div class="p-inputgroup">	
+                <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-success" (click)="op.toggle($event)"></button>								
+                <p-autoComplete formControlName="cliente" [suggestions]="clientesFiltrados" (completeMethod)="filtrarCliente($event.query)" 
+                                (onSelect)="datosCliente($event)" field="nombre" [dropdown]="true" [class.ng-invalid]="getNoValido('cliente')" 
+                                [class.ng-dirty]="getNoValido('cliente')">
+                    <ng-template let-cliente pTemplate="item">
+                        <div class="country-item">
+                            <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                            <div>{{cliente.nombre | titlecase}}</div>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+            </div>
+            <small *ngIf="getNoValido('cliente')" class="p-invalid">Este campo es obligatorio.</small>						
         </div>
 
         <div class="p-field p-col-12 p-md-3">
@@ -118,3 +123,33 @@
 </form>
 <br>
 <p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+	<ng-template pTemplate>
+		<p-table #dt3 [value]="clientes" selectionMode="single" [(selection)]="clientesSeleccionados" (onRowSelect)="clienteSeleccionado($event.data)" 
+				 [paginator]="true" [rows]="5" [globalFilterFields]="['nombre','num_rnc','cedula']">
+			<ng-template pTemplate="caption">
+			<div class="table-header">
+				<span class="p-input-icon-left">
+					<i class="pi pi-search"></i>
+					<input pInputText type="text" (input)="dt3.filterGlobal($event.target.value, 'contains')" placeholder="Buscar Cliente..."/>
+				</span>
+			</div>
+		</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th pSortableColumn="nombre">Nombre<p-sortIcon field="name"></p-sortIcon></th>                    
+					<th pSortableColumn="num_rnc">RNC <p-sortIcon field="price"></p-sortIcon></th>
+					<th pSortableColumn="cedula">Cédula <p-sortIcon field="price"></p-sortIcon></th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-rowData let-cliente>
+				<tr [pSelectableRow]="rowData">
+					<td>{{cliente.nombre}}</td>
+					<td>{{cliente.num_rnc}}</td>
+					<td>{{cliente.cedula}}</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</ng-template>
+</p-overlayPanel>
