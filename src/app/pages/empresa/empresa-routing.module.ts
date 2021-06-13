@@ -20,6 +20,7 @@ import { ZonasComponent } from './zonas/zonas.component';
         {path: 'gestion-de-tipo-clientes', component: TipoClientesComponent},
         {path: 'gestion-de-monedas', component: MonedasComponent},
         {path: 'gestion-de-zonas', component: ZonasComponent},
+        {path: 'gestion-tipo-proveedores', component: ZonasComponent},
        ]
       }
     ])

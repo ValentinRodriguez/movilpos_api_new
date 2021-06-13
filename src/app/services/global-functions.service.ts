@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UiMessagesService } from './ui-messages.service';
 import { UsuarioService } from './usuario.service';
@@ -14,9 +14,9 @@ export class GlobalFunctionsService {
   private subject = new Subject<any>();
   usuario: any;
   usuarioExiste = 3;
+  finalizar = new EventEmitter;
 
   constructor(private http: HttpClient,
-              private uimessage: UiMessagesService,
               private usuariosServ: UsuarioService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
   }
@@ -31,6 +31,10 @@ export class GlobalFunctionsService {
     })
   }
  
+  finalizando() {
+    this.finalizar.emit(true);
+  }
+  
   sendMessage(message: string) {
     this.subject.next({ text: message });
   }

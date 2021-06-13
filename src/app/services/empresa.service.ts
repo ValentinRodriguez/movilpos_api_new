@@ -96,12 +96,28 @@ export class EmpresaService {
           formData.append(key, JSON.stringify(empresa[key]));          
           break;
           
-        case 'id_pais':
-          formData.append(key, empresa[key].id_pais)
+        case 'id_ciudad':          
+        formData.append(key, empresa[key].id_ciudad);
           break;
-
-        case 'id_ciudad':
-          formData.append(key, empresa[key].id_ciudad)
+  
+        case 'id_pais':          
+             formData.append(key, empresa[key].id_pais);
+          break
+  
+        case 'id_region':            
+             formData.append(key,empresa[key].id_region);
+          break;
+  
+        case 'id_provincia':          
+             formData.append(key,empresa[key].id_provincia);
+          break;
+  
+        case 'id_municipio':            
+             formData.append(key,empresa[key].id_municipio);
+          break;
+  
+        case 'id_sector':          
+             formData.append(key,empresa[key].id_sector);
           break;
 
         default:

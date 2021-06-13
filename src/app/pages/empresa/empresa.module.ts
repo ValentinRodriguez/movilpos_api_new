@@ -16,6 +16,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
@@ -37,6 +38,8 @@ import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ZonasComponent } from './zonas/zonas.component';
 import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zonas.component';
+import { FormularioTipoProveedoresComponent } from './tipos-proveedores/formulario-tipo-proveedores/formulario-tipo-proveedores.component';
+import { TiposProveedoresComponent } from "./tipos-proveedores/tipos-proveedores.component";
 
 @NgModule({
   declarations: [
@@ -45,6 +48,8 @@ import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zo
     EmpresaComponent,
     FormularioEmpresaComponent,
     TipoDocumentosComponent,
+    FormularioTipoProveedoresComponent,
+    TiposProveedoresComponent,
     FormularioTipoDocumentosComponent,
     TipoClientesComponent,
     FormularioTipoClientesComponent,
@@ -59,6 +64,7 @@ import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zo
     ReactiveFormsModule,
     RouterModule,
     EmpresaRoutingModule,
+    AutoCompleteModule,
     TableModule,
     PanelModule,
     ConfirmDialogModule,

@@ -48,9 +48,11 @@ export class FormularioTipoClientesComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{
-      console.log(resp);
-      
+    const observer2$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{      
+      this.formSubmitted = resp;
+    })
+
+    const observer3$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{      
       this.formSubmitted = resp;
     })
 
@@ -90,26 +92,37 @@ export class FormularioTipoClientesComponent implements OnInit {
       return;
     }
 
+    if (this.tipoCliExiste === 0) {
+      this.uiMessage.getMiniInfortiveMsg('tst','info','Atención','Verificando disponibilidad de nombre');
+      this.formSubmitted = false;
+      return;
+    }
+
     if (this.forma.valid) {  
       this.tipoClientesServ.crearTipoCliente(this.forma.value).then(() => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
+        this.reset();
       })  
     }else{
       this.formSubmitted = false;  
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       return;
     }
+  }
+
+  reset() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    this.reset();
     this.tipoClientesServ.guardando();    
   }
   
@@ -120,8 +133,7 @@ export class FormularioTipoClientesComponent implements OnInit {
     }
     let param = {'descripcion': data};
     this.tipoCliExiste = 0;
-    this.tipoClientesServ.busquedaTipo(param).then((resp: any)=>{       
-      
+    this.tipoClientesServ.busquedaTipo(param).then((resp: any)=>{             
       if(resp.length === 0) {
         this.tipoCliExiste = 1;
       }else{

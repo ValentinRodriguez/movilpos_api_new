@@ -24,8 +24,12 @@ export class FormularioTransportistaComponent implements OnInit {
   id: number;
   ciudades=[];
   paises=[];
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
+  regiones: any;
+  provincias: any;
+  municipios: any;
+  sectores: any;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -82,12 +86,14 @@ export class FormularioTransportistaComponent implements OnInit {
       cod_transportista:   ['', Validators.required],
       calle:               ['', Validators.required],
       casa_num:            ['', Validators.required],
-      barrio:              ['', Validators.required],
-      urbanizacion:        ['', Validators.required],
-      cod_zona:            ['', Validators.required],
-      cod_provincia:       ['', Validators.required],
-      id_pais:             ['', Validators.required],
       telefono:            ['', Validators.required],
+      id_pais:             ['', Validators.required],
+      // id_zona:             ['', Validators.required],
+      id_region:           ['', Validators.required],
+      id_provincia:        ['', Validators.required],
+      id_municipio:        ['', Validators.required],
+      id_ciudad:           ['', Validators.required],
+      id_sector:           ['', Validators.required],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
@@ -127,6 +133,42 @@ export class FormularioTransportistaComponent implements OnInit {
         this.resetFormulario();  
       })
     }
+  }
+  
+  todosLosPaises() {
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
+      this.paises = resp;   
+    })
+  }
+  
+  buscaRegion(event) {
+      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
+
+  buscaProvincia(event) {
+      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
+      this.provincias = resp;
+    })   
+  }
+
+  buscaMunicipio(event) {
+    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
+      this.municipios = resp;
+    })   
+  }
+ 
+  buscaCiudad(event) {
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
+      this.ciudades = resp;
+    })   
+  }
+
+  buscaSector(event) {
+    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
+      this.sectores = resp;
+    })   
   }
   
   cancelar() {

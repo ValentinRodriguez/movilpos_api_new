@@ -33,6 +33,7 @@ export class PendientesLiquidacionComponent implements OnInit {
     ]
   }
   
+ 
   enviarPendiente() {
     if (this.pendientesSeleccionados.length !== 0) {   
       this.pendientesLiquidacion.pendienteEscogidas(this.pendientesSeleccionados);

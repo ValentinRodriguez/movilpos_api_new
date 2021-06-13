@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 
 @Component({
   selector: 'app-step-toolbar',
@@ -12,7 +13,8 @@ export class StepToolbarComponent implements OnInit {
   index = 0;
   inicio:any;
 
-  constructor(public router: Router) { }
+  constructor(public router: Router,
+              private globalServ: GlobalFunctionsService) { }
 
   ngOnInit(): void { 
     this.inicio = this.router.url.split("/");       
@@ -30,7 +32,7 @@ export class StepToolbarComponent implements OnInit {
   }
 
   finalizar() {        
-    this.items = [] ;
+    this.globalServ.finalizando();
   }
 
   navegacion(pagina) {

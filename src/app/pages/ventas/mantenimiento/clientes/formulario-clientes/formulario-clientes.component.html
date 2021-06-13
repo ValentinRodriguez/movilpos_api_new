@@ -1,4 +1,4 @@
-<div class="intermitente" *ngIf="this.items.length !== 0">
+<div class="intermitente" *ngIf="this.items.length !== 0 && this.rutaActual[1] === 'ventas'">
 	<p-accordion styleClass="intermitente">
 		<p-accordionTab header="CLICK AQUI PARA INSERCION DE DATOS INICALES">       
 		   <div class="card">
@@ -11,10 +11,12 @@
 	</p-accordion>
 </div>
 <br>
-<form (ngSubmit)="guardarCliente()" [formGroup]="forma">
-    
-    <div class="p-fluid p-formgrid p-grid">
-        
+<button *ngIf="this.rutaActual[1] !== 'ventas'" pButton pRipple label="Ir a Formulario de Clientes" 
+        icon="pi pi-chevron" type="button" (click)="redirigir()">
+</button>
+<br>
+<form (ngSubmit)="guardarCliente()" [formGroup]="forma" *ngIf="this.rutaActual[1] === 'ventas'">    
+    <div class="p-fluid p-formgrid p-grid">        
         <div class="p-field p-col-12 p-md-3">
             <label for="nombre">Nombre</label>
             <span class=" p-input-icon-right">
@@ -27,8 +29,7 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="tipo_documento">Documento</label>
             <p-dropdown inputId="tipo_documento" [options]="documento" [class.ng-invalid]="getNoValido('tipo_documento')" 
-                        [class.ng-dirty]="getNoValido('tipo_documento')" 
-                        name="tipo_documento" formControlName="tipo_documento"
+                        [class.ng-dirty]="getNoValido('tipo_documento')" name="tipo_documento" formControlName="tipo_documento"
                         placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value.descripcion)">
             </p-dropdown>
             <small *ngIf="getNoValido('tipo_documento')" class="p-invalid">Este campo es obligatorio.</small>
@@ -189,22 +190,6 @@
     </div>
     <p-panel header="Ubicación" [toggleable]="true">
         <div class="p-fluid p-formgrid p-grid">
-            <div class="p-field p-col-12">
-                <label for="direccion">Dirección</label>
-                <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"
-                          [class.ng-invalid]="getNoValido('direccion')" [class.ng-dirty]="getNoValido('direccion')">
-                </textarea>
-                <small *ngIf="getNoValido('direccion')" class="p-invalid">Este campo es obligatorio.</small>
-            </div>
-            
-            <!-- <div class="p-field p-col-12 p-md-3">
-                <label for="urbanizacion">Urbanización</label>
-                <span class=" p-input-icon-right">
-                    <input id="urbanizacion" type="text" pInputText formControlName="urbanizacion" [class.ng-invalid]="getNoValido('urbanizacion')" 
-                           [class.ng-dirty]="getNoValido('urbanizacion')">
-                </span>
-                <small *ngIf="getNoValido('urbanizacion')" class="p-invalid">Este campo es obligatorio.</small>
-            </div> -->
     
             <div class="p-field p-col-12 p-md-3">
                 <label for="id_pais">Pais</label>
@@ -268,6 +253,20 @@
                 </p-dropdown>
                 <small *ngIf="getNoValido('id_sector')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
+
+            <div class="p-field p-col-12 p-md-3">
+                <label for="calle">Calle</label>
+                <input pInputText type="text" inputId="calle" mode="decimal" name="calle" formControlName="calle"
+                [class.ng-invalid]="getNoValido('calle')" [class.ng-dirty]="getNoValido('calle')"/>
+                <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <div class="p-field p-col-12 p-md-3">
+                <label for="casa_num">Casa NO.</label>
+                <input pInputText type="text" inputId="casa_num" mode="decimal" name="casa_num" formControlName="casa_num"
+                [class.ng-invalid]="getNoValido('casa_num')" [class.ng-dirty]="getNoValido('casa_num')"/>
+                <small *ngIf="getNoValido('casa_num')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>  
         </div>
     </p-panel>
 

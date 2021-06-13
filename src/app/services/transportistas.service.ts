@@ -38,24 +38,42 @@ export class TransportistasService {
   }
 
   crearTransportista(transportista: any) {
-    const formData = new FormData(); 
+    const formdata = {};
     
     for(let key in transportista){  
       switch (key) {
-        case 'cod_zona':
-        case 'id_pais':
-        case 'cod_provincia':
-          formData.append(key, transportista[key].id)  
+        case 'id_ciudad':          
+        formdata[key] = transportista[key].id_ciudad;
+        break;
+
+        case 'id_pais':          
+          formdata[key] = transportista[key].id_pais;
+          break;
+
+        case 'id_region':            
+          formdata[key] = transportista[key].id_region;
+          break;
+
+        case 'id_provincia':          
+          formdata[key] = transportista[key].id_provincia;
+          break;
+
+        case 'id_municipio':            
+          formdata[key] = transportista[key].id_municipio
+          break;
+
+        case 'id_sector':          
+          formdata[key] = transportista[key].id_sector;
           break;
       
         default:
-          formData.append(key, transportista[key])
+          formdata[key] = transportista[key];
           break;
       }
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/transportistas`, formData).subscribe( (resp: any) => {        
+      this.http.post(`${ URL }/transportistas`, formdata).subscribe( (resp: any) => {        
         this.formSubmitted.emit(false);                           
          if (resp['code'] === 200)  {    
           this.trasnportistaGuardado.emit( resp.data );                                   

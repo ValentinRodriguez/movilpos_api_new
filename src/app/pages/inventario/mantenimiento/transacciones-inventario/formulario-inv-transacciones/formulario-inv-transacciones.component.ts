@@ -69,6 +69,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   noPermisos = false;
   rncExiste= 3;
   items: MenuItem[] = [];
+  tipoNegocios: any[] = [];
   
   constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
@@ -201,7 +202,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
             this.clientes = element.data;
             break;
 
-          case 'transportistas':
+          case 'transportista':
             this.transportistas = element.data;
             break;
 
@@ -225,6 +226,10 @@ export class FormularioInvTransaccionesComponent implements OnInit {
             this.movimientos = element.data;
             break;  
 
+          // case 'tipo_Negocio':
+          //   this.tipoNegocios = element.data;
+          //   break;  
+            
           default:
             break;
         }

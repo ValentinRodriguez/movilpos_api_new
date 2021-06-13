@@ -59,6 +59,10 @@ export class FormularioEmpresaComponent implements OnInit {
     {label: 'PEPS', value: 'peps'},
     {label: 'UEPS', value: 'ueps'},
   ];
+  regiones: any;
+  provincias: any;
+  municipios: any;
+  sectores: any;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -113,9 +117,39 @@ export class FormularioEmpresaComponent implements OnInit {
   };
 
   todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
       this.paises = resp;   
     })
+  }
+  
+  buscaRegion(event) {
+      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
+
+  buscaProvincia(event) {
+      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
+      this.provincias = resp;
+    })   
+  }
+
+  buscaMunicipio(event) {
+    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
+      this.municipios = resp;
+    })   
+  }
+ 
+  buscaCiudad(event) {
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
+      this.ciudades = resp;
+    })   
+  }
+
+  buscaSector(event) {
+    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
+      this.sectores = resp;
+    })   
   }
 
   crearFormulario() {
@@ -125,7 +159,11 @@ export class FormularioEmpresaComponent implements OnInit {
       email_empresa:     ['', Validators.required],
       rnc:               ['', Validators.required],
       id_pais:           ['', Validators.required],
+      id_region:         ['', Validators.required],
+      id_provincia:      ['', Validators.required],
+      id_municipio:      ['', Validators.required],
       id_ciudad:         ['', Validators.required],
+      id_sector:         ['', Validators.required],
       direccion:         ['', Validators.required],
       web:               [''],
       contacto:          ['', Validators.required],

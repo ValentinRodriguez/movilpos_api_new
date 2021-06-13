@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
-import { FileUpload } from 'primeng/fileupload';
 import { BodegasService } from 'src/app/services/bodegas.service';
 import { BrandsService } from 'src/app/services/brands.service';
 import { CategoriasService } from 'src/app/services/categorias.service';
@@ -11,8 +10,10 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { TipoInventarioService } from 'src/app/services/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { StepComponent } from '../step/step.component';
 import { environment } from 'src/environments/environment';
+import { MenuItem } from 'primeng/api/menuitem';
+import { Router } from '@angular/router';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 
 const URL = environment.urlImagenes;
 
@@ -48,7 +49,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
   imgEmpresa = null;
   imgURL = null;
   imagePath;
-
+  items: MenuItem[] = [];
+  rutaActual: string[];
   message: string;
   origenes = [
     {label: 'Importado', value: 'importado'},
@@ -68,13 +70,14 @@ export class FormularioMaestraProductosComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,
-              private uiMessage: UiMessagesService,              
-              private dialogService: DialogService,
+              private uiMessage: UiMessagesService,   
               private inventarioServ: InventarioService,
               private marcaService: BrandsService,
               private tipoInv: TipoInventarioService,
               private propServ: PropiedadesService,
               private bodegasServ: BodegasService,
+              private globalFunction: GlobalFunctionsService,
+              private router: Router,
               private categoriasServ: CategoriasService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
@@ -85,6 +88,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.rutaActual = this.router.url.split("/");
     this.tipo(1);
     this.fechaFabricacion();
     this.todaLaData();
@@ -135,6 +139,10 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
     const observer7$ = this.inventarioServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
+    })
+
+    const observer8$ = this.globalFunction.finalizar.subscribe((resp) => {
+      this.items = [];
     })
 
     this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$];
@@ -209,8 +217,11 @@ export class FormularioMaestraProductosComponent implements OnInit {
     this.inventarioServ.autoLlenado().then((resp: any) =>{
       this.dataColeccion = resp;      
       resp.forEach(element => {
+        if (element.data.length === 0) {
+          this.items.push({label: this.DatosEstaticos.capitalizeFirstLetter(element.label), routerLink: element.label})      
+        }
         switch (element.label) {
-          case 'tipo inventario':
+          case 'tipo-inventario':
             this.tipoInventario = element.data;
             break;
 
@@ -234,7 +245,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
             this.medidas = element.data;
             break;
 
-          case 'tipo producto':
+          case 'tipo-producto':
             this.tipos = element.data;
             this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === 1))
             break;  
@@ -242,28 +253,10 @@ export class FormularioMaestraProductosComponent implements OnInit {
           default:
             break;
         }
-      });
-      this.autollenado(resp);   
+      }); 
     })
   }
 
-  autollenado(data) {
-    let existe = null;
-    data.forEach(element => {            
-      if (element.data.length === 0) {
-        existe = true;
-      }
-    });
-    if (existe === true) {
-       this.dialogService.open(StepComponent, {
-        data,
-        closeOnEscape: false,
-        header: 'Datos Necesarios Creación de Productos',
-        width: '70%'
-      });
-    }
-  }
-  
   fechaFabricacion() {
     let rango = this.DatosEstaticos.getYear() - 1950 + 1;
     let temp = [];

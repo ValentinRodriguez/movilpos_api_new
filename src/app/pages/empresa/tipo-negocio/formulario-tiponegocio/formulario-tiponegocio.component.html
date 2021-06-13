@@ -1,7 +1,7 @@
 <form (ngSubmit)="guardarTipoNegocio()" [formGroup]="forma">
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-6">
-            <label for="descripcion">Título</label>
+            <label for="descripcion">Tipo de Negocio</label>
             <span class=" p-input-icon-right">
                 <input   type="text" pInputText formControlName="descripcion" [class.p-invalid]="getNoValido('descripcion')"
                        (keyup)="verificaTipoNegocio($event.target.value)" [class.ng-invalid]="getNoValido('descripcion')"

@@ -72,7 +72,7 @@ export class FormularioTiponegocioComponent implements OnInit {
     }
 
     if (this.negocioExiste === 0) {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Verificando disponibilidad de nombre');
+      this.uiMessage.getMiniInfortiveMsg('tst','info','Atención','Verificando disponibilidad de nombre');
       this.formSubmitted = false;
       return;
     }

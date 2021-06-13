@@ -45,6 +45,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
               private invProductosServ: InventarioService,
               private proveedoresServ: ProveedoresService,
               private ordenCompraServ:OrdenescomprasService,
+              public pendientesLiquidacionServ: LiquidacionMercanciasService,
               private liquidacionesServ: LiquidacionMercanciasService,
               private dialogService: DialogService) { 
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];
@@ -57,9 +58,21 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.proveedoresServ.getDatos().then((resp: any) => {
-      this.proveedores = resp;
-    })
+    this.pendientesLiquidacionServ.autollenado().then((resp: any) =>{
+      console.log(resp);      
+      resp.forEach(element => {
+        switch (element.label) {
+          case 'proveedores':
+            this.proveedores = element.data;
+            break;
+
+          case 'pendientes':
+            this.pendientes = element.data;
+            this.pendientesLiquidacion(this.pendientes);
+            break;
+        }
+      })
+    });
 
     this.listObserver();
     
@@ -129,6 +142,15 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
+  }
+
+  pendientesLiquidacion(pendientes) {
+    if (pendientes.length !== 0) {
+      this.dialogService.open(PendientesLiquidacionComponent, {
+        header: 'Catálogo de productos',
+        width: '70%'
+      });        
+    }
   }
 
   buscaProductos() {

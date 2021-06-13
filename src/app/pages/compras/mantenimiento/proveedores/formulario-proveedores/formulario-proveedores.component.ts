@@ -1,8 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
@@ -38,21 +41,27 @@ export class FormularioProveedoresComponent implements OnInit {
   id: string;
   formSubmitted = false;
   listSubscribers: any = [];
+  items: any[] = [];
+  rutaActual:any;
 
   constructor(private fb: FormBuilder, 
+              public router: Router,
               private paisesCiudadesServ: PaisesCiudadesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private proveedoresServ:ProveedoresService,
               private cgCatalogoServ: CgcatalogoService,
               private tipoProveedorServ: TipoProveedorService,
+              private datosEstaticosServ: DatosEstaticosService,
               public dialogService: DialogService,
-              private cd: ChangeDetectorRef) { 
+              private cd: ChangeDetectorRef,
+              @Inject(DOCUMENT) private document: Document) { 
       this.usuario = this.usuariosServ.getUserLogged();
       this.crearFormulario() 
   }
 
   ngOnInit(): void {
+    this.rutaActual = this.router.url.split("/");
     this.todaLaData();
     this.listObserver();
 
@@ -121,6 +130,9 @@ export class FormularioProveedoresComponent implements OnInit {
   todaLaData() {
     this.proveedoresServ.autoLlenado().then((resp: any)  => {
       resp.forEach(element => {
+        if (element.data.length === 0) {
+          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})      
+        }
         switch (element.label) {
           case 'condiciones':
             this.condpago = element.data;
@@ -134,7 +146,7 @@ export class FormularioProveedoresComponent implements OnInit {
             this.cuenta_no = element.data;
             break;  
 
-          case 'tipo proveedor':
+          case 'tipo-proveedor':
             this.tipo_proveedor = element.data;
             break; 
 
@@ -156,20 +168,8 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   autollenado(data) {
-    let existe = null;
-    data.forEach(element => {            
-      if (element.data.length === 0) {
-        existe = true;
-      }
-    });
-    if (existe === true) {
-       this.dialogService.open(StepProveedoresComponent, {
-        data,
-        closeOnEscape: false,
-        header: 'Datos Necesarios Creación Proveedores',
-        width: '70%'
-      });
-    }
+ 
+
   }
 
   crearFormulario() {
@@ -338,6 +338,14 @@ export class FormularioProveedoresComponent implements OnInit {
   borrarCatEscogido(id) {    
     this.cgcatalogos.splice(id,1)  
     this.cuentas_no.removeAt(id);
+  }
+
+  redirigir() {
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = `http://localhost:4200/#/compras/gestion-de-proveedores`;
+    link.click();
+    link.remove();
   }
 
   // FUNCIONES PARA EL MANEJO DE LOS ERRORES EN LOS CAMPOS DEL FORMULARIO

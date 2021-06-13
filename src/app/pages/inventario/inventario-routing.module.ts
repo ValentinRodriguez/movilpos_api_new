@@ -1,17 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormularioProveedoresComponent } from '../compras/mantenimiento/proveedores/formulario-proveedores/formulario-proveedores.component';
+import { FormularioTiponegocioComponent } from '../empresa/tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
 import { FormularioClientesComponent } from '../ventas/mantenimiento/clientes/formulario-clientes/formulario-clientes.component';
 
 //COMPONENTES DEL PROYECTO
 import { BodegasComponent } from './mantenimiento/bodegas/bodegas.component';
+import { FormularioBodegasComponent } from './mantenimiento/bodegas/formulario-bodegas/formulario-bodegas.component';
 import { CategoriasComponent } from './mantenimiento/categorias/categorias.component';
+import { FormularioCatComponent } from './mantenimiento/categorias/formulario-cat/formulario-cat.component';
 import { ExistenciasAlmacenesComponent } from './mantenimiento/existencias-almacenes/existencias-almacenes.component';
 import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/liquidacion-mercancias.component';
 import { FormularioMaestraProductosComponent } from './mantenimiento/maestra-productos/formulario-maestra-productos/formulario-maestra-productos.component';
 import { MaestraProductosComponent } from './mantenimiento/maestra-productos/maestra-productos.component';
+import { FormularioMarcaComponent } from './mantenimiento/marcas/formulario-marca/formulario-marca.component';
 import { MarcasComponent } from './mantenimiento/marcas/marcas.component';
+import { FormularioPropiedadesComponent } from './mantenimiento/propiedades/formulario-propiedades/formulario-propiedades.component';
 import { PropiedadesComponent } from './mantenimiento/propiedades/propiedades.component';
+import { FormularioTipoinvComponent } from './mantenimiento/tipos-inventarios/formulario-tipoinv/formulario-tipoinv.component';
 import { TiposInventariosComponent } from './mantenimiento/tipos-inventarios/tipos-inventarios.component';
 import { FormularioTipoMovComponent } from './mantenimiento/tipos-movimientos/formulario-tipo-mov/formulario-tipo-mov.component';
 import { TiposMovimientosComponent } from './mantenimiento/tipos-movimientos/tipos-movimientos.component';
@@ -27,10 +33,17 @@ import { TransportistasComponent } from './mantenimiento/transportistas/transpor
        children: [
         {path: '', component: TransaccionesInventarioComponent, children:[
           {path: 'clientes', component: FormularioClientesComponent},
-          {path: 'transportistas', component: FormularioTransportistaComponent},
+          {path: 'transportista', component: FormularioTransportistaComponent},
           {path: 'proveedores', component: FormularioProveedoresComponent},
           {path: 'movimientos', component: FormularioTipoMovComponent},
           {path: 'productos', component: FormularioMaestraProductosComponent},
+          {path: 'tipo-negocio', component: FormularioTiponegocioComponent},
+        ]},
+        {path: '', component: MaestraProductosComponent, children:[
+          {path: 'tipo-inventario', component: FormularioTipoinvComponent},
+          {path: 'marcas', component: FormularioMarcaComponent},
+          {path: 'modelos', component: FormularioCatComponent},
+          {path: 'color', component: FormularioPropiedadesComponent}
         ]},
         {path: 'gestion-de-productos', component: MaestraProductosComponent},
         {path: 'gestion-de-bodegas', component: BodegasComponent},     

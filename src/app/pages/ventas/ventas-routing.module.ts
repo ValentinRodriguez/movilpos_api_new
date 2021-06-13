@@ -21,15 +21,13 @@ import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizacion
       {
        path: '',
        children: [
-        {path: '', component: RecepcionVehiculosComponent, children:[
-          // {path:'', redirectTo: 'clientes', pathMatch: 'full'},          
+        {path: '', component: RecepcionVehiculosComponent, children:[      
           {path: 'clientes', component: FormularioClientesComponent},
           {path: 'modelos', component: FormularioCatComponent},
           {path: 'marcas', component: FormularioMarcaComponent},
           {path: 'propiedades', component: FormularioPropiedadesComponent},
         ]},
-        {path: '', component: ClientesComponent, children:[
-          // {path:'', redirectTo: 'clientes', pathMatch: 'full'},          
+        {path: '', component: ClientesComponent, children:[         
           {path: 'tipo-negocio', component: FormularioTiponegocioComponent},
           {path: 'tipo-cliente', component: FormularioTipoClientesComponent},
         ]},
