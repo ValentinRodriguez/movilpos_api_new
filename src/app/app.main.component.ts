@@ -34,6 +34,8 @@ export class AppMainComponent implements OnInit{
     usuario: any;
     permisos: any;
     route: any;
+    notificationMenuClick2: boolean;
+    topbarNotificationMenuActive2: boolean;
 
     constructor(private menuService: MenuService, 
                 public router: Router,
@@ -159,6 +161,15 @@ export class AppMainComponent implements OnInit{
     onTopbarNotificationMenuButtonClick(event) {
         this.notificationMenuClick = true;
         this.topbarNotificationMenuActive = !this.topbarNotificationMenuActive;
+
+        this.hideOverlayMenu();
+
+        event.preventDefault();
+    }
+
+    onTopbarNotificationMenuButtonClick2(event) {
+        this.notificationMenuClick2 = true;
+        this.topbarNotificationMenuActive2= !this.topbarNotificationMenuActive2;
 
         this.hideOverlayMenu();
 

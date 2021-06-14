@@ -20,13 +20,53 @@
 
     <div class="topbar-right">
         <ul class="topbar-menu">
-            <li class="search-item">
-                <a tabindex="0" (click)="app.onSearchClick($event)">
-                    <i class="pi pi-search"></i>
-                </a>
-            </li>
-            <!-- <li *ngIf="this.menu !== 'no'" class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
+            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
                 <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick($event)">
+                    <i class="pi pi-dollar"></i>
+                </a>
+                <ul class="notifications-menu fade-in-up">
+                    <li role="menuitem" (click)="modoPago('efectivo')">
+                        <a href="javascript:void(0)" tabindex="0">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Efectivo</div>
+                                <!-- <div class="notification-detail">You have <strong>3</strong> new orders.</div> -->
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem" (click)="modoPago('ambos')">
+                        <a href="javascript:void(0)" tabindex="0">                            
+                            <i class="fas fa-money-bill-wave"></i>                                    
+                            <i class="far fa-credit-card"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Efectivo y Tarjeta</div>
+                                <!-- <div class="notification-detail">Funds are on their way.</div> -->
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem" (click)="modoPago('tarjeta')">
+                        <a href="javascript:void(0)" tabindex="0">
+                            <i class="far fa-credit-card"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Tarjeta</div>
+                                <!-- <div class="notification-detail">New reports are ready.</div> -->
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem" (click)="modoPago('cheque')">
+                        <a href="javascript:void(0)" tabindex="0">
+                            <i class="fas fa-money-check"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Cheque</div>
+                                <!-- <div class="notification-detail"><strong>2</strong> new comments.</div> -->
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive2}" >
+                <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick2($event)">
                     <i class="pi pi-bell"></i>
                     <span class="topbar-badge">5</span>
                 </a>
@@ -77,7 +117,13 @@
                         </a>
                     </li>
                 </ul>
-            </li> -->
+            </li>
+
+            <li class="search-item">
+                <a tabindex="0" (click)="app.onSearchClick($event)">
+                    <i class="pi pi-search"></i>
+                </a>
+            </li>
             <li>
                 <a href="#" tabindex="0" (click)="logout()">
                     <i class="pi pi-power-off" style="color: red"></i>                    

@@ -9,6 +9,7 @@ import { ModulosService } from 'src/app/services/modulos.service';
 import { MenuesService } from 'src/app/services/menues.service';
 import { FacturasService } from 'src/app/services/facturas.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar-page',
@@ -16,6 +17,7 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
   styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent implements OnDestroy, OnInit {
+
     subscription: Subscription;
     @Input() menu: string;
     items: MenuItem[];
@@ -28,7 +30,9 @@ export class TopbarComponent implements OnDestroy, OnInit {
     stateOptions: any[];
     value1: string = "pos";
     foto: any;
-    constructor(public breadcrumbService: BreadcrumbService, 
+    items2: MenuItem[];
+    constructor(public breadcrumbService: BreadcrumbService,
+                public router: Router,
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
                 public facturaServ: FacturasService,
@@ -74,7 +78,75 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit(): void {        
+        console.log(this.router.url);
+        
+        this.items2 = [{
+            label: 'Options',
+            items: [{
+                label: 'Update',
+                icon: 'pi pi-refresh',
+                command: () => {
+                    // this.update();
+                }
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-times',
+                command: () => {
+                    // this.delete();
+                }
+            }
+            ]},
+            {
+                label: 'Navigate',
+                items: [{
+                    label: 'Angular',
+                    icon: 'pi pi-external-link',
+                    url: 'http://angular.io'
+                },
+                {
+                    label: 'Router',
+                    icon: 'pi pi-upload',
+                    routerLink: '/fileupload'
+                }
+            ]}
+        ];
+    }
 
+    modoPago(tipo) {
+        const obj:any = {};
+        switch (tipo) {
+            case 'efectivo':
+                obj.efectivo = true;
+                obj.tarjeta = false;
+                obj.cheque = false;
+                obj.ambos = false;
+            break;
+  
+            case 'tarjeta':
+                obj.efectivo = false;
+                obj.tarjeta = true;
+                obj.cheque = false;
+                obj.ambos = false;
+            break;
+  
+            case 'cheque':
+                obj.efectivo = false;
+                obj.tarjeta = false;
+                obj.cheque = true;
+                obj.ambos = false;              
+            break;
+  
+            case 'ambos':
+                obj.efectivo = false;
+                obj.tarjeta = false;
+                obj.cheque = false;
+                obj.ambos = true;  
+            default:
+            
+            break;
+        }
+        this.facturaServ.metodoPago(obj);
     }
 
     onMenuButtonClick(data) {

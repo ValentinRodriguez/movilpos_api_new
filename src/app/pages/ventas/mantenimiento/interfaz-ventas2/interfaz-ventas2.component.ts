@@ -43,8 +43,8 @@ export class InterfazVentas2Component implements OnInit {
   descuento = 0
   monto_itbis = 0
   neto = 0
-  display = false;
   efectivo = true;
+  display = false;
   tarjeta = false;
   cheque = false;
   ambos = false;
@@ -80,60 +80,73 @@ export class InterfazVentas2Component implements OnInit {
   }
 
   ngOnInit(): void {
-        this.items = [
-            {label: 'Update', icon: 'pi pi-refresh', command: () => {
+    this.items = [
+        {label: 'Update', icon: 'pi pi-refresh', command: () => {
                 // this.update();
                 console.log('aqui');
             }
         }
-        ];
-      this.primengConfig.ripple = true;
-      this.todosLosProductos();
-      this.todosLasCategorias();
-      this.todosLosClientes()  
-      console.log(this.cliente);
+    ];
+    this.primengConfig.ripple = true;
+    this.todosLosProductos();
+    this.todosLasCategorias();
+    this.todosLosClientes();    
 
-      this.cols = [
-          { field: 'imagen', header: 'Imagen' },
-          // { field: 'titulo', header: 'Titulo' },
-          { field: 'codigo', header: 'Código' },
-          { field: 'precio_venta', header: 'Precio' },
-          { field: 'cantidad', header: 'Cantidad' },
-          { field: 'acciones', header: 'Acciones' },
-      ] 
+    this.cols = [
+        { field: 'imagen', header: 'Imagen' },
+        // { field: 'titulo', header: 'Titulo' },
+        { field: 'codigo', header: 'Código' },
+        { field: 'precio_venta', header: 'Precio' },
+        { field: 'cantidad', header: 'Cantidad' },
+        { field: 'acciones', header: 'Acciones' },
+    ] 
 
-      this.cols2 = [
-          { field: 'imagen', header: 'Imagen' },
-          // { field: 'titulo', header: 'Titulo' },
-          { field: 'codigo', header: 'Código' },
-          { field: 'precio_venta', header: 'Precio' },
-          { field: 'cantidad', header: 'Cantidad' }
-      ] 
+    this.cols2 = [
+        { field: 'imagen', header: 'Imagen' },
+        // { field: 'titulo', header: 'Titulo' },
+        { field: 'codigo', header: 'Código' },
+        { field: 'precio_venta', header: 'Precio' },
+        { field: 'cantidad', header: 'Cantidad' }
+    ] 
 
-      this.cols3 = [
-          { field: 'imagen', header: 'Producto' },
-          // { field: 'titulo', header: 'Titulo' },
-          { field: 'codigo', header: 'Código' },
-          { field: 'precio_venta', header: 'Precio' },
-          { field: 'cantidad', header: 'Cantidad' },
-          { field: 'acciones', header: 'Acciones' },
-      ] 
-      
-      this.sortOptions = [
-          {label: 'Price High to Low', value: '!price'},
-          {label: 'Price Low to High', value: 'price'}
-      ];
+    this.cols3 = [
+        { field: 'imagen', header: 'Producto' },
+        // { field: 'titulo', header: 'Titulo' },
+        { field: 'codigo', header: 'Código' },
+        { field: 'precio_venta', header: 'Precio' },
+        { field: 'cantidad', header: 'Cantidad' },
+        { field: 'acciones', header: 'Acciones' },
+    ] 
+    
+    this.sortOptions = [
+        {label: 'Price High to Low', value: '!price'},
+        {label: 'Price Low to High', value: 'price'}
+    ];
 
-      this.facturaServ.modoVenta.subscribe((resp: any) => {
-          this.modo = resp;
-      });
+    this.facturaServ.metodo.subscribe((resp: any) => {
+    console.log(resp);
+    this.forma.get('efectivo').reset()
+    this.forma.get('tarjeta').reset()
+    this.forma.get('devuelta').reset()
+    this.forma.get('tarjeta').setValue(this.neto)
+    this.forma.get('cheque').setValue(this.neto) 
+    this.forma.get('tarjeta').setValue(this.neto)
+    this.efectivo = resp.efectivo;
+    this.tarjeta = resp.tarjeta;
+    this.cheque = resp.cheque;
+    this.ambos = resp.ambos;
+    });
+    
+    this.facturaServ.modoVenta.subscribe((resp: any) => {
+        this.modo = resp;
+    });
 
-      this.facturaServ.enviaData.subscribe((resp: any) => {
-          this.forma.get('financiado').reset;
-          this.forma.get('financiado').setValue(resp);
-          this.financiando = true;
-          console.log(resp);            
-      })
+    this.facturaServ.enviaData.subscribe((resp: any) => {
+        this.forma.get('financiado').reset;
+        this.forma.get('financiado').setValue(resp);
+        this.financiando = true;
+        console.log(resp);            
+    })
   }
 
   ngOnDestroy() {

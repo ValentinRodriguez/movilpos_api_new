@@ -190,208 +190,135 @@
                     </p-tabView>
                 </div>
 
-                <div class="card">                    
-                    <div class="card-container p-d-flex">                     
-                        <div class="card styled-box-green" pRipple (click)="modoPago('efectivo')" #mydiv
-                             [ngClass]="{'botones-top-escogido': efectivo === true}">
-                            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                                <div class="p-text-center">
-                                    <i class="fas fa-money-bill-wave" style="font-size: 40px;"></i>
-                                    <div style="font-size: 15px;">Efectivo</div>
+                <div class="card">   
+                    <div class="p-grid">
+                        <div class="p-col-3">
+                            <div class="card styled-box-green styled-box-green" pRipple (click)="op.toggle($event)">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class="botones-bottom fas fa-user"></i>
+                                        <div>Clientes</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
-                        
-                        <!-- <div class="card styled-box-green" pRipple (click)="modoPago('tarjeta')"
-                             [ngClass]="{'botones-top-escogido': tarjeta === true}">
-                            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                                <div class="p-text-center">
-                                    <i class="far fa-credit-card" style="font-size: 40px;"></i>
-                                    <div style="font-size: 15px;">Tarjeta</div>
+
+                        <div class="p-col-3">
+                            <div class="card styled-box-green styled-box-green" pRipple>
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class="botones-bottom fas fa-percent"></i>
+                                        <div>Descuentos</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
-    
-                        <div class="card styled-box-green" pRipple (click)="modoPago('cheque')"
-                             [ngClass]="{'botones-top-escogido': cheque === true}">
-                            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                                <div class="p-text-center">
-                                    <i class="fas fa-money-check" style="font-size: 40px;"></i>
-                                    <div style="font-size: 15px;">Cheque</div>
+
+                        <div class="p-col-3">
+                            <div class="card styled-box-green styled-box-green" pRipple>
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class=" botones-bottom fas fa-undo"></i>
+                                        <div>Devolución</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div>  
                         </div>
-    
-                        <div class="card styled-box-green" pRipple (click)="modoPago('ambos')"
-                             [ngClass]="{'botones-top-escogido': ambos === true}">
-                            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                                <div class="p-text-center">
-                                    <i class="fas fa-money-bill-wave" style="font-size: 20px; margin-right: 8px;"></i>
-                                    
-                                    <i class="far fa-credit-card" style="font-size: 20px;"></i>
-                                    <div style="font-size: 15px;">Efectivo y tarjeta</div>
-                                </div>
-                            </div>
-                        </div> -->
-    
-                        <div class="card styled-box-green styled-box-green" pRipple (click)="op.toggle($event)">
-                            <div class="p-grid user-card-stats">
-                                <div class="p-col-12 p-text-center">
-                                    <i class="botones-bottom fas fa-user"></i>
-                                    <div>Clientes</div>
-                                </div>
-                            </div>
-                        </div> 
-                        
-                        <div class="card styled-box-green styled-box-green" pRipple>
-                            <div class="p-grid user-card-stats">
-                                <div class="p-col-12 p-text-center">
-                                    <i class="botones-bottom fas fa-percent"></i>
-                                    <div>Descuentos</div>
-                                </div>
-                            </div>
-                        </div> 
-                        
-                       <div class="card styled-box-green styled-box-green" pRipple>
-                            <div class="p-grid user-card-stats">
-                                <div class="p-col-12 p-text-center">
-                                    <i class=" botones-bottom fas fa-undo"></i>
-                                    <div>Devolución</div>
-                                </div>
-                            </div>
-                        </div>  
-    
-                        <!-- BOTON PARA ANULAR FACTURAS -->
-                        <div class="card styled-box-green styled-box-green" pRipple>
-                            <div class="p-grid user-card-stats">
-                                <div class="p-col-12 p-text-center">
-                                    <i class="botones-bottom pi pi-trash"></i>
-                                    <div>Anular Factura</div>
+
+                        <div class="p-col-3">
+                            <!-- BOTON PARA ANULAR FACTURAS -->
+                            <div class="card styled-box-green styled-box-green" pRipple style="background-color: #ff4949;">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class="botones-bottom pi pi-trash"></i>
+                                        <div>Anular</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- BOTON PARA GUARDAR COTIZACIONES -->
-                        <div class="card styled-box-green styled-box-green" pRipple>
-                            <div class="p-grid user-card-stats">
-                                <div class="p-col-12 p-text-center">
-                                    <i class="botones-bottom far fa-file-alt"></i>
-                                    <div>Cotizar</div>
+                        <div class="p-col-3">
+                            <!-- BOTON PARA GUARDAR COTIZACIONES -->
+                            <div class="card styled-box-green styled-box-green" pRipple>
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class="botones-bottom far fa-file-alt"></i>
+                                        <div>Cotizar</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-3">
+                            <div class="card" [ngClass]="{'chosen': this.financiando}"
+                                    style="background-color: #FBC02D;" pRipple (click)="financiar()">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class="botones-bottom fas fa-comment-dollar"></i>
+                                        <div>Financiar</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-col-6">
+                            <div class="card text-white" *ngIf="!this.financiando" pRipple (click)="cobrarFactura()" style="background-color: #689F38;">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class=" botones-bottom fas fa-hand-holding-usd"></i>
+                                        <div>Cobrar Factura</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-col-6">
+                            <div class="card financiar-button" *ngIf="this.financiando" pRipple (click)="financiarFactura()" style="background-color: #ffc106;">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class=" botones-bottom fas fa-hand-holding-usd"></i>
+                                        <div>Financiar Factura</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-    
-                    <div class="card-container p-d-flex">    
-                        <!-- BOTON PARA REIMPRIMIR FACTURA -->
-                        <!-- <div class="card styled-box-green styled-box-green" pRipple>
-                           <div class="p-grid user-card-stats">
-                               <div class="p-col-12 p-text-center">
-                                   <i class="botones-bottom pi pi-print"></i>
-                                   <div>Re-imprimir</div>
-                               </div>
-                           </div>
-                       </div>  -->
-
-                       <div class="card styled-box-green styled-box-green" [ngClass]="{'chosen': this.financiando}"
-                             style="background-color: #FBC02D;" pRipple (click)="financiar()">
-                            <div class="p-grid user-card-stats">
-                                <div class="p-col-12 p-text-center">
-                                    <i class="botones-bottom fas fa-comment-dollar"></i>
-                                    <div>Financiar</div>
-                                </div>
-                            </div>
-                        </div>
-                       <!-- BOTON DE COBRAR FACTURA -->
-                       <div class="card pay-button text-white styled-box-orange" *ngIf="!this.financiando" 
-                            pRipple (click)="cobrarFactura()">
-                           <div class="p-grid user-card-stats">
-                               <div class="p-col-12 p-text-center">
-                                   <i class=" botones-bottom fas fa-hand-holding-usd"></i>
-                                   <div>Cobrar Factura</div>
-                               </div>
-                           </div>
-                       </div>
-   
-                       <!-- BOTON DE FINANCIAR FACTURA -->
-                       <div class="card financiar-button styled-box-orange" *ngIf="this.financiando"
-                            pRipple (click)="financiarFactura()">
-                           <div class="p-grid user-card-stats">
-                               <div class="p-col-12 p-text-center">
-                                   <i class=" botones-bottom fas fa-hand-holding-usd"></i>
-                                   <div>Financiar Factura</div>
-                               </div>
-                           </div>
-                       </div>
-                    </div>    
-                    
-                    <div class="card-container p-d-flex">
-                        <!-- <div class="layout-dashboard opcion-bottom">
-                        </div> -->
-                    </div>
-
                 </div>
 
                 <div class="card">
                     <div class="p-col-12">
                         <div class="p-grid">
-                            <div class="p-field p-grid">
-                                <label for="firstname4" class="p-col-12 p-mb-2 p-md-3">Descuento</label>
-                                <div class="p-col-12 p-md-6">
-                                    <input id="descuento" type="text" pInputText pKeyFilter="int" 
-                                           style="background-color: #c7c7c7;" formControlName="descuento" readonly> 
-                                </div>
-                            </div>
-
-                            <div class="p-field p-grid">
-                                <label for="lastname4" class="p-col-12 p-mb-2 p-md-3">ITBIS</label>
-                                <div class="p-col-12 p-md-6">
-                                    <input id="monto_itbis" type="text" pInputText pKeyFilter="int" 
-                                    style="background-color: #c7c7c7;" formControlName="monto_itbis" readonly> 
-                                </div>
-                            </div>
-                            
-                            <div class="p-field p-grid">
-                                <label for="lastname4" class="p-col-12 p-mb-2 p-md-3">Devolución</label>
-                                <div class="p-col-12 p-md-6">
-                                    <input id="devuelta" type="text" pInputText pKeyFilter="int" formControlName="devuelta"
-                                       style="background-color: #c7c7c7;" readonly> 
-                                </div>
-                            </div>     
-                                                       
-                            <div class="p-field p-grid">
-                                <label for="lastname4" class="p-col-12 p-mb-2 p-md-3">Efectivo</label>
-                                <div class="p-col-12 p-md-6">
-                                    <input id="efectivo" type="text" pInputText pKeyFilter="int" formControlName="efectivo" [class.P-invalid]="getNoValido('efectivo')" 
-                                       (keyup)="calculaDevueltaE($event.target.value)" [readonly]="this.neto === 0"> 
-                                    <small *ngIf="getNoValido('efectivo')" id="efectivo" class="p-invalid">Debe indicar el monto pagado</small>
-                                    <small *ngIf="devueltaMenor" class="p-invalid">Monto es menor al total</small>
-                                </div>
-                            </div>
-                            
-                            <div *ngIf="cheque === true  || tarjeta === true || ambos === true">
+                            <div class="p-col">
                                 <div class="p-fluid">
+                                    <div class="p-field p-grid" *ngIf="efectivo === true || ambos === true">
+                                        <label for="efectivo" class="p-col-fixed">Efectivo</label>
+                                        <div class="p-col">
+                                            <input id="efectivo" type="text" pInputText pKeyFilter="int" formControlName="efectivo" [class.P-invalid]="getNoValido('efectivo')" 
+                                               (keyup)="calculaDevueltaE($event.target.value)" [readonly]="this.neto === 0"> 
+                                            <small *ngIf="getNoValido('efectivo')" id="efectivo" class="p-invalid">Debe indicar el monto pagado</small>
+                                            <small *ngIf="devueltaMenor" class="p-invalid">Monto es menor al total</small>
+                                        </div>
+                                    </div>
                                     <div class="p-field p-grid" *ngIf="cheque === true">
-                                        <label for="cheque_no" class="p-col-fixed" style="width:100px">Cheque</label>
+                                        <label for="cheque_no" class="p-col-fixed" >Cheque</label>
                                         <div class="p-col">
                                             <input id="cheque_no" type="text" pInputText pKeyFilter="int" formControlName="cheque_no"> 
                                         </div>
                                     </div> 
             
                                     <div class="p-field p-grid" *ngIf="tarjeta === true || ambos === true">
-                                        <label for="tarjeta_no" class="p-col-fixed" style="width:100px">Tarjeta</label>
+                                        <label for="tarjeta_no" class="p-col-fixed">Tarjeta</label>
                                         <div class="p-col">
                                             <input id="tarjeta_no" type="text" pInputText pKeyFilter="int" formControlName="tarjeta_no"> 
                                         </div>
                                     </div> 
-                                </div>                              
-                            </div> 
-
-                            <!-- <div class="widget-pricing-card" style="position: absolute; right: 1rem;">
-                                <h3>$RD {{this.neto}}</h3>
-                                <h4>TOTAL A PAGAR</h4>
-                                <h4>{{this.cliente | uppercase}}</h4>
-                            </div> -->
+                                </div> 
+                            </div>
+                            <div class="p-col">
+                                <div class="widget-pricing-card">
+                                    <h3 style="text-align: start !important;">$RD {{this.neto}}</h3>
+                                    <h4 style="text-align: start !important;">{{this.cliente | uppercase}}</h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -430,54 +357,3 @@
         </ng-template>
     </p-overlayPanel>
 </form>
-
-<p-dialog header="Método de Pago" [(visible)]="displayResponsive" [breakpoints]="{'960px': '75vw'}" [style]="{width: '20vw'}" [baseZIndex]="10000" 
-    [draggable]="false" [resizable]="false">
-    <div class="card-container p-d-flex">                     
-        <div class="card styled-box-green" pRipple (click)="modoPago('efectivo')" #mydiv
-             [ngClass]="{'botones-top-escogido': efectivo === true}">
-            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                <div class="p-text-center">
-                    <i class="fas fa-money-bill-wave" style="font-size: 40px;"></i>
-                    <div style="font-size: 15px;">Efectivo</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card styled-box-green" pRipple (click)="modoPago('tarjeta')"
-             [ngClass]="{'botones-top-escogido': tarjeta === true}">
-            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                <div class="p-text-center">
-                    <i class="far fa-credit-card" style="font-size: 40px;"></i>
-                    <div style="font-size: 15px;">Tarjeta</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card styled-box-green" pRipple (click)="modoPago('cheque')"
-             [ngClass]="{'botones-top-escogido': cheque === true}">
-            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                <div class="p-text-center">
-                    <i class="fas fa-money-check" style="font-size: 40px;"></i>
-                    <div style="font-size: 15px;">Cheque</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card styled-box-green" pRipple (click)="modoPago('ambos')"
-             [ngClass]="{'botones-top-escogido': ambos === true}">
-            <div class="p-grid user-card-stats" style="margin-top: 10px;">
-                <div class="p-text-center">
-                    <i class="fas fa-money-bill-wave" style="font-size: 20px; margin-right: 8px;"></i>
-                    
-                    <i class="far fa-credit-card" style="font-size: 20px;"></i>
-                    <div style="font-size: 15px;">Efectivo y tarjeta</div>
-                </div>
-            </div>
-        </div>
-    </div>
-        <!-- <ng-template pTemplate="footer">
-        <p-button (click)="displayResponsive=false" label="No" styleClass="p-button-text"></p-button>
-        <p-button (click)="displayResponsive=false" label="Yes" styleClass="p-button-text"></p-button>
-        </ng-template> -->
-</p-dialog>

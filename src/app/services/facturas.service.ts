@@ -13,7 +13,7 @@ export class FacturasService {
   modoVenta = new EventEmitter();
   enviaData = new EventEmitter();
   formSubmitted = new EventEmitter();
-  
+  metodo = new EventEmitter();
   constructor(private http: HttpClient) {}
   
   getDatos() {
@@ -87,6 +87,10 @@ export class FacturasService {
 
   modoDeVenta(modo) {
     this.modoVenta.emit(modo)
+  }
+
+  metodoPago(data) {
+    this.metodo.emit(data)
   }
 
 }

@@ -210,22 +210,7 @@
         &:last-child {
             margin-right: 0;
         }
-    }
-    
-    .pay-button {
-        width: 31% !important; 
-        background-color: #689F38;     
-        color: white;   
-    }
-
-    .financiar-button {
-        width: 24.3% !important; 
-        background-color: #ffc106;
-    }
-    
-    .size-n-button {
-        width: 7.5%;
-    }
+    }        
 }
 .agregado {
     border: solid #b17676;
@@ -257,25 +242,6 @@
     border-radius:0px
 }
 
-.totales-right {
-    border: 0.3px solid #cecbcb;
-    border-radius: 3px;
-    padding: 8px;
-    margin-bottom: 5px;
-}
-
-.contenedor {
-    margin-top: 10px;
-    position: fixed;
-    bottom: 10px;
-    width: 92%;
-}
-
-.botones-top {
-    width: 19% !important;
-    // font-size: 40px; 
-}
-
 .botones-top-escogido {
     background-color: #2196F3; 
 }
@@ -288,8 +254,4 @@
 .product-image {
     width: 50px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-}
-
-.chosen {
-    border: 5px solid #2196F3;
 }

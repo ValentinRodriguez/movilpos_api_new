@@ -33,7 +33,7 @@ import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/inter
           {path: 'tipo-cliente', component: FormularioTipoClientesComponent},
         ]},
         {path: 'gestion-de-clientes', component: ClientesComponent},
-        {path: 'interfaz-ventas2', component: InterfazVentas2Component},
+        {path: 'interfaz-ventas', component: InterfazVentas2Component},
         {path: 'gestion-de-ordenes-de-pedidos', component: OrdenesPedidosComponent},
         {path: 'condiciones-de-pago', component: CondicionesPagoComponent},
         {path: 'acto-descargo', component: ActoDescargoComponent},
