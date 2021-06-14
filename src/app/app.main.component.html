@@ -17,12 +17,12 @@
             <router-outlet></router-outlet>
         </div>
 
-        <app-footer-page></app-footer-page>
+        <app-footer-page *ngIf="this.router.url !== '/ventas/interfaz-ventas2'"></app-footer-page>
     </div>
 
     <app-config></app-config>
-
-    <app-menu></app-menu>
+<!-- *ngIf="this.router.url !== '/ventas/interfaz-ventas2'" -->
+    <app-menu ></app-menu>
 
     <app-search-page></app-search-page>
 

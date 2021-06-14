@@ -3,6 +3,7 @@ import { MenuService } from './app.menu.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { RolesService } from './services/roles.service';
 import { UsuarioService } from './services/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-main',
@@ -32,8 +33,10 @@ export class AppMainComponent implements OnInit{
     ripple: boolean;
     usuario: any;
     permisos: any;
-    
+    route: any;
+
     constructor(private menuService: MenuService, 
+                public router: Router,
                 private primengConfig: PrimeNGConfig,
                 private usuarioServ: UsuarioService,
                 private permisosServ:RolesService) {
@@ -42,6 +45,7 @@ export class AppMainComponent implements OnInit{
 
     ngOnInit() {
         this.primengConfig.ripple = true;
+        console.log(this.router.url);
         
         this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
             this.permisos = resp;          

@@ -14,6 +14,7 @@ import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descar
 import { FormularioTiponegocioComponent } from '../empresa/tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/tabla-amortizaciones.component';
+import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/interfaz-ventas2.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizacion
           {path: 'tipo-cliente', component: FormularioTipoClientesComponent},
         ]},
         {path: 'gestion-de-clientes', component: ClientesComponent},
+        {path: 'interfaz-ventas2', component: InterfazVentas2Component},
         {path: 'gestion-de-ordenes-de-pedidos', component: OrdenesPedidosComponent},
         {path: 'condiciones-de-pago', component: CondicionesPagoComponent},
         {path: 'acto-descargo', component: ActoDescargoComponent},

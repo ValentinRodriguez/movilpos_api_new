@@ -32,6 +32,7 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {AccordionModule} from 'primeng/accordion';
 import {DataViewModule} from 'primeng/dataview';
 import {SidebarModule} from 'primeng/sidebar';
+import {SplitButtonModule} from 'primeng/splitbutton';
 
 // COMPONENTES DEL MODULO DE VENTAS
 import { ClientesComponent } from './mantenimiento/clientes/clientes.component';
@@ -52,6 +53,7 @@ import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descar
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/tabla-amortizaciones.component';
 import { FormularioTablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
+import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/interfaz-ventas2.component';
 
 @NgModule({
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
@@ -70,7 +72,8 @@ import { FormularioTablaAmortizacionesComponent } from './mantenimiento/tabla-am
     FormularioRecepcionVehiculosComponent,
     ActoDescargoComponent,
     TablaAmortizacionesComponent,
-    FormularioTablaAmortizacionesComponent
+    FormularioTablaAmortizacionesComponent,
+    InterfazVentas2Component
   ],
   imports: [
     CommonModule,
@@ -81,6 +84,7 @@ import { FormularioTablaAmortizacionesComponent } from './mantenimiento/tabla-am
     DropdownModule,
     TableModule,
     SidebarModule,
+    SplitButtonModule,
     SelectButtonModule,
     TabViewModule,
     ConfirmDialogModule,
