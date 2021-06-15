@@ -33,7 +33,7 @@ import {AccordionModule} from 'primeng/accordion';
 import {DataViewModule} from 'primeng/dataview';
 import {SidebarModule} from 'primeng/sidebar';
 import {SplitButtonModule} from 'primeng/splitbutton';
-
+import {VirtualScrollerModule} from 'primeng/virtualscroller';
 // COMPONENTES DEL MODULO DE VENTAS
 import { ClientesComponent } from './mantenimiento/clientes/clientes.component';
 import { FormularioClientesComponent } from './mantenimiento/clientes/formulario-clientes/formulario-clientes.component';
@@ -82,6 +82,7 @@ import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/inter
     RouterModule,
     VentasRoutingModule,
     DropdownModule,
+    VirtualScrollerModule,
     TableModule,
     SidebarModule,
     SplitButtonModule,

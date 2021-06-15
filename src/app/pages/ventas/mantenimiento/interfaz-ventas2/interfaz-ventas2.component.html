@@ -1,13 +1,18 @@
 <form [formGroup]="forma">
-    <div class="layout-dashboard">
+    <div class="layout-dashboard" #general>
         <div class="p-grid">
-            <div class="p-col-12 p-lg-8">
+            <div class="p-col-12 p-lg-7">
                 <div class="card">
-                    <p-dataView #dv [value]="productos" filterBy="titulo,codigo" [sortField]="sortField" 
+                    <p-virtualScroller [value]="productos" scrollHeight="500px" [itemSize]="150">
+                        <ng-template pTemplate="item" let-car>
+                            Car content
+                        </ng-template>
+                    </p-virtualScroller>
+                    <!-- [(ngModel)]="sortKey" -->
+                    <!-- <p-dataView #dv [value]="productos" filterBy="titulo,codigo" [sortField]="sortField" 
                                 [sortOrder]="sortOrder" layout="grid" *ngIf="modo === 'pos'" [loading]="loading">
                         <ng-template pTemplate="header">
                             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                                <!-- [(ngModel)]="sortKey" -->
                                 <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
                                             styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
                                 <span class="p-input-icon-left p-mb-2 p-mb-md-0">
@@ -26,16 +31,15 @@
                                     <div class="product-list-detail">
                                         <div class="product-name">{{product.titulo | titlecase}}</div>
                                         <div class="product-description p-text-bold"><i class="fas fa-hashtag"></i>{{product.codigo}}</div>
-                                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                                        
                                         <br>
                                         <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoria | titlecase}}</span>
                                     </div>
                                     <div class="product-list-action">
-                                        <span class="product-price p-text-bold p-tag p-tag-success">${{product.precio_venta}}</span>
-                                    <!--  <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
+                                        <span class="product-price p-text-bold p-tag p-tag-success">${{product.precio_venta}}</span>                                    
                                         <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
                                         <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
-                                        <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span>-->
+                                        <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span>
                                     </div> 
                                 </div>
                             </div>
@@ -48,17 +52,12 @@
                                         <div>
                                             <i class="pi pi-tag product-category-icon"></i>
                                             <span class="product-category">{{product.categoria | titlecase}}</span>
-                                        </div>
-                                        <!-- <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
-                                        <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span> -->
+                                        </div>                                        
+                                        
                                     </div>
                                     <div class="product-grid-item-content">
                                         <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>
-                                        <div class="product-name" style="margin-bottom: 10px;">{{product.titulo | titlecase}}</div>
-                                        <!-- <div class="product-description">{{product.codigo}}</div> -->
-                                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                                        <div class="product-name" style="margin-bottom: 10px;">{{product.titulo | titlecase}}</div>                                     
                                     </div>
                                     <div class="product-grid-item-bottom">
                                         <span class="product-price p-tag p-tag-info"><i class="fas fa-hashtag"></i>{{product.codigo}}</span>
@@ -67,17 +66,17 @@
                                 </div>
                             </div>
                         </ng-template>
-                    </p-dataView>
+                    </p-dataView> -->
                 </div>
             </div>
     
-            <div class="p-col-12 p-lg-4">
+            <div class="p-col-12 p-lg-5">
                 <div class="card">
                     <p-tabView>
                         <p-tabPanel header="General" formArrayName="productos">
                             <p-table #dt [columns]="cols" [value]="productosSeleccionados" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                                    [rowHover]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca']" [scrollable]="true" scrollHeight="500px">
-                                
+                                    [rowHover]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca']" [scrollable]="true" [scrollHeight]="this.contentHeight">
+<!--                                 
                                 <ng-template pTemplate="caption">
                                     <div class="table-header">
                                         <span class="p-input-icon-left">
@@ -85,7 +84,7 @@
                                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar"/>
                                         </span>
                                     </div>
-                                </ng-template>
+                                </ng-template> -->
                 
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
@@ -101,16 +100,16 @@
                                         <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'acciones'}" >
                                             <span class="p-column-title">{{col.header}}</span>
                 
-                                            <span *ngIf="col.field === 'imagen'">
-                                                <img [src]="rowData.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/>
+                                            <span *ngIf="col.field === 'titulo'">
+                                                <!-- <img [src]="rowData.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/> -->
                                                 <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
                                                     {{rowData['titulo']}}
                                                 </div>
                                             </span>
-                    
+<!--                     
                                             <div *ngIf="col.field === 'codigo'">
                                                 {{ rowData[col.field] }}
-                                            </div>
+                                            </div> -->
                 
                                             <div *ngIf="col.field === 'precio_venta'">
                                                 ${{ rowData[col.field] }}
@@ -192,7 +191,7 @@
 
                 <div class="card">   
                     <div class="p-grid">
-                        <div class="p-col-3">
+                        <div class="p-col-2">
                             <div class="card styled-box-green styled-box-green" pRipple (click)="op.toggle($event)">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
@@ -203,7 +202,7 @@
                             </div> 
                         </div>
 
-                        <div class="p-col-3">
+                        <div class="p-col-2">
                             <div class="card styled-box-green styled-box-green" pRipple>
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
@@ -214,7 +213,7 @@
                             </div> 
                         </div>
 
-                        <div class="p-col-3">
+                        <div class="p-col-2">
                             <div class="card styled-box-green styled-box-green" pRipple>
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
@@ -225,7 +224,7 @@
                             </div>  
                         </div>
 
-                        <div class="p-col-3">
+                        <div class="p-col-2">
                             <!-- BOTON PARA ANULAR FACTURAS -->
                             <div class="card styled-box-green styled-box-green" pRipple style="background-color: #ff4949;">
                                 <div class="p-grid user-card-stats">
@@ -237,7 +236,7 @@
                             </div>
                         </div>
 
-                        <div class="p-col-3">
+                        <div class="p-col-2">
                             <!-- BOTON PARA GUARDAR COTIZACIONES -->
                             <div class="card styled-box-green styled-box-green" pRipple>
                                 <div class="p-grid user-card-stats">
@@ -248,7 +247,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-col-3">
+                        <div class="p-col-2" *ngIf="this.financiando">
                             <div class="card" [ngClass]="{'chosen': this.financiando}"
                                     style="background-color: #FBC02D;" pRipple (click)="financiar()">
                                 <div class="p-grid user-card-stats">
@@ -260,7 +259,7 @@
                             </div>
                         </div>
 
-                        <div class="p-col-6">
+                        <div class="p-col-4">
                             <div class="card text-white" *ngIf="!this.financiando" pRipple (click)="cobrarFactura()" style="background-color: #689F38;">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
@@ -271,7 +270,7 @@
                             </div>
                         </div>
 
-                        <div class="p-col-6">
+                        <div class="p-col-4">
                             <div class="card financiar-button" *ngIf="this.financiando" pRipple (click)="financiarFactura()" style="background-color: #ffc106;">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
@@ -356,4 +355,4 @@
             </p-table>
         </ng-template>
     </p-overlayPanel>
-</form>
+</form>    

@@ -57,7 +57,7 @@ import { LoginGuard } from "./services/guards/login.guard";
                     {path: 'ventas', loadChildren: () => import('./pages/ventas/ventas.module').then(m => m.VentasModule) },
                 ]
             },
-            // {path: 'interfaz-ventas', component: InterfazVentasComponent},
+            {path: 'interfaz-ventas', component: InterfazVentasComponent},
             {path: 'error', component: AppErrorComponent},
             {path: 'access', component: AppAccessdeniedComponent},
             {path: 'notfound', component: AppNotfoundComponent},

@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { SelectItem, MenuItem, PrimeNGConfig } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -24,7 +25,8 @@ export class InterfazVentas2Component implements OnInit {
 
   forma: FormGroup;
   subscription: Subscription;    
-  @ViewChild('op') overlay: OverlayPanel;
+@ViewChild('op') overlay: OverlayPanel;
+@ViewChild('general') elementView: ElementRef;
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
@@ -58,7 +60,7 @@ export class InterfazVentas2Component implements OnInit {
   financiando = false;
   loading = true;
   displayResponsive = false;
-
+  contentHeight: string;
   constructor(private fb: FormBuilder,
               public breadcrumbService: BreadcrumbService, 
               public app: AppMainComponent,
@@ -70,7 +72,8 @@ export class InterfazVentas2Component implements OnInit {
               private uiMessage: UiMessagesService,
               private clienteServ: ClientesService,
               private dialogService: DialogService,
-              private primengConfig: PrimeNGConfig) {
+                private primengConfig: PrimeNGConfig,
+                private cd: ChangeDetectorRef) {
 
               this.usuario = this.usuarioServ.getUserLogged(); 
               
@@ -78,31 +81,29 @@ export class InterfazVentas2Component implements OnInit {
               this.fecha = this.datosEstaticosServ.getDate();
               this.crearFormulario();
   }
-
+    ngAfterViewInit() {
+        this.contentHeight = (this.elementView.nativeElement.offsetHeight / 3.8) +'px'
+        console.log(this.contentHeight);
+        this.cd.detectChanges(); 
+    }
   ngOnInit(): void {
-    this.items = [
-        {label: 'Update', icon: 'pi pi-refresh', command: () => {
-                // this.update();
-                console.log('aqui');
-            }
-        }
-    ];
+      
     this.primengConfig.ripple = true;
     this.todosLosProductos();
     this.todosLasCategorias();
     this.todosLosClientes();    
 
     this.cols = [
-        { field: 'imagen', header: 'Imagen' },
+        { field: 'titulo', header: 'Producto' },
         // { field: 'titulo', header: 'Titulo' },
-        { field: 'codigo', header: 'Código' },
+        // { field: 'codigo', header: 'Código' },
         { field: 'precio_venta', header: 'Precio' },
         { field: 'cantidad', header: 'Cantidad' },
         { field: 'acciones', header: 'Acciones' },
     ] 
 
     this.cols2 = [
-        { field: 'imagen', header: 'Imagen' },
+        { field: 'titulo', header: 'Producto' },
         // { field: 'titulo', header: 'Titulo' },
         { field: 'codigo', header: 'Código' },
         { field: 'precio_venta', header: 'Precio' },
@@ -110,7 +111,7 @@ export class InterfazVentas2Component implements OnInit {
     ] 
 
     this.cols3 = [
-        { field: 'imagen', header: 'Producto' },
+        { field: 'titulo', header: 'Producto' },
         // { field: 'titulo', header: 'Titulo' },
         { field: 'codigo', header: 'Código' },
         { field: 'precio_venta', header: 'Precio' },
@@ -124,17 +125,16 @@ export class InterfazVentas2Component implements OnInit {
     ];
 
     this.facturaServ.metodo.subscribe((resp: any) => {
-    console.log(resp);
-    this.forma.get('efectivo').reset()
-    this.forma.get('tarjeta').reset()
-    this.forma.get('devuelta').reset()
-    this.forma.get('tarjeta').setValue(this.neto)
-    this.forma.get('cheque').setValue(this.neto) 
-    this.forma.get('tarjeta').setValue(this.neto)
-    this.efectivo = resp.efectivo;
-    this.tarjeta = resp.tarjeta;
-    this.cheque = resp.cheque;
-    this.ambos = resp.ambos;
+        this.forma.get('efectivo').reset()
+        this.forma.get('tarjeta').reset()
+        this.forma.get('devuelta').reset()
+        this.forma.get('tarjeta').setValue(this.neto)
+        this.forma.get('cheque').setValue(this.neto) 
+        this.forma.get('tarjeta').setValue(this.neto)
+        this.efectivo = resp.efectivo;
+        this.tarjeta = resp.tarjeta;
+        this.cheque = resp.cheque;
+        this.ambos = resp.ambos;
     });
     
     this.facturaServ.modoVenta.subscribe((resp: any) => {
@@ -144,8 +144,7 @@ export class InterfazVentas2Component implements OnInit {
     this.facturaServ.enviaData.subscribe((resp: any) => {
         this.forma.get('financiado').reset;
         this.forma.get('financiado').setValue(resp);
-        this.financiando = true;
-        console.log(resp);            
+        this.financiando = true;   
     })
   }
 
@@ -157,7 +156,6 @@ export class InterfazVentas2Component implements OnInit {
 
   todosLosProductos() {
       this.inventarioServ.getDatos().then((resp: any) =>{
-          console.log(resp);
           this.productos = resp;
           this.loading = false;
       })
@@ -250,7 +248,6 @@ export class InterfazVentas2Component implements OnInit {
   }
 
   financiarFactura() {
-      console.log(this.forma.value);
       if (this.financiando) {
           this.facturaServ.crearFacturaPrestamo(this.forma.get('financiar').value).then((resp: any) => {
               console.log(resp);                
@@ -289,8 +286,7 @@ export class InterfazVentas2Component implements OnInit {
       this.calcularTotal(this.producto.value);        
   }
 
-  agregarProducto(producto) {   
-      console.log(producto)     
+  agregarProducto(producto) {      
       const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
           return data.id === producto.id;
       });
