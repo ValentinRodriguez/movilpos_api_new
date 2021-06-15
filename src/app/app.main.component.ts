@@ -37,8 +37,7 @@ export class AppMainComponent implements OnInit{
     notificationMenuClick2: boolean;
     topbarNotificationMenuActive2: boolean;
 
-    constructor(private menuService: MenuService, 
-                public router: Router,
+    constructor(private menuService: MenuService,
                 private primengConfig: PrimeNGConfig,
                 private usuarioServ: UsuarioService,
                 private permisosServ:RolesService) {
@@ -46,9 +45,7 @@ export class AppMainComponent implements OnInit{
                 }
 
     ngOnInit() {
-        this.primengConfig.ripple = true;
-        console.log(this.router.url);
-        
+        this.primengConfig.ripple = true;        
         this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
             this.permisos = resp;          
         })

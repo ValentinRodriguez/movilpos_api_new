@@ -1,4 +1,4 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, HostListener } from '@angular/core';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { SelectItem, MenuItem, PrimeNGConfig } from 'primeng/api';
@@ -21,69 +21,76 @@ import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/
   templateUrl: './interfaz-ventas2.component.html',
   styleUrls: ['./interfaz-ventas2.component.scss']
 })
+    
+    
 export class InterfazVentas2Component implements OnInit {
 
-  forma: FormGroup;
-  subscription: Subscription;    
-@ViewChild('op') overlay: OverlayPanel;
-@ViewChild('general') elementView: ElementRef;
-  sortOptions: SelectItem[];
-  sortOrder: number;
-  sortField: string;
-  items: MenuItem[];
-  usuario: any;
-  nombre: any;
-  tieredItems: MenuItem[] = [];
-  modulos: any;
-  menues: any;
-  productos: any[] = [];
-  productosSeleccionados: any[] = [];
-  clientes: any[] = [];
-  clientesSeleccionados: any[] = [];
-  total_bruto = 0
-  sub_total = 0
-  descuento = 0
-  monto_itbis = 0
-  neto = 0
-  efectivo = true;
-  display = false;
-  tarjeta = false;
-  cheque = false;
-  ambos = false;
-  devueltaMenor = false;
-  cols: { field: string; header: string; }[];
-  categorias: any[] = [];
-  cols2: { field: string; header: string; }[];
-  fecha: string;
-  modo = 'pos';
-  cols3: { field: string; header: string; }[];
-  financiando = false;
-  loading = true;
-  displayResponsive = false;
-  contentHeight: string;
-  constructor(private fb: FormBuilder,
-              public breadcrumbService: BreadcrumbService, 
-              public app: AppMainComponent,
-              public usuarioServ: UsuarioService,
-              private datosEstaticosServ: DatosEstaticosService,
-              private inventarioServ: InventarioService,
-              public facturaServ: FacturasService,             
-              private categoriasServ: CategoriasService,
-              private uiMessage: UiMessagesService,
-              private clienteServ: ClientesService,
-              private dialogService: DialogService,
+    forma: FormGroup;
+    subscription: Subscription;    
+    @ViewChild('op') overlay: OverlayPanel;
+    @ViewChild('general') elementView: ElementRef;
+    sortOptions: SelectItem[];
+    sortOrder: number;
+    sortField: string;
+    items: MenuItem[];
+    usuario: any;
+    nombre: any;
+    tieredItems: MenuItem[] = [];
+    modulos: any;
+    menues: any;
+    productos: any[] = [];
+    productosSeleccionados: any[] = [];
+    clientes: any[] = [];
+    clientesSeleccionados: any[] = [];
+    total_bruto = 0
+    sub_total = 0
+    descuento = 0
+    monto_itbis = 0
+    neto = 0
+    efectivo = true;
+    display = false;
+    tarjeta = false;
+    cheque = false;
+    ambos = false;
+    devueltaMenor = false;
+    cols: { field: string; header: string; }[];
+    categorias: any[] = [];
+    cols2: { field: string; header: string; }[];
+    fecha: string;
+    modo = 'pos';
+    cols3: { field: string; header: string; }[];
+    financiando = false;
+    loading = true;
+    objetos = 12;
+    contentHeight: number;
+    detailHeigth: string;
+    innerWidth: number;
+
+    constructor(private fb: FormBuilder,
+                public breadcrumbService: BreadcrumbService, 
+                public app: AppMainComponent,
+                public usuarioServ: UsuarioService,
+                private datosEstaticosServ: DatosEstaticosService,
+                private inventarioServ: InventarioService,
+                public facturaServ: FacturasService,             
+                private categoriasServ: CategoriasService,
+                private uiMessage: UiMessagesService,
+                private clienteServ: ClientesService,
+                private dialogService: DialogService,
                 private primengConfig: PrimeNGConfig,
                 private cd: ChangeDetectorRef) {
 
-              this.usuario = this.usuarioServ.getUserLogged(); 
-              
-              this.nombre = this.usuario.name+' '+this.usuario.surname;   
-              this.fecha = this.datosEstaticosServ.getDate();
-              this.crearFormulario();
-  }
+                this.usuario = this.usuarioServ.getUserLogged(); 
+                
+                this.nombre = this.usuario.name+' '+this.usuario.surname;   
+                this.fecha = this.datosEstaticosServ.getDate();
+                this.crearFormulario();
+    }
     ngAfterViewInit() {
-        this.contentHeight = (this.elementView.nativeElement.offsetHeight / 3.8) +'px'
+        this.contentHeight = this.elementView.nativeElement.offsetHeight ;
+        this.detailHeigth = (this.contentHeight / 3.8) +'px'
         console.log(this.contentHeight);
+        this.onResize();
         this.cd.detectChanges(); 
     }
   ngOnInit(): void {
@@ -148,12 +155,23 @@ export class InterfazVentas2Component implements OnInit {
     })
   }
 
-  ngOnDestroy() {
+    ngOnDestroy() {
       if (this.subscription) {
           this.subscription.unsubscribe();
       }
-  }
-
+    }
+    
+    @HostListener("window:resize", [])
+    private onResize() {
+      this.innerWidth = window.innerWidth;
+      if (this.innerWidth < 1710) {
+          this.objetos = 12;    
+          
+      } else {
+          this.objetos = 18
+      }      
+    }
+    
   todosLosProductos() {
       this.inventarioServ.getDatos().then((resp: any) =>{
           this.productos = resp;
@@ -391,49 +409,7 @@ export class InterfazVentas2Component implements OnInit {
       this.forma.get('tarjeta').reset()
   }
 
-  modoPago(tipo) {
-      this.display = true
-      this.displayResponsive = true;
-      this.forma.get('efectivo').reset()
-      this.forma.get('tarjeta').reset()
-      this.forma.get('devuelta').reset()
-
-      switch (tipo) {
-          case 'efectivo':
-              this.efectivo = true;
-              this.tarjeta = false;
-              this.cheque = false;
-              this.ambos = false;
-          break;
-
-          case 'tarjeta':
-              this.efectivo = false;
-              this.tarjeta = true;
-              this.cheque = false;
-              this.ambos = false;
-              this.forma.get('tarjeta').setValue(this.neto)
-          break;
-
-          case 'cheque':
-              this.efectivo = false;
-              this.tarjeta = false;
-              this.cheque = true;
-              this.ambos = false;
-              this.forma.get('cheque').setValue(this.neto)                
-          break;
-
-          case 'ambos':
-              this.efectivo = false;
-              this.tarjeta = false;
-              this.cheque = false;
-              this.ambos = true;
-              this.forma.get('tarjeta').setValue(this.neto)   
-          default:
-          
-          break;
-      }
-  }
-
+ 
   financiar() {
       if (this.financiando) {
           this.financiando = false;
