@@ -59,7 +59,9 @@ export class FacturasService {
   crearFactura(factura: any) {
     return new Promise( resolve => {
       this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);
+        console.log(resp);
+        
         if (resp['code'] === 200)  {    
           this.facturaCreada.emit( resp );                                   
           resolve(resp.data);       

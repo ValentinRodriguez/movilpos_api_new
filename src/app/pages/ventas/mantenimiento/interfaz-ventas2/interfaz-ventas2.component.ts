@@ -91,7 +91,6 @@ export class InterfazVentas2Component implements OnInit {
         this.contentHeight = this.elementView.nativeElement.offsetHeight ;
         this.innerHeight = window.innerHeight;
         
-        
         this.onResize();
         this.cd.detectChanges(); 
     }
@@ -133,17 +132,17 @@ export class InterfazVentas2Component implements OnInit {
         {label: 'Price Low to High', value: 'price'}
     ];
 
-    this.facturaServ.metodo.subscribe((resp: any) => {
-        this.forma.get('efectivo').reset()
-        this.forma.get('tarjeta').reset()
-        this.forma.get('devuelta').reset()
-        this.forma.get('tarjeta').setValue(this.neto)
-        this.forma.get('cheque').setValue(this.neto) 
-        this.forma.get('tarjeta').setValue(this.neto)
+      this.facturaServ.metodo.subscribe((resp: any) => {
+        console.log(resp);
+        
+          this.forma.get('efectivo').setValue('');
+          this.forma.get('tarjeta').setValue('');
+          this.forma.get('devuelta').setValue('');
         this.efectivo = resp.efectivo;
         this.tarjeta = resp.tarjeta;
         this.cheque = resp.cheque;
-        this.ambos = resp.ambos;
+          this.ambos = resp.ambos;
+          this.tipo(resp)
     });
     
     this.facturaServ.modoVenta.subscribe((resp: any) => {
@@ -174,6 +173,59 @@ export class InterfazVentas2Component implements OnInit {
           this.detailHeigth = (this.innerHeight * 0.64 ) +'px'
       }    
       console.log(this.detailHeigth);  
+    }
+    
+    tipo(valor) {        
+        const efectivo = this.forma.get('efectivo');
+        const tarjeta = this.forma.get('tarjeta');
+        const tarjeta_no = this.forma.get('tarjeta_no');
+        const cheque = this.forma.get('cheque');
+        const cheque_no = this.forma.get('cheque_no');
+
+        if (valor.efectivo === true) {            
+            efectivo.setValidators(Validators.required)
+            tarjeta.clearValidators();
+            tarjeta_no.clearValidators();
+            cheque.clearValidators();
+            cheque_no.clearValidators();
+            console.log('efectivo'); 
+        }
+
+        if (valor.tarjeta === true) {
+            tarjeta.setValidators(Validators.required)
+            tarjeta_no.setValidators(Validators.required)
+            efectivo.clearValidators();
+            cheque.clearValidators();
+            cheque_no.clearValidators();
+            console.log('tarjeta');
+            console.log(this.forma);
+        }
+
+        if (valor.cheque === true) {
+            cheque.setValidators(Validators.required)
+            cheque_no.setValidators(Validators.required)
+            tarjeta.clearValidators();
+            tarjeta_no.clearValidators();
+            efectivo.clearValidators();
+            console.log('cheque');
+        }
+
+        if (valor.ambos === true) {
+            efectivo.setValidators(Validators.required)  
+            tarjeta.setValidators(Validators.required)
+            tarjeta_no.setValidators(Validators.required)
+            cheque.clearValidators();
+            cheque_no.clearValidators();
+            console.log('ambos');
+        }
+
+        efectivo.updateValueAndValidity
+        tarjeta.updateValueAndValidity
+        tarjeta_no.updateValueAndValidity
+        cheque.updateValueAndValidity     
+        cheque_no.updateValueAndValidity
+        console.log(this.forma);
+        
     }
     
   todosLosProductos() {
@@ -237,7 +289,8 @@ export class InterfazVentas2Component implements OnInit {
   }
 
   cobrarFactura() {
-      if (this.forma.valid) {      
+      console.log(this.forma);
+      if (this.forma.valid) {          
           let devuelta = Math.abs(Number(this.forma.get('devuelta').value));
           this.forma.get('devuelta').setValue(devuelta);  
 
@@ -252,12 +305,9 @@ export class InterfazVentas2Component implements OnInit {
           if (this.cheque) {
               this.forma.get('cheque').setValue(devuelta) 
           }
-          this.facturaServ.crearFactura(this.forma.value).then((resp: any) => {
-              this.productosSeleccionados = [];
+          this.facturaServ.crearFactura(this.forma.value).then((resp: any) => {              
               this.uiMessage.getMiniInfortiveMsg('tc','success','Excelente','PRODUCTO FACTURADO');  
-              this.resetear();
-              this.forma.get('tarjeta_no').reset();
-              this.forma.get('cheque_no').reset();
+              this.resetFormulario();
               this.todosLosProductos();
           })       
       }else{            
@@ -307,13 +357,13 @@ export class InterfazVentas2Component implements OnInit {
       this.calcularTotal(this.producto.value);        
   }
 
-  agregarProducto(producto) {      
+    agregarProducto(producto) {        
       const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
           return data.id === producto.id;
-      });
+      });      
       
-      
-      if (nuevoArray.length === 0) {
+        if (nuevoArray.length === 0) {
+            this.display = true;
           this.facturaServ.display = true;
           this.agregarFormulario(producto);
 
@@ -325,16 +375,15 @@ export class InterfazVentas2Component implements OnInit {
               this.calculaDevueltaE(efectivo)               
           }
           document.getElementById(producto.id).classList.add("agregado")
-      }else{
-          this.uiMessage.getMiniInfortiveMsg('tc','info','Atención','Este producto ya esta en la factura');             
-      }
+        }else{
+            this.uiMessage.getMiniInfortiveMsg('tc','info','Atención','Este producto ya esta en la factura');             
+        }
   }
 
   eliminarProducto(producto) {
       const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
           return data.id !== producto.id;
-      });
-      
+      });     
       
       this.productosSeleccionados = nuevoArray
       this.calcularTotal(this.productosSeleccionados)
@@ -345,11 +394,9 @@ export class InterfazVentas2Component implements OnInit {
       this.resetear()
       let total = 0;
       data.forEach(element => {
-          total += element.precio_venta * element.cantidad1;
-          
+          total += element.precio_venta * element.cantidad1;          
       });
-      
-      
+            
       this.total_bruto = Number(total);
       this.sub_total = total - Number(this.descuento);
       this.neto = this.sub_total - Number(this.monto_itbis);
@@ -359,7 +406,7 @@ export class InterfazVentas2Component implements OnInit {
       this.forma.get('monto_itbis').setValue(this.monto_itbis)
       this.forma.get('descuento').setValue(this.descuento)
       this.forma.get('neto').setValue(this.neto)
-      
+
   }
 
   onSortChange(event) {
@@ -374,10 +421,6 @@ export class InterfazVentas2Component implements OnInit {
           this.sortField = value;
       }
   }
-
-  // muestraTotal() {
-  //     this.facturaServ.display = true
-  // }
   
   clienteSeleccionado(cliente) {        
       this.forma.get('id_pais').setValue(cliente.id_pais)
@@ -410,9 +453,26 @@ export class InterfazVentas2Component implements OnInit {
       this.forma.get('neto').reset()
       this.forma.get('efectivo').reset()
       this.forma.get('tarjeta').reset()
+      this.forma.get('cheque').reset()
+      this.forma.get('cheque_no').reset()
   }
 
- 
+    resetFormulario() {
+        this.neto = 0;
+        this.productosSeleccionados = [];
+        this.forma.reset();
+        this.forma.get('fecha_factura').setValue(this.fecha);
+        this.forma.get('nombre_cli').setValue('CLIENTE CONTADO');
+        this.forma.get('num_emp').setValue(this.usuario.empleado.id_numemp);
+        this.forma.get('estado').setValue('activo');
+        this.forma.get('usuario_creador').setValue(this.usuario.username);
+        let i = 0;
+        while (0 !== this.producto.length) {
+          this.producto.removeAt(0);
+          i++
+        }
+        this.cd.detectChanges();
+    }  
   financiar() {
       if (this.financiando) {
           this.financiando = false;
@@ -420,7 +480,6 @@ export class InterfazVentas2Component implements OnInit {
       }
       
       if (this.neto !== 0) {
-
           let obj = {
               nombre_cli: this.forma.get('nombre_cli').value,
               tipo_cliente: this.forma.get('tipo_cliente').value || 1,

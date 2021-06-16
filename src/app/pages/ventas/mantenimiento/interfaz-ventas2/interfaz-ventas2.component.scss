@@ -1,4 +1,8 @@
 :host ::ng-deep {
+    .p-sidebar-mask {
+        position: relative !important;
+    }
+    
     .p-dropdown {
         width: 14rem;
         font-weight: normal;
@@ -171,6 +175,8 @@
     .p-sidebar-close {
         left: 0;
     }
+
+ 
 }
 :host ::ng-deep .card-container {
     .card {

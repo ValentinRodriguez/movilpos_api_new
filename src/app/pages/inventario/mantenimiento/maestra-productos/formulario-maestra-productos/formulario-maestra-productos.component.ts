@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { DialogService } from 'primeng/dynamicdialog';
 import { BodegasService } from 'src/app/services/bodegas.service';
 import { BrandsService } from 'src/app/services/brands.service';
 import { CategoriasService } from 'src/app/services/categorias.service';
