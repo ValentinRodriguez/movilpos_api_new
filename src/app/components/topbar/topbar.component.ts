@@ -31,8 +31,9 @@ export class TopbarComponent implements OnDestroy, OnInit {
     value1: string = "pos";
     foto: any;
     items2: MenuItem[];
+    @Input() simbolo: string
+    
     constructor(public breadcrumbService: BreadcrumbService,
-                public router: Router,
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
                 public facturaServ: FacturasService,
@@ -77,9 +78,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
         })
     }
 
-    ngOnInit(): void {        
-        console.log(this.router.url);
-        
+    ngOnInit(): void {                
         this.items2 = [{
             label: 'Options',
             items: [{

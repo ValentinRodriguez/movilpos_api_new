@@ -33,11 +33,11 @@ export class AppMainComponent implements OnInit{
     ripple: boolean;
     usuario: any;
     permisos: any;
-    route: any;
     notificationMenuClick2: boolean;
     topbarNotificationMenuActive2: boolean;
 
     constructor(private menuService: MenuService,
+                public route: Router,
                 private primengConfig: PrimeNGConfig,
                 private usuarioServ: UsuarioService,
                 private permisosServ:RolesService) {

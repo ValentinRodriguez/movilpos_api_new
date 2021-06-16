@@ -20,7 +20,7 @@
 
     <div class="topbar-right">
         <ul class="topbar-menu">
-            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
+            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" *ngIf="this.simbolo === '/ventas/interfaz-ventas'">
                 <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick($event)">
                     <i class="pi pi-dollar"></i>
                 </a>

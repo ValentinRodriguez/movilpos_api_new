@@ -65,6 +65,7 @@ export class InterfazVentas2Component implements OnInit {
     contentHeight: number;
     detailHeigth: string;
     innerWidth: number;
+    innerHeight: number;
 
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
@@ -88,8 +89,9 @@ export class InterfazVentas2Component implements OnInit {
     }
     ngAfterViewInit() {
         this.contentHeight = this.elementView.nativeElement.offsetHeight ;
-        this.detailHeigth = (this.contentHeight / 3.8) +'px'
-        console.log(this.contentHeight);
+        this.innerHeight = window.innerHeight;
+        
+        
         this.onResize();
         this.cd.detectChanges(); 
     }
@@ -166,10 +168,12 @@ export class InterfazVentas2Component implements OnInit {
       this.innerWidth = window.innerWidth;
       if (this.innerWidth < 1710) {
           this.objetos = 12;    
-          
+          this.detailHeigth = (this.innerHeight * 0.45) +'px'
       } else {
           this.objetos = 18
-      }      
+          this.detailHeigth = (this.innerHeight * 0.64 ) +'px'
+      }    
+      console.log(this.detailHeigth);  
     }
     
   todosLosProductos() {
@@ -233,8 +237,7 @@ export class InterfazVentas2Component implements OnInit {
   }
 
   cobrarFactura() {
-      if (this.forma.valid) {
-      
+      if (this.forma.valid) {      
           let devuelta = Math.abs(Number(this.forma.get('devuelta').value));
           this.forma.get('devuelta').setValue(devuelta);  
 

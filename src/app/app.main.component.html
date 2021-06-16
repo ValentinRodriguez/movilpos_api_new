@@ -11,13 +11,13 @@
      [attr.data-theme]="colorScheme" (click)="onLayoutClick()">
 
      <div class="layout-content-wrapper">
-        <app-topbar-page></app-topbar-page>
+        <app-topbar-page [simbolo]="this.route.url"></app-topbar-page>
 
         <div class="layout-content">
             <router-outlet></router-outlet>
         </div>
 
-        <app-footer-page></app-footer-page>
+        <app-footer-page *ngIf="this.route.url !== '/ventas/interfaz-ventas'"></app-footer-page>
     </div>
 
     <app-config></app-config>

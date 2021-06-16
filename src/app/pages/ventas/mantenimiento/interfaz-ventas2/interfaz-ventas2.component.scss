@@ -234,7 +234,11 @@
 .opcion-bottom {
     position: fixed;
     bottom: 0;
-    width: 78%;
+}
+
+.opcion-top {
+    position: fixed;
+    top: 85px;
 }
 
 .no-border {
