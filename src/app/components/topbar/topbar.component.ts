@@ -167,11 +167,11 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     desplegar() {
-        this.facturaServ.display = true     
+        this.facturaServ.displayDetalle();
     }
    
     ocultar() {
-        this.facturaServ.display = false    
+        this.facturaServ.displayDetalle();   
     }
 
     modoVenta(modo){

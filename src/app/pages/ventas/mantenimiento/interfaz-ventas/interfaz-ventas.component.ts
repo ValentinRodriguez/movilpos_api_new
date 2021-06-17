@@ -276,7 +276,7 @@ export class InterfazVentasComponent implements OnInit {
         
         
         if (nuevoArray.length === 0) {
-            this.facturaServ.display = true;
+            this.facturaServ.displayDetalle();
             this.agregarFormulario(producto);
 
             this.productosSeleccionados.push(producto);

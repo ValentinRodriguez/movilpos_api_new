@@ -12,7 +12,7 @@
                                             styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
                                 <span class="p-input-icon-left p-mb-2 p-mb-md-0">
                                     <i class="pi pi-search"></i>
-                                    <input type="search" pInputText placeholder="Buscar..." (input)="dv.filter($event.target.value)">
+                                    <input #input type="search" pInputText placeholder="Buscar..." (input)="dv.filter($event.target.value)" (keyup)="agregar($event)">                                    
                                 </span>
                                 <!-- <p-dataViewLayoutOptions></p-dataViewLayoutOptions> -->
                             </div>
@@ -56,7 +56,7 @@
                         <div class="p-grid">
                             <div class="p-col-2">
                                 <div class="card styled-box-green" pRipple (click)="op.toggle($event)" style="height: 80px;">
-                                    <div class="p-grid user-card-stats">
+                                    <div class="p-grid user-card-stats puntero">
                                         <div class="p-col-12 p-text-center">
                                             <i class="botones-bottom fas fa-user"></i>
                                             <div>Clientes</div>
@@ -67,7 +67,7 @@
     
                             <div class="p-col-2">
                                 <div class="card styled-box-green" pRipple style="height: 80px;">
-                                    <div class="p-grid user-card-stats">
+                                    <div class="p-grid user-card-stats puntero">
                                         <div class="p-col-12 p-text-center">
                                             <i class="botones-bottom fas fa-percent"></i>
                                             <div>Descuentos</div>
@@ -78,7 +78,7 @@
     
                             <div class="p-col-2">
                                 <div class="card styled-box-green" pRipple style="height: 80px;">
-                                    <div class="p-grid user-card-stats">
+                                    <div class="p-grid user-card-stats puntero">
                                         <div class="p-col-12 p-text-center">
                                             <i class=" botones-bottom fas fa-undo"></i>
                                             <div>Devolución</div>
@@ -89,7 +89,7 @@
     
                             <div class="p-col-2">
                                 <div class="card styled-box-green" pRipple style="background-color: #ff4949; height: 80px;" >
-                                    <div class="p-grid user-card-stats">
+                                    <div class="p-grid user-card-stats puntero">
                                         <div class="p-col-12 p-text-center">
                                             <i class="botones-bottom pi pi-trash"></i>
                                             <div>Anular</div>
@@ -100,7 +100,7 @@
                             
                             <div class="p-col-2">                            
                                 <div class="card styled-box-green" pRipple style="height: 80px;">
-                                    <div class="p-grid user-card-stats">
+                                    <div class="p-grid user-card-stats puntero">
                                         <div class="p-col-12 p-text-center">
                                             <i class="botones-bottom far fa-file-alt"></i>
                                             <div>Cotizar</div>
@@ -112,7 +112,7 @@
                             <div class="p-col-2">
                                 <div class="card" [ngClass]="{'chosen': this.financiando}"
                                         style="background-color: #FBC02D; height: 80px;" pRipple (click)="financiar()">
-                                    <div class="p-grid user-card-stats">
+                                    <div class="p-grid user-card-stats puntero">
                                         <div class="p-col-12 p-text-center">
                                             <i class="botones-bottom fas fa-comment-dollar"></i>
                                             <div>Financiar</div>
@@ -122,7 +122,7 @@
                             </div>
 
                             <div class="p-col-4" *ngIf="!this.financiando">
-                                <div class="card text-white" pRipple (click)="cobrarFactura()" style="background-color: #689F38;">
+                                <div class="card text-white puntero" pRipple (click)="cobrarFactura()" style="background-color: #689F38;">
                                     <div class="p-grid user-card-stats">
                                         <div class="p-col-12 p-text-center">
                                             <i class=" botones-bottom fas fa-hand-holding-usd"></i>
@@ -133,7 +133,7 @@
                             </div>
     
                             <div class="p-col-4" *ngIf="this.financiando">
-                                <div class="card financiar-button" pRipple (click)="financiarFactura()" style="background-color: #ffc106;">
+                                <div class="card financiar-button puntero" pRipple (click)="financiarFactura()" style="background-color: #ffc106;">
                                     <div class="p-grid user-card-stats">
                                         <div class="p-col-12 p-text-center">
                                             <i class=" botones-bottom fas fa-hand-holding-usd"></i>
@@ -150,7 +150,7 @@
                             <div class="p-grid">
                                 <div class="p-col">
                                     <div class="p-fluid">
-                                        <div class="p-field p-grid" *ngIf="efectivo === true || ambos === true">
+                                        <div class="p-field p-grid" *ngIf="metodo.efectivo === true || metodo.ambos === true">
                                             <label for="efectivo" class="p-col-fixed">Efectivo</label>
                                             <div class="p-col">
                                                 <input id="efectivo" type="text" pInputText pKeyFilter="int" formControlName="efectivo" [class.P-invalid]="getNoValido('efectivo')" 
@@ -160,14 +160,14 @@
                                             </div>
                                         </div>        
 
-                                        <div class="p-field p-grid" *ngIf="cheque === true">
+                                        <div class="p-field p-grid" *ngIf="metodo.cheque === true">
                                             <label for="cheque_no" class="p-col-fixed" >Cheque</label>
                                             <div class="p-col">
                                                 <input id="cheque_no" type="text" pInputText pKeyFilter="int" formControlName="cheque_no"> 
                                             </div>
                                         </div> 
                 
-                                        <div class="p-field p-grid" *ngIf="tarjeta === true || ambos === true">
+                                        <div class="p-field p-grid" *ngIf="metodo.tarjeta === true || metodo.ambos === true">
                                             <label for="tarjeta_no" class="p-col-fixed">Tarjeta</label>
                                             <div class="p-col">
                                                 <input id="tarjeta_no" type="text" pInputText pKeyFilter="int" formControlName="tarjeta_no"> 
@@ -184,23 +184,21 @@
                                         <div class="p-field p-grid">
                                             <label for="firstname4" class="p-col-fixed">Descuento</label>
                                             <div class="p-col">
-                                                <input id="descuento" type="text" pInputText pKeyFilter="int" 
-                                                       style="background-color: #c7c7c7;" formControlName="descuento" readonly> 
+                                                <input id="descuento" type="text" pInputText pKeyFilter="int" formControlName="descuento" readonly> 
                                             </div>
                                         </div>
 
                                         <div class="p-field p-grid">
                                             <label for="lastname4" class="p-col-fixed">ITBIS</label>
                                             <div class="p-col">
-                                                <input id="monto_itbis" type="text" pInputText pKeyFilter="int" 
-                                                style="background-color: #c7c7c7;" formControlName="monto_itbis" readonly> 
+                                                <input id="monto_itbis" type="text" pInputText pKeyFilter="int" formControlName="monto_itbis" readonly> 
                                             </div>
                                         </div>
                                     </div> 
                                 </div>
                                 <div class="p-col">
                                     <div class="widget-pricing-card">
-                                        <h3 style="text-align: start !important;">$RD {{this.neto}}</h3>
+                                        <h3 style="text-align: start !important;">TOTAL: $RD {{this.neto}}</h3>
                                         <h4 style="text-align: start !important;">{{this.cliente | uppercase}}</h4>
                                     </div>
                                 </div>
@@ -278,7 +276,7 @@
                                 <span *ngIf="col.field === 'titulo'">
                                     <!-- <img [src]="rowData.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/> -->
                                     <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
-                                        {{rowData['titulo']}}
+                                        ({{rowData['codigo']}})-{{rowData['titulo']}}
                                     </div>
                                 </span>
                                 <!--                     
@@ -362,5 +360,13 @@
                 </p-table>                
             </p-tabPanel>
         </p-tabView>
+
+        <div class="p-col opcion-bottom">
+            <div class="widget-pricing-card" style="padding: 1.2rem;">
+                <h4 style="text-align: start !important;">TOTAL: $RD {{this.neto}}</h4>
+                <h4 style="text-align: start !important;">{{this.cliente | uppercase}}</h4>
+            </div>
+        </div>
     </p-sidebar>
 </form>   
+

@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 //COMPONENTES DEL PROYECTO
 import { CatalogoCuentasComponent } from './mantenimiento/catalogo-cuentas/catalogo-cuentas.component';
+import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.component';
 import { EntradaDiarioComponent } from './mantenimiento/entrada-diario/entrada-diario.component';
 import { PeriodosFiscalesComponent } from './mantenimiento/periodos-fiscales/periodos-fiscales.component';
 import { TransaccionesPagoComponent } from './mantenimiento/transacciones-pago/transacciones-pago.component';
@@ -20,7 +21,8 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
         {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
         {path: 'gestion-transacciones-pago', component: TransaccionesPagoComponent},
         {path: 'gastos-departamento', component: GastosDepartamentosComponent},
-        {path: 'reporte-mayor-general', component: MayorGeneralComponent},
+         { path: 'reporte-mayor-general', component: MayorGeneralComponent },
+         {path: 'cuadre-caja', component: CuadreCajaComponent},
        ]
       }
     ])

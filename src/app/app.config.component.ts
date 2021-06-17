@@ -1,13 +1,21 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { AppMainComponent } from './app.main.component';
+import { FacturasService } from './services/facturas.service';
 import { SettingsService } from './services/settings.service';
 
 @Component({
     selector: 'app-config',
     template: `
-        <a style="cursor: pointer" id="layout-config-button" class="layout-config-button" (click)="onConfigButtonClick($event)">
+        <a style="cursor: pointer" id="layout-config-button" class="layout-config-button" style="top:20%"
+            (click)="facturasServ.displayDetalle()" *ngIf="this.simbolo === '/ventas/interfaz-ventas'">
+            <i class="pi pi-angle-double-left"></i>
+        </a>
+
+        <a style="cursor: pointer" id="layout-config-button" class="layout-config-button"
+            *ngIf="this.simbolo !== '/ventas/interfaz-ventas'" (click)="onConfigButtonClick($event)">
             <i class="pi pi-cog"></i>
         </a>
+        
         <div class="layout-config" [ngClass]="{'layout-config-active': app.configActive}" (click)="app.onConfigClick($event)">
             <h5>Tipo de Menu</h5>
             <div class="p-field-radiobutton">
@@ -82,15 +90,17 @@ import { SettingsService } from './services/settings.service';
 export class AppConfigComponent implements OnInit {
 
     menuThemes: any[];
-
     componentThemes: any[];
-
     componentTheme = 'blue';
+    @Input() simbolo: string;
 
     constructor(public app: AppMainComponent,
+                private facturasServ: FacturasService,
                 public setting: SettingsService) {}
 
     ngOnInit() {
+        console.log(this.simbolo);
+        
         if (localStorage.getItem('esquema-color')) {
             this.changeColorScheme(this.app.colorScheme);        
         }

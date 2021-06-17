@@ -8,7 +8,7 @@ const URL = environment.url;
 })
 export class FacturasService {
 
-  display = false
+  display = new EventEmitter();
   facturaCreada = new EventEmitter()
   modoVenta = new EventEmitter();
   enviaData = new EventEmitter();
@@ -93,6 +93,10 @@ export class FacturasService {
 
   metodoPago(data) {
     this.metodo.emit(data)
+  }
+
+  displayDetalle() {
+    this.display.emit(true)
   }
 
 }
