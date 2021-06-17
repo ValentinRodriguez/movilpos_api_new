@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 import { SelectItem, MenuItem, PrimeNGConfig } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { VirtualScroller } from 'primeng/virtualscroller';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { AppMainComponent } from 'src/app/app.main.component';
@@ -31,6 +32,7 @@ export class InterfazVentas2Component implements OnInit {
     @ViewChild('dv') dv: DataView;
     @ViewChild('input') input: ElementRef;
     @ViewChild('general') elementView: ElementRef;
+    @ViewChild('vs') vs: VirtualScroller;
     sortOptions: SelectItem[];
     sortOrder: number;
     sortField: string;
@@ -65,7 +67,7 @@ export class InterfazVentas2Component implements OnInit {
     innerWidth: number;
     innerHeight: number;
     metodo: any;
-
+    textBuscar = '';
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
@@ -184,22 +186,22 @@ export class InterfazVentas2Component implements OnInit {
     
     tipo(valor) {            
         if (valor.efectivo === true) {            
-            this.uiMessage.getMiniInfortiveMsg('tc', 'warning', '', 'Debe especificar el valor en EFECTIVO.');
+            this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en EFECTIVO.');
             return false;
         }
 
         if (valor.tarjeta === true) {
-            this.uiMessage.getMiniInfortiveMsg('tc', 'warning', '', 'Debe especificar el valor en TARJETA.');
+            this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en TARJETA.');
             return false; 
         }
 
         if (valor.cheque === true) {
-            this.uiMessage.getMiniInfortiveMsg('tc', 'warning', '', 'Debe especificar el valor en CHEQUE.');
+            this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en CHEQUE.');
             return false; 
         }
 
         if (valor.ambos === true) {
-            this.uiMessage.getMiniInfortiveMsg('tc', 'warning', '', 'Debe especificar el valor en EFECTIVO y TARJETA.');
+            this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en EFECTIVO y TARJETA.');
             return false; 
         }
 
@@ -275,7 +277,7 @@ export class InterfazVentas2Component implements OnInit {
 
                 // if (devuelta < 0 && !this.metodo.ambos) {
                 //     this.devueltaMenor = true;
-                //     this.uiMessage.getMiniInfortiveMsg('tc','warning','Error','LA CANTIDAD RECIBIDA ES MENOR AL MONTO TOTAL');
+                //     this.uiMessage.getMiniInfortiveMsg('tc','warn','Error','LA CANTIDAD RECIBIDA ES MENOR AL MONTO TOTAL');
                 //     return;
                 // } 
                 // if (this.metodo.tarjeta || this.metodo.ambos) {
@@ -292,7 +294,7 @@ export class InterfazVentas2Component implements OnInit {
             }
         }else{            
             if (this.forma.value.productos.length === 0) {
-                this.uiMessage.getMiniInfortiveMsg('tc','warning','Error','DEBE AGREGAR ARTICULOS A LA FACTURA');
+                this.uiMessage.getMiniInfortiveMsg('tc','warn','Error','DEBE AGREGAR ARTICULOS A LA FACTURA');
                 return;
             }
         }
@@ -308,12 +310,9 @@ export class InterfazVentas2Component implements OnInit {
         }
     }
 
-    agregar(data) {        
-        let productosFiltrados = this.dv['filteredValue'] || [];
-        if (data.key === 'Enter' && productosFiltrados.length === 1) {            
-            this.agregarProducto(productosFiltrados[0]);
-            this.input.nativeElement.value = '';
-        }
+    agregar(data) {
+        this.textBuscar = data
+        
     }
 
     agregarFormulario(producto) {

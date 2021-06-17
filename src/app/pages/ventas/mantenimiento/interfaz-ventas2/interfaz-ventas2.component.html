@@ -3,18 +3,49 @@
         <div class="p-grid">
             <div class="p-col-7">
                 <div class="card">
-                    <p-dataView #dv [value]="productos" filterBy="titulo,codigo" [sortField]="sortField" paginator = "true" [rows]="this.objetos"
+                    <p-virtualScroller #vs [value]="productos" scrollHeight="500px" [itemSize]="100">
+
+                        <ng-template pTemplate="header" style="margin-bottom: 10px;">
+                            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                                <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
+                                            styleClass="p-mb-2 p-mb-md-0">
+                                </p-dropdown>
+                                <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                                    <i class="pi pi-search"></i>
+                                    <input #input type="search" pInputText placeholder="Buscar..." (keyup)="agregar($event.target.value)">                                    
+                                </span>                                
+                            </div>
+                        </ng-template>
+
+                        <ng-template let-product pTemplate="item" let-i="index">
+                            <div class="product-item">
+                                <div class="image-container">
+                                    <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo" class="product-image" />
+                                </div>
+                                <div class="product-list-detail">
+                                    <h5 class="p-mb-2">{{product.titulo}}</h5>
+                                    <i class="pi pi-tag product-category-icon"></i>
+                                    <span class="product-category">{{product.categoria}}</span>
+                                </div>
+                                <div class="product-list-action">
+                                    <h6 class="p-mb-2">${{product.precio_venta}}</h6>
+                                    
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                    </p-virtualScroller>
+                    <!-- <p-dataView #dv [value]="productos" filterBy="titulo,codigo" [sortField]="sortField" paginator = "true" [rows]="this.objetos"
                                     [sortOrder]="sortOrder" layout="grid" *ngIf="modo === 'pos'" [loading]="loading">
                         <ng-template pTemplate="header">
                             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                                <!-- [(ngModel)]="sortKey" -->
                                 <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
                                             styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
                                 <span class="p-input-icon-left p-mb-2 p-mb-md-0">
                                     <i class="pi pi-search"></i>
                                     <input #input type="search" pInputText placeholder="Buscar..." (input)="dv.filter($event.target.value)" (keyup)="agregar($event)">                                    
                                 </span>
-                                <!-- <p-dataViewLayoutOptions></p-dataViewLayoutOptions> -->
+                                
                             </div>
                         </ng-template>
         
@@ -22,20 +53,11 @@
                             <div class="p-col-12 p-md-3">
                                 <div class="product-grid-item card" (click)="agregarProducto(product, i)" [attr.id]="product.id">
                                     <div class="product-grid-item-top">
-                                        <!-- <div>
-                                            <i class="pi pi-tag product-category-icon"></i>
-                                            <span class="product-category">{{product.categoria | titlecase}}</span>
-                                        </div> -->
-                                        <!-- <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
-                                        <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span> -->
+                                       
                                     </div>
                                     <div class="product-grid-item-content">
                                         <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>
                                         <div class="product-name" style="margin-bottom: 10px;">{{product.titulo | titlecase}}</div>
-                                        <!-- <div class="product-description">{{product.codigo}}</div> -->
-                                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
                                     </div>
                                     <div class="product-grid-item-bottom">
                                         <span class="product-price p-tag p-tag-info"><i class="fas fa-hashtag"></i>{{product.codigo}}</span>
@@ -44,7 +66,7 @@
                                 </div>
                             </div>
                         </ng-template>
-                    </p-dataView>
+                    </p-dataView> -->
                 </div>
             </div>
     
