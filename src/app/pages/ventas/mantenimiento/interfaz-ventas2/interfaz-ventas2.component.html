@@ -3,156 +3,84 @@
         <div class="p-grid">
             <div class="p-col-7">
                 <div class="card">
-                    <p-tabView orientation="left">
-                        <p-tabPanel  header="Consultar" leftIcon="pi pi-search">							
-                            <p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                                     [rowHover]="true" [filterDelay]="0" 
-                                     [scrollable]="true" [rows]="100" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="34"
-                                     [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
-                                
-                                <ng-template pTemplate="caption">
-                                    <div class="table-header">
-                                        <span class="p-input-icon-left">
-                                            <i class="pi pi-search"></i>
-                                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
-                                        </span>
-                                    </div>
-                                </ng-template>
-        
-                                <ng-template pTemplate="header" let-columns>
-                                    <tr>
-                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                            {{col.header}}
-                                            <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
-                                        </th>
-                                    </tr>
-                                </ng-template>
-        
-                                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                    <tr class="p-selectable-row">
-        
-                                        <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'  || col.field === 'cantidad'}">
-                                            <span class="p-column-title">{{col.header}}</span>
-        
-                                            <span *ngIf="col.field === 'imagen'">
-                                                <img [src]="rowData.galeriaImagenes | invProductos" width="64"
-                                                    style="vertical-align: middle"/>
-                                                <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
-                                                    {{rowData['titulo']}}
-                                                </div>
-                                            </span>
-        
-                                            <span *ngIf="col.field === 'codigo'">
-                                                {{ rowData[col.field] }}
-                                            </span>
-        
-                                            <span *ngIf="col.field === 'marca' || col.field === 'categoria' || col.field === 'categoria' ||
-                                                         col.field === 'propiedad' || col.field === 'almacen' || col.field === 'tipoinventario'">
-                                                {{ rowData[col.field] | titlecase}}
-                                            </span>
-        
-                                            <span *ngIf="col.field === 'cantidad' && rowData['tipo_producto'] !== 1">
-                                                <span class="p-badge p-badge-lg p-badge-success"><i class="fas fa-infinity"></i></span>
-                                            </span>
-        
-                                            <span *ngIf="col.field === 'cantidad' && rowData['tipo_producto'] === 1">
-                                                <span *ngIf="(rowData.cantidad >= rowData.existenciaMaxima * 0.7) && rowData.existenciaMaxima !== null  " class="p-badge p-badge-lg p-badge-success">{{rowData.cantidad}}</span>
-                                                <span *ngIf="rowData.cantidad < rowData.existenciaMaxima * 0.7 && rowData.cantidad >= rowData.existenciaMinima * 3" class="p-badge p-badge-lg p-badge-info">{{rowData.cantidad}}</span>
-                                                <span *ngIf="rowData.cantidad < rowData.existenciaMinima * 3 && rowData.cantidad > 0" class="p-badge p-badge-lg p-badge-warning">{{rowData.cantidad}}</span>
-                                                <span *ngIf="rowData.cantidad === 0 || rowData.cantidad === null" class="p-badge p-badge-lg p-badge-danger">0</span>
-                                            </span>
-        
-                                            <span *ngIf="col.field === 'acciones'">
-                                                <button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-                                                <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarProducto(rowData.id)" pTooltip="Actualizar"></button>
-                                                <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarProducto(rowData.id)" pTooltip="Eliminar"></button>
-                                                <!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
-                                            </span>
-                                        </td>								
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="emptymessage">
-                                    <tr>
-                                        <td colspan="8">No existen productos en la base de datos.</td>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="summary">
-                                    <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length !== 1">
-                                        Existen {{productos ? productos.length : 0 }} productos en total.
-                                    </div>
-        
-                                    <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length === 1">
-                                        Existe solo {{productos ? productos.length : 0 }} producto en total.
-                                    </div>
-                                </ng-template>
-                            </p-table>
-        
-                        </p-tabPanel>
-                    </p-tabView>
-                    <!-- <p-virtualScroller #vs [value]="productos" scrollHeight="500px" [itemSize]="100">
-
-                        <ng-template pTemplate="header" style="margin-bottom: 10px;">
-                            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                                <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
-                                            styleClass="p-mb-2 p-mb-md-0">
-                                </p-dropdown>
-                                <span class="p-input-icon-left p-mb-2 p-mb-md-0">
-                                    <i class="pi pi-search"></i>
-                                    <input #input type="search" pInputText placeholder="Buscar..." (keyup)="agregar($event.target.value)">                                    
-                                </span>                                
-                            </div>
-                        </ng-template>
-
-                        <ng-template let-product pTemplate="item" let-i="index">
-                            <div class="product-item">
-                                <div class="image-container">
-                                    <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo" class="product-image" />
-                                </div>
-                                <div class="product-list-detail">
-                                    <h5 class="p-mb-2">{{product.titulo}}</h5>
-                                    <i class="pi pi-tag product-category-icon"></i>
-                                    <span class="product-category">{{product.categoria}}</span>
-                                </div>
-                                <div class="product-list-action">
-                                    <h6 class="p-mb-2">${{product.precio_venta}}</h6>
-                                    
-                                </div>
-                            </div>
-                        </ng-template>
+                    <p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                             [rowHover]="true" [filterDelay]="0" (onFilter)="onFilter($event)"
+                             [scrollable]="true" [rows]="100" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="34"
+                             [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
                         
-                    </p-virtualScroller> -->
-                    <!-- <p-dataView #dv [value]="productos" filterBy="titulo,codigo" [sortField]="sortField" paginator = "true" [rows]="this.objetos"
-                                    [sortOrder]="sortOrder" layout="grid" *ngIf="modo === 'pos'" [loading]="loading">
-                        <ng-template pTemplate="header">
-                            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                                <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
-                                            styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
-                                <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                        <ng-template pTemplate="caption">
+                            <div class="table-header">
+                                <span class="p-input-icon-left">
                                     <i class="pi pi-search"></i>
-                                    <input #input type="search" pInputText placeholder="Buscar..." (input)="dv.filter($event.target.value)" (keyup)="agregar($event)">                                    
+                                    <input pInputText #input type="text" (keyup)="cambio($event)" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
                                 </span>
-                                
                             </div>
                         </ng-template>
-        
-                        <ng-template let-product pTemplate="gridItem" let-i="rowIndex">
-                            <div class="p-col-12 p-md-3">
-                                <div class="product-grid-item card" (click)="agregarProducto(product, i)" [attr.id]="product.id">
-                                    <div class="product-grid-item-top">
-                                       
-                                    </div>
-                                    <div class="product-grid-item-content">
-                                        <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>
-                                        <div class="product-name" style="margin-bottom: 10px;">{{product.titulo | titlecase}}</div>
-                                    </div>
-                                    <div class="product-grid-item-bottom">
-                                        <span class="product-price p-tag p-tag-info"><i class="fas fa-hashtag"></i>{{product.codigo}}</span>
-                                        <span class="product-price p-tag p-tag-success">${{product.precio_venta}}</span>
-                                    </div>
-                                </div>
+
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="index">
+                            <tr class="p-selectable-row" [attr.id]="rowData.id" (click)="agregarProducto(rowData)">
+
+                                <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'titulo'  || col.field === 'cantidad'}">
+                                    <span class="p-column-title">{{col.header}}</span>
+
+                                    <span *ngIf="col.field === 'titulo'">
+                                        <img [src]="rowData.galeriaImagenes | invProductos" width="64"
+                                            style="vertical-align: middle"/>
+                                        <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
+                                            {{rowData['titulo']}}
+                                        </div>
+                                    </span>
+
+                                    <span *ngIf="col.field === 'codigo'">
+                                        {{ rowData[col.field] }}
+                                    </span>
+
+                                    <span *ngIf="col.field === 'precio_venta'">
+                                        ${{ rowData[col.field] }}
+                                    </span>
+
+                                    <span *ngIf="col.field === 'marca' || col.field === 'categoria' || col.field === 'categoria' ||
+                                                 col.field === 'propiedad' || col.field === 'almacen' || col.field === 'tipoinventario'">
+                                        {{ rowData[col.field] | titlecase}}
+                                    </span>
+
+                                    <span *ngIf="col.field === 'cantidad' && rowData['tipo_producto'] !== 1">
+                                        <span class="p-badge p-badge-lg p-badge-success"><i class="fas fa-infinity"></i></span>
+                                    </span>
+
+                                    <span *ngIf="col.field === 'cantidad' && rowData['tipo_producto'] === 1">
+                                        <span *ngIf="(rowData.cantidad >= rowData.existenciaMaxima * 0.7) && rowData.existenciaMaxima !== null  " class="p-badge p-badge-lg p-badge-success">{{rowData.cantidad}}</span>
+                                        <span *ngIf="rowData.cantidad < rowData.existenciaMaxima * 0.7 && rowData.cantidad >= rowData.existenciaMinima * 3" class="p-badge p-badge-lg p-badge-info">{{rowData.cantidad}}</span>
+                                        <span *ngIf="rowData.cantidad < rowData.existenciaMinima * 3 && rowData.cantidad > 0" class="p-badge p-badge-lg p-badge-warning">{{rowData.cantidad}}</span>
+                                        <span *ngIf="rowData.cantidad === 0 || rowData.cantidad === null" class="p-badge p-badge-lg p-badge-danger">0</span>
+                                    </span>
+                                </td>								
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8">No existen productos en la base de datos.</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length !== 1">
+                                Existen {{productos ? productos.length : 0 }} productos en total.
+                            </div>
+
+                            <div class="p-d-flex p-ai-center p-jc-between" *ngIf="productos.length === 1">
+                                Existe solo {{productos ? productos.length : 0 }} producto en total.
                             </div>
                         </ng-template>
-                    </p-dataView> -->
+                    </p-table>                   
                 </div>
             </div>
     
@@ -384,13 +312,13 @@
                                 <span *ngIf="col.field === 'titulo'">
                                     <!-- <img [src]="rowData.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/> -->
                                     <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
-                                        ({{rowData['codigo']}})-{{rowData['titulo']}}
+                                        {{rowData['titulo']}}
                                     </div>
                                 </span>
-                                <!--                     
+                                                    
                                 <div *ngIf="col.field === 'codigo'">
                                     {{ rowData[col.field] }}
-                                </div> -->
+                                </div>
 
                                 <div *ngIf="col.field === 'precio_venta'">
                                     ${{ rowData[col.field] }}

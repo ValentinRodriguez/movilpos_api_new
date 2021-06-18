@@ -1,9 +1,7 @@
 <div class="layout-topbar" [ngClass]="{'header-fijo': this.menu === 'no'}">
     <!-- <p-inputSwitch [(ngModel)]="checked1"></p-inputSwitch> -->
     
-    <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
-        *ngIf="(this.menu === 'no')" optionValue="value" (onChange)="modoVenta($event)">
-    </p-selectButton>
+    
         
     <div class="topbar-left">
         <a tabindex="0" class="menu-button" (click)="app.onMenuButtonClick($event)" *ngIf="this.menu !== 'no'">
@@ -12,8 +10,14 @@
         <span class="topbar-separator"></span>
 
         <!-- <img id="logo-mobile" class="mobile-logo" src="assets/layout/images/logo-dark.svg" alt="diamond-layout" /> -->
+        <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
+                        *ngIf="(this.simbolo === '/ventas/interfaz-ventas')" optionValue="value" 
+                        (onChange)="modoVenta($event)">
+                        <ng-template let-item>
+                            <i [class]="item.icon"></i>
+                        </ng-template>
+        </p-selectButton>
     </div>
-
     <div class="topbar-right">
         <ul class="topbar-menu">
             <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" *ngIf="this.simbolo === '/ventas/interfaz-ventas'">

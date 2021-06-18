@@ -41,6 +41,7 @@ import { StepTransaccionesPagoComponent } from './mantenimiento/transacciones-pa
 import { GastosDepartamentosComponent } from './reportes/gastos-departamentos/gastos-departamentos.component';
 import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.component';
 import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.component';
+import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formulario-cuadre-caja/formulario-cuadre-caja.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.com
     StepTransaccionesPagoComponent,
     MayorGeneralComponent,
     GastosDepartamentosComponent,
-    CuadreCajaComponent
+    CuadreCajaComponent,
+    FormularioCuadreCajaComponent
   ],
   imports: [
     CommonModule,

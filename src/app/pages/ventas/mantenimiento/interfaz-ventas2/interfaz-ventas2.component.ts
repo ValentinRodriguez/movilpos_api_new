@@ -55,19 +55,19 @@ export class InterfazVentas2Component implements OnInit {
     devueltaMenor = false;
     cols: { field: string; header: string; }[];
     categorias: any[] = [];
-    cols2: { field: string; header: string; }[];
     fecha: string;
     modo = 'pos';
     cols3: { field: string; header: string; }[];
     financiando = false;
-    loading = true;
     objetos = 12;
     contentHeight: number;
     detailHeigth: string;
     innerWidth: number;
     innerHeight: number;
     metodo: any;
-    textBuscar = '';
+    selectedProducts2: any[] = [];
+    productoFIltrado: any;
+
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
@@ -79,7 +79,7 @@ export class InterfazVentas2Component implements OnInit {
                 private uiMessage: UiMessagesService,
                 private clienteServ: ClientesService,
                 private dialogService: DialogService,
-        private primengConfig: PrimeNGConfig,
+                private primengConfig: PrimeNGConfig,
                 private cd: ChangeDetectorRef) {
 
                 this.usuario = this.usuarioServ.getUserLogged(); 
@@ -90,14 +90,12 @@ export class InterfazVentas2Component implements OnInit {
     }
     ngAfterViewInit() {
         this.contentHeight = this.elementView.nativeElement.offsetHeight ;
-        this.innerHeight = window.innerHeight;
-        
+        this.innerHeight = window.innerHeight;        
         this.onResize();
         this.cd.detectChanges(); 
     }
 
-    ngOnInit(): void {
-        
+    ngOnInit(): void {        
         this.primengConfig.ripple = true;
         
         this.metodo = {
@@ -112,28 +110,17 @@ export class InterfazVentas2Component implements OnInit {
             
         this.cols = [
             { field: 'titulo', header: 'Producto' },
-            // { field: 'titulo', header: 'Titulo' },
-            // { field: 'codigo', header: 'Código' },
             { field: 'precio_venta', header: 'Precio' },
-            { field: 'cantidad', header: 'Cantidad' },
-            { field: 'acciones', header: 'Acciones' },
-        ] 
-
-        this.cols2 = [
-            { field: 'titulo', header: 'Producto' },
-            // { field: 'titulo', header: 'Titulo' },
             { field: 'codigo', header: 'Código' },
-            { field: 'precio_venta', header: 'Precio' },
             { field: 'cantidad', header: 'Cantidad' }
         ] 
 
         this.cols3 = [
             { field: 'titulo', header: 'Producto' },
-            // { field: 'titulo', header: 'Titulo' },
-            { field: 'codigo', header: 'Código' },
             { field: 'precio_venta', header: 'Precio' },
+            { field: 'codigo', header: 'Código' },
             { field: 'cantidad', header: 'Cantidad' },
-            { field: 'acciones', header: 'Acciones' },
+            { field: 'acciones', header: 'Acciones' }
         ] 
         
         this.sortOptions = [
@@ -211,7 +198,6 @@ export class InterfazVentas2Component implements OnInit {
     todosLosProductos() {
         this.inventarioServ.getDatos().then((resp: any) =>{
             this.productos = resp;
-            this.loading = false;
         })
     }
 
@@ -310,9 +296,24 @@ export class InterfazVentas2Component implements OnInit {
         }
     }
 
-    agregar(data) {
-        this.textBuscar = data
-        
+    cambio(data) {
+        if (this.modo === 'codigo' && this.productoFIltrado.length === 1) {
+            this.agregarProducto(this.productoFIltrado[0]);
+            this.input.nativeElement.value = '';
+            return;
+        }
+
+        if (data.key === 'Enter') {
+            this.agregarProducto(this.productoFIltrado[0]);
+            this.input.nativeElement.value = '';
+            return;
+        }        
+    }
+
+    onFilter(event) {
+        if (event.filteredValue.length === 1) {
+            this.productoFIltrado = event.filteredValue;    
+        }
     }
 
     agregarFormulario(producto) {
@@ -351,7 +352,7 @@ export class InterfazVentas2Component implements OnInit {
       
         if (nuevoArray.length === 0) {
             this.display = true;
-            this.facturaServ.displayDetalle();
+            // this.facturaServ.displayDetalle();
             this.agregarFormulario(producto);
 
             this.productosSeleccionados.push(producto);
@@ -361,7 +362,7 @@ export class InterfazVentas2Component implements OnInit {
             if (efectivo !== 0) {
                 this.calculaDevueltaE(efectivo)               
             }
-            document.getElementById(producto.id).classList.add("agregado")
+            // document.getElementById(producto.id).classList.add("agregado")
         }else{
             this.uiMessage.getMiniInfortiveMsg('tc','info','Atención','Este producto ya esta en la factura');             
         }
@@ -370,11 +371,9 @@ export class InterfazVentas2Component implements OnInit {
     eliminarProducto(producto) {
         const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
             return data.id !== producto.id;
-        });     
-        
-        this.productosSeleccionados = nuevoArray
-        this.calcularTotal(this.productosSeleccionados)
-        document.getElementById(producto.id).classList.remove("agregado")
+        });             
+        this.productosSeleccionados = nuevoArray;
+        this.calcularTotal(this.productosSeleccionados);
     }
   
     calcularTotal(data) {

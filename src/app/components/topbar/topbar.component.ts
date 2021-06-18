@@ -46,7 +46,10 @@ export class TopbarComponent implements OnDestroy, OnInit {
             this.foto = this.usuario.foto                
             this.nombre = this.usuario.name+' '+this.usuario.surname;
         }
-        this.stateOptions = [{label: 'POS', value: 'pos'}, {label: 'Orden', value: 'orden'}];
+        this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
+                             { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
+                             { label: 'Codigo', value: 'codigo', icon: 'fas fa-barcode', justify: 'Left' }
+        ];
 
         this.modulosServ.getModulos().then((resp: any) => {
 
