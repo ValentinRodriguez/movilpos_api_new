@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MonedasService } from 'src/app/services/monedas.service';
+import { PuestosService } from 'src/app/services/puestos.service';
+import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -22,10 +24,20 @@ export class FormularioCuadreCajaComponent implements OnInit {
   id: number;
   listSubscribers: any = [];
   denominaciones: any = [];
+  totalBilletes: number;
+  totalRecibido: number;
+  saldoActual: number;
+  saldoFinal: number;
+  saldoInicial: number;
+  puestos: any;
+  cajeros: any;
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private monedasServ: MonedasService) { 
+              private monedasServ: MonedasService,
+              private empleadosServ: RrhhService,
+              private puestosServ: PuestosService) {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
   }
@@ -36,18 +48,26 @@ export class FormularioCuadreCajaComponent implements OnInit {
 
   ngOnInit(): void {
     this.listObserver();
+    this.puestosServ.getDatos().then((resp: any) => {
+      this.puestos = resp;      
+    })
+
+    this.empleadosServ.getCajeros().then((resp: any) => {
+      this.cajeros = resp;
+    })
+
     this.denominaciones = [
-      { denominacion: '$.0', cantidad: '', total: '' },
-      { denominacion: '$1', cantidad: '', total: '' },
-      { denominacion: '$5', cantidad: '', total: '' },
-      { denominacion: '$10', cantidad: '', total: '' },
-      { denominacion: '$25', cantidad: '', total: '' },
-      { denominacion: '$50', cantidad: '', total: '' },
-      { denominacion: '$100', cantidad: '', total: '' },
-      { denominacion: '$200', cantidad: '', total: '' },
-      { denominacion: '$500', cantidad: '', total: '' },
-      { denominacion: '$1000', cantidad: '', total: '' },
-      { denominacion: '$2000', cantidad: '', total: '' },      
+      { denominacion: '$.0', valor: 0, cantidad: 0, total: 0 },
+      { denominacion: '$1', valor: 1, cantidad: 0, total: 0 },
+      { denominacion: '$5', valor: 5, cantidad: 0, total: 0 },
+      { denominacion: '$10', valor: 10, cantidad: 0, total: 0 },
+      { denominacion: '$25', valor: 25, cantidad: 0, total: 0 },
+      { denominacion: '$50', valor: 50, cantidad: 0, total: 0 },
+      { denominacion: '$100', valor: 100, cantidad: 0, total: 0 },
+      { denominacion: '$200', valor: 200, cantidad: 0, total: 0 },
+      { denominacion: '$500', valor: 500, cantidad: 0, total: 0 },
+      { denominacion: '$1000', valor: 1000, cantidad: 0, total: 0 },
+      { denominacion: '$2000', valor: 2000, cantidad: 0, total: 0 },      
     ]
   }
 
@@ -72,17 +92,15 @@ export class FormularioCuadreCajaComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      fecha: ['', Validators.required],
-      
+      fecha:               ['', Validators.required],
+      importeEntrega:      ['', Validators.required],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }
 
-  guardarMoneda() {
-    console.log(this.denominaciones);
-    
+  guardarMoneda() {    
     // this.formSubmitted = true;    
     // if (this.forma.invalid) {    
     //   this.formSubmitted = false;   
@@ -110,6 +128,31 @@ export class FormularioCuadreCajaComponent implements OnInit {
     // }
   }
   
+  calculaDeno(event, campo, index) {
+    if (event.value !== null) {
+      if (campo.valor === 0) {
+        this.denominaciones[index].total = campo.cantidad;
+      } else {
+        this.denominaciones[index].total = campo.cantidad * campo.valor;        
+      }
+      this.calcularTotal();           
+    }
+  }
+
+  calcularTotal() {
+    this.totalBilletes = 0;
+    this.totalRecibido = 0;
+    this.denominaciones.forEach(element => {
+      if (element.valor === 0) {
+        this.totalRecibido += (element.cantidad / 100);       
+      } else {
+        this.totalBilletes += element.cantidad;
+        this.totalRecibido += element.total;        
+      }
+      this.forma.get('importeEntrega').setValue(this.totalRecibido);
+    });
+  }
+
   onSelectDate(event) {
     let d = new Date(Date.parse(event));
     this.forma.get("fecha_enviada").setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);

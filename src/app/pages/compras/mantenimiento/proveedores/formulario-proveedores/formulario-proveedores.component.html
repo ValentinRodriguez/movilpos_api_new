@@ -12,7 +12,7 @@
 </div>
 <br>
 <button *ngIf="this.rutaActual[1] !== 'compras'" pButton pRipple label="Ir a Formulario de Proveedores" 
-        icon="pi pi-chevron" type="button" (click)="redirigir()">
+        icon="pi pi-chevron" type="button" class="p-button-lg p-d-block p-mx-auto" (click)="redirigir()">
 </button>
 <br>
 <form (ngSubmit)="guardarProveedor()" [formGroup]="forma" *ngIf="this.rutaActual[1] === 'compras'">
