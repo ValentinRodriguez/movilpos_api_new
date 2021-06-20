@@ -25,12 +25,14 @@ import { PanelControlRoutingModule } from "./panel-control-routing.module";
 import { FormularioUsuariosComponent } from './usuarios/formulario-usuarios/formulario-usuarios.component';
 import { PermisosUsuariosComponent } from './usuarios/permisos-usuarios/permisos-usuarios.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { ProcedimientosComponent } from './procedimientos/procedimientos.component';
 
 @NgModule({
   declarations: [
     FormularioUsuariosComponent,
     PermisosUsuariosComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    ProcedimientosComponent
   ],
   imports: [
     CommonModule,
