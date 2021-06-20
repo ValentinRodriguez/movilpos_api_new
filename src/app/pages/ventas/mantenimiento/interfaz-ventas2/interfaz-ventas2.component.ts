@@ -33,15 +33,10 @@ export class InterfazVentas2Component implements OnInit {
     @ViewChild('input') input: ElementRef;
     @ViewChild('general') elementView: ElementRef;
     @ViewChild('vs') vs: VirtualScroller;
-    sortOptions: SelectItem[];
-    sortOrder: number;
-    sortField: string;
-    items: MenuItem[];
+  
+    
     usuario: any;
-    nombre: any;
-    tieredItems: MenuItem[] = [];
-    modulos: any;
-    menues: any;
+    
     productos: any[] = [];
     productosSeleccionados: any[] = [];
     clientes: any[] = [];
@@ -67,6 +62,8 @@ export class InterfazVentas2Component implements OnInit {
     metodo: any;
     selectedProducts2: any[] = [];
     productoFIltrado: any;
+    formSubmitted = false;
+    guardando: boolean;
 
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
@@ -82,9 +79,7 @@ export class InterfazVentas2Component implements OnInit {
                 private primengConfig: PrimeNGConfig,
                 private cd: ChangeDetectorRef) {
 
-                this.usuario = this.usuarioServ.getUserLogged(); 
-                
-                this.nombre = this.usuario.name+' '+this.usuario.surname;   
+                this.usuario = this.usuarioServ.getUserLogged();                 
                 this.fecha = this.datosEstaticosServ.getDate();
                 this.crearFormulario();
     }
@@ -123,11 +118,6 @@ export class InterfazVentas2Component implements OnInit {
             { field: 'acciones', header: 'Acciones' }
         ] 
         
-        this.sortOptions = [
-            {label: 'Price High to Low', value: '!price'},
-            {label: 'Price Low to High', value: 'price'}
-        ];
-
         this.facturaServ.metodo.subscribe((resp: any) => {        
             this.forma.get('efectivo').reset();
             this.forma.get('tarjeta').reset();
@@ -140,6 +130,10 @@ export class InterfazVentas2Component implements OnInit {
         
         this.facturaServ.modoVenta.subscribe((resp: any) => {
             this.modo = resp;
+        });
+
+        this.facturaServ.guardando.subscribe((resp: any) => {
+            this.guardando = resp;
         });
 
         this.facturaServ.display.subscribe((resp: any) => {
@@ -172,22 +166,27 @@ export class InterfazVentas2Component implements OnInit {
     }
     
     tipo(valor) {            
-        if (valor.efectivo === true) {            
+        const efectivo = Number(this.forma.get('efectivo').value)
+        const tarjeta = this.forma.get('tarjeta').value
+        const cheque = this.forma.get('cheque').value
+        console.log(efectivo);
+        
+        if (valor.efectivo === true && efectivo === 0) {            
             this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en EFECTIVO.');
             return false;
         }
 
-        if (valor.tarjeta === true) {
+        if (valor.tarjeta === true && tarjeta === '') {
             this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en TARJETA.');
             return false; 
         }
 
-        if (valor.cheque === true) {
+        if (valor.cheque === true &&cheque === '') {
             this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en CHEQUE.');
             return false; 
         }
 
-        if (valor.ambos === true) {
+        if (valor.ambos === true && efectivo === 0 && tarjeta === '') {
             this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en EFECTIVO y TARJETA.');
             return false; 
         }
@@ -196,8 +195,10 @@ export class InterfazVentas2Component implements OnInit {
     }
     
     todosLosProductos() {
+        this.formSubmitted = true
         this.inventarioServ.getDatos().then((resp: any) =>{
             this.productos = resp;
+            this.formSubmitted = false;
         })
     }
 
@@ -256,6 +257,7 @@ export class InterfazVentas2Component implements OnInit {
 
     cobrarFactura() {
         console.log(this.forma);
+        this.guardando = true;
         if (this.forma.valid) {          
             if (this.tipo(this.metodo)) {
                 let devuelta = Math.abs(Number(this.forma.get('devuelta').value));
@@ -276,6 +278,7 @@ export class InterfazVentas2Component implements OnInit {
                     this.uiMessage.getMiniInfortiveMsg('tc','success','Excelente','PRODUCTO FACTURADO');  
                     this.resetFormulario();
                     this.todosLosProductos();
+
                 })
             }
         }else{            
@@ -351,7 +354,7 @@ export class InterfazVentas2Component implements OnInit {
         });      
       
         if (nuevoArray.length === 0) {
-            this.display = true;
+            // this.display = true;
             // this.facturaServ.displayDetalle();
             this.agregarFormulario(producto);
 
@@ -393,19 +396,6 @@ export class InterfazVentas2Component implements OnInit {
         this.forma.get('descuento').setValue(this.descuento)
         this.forma.get('neto').setValue(this.neto)
 
-    }
-
-    onSortChange(event) {
-        let value = event.value;
-
-        if (value.indexOf('!') === 0) {
-            this.sortOrder = -1;
-            this.sortField = value.substring(1, value.length);
-        }
-        else {
-            this.sortOrder = 1;
-            this.sortField = value;
-        }
     }
   
     clienteSeleccionado(cliente) {        

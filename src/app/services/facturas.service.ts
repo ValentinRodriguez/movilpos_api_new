@@ -13,6 +13,7 @@ export class FacturasService {
   modoVenta = new EventEmitter();
   enviaData = new EventEmitter();
   formSubmitted = new EventEmitter();
+  guardando = new EventEmitter();
   metodo = new EventEmitter();
   constructor(private http: HttpClient) {}
   
@@ -59,7 +60,7 @@ export class FacturasService {
   crearFactura(factura: any) {
     return new Promise( resolve => {
       this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
-        this.formSubmitted.emit(false);
+        this.guardando.emit(false);
         console.log(resp);
         
         if (resp['code'] === 200)  {    
@@ -73,7 +74,7 @@ export class FacturasService {
   crearFacturaPrestamo(factura: any) {
     return new Promise( resolve => {
       this.http.post(`${ URL }/cctransacciones`, factura).subscribe( (resp: any) => {                   
-        this.formSubmitted.emit(false);
+        this.guardando.emit(false);
         console.log(resp);        
         if (resp['code'] === 200)  {    
           this.facturaCreada.emit( resp );                                   

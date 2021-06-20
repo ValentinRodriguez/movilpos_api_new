@@ -40,6 +40,10 @@ import { ZonasComponent } from './zonas/zonas.component';
 import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zonas.component';
 import { FormularioTipoProveedoresComponent } from './tipos-proveedores/formulario-tipo-proveedores/formulario-tipo-proveedores.component';
 import { TiposProveedoresComponent } from "./tipos-proveedores/tipos-proveedores.component";
+import { TurnosComponent } from './turnos/turnos.component';
+import { LocalidadesComponent } from './localidades/localidades.component';
+import { FormularioLocalidadesComponent } from './localidades/formulario-localidades/formulario-localidades.component';
+import { FormularioTurnosComponent } from './turnos/formulario-turnos/formulario-turnos.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,11 @@ import { TiposProveedoresComponent } from "./tipos-proveedores/tipos-proveedores
     MonedasComponent,
     FormularioMonedasComponent,
     ZonasComponent,
-    FormularioZonasComponent
+    FormularioZonasComponent,
+    TurnosComponent,
+    LocalidadesComponent,
+    FormularioLocalidadesComponent,
+    FormularioTurnosComponent
   ],
   imports: [
     CommonModule,

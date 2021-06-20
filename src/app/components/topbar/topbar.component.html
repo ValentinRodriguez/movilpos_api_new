@@ -14,13 +14,13 @@
                         *ngIf="(this.simbolo === '/ventas/interfaz-ventas')" optionValue="value" 
                         (onChange)="modoVenta($event)">
                         <ng-template let-item>
-                            <i [class]="item.icon"></i>
+                            <i [class]="item.icon" style="font-size: 22px" [pTooltip]="item.label"></i>
                         </ng-template>
         </p-selectButton>
     </div>
     <div class="topbar-right">
         <ul class="topbar-menu">
-            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" *ngIf="this.simbolo === '/ventas/interfaz-ventas'">
+            <!-- <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" *ngIf="this.simbolo === '/ventas/interfaz-ventas'">
                 <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick($event)">
                     <i class="pi pi-dollar"></i>
                 </a>
@@ -30,7 +30,6 @@
                             <i class="fas fa-money-bill-wave"></i>
                             <div class="notification-item">
                                 <div class="notification-summary">Efectivo</div>
-                                <!-- <div class="notification-detail">You have <strong>3</strong> new orders.</div> -->
                             </div>
                         </a>
                     </li>
@@ -40,7 +39,6 @@
                             <i class="far fa-credit-card"></i>
                             <div class="notification-item">
                                 <div class="notification-summary">Efectivo y Tarjeta</div>
-                                <!-- <div class="notification-detail">Funds are on their way.</div> -->
                             </div>
                         </a>
                     </li>
@@ -49,7 +47,6 @@
                             <i class="far fa-credit-card"></i>
                             <div class="notification-item">
                                 <div class="notification-summary">Tarjeta</div>
-                                <!-- <div class="notification-detail">New reports are ready.</div> -->
                             </div>
                         </a>
                     </li>
@@ -58,14 +55,13 @@
                             <i class="fas fa-money-check"></i>
                             <div class="notification-item">
                                 <div class="notification-summary">Cheque</div>
-                                <!-- <div class="notification-detail"><strong>2</strong> new comments.</div> -->
                             </div>
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             
-            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive2}" >
+            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive2}" *ngIf="this.simbolo !== '/ventas/interfaz-ventas'">
                 <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick2($event)">
                     <i class="pi pi-bell"></i>
                     <span class="topbar-badge">5</span>
@@ -119,17 +115,25 @@
                 </ul>
             </li>
 
-            <li class="search-item">
+            <li class="search-item" *ngIf="this.simbolo !== '/ventas/interfaz-ventas'">
                 <a tabindex="0" (click)="app.onSearchClick($event)">
                     <i class="pi pi-search"></i>
                 </a>
             </li>
-            <li>
+
+            <li *ngIf="this.simbolo !== '/ventas/interfaz-ventas'">
                 <a href="#" tabindex="0" (click)="logout()">
                     <i class="pi pi-power-off" style="color: red"></i>                    
                 </a>
 
             </li>
+
+            <p-selectButton [options]="stateOptions2" [(ngModel)]="value2" optionLabel="label" optionValue="value"
+                            *ngIf="(this.simbolo === '/ventas/interfaz-ventas')" (onChange)="modoPago($event)">                            
+                <ng-template let-item>
+                    <i [class]="item.icon" style="font-size: 22px" [pTooltip]="item.label"></i>
+                </ng-template>
+            </p-selectButton>
 
             <li class="profile-item" [ngClass]="{'active-menuitem fadeInDown': app.topbarUserMenuActive}">
                 <a href="#" (click)="app.onTopbarUserMenuButtonClick($event)">

@@ -31,7 +31,10 @@ export class FormularioCuadreCajaComponent implements OnInit {
   saldoInicial: number;
   puestos: any;
   cajeros: any;
-
+  turnos: { value: number; label: string; }[];
+  sourceProducts: any = [];
+  targetProducts: any = [];
+  
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

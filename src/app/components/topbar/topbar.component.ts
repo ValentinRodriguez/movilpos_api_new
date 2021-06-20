@@ -29,9 +29,11 @@ export class TopbarComponent implements OnDestroy, OnInit {
     checked1: boolean = false;
     stateOptions: any[];
     value1: string = "pos";
+    value2: string = "efectivo";
     foto: any;
     items2: MenuItem[];
     @Input() simbolo: string
+    stateOptions2: { label: string; value: string; icon: string; justify: string; }[];
     
     constructor(public breadcrumbService: BreadcrumbService,
                 public app: AppMainComponent,
@@ -45,11 +47,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
         if (this.usuario !== null) {
             this.foto = this.usuario.foto                
             this.nombre = this.usuario.name+' '+this.usuario.surname;
-        }
-        this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
-                             { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
-                             { label: 'Codigo', value: 'codigo', icon: 'fas fa-barcode', justify: 'Left' }
-        ];
+        }     
 
         this.modulosServ.getModulos().then((resp: any) => {
 
@@ -81,7 +79,18 @@ export class TopbarComponent implements OnDestroy, OnInit {
         })
     }
 
-    ngOnInit(): void {                
+    ngOnInit(): void {
+        this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
+                             { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
+                             { label: 'Codigo', value: 'codigo', icon: 'fas fa-barcode', justify: 'Left' }
+        ];
+
+        this.stateOptions2 = [{label: 'Efectivo', value: 'efectivo', icon: 'fas fa-money-bill-wave', justify: 'Left'}, 
+                              { label: 'Tarjeta', value: 'tarjeta', icon: 'far fa-credit-card', justify: 'Left' },
+                              { label: 'Cheque', value: 'cheque', icon: 'fas fa-money-check', justify: 'Left' },
+                              { label: 'Efectivo y Tarjeta', value: 'ambos', icon: 'fas fa-wallet', justify: 'Left' }
+        ];
+
         this.items2 = [{
             label: 'Options',
             items: [{
@@ -116,8 +125,10 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     modoPago(tipo) {
+        console.log(tipo);
+        
         const obj:any = {};
-        switch (tipo) {
+        switch (tipo.value) {
             case 'efectivo':
                 obj.efectivo = true;
                 obj.tarjeta = false;

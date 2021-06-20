@@ -23,7 +23,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
-
+import {MultiSelectModule} from 'primeng/multiselect';
 //RUTAS DEL MODULO
 import { ContabilidadGeneralRoutingModule } from "./contabilidad-general-routing.module";
 
@@ -67,6 +67,7 @@ import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formu
     RouterModule,
     ContabilidadGeneralRoutingModule,
     ConfirmDialogModule,
+    MultiSelectModule,
     TableModule,
     ToggleButtonModule,
     DropdownModule,

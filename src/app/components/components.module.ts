@@ -24,6 +24,7 @@ import { AutoCompleteModule} from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { PanelModule } from 'primeng/panel';
+import {TooltipModule} from 'primeng/tooltip';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
@@ -78,6 +79,7 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
     ProgressBarModule,
     RouterModule,
     MenubarModule,
+    TooltipModule,
     TableModule,
     TabViewModule,
     InputTextModule,

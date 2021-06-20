@@ -40,20 +40,25 @@
                         <label for="descripcion">Descripción</label>
                         <input id="descripcion" type="text" pInputText> 
                     </div>
-    
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="descripcion">Sucursales</label>
+                        <p-multiSelect [options]=""  defaultLabel="Elegir sucursales" optionLabel="name"></p-multiSelect>
+                    </div>    
+
                     <div class="p-field p-col-12 p-md-3">
                         <label for="cajero">Cajero</label>
-                        <p-dropdown inputId="cajero" [options]="this.cajeros" placeholder="Select" optionLabel="primernombre"></p-dropdown>
+                        <p-dropdown inputId="cajero" [options]="this.cajeros" optionLabel="primernombre"></p-dropdown>
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="turno">Turno</label>
-                        <p-dropdown inputId="turno" [options]="" placeholder="Select" optionLabel="name"></p-dropdown>
+                        <p-dropdown inputId="turno" [options]="" optionLabel="name"></p-dropdown>
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="caja">Caja a Cerrar</label>
-                        <p-dropdown inputId="caja" [options]="this.puestos" placeholder="Select" optionLabel="descripcion"></p-dropdown>
+                        <p-dropdown inputId="caja" [options]="this.puestos" optionLabel="descripcion"></p-dropdown>
                     </div>
                     
                     
@@ -66,50 +71,39 @@
                             </p-calendar>
                         </span>
                         <small *ngIf="getNoValido('fecha')" class="p-invalid">Este campo es obligatorio.</small>
-                    </div>
-    
-                    <!-- <div class="p-field p-col-12 p-md-3">
-                        <label for="saldo">Saldo Actual</label>
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon">$</span>
-                            <input type="number" pInputText placeholder="Price">   
-                            <span class="p-inputgroup-addon">.00</span>      
-                        </div>
-                    </div>
-    
-                    <div class="p-field p-col-12 p-md-3">
-                        <label for="zip">Importe Entrega</label>
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon">$</span>
-                            <input type="number" pInputText formControlName='importeEntrega'>   
-                            <span class="p-inputgroup-addon">.00</span>      
-                        </div>
-                    </div>
-    
-                    <div class="p-field p-col-12 p-md-3">
-                        <label for="zip">Saldo Final</label>
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon">$</span>
-                            <input type="number" pInputText placeholder="Price">   
-                            <span class="p-inputgroup-addon">.00</span>      
-                        </div>
-                    </div> -->
+                    </div>    
                 </div>
+
+                <hr>
+                    <div class="p-text-right" style="font-size: 15px;">
+                        <strong class="p-mr-2">Efectivo:</strong>
+                        <span style="color:#16ce16">${{this.saldoInicial || 0}}</span> 
+                    </div>
+
+                    <div class="p-text-right" style="font-size: 15px;">
+                        <strong class="p-mr-2">Tarjeta:</strong>
+                        <span style="color:#16ce16">${{this.saldoInicial || 0}}</span> 
+                    </div>
+
+                    <div class="p-text-right" style="font-size: 15px;">
+                        <strong class="p-mr-2">Cheque:</strong>
+                        <span style="color:#16ce16">${{this.saldoInicial || 0}}</span> 
+                    </div>
                 <hr>
 
-                <div class="p-text-right" style="font-size: 25px;">
+                <div class="p-text-right" style="font-size: 15px;">
                     <strong class="p-mr-2">Saldo Inicial:</strong>
                     <span style="color:#16ce16">${{this.saldoInicial || 0}}</span> 
                 </div>
-                <div class="p-text-right" style="font-size: 25px;">
+                <div class="p-text-right" style="font-size: 15px;">
                     <strong class="p-mr-2">Saldo Actual:</strong>
                     <span style="color:#16ce16">${{this.saldoActual || 0}}</span> 
                 </div>
-                <div class="p-text-right" style="font-size: 25px;">
+                <div class="p-text-right" style="font-size: 15px;">
                     <strong class="p-mr-2">Importe Entrega:</strong>
                     <span style="color:#16ce16">${{this.totalRecibido || 0}}</span>
                 </div>
-                <div class="p-text-right" style="font-size: 25px;">
+                <div class="p-text-right" style="font-size: 15px;">
                     <strong class="p-mr-2">Saldo Final:</strong>
                     <span style="color:#16ce16">${{this.saldoFinal || 0}}</span>
                 </div>
