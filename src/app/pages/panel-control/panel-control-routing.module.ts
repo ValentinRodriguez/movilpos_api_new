@@ -10,7 +10,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
       {
        path: '',
        children: [
-         {path: 'gestion-de-usuarios', component: UsuariosComponent}
+         {path: 'gestion-de-usuarios', component: UsuariosComponent},
+         {path: 'gestion-de-procesos', component: ProcedimientosComponent},
        ]
       }
     ])
