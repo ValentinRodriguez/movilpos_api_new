@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ProcedimientosComponent } from './procedimientos/procedimientos.component';
 
 //COMPONENTES DEL PROYECTO
 import { UsuariosComponent } from './usuarios/usuarios.component';
