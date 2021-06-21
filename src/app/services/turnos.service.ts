@@ -36,9 +36,10 @@ export class TurnosService {
   }
 
   getDatos() {   
-    return new Promise( resolve => {
+    return new Promise(resolve => {
       this.http.get(`${URL}/turnos`).subscribe((resp: any) => {                    
         if (resp['code'] === 200)  {          
+          this.formSubmitted.emit(false);
           resolve(resp.data);            
         }
       })

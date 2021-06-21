@@ -155,19 +155,19 @@ export class FormularioEmpresaComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       nombre:            ['', Validators.required],
-      telefono_empresa:  ['', Validators.required],
-      email_empresa:     ['', Validators.required],
+      telefono_empresa:  ['(333)-333-3333', Validators.required],
+      email_empresa:     ['valentinrodriguez1427@gmail.com', Validators.required],
       rnc:               ['', Validators.required],
       id_pais:           ['', Validators.required],
       id_region:         ['', Validators.required],
       id_provincia:      ['', Validators.required],
       id_municipio:      ['', Validators.required],
       id_ciudad:         ['', Validators.required],
-      id_sector:         ['', Validators.required],
+      id_sector:         [''],
       direccion:         ['', Validators.required],
-      web:               [''],
-      contacto:          ['', Validators.required],
-      telefono_contacto: ['', Validators.required],
+      web:               ['asdasd.com'],
+      contacto:          ['luis miguel', Validators.required],
+      telefono_contacto: ['(333)-333-3333', Validators.required],
       moneda:            ['', Validators.required],
       empresa_verde:     ['', Validators.required],
       tipo_cuadre:       ['', Validators.required],
@@ -180,7 +180,11 @@ export class FormularioEmpresaComponent implements OnInit {
   }
 
   guardarEmpresa() {
-    this.formSubmitted = true;    
+    // this.formSubmitted = true;    
+    if (this.forma.get('logo').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger un logo para la empresa.');
+      return;
+    }
     if (this.forma.invalid) {  
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -299,7 +303,7 @@ export class FormularioEmpresaComponent implements OnInit {
       return;
     }
 
-    this.forma.controls['logo'].setValue(files[0])
+    this.forma.get('logo').setValue(files[0])
     
     var reader = new FileReader();
     this.imagePath = files;

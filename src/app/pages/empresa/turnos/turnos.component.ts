@@ -17,6 +17,7 @@ export class TurnosComponent implements OnInit {
   turnos: any[] = [];
   id_categoria: any;
   cols: any[];   
+  formSubmitted = false;
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -50,9 +51,14 @@ export class TurnosComponent implements OnInit {
     this.turnosServ.turnoAct.subscribe((resp: any) => {
       this.todasLasTurnos();
     })
+
+    this.turnosServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    })
   }
 
   todasLasTurnos() {
+    this.formSubmitted = true;
     this.turnosServ.getDatos().then((resp: any) => {
       this.turnos = resp;
     });

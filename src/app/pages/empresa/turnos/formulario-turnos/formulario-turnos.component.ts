@@ -43,6 +43,7 @@ export class FormularioTurnosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
+      console.log(resp);
       this.turnosServ.getDato(resp).then((res: any) => {         
         this.forma.get('descripcion').setValue(res.divisa);
         this.forma.patchValue(res);

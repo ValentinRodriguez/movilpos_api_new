@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { MonedasService } from 'src/app/services/monedas.service';
+import { LocalidadesService } from 'src/app/services/localidades.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -14,23 +14,23 @@ export class LocalidadesComponent implements OnInit {
 
   usuario: any;
   index: number = 0;
-  monedas: any[] = [];
+  localidades: any[] = [];
   id_categoria: any;
   cols: any[];
    
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
-              private monedasServ: MonedasService,
+              private localidadesServ: LocalidadesService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
   ngOnInit(): void {
-    this.todasLasMonedas();
+    this.todasLasLocalidades();
 
-    this.monedasServ.guardar.subscribe((resp: any)=>{  
+    this.localidadesServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })
 
@@ -41,35 +41,35 @@ export class LocalidadesComponent implements OnInit {
       { field: 'acciones', header: 'Acciones' },
     ] 
 
-    this.monedasServ.monedaGuardada.subscribe((resp: any)=>{
-      this.todasLasMonedas();
+    this.localidadesServ.localidadesGuardada.subscribe((resp: any)=>{
+      this.todasLasLocalidades();
     })
 
-    this.monedasServ.monedaBorrada.subscribe((resp: any)=>{      
-      this.todasLasMonedas();   
+    this.localidadesServ.localidadesBorrada.subscribe((resp: any)=>{      
+      this.todasLasLocalidades();   
     })
 
-    this.monedasServ.monedaAct.subscribe((resp: any) => {
-      this.todasLasMonedas();
+    this.localidadesServ.localidadesAct.subscribe((resp: any) => {
+      this.todasLasLocalidades();
     })
   }
 
-  todasLasMonedas() {
-    this.monedasServ.getDatos().then((resp: any) => {
-      this.monedas = resp;
+  todasLasLocalidades() {
+    this.localidadesServ.getDatos().then((resp: any) => {
+      this.localidades = resp;
     });
   }
   
   actualizarMoneda(data) {
     this.index = 1;   
-    this.monedasServ.actualizando(data);
+    this.localidadesServ.actualizando(data);
   }
 
   borrarCategoria(categoria) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.monedasServ.borrarMoneda(categoria).then((resp: any)=>{
+        this.localidadesServ.borrarLocalidades(categoria).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

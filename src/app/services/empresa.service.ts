@@ -152,6 +152,22 @@ export class EmpresaService {
         case 'id_ciudad':
           formData.append(key, empresa[key].id_ciudad)
           break;
+        
+        case 'id_region':            
+        formData.append(key, empresa[key].id_region);
+          break;
+
+        case 'id_provincia':          
+        formData.append(key,empresa[key].id_provincia);
+          break;
+
+        case 'id_municipio':            
+         formData.append(key,empresa[key].id_municipio)
+          break;
+
+        case 'id_sector':          
+         formData.append(key,empresa[key].id_sector);
+          break;
 
         default:
           formData.append(key, empresa[key])
@@ -161,7 +177,8 @@ export class EmpresaService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/empresa`, formData).subscribe((resp: any) => {              
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);
+        console.log(resp);        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }
