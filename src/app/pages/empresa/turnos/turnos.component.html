@@ -4,8 +4,8 @@
             <h5>Gestión de Modelos</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search" >				
-					<p-table #dt [columns]="cols" [value]="monedas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['divisa','moneda','simbolo','codigo']">
+					<p-table #dt [columns]="cols" [value]="turnos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['divisa','turno','simbolo','codigo']">
 		
 						<ng-template pTemplate="caption">
 							<div class="table-header">
@@ -38,7 +38,7 @@
 							
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarMoneda(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarTurno(rowData.id)" pTooltip="Actualizar"></button>
 										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarCategoria(rowData.id)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
 									</span>
@@ -47,23 +47,23 @@
 						</ng-template>
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen monedas en la base de datos.</td>
+								<td colspan="8">No existen turnos en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="monedas.length !== 1">
-								Existen {{monedas ? monedas.length : 0 }} monedas en total.
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="turnos.length !== 1">
+								Existen {{turnos ? turnos.length : 0 }} turnos en total.
 							</div>
 							
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="monedas.length === 1">
-								Existe solo {{monedas ? monedas.length : 0 }} moneda en total.
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="turnos.length === 1">
+								Existe solo {{turnos ? turnos.length : 0 }} turno en total.
 							</div>
 						</ng-template>
 					</p-table>
                 </p-tabPanel>
 
                 <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
-					<app-formulario-monedas></app-formulario-monedas>
+					<app-formulario-turnos></app-formulario-turnos>
                 </p-tabPanel>
             </p-tabView>
 		</div>	
