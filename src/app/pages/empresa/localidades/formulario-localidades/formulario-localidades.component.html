@@ -15,10 +15,10 @@
         </div>
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="cod_cia">Documento</label>
+            <label for="cod_cia">Empresa</label>
             <p-dropdown inputId="cod_cia" [options]="empresas" [class.ng-invalid]="getNoValido('cod_cia')" 
                         [class.ng-dirty]="getNoValido('cod_cia')" name="cod_cia" formControlName="cod_cia"
-                        placeholder="Escoje.." optionLabel="descripcion">
+                        placeholder="Escoje.." optionLabel="nombre">
             </p-dropdown>
             <small *ngIf="getNoValido('cod_cia')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -34,7 +34,7 @@
                 </p-dropdown>
                 <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
-
+<!-- 
             <div class="p-field p-col-12 p-md-3">
                 <label for="id_zona">Zona</label>
                 <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_zona')" 
@@ -42,7 +42,7 @@
                             id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaRegion($event.value.id_zona)">
                 </p-dropdown>
                 <small *ngIf="getNoValido('id_zona')" class="p-invalid">Este campo es obligatorio.</small>
-            </div>
+            </div> -->
             
             <div class="p-field p-col-12 p-md-3">
                 <label for="id_region">Región</label>

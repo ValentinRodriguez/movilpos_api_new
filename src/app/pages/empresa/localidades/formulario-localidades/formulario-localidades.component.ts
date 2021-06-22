@@ -46,6 +46,7 @@ export class FormularioLocalidadesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.todosLosPaises();
     this.listObserver();
 
     this.empresasServ.getDatos().then((resp: any) => {
@@ -77,7 +78,7 @@ export class FormularioLocalidadesComponent implements OnInit {
     this.forma = this.fb.group({
       descripcion:         ['', Validators.required],
       cod_cia:             ['', Validators.required],
-      direccion:           ['', Validators.required],
+      // direccion:           ['', Validators.required],
       id_pais:             ['', Validators.required],
       id_zona:             [''],
       id_region:           ['', Validators.required],
@@ -126,6 +127,7 @@ export class FormularioLocalidadesComponent implements OnInit {
       this.sectores = resp;
     })   
   }
+
   guardarLocalidades(){
     this.formSubmitted = true;    
     if (this.forma.invalid) {    

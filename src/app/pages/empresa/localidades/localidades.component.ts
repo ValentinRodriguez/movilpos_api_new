@@ -17,6 +17,7 @@ export class LocalidadesComponent implements OnInit {
   localidades: any[] = [];
   id_categoria: any;
   cols: any[];
+  detalles: any;
    
 
   constructor(private uiMessage: UiMessagesService,
@@ -36,8 +37,7 @@ export class LocalidadesComponent implements OnInit {
 
     this.cols = [
       { field: 'id', header: 'Código' },
-      { field: 'divisa', header: 'Divisa' },
-      { field: 'simbolo', header: 'Símbolo' },
+      { field: 'descripcion', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
     ] 
 
@@ -57,6 +57,7 @@ export class LocalidadesComponent implements OnInit {
   todasLasLocalidades() {
     this.localidadesServ.getDatos().then((resp: any) => {
       this.localidades = resp;
+      console.log(resp);    
     });
   }
   

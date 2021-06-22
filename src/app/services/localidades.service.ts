@@ -60,13 +60,13 @@ export class LocalidadesService {
     const formdata = {};
     
     for(let key in localidades){   
-      switch (key) {
-        case 'descripcion':
-          formdata[key] = JSON.stringify(localidades[key]);
-          break;
-          
+      switch (key) {          
         case 'id_pais':
           formdata[key] = localidades[key].id_pais;
+          break;
+
+        case 'cod_cia':
+          formdata[key] = localidades[key].cod_cia;
           break;
 
         case 'id_ciudad':
@@ -97,7 +97,8 @@ export class LocalidadesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/localidades`, formdata).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);        
+        console.log(resp);                           
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.localidadesGuardada.emit(resp.data);       

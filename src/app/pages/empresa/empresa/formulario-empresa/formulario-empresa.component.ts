@@ -180,7 +180,7 @@ export class FormularioEmpresaComponent implements OnInit {
   }
 
   guardarEmpresa() {
-    // this.formSubmitted = true;    
+    this.formSubmitted = true;    
     if (this.forma.get('logo').value === '') {
       this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger un logo para la empresa.');
       return;

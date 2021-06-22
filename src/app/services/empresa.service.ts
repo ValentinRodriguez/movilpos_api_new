@@ -138,45 +138,53 @@ export class EmpresaService {
 
   crearEmpresa(empresa) {
     const formData = new FormData();
-    
+    const formdata = {};
+
+    console.log(empresa);
+    // let logo = empresa.logo;
     for(let key in empresa){   
       switch (key) {
+
+        // case 'logo':
+        //   formData.append('logo', empresa.logo, empresa.logo.name );
+        //   break;
+        
         case 'moneda':
-          formData.append(key, JSON.stringify(empresa[key]));          
+          formdata[key] = JSON.stringify(empresa[key]);         
           break;
           
         case 'id_pais':
-          formData.append(key, empresa[key].id_pais)
+          formdata[key] = empresa[key].id_pais
           break;
 
         case 'id_ciudad':
-          formData.append(key, empresa[key].id_ciudad)
+          formdata[key] = empresa[key].id_ciudad
           break;
         
         case 'id_region':            
-        formData.append(key, empresa[key].id_region);
+        formdata[key] = empresa[key].id_region
           break;
 
         case 'id_provincia':          
-        formData.append(key,empresa[key].id_provincia);
+        formdata[key] = empresa[key].id_provincia
           break;
 
         case 'id_municipio':            
-         formData.append(key,empresa[key].id_municipio)
+         formdata[key] = empresa[key].id_municipio
           break;
 
         case 'id_sector':          
-         formData.append(key,empresa[key].id_sector);
+         formdata[key] = empresa[key].id_sector
           break;
 
         default:
-          formData.append(key, empresa[key])
+          formdata[key] = empresa[key]
           break;
       }  
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData).subscribe((resp: any) => {              
+      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {              
         this.formSubmitted.emit(false);
         console.log(resp);        
         if (resp['code'] === 200)  {                                      
