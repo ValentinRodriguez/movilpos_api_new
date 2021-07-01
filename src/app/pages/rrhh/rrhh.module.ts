@@ -34,6 +34,10 @@ import { StepEmpleadosComponent } from './mantenimiento/gestion-empleados/step-e
 import { FormularioEmpleadosComponent } from './mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 import { FormularioPuestosComponent } from './mantenimiento/puestos/formulario-puestos/formulario-puestos.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
+import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
+import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-turnos/formulario-turnos.component";
+import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
+import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,11 @@ import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
     FormularioEmpleadosComponent,
     DescuentosComponent,
     AusenciasComponent,
-    AmonestacionesComponent
+    AmonestacionesComponent,
+    TurnosComponent,
+    FormularioTurnosComponent,
+    AreasEmpresaComponent,
+    FormularioAreaEmpresasComponent
   ],
   imports: [
     CommonModule,
