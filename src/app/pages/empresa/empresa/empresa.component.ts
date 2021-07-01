@@ -66,11 +66,10 @@ export class EmpresaComponent implements OnInit {
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
   }
 
-  todasLasEmpresas() {
-     
+  todasLasEmpresas() {     
     this.empresasServ.getDatos().then((resp: any) => {
       this.empresas = resp;
-       
+      console.log(resp);       
     })
   }
 

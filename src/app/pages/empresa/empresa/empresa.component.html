@@ -6,7 +6,7 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Mis Empresas" leftIcon="pi pi-search">
                     <p-table #dt [columns]="cols" [value]="empresas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['id','nombre']">
+                    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['id','nombre']" dataKey="id">
     
                     <ng-template pTemplate="caption">
                         <div class="table-header">
@@ -26,7 +26,7 @@
                         </tr>
                     </ng-template>
                     
-                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
                     
                         <tr class="p-selectable-row">
                         
@@ -38,7 +38,7 @@
                                 </span>
                         
                                 <span *ngIf="col.field === 'acciones'">
-                                    <!-- <button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button> -->
+                                    <button pButton pRipple type="button" [pRowToggler]="rowData" [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
                                     <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarEmpresa(rowData.id)" pTooltip="Actualizar"></button>
                                     <!-- <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrar (rowData.id)" pTooltip="Eliminar"></button> -->
                                     <!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
@@ -46,6 +46,40 @@
                             </td>								
                         </tr>
                     </ng-template>
+
+                    <ng-template pTemplate="rowexpansion" let-rowData>
+                        <tr>
+                            <td [attr.colspan]="cols.length">
+                                <div class="p-p-3">
+                                    <p-table [value]="rowData.sucursales" dataKey="id">
+                                        <ng-template pTemplate="header">
+                                            <tr>													
+                                                <th class="centrar" pSortableColumn="descripcion">Localidad<p-sortIcon field="descripcion"></p-sortIcon></th>
+                                                <th class="centrar" pSortableColumn="region">Región <p-sortIcon field="region"></p-sortIcon></th>
+                                                <th class="centrar" pSortableColumn="provincia">Provincia <p-sortIcon field="provincia"></p-sortIcon></th>
+                                                <th class="centrar" pSortableColumn="municipio">Municipio <p-sortIcon field="municipio"></p-sortIcon></th>
+                                                <th class="centrar" pSortableColumn="ciudad">Ciudad <p-sortIcon field="ciudad"></p-sortIcon></th>
+                                                <th class="centrar" pSortableColumn="sector">Sector <p-sortIcon field="sector"></p-sortIcon></th>
+                                                <th class="centrar" pSortableColumn="calle">Calle <p-sortIcon field="calle"></p-sortIcon></th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-detalle>
+                                            <tr>
+                                                <td class="centrar">{{detalle.descripcion | uppercase}}</td>
+                                                <td class="centrar">{{detalle.region}}</td>
+                                                <td class="centrar">{{detalle.provincia}}</td>
+                                                <td class="centrar">{{detalle.municipio}}</td>
+                                                <td class="centrar">{{detalle.ciudad}}</td>
+                                                <td class="centrar">{{detalle.sector}}</td>
+                                                <td class="centrar">{{detalle.calle}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+
                     <ng-template pTemplate="emptymessage">
                         <tr>
                             <td colspan="8">No existen empresas en la base de datos.</td>

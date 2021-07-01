@@ -51,6 +51,8 @@ import { TransacionPagosService } from "./transacion-pagos.service";
 import { ExistenciaAlmacenesService } from "./existencia-almacenes.service";
 import { LiquidacionMercanciasService } from "./liquidacion-mercancias.service";
 import { RecepcionVehiculosService } from "./recepcion-vehiculos.service";
+import { SucursalesService } from "./sucursales.service";
+import { CuadresService } from "./cuadres.service";
 
 @NgModule({
   declarations: [],
@@ -59,6 +61,7 @@ import { RecepcionVehiculosService } from "./recepcion-vehiculos.service";
   ],
   providers: [
     ModulosService,
+    CuadresService,
     MenuesService,
     SettingsService,
     InventarioService,
@@ -67,6 +70,7 @@ import { RecepcionVehiculosService } from "./recepcion-vehiculos.service";
     UiMessagesService,
     CategoriasService,
     TipoInventarioService,
+    SucursalesService,
     CgcatalogoService,
     BrandsService,
     CodMovService,

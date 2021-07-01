@@ -1,10 +1,10 @@
 <div class="p-grid table-demo">
 	<div class="p-col-12">
 		<div class="card">
-            <h5>Gestión de Localidades</h5>
+            <h5>Gestión de Sucursales</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search" >				
-					<p-table #dt [columns]="cols" [value]="localidades" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+					<p-table #dt [columns]="cols" [value]="sucursales" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
 						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion']" dataKey="id">
 		
 						<ng-template pTemplate="caption">
@@ -84,25 +84,26 @@
 
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen localidades en la base de datos.</td>
+								<td colspan="8">No existen sucursales en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="localidades.length !== 1">
-								Existen {{localidades ? localidades.length : 0 }} localidades en total.
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="sucursales.length !== 1">
+								Existen {{sucursales ? sucursales.length : 0 }} sucursales en total.
 							</div>
 							
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="localidades.length === 1">
-								Existe solo {{localidades ? localidades.length : 0 }} moneda en total.
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="sucursales.length === 1">
+								Existe solo {{sucursales ? sucursales.length : 0 }} localidad en total.
 							</div>
 						</ng-template>
 					</p-table>
                 </p-tabPanel>
 
                 <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
-					<app-formulario-localidades></app-formulario-localidades>
+					<app-formulario-sucursales></app-formulario-sucursales>
                 </p-tabPanel>
             </p-tabView>
+			<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
 		</div>	
 		
 		<p-toast key="tst"></p-toast>

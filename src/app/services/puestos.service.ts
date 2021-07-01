@@ -39,6 +39,7 @@ export class PuestosService {
       })
     })
   }
+  
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/nopuestos/${id}`).subscribe((resp: any) => {                          

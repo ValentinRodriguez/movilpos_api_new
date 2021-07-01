@@ -41,10 +41,12 @@ import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zo
 import { FormularioTipoProveedoresComponent } from './tipos-proveedores/formulario-tipo-proveedores/formulario-tipo-proveedores.component';
 import { TiposProveedoresComponent } from "./tipos-proveedores/tipos-proveedores.component";
 import { TurnosComponent } from './turnos/turnos.component';
-import { LocalidadesComponent } from './localidades/localidades.component';
-import { FormularioLocalidadesComponent } from './localidades/formulario-localidades/formulario-localidades.component';
+import { SucursalesComponent } from './sucursales/sucursales.component';
+import { FormularioSucursalesComponent } from './sucursales/formulario-sucursales/formulario-sucursales.component';
 import { FormularioTurnosComponent } from './turnos/formulario-turnos/formulario-turnos.component';
-
+import { AccordionModule } from 'primeng/accordion';
+import { StepsModule } from 'primeng/steps';
+import { ComponentsModule } from 'src/app/components/components.module';
 @NgModule({
   declarations: [
     TipoNegocioComponent,
@@ -62,8 +64,8 @@ import { FormularioTurnosComponent } from './turnos/formulario-turnos/formulario
     ZonasComponent,
     FormularioZonasComponent,
     TurnosComponent,
-    LocalidadesComponent,
-    FormularioLocalidadesComponent,
+    SucursalesComponent,
+    FormularioSucursalesComponent,
     FormularioTurnosComponent
   ],
   imports: [
@@ -73,11 +75,14 @@ import { FormularioTurnosComponent } from './turnos/formulario-turnos/formulario
     RouterModule,
     EmpresaRoutingModule,
     AutoCompleteModule,
+    StepsModule,
+    ComponentsModule,
     TableModule,
     PanelModule,
     ConfirmDialogModule,
     ToastModule,
     TabViewModule,
+    AccordionModule,
     MultiSelectModule,
     ToolbarModule,
     DropdownModule,

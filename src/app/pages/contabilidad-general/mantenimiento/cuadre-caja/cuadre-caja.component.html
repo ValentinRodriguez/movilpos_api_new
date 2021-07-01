@@ -5,7 +5,7 @@
             <h5>Cuadres de Caja</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search" >				
-					<p-table #dt [columns]="cols" [value]="monedas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+					<p-table #dt [columns]="cols" [value]="cuadres" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
 						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['divisa','moneda','simbolo','codigo']">
 		
 						<ng-template pTemplate="caption">
@@ -48,16 +48,16 @@
 						</ng-template>
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen monedas en la base de datos.</td>
+								<td colspan="8">No existen cuadres en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="monedas.length !== 1">
-								Existen {{monedas ? monedas.length : 0 }} monedas en total.
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuadres.length !== 1">
+								Existen {{cuadres ? cuadres.length : 0 }} cuadres en total.
 							</div>
 							
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="monedas.length === 1">
-								Existe solo {{monedas ? monedas.length : 0 }} moneda en total.
+							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuadres.length === 1">
+								Existe solo {{cuadres ? cuadres.length : 0 }} moneda en total.
 							</div>
 						</ng-template>
 					</p-table>

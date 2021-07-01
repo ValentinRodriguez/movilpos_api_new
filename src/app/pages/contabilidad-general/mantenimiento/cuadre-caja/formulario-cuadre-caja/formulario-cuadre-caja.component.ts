@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MonedasService } from 'src/app/services/monedas.service';
-import { PuestosService } from 'src/app/services/puestos.service';
-import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { CuadresService } from 'src/app/services/cuadres.service';
 
 @Component({
   selector: 'app-formulario-cuadre-caja',
@@ -29,18 +28,20 @@ export class FormularioCuadreCajaComponent implements OnInit {
   saldoActual: number;
   saldoFinal: number;
   saldoInicial: number;
-  puestos: any;
-  cajeros: any;
-  turnos: { value: number; label: string; }[];
+  puestosCaja: any = [];
+  cajeros: any = [];
+  turnos: any = [];
   sourceProducts: any = [];
   targetProducts: any = [];
-  
+  sucursales: any = [];
+  sucursalesEscogidas: any = [];
+  cajeroFiltrado: any[];
+
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
+    private uiMessage: UiMessagesService,
+              private cuadresServ: CuadresService,
               private usuariosServ: UsuarioService,
-              private monedasServ: MonedasService,
-              private empleadosServ: RrhhService,
-              private puestosServ: PuestosService) {
+              private monedasServ: MonedasService) {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
   }
@@ -50,15 +51,9 @@ export class FormularioCuadreCajaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.autoLlenado();
     this.listObserver();
-    this.puestosServ.getDatos().then((resp: any) => {
-      this.puestos = resp;      
-    })
-
-    this.empleadosServ.getCajeros().then((resp: any) => {
-      this.cajeros = resp;
-    })
-
+ 
     this.denominaciones = [
       { denominacion: '$.0', valor: 0, cantidad: 0, total: 0 },
       { denominacion: '$1', valor: 1, cantidad: 0, total: 0 },
@@ -91,12 +86,46 @@ export class FormularioCuadreCajaComponent implements OnInit {
     })
 
     this.listSubscribers = [observer1$,observer2$];
-   };
+  };
+
+  autoLlenado() {
+    this.cuadresServ.autoLlenado().then((resp: any) => {
+      console.log(resp);
+      
+      resp.forEach(element => {
+        switch (element.label) {
+          case 'turnos':
+            this.turnos = element.data;
+            break;
+
+          case 'sucursales':
+            this.sucursales = element.data;
+            break;
+
+          case 'cajeros':
+            this.cajeros = element.data;
+            break;
+
+          case 'caja':
+            this.puestosCaja = element.data;
+            break;
+
+          default:
+            break;
+        }
+      });  
+    })
+  }
 
   crearFormulario() {
     this.forma = this.fb.group({
+      cajero:              ['', Validators.required],
       fecha:               ['', Validators.required],
-      importeEntrega:      ['', Validators.required],
+      caja:                ['', Validators.required],
+      turno:               ['', Validators.required],
+      descripcion:         ['', Validators.required],
+      cod_cia:             ['', Validators.required],
+      suc_id:              ['', Validators.required],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
@@ -170,6 +199,25 @@ export class FormularioCuadreCajaComponent implements OnInit {
     this.minDate.setMonth(month);
     this.minDate.setFullYear(year);
     this.minDate.setDate(day);
+  }
+
+  filtrarcajero(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    
+    for (let i = 0; i < this.cajeros.length; i++) {
+      const size = this.cajeros[i];
+      
+      if (size.primernombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.cajeroFiltrado = filtered;
+  }
+
+  datosCajero(event) {
+    // this.forma.get("cod_sp").setValue(event.cod_sp);
+    // this.forma.get("cod_sp_sec").setValue(event.cod_sp);
   }
 
   actualizarMoneda(){

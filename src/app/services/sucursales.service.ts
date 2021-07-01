@@ -1,24 +1,24 @@
+import { Injectable, EventEmitter } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocalidadesService {
+export class SucursalesService {
 
-  localidadesGuardada = new EventEmitter();
-  localidadesBorrada = new EventEmitter();
-  localidadesAct = new EventEmitter();
+  sucursalesGuardada = new EventEmitter();
+  sucursalesBorrada = new EventEmitter();
+  sucursalesAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   formSubmitted = new EventEmitter();
   
   constructor(private http: HttpClient) { }
 
-  busquedaLocalidades(parametro?: any) {
+  busquedaSucursales(parametro?: any) {
     let params = new HttpParams();
     if (parametro === undefined) {
       parametro = {};
@@ -26,9 +26,9 @@ export class LocalidadesService {
     if (parametro.parametro === undefined || parametro.parametro === null) {
       parametro.parametro = '';
     }     
-    params = params.append('localidades',parametro.localidades);    
+    params = params.append('sucursales',parametro.sucursales);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/localidades', {params}).subscribe((resp: any) => {                         
+      this.http.get(URL+'/busqueda/sucursales', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -38,7 +38,8 @@ export class LocalidadesService {
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/localidades`).subscribe((resp: any) => {                    
+      this.http.get(`${URL}/sucursales`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -48,7 +49,7 @@ export class LocalidadesService {
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/localidades/${id}`).subscribe((resp: any) => { 
+      this.http.get(`${URL}/sucursales/${id}`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -56,74 +57,74 @@ export class LocalidadesService {
     })
   }
 
-  crearLocalidades(localidades: any) {
+  crearSucursales(sucursales: any) {
     const formdata = {};
     
-    for(let key in localidades){   
+    for(let key in sucursales){   
       switch (key) {          
         case 'id_pais':
-          formdata[key] = localidades[key].id_pais;
+          formdata[key] = sucursales[key].id_pais;
           break;
 
         case 'cod_cia':
-          formdata[key] = localidades[key].cod_cia;
+          formdata[key] = sucursales[key].cod_cia;
           break;
 
         case 'id_ciudad':
-          formdata[key] = localidades[key].id_ciudad;
+          formdata[key] = sucursales[key].id_ciudad;
           break;
         
           case 'id_region':            
-          formdata[key] = localidades[key].id_region;;
+          formdata[key] = sucursales[key].id_region;;
           break;
 
         case 'id_provincia':          
-          formdata[key] = localidades[key].id_provincia;;
+          formdata[key] = sucursales[key].id_provincia;;
           break;
 
         case 'id_municipio':            
-          formdata[key] = localidades[key].id_municipio;
+          formdata[key] = sucursales[key].id_municipio;
           break;
 
         case 'id_sector':          
-          formdata[key] = localidades[key].id_sector;;
+          formdata[key] = sucursales[key].id_sector;;
           break;
 
         default:
-          formdata[key] = localidades[key];
+          formdata[key] = sucursales[key];
           break;
       }  
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/localidades`, formdata).subscribe( (resp: any) => {
+      this.http.post(`${ URL }/sucursales`, formdata).subscribe( (resp: any) => {
         this.formSubmitted.emit(false);        
         console.log(resp);                           
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
-          this.localidadesGuardada.emit(resp.data);       
+          this.sucursalesGuardada.emit(resp.data);       
         }
       });
     });    
   }
 
-  actualizarLocalidades(id:number, localidades: any) {  
+  actualizarSucursales(id:number, sucursales: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/localidades/${id}`, localidades).subscribe( (resp: any) => {                
+      this.http.put(`${ URL }/sucursales/${id}`, sucursales).subscribe( (resp: any) => {                
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {
-          this.localidadesAct.emit( resp.data );                            
+          this.sucursalesAct.emit( resp.data );                            
           resolve(resp.data);            
         }
       });
     });
   }
 
-  borrarLocalidades(id: string) {
+  borrarSucursales(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/localidades/${id}`).subscribe( (resp: any) => {                          
+      this.http.delete(`${ URL }/sucursales/${id}`).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {            
-          this.localidadesBorrada.emit(id);    
+          this.sucursalesBorrada.emit(id);    
           resolve(resp.data);            
         }
       });

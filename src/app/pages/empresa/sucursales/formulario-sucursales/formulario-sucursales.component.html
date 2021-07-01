@@ -1,15 +1,32 @@
-<form (ngSubmit)="guardarLocalidades()" [formGroup]="forma">
+<div class="intermitente" *ngIf="this.items.length !== 0 && this.rutaActual[1] === 'mi-negocio'">
+	<p-accordion styleClass="intermitente">
+		<p-accordionTab header="CLICK AQUI PARA INSERCION DE DATOS INICALES">       
+		   <div class="card">
+			   <p-toast></p-toast>
+			   <p-steps [model]="items" [readonly]="true"></p-steps>
+		   </div>
+		   <router-outlet></router-outlet>
+		   <app-step-toolbar [items]="this.items"></app-step-toolbar>
+		</p-accordionTab>
+	</p-accordion>
+</div>
+<!-- <br>
+<button *ngIf="this.rutaActual[1] !== 'gestion-de-empresa'" pButton pRipple label="Ir a Formulario de Clientes" 
+        icon="pi pi-chevron" type="button" (click)="redirigir()">
+</button> -->
+<br>
+<form (ngSubmit)="guardarSucursales()" [formGroup]="forma">
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-3">
             <label for="descripcion">Descripción</label>
             <span class=" p-input-icon-right">
                 <input id="descripcion" type="text" pInputText formControlName="descripcion" 
                         [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')" 
-                        (keyup)="verificaLocalidades($event.target.value)">
-                <i class="pi pi-spin pi-spinner" *ngIf="localidadesExiste === 0" style="color:#f5df18"></i>
-                <i class="pi pi-check" *ngIf="localidadesExiste === 1" style="color:#36b61d"></i>
-                <i class="pi pi-times" *ngIf="localidadesExiste === 2" style="color:#d83131"></i>
-                <i class="pi pi-file-o" *ngIf="localidadesExiste === 3"></i>
+                        (keyup)="verificaSucursales($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="sucursalesExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="sucursalesExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="sucursalesExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="sucursalesExiste === 3"></i>
                 <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
             </span>
         </div>
@@ -18,7 +35,7 @@
             <label for="cod_cia">Empresa</label>
             <p-dropdown inputId="cod_cia" [options]="empresas" [class.ng-invalid]="getNoValido('cod_cia')" 
                         [class.ng-dirty]="getNoValido('cod_cia')" name="cod_cia" formControlName="cod_cia"
-                        placeholder="Escoje.." optionLabel="nombre">
+                        placeholder="Escoje.." optionLabel="nombre" (onChange)="datosLocalidad($event)">
             </p-dropdown>
             <small *ngIf="getNoValido('cod_cia')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
@@ -99,7 +116,7 @@
     </p-panel>
     <br>
     <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
-    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarLocalidades()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarSucursales()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
     <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
 </form>
 <br>

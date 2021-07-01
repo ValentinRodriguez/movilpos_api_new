@@ -101,10 +101,31 @@ export class FormularioEmpresaComponent implements OnInit {
         this.imgURL = `${URL}/storage/${res.logo}`;
         
         this.forma.get('moneda').setValue(JSON.parse(res.moneda));   
-        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
-        this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
-          this.ciudades = resp;
-          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais)); 
+        
+        this.paisesCiudadesServ.buscaRegion(res.id_pais).then((resp:any) => { 
+          this.regiones = resp;
+          this.forma.get('id_region').setValue(this.regiones.find(region => region.id_region === res.id_region));
+       
+          this.paisesCiudadesServ.buscaProvincias(res.id_region).then((resp: any) => {
+            this.provincias = resp;
+            this.forma.get('id_provincia').setValue(this.provincias.find(provincia => provincia.id_provincia === res.id_provincia));
+          
+            this.paisesCiudadesServ.buscaMunicipios(res.id_provincia).then((resp: any) => {
+              this.municipios = resp;
+              this.forma.get('id_municipio').setValue(this.municipios.find(municipio => municipio.id_municipio === res.id_municipio));
+
+              this.paisesCiudadesServ.buscaCiudad(res.id_municipio).then((resp:any) => { 
+                this.ciudades = resp;
+                this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+
+                this.paisesCiudadesServ.buscaSector(res.id_ciudad).then((resp:any) => { 
+                  this.sectores = resp;
+                  this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector === res.id_sector));
+                })
+              })
+            });          
+          });
         })
       })
     })

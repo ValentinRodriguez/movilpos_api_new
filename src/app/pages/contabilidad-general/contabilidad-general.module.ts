@@ -23,7 +23,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
-import {MultiSelectModule} from 'primeng/multiselect';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { PickListModule } from 'primeng/picklist';
+
 //RUTAS DEL MODULO
 import { ContabilidadGeneralRoutingModule } from "./contabilidad-general-routing.module";
 
@@ -71,6 +73,7 @@ import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formu
     TableModule,
     ToggleButtonModule,
     DropdownModule,
+    PickListModule,
     ToastModule,
     TabViewModule,
     ToolbarModule,

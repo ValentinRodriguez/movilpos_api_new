@@ -12,6 +12,7 @@ export class EmpresaService {
   
   empresaEscogida = new EventEmitter();
   empresaBorrada = new EventEmitter();
+  empresaCreada = new EventEmitter();
   empresaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
@@ -186,6 +187,7 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {              
         this.formSubmitted.emit(false);
+        this.empresaCreada.emit(true);
         console.log(resp);        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
