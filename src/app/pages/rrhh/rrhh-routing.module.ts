@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
-// import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-turnos/formulario-turnos.component";
-import { AreasComponent } from './mantenimiento/areas/areas.component';
 
 //COMPONENTES DEL PROYECTO
 import { DepartamentosComponent } from './mantenimiento/departamentos/departamentos.component';
 import { GestionEmpleadosComponent } from './mantenimiento/gestion-empleados/gestion-empleados.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
+import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
 
 
 @NgModule({
@@ -19,7 +18,7 @@ import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
          { path: 'gestion-de-empleados', component: GestionEmpleadosComponent },         
          { path: 'gestion-de-departamentos', component: DepartamentosComponent },        
          { path: 'gestion-de-puestos', component: PuestosComponent },
-         { path: 'gestion-de-areas', component: AreasComponent },
+         { path: 'gestion-de-areas', component: AreasEmpresaComponent },
          { path: 'gestion-tipo-turnos', component: TurnosComponent }
        ]
       }
