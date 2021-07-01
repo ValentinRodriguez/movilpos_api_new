@@ -40,13 +40,12 @@ import { ZonasComponent } from './zonas/zonas.component';
 import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zonas.component';
 import { FormularioTipoProveedoresComponent } from './tipos-proveedores/formulario-tipo-proveedores/formulario-tipo-proveedores.component';
 import { TiposProveedoresComponent } from "./tipos-proveedores/tipos-proveedores.component";
-import { TurnosComponent } from './turnos/turnos.component';
 import { SucursalesComponent } from './sucursales/sucursales.component';
 import { FormularioSucursalesComponent } from './sucursales/formulario-sucursales/formulario-sucursales.component';
-import { FormularioTurnosComponent } from './turnos/formulario-turnos/formulario-turnos.component';
 import { AccordionModule } from 'primeng/accordion';
 import { StepsModule } from 'primeng/steps';
 import { ComponentsModule } from 'src/app/components/components.module';
+
 @NgModule({
   declarations: [
     TipoNegocioComponent,
@@ -63,10 +62,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormularioMonedasComponent,
     ZonasComponent,
     FormularioZonasComponent,
-    TurnosComponent,
     SucursalesComponent,
-    FormularioSucursalesComponent,
-    FormularioTurnosComponent
+    FormularioSucursalesComponent
   ],
   imports: [
     CommonModule,

@@ -34,6 +34,7 @@ import { StepEmpleadosComponent } from './mantenimiento/gestion-empleados/step-e
 import { FormularioEmpleadosComponent } from './mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 import { FormularioPuestosComponent } from './mantenimiento/puestos/formulario-puestos/formulario-puestos.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
+import { AreasComponent } from './mantenimiento/areas/areas.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
     FormularioEmpleadosComponent,
     DescuentosComponent,
     AusenciasComponent,
-    AmonestacionesComponent
+    AmonestacionesComponent,
+    AreasComponent
   ],
   imports: [
     CommonModule,
