@@ -7,19 +7,22 @@ import { DepartamentosComponent } from './mantenimiento/departamentos/departamen
 import { GestionEmpleadosComponent } from './mantenimiento/gestion-empleados/gestion-empleados.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
 import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
-
+import { FormularioEmpresaComponent } from '../empresa/empresa/formulario-empresa/formulario-empresa.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([      
       {
-       path: '',
-       children: [
-         { path: 'gestion-de-empleados', component: GestionEmpleadosComponent },         
-         { path: 'gestion-de-departamentos', component: DepartamentosComponent },        
-         { path: 'gestion-de-puestos', component: PuestosComponent },
-         { path: 'gestion-de-areas', component: AreasEmpresaComponent },
-         { path: 'gestion-tipo-turnos', component: TurnosComponent }
+        path: '',
+        children: [
+        {path: '', component: GestionEmpleadosComponent, children:[
+          {path: 'empresa', component: FormularioEmpresaComponent}
+        ]},
+        { path: 'gestion-de-empleados', component: GestionEmpleadosComponent },         
+        { path: 'gestion-de-departamentos', component: DepartamentosComponent },        
+        { path: 'gestion-de-puestos', component: PuestosComponent },
+        { path: 'gestion-de-areas', component: AreasEmpresaComponent },
+        { path: 'gestion-tipo-turnos', component: TurnosComponent },
        ]
       }
     ])

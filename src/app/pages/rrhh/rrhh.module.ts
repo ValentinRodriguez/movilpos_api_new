@@ -38,6 +38,10 @@ import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
 import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-turnos/formulario-turnos.component";
 import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
 import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { StepsModule } from 'primeng/steps';
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [
@@ -75,6 +79,10 @@ import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/f
     InputNumberModule,
     FieldsetModule,
     ButtonModule,
+    ComponentsModule,
+    StepsModule,
+    AccordionModule,
+    PipesModule,
     InputTextareaModule
   ],
   entryComponents: [
