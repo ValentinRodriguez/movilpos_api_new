@@ -41,7 +41,7 @@ export class FormularioSucursalesComponent implements OnInit {
               private usuariosServ: UsuarioService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private empresasServ: EmpresaService,
-    private router: Router,
+              private router: Router,
               private globalFunction: GlobalFunctionsService,
               private sucursalesServ: SucursalesService) { 
                 this.usuario = this.usuariosServ.getUserLogged()

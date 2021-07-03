@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { PuestosService } from 'src/app/services/puestos.service';
@@ -36,7 +37,8 @@ export class FormularioEmpleadosComponent implements OnInit {
   departamento: any[] = [];
   supervisores: any[] = [];
   bancos: any[] = [];
-
+  rutaActual: string[];
+  items: any = [];
   educacion = [] 
   estado_civil = [] 
   tipo_empleado = [] 
@@ -83,18 +85,24 @@ export class FormularioEmpleadosComponent implements OnInit {
               private empleadosServ: RrhhService,           
               public dialogService: DialogService,
               private puestosServ: PuestosService,
+              private router: Router,
               private datosEstaticosServ: DatosEstaticosService) {     
     this.usuario = this.usuariosServ.getUserLogged();
     this.crearFormulario();
    }
 
   ngOnInit(): void {
+    this.rutaActual = this.router.url.split("/");
+    console.log(this.rutaActual);
     this.setMinDate();
     this.rangoAnio();
     this.listObserver();
     
     this.empleadosServ.autoLlenado().then((resp: any) => {
       resp.forEach(element => {
+        if (element.data.length === 0) {
+          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
+        }
         switch (element.label) {
           case 'puestos':
             this.puestos = element.data;
@@ -139,8 +147,7 @@ export class FormularioEmpleadosComponent implements OnInit {
           default:
             break;
         }
-      });  
-      this.autollenado(resp);    
+      });     
     })
   }
   
@@ -161,23 +168,6 @@ export class FormularioEmpleadosComponent implements OnInit {
     const date = today.getFullYear();
     let rangoanio = `1900:${date}`;
     return rangoanio;    
-  }
-
-  autollenado(data) {
-    let existe = null;
-    data.forEach(element => {            
-      if (element.data.length === 0) {
-        existe = true;
-      }
-    });
-    if (existe === true) {
-       this.dialogService.open(StepEmpleadosComponent, {
-        data,
-        closeOnEscape: false,
-        header: 'Datos Necesarios',
-        width: '70%'
-      });  
-    }
   }
 
   guardarEmpleado() {
@@ -225,7 +215,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       apell1_emp: ["rodriguez", Validators.required],
       apell2_emp: ["martinez"],      
       cedula: ["22500192319", Validators.required],
-      telefono: ["(809)-859-8542", Validators.required],
+      telefono: ["", Validators.required],
       email: ["asdad@dfdf.com"],
       licencia: ["234234"],
       cod_tss: ["234234"],
