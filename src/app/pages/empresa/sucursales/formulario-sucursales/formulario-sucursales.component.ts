@@ -264,6 +264,12 @@ export class FormularioSucursalesComponent implements OnInit {
     this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
+  redirigir() {
+    this.router.navigate([`/mi-negocio/gestion-de-sucursales`]);
+  }
+
+
+
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }

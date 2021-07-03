@@ -25,7 +25,7 @@ import { FormularioEmpresaComponent } from './empresa/formulario-empresa/formula
          { path: '', component: SucursalesComponent, children: [           
            { path: 'empresa', component: FormularioEmpresaComponent }           
         ]},
-        { path: 'gestion-tipo-sucursales', component: SucursalesComponent }        
+        { path: 'gestion-de-sucursales', component: SucursalesComponent }        
        ]
       }
     ])

@@ -187,7 +187,7 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {              
         this.formSubmitted.emit(false);
-        this.empresaCreada.emit(true);
+        this.empresaCreada.emit(resp.data);
         console.log(resp);        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      

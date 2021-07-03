@@ -40,6 +40,8 @@ import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cu
 import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
 import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendientes-liquidacion.component';
 import { LocalizacionComponent } from './localizacion/localizacion.component';
+import { ListadoRncComponent } from './listado-rnc/listado-rnc.component';
+import { OnlineRncComponent } from './online-rnc/online-rnc.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
     ListadoCatalogoCuentasComponentsComponent,
     StepToolbarComponent,
     PendientesLiquidacionComponent,
-    LocalizacionComponent
+    LocalizacionComponent,
+    ListadoRncComponent,
+    OnlineRncComponent
   ],
   
   exports: [

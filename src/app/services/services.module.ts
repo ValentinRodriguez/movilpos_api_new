@@ -53,6 +53,7 @@ import { LiquidacionMercanciasService } from "./liquidacion-mercancias.service";
 import { RecepcionVehiculosService } from "./recepcion-vehiculos.service";
 import { SucursalesService } from "./sucursales.service";
 import { CuadresService } from "./cuadres.service";
+import { AreasEmpresaService } from "./areas-empresa.service";
 
 @NgModule({
   declarations: [],
@@ -73,6 +74,7 @@ import { CuadresService } from "./cuadres.service";
     SucursalesService,
     CgcatalogoService,
     BrandsService,
+    AreasEmpresaService,
     CodMovService,
     DatosEstaticosService,
     TransaccionesService,

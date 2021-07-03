@@ -7,7 +7,9 @@ import { DepartamentosComponent } from './mantenimiento/departamentos/departamen
 import { GestionEmpleadosComponent } from './mantenimiento/gestion-empleados/gestion-empleados.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
 import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
-
+import { FormularioDepartamentosComponent } from './mantenimiento/departamentos/formulario-departamentos/formulario-departamentos.component';
+import { FormularioSucursalesComponent } from '../empresa/sucursales/formulario-sucursales/formulario-sucursales.component';
+import { FormularioEmpresaComponent } from '../empresa/empresa/formulario-empresa/formulario-empresa.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,11 @@ import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empre
       {
        path: '',
        children: [
+        {path: '', component: AreasEmpresaComponent, children:[
+          {path: 'departamentos', component: FormularioDepartamentosComponent},
+          {path: 'sucursales', component: FormularioSucursalesComponent},
+          {path: 'empresa', component: FormularioEmpresaComponent},
+        ]},
          { path: 'gestion-de-empleados', component: GestionEmpleadosComponent },         
          { path: 'gestion-de-departamentos', component: DepartamentosComponent },        
          { path: 'gestion-de-puestos', component: PuestosComponent },

@@ -45,7 +45,8 @@ export class DepartamentosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/departamentos`, formData).subscribe( (resp: any) => {               
            this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {    
+            if (resp['code'] === 200)  {   
+
             this.departamentoEscogido.emit( resp );                                   
             resolve(resp.data);       
           }

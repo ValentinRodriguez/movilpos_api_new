@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ListadoRncComponent } from 'src/app/components/listado-rnc/listado-rnc.component';
+import { OnlineRncComponent } from 'src/app/components/online-rnc/online-rnc.component';
 import { DgiiService } from 'src/app/services/dgii.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { MonedasService } from 'src/app/services/monedas.service';
@@ -69,6 +72,7 @@ export class FormularioEmpresaComponent implements OnInit {
               private empresasServ: EmpresaService,
               private monedasServ: MonedasService,
               private usuariosServ: UsuarioService,
+              public dialogService: DialogService,
               public router: Router,
               private paisesCiudadesServ: PaisesCiudadesService,
               private dgiiServ: DgiiService) { 
@@ -130,11 +134,15 @@ export class FormularioEmpresaComponent implements OnInit {
       })
     })
     
+    const observer2$ = this.dgiiServ.rncEscogido.subscribe((resp) => {
+      console.log(resp);      
+    })
+
     const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
     })
 
-    this.listSubscribers = [observer1$,observer5$];
+    this.listSubscribers = [observer1$,observer2$,observer5$];
   };
 
   todosLosPaises() {
@@ -272,6 +280,20 @@ export class FormularioEmpresaComponent implements OnInit {
       })
        
     } 
+  }
+
+  listadoRNC() {
+    this.dialogService.open(ListadoRncComponent, {
+      header: 'Gestión de RNC`s',
+      width: '50%'
+    });
+  }
+
+  onlineRNC() {
+    this.dialogService.open(OnlineRncComponent, {
+      header: 'Verificación online RNC',
+      width: '600'
+    });
   }
 
   resetFormulario() {

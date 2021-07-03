@@ -1,1 +1,77 @@
-<p>formulario-area-empresas works!</p>
+<div class="intermitente" *ngIf="this.items.length !== 0 && this.rutaActual[1] === 'rrhh'">
+	<p-accordion styleClass="intermitente">
+		<p-accordionTab header="CLICK AQUI PARA INSERCION DE DATOS INICALES">       
+		   <div class="card">
+			   <p-toast></p-toast>
+			   <p-steps [model]="items" [readonly]="true"></p-steps>
+		   </div>
+		   <router-outlet></router-outlet>
+		   <app-step-toolbar [items]="this.items" [readonly]="true"></app-step-toolbar>
+		</p-accordionTab>
+	</p-accordion>
+</div>
+<br>
+<form (ngSubmit)="guardarArea()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-3">
+            <label for="descripcion">Descripción</label>
+            <span class=" p-input-icon-right">
+                <input id="descripcion" type="text" pInputText formControlName="descripcion" 
+                        [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')" 
+                        (keyup)="verificaArea($event.target.value)">
+                <i class="pi pi-spin pi-spinner" *ngIf="areaExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="areaExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="areaExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="areaExiste === 3"></i>
+                <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
+            </span>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cod_cia">Empresa</label>	
+            <p-autoComplete formControlName="cod_cia" [suggestions]="empresasFiltradas" (completeMethod)="filtrarEmpresas($event)" field="nombre" 
+                            [forceSelection]="true" [dropdown]="true" [class.ng-invalid]="getNoValido('cod_cia')" [class.ng-dirty]="getNoValido('cod_cia')">
+                <ng-template let-cuenta pTemplate="item" >
+                    <div class="country-item">
+                        <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                        <div>{{cuenta.nombre}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('cod_cia')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="suc_id">Sucursal</label>	
+            <p-autoComplete formControlName="suc_id" [suggestions]="sucursalesFiltradas" (completeMethod)="filtrarSucursales($event)" field="descripcion" 
+                            [forceSelection]="true" [dropdown]="true" [class.ng-invalid]="getNoValido('suc_id')" [class.ng-dirty]="getNoValido('suc_id')">
+                <ng-template let-cuenta pTemplate="item" >
+                    <div class="country-item">
+                        <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                        <div>{{cuenta.descripcion}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('suc_id')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="departamento">Departamento</label>	
+            <p-autoComplete formControlName="departamento" [suggestions]="deptoFiltrados" (completeMethod)="filtrarDeptos($event)" field="descripcion" 
+                            [forceSelection]="true" [dropdown]="true" [class.ng-invalid]="getNoValido('departamento')" [class.ng-dirty]="getNoValido('departamento')">
+                <ng-template let-cuenta pTemplate="item" >
+                    <div class="country-item">
+                        <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                        <div>{{cuenta.descripcion}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <small *ngIf="getNoValido('departamento')" class="p-invalid">Este campo es obligatorio.</small>						
+        </div>
+    </div>
+    <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarArea()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
+</form>
+<br>
+<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>

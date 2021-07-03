@@ -10,12 +10,12 @@
 		</p-accordionTab>
 	</p-accordion>
 </div>
-<!-- <br>
-<button *ngIf="this.rutaActual[1] !== 'gestion-de-empresa'" pButton pRipple label="Ir a Formulario de Clientes" 
-        icon="pi pi-chevron" type="button" (click)="redirigir()">
-</button> -->
 <br>
-<form (ngSubmit)="guardarSucursales()" [formGroup]="forma">
+<button *ngIf="this.rutaActual[2] !== 'gestion-de-sucursales'" class="p-d-block p-mx-auto" pButton pRipple label="Ir a Formulario de Sucursales" 
+        icon="pi pi-chevron" type="button" (click)="redirigir()">
+</button>
+<br>
+<form (ngSubmit)="guardarSucursales()" [formGroup]="forma" *ngIf="this.rutaActual[2] === 'gestion-de-sucursales'">
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-3">
             <label for="descripcion">Descripción</label>
