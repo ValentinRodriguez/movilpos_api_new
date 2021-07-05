@@ -53,7 +53,6 @@ export class FormularioAreaEmpresasComponent implements OnInit {
 
   ngOnInit(): void {
     this.rutaActual = this.router.url.split("/");
-    this.reubicar();
     this.listObserver();
     this.todaLaData();    
   }
@@ -103,9 +102,9 @@ export class FormularioAreaEmpresasComponent implements OnInit {
             this.empresas = element.data;
             break;
 
-          case 'sucursales':
-            this.sucursales = element.data;
-            break;
+          // case 'sucursales':
+          //   this.sucursales = element.data;
+          //   break;
 
           case 'departamentos':
             this.departamentos = element.data;
@@ -189,6 +188,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       }
     }
     this.sucursalesFiltradas = filtered;
+    console.log(this.sucursales);
   }
 
   verificaArea(data){  
@@ -224,10 +224,14 @@ export class FormularioAreaEmpresasComponent implements OnInit {
     }
   }
 
-  reubicar() {
-    if (this.router.url !== '/rrhh/gestion-de-areas') {      
-      this.router.navigate([`/rrhh/gestion-de-areas`]);      
-    }
+  buscaSucursales(event) {
+    console.log(event);
+    
+    this.sucursalesServ.getDato(event.id).then((resp: any) => {
+      this.sucursales = resp;
+      console.log(resp);
+      
+    })
   }
 
   cancelar() {
