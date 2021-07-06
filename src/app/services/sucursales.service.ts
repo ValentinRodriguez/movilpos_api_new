@@ -46,7 +46,7 @@ export class SucursalesService {
       })
     })
   }
-
+  
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/sucursales/${id}`).subscribe((resp: any) => { 
@@ -57,6 +57,17 @@ export class SucursalesService {
     })
   }
 
+  busquedaXempresa(id) {   
+    return new Promise( resolve => {
+      this.http.get(`${URL}/busqueda/sucursales/${id}`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+}
+  
   crearSucursales(sucursales: any) {
     const formdata = {};
     

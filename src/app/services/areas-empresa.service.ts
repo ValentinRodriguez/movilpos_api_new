@@ -67,14 +67,36 @@ export class AreasEmpresaService {
   }
 
   crearArea(area: any) {
+    console.log(area);
+    
     const formData = new FormData();  
     for(let key in area){  
       formData.append(key, area[key]);
     }
 
+    for(let key in area){  
+      switch (key) {
+        
+        case 'cod_cia':          
+          formData.append(key, area[key].cod_cia)
+          break;
+        
+        case 'suc_id':
+        case 'departamento':   
+          formData.append(key, area[key].id)
+          break;
+        
+        default:          
+          formData.append(key, area[key])
+          break;
+      }
+    }
+
     return new Promise( resolve => {
       this.http.post(`${ URL }/areas-empresa`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);
+        console.log(resp);
+        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.areaGuardada.emit(resp.data);       
@@ -83,10 +105,34 @@ export class AreasEmpresaService {
     });    
   }
 
-  actualizarArea(id:number, area: any) {  
+  actualizarArea(id: number, area: any) {
+    console.log(area);
+    
+    let formData = {};
+    
+    for(let key in area){  
+      switch (key) {
+        
+        case 'cod_cia':          
+          formData[key] = area[key].cod_cia
+          break;
+        
+        case 'suc_id':
+        case 'departamento':   
+          formData[key] = area[key].id;
+          break;
+        
+        default:          
+          formData[key] = area[key];
+          break;
+      }
+    }
+
     return new Promise( resolve => {
-      this.http.put(`${ URL }/areas-empresa/${id}`, area).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+      this.http.put(`${ URL }/areas-empresa/${id}`, formData).subscribe( (resp: any) => {                
+        this.formSubmitted.emit(false);
+        console.log(resp);
+        
         if (resp['code'] === 200)  {
           this.areaAct.emit( resp.data );                            
           resolve(resp.data);            

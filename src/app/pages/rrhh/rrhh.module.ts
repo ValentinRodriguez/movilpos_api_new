@@ -20,6 +20,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { StepsModule } from 'primeng/steps';
+import { AccordionModule } from 'primeng/accordion';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 // COMPONENTES DEL MODULO DE RRHH
 import { AusenciasComponent } from './mantenimiento/gestion-empleados/ausencias/ausencias.component';
@@ -38,10 +43,6 @@ import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
 import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-turnos/formulario-turnos.component";
 import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
 import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
-import { PipesModule } from 'src/app/pipes/pipes.module';
-import { ComponentsModule } from 'src/app/components/components.module';
-import { StepsModule } from 'primeng/steps';
-import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { AccordionModule } from 'primeng/accordion';
     AccordionModule,
     TableModule,
     ConfirmDialogModule,
+    ProgressBarModule,
     ToastModule,
     TabViewModule,
     InputTextModule,
