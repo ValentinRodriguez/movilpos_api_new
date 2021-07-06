@@ -17,15 +17,15 @@ import { FormularioEmpresaComponent } from './empresa/formulario-empresa/formula
       {
        path: '',
        children: [
-         { path: 'gestion-de-empresa', component: EmpresaComponent },         
-         { path: 'gestion-de-tipo-negocios', component: TipoNegocioComponent },        
-         { path: 'gestion-de-tipo-clientes', component: TipoClientesComponent },        
-         { path: 'gestion-de-monedas', component: MonedasComponent },        
-         { path: 'gestion-de-zonas', component: ZonasComponent },
-         { path: '', component: SucursalesComponent, children: [           
+          { path: 'gestion-de-empresa', component: EmpresaComponent },         
+          { path: 'gestion-de-tipo-negocios', component: TipoNegocioComponent },        
+          { path: 'gestion-de-tipo-clientes', component: TipoClientesComponent },        
+          { path: 'gestion-de-monedas', component: MonedasComponent },        
+          { path: 'gestion-de-zonas', component: ZonasComponent },
+          { path: 'gestion-de-sucursales', component: SucursalesComponent },
+          { path: '', component: SucursalesComponent, children: [           
            { path: 'empresa', component: FormularioEmpresaComponent }           
-        ]},
-        { path: 'gestion-de-sucursales', component: SucursalesComponent }        
+         ]},
        ]
       }
     ])

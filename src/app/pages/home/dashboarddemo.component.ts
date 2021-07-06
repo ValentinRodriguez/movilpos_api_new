@@ -13,7 +13,8 @@ export class DashboardDemoComponent implements OnInit {
 
     cols: any[];
     items: MenuItem[] = [];
-    
+    formSubmitted = true;
+
     constructor(private homeService: HomeService,
                 public dialogService: DialogService,
                 private permisosServ: RolesService,
@@ -21,9 +22,12 @@ export class DashboardDemoComponent implements OnInit {
 
     ngOnInit() {   
         this.permisosServ.permisos.subscribe((resp: any) => {
-          const perfiles = JSON.parse(resp.perfil);
-          
-        })        
+          const perfiles = JSON.parse(resp.perfil);          
+        })
+        
+        this.homeService.formSubmitted.subscribe((resp: any) => {
+            this.formSubmitted = resp;
+        })
         
         this.homeService.autoLlenado().then((resp: any) => { 
             for (let index = 0; index < resp.length; index++) {      

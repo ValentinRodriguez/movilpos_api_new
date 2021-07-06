@@ -28,7 +28,7 @@ export class ListadoRncComponent implements OnInit {
     this.todaladata();
 
     this.cols = [
-      { field: 'esc', header: '#' },
+      // { field: 'esc', header: '#' },
       { field: 'rnc', header: 'RNC' },
       { field: 'razon_social', header: 'Razón Social' },
       { field: 'nombre_empresa', header: 'Nombre Empresa' },
@@ -45,12 +45,13 @@ export class ListadoRncComponent implements OnInit {
     })
   }
   
-  enviarDireccion() {
-    if (this.direccioneSeleccionada.length !== 0) {   
-      this.dgiiServ.rncEscogidos(this.direccioneSeleccionada);
-      this.ref.close();      
-    } else {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe escoger al menos una cuenta');
-    }
+  enviarDireccion(data) {
+    console.log(data.data);
+    this.dgiiServ.rncEscogidos(data.data);
+    // this.ref.close();      
+    // if (this.direccioneSeleccionada.length !== 0) {   
+    // } else {
+    //   this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe escoger al menos una cuenta');
+    // }
   }
 }

@@ -53,7 +53,6 @@ export class FormularioAreaEmpresasComponent implements OnInit {
 
   ngOnInit(): void {
     this.rutaActual = this.router.url.split("/");
-    this.reubicar();
     this.listObserver();
     this.todaLaData();    
   }
@@ -62,16 +61,27 @@ export class FormularioAreaEmpresasComponent implements OnInit {
     const observer1$ = this.areasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
-      this.id = Number(resp);      
-      this.areasServ.getDato(resp).then((res: any) => {         
-        this.forma.get('divisa').setValue(res.divisa);
-        this.forma.get('simbolo').setValue(res.simbolo);
-        this.forma.patchValue(res);
+      this.id = Number(resp);
+      this.formSubmitted = true;
+      this.areasServ.getDato(resp).then((res: any) => {
+        this.forma.patchValue(res);        
+        this.forma.get('cod_cia').setValue(this.empresas.find(empresa => empresa.cod_cia == res.cod_cia));
+        this.forma.get('departamento').setValue(this.departamentos.find(departamento => departamento.id === res.depto));
+        this.sucursalesServ.busquedaXempresa(res.suc_id).then((resp2: any) => {
+          this.sucursales = resp2;      
+          this.forma.get('suc_id').setValue(this.sucursales.find(sucursal => sucursal.id === res.suc_id));
+        });
       })
     })
 
     const observer2$ = this.areasServ.formSubmitted.subscribe((resp: any) =>{
       this.formSubmitted = resp;
+      console.log(this.formSubmitted);
+    })
+
+    const observer6$ = this.sucursalesServ.formSubmitted.subscribe((resp: any) =>{
+      this.formSubmitted = resp;
+      console.log(this.formSubmitted);
     })
 
     const observer3$ = this.empresasServ.empresaCreada.subscribe((resp: any) =>{
@@ -86,7 +96,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       this.sucursales.push(resp);
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
   };
 
   todaLaData() {   
@@ -103,9 +113,9 @@ export class FormularioAreaEmpresasComponent implements OnInit {
             this.empresas = element.data;
             break;
 
-          case 'sucursales':
-            this.sucursales = element.data;
-            break;
+          // case 'sucursales':
+          //   this.sucursales = element.data;
+          //   break;
 
           case 'departamentos':
             this.departamentos = element.data;
@@ -120,7 +130,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       departamento:        ['', Validators.required],
       cod_cia:             ['', Validators.required],
       suc_id:              ['', Validators.required],
-      descripcion:         ['', Validators.required],
+      descripcion:         ['caja secundaria', Validators.required],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
@@ -128,7 +138,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   }
 
   guardarArea(){
-    this.formSubmitted = true;    
+    // this.formSubmitted = true;    
     if (this.forma.invalid) {    
       this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -145,13 +155,30 @@ export class FormularioAreaEmpresasComponent implements OnInit {
           this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
           break;
 
-        default:
-          this.areasServ.crearArea(this.forma.value).then(()=>{
+        default:        
+          this.areasServ.crearArea(this.forma.value).then(() => {            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta'); 
             this.resetFormulario(); 
           })
           break;
       } 
+    }
+  }
+  
+  actualizarArea(){
+    this.formSubmitted = true;
+    this.forma.get('usuario_modificador').setValue(this.usuario.username);    
+    if (this.forma.invalid) {  
+      this.formSubmitted = false;     
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+    }else{ 
+      this.areasServ.actualizarArea(this.id, this.forma.value).then((resp: any) => {
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+        this.resetFormulario();
+      })
     }
   }
 
@@ -189,6 +216,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       }
     }
     this.sucursalesFiltradas = filtered;
+    console.log(this.sucursales);
   }
 
   verificaArea(data){  
@@ -207,27 +235,11 @@ export class FormularioAreaEmpresasComponent implements OnInit {
     })
   }
 
-  actualizarArea(){
+  buscaSucursales(event) {
     this.formSubmitted = true;
-    this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {  
-      this.formSubmitted = false;     
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{ 
-      this.areasServ.actualizarArea(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
-        this.resetFormulario();
-      })
-    }
-  }
-
-  reubicar() {
-    if (this.router.url !== '/rrhh/gestion-de-areas') {      
-      this.router.navigate([`/rrhh/gestion-de-areas`]);      
-    }
+    this.sucursalesServ.busquedaXempresa(event.cod_cia).then((resp: any) => {
+      this.sucursales = resp; 
+    })
   }
 
   cancelar() {

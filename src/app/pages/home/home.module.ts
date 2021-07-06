@@ -14,6 +14,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { StepsModule } from 'primeng/steps';
 import { ToastModule } from 'primeng/toast';
 import { AccordionModule } from 'primeng/accordion';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 //RUTAS DEL COMPONENTE
 import { HomeRoutingModule } from "./home-routing.module";
@@ -50,6 +51,7 @@ import { ChartTopListComponent } from "./chart-top-list/chart-top-list.component
     ChartModule,
     DropdownModule,
     ButtonModule,
+    ProgressBarModule,
     ToolbarModule,
     StepsModule,
     ToastModule,

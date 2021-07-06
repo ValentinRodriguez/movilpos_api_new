@@ -30,8 +30,9 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="cod_cia">Empresa</label>	
             <p-autoComplete formControlName="cod_cia" [suggestions]="empresasFiltradas" (completeMethod)="filtrarEmpresas($event)" field="nombre" 
-                            [forceSelection]="true" [dropdown]="true" [class.ng-invalid]="getNoValido('cod_cia')" [class.ng-dirty]="getNoValido('cod_cia')">
-                <ng-template let-cuenta pTemplate="item" >
+                            [forceSelection]="true" [dropdown]="true" (onSelect)="buscaSucursales($event)" [class.ng-invalid]="getNoValido('cod_cia')" 
+                            [class.ng-dirty]="getNoValido('cod_cia')">
+                <ng-template let-cuenta pTemplate="item">
                     <div class="country-item">
                         <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
                         <div>{{cuenta.nombre}}</div>

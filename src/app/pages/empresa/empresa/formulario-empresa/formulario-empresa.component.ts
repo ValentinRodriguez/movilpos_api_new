@@ -135,7 +135,10 @@ export class FormularioEmpresaComponent implements OnInit {
     })
     
     const observer2$ = this.dgiiServ.rncEscogido.subscribe((resp) => {
-      console.log(resp);      
+      console.log(resp);
+      this.forma.get('nombre').setValue(resp.razon_social);
+      this.forma.get('telefono_empresa').setValue(resp.telefono);
+      this.forma.get('rnc').setValue(resp.rnc);
     })
 
     const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
