@@ -40,14 +40,8 @@ import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
 import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-turnos/formulario-turnos.component";
 import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
 import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
-<<<<<<< HEAD
-import { ComponentsModule } from 'src/app/components/components.module';
-=======
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { StepsModule } from 'primeng/steps';
-import { AccordionModule } from 'primeng/accordion';
->>>>>>> 660e5c1792b63e42de9b6583b0a63e28f331a793
 
 @NgModule({
   declarations: [
@@ -87,16 +81,11 @@ import { AccordionModule } from 'primeng/accordion';
     InputNumberModule,
     FieldsetModule,
     ButtonModule,
-<<<<<<< HEAD
-    InputTextareaModule,
-    ComponentsModule
-=======
     ComponentsModule,
     StepsModule,
     AccordionModule,
     PipesModule,
     InputTextareaModule
->>>>>>> 660e5c1792b63e42de9b6583b0a63e28f331a793
   ],
   entryComponents: [
     AusenciasComponent,

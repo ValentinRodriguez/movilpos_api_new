@@ -31,5 +31,22 @@
 			</div>
 		</div>
 	</app-root>
+	<!-- <script type="text/javascript">
+		(function(){
+		  window.console.error = ($event, more) => {
+			console.log('** Event 🤦‍♂️***', $event);
+			console.log('** Trace 👉️***', more);
+	  
+			const data = JSON.stringify({
+			  text: more.stack
+			});
+	  
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', 'http://localhost:3001/log');
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.send(data);
+		  };
+		})()
+	  </script> -->
 </body>
 </html>
