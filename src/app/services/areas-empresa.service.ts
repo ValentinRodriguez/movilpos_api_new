@@ -38,7 +38,8 @@ export class AreasEmpresaService {
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/areas-empresa`).subscribe((resp: any) => {                    
+      this.http.get(`${URL}/areas-empresa`).subscribe((resp: any) => {           
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

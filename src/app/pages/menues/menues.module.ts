@@ -14,7 +14,7 @@ import { MenuPanelControlComponent } from './menu-panel-control/menu-panel-contr
 import { MenuEmpresaComponent } from './menu-empresa/menu-empresa.component';
 import { MenuCuentasPagarComponent } from './menu-cuentas-pagar/menu-cuentas-pagar.component';
 import { MenuMiscelaneosComponent } from './menu-miscelaneos/menu-miscelaneos.component';
-
+import { ProgressBarModule } from 'primeng/progressbar';
 // RUTAS DEL MODULO
 import { MenuRoutingModule } from "./menu-routing.module";
 
@@ -35,6 +35,7 @@ import { MenuRoutingModule } from "./menu-routing.module";
   imports: [
     CommonModule,
     InputTextModule,
+    ProgressBarModule,
     MenuRoutingModule
   ]
 })

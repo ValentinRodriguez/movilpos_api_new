@@ -38,7 +38,7 @@
 									</span>
 
 									<span *ngIf="col.field !== 'id'">
-										{{ rowData[col.field] | titlecase }}
+										{{ rowData[col.field] | uppercase }}
 									</span>
 							
 									<span *ngIf="col.field === 'acciones'">
@@ -71,6 +71,7 @@
 					<app-formulario-area-empresas></app-formulario-area-empresas>
                 </p-tabPanel>
             </p-tabView>
+			<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
 		</div>	
 		
 		<p-toast key="tst"></p-toast>
@@ -80,3 +81,4 @@
 		</p-confirmDialog>
 	</div>	
 </div>
+<br>

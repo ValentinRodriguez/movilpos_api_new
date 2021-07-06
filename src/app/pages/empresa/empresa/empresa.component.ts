@@ -18,7 +18,7 @@ export class EmpresaComponent implements OnInit {
   cols: any[];
    
   index: number = 0;
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private usuariosServ: UsuarioService,
@@ -43,11 +43,11 @@ export class EmpresaComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.empresasServ.guardar.subscribe((resp: any)=>{  
+    const observer1$ = this.empresasServ.guardar.subscribe((resp: any) => {  
       this.index = resp;         
     })
 
-    const observer2$ = this.empresasServ.empresaEscogida.subscribe(()=>{  
+    const observer2$ = this.empresasServ.empresaEscogida.subscribe(() => {  
       this.todasLasEmpresas();
     })
 
@@ -66,7 +66,8 @@ export class EmpresaComponent implements OnInit {
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
   }
 
-  todasLasEmpresas() {     
+  todasLasEmpresas() {   
+    this.formSubmitted = true;  
     this.empresasServ.getDatos().then((resp: any) => {
       this.empresas = resp;
       console.log(resp);       

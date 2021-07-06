@@ -99,8 +99,7 @@
                 <p-tabPanel header="Agregar Empresa" leftIcon="pi pi-plus">
                     <app-formulario-empresa></app-formulario-empresa>
                 </p-tabPanel>
-
-
+                <p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
             </p-tabView>
 		</div>	
 		

@@ -17,7 +17,8 @@ export class AreasEmpresaComponent implements OnInit {
   areas: any[] = [];
   id_categoria: any;
   cols: any[];
-   
+  formSubmitted = false;
+
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private areasServ: AreasEmpresaService,
@@ -53,9 +54,14 @@ export class AreasEmpresaComponent implements OnInit {
     this.areasServ.areaAct.subscribe((resp: any) => {
       this.todasLasAreas();
     })
+
+    this.areasServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    })
   }
 
   todasLasAreas() {
+    this.formSubmitted = true;
     this.areasServ.getDatos().then((resp: any) => {
       this.areas = resp;
     });
