@@ -17,6 +17,7 @@ import { MenuMiscelaneosComponent } from './menu-miscelaneos/menu-miscelaneos.co
 import { ProgressBarModule } from 'primeng/progressbar';
 // RUTAS DEL MODULO
 import { MenuRoutingModule } from "./menu-routing.module";
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MenuRoutingModule } from "./menu-routing.module";
     CommonModule,
     InputTextModule,
     ProgressBarModule,
-    MenuRoutingModule
+    MenuRoutingModule,
+    ProgressSpinnerModule
   ]
 })
 export class MenuesModule { }
