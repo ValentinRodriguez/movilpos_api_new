@@ -25,6 +25,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { PanelModule } from 'primeng/panel';
 import {TooltipModule} from 'primeng/tooltip';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {BlockUIModule} from 'primeng/blockui';
+
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
@@ -42,6 +45,7 @@ import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendien
 import { LocalizacionComponent } from './localizacion/localizacion.component';
 import { ListadoRncComponent } from './listado-rnc/listado-rnc.component';
 import { OnlineRncComponent } from './online-rnc/online-rnc.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,8 @@ import { OnlineRncComponent } from './online-rnc/online-rnc.component';
     PendientesLiquidacionComponent,
     LocalizacionComponent,
     ListadoRncComponent,
-    OnlineRncComponent
+    OnlineRncComponent,
+    LoadingComponent
   ],
   
   exports: [
@@ -71,7 +76,8 @@ import { OnlineRncComponent } from './online-rnc/online-rnc.component';
     ListadoDireccionesComponent,
     PendientesEntradaComponent,
     StepToolbarComponent,
-    LocalizacionComponent
+    LocalizacionComponent,
+    LoadingComponent
   ],
 
   imports: [
@@ -81,6 +87,7 @@ import { OnlineRncComponent } from './online-rnc/online-rnc.component';
     FormsModule,
     ReactiveFormsModule,
     ProgressBarModule,
+    ProgressSpinnerModule,
     RouterModule,
     MenubarModule,
     TooltipModule,
@@ -92,6 +99,7 @@ import { OnlineRncComponent } from './online-rnc/online-rnc.component';
     RippleModule,
     PickListModule,
     CardModule,
+    BlockUIModule,
     CheckboxModule,
     ToastModule,
     ToggleButtonModule,

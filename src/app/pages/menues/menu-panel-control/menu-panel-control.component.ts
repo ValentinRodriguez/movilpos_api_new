@@ -10,7 +10,7 @@ import { MenuesService } from 'src/app/services/menues.service';
 export class MenuPanelControlComponent implements OnInit {
 
   menu: any[] = [];
-  formSubmitted: boolean = false;
+  formSubmitted: boolean = true;
 
   constructor(private menuServ: MenuesService,
               private router: Router) { }

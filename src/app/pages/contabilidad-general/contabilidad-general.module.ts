@@ -28,7 +28,9 @@ import { PickListModule } from 'primeng/picklist';
 
 //RUTAS DEL MODULO
 import { ContabilidadGeneralRoutingModule } from "./contabilidad-general-routing.module";
-
+import { ComponentsModule } from 'src/app/components/components.module';
+import { AccordionModule } from 'primeng/accordion';
+import { StepsModule } from 'primeng/steps';
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FormularioCgcatalogoComponent } from './mantenimiento/catalogo-cuentas/formulario-cgcatalogo/formulario-cgcatalogo.component';
 import { CatalogoCuentasComponent } from './mantenimiento/catalogo-cuentas/catalogo-cuentas.component';
@@ -44,7 +46,6 @@ import { GastosDepartamentosComponent } from './reportes/gastos-departamentos/ga
 import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.component';
 import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.component';
 import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formulario-cuadre-caja/formulario-cuadre-caja.component';
-
 @NgModule({
   declarations: [
     CatalogoCuentasComponent,
@@ -77,10 +78,13 @@ import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formu
     ToastModule,
     TabViewModule,
     ToolbarModule,
+    StepsModule,
     PanelModule,
     InputMaskModule,
     CalendarModule,
     AutoCompleteModule,
+    ComponentsModule,
+    AccordionModule,
     InputTextModule,
     PipesModule,
     InputNumberModule,

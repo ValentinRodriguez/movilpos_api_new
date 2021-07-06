@@ -17,7 +17,8 @@ export class CuadreCajaComponent implements OnInit {
   cuadres: any[] = [];
   id_categoria: any;
   cols: any[];
-
+  formSubmitted = false;
+  
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private cuadresServ: CuadresService,
@@ -54,9 +55,14 @@ export class CuadreCajaComponent implements OnInit {
     this.cuadresServ.cuadreAct.subscribe((resp: any) => {
       this.todosLosCuadres();
     })
+
+    this.cuadresServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    })
   }
 
   todosLosCuadres() {
+    this.formSubmitted = true
     this.cuadresServ.getDatos().then((resp: any) => {
       this.cuadres = resp;
     });

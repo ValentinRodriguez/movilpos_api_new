@@ -62,13 +62,13 @@
 						</ng-template>
 					</p-table>
                 </p-tabPanel>
+				<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
 
                 <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
                     <app-formulario-cuadre-caja></app-formulario-cuadre-caja>
                 </p-tabPanel>
             </p-tabView>
 		</div>	
-		
 		<p-toast key="tst"></p-toast>
 
 		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" message="Esta seguro de borrar este registro?"

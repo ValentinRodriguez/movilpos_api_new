@@ -24,10 +24,10 @@ export class MenuInventarioComponent implements OnInit {
   getData() {
     this.formSubmitted = true;
     this.menuServ.getMenu(4).then((resp: any) => {
-      this.menu = resp;    
+      this.menu = resp;   
     })
   }
-
+           
   redirigir(ruta: string) {
     this.router.navigate([`inventario/${ruta}`]);
     console.log(`inventario/${ruta}`);    

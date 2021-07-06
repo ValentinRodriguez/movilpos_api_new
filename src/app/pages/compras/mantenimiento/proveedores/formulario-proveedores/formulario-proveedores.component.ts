@@ -11,7 +11,6 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { StepProveedoresComponent } from '../step-proveedores/step-proveedores.component';
 
 @Component({
   selector: 'app-formulario-proveedores',

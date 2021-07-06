@@ -1,8 +1,5 @@
 <div class="layout-dashboard">    
-    <p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
-    <div class="progress-spinner" *ngIf="true">
-        <p-progressSpinner></p-progressSpinner>
-    </div>
+    <app-loading [formSubmitted]="formSubmitted"></app-loading>
 	<div class="p-grid">
         <div class="p-col-12 p-lg-6">
             <div class="card">

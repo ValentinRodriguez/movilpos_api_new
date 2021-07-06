@@ -17,7 +17,8 @@ export class ZonasComponent implements OnInit {
   zonas: any[] = [];
   id_categoria: any;
   cols: any[];   
-
+  formSubmitted = false;
+  
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private zonasServ: ZonasService,

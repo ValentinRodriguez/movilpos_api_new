@@ -1,0 +1,4 @@
+<p-blockUI [blocked]="this.formSubmitted"></p-blockUI>
+<div class="progress-spinner" *ngIf="this.formSubmitted">
+    <p-progressSpinner [style]="{width: '150px', height: '150px'}" styleClass="custom-spinner" strokeWidth="6" animationDuration=".5s"></p-progressSpinner>
+</div>

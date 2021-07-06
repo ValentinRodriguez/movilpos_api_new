@@ -1,3 +1,16 @@
+<div class="intermitente" *ngIf="this.items.length !== 0">
+	<p-accordion styleClass="intermitente">
+		<p-accordionTab header="CLICK AQUI PARA INSERCION DE DATOS INICALES">       
+		   <div class="card">
+			   <p-toast></p-toast>
+			   <p-steps [model]="items" [readonly]="true"></p-steps>
+		   </div>
+		   <router-outlet></router-outlet>
+		   <app-step-toolbar [items]="this.items" [readonly]="true"></app-step-toolbar>
+		</p-accordionTab>
+	</p-accordion>
+</div>
+<br>
 <div class="p-grid">
     <div class="p-col-4">
         <div class="card">

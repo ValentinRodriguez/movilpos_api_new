@@ -1,7 +1,5 @@
 <div class="layout-dashboard">
-    <div class="progress-spinner" *ngIf="this.formSubmitted">
-        <p-progressSpinner></p-progressSpinner>
-    </div>
+    <app-loading [formSubmitted]="formSubmitted"></app-loading>
 	<div class="p-grid">
         <div class="p-col-12 p-lg-6">
             <div class="card">

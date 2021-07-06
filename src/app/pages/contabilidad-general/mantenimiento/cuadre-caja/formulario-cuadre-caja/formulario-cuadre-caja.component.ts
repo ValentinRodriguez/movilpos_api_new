@@ -4,6 +4,7 @@ import { MonedasService } from 'src/app/services/monedas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CuadresService } from 'src/app/services/cuadres.service';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 
 @Component({
   selector: 'app-formulario-cuadre-caja',
@@ -23,8 +24,8 @@ export class FormularioCuadreCajaComponent implements OnInit {
   id: number;
   listSubscribers: any = [];
   denominaciones: any = [];
-  totalBilletes: number;
-  totalRecibido: number;
+  totalBilletes = 0;
+  totalRecibido = 0;
   saldoActual: number;
   saldoFinal: number;
   saldoInicial: number;
@@ -36,11 +37,13 @@ export class FormularioCuadreCajaComponent implements OnInit {
   sucursales: any = [];
   sucursalesEscogidas: any = [];
   cajeroFiltrado: any[];
+  items:any = [];
 
   constructor(private fb: FormBuilder,
     private uiMessage: UiMessagesService,
               private cuadresServ: CuadresService,
               private usuariosServ: UsuarioService,
+              private datosEstaticosServ: DatosEstaticosService,
               private monedasServ: MonedasService) {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
@@ -93,6 +96,9 @@ export class FormularioCuadreCajaComponent implements OnInit {
       console.log(resp);
       
       resp.forEach(element => {
+        if (element.data.length === 0) {
+          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
+        }
         switch (element.label) {
           case 'turnos':
             this.turnos = element.data;

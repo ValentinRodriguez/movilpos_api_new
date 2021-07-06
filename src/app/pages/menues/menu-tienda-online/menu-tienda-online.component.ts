@@ -9,13 +9,21 @@ import { MenuesService } from 'src/app/services/menues.service';
 export class MenuTiendaOnlineComponent implements OnInit {
 
   menu: any[] = [];
+  formSubmitted: boolean;
 
   constructor(private menuServ: MenuesService) { }
-
+  
   ngOnInit(): void {
+    this.getData();
+    this.menuServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp
+    })
+  }
+
+  getData() {
+    this.formSubmitted = true;
     this.menuServ.getMenu(7).then((resp: any) => {
-      this.menu = resp;
-       ;      
+      this.menu = resp;   
     })
   }
 
