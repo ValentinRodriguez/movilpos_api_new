@@ -25,6 +25,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { StepsModule } from 'primeng/steps';
 import { AccordionModule } from 'primeng/accordion';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { PanelModule } from 'primeng/panel';
+import { InputMaskModule } from 'primeng/inputmask';
 
 // COMPONENTES DEL MODULO DE RRHH
 import { AusenciasComponent } from './mantenimiento/gestion-empleados/ausencias/ausencias.component';
@@ -69,7 +71,9 @@ import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/f
     RouterModule,
     RrhhRoutingModule,
     ReactiveFormsModule,
+    InputMaskModule,
     StepsModule,
+    PanelModule,
     AccordionModule,
     TableModule,
     ConfirmDialogModule,

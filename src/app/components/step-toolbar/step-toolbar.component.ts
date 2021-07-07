@@ -9,7 +9,7 @@ import { GlobalFunctionsService } from 'src/app/services/global-functions.servic
 })
 export class StepToolbarComponent implements OnInit {
 
-  @Input() items: any[];
+  @Input() items: any[] = [];
   index = 0;
   inicio:any;
 
@@ -36,11 +36,10 @@ export class StepToolbarComponent implements OnInit {
   }
 
   navegacion(pagina) {
-    console.log(this.items);
-    
-    console.log(`/${this.inicio[1]}/${this.items[pagina]}`);
-    
-    this.router.navigate([`/${this.inicio[1]}/${this.items[pagina].routerLink}`]);
     console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);    
+    if (this.items.length !== 0) {
+      this.router.navigate([`/${this.inicio[1]}/${this.items[pagina].routerLink}`]);
+      console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);
+    }
   }
 }

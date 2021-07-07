@@ -30,12 +30,15 @@ export class DashboardDemoComponent implements OnInit {
         })
         
         this.homeService.autoLlenado().then((resp: any) => { 
-            for (let index = 0; index < resp.length; index++) {      
-                if (resp[index].data.length === 0) {     
-                  this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(resp[index].label), routerLink: resp[index].label})
-                }      
-            }   
+            resp.forEach(element => {
+                if (element.data.length === 0) {     
+                    console.log(element);                
+                    this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
+                    console.log(this.items);
+                }  
+            }); 
         })
+        
     }
 
     ngOnDestroy() {

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { PuestosService } from 'src/app/services/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
@@ -28,7 +29,6 @@ export class FormularioEmpleadosComponent implements OnInit {
   imagePathUser: any;
   minDate: Date;
   monedas: any;
-  paises: any;
   empresa: any;
   puestos: any[] = [];
   puestosFiltrados: any[];
@@ -43,6 +43,13 @@ export class FormularioEmpleadosComponent implements OnInit {
   estado_civil = [] 
   tipo_empleado = [] 
   tipo_sangre = [] 
+
+  paises: any[] = [];
+  regiones: any[] = [];
+  provincias: any[] = [];
+  municipios: any[] = [];
+  sectores: any[] = [];
+  ciudades: any[] = [];
 
   sino = [
     { label: 'Si', value:'si'},
@@ -86,6 +93,7 @@ export class FormularioEmpleadosComponent implements OnInit {
               public dialogService: DialogService,
               private puestosServ: PuestosService,
               private router: Router,
+              private paisesCiudadesServ: PaisesCiudadesService,
               private datosEstaticosServ: DatosEstaticosService) {     
     this.usuario = this.usuariosServ.getUserLogged();
     this.crearFormulario();
@@ -187,6 +195,42 @@ export class FormularioEmpleadosComponent implements OnInit {
     } 
   }
   
+  todosLosPaises() {
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
+      this.paises = resp;   
+    })
+  }
+  
+  buscaRegion(event) {
+      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
+
+  buscaProvincia(event) {
+      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
+      this.provincias = resp;
+    })   
+  }
+
+  buscaMunicipio(event) {
+    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
+      this.municipios = resp;
+    })   
+  }
+ 
+  buscaCiudad(event) {
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
+      this.ciudades = resp;
+    })   
+  }
+
+  buscaSector(event) {
+    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
+      this.sectores = resp;
+    })   
+  }
+
   previewUserPhoto(files) {    
     if (files.length === 0)
       return;
@@ -222,6 +266,12 @@ export class FormularioEmpleadosComponent implements OnInit {
       nomina: ["23"],
       sueldo_ac: ["ssdfsfd", Validators.required],
       tasa: ["2323"], //
+      id_pais: ["", Validators.required],
+      id_region: ["", Validators.required],
+      id_provincia: ["", Validators.required],
+      id_municipio: ["", Validators.required],
+      id_ciudad: ["", Validators.required],
+      id_sector: [""],
       cuenta_fi: ["2323"],
       codigo_es: ["234234"], //
       codigo_retiro_bco: ["345435"],
@@ -238,7 +288,6 @@ export class FormularioEmpleadosComponent implements OnInit {
       num_emp_supervisor: [""],
 
       fech_nac: ["", Validators.required],
-      id_pais: ["", Validators.required],
       cod_nac: [""],
       estado_civil: ["", Validators.required],
       tipo_sangre: [""],

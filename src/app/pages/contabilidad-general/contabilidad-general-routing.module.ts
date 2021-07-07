@@ -29,8 +29,8 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
         { path: '', component: CuadreCajaComponent, children: [
           { path: 'turnos', component: FormularioTurnosComponent },
           { path: 'sucursales', component: FormularioSucursalesComponent },
-          { path: 'cajeros', component: FormularioEmpleadosComponent },
-          { path: 'caja', component: FormularioAreaEmpresasComponent },
+          { path: 'empleado-caja', component: FormularioEmpleadosComponent },
+          { path: 'area-caja', component: FormularioAreaEmpresasComponent },
         ]},
         { path: 'cuadre-caja', component: CuadreCajaComponent },
        ]

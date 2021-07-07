@@ -108,11 +108,11 @@ export class FormularioCuadreCajaComponent implements OnInit {
             this.sucursales = element.data;
             break;
 
-          case 'cajeros':
+          case 'empleado-caja':
             this.cajeros = element.data;
             break;
 
-          case 'caja':
+          case 'area-caja':
             this.puestosCaja = element.data;
             break;
 
