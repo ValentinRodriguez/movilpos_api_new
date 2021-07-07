@@ -15,7 +15,8 @@ export class RrhhService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {                         
+      this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }

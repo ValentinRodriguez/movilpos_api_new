@@ -13,6 +13,26 @@
                 <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
             </span>
         </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="horario_inicial">Hora Entrada</label>
+            <span class=" p-input-icon-right">
+                <p-calendar formControlName="horario_inicial" [timeOnly]="true" inputId="horario_inicial" hourFormat="12" [class.ng-invalid]="getNoValido('horario_inicial')" 
+                            [class.ng-dirty]="getNoValido('horario_inicial')">
+                </p-calendar>
+            </span>      
+            <small *ngIf="getNoValido('horario_inicial')" class="p-invalid">Este campo es obligatorio.</small>                          
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="horario_final">Hora Salida</label>
+            <span class=" p-input-icon-right">
+                <p-calendar formControlName="horario_final" [timeOnly]="true" inputId="horario_final" hourFormat="12" [class.ng-invalid]="getNoValido('horario_final')" 
+                            [class.ng-dirty]="getNoValido('horario_final')">
+                </p-calendar>
+            </span>      
+            <small *ngIf="getNoValido('horario_final')" class="p-invalid">Este campo es obligatorio.</small>                          
+        </div>
     </div>
     <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
     <button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarTurno()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>

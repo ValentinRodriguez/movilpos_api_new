@@ -56,15 +56,19 @@ export class TurnosService {
     })
   }
 
-  crearTurno(turno: any) {
-    const formData = new FormData();  
+  crearTurno(turno: any, horai:string, horaf: string) {
+    const formData = new FormData();
+    turno['horario_inicial'] = horai;
+    turno['horario_final'] = horaf;
+    
     for(let key in turno){  
       formData.append(key, turno[key]);
     }
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/turnos`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);
+        console.log(resp);        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.turnoGuardada.emit(resp.data);       

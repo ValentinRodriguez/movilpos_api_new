@@ -30,6 +30,8 @@ export class FormularioEmpleadosComponent implements OnInit {
   minDate: Date;
   monedas: any;
   empresa: any;
+  formSubmitted = false;
+  listSubscribers: any = [];
   puestos: any[] = [];
   puestosFiltrados: any[];
   paisesFiltrados: any[];
@@ -50,6 +52,8 @@ export class FormularioEmpleadosComponent implements OnInit {
   municipios: any[] = [];
   sectores: any[] = [];
   ciudades: any[] = [];
+  horario: any[] = [];
+  sucursales: any[] = [];
 
   sino = [
     { label: 'Si', value:'si'},
@@ -71,16 +75,6 @@ export class FormularioEmpleadosComponent implements OnInit {
     { label: 'Activo', value:'activo'},
     { label: 'Inactivo', value:'inactivo'},
   ] 
-
-  horario = [
-    { label: 'Matutino', value:'M'},
-    { label: 'Vespertino', value:'V'},
-    { label: 'Nocturno', value:'N'},
-    { label: 'Rotativo', value:'R'},
-  ] 
-
-  formSubmitted = false;
-  listSubscribers: any = [];
 
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());
@@ -107,11 +101,17 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.listObserver();
     
     this.empleadosServ.autoLlenado().then((resp: any) => {
+      console.log(resp);
+      
       resp.forEach(element => {
         if (element.data.length === 0) {
           this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
         }
         switch (element.label) {
+          case 'horarios':
+            this.horario = element.data;
+            break;
+        
           case 'puestos':
             this.puestos = element.data;
             break;
@@ -123,11 +123,15 @@ export class FormularioEmpleadosComponent implements OnInit {
           case 'monedas':
             this.monedas = element.data;
             break;
-
-          case 'empresa':
+            
+          case 'sucursal':
+            this.sucursales = element.data;
+            break;
+          
+          case 'empresas':
             this.empresa = element.data;
             break;
-
+          
           case 'paises':
             this.paises = element.data;
             break;
@@ -194,13 +198,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       })       
     } 
   }
-  
-  todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
-      this.paises = resp;   
-    })
-  }
-  
+    
   buscaRegion(event) {
       this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
       this.regiones = resp;
@@ -277,9 +275,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       codigo_retiro_bco: ["345435"],
       cuenta_no: ["234"],
       calle: ["asdads", Validators.required],
-      casa_num: ["67", Validators.required],
       barrio: ["zfzxfsadf", Validators.required],
-      urbanizacion: ["asdfadsfasdf", Validators.required],
       is_sup: ["", Validators.required],
       departamento: ["", Validators.required],
       cod_puesto: ["", Validators.required],

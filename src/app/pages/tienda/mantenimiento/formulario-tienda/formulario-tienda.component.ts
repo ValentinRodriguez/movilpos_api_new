@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'jspdf-autotable';
 import { SelectItem, ConfirmationService } from 'primeng/api';
 import { InventarioService } from 'src/app/services/inventario.service';
+import { TiendaService } from 'src/app/services/tienda.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
 @Component({
@@ -23,7 +24,9 @@ export class FormularioTiendaComponent implements OnInit {
   formSubmitted = false;
   listSubscribers: any = [];
   selectedProducts3: any = [];
+
   constructor(private inventarioServ: InventarioService,
+              private miTienda: TiendaService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }
 
@@ -96,9 +99,12 @@ export class FormularioTiendaComponent implements OnInit {
     }
   }
 
-  actualizarProducto(data) {
-    this.index = 1;   
-    this.inventarioServ.actualizando(data);
+  guardarProducto(data) {
+    console.log(data);
+    this.miTienda.crearProducto(data).then((resp: any) => {
+      console.log(resp);      
+    })
+    
   }
 
   borrarProducto(id) {

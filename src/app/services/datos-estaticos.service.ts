@@ -45,11 +45,25 @@ export class DatosEstaticosService {
     return `${hora}:${minuto}:${segundos}`;
   }
 
+  getHourFormatted(data) {
+    let hora = data.getHours();
+    let minuto = data.getMinutes();
+    // let segundos = data.getSeconds();
+    return `${hora}:${minuto}`;
+  }
+
   getDataFormated(fecha) {    
     let month = fecha.getMonth();
     let year = fecha.getFullYear();
     let day = fecha.getDate();
     return `${year}/${month+1}/${day}`;
+  }
+
+  getDateTimeFormated(data) {
+    const fecha = this.getDataFormated(data)
+    const hora = this.getHourFormatted(data)
+
+    return fecha +' '+ hora;
   }
 
   getHourAmp() {

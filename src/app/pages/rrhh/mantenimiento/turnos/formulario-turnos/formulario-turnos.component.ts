@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { TurnosService } from 'src/app/services/turnos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -25,6 +26,7 @@ export class FormularioTurnosComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
+              private datosEstaticos: DatosEstaticosService,
               private turnosServ: TurnosService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
@@ -60,6 +62,8 @@ export class FormularioTurnosComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       descripcion:         ['', Validators.required],
+      horario_inicial:     ['', Validators.required],
+      horario_final:       ['', Validators.required],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
@@ -67,7 +71,20 @@ export class FormularioTurnosComponent implements OnInit {
   }
 
   guardarTurno(){
-    this.formSubmitted = true;    
+    // this.formSubmitted = true;    
+    console.log(this.forma.value);
+
+    const horai =  this.datosEstaticos.getDateTimeFormated(this.forma.get('horario_inicial').value);
+    const horaf =  this.datosEstaticos.getDateTimeFormated(this.forma.get('horario_final').value); 
+    
+    console.log(horai);
+    console.log(horaf);
+
+    if (horai > horaf) {
+      this.uiMessage.getMiniInfortiveMsg('tst','warn','ATENCION','La hora de salida no puede ser anterior a la de entrada.');     
+      return;
+    }
+
     if (this.forma.invalid) {    
       this.formSubmitted = false;   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
@@ -85,7 +102,7 @@ export class FormularioTurnosComponent implements OnInit {
           break;
 
         default:
-          this.turnosServ.crearTurno(this.forma.value).then(()=>{
+          this.turnosServ.crearTurno(this.forma.value, horai, horaf).then(()=>{
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta'); 
             this.resetFormulario(); 
           })

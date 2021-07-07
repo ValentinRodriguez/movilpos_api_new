@@ -21,6 +21,7 @@ export class GestionEmpleadosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   cols: any[];
+  formSubmitted = false;
 
   constructor(private empleadosServ: RrhhService,
               private usuariosServ: UsuarioService,
@@ -32,6 +33,10 @@ export class GestionEmpleadosComponent implements OnInit {
   ngOnInit(): void {    
     this.todosLosEmpleados();
 
+    this.empleadosServ.formSubmitted.subscribe(resp => {
+      this.formSubmitted = resp;
+    });
+    
     this.cols = [
       { field: 'foto_empleado', header: 'Foto' },
       { field: 'id_numemp', header: 'Código' },
@@ -44,8 +49,8 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   todosLosEmpleados() {
-    this.empleadosServ.getDatos().then((resp:any) =>{
-          
+    this.formSubmitted = true;
+    this.empleadosServ.getDatos().then((resp:any) =>{          
       this.empleados = resp;   
     })
   }

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'jspdf-autotable';
 import { SelectItem, ConfirmationService } from 'primeng/api';
 import { InventarioService } from 'src/app/services/inventario.service';
+import { TiendaService } from 'src/app/services/tienda.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class TiendaComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private inventarioServ: InventarioService,
+              private miTienda: TiendaService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }
 
@@ -36,13 +38,10 @@ export class TiendaComponent implements OnInit {
     this.listObserver();
 
     this.cols = [
-      { field: 'imagen', header: 'Imagen' },
-      { field: 'codigo', header: 'Código' },
+      { field: 'images', header: 'Imagen' },
+      { field: 'id', header: 'Código' },
       { field: 'marca', header: 'Marca' },
       { field: 'categoria', header: 'Modelo'},
-      { field: 'propiedad', header: 'Color'},
-      { field: 'almacen', header: 'Almacen' },
-      { field: 'tipoinventario', header: 'Tipo inventario' },
       { field: 'cantidad', header: 'Cantidad' },
       { field: 'acciones', header: 'Acciones' },
     ]
@@ -77,8 +76,9 @@ export class TiendaComponent implements OnInit {
  };
 
   todosLosProductos() {     
-    this.inventarioServ.getDatos().then((resp: any) =>{
+    this.miTienda.getDatos().then((resp: any) =>{
       this.productos = resp;        
+      console.log(resp);      
     })
   }
 
