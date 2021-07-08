@@ -84,7 +84,7 @@ export class RrhhService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData).subscribe( (resp:any) => {
+      this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      

@@ -80,7 +80,7 @@
             </span>        
         </div>
 
-          <!-- <div class="p-field p-col-12 p-md-3">
+        <div class="p-field p-col-12 p-md-3">
             <label for="telefono">Teléfono</label>
             <span class=" p-input-icon-right">
                 <p-inputMask mask="(999)-999-9999" formControlName="telefono" placeholder="(999)-999-9999" [class.ng-invalid]="getNoValido('telefono')" 
@@ -88,7 +88,7 @@
                 </p-inputMask>
             </span>
             <small *ngIf="getNoValido('telefono')" class="p-invalid">Este campo es obligatorio.</small>
-        </div> -->        
+        </div>        
     </div>
     
     <p-panel header="Ubicación">
@@ -172,16 +172,17 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="id_pais">Nacionalidad</label>	
-                        <p-autoComplete formControlName="id_pais" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPais($event)" 
-                                        field="gentilicio" [dropdown]="true" [class.ng-invalid]="getNoValido('id_pais')" [class.ng-dirty]="getNoValido('id_pais')">
+                        <label for="nacionalidad">Nacionalidad</label>	
+                        <p-autoComplete formControlName="nacionalidad" [suggestions]="paisesFiltrados" (completeMethod)="filtrarPais($event)" 
+                                        field="gentilicio" [dropdown]="true" [class.ng-invalid]="getNoValido('nacionalidad')" 
+                                        [class.ng-dirty]="getNoValido('nacionalidad')">
                             <ng-template let-pais pTemplate="item">
                                 <div class="country-item">
                                     <div>{{pais.gentilicio | titlecase}}</div>
                                 </div>
                             </ng-template>
                         </p-autoComplete>   
-                        <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>                             
+                        <small *ngIf="getNoValido('nacionalidad')" class="p-invalid">Este campo es obligatorio.</small>                             
                     </div>	
     
                     <div class="p-field p-col-12 p-md-3">
@@ -241,7 +242,7 @@
                         <span class=" p-input-icon-right">
                             <p-calendar formControlName="fech_nac" dateFormat="yy/mm/dd" [showIcon]="true" [class.ng-invalid]="getNoValido('fech_nac')" 
                                         [class.ng-dirty]="getNoValido('fech_nac')" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="this.rangoAnio()" 
-                                        (onSelect)="onSelectDate($event, 'fech_nac')">
+                                        (onSelect)="fechaNacimiento($event)">
                             </p-calendar>                                    
                         </span>     
                         <small *ngIf="getNoValido('fech_nac')" class="p-invalid">Este campo es obligatorio.</small>                           
@@ -332,20 +333,29 @@
                     <div class="p-field p-col-12 p-md-3">
                         <label for="cod_puesto">Puesto</label>	
                         <p-autoComplete formControlName="cod_puesto" [suggestions]="puestosFiltrados" (completeMethod)="filtrarPuesto($event)" field="primernombre" 
-                                        [dropdown]="true" [class.ng-invalid]="getNoValido('sucid')" [class.ng-dirty]="getNoValido('sucid')">
+                                        [dropdown]="true" [class.ng-invalid]="getNoValido('cod_puesto')" [class.ng-dirty]="getNoValido('cod_puesto')">
                             <ng-template let-cod_puesto pTemplate="item">
                                 <div class="country-item">
                                     <div>{{cod_puesto.titulo | titlecase}}</div>
                                 </div>
                             </ng-template>
                         </p-autoComplete>  
-                        <small *ngIf="getNoValido('sucid')" class="p-invalid">Este campo es obligatorio.</small>                              
+                        <small *ngIf="getNoValido('cod_puesto')" class="p-invalid">Este campo es obligatorio.</small>                              
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="sucid">Localidad</label>
+                        <label for="cod_cia">Empresa</label>
+                        <p-dropdown inputId="cod_cia" [options]="this.empresa" [class.ng-invalid]="getNoValido('cod_cia')" 
+                                    [class.ng-dirty]="getNoValido('cod_cia')" (onChange)="buscaSucursales($event.value.cod_cia)"                                 
+                                    name="cod_cia" formControlName="cod_cia" optionLabel="nombre">
+                        </p-dropdown>    
+                        <small *ngIf="getNoValido('cod_cia')" class="p-invalid">Este campo es obligatorio.</small>                            
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="sucid">Sucursal</label>
                         <p-dropdown inputId="sucid" [options]="this.sucursales" [class.ng-invalid]="getNoValido('sucid')" [class.ng-dirty]="getNoValido('sucid')"                                 
-                                    name="sucid" formControlName="sucid" placeholder="Escoge..." optionLabel="descripcion">
+                                    name="sucid" formControlName="sucid" optionLabel="descripcion" placeholder="Escoge...">
                         </p-dropdown>    
                         <small *ngIf="getNoValido('sucid')" class="p-invalid">Este campo es obligatorio.</small>                            
                     </div>
@@ -418,21 +428,13 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="fecha_salida">Fecha Salida</label>
+                        <label for="fecha_inicio_c">Fecha Contrato</label>
                         <span class=" p-input-icon-right">
-                            <p-calendar formControlName="fecha_salida" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event, 'fecha_salida')">
+                            <p-calendar formControlName="fecha_inicio_c" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event, 'fecha_inicio_c')">
                             </p-calendar>
                         </span>                             
                     </div>
-    
-                    <div class="p-field p-col-12 p-md-3">
-                        <label for="fecha_ultimo_aumento">Fecha Aumento</label>
-                        <span class=" p-input-icon-right">
-                            <p-calendar formControlName="fecha_ultimo_aumento" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event, 'fecha_ultimo_aumento')">
-                            </p-calendar>
-                        </span>                             
-                    </div>
-    
+
                     <div class="p-field p-col-12 p-md-3">
                         <label for="fecha_termino_c">Fecha Termino Contrato</label>
                         <span class=" p-input-icon-right">
@@ -440,6 +442,14 @@
                             </p-calendar>
                         </span>                              
                     </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fecha_ultimo_aumento">Fecha Aumento</label>
+                        <span class=" p-input-icon-right">
+                            <p-calendar formControlName="fecha_ultimo_aumento" dateFormat="yy/mm/dd" [showIcon]="true" (onSelect)="onSelectDate($event, 'fecha_ultimo_aumento')">
+                            </p-calendar>
+                        </span>                             
+                    </div>    
                 </div>
             </p-tabPanel>
     
@@ -447,7 +457,7 @@
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-3">
                         <label for="tipocuenta">Tipo de Cuenta</label>
-                        <p-dropdown inputId="tipocuenta" [options]="" name="tipocuenta" formControlName="tipocuenta" placeholder="Escoge..." optionLabel="value">
+                        <p-dropdown inputId="tipocuenta" [options]="sino" name="tipocuenta" formControlName="tipocuenta" placeholder="Escoge..." optionLabel="value">
                         </p-dropdown>                              
                     </div>
     
@@ -460,7 +470,7 @@
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="digiverbancodestino">Dígito ver Banco</label>
-                        <p-dropdown [options]="educacion" name="digiverbancodestino" formControlName="digiverbancodestino" placeholder="Escoge..." optionLabel="value">
+                        <p-dropdown [options]="sino" name="digiverbancodestino" formControlName="digiverbancodestino" placeholder="Escoge..." optionLabel="value">
                         </p-dropdown>
                     </div>
     
@@ -493,7 +503,7 @@
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="estado_legal">Estado Legal</label>
-                        <p-dropdown inputId="estado_legal" [options]="" name="estado_legal" formControlName="estado_legal"
+                        <p-dropdown inputId="estado_legal" [options]="sino" name="estado_legal" formControlName="estado_legal"
                                     placeholder="Escoge..." optionLabel="label0">
                         </p-dropdown>                               
                     </div>

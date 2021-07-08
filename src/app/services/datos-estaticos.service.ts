@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import * as moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +23,28 @@ export class DatosEstaticosService {
     const today = new Date();
     const date = today.getFullYear();
     return date;
+  }
+
+  getYearsOld(data) {
+    const years = moment().diff(data, 'years',false);
+    return years
+  }
+
+  getDiffMilliseconds(data1, data2) {    
+    var a =  moment().diff(data1);
+    var b = moment().diff(data2);
+    return a - b;    
+  }
+
+  isBetweenDate(data1, data2, data3) {
+    console.log(data1);
+    console.log(data2);
+    console.log(data3);
+    if (data2 === null) {
+      return this.getDiffMilliseconds(data1,data3)
+    } else {
+      return moment(data3).isBetween(data1, data2);      
+    }
   }
 
   getChasis() {

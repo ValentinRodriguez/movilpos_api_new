@@ -6,6 +6,7 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { PuestosService } from 'src/app/services/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh.service';
+import { SucursalesService } from 'src/app/services/sucursales.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepEmpleadosComponent } from '../step-empleados/step-empleados.component';
@@ -87,6 +88,7 @@ export class FormularioEmpleadosComponent implements OnInit {
               public dialogService: DialogService,
               private puestosServ: PuestosService,
               private router: Router,
+              private sucursalesServ: SucursalesService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private datosEstaticosServ: DatosEstaticosService) {     
     this.usuario = this.usuariosServ.getUserLogged();
@@ -124,12 +126,17 @@ export class FormularioEmpleadosComponent implements OnInit {
             this.monedas = element.data;
             break;
             
-          case 'sucursal':
-            this.sucursales = element.data;
-            break;
+          // case 'sucursal':
+          //   this.sucursales = element.data;
+          //   break;
           
           case 'empresas':
             this.empresa = element.data;
+            if (this.empresa.length === 1) {
+              console.log(this.empresa[0]);
+              
+              this.buscaSucursales(this.empresa[0].cod_cia)
+            }
             break;
           
           case 'paises':
@@ -183,8 +190,9 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    this.formSubmitted = true;    
-     (this.forma);    
+    this.formSubmitted = true;
+    console.log(this.forma);
+    
     if (this.forma.invalid) {  
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -227,6 +235,13 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
       this.sectores = resp;
     })   
+  }
+
+  buscaSucursales(cod_cia) {  
+    this.formSubmitted = true;
+    this.sucursalesServ.busquedaXempresa(cod_cia).then((resp: any) => {
+      this.sucursales = resp; 
+    })
   }
 
   previewUserPhoto(files) {    
@@ -282,7 +297,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       nivel_emp: ["", Validators.required],
       educacion: ["", Validators.required], //
       num_emp_supervisor: [""],
-
+      cod_cia: ["", Validators.required],
       fech_nac: ["", Validators.required],
       cod_nac: [""],
       estado_civil: ["", Validators.required],
@@ -290,19 +305,19 @@ export class FormularioEmpleadosComponent implements OnInit {
       fech_efec: ["", Validators.required],
       paga_seg: ["", Validators.required],
       tipo_sueldo: ["", Validators.required],
-      
+      nacionalidad: ["", Validators.required],
       observacion: [""],  
       credito: [""],
       sucid: ["", Validators.required],
       sexo: ["", Validators.required], //
       poncha: ["", Validators.required], //
       moneda: ["", Validators.required],
-      fecha_salida: [""],
       tipocuenta: [""],
       codbancodestino: [""],
       digiverbancodestino: [""],
       genera_file_bco: [""],
       fecha_ultimo_aumento: [""],
+      fecha_inicio_c: [""],
       fecha_termino_c: [""],
       
       tipo_empleado: ["", Validators.required],
@@ -378,9 +393,53 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.supervisoresFiltrados = filtered;    
   }
 
-  onSelectDate(event, campo:string) {
+  onSelectDate(event, campo: string) {
     let d = new Date(Date.parse(event));
-    this.forma.get(campo).setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
+    const fecha1 = new Date(this.forma.get('fecha_inicio_c').value);
+    let fecha2 = new Date(this.forma.get('fecha_termino_c').value);
+    const fecha3 = new Date(this.forma.get('fecha_ultimo_aumento').value);
+    
+    if (campo === 'fecha_termino_c') {
+      const diferencia = this.datosEstaticosServ.getDiffMilliseconds(fecha1, fecha2);
+      if (diferencia < 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de salida no puede ser menor a la fecha de contratacion.');
+        this.forma.get('fecha_termino_c').setValue('');
+        return;
+      }      
+    }
+
+    if (campo === 'fecha_ultimo_aumento') {
+      if (this.forma.get('fecha_termino_c').value === '') {
+        fecha2 = null;
+      }
+      const diferencia = this.datosEstaticosServ.isBetweenDate(fecha1, fecha2, fecha3);
+      console.log(diferencia);
+      if (diferencia < 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de aumento debe ser mayor a la de contrato.');
+      }
+      
+      if (diferencia === false) {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de aumento debe entre la de contrato y la de salida.');
+      }   
+    }
+    this.forma.get(campo).setValue(this.datosEstaticosServ.getDateTimeFormated(d));
+  }
+
+  fechaNacimiento(event) {
+    let d = new Date(Date.parse(event));
+    const edad = this.datosEstaticosServ.getYearsOld(d);
+
+    if (edad < 18) {
+      const title = 'Atención!';
+      const text = 'Esta persona es menor de edad, desea continuar?'
+      const res = this.uiMessage.getSweetMessageOk(title, text).then((result) => {
+        if (result.isConfirmed) {
+          this.forma.get('fech_nac').setValue('');
+          return;
+        }
+      })     
+    }
+    this.forma.get('fech_nac').setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
   }
 
   setHorarios(data) {
