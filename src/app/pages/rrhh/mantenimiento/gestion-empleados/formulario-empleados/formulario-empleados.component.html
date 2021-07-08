@@ -203,7 +203,7 @@
                     <div class="p-field p-col-12 p-md-3">
                         <label for="horario">Horario</label>
                         <p-dropdown inputId="horario" [options]="horario"  [class.ng-invalid]="getNoValido('horario')" [class.ng-dirty]="getNoValido('horario')" 
-                                    name="horario" formControlName="horario" placeholder="Escoge..." optionLabel="label">
+                                    name="horario" formControlName="horario" placeholder="Escoge..." optionLabel="descripcion" (onChange)="setHorarios($event)">
                         </p-dropdown> 
                         <small *ngIf="getNoValido('horario')" class="p-invalid">Este campo es obligatorio.</small>                               
                     </div>
@@ -344,8 +344,8 @@
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="sucid">Localidad</label>
-                        <p-dropdown inputId="sucid" [options]="sino" [class.ng-invalid]="getNoValido('sucid')" [class.ng-dirty]="getNoValido('sucid')"                                 
-                                    name="sucid" formControlName="sucid" placeholder="Escoge..." optionLabel="label">
+                        <p-dropdown inputId="sucid" [options]="this.sucursales" [class.ng-invalid]="getNoValido('sucid')" [class.ng-dirty]="getNoValido('sucid')"                                 
+                                    name="sucid" formControlName="sucid" placeholder="Escoge..." optionLabel="descripcion">
                         </p-dropdown>    
                         <small *ngIf="getNoValido('sucid')" class="p-invalid">Este campo es obligatorio.</small>                            
                     </div>
@@ -447,7 +447,7 @@
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-3">
                         <label for="tipocuenta">Tipo de Cuenta</label>
-                        <p-dropdown inputId="tipocuenta" [options]="educacion" name="tipocuenta" formControlName="tipocuenta" placeholder="Escoge..." optionLabel="value">
+                        <p-dropdown inputId="tipocuenta" [options]="" name="tipocuenta" formControlName="tipocuenta" placeholder="Escoge..." optionLabel="value">
                         </p-dropdown>                              
                     </div>
     
@@ -493,7 +493,7 @@
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="estado_legal">Estado Legal</label>
-                        <p-dropdown inputId="estado_legal" [options]="sino" name="estado_legal" formControlName="estado_legal"
+                        <p-dropdown inputId="estado_legal" [options]="" name="estado_legal" formControlName="estado_legal"
                                     placeholder="Escoge..." optionLabel="label0">
                         </p-dropdown>                               
                     </div>

@@ -71,7 +71,7 @@ export class FormularioTurnosComponent implements OnInit {
   }
 
   guardarTurno(){
-    // this.formSubmitted = true;    
+    this.formSubmitted = true;    
     console.log(this.forma.value);
 
     const horai =  this.datosEstaticos.getDateTimeFormated(this.forma.get('horario_inicial').value);
@@ -80,10 +80,10 @@ export class FormularioTurnosComponent implements OnInit {
     console.log(horai);
     console.log(horaf);
 
-    if (horai > horaf) {
-      this.uiMessage.getMiniInfortiveMsg('tst','warn','ATENCION','La hora de salida no puede ser anterior a la de entrada.');     
-      return;
-    }
+    // if (horai > horaf) {
+    //   this.uiMessage.getMiniInfortiveMsg('tst','warn','ATENCION','La hora de salida no puede ser anterior a la de entrada.');     
+    //   return;
+    // }
 
     if (this.forma.invalid) {    
       this.formSubmitted = false;   

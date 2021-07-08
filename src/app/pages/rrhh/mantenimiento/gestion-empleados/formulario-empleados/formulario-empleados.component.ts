@@ -383,6 +383,12 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.forma.get(campo).setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
   }
 
+  setHorarios(data) {
+    console.log(data);
+    this.forma.get('horario_inicial').setValue(new Date(data.value.horario_inicial));
+    this.forma.get('horario_final').setValue(new Date(data.value.horario_final));
+  }
+
   setMinDate() {
     let today = new Date();
     let month = today.getMonth();
