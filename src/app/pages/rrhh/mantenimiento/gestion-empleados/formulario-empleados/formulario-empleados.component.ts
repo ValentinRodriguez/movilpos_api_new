@@ -134,7 +134,7 @@ export class FormularioEmpleadosComponent implements OnInit {
             this.empresa = element.data;
             if (this.empresa.length === 1) {
               console.log(this.empresa[0]);
-              
+              this.forma.get("cod_cia").setValue(this.empresa[0])
               this.buscaSucursales(this.empresa[0].cod_cia)
             }
             break;
@@ -272,12 +272,12 @@ export class FormularioEmpleadosComponent implements OnInit {
       apell1_emp: ["rodriguez", Validators.required],
       apell2_emp: ["martinez"],      
       cedula: ["22500192319", Validators.required],
-      telefono: ["", Validators.required],
+      telefono: ["(666)-666-6666", Validators.required],
       email: ["asdad@dfdf.com"],
-      licencia: ["234234"],
+      licencia: ["234234", Validators.required],
       cod_tss: ["234234"],
       nomina: ["23"],
-      sueldo_ac: ["ssdfsfd", Validators.required],
+      sueldo_ac: ["", Validators.required],
       tasa: ["2323"], //
       id_pais: ["", Validators.required],
       id_region: ["", Validators.required],
@@ -319,7 +319,6 @@ export class FormularioEmpleadosComponent implements OnInit {
       fecha_ultimo_aumento: [""],
       fecha_inicio_c: [""],
       fecha_termino_c: [""],
-      
       tipo_empleado: ["", Validators.required],
       horario: ["", Validators.required],
       horario_inicial: ["", Validators.required],
@@ -433,7 +432,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       const title = 'Atención!';
       const text = 'Esta persona es menor de edad, desea continuar?'
       const res = this.uiMessage.getSweetMessageOk(title, text).then((result) => {
-        if (result.isConfirmed) {
+        if (result.isDenied) {          
           this.forma.get('fech_nac').setValue('');
           return;
         }
