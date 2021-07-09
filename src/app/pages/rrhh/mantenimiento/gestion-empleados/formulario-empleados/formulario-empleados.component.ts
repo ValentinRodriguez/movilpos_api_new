@@ -190,21 +190,24 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    this.formSubmitted = true;
+    // this.formSubmitted = true;
     console.log(this.forma);
-    
-    if (this.forma.invalid) {  
-      this.formSubmitted = false;
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
+    this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Registro creado de manera correcta');        
+    })  
+    // if (this.forma.invalid) {  
+    //   this.formSubmitted = false;
+    //   this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+    //   Object.values(this.forma.controls).forEach(control =>{     
+    //     console.log(control);             
+    //     control.markAllAsTouched();
+    //   })
        
-    }else{ 
-      this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
-        this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Registro creado de manera correcta');        
-      })       
-    } 
+    // }else{ 
+    //   this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
+    //     this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Registro creado de manera correcta');        
+    //   })       
+    // } 
   }
     
   buscaRegion(event) {
@@ -267,78 +270,78 @@ export class FormularioEmpleadosComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({      
       foto_empleado: [""],
-      nom1_emp: ["valentin", Validators.required],
-      nom2_emp: ["antonio"],
-      apell1_emp: ["rodriguez", Validators.required],
-      apell2_emp: ["martinez"],      
+      primernombre: ["valentin", Validators.required],
+      segundonombre: ["antonio"],
+      primerapellido: ["rodriguez", Validators.required],
+      segundoapellido: ["martinez"],      
       cedula: ["22500192319", Validators.required],
       telefono: ["(666)-666-6666", Validators.required],
       email: ["asdad@dfdf.com"],
       licencia: ["234234", Validators.required],
       cod_tss: ["234234"],
       nomina: ["23"],
-      sueldo_ac: ["", Validators.required],
-      tasa: ["2323"], //
-      id_pais: ["", Validators.required],
+      monto_adicional: ["23"],
+      sueldo: ["", Validators.required],
+      tasa: ["2323"],
+      id_pais: [, Validators.required],
       id_region: ["", Validators.required],
       id_provincia: ["", Validators.required],
       id_municipio: ["", Validators.required],
       id_ciudad: ["", Validators.required],
       id_sector: [""],
       cuenta_fi: ["2323"],
-      codigo_es: ["234234"], //
+      codigo_es: ["234234"],
       codigo_retiro_bco: ["345435"],
       cuenta_no: ["234"],
       calle: ["asdads", Validators.required],
-      barrio: ["zfzxfsadf", Validators.required],
       is_sup: ["", Validators.required],
       departamento: ["", Validators.required],
-      cod_puesto: ["", Validators.required],
-      nivel_emp: ["", Validators.required],
-      educacion: ["", Validators.required], //
+      id_puesto: ["", Validators.required],
+      educacion: ["", Validators.required],
       num_emp_supervisor: [""],
       cod_cia: ["", Validators.required],
-      fech_nac: ["", Validators.required],
+      fecha_nacimiento: ["", Validators.required],
+      fecha_suspencion: [""],
+      fecha_contrato: ["", Validators.required],
       cod_nac: [""],
       estado_civil: ["", Validators.required],
       tipo_sangre: [""],
-      fech_efec: ["", Validators.required],
+      fecha_entrada: ["", Validators.required],
       paga_seg: ["", Validators.required],
       tipo_sueldo: ["", Validators.required],
-      nacionalidad: ["", Validators.required],
-      observacion: [""],  
+      observacion: ["gfhfghfghfghf"],  
       credito: [""],
       sucid: ["", Validators.required],
-      sexo: ["", Validators.required], //
-      poncha: ["", Validators.required], //
+      sexo: ["", Validators.required],
+      poncha: ["", Validators.required],
       moneda: ["", Validators.required],
       tipocuenta: [""],
       codbancodestino: [""],
       digiverbancodestino: [""],
-      genera_file_bco: [""],
       fecha_ultimo_aumento: [""],
       fecha_inicio_c: [""],
-      fecha_termino_c: [""],
+      fecha_termino_contrato: [""],
       tipo_empleado: ["", Validators.required],
       horario: ["", Validators.required],
       horario_inicial: ["", Validators.required],
       horario_final: ["", Validators.required],
-      serie: [""],
-      cod_seg1: [""],
-      cod_seg2: [""],
-      cod_seg3: [""],
-      monto_seg_med: [""],
-      monto_seg_int: [""],
-      monto_care: [""],
-      instalador: [""],
-      cuenta_aux: [""],
-      cuenta_out: [""],
-      departamento_out: [""],
       retiro_comercial: [""],
-      estado_legal: [""],      
+      estadolegal: [""],      
       fecha_suspension: [""],
-      fecha_valido_retiro: [""],
-      monto_retiro: [""],
+      // cod_seg1: [""],
+      // cod_seg2: [""],
+      // cod_seg3: [""],
+      // genera_file_bco: [""],
+      // nivel_emp: ["", Validators.required],
+      // monto_seg_med: [""],
+      // monto_seg_int: [""],
+      // monto_care: [""],
+      // instalador: [""],
+      // cuenta_aux: [""],
+      // cuenta_out: [""],
+      // departamento_out: [""],
+      // fecha_valido_retiro: [""],
+      // monto_retiro: [""],
       estado:          ['activo', Validators.required],
       usuario_creador: [this.usuario.username, Validators.required]
     })
@@ -395,20 +398,20 @@ export class FormularioEmpleadosComponent implements OnInit {
   onSelectDate(event, campo: string) {
     let d = new Date(Date.parse(event));
     const fecha1 = new Date(this.forma.get('fecha_inicio_c').value);
-    let fecha2 = new Date(this.forma.get('fecha_termino_c').value);
+    let fecha2 = new Date(this.forma.get('fecha_termino_contrato').value);
     const fecha3 = new Date(this.forma.get('fecha_ultimo_aumento').value);
     
-    if (campo === 'fecha_termino_c') {
+    if (campo === 'fecha_termino_contrato') {
       const diferencia = this.datosEstaticosServ.getDiffMilliseconds(fecha1, fecha2);
       if (diferencia < 0) {
         this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de salida no puede ser menor a la fecha de contratacion.');
-        this.forma.get('fecha_termino_c').setValue('');
+        this.forma.get('fecha_termino_contrato').setValue('');
         return;
       }      
     }
 
     if (campo === 'fecha_ultimo_aumento') {
-      if (this.forma.get('fecha_termino_c').value === '') {
+      if (this.forma.get('fecha_termino_contrato').value === '') {
         fecha2 = null;
       }
       const diferencia = this.datosEstaticosServ.isBetweenDate(fecha1, fecha2, fecha3);
@@ -433,12 +436,12 @@ export class FormularioEmpleadosComponent implements OnInit {
       const text = 'Esta persona es menor de edad, desea continuar?'
       const res = this.uiMessage.getSweetMessageOk(title, text).then((result) => {
         if (result.isDenied) {          
-          this.forma.get('fech_nac').setValue('');
+          this.forma.get('fecha_nacimiento').setValue('');
           return;
         }
       })     
     }
-    this.forma.get('fech_nac').setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
+    this.forma.get('fecha_nacimiento').setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
   }
 
   setHorarios(data) {
