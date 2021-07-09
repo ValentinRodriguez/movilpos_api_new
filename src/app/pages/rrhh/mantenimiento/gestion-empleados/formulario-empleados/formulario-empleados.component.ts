@@ -46,16 +46,18 @@ export class FormularioEmpleadosComponent implements OnInit {
   estado_civil = [] 
   tipo_empleado = [] 
   tipo_sangre = [] 
-
+  cuentasFiltradas: any[] = [];
+  cuentas: any[] = [];
   paises: any[] = [];
   regiones: any[] = [];
   provincias: any[] = [];
   municipios: any[] = [];
   sectores: any[] = [];
   ciudades: any[] = [];
-  horario: any[] = [];
+  turno: any[] = [];
   sucursales: any[] = [];
-
+  areas: any[] = [];
+  
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -111,7 +113,7 @@ export class FormularioEmpleadosComponent implements OnInit {
         }
         switch (element.label) {
           case 'horarios':
-            this.horario = element.data;
+            this.turno = element.data;
             break;
         
           case 'puestos':
@@ -138,6 +140,10 @@ export class FormularioEmpleadosComponent implements OnInit {
               this.buscaSucursales(this.empresa[0].cod_cia)
             }
             break;
+  
+          case 'cuentas':
+              this.cuentas = element.data;
+            break;
           
           case 'paises':
             this.paises = element.data;
@@ -162,6 +168,10 @@ export class FormularioEmpleadosComponent implements OnInit {
           case 'tipoSangre':
             this.tipo_sangre = element.data;
             break;
+            
+            case 'areas':
+              this.areas = element.data;
+              break;
             
           default:
             break;
@@ -269,65 +279,65 @@ export class FormularioEmpleadosComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({      
-      foto_empleado: [""],
-      primernombre: ["valentin", Validators.required],
-      segundonombre: ["antonio"],
-      primerapellido: ["rodriguez", Validators.required],
-      segundoapellido: ["martinez"],      
-      cedula: ["22500192319", Validators.required],
-      telefono: ["(666)-666-6666", Validators.required],
-      email: ["asdad@dfdf.com"],
-      licencia: ["234234", Validators.required],
-      cod_tss: ["234234"],
-      nomina: ["23"],
+      calle: ["asdads", Validators.required],
+      cedula: ["22500192319", Validators.required],
+      cod_cia: ["", Validators.required],
+      cod_nac: [""],
+      cod_tss: ["234234", Validators.required],
+      codbancodestino: [""],
+      codigo_es: ["234234"],
+      codigo_retiro_bco: ["345435"],
+      credito: [""],
+      cuenta_fi: ["2323"],
+      cuenta_no: ["234"],
+      departamento: ["", Validators.required],
+      digiverbancodestino: [""],
+      educacion: [""],
+      email: ["asdad@dfdf.com"],
+      estado_civil: [""],
+      estadolegal: [""],      
+      fecha_entrada: ["", Validators.required],
+      fecha_inicio_c: ["", Validators.required],
+      fecha_nacimiento: ["", Validators.required],
+      fecha_suspencion: [""],
+      fecha_termino_contrato: [""],
+      fecha_ultimo_aumento: [""],
+      foto_empleado: [""],
+      area: ["", Validators.required],
+      id_ciudad: ["", Validators.required],
+      id_moneda: ["", Validators.required],
+      id_municipio: ["", Validators.required],
+      id_pais: [, Validators.required],
+      id_provincia: ["", Validators.required],
+      id_puesto: ["", Validators.required],
+      id_region: ["", Validators.required],
+      id_sector: [""],
+      is_sup: ["", Validators.required],
+      licencia: ["234234", Validators.required],
       monto_adicional: ["23"],
-      sueldo: ["", Validators.required],
-      tasa: ["2323"],
-      id_pais: [, Validators.required],
-      id_region: ["", Validators.required],
-      id_provincia: ["", Validators.required],
-      id_municipio: ["", Validators.required],
-      id_ciudad: ["", Validators.required],
-      id_sector: [""],
-      cuenta_fi: ["2323"],
-      codigo_es: ["234234"],
-      codigo_retiro_bco: ["345435"],
-      cuenta_no: ["234"],
-      calle: ["asdads", Validators.required],
-      is_sup: ["", Validators.required],
-      departamento: ["", Validators.required],
-      id_puesto: ["", Validators.required],
-      educacion: ["", Validators.required],
-      num_emp_supervisor: [""],
-      cod_cia: ["", Validators.required],
-      fecha_nacimiento: ["", Validators.required],
-      fecha_suspencion: [""],
-      fecha_contrato: ["", Validators.required],
-      cod_nac: [""],
-      estado_civil: ["", Validators.required],
-      tipo_sangre: [""],
-      fecha_entrada: ["", Validators.required],
-      paga_seg: ["", Validators.required],
-      tipo_sueldo: ["", Validators.required],
-      observacion: ["gfhfghfghfghf"],  
-      credito: [""],
-      sucid: ["", Validators.required],
-      sexo: ["", Validators.required],
-      poncha: ["", Validators.required],
-      moneda: ["", Validators.required],
-      tipocuenta: [""],
-      codbancodestino: [""],
-      digiverbancodestino: [""],
-      fecha_ultimo_aumento: [""],
-      fecha_inicio_c: [""],
-      fecha_termino_contrato: [""],
-      tipo_empleado: ["", Validators.required],
-      horario: ["", Validators.required],
-      horario_inicial: ["", Validators.required],
-      horario_final: ["", Validators.required],
-      retiro_comercial: [""],
-      estadolegal: [""],      
-      fecha_suspension: [""],
+      no_cuenta_banco: ["23"],
+      nomina: ["23", Validators.required],
+      num_emp_supervisor: [""],
+      observacion: ["gfhfghfghfghf"],  
+      horario_inicial: [{value: '', disabled: true}],
+      horario_final: [{value: '', disabled: true}],
+      paga_seg: ["", Validators.required],
+      poncha: ["", Validators.required],
+      primerapellido: ["rodriguez", Validators.required],
+      primernombre: ["valentin", Validators.required],
+      retiro_comercial: [""],
+      segundoapellido: ["martinez"],      
+      segundonombre: ["antonio"],
+      sexo: ["", Validators.required],
+      suc_id: ["", Validators.required],
+      sueldo: ["", Validators.required],
+      tasa: ["2323"],
+      telefono: ["(666)-666-6666", Validators.required],
+      tipo_empleado: ["", Validators.required],
+      tipo_sangre: [""],
+      tipocuenta: [""],
+      turno: ["", Validators.required],
+      
       // cod_seg1: [""],
       // cod_seg2: [""],
       // cod_seg3: [""],
@@ -357,6 +367,18 @@ export class FormularioEmpleadosComponent implements OnInit {
       }
     }
     this.puestosFiltrados = filtered;
+  }
+
+  filtrarCuentas(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.cuentas.length; i++) {
+      const size = this.cuentas[i];
+      if (size.descripcion.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.cuentasFiltradas = filtered;
   }
 
   filtrarEmpleado(event) {
@@ -462,7 +484,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   setValueMoneda() {
-    this.selectedMultiMoneda = this.forma.get("moneda").value   
+    this.selectedMultiMoneda = this.forma.get("id_moneda").value   
   }
 
   buscaSupervisor(id:string) {

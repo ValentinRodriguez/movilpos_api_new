@@ -13,6 +13,8 @@ import { FormularioEmpresaComponent } from '../empresa/empresa/formulario-empres
 import { FormularioTurnosComponent } from './mantenimiento/turnos/formulario-turnos/formulario-turnos.component';
 import { FormularioPuestosComponent } from './mantenimiento/puestos/formulario-puestos/formulario-puestos.component';
 import { FormularioMonedasComponent } from '../empresa/monedas/formulario-monedas/formulario-monedas.component';
+import { FormularioCgcatalogoComponent } from '../contabilidad-general/mantenimiento/catalogo-cuentas/formulario-cgcatalogo/formulario-cgcatalogo.component';
+import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
 
 @NgModule({
   imports: [
@@ -34,6 +36,8 @@ import { FormularioMonedasComponent } from '../empresa/monedas/formulario-moneda
             { path: 'bancos', component: FormularioDepartamentosComponent },
             { path: 'tipoEmpleado', component: FormularioDepartamentosComponent },
             { path: 'sucursal', component: FormularioSucursalesComponent},
+             { path: 'cuentas', component: FormularioCgcatalogoComponent },
+             { path: 'areas', component: FormularioAreaEmpresasComponent},
             { path: 'empresas', component: FormularioEmpresaComponent},
         ]},
          { path: 'gestion-de-empleados', component: GestionEmpleadosComponent },         

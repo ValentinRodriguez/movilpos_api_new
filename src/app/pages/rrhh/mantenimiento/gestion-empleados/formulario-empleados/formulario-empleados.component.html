@@ -202,18 +202,18 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="horario">Horario</label>
-                        <p-dropdown placeholder="Escoje.." inputId="horario" [options]="horario" [class.ng-invalid]="getNoValido('horario')" 
-                                    [class.ng-dirty]="getNoValido('horario')" name="horario" formControlName="horario" optionLabel="descripcion" 
+                        <label for="turno">Turno</label>
+                        <p-dropdown placeholder="Escoje.." inputId="turno" [options]="turno" [class.ng-invalid]="getNoValido('turno')" 
+                                    [class.ng-dirty]="getNoValido('turno')" name="turno" formControlName="turno" optionLabel="descripcion" 
                                     (onChange)="setHorarios($event)">
                         </p-dropdown> 
-                        <small *ngIf="getNoValido('horario')" class="p-invalid">Este campo es obligatorio.</small>                               
+                        <small *ngIf="getNoValido('turno')" class="p-invalid">Este campo es obligatorio.</small>                               
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="horario_inicial">Hora Entrada</label>
                         <span class=" p-input-icon-right">
-                            <p-calendar formControlName="horario_inicial" [timeOnly]="true" inputId="horario_inicial" hourFormat="12" 
+                            <p-calendar formControlName="horario_inicial" [timeOnly]="true" inputId="horario_inicial" hourFormat="12" [readonlyInput]="true"
                                         [class.ng-invalid]="getNoValido('horario_inicial')" [class.ng-dirty]="getNoValido('horario_inicial')">
                             </p-calendar>
                         </span>      
@@ -224,7 +224,7 @@
                         <label for="horario_final">Hora Salida</label>
                         <span class=" p-input-icon-right">
                             <p-calendar formControlName="horario_final" [timeOnly]="true" inputId="horario_final" hourFormat="12" [class.ng-invalid]="getNoValido('horario_final')" 
-                                        [class.ng-dirty]="getNoValido('horario_final')">
+                                        [class.ng-dirty]="getNoValido('horario_final')" [readonlyInput]="true">
                             </p-calendar>
                         </span>
                         <small *ngIf="getNoValido('horario_final')" class="p-invalid">Este campo es obligatorio.</small>
@@ -303,28 +303,6 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="departamento">Departamento</label>
-                        <p-dropdown placeholder="Escoje.." inputId="departamento" [options]="departamento" name="departamento" formControlName="departamento" 
-                                    [class.ng-invalid]="getNoValido('departamento')" optionLabel="titulo"
-                                    [class.ng-dirty]="getNoValido('departamento')" (onChange)="buscaSupervisor($event.value.id)">
-                        </p-dropdown>
-                        <small *ngIf="getNoValido('departamento')" class="p-invalid">Este campo es obligatorio.</small>
-                    </div>
-                    
-                    <div class="p-field p-col-12 p-md-3">
-                        <label for="num_emp_supervisor">Supervisor</label>	
-                        <p-autoComplete formControlName="num_emp_supervisor" [suggestions]="supervisoresFiltrados" (completeMethod)="filtrarSupervisor($event)" [class.ng-dirty]="getNoValido('num_emp_supervisor')" 
-                                        field="nombre_empleado" [dropdown]="true" [readonly]="this.supervisores.length === 0" forceSelection="true" [class.ng-invalid]="getNoValido('num_emp_supervisor')">
-                            <ng-template let-supervisor pTemplate="item">
-                                <div class="country-item">
-                                    <div>{{supervisor.nombre_empleado | titlecase}}</div>
-                                </div>
-                            </ng-template>
-                        </p-autoComplete>  
-                        <small *ngIf="getNoValido('num_emp_supervisor')" class="p-invalid">Este campo es obligatorio.</small>                              
-                    </div>	
-    
-                    <div class="p-field p-col-12 p-md-3">
                         <label for="tipo_empleado">Tipo de Empleado</label>
                         <p-dropdown placeholder="Escoje.." inputId="tipo_empleado" [options]="tipo_empleado" [class.ng-invalid]="getNoValido('tipo_empleado')" [class.ng-dirty]="getNoValido('tipo_empleado')" 
                                     name="tipo_empleado" formControlName="tipo_empleado" optionLabel="descripcion">
@@ -355,11 +333,42 @@
                     </div>
 
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="sucid">Sucursal</label>
-                        <p-dropdown placeholder="Escoje.." inputId="sucid" [options]="this.sucursales" [class.ng-invalid]="getNoValido('sucid')" [class.ng-dirty]="getNoValido('sucid')"                                 
-                                    name="sucid" formControlName="sucid" optionLabel="descripcion">
+                        <label for="suc_id">Sucursal</label>
+                        <p-dropdown placeholder="Escoje.." inputId="suc_id" [options]="this.sucursales" [class.ng-invalid]="getNoValido('suc_id')" [class.ng-dirty]="getNoValido('suc_id')"                                 
+                                    name="suc_id" formControlName="suc_id" optionLabel="descripcion">
                         </p-dropdown>    
-                        <small *ngIf="getNoValido('sucid')" class="p-invalid">Este campo es obligatorio.</small>                            
+                        <small *ngIf="getNoValido('suc_id')" class="p-invalid">Este campo es obligatorio.</small>                            
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="departamento">Departamento</label>
+                        <p-dropdown placeholder="Escoje.." inputId="departamento" [options]="departamento" name="departamento" formControlName="departamento" 
+                                    [class.ng-invalid]="getNoValido('departamento')" optionLabel="titulo"
+                                    [class.ng-dirty]="getNoValido('departamento')" (onChange)="buscaSupervisor($event.value.id)">
+                        </p-dropdown>
+                        <small *ngIf="getNoValido('departamento')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="num_emp_supervisor">Supervisor</label>	
+                        <p-autoComplete formControlName="num_emp_supervisor" [suggestions]="supervisoresFiltrados" (completeMethod)="filtrarSupervisor($event)" [class.ng-dirty]="getNoValido('num_emp_supervisor')" 
+                                        field="nombre_empleado" [dropdown]="true" [readonly]="this.supervisores.length === 0" forceSelection="true" [class.ng-invalid]="getNoValido('num_emp_supervisor')">
+                            <ng-template let-supervisor pTemplate="item">
+                                <div class="country-item">
+                                    <div>{{supervisor.nombre_empleado | titlecase}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>  
+                        <small *ngIf="getNoValido('num_emp_supervisor')" class="p-invalid">Este campo es obligatorio.</small>                              
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="area">Area Empresa</label>
+                        <p-dropdown placeholder="Escoje.." inputId="area" [options]="areas" name="area" formControlName="area" 
+                                    [class.ng-invalid]="getNoValido('area')" optionLabel="descripcion"
+                                    [class.ng-dirty]="getNoValido('area')">
+                        </p-dropdown>
+                        <small *ngIf="getNoValido('area')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
@@ -378,15 +387,7 @@
                         </span>  
                         <small *ngIf="getNoValido('nomina')" class="p-invalid">Este campo es obligatorio.</small>                           
                     </div>
-    
-                    <div class="p-field p-col-12 p-md-3">
-                        <label for="tipo_sueldo">Tipo Sueldo</label>
-                        <p-dropdown placeholder="Escoje.." inputId="tipo_sueldo" [options]="tipo_sueldo"  [class.ng-invalid]="getNoValido('tipo_sueldo')" [class.ng-dirty]="getNoValido('tipo_sueldo')"
-                                    name="tipo_sueldo" formControlName="tipo_sueldo">optionLabel="label">
-                        </p-dropdown>  
-                        <small *ngIf="getNoValido('tipo_sueldo')" class="p-invalid">Este campo es obligatorio.</small>                              
-                    </div>
-    
+        
                     <div class="p-field p-col-12 p-md-3">
                         <label for="sueldo">Sueldo</label>
                         <span class=" p-input-icon-right">
@@ -406,11 +407,11 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="moneda">Moneda</label>
-                        <p-dropdown placeholder="Escoje.." inputId="moneda" [options]="monedas"  [class.ng-invalid]="getNoValido('moneda')" [class.ng-dirty]="getNoValido('moneda')"
-                                    name="moneda" formControlName="moneda" optionLabel="descripcion">
+                        <label for="id_moneda">Moneda</label>
+                        <p-dropdown placeholder="Escoje.." inputId="id_moneda" [options]="monedas"  [class.ng-invalid]="getNoValido('id_moneda')" [class.ng-dirty]="getNoValido('id_moneda')"
+                                    name="id_moneda" formControlName="id_moneda" optionLabel="descripcion">
                         </p-dropdown>  
-                        <small *ngIf="getNoValido('moneda')" class="p-invalid">Este campo es obligatorio.</small>                              
+                        <small *ngIf="getNoValido('id_moneda')" class="p-invalid">Este campo es obligatorio.</small>                              
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
@@ -442,17 +443,6 @@
                         <small *ngIf="getNoValido('poncha')" class="p-invalid">Este campo es obligatorio.</small>                               
                     </div>
     
-                    <div class="p-field p-col-12 p-md-3">
-                        <label for="fecha_contrato">Fecha Contrato</label>
-                        <span class=" p-input-icon-right">
-                            <p-calendar formControlName="fecha_contrato" dateFormat="yy/mm/dd" [showIcon]="true" 
-                                        [class.ng-invalid]="getNoValido('fecha_contrato')" [class.ng-dirty]="getNoValido('fecha_contrato')" 
-                                        (onSelect)="onSelectDate($event, 'fecha_contrato')">
-                            </p-calendar>
-                            <small *ngIf="getNoValido('fecha_contrato')" class="p-invalid">Este campo es obligatorio.</small>  
-                        </span>                             
-                    </div>
-
                     <div class="p-field p-col-12 p-md-3">
                         <label for="fecha_inicio_c">Fecha Contrato</label>
                         <span class=" p-input-icon-right">
@@ -511,6 +501,13 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
+                        <label for="no_cuenta_banco">NO. cuenta Banco</label>
+                        <span class=" p-input-icon-right">
+                            <input id="no_cuenta_banco" type="text" pInputText formControlName="no_cuenta_banco" >
+                        </span>                               
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-3">
                         <label for="digiverbancodestino">Dígito ver Banco</label>
                         <p-dropdown placeholder="Escoje.." [options]="sino" name="digiverbancodestino" formControlName="digiverbancodestino" 
                                     [class.ng-invalid]="getNoValido('digiverbancodestino')" [class.ng-dirty]="getNoValido('digiverbancodestino')" 
@@ -520,12 +517,17 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
-                        <label for="cuenta_no">Cuenta no.</label>
-                        <span class=" p-input-icon-right">
-                            <input id="cuenta_no" type="text" pInputText formControlName="cuenta_no" 
-                            [class.ng-invalid]="getNoValido('codbancodestino')" [class.ng-dirty]="getNoValido('codbancodestino')">
-                        </span>                                
-                        <small *ngIf="getNoValido('codbancodestino')" class="p-invalid">Este campo es obligatorio.</small>  
+                        <label for="cuenta_no">Cuenta</label>	
+                        <p-autoComplete formControlName="cuenta_no" [suggestions]="cuentasFiltradas" (completeMethod)="filtrarCuentas($event)" field="descripcion" 
+                                        [forceSelection]="true" [dropdown]="true" [class.ng-invalid]="getNoValido('cuenta_no')" [class.ng-dirty]="getNoValido('cuenta_no')">
+                            <ng-template let-cuenta pTemplate="item" >
+                                <div class="country-item">
+                                    <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                                    <div>{{cuenta.descripcion}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                        <small *ngIf="getNoValido('cuenta_no')" class="p-invalid">Este campo es obligatorio.</small>						
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">

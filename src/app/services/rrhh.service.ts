@@ -98,6 +98,12 @@ export class RrhhService {
         case 'sucid':
         case 'tipo_empleado':
         case 'tipo_sangre':
+        case 'cuenta_no':
+        case 'id_moneda':
+        case 'id_puesto':
+        case 'suc_id':
+        case 'turno':
+        case 'area':
           formData[key] = empresa[key].id;
           break
 
