@@ -19,7 +19,7 @@ export class OrdenesComprasComponent implements OnInit {
   listSubscribers: any = [];
   index: number = 0;
   cols: any[];
-
+  formSubmitted = false;
   constructor(private uiMessage: UiMessagesService,              
               private ordenServ :OrdenescomprasService,              
               private confirmationService: ConfirmationService, 

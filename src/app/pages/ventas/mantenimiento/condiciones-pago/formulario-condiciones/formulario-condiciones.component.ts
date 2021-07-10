@@ -66,7 +66,7 @@ export class FormularioCondicionesComponent implements OnInit {
     }
 
     if (this.condicionExiste === 0) {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Verificando disponibilidad de nombre');
+      this.uiMessage.getMiniInfortiveMsg('tst','info','ERROR','Verificando disponibilidad de nombre');
       return;
     }
 

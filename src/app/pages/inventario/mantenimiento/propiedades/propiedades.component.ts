@@ -17,7 +17,7 @@ export class PropiedadesComponent implements OnInit {
   actualizando = false; 
   actualizar = false;
   cols: any[];
-    formSubmitted = false;
+  formSubmitted = false;
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
@@ -59,7 +59,9 @@ export class PropiedadesComponent implements OnInit {
     
     this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
   };
+
   todasLasPropiedades() {
+    this.formSubmitted = true;
     this.propiedadesServ.getDatos().then((resp: any) => {
       if (resp) {
         this.propiedades = resp;        

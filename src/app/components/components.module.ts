@@ -24,6 +24,10 @@ import { AutoCompleteModule} from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { PanelModule } from 'primeng/panel';
+import {TooltipModule} from 'primeng/tooltip';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {BlockUIModule} from 'primeng/blockui';
+
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
@@ -39,6 +43,9 @@ import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cu
 import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
 import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendientes-liquidacion.component';
 import { LocalizacionComponent } from './localizacion/localizacion.component';
+import { ListadoRncComponent } from './listado-rnc/listado-rnc.component';
+import { OnlineRncComponent } from './online-rnc/online-rnc.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +61,10 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
     ListadoCatalogoCuentasComponentsComponent,
     StepToolbarComponent,
     PendientesLiquidacionComponent,
-    LocalizacionComponent
+    LocalizacionComponent,
+    ListadoRncComponent,
+    OnlineRncComponent,
+    LoadingComponent
   ],
   
   exports: [
@@ -66,7 +76,8 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
     ListadoDireccionesComponent,
     PendientesEntradaComponent,
     StepToolbarComponent,
-    LocalizacionComponent
+    LocalizacionComponent,
+    LoadingComponent
   ],
 
   imports: [
@@ -76,8 +87,10 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
     FormsModule,
     ReactiveFormsModule,
     ProgressBarModule,
+    ProgressSpinnerModule,
     RouterModule,
     MenubarModule,
+    TooltipModule,
     TableModule,
     TabViewModule,
     InputTextModule,
@@ -86,6 +99,7 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
     RippleModule,
     PickListModule,
     CardModule,
+    BlockUIModule,
     CheckboxModule,
     ToastModule,
     ToggleButtonModule,

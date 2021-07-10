@@ -16,11 +16,13 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { PanelModule } from 'primeng/panel';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { EmpresaComponent } from './empresa/empresa.component';
@@ -34,6 +36,15 @@ import { TipoDocumentosComponent } from './tipo-documentos/tipo-documentos.compo
 import { FormularioTiponegocioComponent } from './tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
 import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ZonasComponent } from './zonas/zonas.component';
+import { FormularioZonasComponent } from './zonas/formulario-zonas/formulario-zonas.component';
+import { FormularioTipoProveedoresComponent } from './tipos-proveedores/formulario-tipo-proveedores/formulario-tipo-proveedores.component';
+import { TiposProveedoresComponent } from "./tipos-proveedores/tipos-proveedores.component";
+import { SucursalesComponent } from './sucursales/sucursales.component';
+import { FormularioSucursalesComponent } from './sucursales/formulario-sucursales/formulario-sucursales.component';
+import { AccordionModule } from 'primeng/accordion';
+import { StepsModule } from 'primeng/steps';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
@@ -42,11 +53,17 @@ import { ProgressBarModule } from 'primeng/progressbar';
     EmpresaComponent,
     FormularioEmpresaComponent,
     TipoDocumentosComponent,
+    FormularioTipoProveedoresComponent,
+    TiposProveedoresComponent,
     FormularioTipoDocumentosComponent,
     TipoClientesComponent,
     FormularioTipoClientesComponent,
     MonedasComponent,
-    FormularioMonedasComponent
+    FormularioMonedasComponent,
+    ZonasComponent,
+    FormularioZonasComponent,
+    SucursalesComponent,
+    FormularioSucursalesComponent
   ],
   imports: [
     CommonModule,
@@ -54,10 +71,15 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ReactiveFormsModule,
     RouterModule,
     EmpresaRoutingModule,
+    AutoCompleteModule,
+    StepsModule,
+    ComponentsModule,
     TableModule,
+    PanelModule,
     ConfirmDialogModule,
     ToastModule,
     TabViewModule,
+    AccordionModule,
     MultiSelectModule,
     ToolbarModule,
     DropdownModule,

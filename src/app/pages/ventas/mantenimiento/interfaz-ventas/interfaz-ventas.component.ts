@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MenuItem, PrimeNGConfig, SelectItem } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
@@ -12,6 +13,7 @@ import { FacturasService } from 'src/app/services/facturas.service';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
 @Component({
   selector: 'app-interfaz-ventas',
@@ -53,7 +55,9 @@ export class InterfazVentasComponent implements OnInit {
     fecha: string;
     modo = 'pos';
     cols3: { field: string; header: string; }[];
-    test = [1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1]
+    financiando = false;
+    loading = true;
+    
     constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
@@ -64,10 +68,10 @@ export class InterfazVentasComponent implements OnInit {
                 private categoriasServ: CategoriasService,
                 private uiMessage: UiMessagesService,
                 private clienteServ: ClientesService,
+                private dialogService: DialogService,
                 private primengConfig: PrimeNGConfig) {
 
                 this.usuario = this.usuarioServ.getUserLogged(); 
-                
                 
                 this.nombre = this.usuario.name+' '+this.usuario.surname;   
                 this.fecha = this.datosEstaticosServ.getDate();
@@ -75,10 +79,11 @@ export class InterfazVentasComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.primengConfig.ripple = true;
         this.todosLosProductos();
         this.todosLasCategorias();
         this.todosLosClientes()  
-        this.primengConfig.ripple = true;
+        console.log(this.cliente);
 
         this.cols = [
             { field: 'imagen', header: 'Imagen' },
@@ -113,8 +118,13 @@ export class InterfazVentasComponent implements OnInit {
 
         this.facturaServ.modoVenta.subscribe((resp: any) => {
             this.modo = resp;
-             
-            
+        });
+
+        this.facturaServ.enviaData.subscribe((resp: any) => {
+            this.forma.get('financiado').reset;
+            this.forma.get('financiado').setValue(resp);
+            this.financiando = true;
+            console.log(resp);            
         })
     }
 
@@ -127,7 +137,8 @@ export class InterfazVentasComponent implements OnInit {
     todosLosProductos() {
         this.inventarioServ.getDatos().then((resp: any) =>{
             console.log(resp);
-            this.productos = resp;  
+            this.productos = resp;
+            this.loading = false;
         })
     }
 
@@ -155,7 +166,7 @@ export class InterfazVentasComponent implements OnInit {
             tarjeta:         [''],
             tarjeta_no:      [''],
             conduce:         [1],
-            nombre_cli:      [''],
+            nombre_cli:      ['CLIENTE CONTADO'],
             direccion:       [''],
             id_pais:         [''],
             id_ciudad:       [''],
@@ -169,23 +180,27 @@ export class InterfazVentasComponent implements OnInit {
             monto_itbis:     ['', Validators.required],
             devuelta:        [''],
             neto:            ['', Validators.required],
+            financiado:      [''],
             productos:       this.fb.array([]),
             estado:          ['activo'],
             usuario_creador: [this.usuario.username]
         })
     }
+    
     get producto() {   
         return this.forma.get('productos') as FormArray;
     }
 
-    cobrarFactura() { 
-        
-         ;
+    get cliente() {   
+        return this.forma.get('nombre_cli').value as FormControl;
+    }
+
+    cobrarFactura() {
         if (this.forma.valid) {
+        
             let devuelta = Math.abs(Number(this.forma.get('devuelta').value));
-            this.forma.get('devuelta').setValue(devuelta);       
-            
-            
+            this.forma.get('devuelta').setValue(devuelta);  
+
             if (devuelta < 0 && !this.ambos) {
                 this.devueltaMenor = true;
                 this.uiMessage.getMiniInfortiveMsg('tc','error','Error','LA CANTIDAD PAGADA ES MENOR AL MONTO TOtAL');
@@ -210,6 +225,17 @@ export class InterfazVentasComponent implements OnInit {
                 this.uiMessage.getMiniInfortiveMsg('tc','error','Error','DEBE AGREGAR ARTICULOS A LA FACTURA');
                 return;
             }
+        }
+    }
+
+    financiarFactura() {
+        console.log(this.forma.value);
+        if (this.financiando) {
+            this.facturaServ.crearFacturaPrestamo(this.forma.get('financiar').value).then((resp: any) => {
+                console.log(resp);                
+            })
+        } else {
+            
         }
     }
 
@@ -250,7 +276,7 @@ export class InterfazVentasComponent implements OnInit {
         
         
         if (nuevoArray.length === 0) {
-            this.facturaServ.display = true;
+            this.facturaServ.displayDetalle();
             this.agregarFormulario(producto);
 
             this.productosSeleccionados.push(producto);
@@ -315,8 +341,7 @@ export class InterfazVentasComponent implements OnInit {
     //     this.facturaServ.display = true
     // }
     
-    clienteSeleccionado(cliente) {
-        
+    clienteSeleccionado(cliente) {        
         this.forma.get('id_pais').setValue(cliente.id_pais)
         this.forma.get('id_ciudad').setValue(cliente.id_ciudad)
         this.forma.get('id_zonalocal').setValue(cliente.id_zonalocal)
@@ -388,6 +413,32 @@ export class InterfazVentasComponent implements OnInit {
             default:
             
             break;
+        }
+    }
+
+    financiar() {
+        if (this.financiando) {
+            this.financiando = false;
+            return;
+        }
+        
+        if (this.neto !== 0) {
+
+            let obj = {
+                nombre_cli: this.forma.get('nombre_cli').value,
+                tipo_cliente: this.forma.get('tipo_cliente').value || 1,
+                sec_cliente: this.forma.get('sec_cliente').value || 1,
+                neto: this.neto
+            }
+
+            this.dialogService.open(FormularioTablaAmortizacionesComponent, {
+                data: obj,
+                closeOnEscape: false,
+                header: 'Datos Necesarios Creación de Productos',
+                width: '70%'
+              });            
+        } else {
+            this.uiMessage.getMiniInfortiveMsg('tc','info','','Debe agregar articulos para financiar.');           
         }
     }
 

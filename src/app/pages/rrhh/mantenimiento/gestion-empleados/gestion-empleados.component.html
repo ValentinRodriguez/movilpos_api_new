@@ -83,6 +83,7 @@
                     <app-formulario-empleados></app-formulario-empleados>
                 </p-tabPanel>
             </p-tabView>
+			<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
 		</div>	
 		
 		<p-toast key="tst"></p-toast>

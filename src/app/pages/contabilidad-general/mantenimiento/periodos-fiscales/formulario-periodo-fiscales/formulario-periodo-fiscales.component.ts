@@ -83,7 +83,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
    
   autoGenerar() {
     if (this.periodoExiste === 2) {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Este periodo fiscal ya esta registrado');
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Error','Este periodo fiscal ya esta registrado');
       return;
     }
     const gracia = this.forma.get('gracia').value;

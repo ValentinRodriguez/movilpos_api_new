@@ -1,12 +1,13 @@
 <div class="layout-dashboard">
 	<div class="p-grid">
+        <app-loading [formSubmitted]="formSubmitted"></app-loading>
         <div class="p-col-12 p-lg-6">
             <div class="card">
                 <h4>Programas</h4>
                 <ul class="widget-person-list">                   
                     <li *ngFor="let item of menu" (click)="redirigir(item.url)" [ngClass]="{'nomostrar': item.id_menu === 2}" style="cursor: pointer;">
                         <div class="person-item" *ngIf="item.id_menu === 1">
-                            <img src="assets/demo/images/avatar/xuxuefeng.png" alt="diamond-layout" />
+                            <i class="pi pi-desktop" style="font-size: 2rem; padding-right: 10px;"></i>
                             <div class="person-info">
                                 <div class="person-name">{{item.nombre| titlecase}}</div>
                                 <div class="person-subtext">{{item.descripcion| titlecase}}</div>
@@ -27,7 +28,7 @@
                 <ul class="widget-person-list">
                     <li *ngFor="let item of menu" (click)="redirigir(item.url)" [ngClass]="{'nomostrar': item.id_menu === 1}" style="cursor: pointer;">
                         <div class="person-item" *ngIf="item.id_menu === 2">
-                            <img src="assets/demo/images/avatar/amyelsner.png" alt="diamond-layout" />
+                            <i class="pi pi-chart-bar" style="font-size: 2rem; padding-right: 10px;"></i>
                             <div class="person-info">
                                 <div class="person-name">{{item.nombre| titlecase}}</div>
                                 <div class="person-subtext">{{item.descripcion| titlecase}}</div>

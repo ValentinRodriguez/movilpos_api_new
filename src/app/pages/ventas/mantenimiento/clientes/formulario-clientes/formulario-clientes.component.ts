@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
 import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
@@ -32,6 +35,7 @@ export class FormularioClientesComponent implements OnInit {
   guardar = true;
   actualizar = false;
   vendedoresFiltrados: any[];
+  nacFiltrados: any[];
   id1: number;
   condpago: any[];
   paises: any[] = [];
@@ -47,9 +51,12 @@ export class FormularioClientesComponent implements OnInit {
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
   ]
-  provincias: any;
+  provincias: any[] = [];
+  nacionalidades: any[] = [];
+  rutaActual: string[];
 
   constructor(private fb: FormBuilder, 
+              public router: Router,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private clientesServ: ClientesService,     
@@ -57,7 +64,9 @@ export class FormularioClientesComponent implements OnInit {
               private tipoClienteServ: TipoClienteService, 
               private datosEstaticosServ: DatosEstaticosService,        
               private paisesCiudadesServ: PaisesCiudadesService,
-              public dialogService: DialogService) {
+              public dialogService: DialogService,
+              private globalServ: GlobalFunctionsService,
+              @Inject(DOCUMENT) private document: Document) {
     this.usuario = this.usuariosServ.getUserLogged()
     this.crearFormulario();
   }
@@ -67,6 +76,9 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   ngOnInit(): void {    
+    this.rutaActual = this.router.url.split("/");
+    console.log(this.rutaActual);
+    
     this.todosLosPaises();
     this.listObserver();
     this.autoLlenado(); 
@@ -105,48 +117,57 @@ export class FormularioClientesComponent implements OnInit {
       })
     })
 
-    const observer6$ = this.forma.valueChanges.subscribe(newVal => console.log(newVal));
+    const observer5$ = this.globalServ.finalizar.subscribe((resp: any) =>{      
+      this.items = [];
+    })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer6$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   autoLlenado() {
     this.clientesServ.autollenado().then((resp: any) => {
-       resp.forEach(element => {
+      resp.forEach(element => {
         if (element.data.length === 0) {
           this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})      
         }
-         switch (element.label) {
-           case 'vendedor':
-             this.vendedor = element.data;
-             break;
- 
-           case 'tipo documento':
-             this.documento = element.data;
-             break;
- 
-           case 'tipo-negocio':
-             this.tiponegocio = element.data;
-             break;
- 
-           case 'tipo-cliente':
-             this.tipo_cliente = element.data;
-             break;
- 
-           case 'condiciones':
-             this.condpago = element.data;
-             break; 
- 
-           default:
-             break;
-         }
-       });   
-     })
+        switch (element.label) {
+          case 'vendedor':
+            this.vendedor = element.data;
+            break;
+
+          case 'tipo documento':
+            this.documento = element.data;
+            break;
+
+          case 'tipo-negocio':
+            this.tiponegocio = element.data;
+            break;
+
+          case 'tipo-cliente':
+            this.tipo_cliente = element.data;
+            break;
+
+          case 'condiciones':
+            this.condpago = element.data;
+            break;
+          
+        case 'paises':
+          this.paises = element.data;
+            break;
+          
+          case 'nacionalidades':             
+            this.nacionalidades = element.data;             
+          break;
+
+          default:
+            break;
+        }
+      });   
+    })
   }
 
   todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
-      console.log(resp);      
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
       this.paises = resp;   
     })
   }
@@ -170,8 +191,7 @@ export class FormularioClientesComponent implements OnInit {
   }
  
   buscaCiudad(event) {
-    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
-      console.log(resp);      
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
       this.ciudades = resp;
     })   
   }
@@ -191,18 +211,19 @@ export class FormularioClientesComponent implements OnInit {
       limite_credito:       [''],
       tipo_negocio:         ['', Validators.required],
       ncf:                  ['B0100066853'],
-      generico:             ['', Validators.required],
-      
+      generico:             ['', Validators.required],      
       direccion:            ['santo domingo', Validators.required],
       urbanizacion:         ['dfgdfg', Validators.required],
-
+      nacionalidad:         ['', Validators.required],
       id_pais:              ['', Validators.required],
+      id_zona:              [''],
       id_region:            ['', Validators.required],
       id_provincia:         ['', Validators.required],
       id_municipio:         ['', Validators.required],
       id_ciudad:            [''],
       id_sector:            [''],
-
+      calle:                [''],
+      casa_num:             [''],
       celular:              ['(555)-555-5555', Validators.required],
       telefono_casa:        ['(555)-555-5555'],
       email:                ['valentinrodriguez1427@gmail.com'],      
@@ -218,9 +239,8 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    // this.formSubmitted = true;    
-    console.log(this.forma.value);
-         
+    // this.formSubmitted = true;  
+    console.log(this.forma.value);    
     if (this.forma.invalid) {
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
@@ -245,6 +265,19 @@ export class FormularioClientesComponent implements OnInit {
       }
     }
     this.vendedoresFiltrados = filtered;
+  }
+
+  filtrarNacionalidad(event) {
+    const filtered: any[] = [];
+    const query = event.query;    
+    
+    for (let i = 0; i < this.nacionalidades.length; i++) {
+      const size = this.nacionalidades[i];
+      if (size.nacionalidad.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.nacFiltrados = filtered;
   }
 
   getNoValido(input: string) {
@@ -285,6 +318,14 @@ export class FormularioClientesComponent implements OnInit {
       })
     }
   } 
+
+  redirigir() {
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = `http://localhost:4200/#/ventas/clientes`;
+    link.click();
+    link.remove();
+  }
 
   resetFormulario() {
     this.forma.reset();

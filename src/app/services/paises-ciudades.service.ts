@@ -31,6 +31,16 @@ export class PaisesCiudadesService {
     })
   }
 
+  getProvincias() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/provincias`).subscribe((resp: any) => {                        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   buscaRegion(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/region/pais/${id}`).subscribe((resp: any) => {  
@@ -70,6 +80,16 @@ export class PaisesCiudadesService {
       this.http.get(`${URL}/ciudad/municipio/${id}`).subscribe((resp: any) => {  
         console.log(resp);        
         if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  getNacionalidades() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/nacionalidades`).subscribe((resp: any) => {
+        if (resp['code'] === 200) {          
           resolve(resp.data);            
         }
       })

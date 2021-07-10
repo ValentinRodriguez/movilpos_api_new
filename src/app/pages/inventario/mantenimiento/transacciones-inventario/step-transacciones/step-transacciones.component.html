@@ -10,10 +10,9 @@
 
     <div *ngFor="let item of items">
         <app-formulario-clientes *ngIf="item.label === 'Clientes' && this.activeIndex === 0"></app-formulario-clientes>     
-        <app-formulario-transportista *ngIf="item.label === 'Transportistas' && this.activeIndex === 1"></app-formulario-transportista>
+        <app-formulario-transportista *ngIf="item.label === 'Transportista' && this.activeIndex === 1"></app-formulario-transportista>
         <app-formulario-proveedores *ngIf="item.label === 'Proveedores' && this.activeIndex === 2"></app-formulario-proveedores>
         <app-formulario-tipo-mov *ngIf="item.label === 'Movimientos' && this.activeIndex === 3"></app-formulario-tipo-mov>
-        <app-formulario-empleados *ngIf="item.label === 'Vendedor' && this.activeIndex === 3"></app-formulario-empleados>
         <app-formulario-maestra-productos *ngIf="item.label === 'Productos' && this.activeIndex === 4"></app-formulario-maestra-productos>
     </div>
 </div>

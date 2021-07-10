@@ -1,107 +1,232 @@
-<div class="p-grid table-demo" id="print-section">
+<div class="p-grid table-demo">
 	<div class="p-col-12">
 		<div class="card">
             <h5 style="text-align:center; margin-bottom:30px; font-size:21px;">ACTO DE DESCARGO</h5>
-            <div class="p-formgroup-inline">
+            <div class="p-fluid p-formgrid p-grid">
                 
-                <div class="p-field">
-                    <label for="part1">Quien subscribe, el(la) señor(a)</label>
-                    <p-autoComplete [suggestions]="clientesFiltrados" (completeMethod)="filtrarProveedor($event)" 
-                                    (onSelect)="datosClientes($event)" field="nombre" [dropdown]="false">
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="descripcion">Cliente</label>                  
+                    <p-autoComplete [suggestions]="clientesFiltrados" (completeMethod)="filtrarClientes($event)" [dropdown]="true"
+                                    (onSelect)="datosClientes($event)" field="nombre" [(ngModel)]="this.form.cliente">
                         <ng-template let-proveedor pTemplate="item">
                             <div class="country-item">
                                 <div>{{proveedor.nombre | titlecase}}</div>
                             </div>
                         </ng-template>
                     </p-autoComplete>
-
-                    <label for="part2">de nacionalidad</label>
-                    <input id="part2" type="text" pInputText> 
                 </div>
-                
-                <div class="p-field">
-                    <label for="part3">mayor de edad, con la cédula de identidad y electoral No.</label>
-                    <input id="part3" type="text" pInputText [(ngModel)]="this.form.cedula"> 
-                </div>
+                <!-- 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="cedula">Cédula</label>
+                    <input id="cedula" type="text" pInputText [(ngModel)]="this.form.cedula"> 
+                </div> -->
 
-                <div class="p-field">
-                    <label for="part4">domiciliado(a) y residente en</label>
-                    <input id="part4" type="text" pInputText [(ngModel)]="this.form.direccion">
-                </div>
-
-                <div class="p-field">
-                    <label for="part5">Mediante el presente acto declaro: PRIMERO: Que he adquirido en calidad de propietario, mediante acto de venta de fecha</label>
-                    <input id="part5" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="cedula">Cédula</label>
+                    <span class=" p-input-icon-right">                
+                        <p-inputMask mask="999-9999999-9" [(ngModel)]="this.form.cedula"></p-inputMask>
+                    </span>
                 </div>
 
-                <div class="p-field">
-                    <label for="part6">el vehículo que se describe a continuación: TIPO DE VEHICULO:</label>
-                    <input id="part6" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="nacionalidad">Nacionalidad</label>	
+                    <p-autoComplete [(ngModel)]="this.form.nacionalidad" [suggestions]="nacFiltrados" (completeMethod)="filtrarNacionalidad($event)" 
+                                    field="nacionalidad" [dropdown]="true">
+                        <ng-template let-nacionalidad pTemplate="item">
+                            <div class="country-item">
+                                <div>{{nacionalidad.nacionalidad | titlecase}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
                 </div>
 
-                <div class="p-field">
-                    <label for="part7">MARCA:</label>
-                    <input id="part7" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="fecha">Fecha</label>
+                    <span class=" p-input-icon-right">
+                        <p-calendar [(ngModel)]="this.form.fecha" dateFormat="yy/mm/dd" [showIcon]="true" inputId="icon"
+                                    [minDate]="minDate" (onSelect)="onSelectDate($event)">
+                        </p-calendar>
+                    </span>
                 </div>
 
-                <div class="p-field">
-                    <label for="part8">MODELO:</label>
-                    <input id="part8" type="text" pInputText> 
-                </div>
-
-                <div class="p-field">
-                    <label for="part9">AÑO DE FABRICACION:</label>
-                    <p-dropdown inputId="fabricacion" [options]="fechafabricacion" name="fabricacion"
-                                placeholder="Escoge..." optionLabel="value">
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="tipo_vehiculo">Tipo Vehiculo</label>
+                    <p-dropdown inputId="tipo_vehiculo" [options]="tipo" 
+                                name="tipo_vehiculo" [(ngModel)]="this.form.tipo_vehiculo"
+                                placeholder="Escoge..." optionLabel="label">
                     </p-dropdown>
                 </div>
 
-                <div class="p-field">
-                    <label for="part10">COLOR:</label>
-                    <input id="part10" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="marca">Marca</label>
+                    <p-dropdown inputId="marca" [options]="brands"  
+                                name="marca" [(ngModel)]="this.form.marca"
+                                placeholder="Escoge..." optionLabel="descripcion">
+                    </p-dropdown>
                 </div>
 
-                <div class="p-field">
-                    <label for="part11">PLACA:</label>
-                    <input id="part11" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="modelo">Modelo</label>
+                    <p-dropdown inputId="modelo" [options]="categorias"  
+                                name="modelo" [(ngModel)]="this.form.modelo"
+                                placeholder="Escoge..." optionLabel="descripcion">
+                    </p-dropdown>
                 </div>
 
-                <div class="p-field">
-                    <label for="part12">CHASIS:</label>
-                    <input id="part12" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="color">Color</label>
+                    <p-dropdown inputId="color" [options]="propiedades" 
+                                name="color" [(ngModel)]="this.form.color"
+                                placeholder="Escoge..." optionLabel="descripcion">
+                    </p-dropdown>
                 </div>
 
-                <div class="p-field">
-                    <label for="part13">SEGUNDO: Otorgo TOTAL Y ABSOLUTO descargo de responsabilidad legal en sentido general, a la entidad comercial, L&R AUTO IMPORT , C por A,  por cualquier daño que pudiera ocasionar el vehículo anteriormente descrito, en consecuencia, asumo todas las responsabilidades presentes y futuras, por cualquier acción, o perjuicio que ocasionare dicho vehículo, a partir de la suscripción del presente acto, el cual se hace ante los testigos instrumentales requeridos al efecto, libres de tachas y excepciones legales a los señores</label>
-                    <input id="part13" type="text" pInputText> 
-                    <label for="part14">y</label>
-                    <input id="part14" type="text" pInputText> 
-                    <label for="part15">dominicanos mayores de edad, portadores de las cédulas de identidad y electoral Nos.</label>
-                    <input id="part15" type="text" pInputText> 
-                    <label for="part16">y</label>
-                    <input id="part16" type="text" pInputText> 
-                    <label for="part17">respectivamente, domiciliados y residentes en esta ciudad. </label>
-                    <label for="part17">En el municipio de Santo Domingo Oeste, Provincia Santo Domingo, RD, a los</label>
-                    <input id="part17" type="text" pInputText> 
-                    <label for="part18">días del mes de</label>
-                    <input id="part18" type="text" pInputText> 
-                    <label for="part19">del año dos mil</label>
-                    <input id="part19" type="text" pInputText> 
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="placa">Placa</label>
+                    <input id="placa" type="text" pInputText [(ngModel)]="this.form.placa"> 
                 </div>
-            </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="chasis">Chasis</label>
+                    <input id="chasis" type="text" pInputText [(ngModel)]="this.form.chasis"> 
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="fabricacion">Fecha Fabricación:</label>
+                    <p-dropdown inputId="fabricacion" [options]="fechafabricacion" name="fabricacion"
+                                placeholder="Escoge..." optionLabel="value" [(ngModel)]="this.form.fabricacion">
+                    </p-dropdown>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="testigo1">Testigo 1</label>
+                    <input id="testigo1" type="text" pInputText [(ngModel)]="this.form.testigo1"> 
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="testigo2">Testigo 2</label>
+                    <input id="testigo2" type="text" pInputText [(ngModel)]="this.form.testigo2"> 
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="documento">Cédula Testigo 1</label>
+                    <span class=" p-input-icon-right">                
+                        <p-inputMask mask="999-9999999-9" [(ngModel)]="this.form.cedulatestigo1"></p-inputMask>
+                    </span>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="documento">Cédula Testigo 2</label>
+                    <span class=" p-input-icon-right">                
+                        <p-inputMask mask="999-9999999-9" [(ngModel)]="this.form.cedulatestigo2"></p-inputMask>
+                    </span>
+                </div>
+                
+                <!-- <p-panel header="Ubicación" [toggleable]="true">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12">
+                            <label for="direccion">Dirección</label>
+                            <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" [(ngModel)]="this.form.direccion">
+                            </textarea>
+                        </div>
+                                        
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_pais">Pais</label>
+                            <p-dropdown input [options]="paises" name="id_pais"  id="drop-down" placeholder="Escoje.." optionLabel="descripcion" 
+                                        (onChange)="buscaRegion($event.value.id_pais)" [(ngModel)]="this.form.id_pais">
+                            </p-dropdown>
+                        </div>
             
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_zona">Zona</label>
+                            <p-dropdown input [options]="paises" name="id_zona" id="drop-down" placeholder="Escoje.." [(ngModel)]="this.form.id_zona" 
+                                        optionLabel="descripcion" (onChange)="buscaRegion($event.value.id_zona)">
+                            </p-dropdown>
+                        </div>
+                        
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_region">Región</label>
+                            <p-dropdown input [options]="regiones" (onChange)="buscaProvincia($event.value.id_region)" name="id_region"
+                                        id="drop-down" placeholder="Escoje.." optionLabel="descripcion" [(ngModel)]="this.form.id_region">
+                            </p-dropdown>
+                        </div>
+            
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_provincia">Provincia</label>
+                            <p-dropdown input [options]="provincias" name="id_provincia"
+                                        id="drop-down" placeholder="Escoje.." optionLabel="descripcion" [(ngModel)]="this.form.id_provincia"
+                                        (onChange)="buscaMunicipio($event.value.id_provincia)">
+                            </p-dropdown>
+                        </div>
+                            
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_municipio">Municipio</label>
+                            <p-dropdown input [options]="municipios" name="id_municipio" id="drop-down" placeholder="Escoje.." 
+                                        optionLabel="descripcion" (onChange)="buscaCiudad($event.value.id_municipio)" [(ngModel)]="this.form.id_municipio">
+                            </p-dropdown>
+                        </div>
+                
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_ciudad">Ciudad</label>
+                            <p-dropdown input [options]="ciudades" name="id_ciudad" id="drop-down" placeholder="Escoje.." [(ngModel)]="this.form.id_ciudad"
+                                        optionLabel="descripcion" (onChange)="buscaSector($event.value.id_ciudad)">
+                            </p-dropdown>
+                        </div>
+                
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="id_sector">Sector</label>
+                            <p-dropdown input [options]="sectores" name="id_sector" id="drop-down" placeholder="Escoje.." [(ngModel)]="this.form.id_sector"
+                                        optionLabel="descripcion">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </p-panel>                     -->
+		    </div>
+	    </div>
+        <div class="card" id="print-section" *ngIf="display" style="position: relative;">
+            <p>Quien subscribe, el(la) señor(a) <strong>{{this.form.cliente.nombre | titlecase}}</strong> de nacionalidad <strong>{{this.nacionalidad | titlecase}}</strong>
+                mayor de edad, con la cédula de identidad y electoral No. <strong>{{this.form.cedula}}</strong>domiciliado(a) y residente en <strong>{{this.form.direccion}}</strong>
+                Mediante el presente acto declaro: PRIMERO: Que he adquirido en calidad de propietario, mediante acto de venta de fecha <strong>{{this.form.fecha_formateada}}</strong>
+                el vehículo que se describe a continuación:                
+            </p>
+            <p>
+                TIPO DE VEHICULO: <strong>{{this.form.tipo_vehiculo.label | titlecase}}</strong><br> 
+                MARCA: <strong>{{this.form.marca.descripcion | titlecase}}</strong> <br>
+                MODELO: <strong>{{this.form.modelo.descripcion | titlecase}}</strong><br>
+                AÑO DE FABRICACION: <strong>{{this.form.fabricacion.value }}</strong><br>
+                COLOR: <strong>{{this.form.color.descripcion | titlecase}}</strong><br>
+                PLACA: <strong>{{this.form.placa }}</strong><br>
+                CHASIS: <strong>{{this.form.chasis }}</strong><br>
+            </p>
+            <p>
+                SEGUNDO: Otorgo TOTAL Y ABSOLUTO descargo de responsabilidad legal en sentido general, a la 
+                entidad comercial, L&R AUTO IMPORT , C por A,  por cualquier daño que pudiera ocasionar el vehículo 
+                anteriormente descrito, en consecuencia, asumo todas las responsabilidades presentes y futuras, 
+                por cualquier acción, o perjuicio que ocasionare dicho vehículo, a partir de la suscripción del 
+                presente acto, el cual se hace ante los testigos instrumentales requeridos al efecto, libres de tachas y 
+                excepciones legales a los señores 
+                <strong>{{this.form.testigo1 | titlecase}}</strong> y <strong>{{this.form.testigo2 | titlecase}}</strong>
+                dominicanos mayores de edad, portadores de las cédulas de identidad y electoral NO.
+                <strong>{{this.form.cedulatestigo1 | titlecase}}</strong> y <strong>{{this.form.cedulatestigo2 | titlecase}}</strong>
+                respectivamente, domiciliados y residentes en esta ciudad. En el municipio de Santo Domingo Oeste, Provincia Santo Domingo, RD, 
+                a los días <strong>{{this.form.dias}}</strong> del mes <strong>{{this.form.mes}}</strong> del año
+                <strong>{{this.form.anio}}</strong>.
+            </p>
+
             <div style=" margin: auto; width:20%; padding:10px; border-top: 1px solid; margin-top: 50px;">
                 <h5 style="text-align:center; margin-top:30px; font-size:21px;">DECLARANTE</h5>
             </div>
-        
-            <div style=" float: left; width:20%; padding:10px; border-top: 1px solid; margin-top: 50px;">
-                <h5 style="text-align:center; margin-top:30px; font-size:21px;">TESTIGO</h5>
-            </div>
 
-            <div style=" margin: auto; width:20%; padding:10px; border-top: 1px solid; margin-top: 50px;">
-                <h5 style="text-align:center; margin-top:30px; font-size:21px;">TESTIGO</h5>
+            <div>
+                <div style="width:20%; border-top: 1px solid; position: absolute; left: 0;">
+                    <h5 style="text-align:center; margin-top:30px; font-size:21px;">TESTIGO</h5>
+                </div>
+                <div style="width:20%; border-top: 1px solid; position: absolute; right: 0;">
+                    <h5 style="text-align:center; margin-top:30px; font-size:21px;">TESTIGO</h5>
+                </div>
             </div>
-		</div>
-	</div>	
-</div>
-<button (click)="print()">print</button>
+        </div>
+        
+        <button (click)="print()" pButton pRipple label="Imprimir" icon="pi pi-save" type="button"></button>
+    </div>
+

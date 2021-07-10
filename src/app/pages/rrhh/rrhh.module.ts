@@ -20,6 +20,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { StepsModule } from 'primeng/steps';
+import { AccordionModule } from 'primeng/accordion';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { PanelModule } from 'primeng/panel';
+import { InputMaskModule } from 'primeng/inputmask';
 
 // COMPONENTES DEL MODULO DE RRHH
 import { AusenciasComponent } from './mantenimiento/gestion-empleados/ausencias/ausencias.component';
@@ -34,6 +41,10 @@ import { StepEmpleadosComponent } from './mantenimiento/gestion-empleados/step-e
 import { FormularioEmpleadosComponent } from './mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 import { FormularioPuestosComponent } from './mantenimiento/puestos/formulario-puestos/formulario-puestos.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
+import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
+import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-turnos/formulario-turnos.component";
+import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
+import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +59,11 @@ import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
     FormularioEmpleadosComponent,
     DescuentosComponent,
     AusenciasComponent,
-    AmonestacionesComponent
+    AmonestacionesComponent,
+    TurnosComponent,
+    FormularioTurnosComponent,
+    AreasEmpresaComponent,
+    FormularioAreaEmpresasComponent
   ],
   imports: [
     CommonModule,
@@ -56,8 +71,13 @@ import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
     RouterModule,
     RrhhRoutingModule,
     ReactiveFormsModule,
+    InputMaskModule,
+    StepsModule,
+    PanelModule,
+    AccordionModule,
     TableModule,
     ConfirmDialogModule,
+    ProgressBarModule,
     ToastModule,
     TabViewModule,
     InputTextModule,
@@ -67,6 +87,10 @@ import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
     InputNumberModule,
     FieldsetModule,
     ButtonModule,
+    ComponentsModule,
+    StepsModule,
+    AccordionModule,
+    PipesModule,
     InputTextareaModule
   ],
   entryComponents: [

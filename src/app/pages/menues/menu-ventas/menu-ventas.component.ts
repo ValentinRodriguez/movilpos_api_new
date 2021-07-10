@@ -10,22 +10,27 @@ import { MenuesService } from 'src/app/services/menues.service';
 export class MenuVentasComponent implements OnInit {
 
   menu: any[] = [];
+  formSubmitted: boolean;
 
   constructor(private menuServ: MenuesService,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.getData();
+    this.menuServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp
+    })
+  }
+
+  getData() {
+    this.formSubmitted = true;
     this.menuServ.getMenu(5).then((resp: any) => {
-      this.menu = resp;     
+      this.menu = resp;   
     })
   }
 
   redirigir(ruta: string) {
     console.log(ruta);
-    if (ruta === 'interfaz-ventas') {
-      this.router.navigate([ruta]);
-    }else{
-      this.router.navigate([`ventas/${ruta}`]);
-    }
+    this.router.navigate([`ventas/${ruta}`]);
   }  
 }

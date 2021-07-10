@@ -38,11 +38,11 @@ import { LoginGuard } from "./services/guards/login.guard";
                     // CONTABILIDAD GENERAL
                     {path: 'contabilidad-general', loadChildren: () => import('./pages/contabilidad-general/contabilidad-general.module').then(m => m.ContabilidadGeneralModule) },
 
-                     // CUENTAS POR PAGAR
-                     {path: 'cuentas-pagar', loadChildren: () => import('./pages/cuentas-pagar/cuentas-pagar.module').then(m => m.CuentasPagarModule) },
+                    // CUENTAS POR PAGAR
+                    {path: 'cuentas-pagar', loadChildren: () => import('./pages/cuentas-pagar/cuentas-pagar.module').then(m => m.CuentasPagarModule) },
 
-                     //MI EMPRESA
-                     {path: 'mi-negocio', loadChildren: () => import('./pages/empresa/empresa.module').then(m => m.EmpresaModule) },
+                    //MI EMPRESA
+                    {path: 'mi-negocio', loadChildren: () => import('./pages/empresa/empresa.module').then(m => m.EmpresaModule) },
 
                     // INVENTARIO
                     {path: 'inventario', loadChildren: () => import('./pages/inventario/inventario.module').then(m => m.InventarioModule) },
@@ -55,6 +55,9 @@ import { LoginGuard } from "./services/guards/login.guard";
 
                     // VENTAS
                     {path: 'ventas', loadChildren: () => import('./pages/ventas/ventas.module').then(m => m.VentasModule) },
+
+                    // TIENDA
+                    {path: 'plaza-online', loadChildren: () => import('./pages/tienda/tienda.module').then(m => m.TiendaModule) },
                 ]
             },
             {path: 'interfaz-ventas', component: InterfazVentasComponent},

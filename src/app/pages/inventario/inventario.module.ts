@@ -18,7 +18,6 @@ import { ToastModule } from 'primeng/toast';
 import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PickListModule } from 'primeng/picklist';
-import { StepsModule } from 'primeng/steps';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
@@ -30,6 +29,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import { StepsModule } from 'primeng/steps';
+import {AccordionModule} from 'primeng/accordion';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { BodegasComponent } from './mantenimiento/bodegas/bodegas.component';
@@ -39,7 +40,6 @@ import { CategoriasComponent } from './mantenimiento/categorias/categorias.compo
 import { FormularioCatComponent } from "./mantenimiento/categorias/formulario-cat/formulario-cat.component";
 import { FormularioMaestraProductosComponent } from './mantenimiento/maestra-productos/formulario-maestra-productos/formulario-maestra-productos.component';
 import { MaestraProductosComponent } from './mantenimiento/maestra-productos/maestra-productos.component';
-import { StepComponent } from './mantenimiento/maestra-productos/step/step.component';
 import { MarcasComponent } from './mantenimiento/marcas/marcas.component';
 import { FormularioMarcaComponent } from './mantenimiento/marcas/formulario-marca/formulario-marca.component';
 import { PropiedadesComponent } from './mantenimiento/propiedades/propiedades.component';
@@ -70,7 +70,6 @@ import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquid
     CategoriasComponent,
     FormularioCatComponent,
     MaestraProductosComponent,
-    StepComponent,
     FormularioMaestraProductosComponent,
     MarcasComponent,
     FormularioMarcaComponent,
@@ -100,12 +99,13 @@ import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquid
     InventarioRoutingModule,
     DropdownModule,
     TableModule,
+    AccordionModule,
     ConfirmDialogModule,
+    StepsModule,
     ToastModule,
     TabViewModule,
     ToolbarModule,
     PickListModule,
-    StepsModule,
     FieldsetModule,
     AutoCompleteModule,
     PanelModule,
@@ -123,7 +123,6 @@ import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquid
   ],
   entryComponents: [
     BodegasPermisosComponent,
-    StepComponent,
     MovimientoPermisosComponent,
     StepTransaccionesComponent,
     FormularioTransportistaComponent,

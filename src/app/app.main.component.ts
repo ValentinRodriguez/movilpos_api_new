@@ -3,6 +3,7 @@ import { MenuService } from './app.menu.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { RolesService } from './services/roles.service';
 import { UsuarioService } from './services/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-main',
@@ -32,8 +33,11 @@ export class AppMainComponent implements OnInit{
     ripple: boolean;
     usuario: any;
     permisos: any;
-    
-    constructor(private menuService: MenuService, 
+    notificationMenuClick2: boolean;
+    topbarNotificationMenuActive2: boolean;
+
+    constructor(private menuService: MenuService,
+                public route: Router,
                 private primengConfig: PrimeNGConfig,
                 private usuarioServ: UsuarioService,
                 private permisosServ:RolesService) {
@@ -41,8 +45,7 @@ export class AppMainComponent implements OnInit{
                 }
 
     ngOnInit() {
-        this.primengConfig.ripple = true;
-        
+        this.primengConfig.ripple = true;        
         this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
             this.permisos = resp;          
         })
@@ -155,6 +158,15 @@ export class AppMainComponent implements OnInit{
     onTopbarNotificationMenuButtonClick(event) {
         this.notificationMenuClick = true;
         this.topbarNotificationMenuActive = !this.topbarNotificationMenuActive;
+
+        this.hideOverlayMenu();
+
+        event.preventDefault();
+    }
+
+    onTopbarNotificationMenuButtonClick2(event) {
+        this.notificationMenuClick2 = true;
+        this.topbarNotificationMenuActive2= !this.topbarNotificationMenuActive2;
 
         this.hideOverlayMenu();
 

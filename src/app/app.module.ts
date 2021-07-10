@@ -107,6 +107,7 @@ import { VentasModule } from "./pages/ventas/ventas.module";
 import { ServicesModule } from "./services/services.module";
 import { HomeModule } from "./pages/home/home.module";
 import { StepsModule } from 'primeng/steps';
+import { TiendaModule } from "./pages/tienda/tienda.module";
 
 @NgModule({
     imports: [
@@ -129,7 +130,8 @@ import { StepsModule } from 'primeng/steps';
         VentasModule,
         ServicesModule,
         HomeModule,
-
+        TiendaModule,
+        
         AccordionModule,
         BreadcrumbModule,
         ButtonModule,

@@ -9,12 +9,13 @@ const URL = environment.url;
 export class HomeService {
 
   finalizar = new EventEmitter();
-  
+  formSubmitted  = new EventEmitter();
   constructor(private http: HttpClient) { }
 
   autoLlenado() {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/autollenado/home`).subscribe((resp: any) => {                           
+      return this.http.get(`${URL}/autollenado/home`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

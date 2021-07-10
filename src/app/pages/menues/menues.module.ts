@@ -14,10 +14,12 @@ import { MenuPanelControlComponent } from './menu-panel-control/menu-panel-contr
 import { MenuEmpresaComponent } from './menu-empresa/menu-empresa.component';
 import { MenuCuentasPagarComponent } from './menu-cuentas-pagar/menu-cuentas-pagar.component';
 import { MenuMiscelaneosComponent } from './menu-miscelaneos/menu-miscelaneos.component';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 // RUTAS DEL MODULO
 import { MenuRoutingModule } from "./menu-routing.module";
-
+import { ComponentsModule } from 'src/app/components/components.module';
 @NgModule({
   declarations: [
     MenuComprasComponent,
@@ -35,7 +37,10 @@ import { MenuRoutingModule } from "./menu-routing.module";
   imports: [
     CommonModule,
     InputTextModule,
-    MenuRoutingModule
+    ProgressBarModule,
+    MenuRoutingModule,
+    ComponentsModule,
+    ProgressSpinnerModule
   ]
 })
 export class MenuesModule { }

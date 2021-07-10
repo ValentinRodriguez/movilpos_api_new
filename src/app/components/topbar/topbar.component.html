@@ -1,31 +1,68 @@
 <div class="layout-topbar" [ngClass]="{'header-fijo': this.menu === 'no'}">
     <!-- <p-inputSwitch [(ngModel)]="checked1"></p-inputSwitch> -->
     
-    <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
-        *ngIf="(this.menu === 'no')" optionValue="value" (onChange)="modoVenta($event)">
-    </p-selectButton>
+    
         
     <div class="topbar-left">
         <a tabindex="0" class="menu-button" (click)="app.onMenuButtonClick($event)" *ngIf="this.menu !== 'no'">
             <i class="pi pi-chevron-left"></i>
-        </a>
-        <a tabindex="0" class="menu-button" (click)="onMenuButtonClick($event)" *ngIf="this.menu === 'no'">
-            <i class="pi pi-chevron-left"></i>
-        </a>
+        </a>        
         <span class="topbar-separator"></span>
 
         <!-- <img id="logo-mobile" class="mobile-logo" src="assets/layout/images/logo-dark.svg" alt="diamond-layout" /> -->
+        <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" 
+                        *ngIf="(this.simbolo === '/ventas/interfaz-ventas')" optionValue="value" 
+                        (onChange)="modoVenta($event)">
+                        <ng-template let-item>
+                            <i [class]="item.icon" style="font-size: 22px" [pTooltip]="item.label"></i>
+                        </ng-template>
+        </p-selectButton>
     </div>
-
     <div class="topbar-right">
         <ul class="topbar-menu">
-            <li class="search-item">
-                <a tabindex="0" (click)="app.onSearchClick($event)">
-                    <i class="pi pi-search"></i>
-                </a>
-            </li>
-            <!-- <li *ngIf="this.menu !== 'no'" class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" >
+            <!-- <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive}" *ngIf="this.simbolo === '/ventas/interfaz-ventas'">
                 <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick($event)">
+                    <i class="pi pi-dollar"></i>
+                </a>
+                <ul class="notifications-menu fade-in-up">
+                    <li role="menuitem" (click)="modoPago('efectivo')">
+                        <a href="javascript:void(0)" tabindex="0">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Efectivo</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem" (click)="modoPago('ambos')">
+                        <a href="javascript:void(0)" tabindex="0">                            
+                            <i class="fas fa-money-bill-wave"></i>                                    
+                            <i class="far fa-credit-card"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Efectivo y Tarjeta</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem" (click)="modoPago('tarjeta')">
+                        <a href="javascript:void(0)" tabindex="0">
+                            <i class="far fa-credit-card"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Tarjeta</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li role="menuitem" (click)="modoPago('cheque')">
+                        <a href="javascript:void(0)" tabindex="0">
+                            <i class="fas fa-money-check"></i>
+                            <div class="notification-item">
+                                <div class="notification-summary">Cheque</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li> -->
+            
+            <li class='notifications-item' [ngClass]="{'active-menuitem ': app.topbarNotificationMenuActive2}" *ngIf="this.simbolo !== '/ventas/interfaz-ventas'">
+                <a href="#" tabindex="0" (click)="app.onTopbarNotificationMenuButtonClick2($event)">
                     <i class="pi pi-bell"></i>
                     <span class="topbar-badge">5</span>
                 </a>
@@ -76,13 +113,27 @@
                         </a>
                     </li>
                 </ul>
-            </li> -->
-            <li>
+            </li>
+
+            <li class="search-item" *ngIf="this.simbolo !== '/ventas/interfaz-ventas'">
+                <a tabindex="0" (click)="app.onSearchClick($event)">
+                    <i class="pi pi-search"></i>
+                </a>
+            </li>
+
+            <li *ngIf="this.simbolo !== '/ventas/interfaz-ventas'">
                 <a href="#" tabindex="0" (click)="logout()">
                     <i class="pi pi-power-off" style="color: red"></i>                    
                 </a>
 
             </li>
+
+            <p-selectButton [options]="stateOptions2" [(ngModel)]="value2" optionLabel="label" optionValue="value"
+                            *ngIf="(this.simbolo === '/ventas/interfaz-ventas')" (onChange)="modoPago($event)">                            
+                <ng-template let-item>
+                    <i [class]="item.icon" style="font-size: 22px" [pTooltip]="item.label"></i>
+                </ng-template>
+            </p-selectButton>
 
             <li class="profile-item" [ngClass]="{'active-menuitem fadeInDown': app.topbarUserMenuActive}">
                 <a href="#" (click)="app.onTopbarUserMenuButtonClick($event)">

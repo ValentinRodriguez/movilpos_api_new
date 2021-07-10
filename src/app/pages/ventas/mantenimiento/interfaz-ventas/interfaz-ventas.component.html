@@ -1,77 +1,78 @@
 <div class="layout-wrapper" >
     <div class="layout-content-wrapper">
-        <form  [formGroup]="forma">
+        <form [formGroup]="forma">
         
             <app-topbar-page menu="no"></app-topbar-page>
             <div class="p-d-flex">
                 <div class="p-col-8 p-mt-6">
                     <div class="card">
                         <p-dataView #dv [value]="productos" filterBy="titulo,codigo" [sortField]="sortField" 
-                                    [sortOrder]="sortOrder" layout="grid" *ngIf="modo === 'pos'">
-                        <ng-template pTemplate="header">
-                            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                                <!-- [(ngModel)]="sortKey" -->
-                                <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
-                                            styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
-                                <span class="p-input-icon-left p-mb-2 p-mb-md-0">
-                                    <i class="pi pi-search"></i>
-                                    <input type="search" pInputText placeholder="Buscar..." (input)="dv.filter($event.target.value)">
-                                </span>
-                                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-                            </div>
-                        </ng-template>
-        
-                        <ng-template let-product pTemplate="listItem" let-i="rowIndex">
-                            <div class="p-col-12">
-                                <div class="product-list-item" (click)="agregarProducto(product, i)" [attr.id]="product.id">
-                                    <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>
-                                    
-                                    <div class="product-list-detail">
-                                        <div class="product-name">{{product.titulo | titlecase}}</div>
-                                        <div class="product-description p-text-bold"><i class="fas fa-hashtag"></i>{{product.codigo}}</div>
-                                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
-                                        <br>
-                                        <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoria | titlecase}}</span>
-                                    </div>
-                                    <div class="product-list-action">
-                                        <span class="product-price p-text-bold p-tag p-tag-success">${{product.precio_venta}}</span>
-                                    <!--  <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
-                                        <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span>-->
-                                    </div> 
+                                    [sortOrder]="sortOrder" layout="grid" *ngIf="modo === 'pos'" [loading]="loading">
+                            <ng-template pTemplate="header">
+                                <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                                    <!-- [(ngModel)]="sortKey" -->
+                                    <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)" 
+                                                styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+                                    <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                                        <i class="pi pi-search"></i>
+                                        <input type="search" pInputText placeholder="Buscar..." (input)="dv.filter($event.target.value)">
+                                    </span>
+                                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                                 </div>
-                            </div>
-                        </ng-template>
+                            </ng-template>
         
-                        <ng-template let-product pTemplate="gridItem" let-i="rowIndex">
-                            <div class="p-col-12 p-md-2">
-                                <div class="product-grid-item card" (click)="agregarProducto(product, i)" [attr.id]="product.id">
-                                    <div class="product-grid-item-top">
-                                        <div>
-                                            <i class="pi pi-tag product-category-icon"></i>
-                                            <span class="product-category">{{product.categoria | titlecase}}</span>
-                                        </div>
-                                        <!-- <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
-                                        <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
-                                        <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span> -->
-                                    </div>
-                                    <div class="product-grid-item-content">
+                            <ng-template let-product pTemplate="listItem" let-i="rowIndex">
+                                <div class="p-col-12">
+                                    <div class="product-list-item" (click)="agregarProducto(product, i)" [attr.id]="product.id">
                                         <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>
-                                        <div class="product-name" style="margin-bottom: 10px;">{{product.titulo | titlecase}}</div>
-                                        <!-- <div class="product-description">{{product.codigo}}</div> -->
-                                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
-                                    </div>
-                                    <div class="product-grid-item-bottom">
-                                        <span class="product-price p-tag p-tag-info"><i class="fas fa-hashtag"></i>{{product.codigo}}</span>
-                                        <span class="product-price p-tag p-tag-success">${{product.precio_venta}}</span>
+                                        
+                                        <div class="product-list-detail">
+                                            <div class="product-name">{{product.titulo | titlecase}}</div>
+                                            <div class="product-description p-text-bold"><i class="fas fa-hashtag"></i>{{product.codigo}}</div>
+                                            <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                                            <br>
+                                            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoria | titlecase}}</span>
+                                        </div>
+                                        <div class="product-list-action">
+                                            <span class="product-price p-text-bold p-tag p-tag-success">${{product.precio_venta}}</span>
+                                        <!--  <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
+                                            <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
+                                            <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
+                                            <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span>-->
+                                        </div> 
                                     </div>
                                 </div>
-                            </div>
-                        </ng-template>
-                    </p-dataView>
+                            </ng-template>
+            
+                            <ng-template let-product pTemplate="gridItem" let-i="rowIndex">
+                                <div class="p-col-12 p-md-2">
+                                    <div class="product-grid-item card" (click)="agregarProducto(product, i)" [attr.id]="product.id">
+                                        <div class="product-grid-item-top">
+                                            <div>
+                                                <i class="pi pi-tag product-category-icon"></i>
+                                                <span class="product-category">{{product.categoria | titlecase}}</span>
+                                            </div>
+                                            <!-- <span *ngIf="product.cantidad1 >= product.existenciaMaxima * 0.7" class="p-tag p-tag-success">DISPONIBLE</span>
+                                            <span *ngIf="product.cantidad1 < product.existenciaMaxima * 0.7 && product.cantidad1 >= product.existenciaMinima * 3" class="p-tag p-tag-info">DISPONIBLE</span>
+                                            <span *ngIf="product.cantidad1 < product.existenciaMinima * 3 && product.cantidad1 > 0" class="p-tag p-tag-warning">STOCK BAJO</span>
+                                            <span *ngIf="product.cantidad1 === 0 || product.cantidad1 === null" class="p-tag p-tag-danger">AGOTADO</span> -->
+                                        </div>
+                                        <div class="product-grid-item-content">
+                                            <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>
+                                            <div class="product-name" style="margin-bottom: 10px;">{{product.titulo | titlecase}}</div>
+                                            <!-- <div class="product-description">{{product.codigo}}</div> -->
+                                            <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                                        </div>
+                                        <div class="product-grid-item-bottom">
+                                            <span class="product-price p-tag p-tag-info"><i class="fas fa-hashtag"></i>{{product.codigo}}</span>
+                                            <span class="product-price p-tag p-tag-success">${{product.precio_venta}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataView>
                     </div>
+
                     <div style="position:fixed; bottom:0; left:0.5cm; right:0.5cm; height:2cm; width:'66.5%'; height:'11rem'" class="p-grid">   
                         <div class="p-col-12">
                             <div class="p-grid">
@@ -127,8 +128,9 @@
                                     </div>                              
                                 </div> 
                                 <div class="widget-pricing-card" style="position: absolute; right: 1rem;">
-                                    <h4>TOTAL A PAGAR:</h4>
                                     <h3>$RD {{this.neto}}</h3>
+                                    <h4>TOTAL A PAGAR</h4>
+                                    <h4>{{this.cliente | uppercase}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -287,9 +289,9 @@
                                  [ngClass]="{'botones-top-escogido': ambos === true}">
                                 <div class="p-grid user-card-stats" style="margin-top: 10px;">
                                     <div class="p-text-center">
-                                        <i class="fas fa-money-bill-wave" style="font-size: 40px; margin-right: 8px;"></i>
+                                        <i class="fas fa-money-bill-wave" style="font-size: 20px; margin-right: 8px;"></i>
                                         
-                                        <i class="far fa-credit-card" style="font-size: 40px;"></i>
+                                        <i class="far fa-credit-card" style="font-size: 20px;"></i>
                                         <div style="font-size: 15px;">Efectivo y tarjeta</div>
                                     </div>
                                 </div>
@@ -317,11 +319,12 @@
                                 </div>
                             </div> 
                             <!-- BOTON PARA ANULAR FACTURAS -->
-                            <div class="card size-n-button styled-box-green styled-box-green" pRipple>
+                            <div class="card size-n-button styled-box-green styled-box-green" [ngClass]="{'chosen': this.financiando}"
+                                 style="background-color: #FBC02D;" pRipple (click)="financiar()">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
-                                        <i class="botones-bottom fas fa-eye"></i>
-                                        <div>Bloquear</div>
+                                        <i class="botones-bottom fas fa-comment-dollar"></i>
+                                        <div>Financiar</div>
                                     </div>
                                 </div>
                             </div>
@@ -358,7 +361,7 @@
         
                         <div class="card-container p-d-flex">
                             <!-- BOTON PARA GUARDAR FACTURA -->
-                            <div class="card size-n-button styled-box-green size-n-button" pRipple>
+                            <div class="card size-n-button styled-box-green" pRipple>
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
                                         <i class=" botones-bottom pi pi-save"></i>
@@ -377,7 +380,8 @@
                             </div>
         
                             <!-- BOTON DE COBRAR FACTURA -->
-                            <div class="card pay-button styled-box-orange" pRipple (click)="cobrarFactura()">
+                            <div class="card pay-button text-white styled-box-orange" *ngIf="!this.financiando" 
+                                 pRipple (click)="cobrarFactura()">
                                 <div class="p-grid user-card-stats">
                                     <div class="p-col-12 p-text-center">
                                         <i class=" botones-bottom fas fa-hand-holding-usd"></i>
@@ -385,135 +389,22 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- BOTON DE FINANCIAR FACTURA -->
+                            <div class="card financiar-button styled-box-orange" *ngIf="this.financiando"
+                                 pRipple (click)="financiarFactura()">
+                                <div class="p-grid user-card-stats">
+                                    <div class="p-col-12 p-text-center">
+                                        <i class=" botones-bottom fas fa-hand-holding-usd"></i>
+                                        <div>Financiar Factura</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-              
-            <!-- *********************************************** -->
-            <!-- MENU DE LA DERECHA PARA VER PRODUCTOS AGREGADOS -->
-            <!-- *********************************************** -->
-            <!-- <p-sidebar visible="false" position="right" [style]="{width:'40%'}">
-                <p-tabView>
-                    <p-tabPanel header="General" formArrayName="productos">
-                        <p-table #dt [columns]="cols" [value]="productosSeleccionados" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                                [rowHover]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca']" [scrollable]="true" scrollHeight="500px">
-                            
-                            <ng-template pTemplate="caption">
-                                <div class="table-header">
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar"/>
-                                    </span>
-                                </div>
-                            </ng-template>
-            
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                        {{col.header}}
-                                        <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
-                                    </th>
-                                </tr>
-                            </ng-template>
-            
-                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                                <tr class="p-selectable-row" [formGroupName]="i">
-                                    <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'acciones'}" >
-                                        <span class="p-column-title">{{col.header}}</span>
-        
-                                        <span *ngIf="col.field === 'imagen'">
-                                            <img [src]="rowData.galeriaImagenes | invProductos" width="64" style="vertical-align: middle"/>
-                                            <div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
-                                                {{rowData['titulo']}}
-                                            </div>
-                                        </span>
-                
-                                        <div *ngIf="col.field === 'codigo'">
-                                            {{ rowData[col.field] }}
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'precio_venta'">
-                                            ${{ rowData[col.field] }}
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'cantidad'">
-                                            <input type="number" pInputText [min]="1" pKeyFilter="int" formControlName="cantidad1" 
-                                                   (input)="recalcula($event.target.value)" style="width: 100%;"/>
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'acciones'">                        
-                                            <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" 
-                                                    (click)="eliminarProducto(rowData)">
-                                            </button>                       
-                                        </div>
-                                    </td>                
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </p-tabPanel>
-            
-                    <p-tabPanel *ngFor="let categoria of categorias; let i = index" [header]="categoria.descripcion | titlecase">
-                        <p-table #dt2 [columns]="cols2" [value]="productosSeleccionados" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                                [rowHover]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca']">
-                            
-                            <ng-template pTemplate="caption">
-                                <div class="table-header">
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Buscar"/>
-                                    </span>
-                                </div>
-                            </ng-template>
-            
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                        {{col.header}}
-                                        <p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
-                                    </th>
-                                </tr>
-                            </ng-template>
-            
-                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                                <tr class="p-selectable-row" *ngIf="rowData.categoria === categoria.descripcion">
-            
-                                    <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'}">
-                                        
-                                        <span class="p-column-title">{{col.header}}</span>
-            
-                                        <div *ngIf="col.field === 'imagen'">
-                                            <img [alt]="rowData[col.field]" [src]="rowData.galeriaImagenes | invProductos" width="64"
-                                                    style="vertical-align: middle"/>
-                                            <span [pTooltip]="rowData['titulo']">{{ rowData['titulo'] | titlecase }}</span>
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'titulo'" class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 6rem">
-                                            {{ rowData[col.field] | titlecase }}                                
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'codigo'">
-                                            {{ rowData[col.field] }}
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'precio_venta'">
-                                            ${{ rowData[col.field] }}
-                                        </div>
-            
-                                        <div *ngIf="col.field === 'cantidad'">
-                                            <input pInputText [min]="1" pKeyFilter="int" style="width: 100%;"/>
-                                        </div>
-                                    </td>                
-                                </tr>
-                            </ng-template>
-                        </p-table>                
-                    </p-tabPanel>
-                </p-tabView>
-            </p-sidebar>     -->
-            <!-- *********************************************** -->
-            <!-- *********************************************** -->
-            <!-- *********************************************** -->
-        
+                      
             <p-toast key="tc"></p-toast>
         
             <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
@@ -550,6 +441,6 @@
     </div>
 </div>
 
-<p-sidebar [(visible)]="display" [baseZIndex]="10000">
+<p-sidebar [(visible)]="display" position="right" [baseZIndex]="10000">
     <h3>Left Sidebar</h3>
 </p-sidebar>

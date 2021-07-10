@@ -41,8 +41,6 @@ import { ProveedoresComponent } from './mantenimiento/proveedores/proveedores.co
 import { FormularioProveedoresComponent } from './mantenimiento/proveedores/formulario-proveedores/formulario-proveedores.component';
 import { StepProveedoresComponent } from './mantenimiento/proveedores/step-proveedores/step-proveedores.component';
 import { StepOrdenesComprasComponent } from './mantenimiento/ordenes-compras/step-ordenes-compras/step-ordenes-compras.component';
-import { TiposProveedoresComponent } from './mantenimiento/proveedores/tipos-proveedores/tipos-proveedores.component';
-import { FormularioTipoProveedoresComponent } from './mantenimiento/proveedores/tipos-proveedores/formulario-tipo-proveedores/formulario-tipo-proveedores.component';
 import { PuertosComponent } from './mantenimiento/puertos/puertos.component';
 import { FormularioPuertosComponent } from './mantenimiento/puertos/formulario-puertos/formulario-puertos.component';
 import { RequisicionesComponent } from './mantenimiento/requisiciones/requisiciones.component';
@@ -58,8 +56,6 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
     ProveedoresComponent,
     FormularioProveedoresComponent,
     StepProveedoresComponent,
-    TiposProveedoresComponent,
-    FormularioTipoProveedoresComponent,
     PuertosComponent,
     FormularioPuertosComponent,
     RequisicionesComponent,

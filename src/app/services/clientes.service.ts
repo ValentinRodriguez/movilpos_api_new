@@ -50,66 +50,67 @@ export class ClientesService {
   }
 
   crearCliente(cliente: any) {
-    const formData = new FormData(); 
+    const formdata = {};
     
     for(let key in cliente){  
       switch (key) {
         case 'generico':
-          formData.append(key, cliente[key].value)
+          formdata[key] = cliente[key].value;
           break;
 
-        case 'vendedor':
-          formData.append(key, cliente[key].id_numemp)
+        case 'vendedor':          
+          formdata[key] = cliente[key].id_numemp;
           break;
 
-        case 'tipo_cliente':
-          formData.append(key, cliente[key].tipo_cliente)
+        case 'tipo_cliente':          
+          formdata[key] = cliente[key].tipo_cliente;
           break;
 
-        case 'tipo_negocio':
-          formData.append(key, cliente[key].tipo_negocio)
+        case 'tipo_negocio':          
+          formdata[key] = cliente[key].tipo_negocio;
           break;
 
         case 'cond_pago':
-          formData.append(key, cliente[key].id || null)
+        case 'nacionalidad': 
+          formdata[key] = cliente[key].id;
           break;
 
-        case 'id_ciudad':
-          formData.append(key, cliente[key].id_ciudad || null)
+        case 'id_ciudad':          
+          formdata[key] = cliente[key].id_ciudad;
           break;
 
-        case 'id_pais':
-          formData.append(key, cliente[key].id_pais || null)
+        case 'id_pais':          
+          formdata[key] = cliente[key].id_pais;
           break;
 
-        case 'id_region':
-            formData.append(key, cliente[key].id_region || null)
-            break;
-
-        case 'id_provincia':
-          formData.append(key, cliente[key].id_provincia || null)
+        case 'id_region':            
+          formdata[key] = cliente[key].id_region;
           break;
 
-        case 'id_municipio':
-            formData.append(key, cliente[key].id_municipio || null)
-            break;
+        case 'id_provincia':          
+          formdata[key] = cliente[key].id_provincia;
+          break;
 
-        case 'id_sector':
-          formData.append(key, cliente[key].id_sector || null)
+        case 'id_municipio':            
+          formdata[key] = cliente[key].id_municipio
+          break;
+
+        case 'id_sector':          
+          formdata[key] = cliente[key].id_sector;
           break;
           
-        case 'tipo_documento':
-          formData.append(key, cliente[key].tipo_documento)
+        case 'tipo_documento':          
+          formdata[key] = cliente[key].tipo_documento;
           break;
 
-        default:
-          formData.append(key, cliente[key])
+        default:          
+          formdata[key] = cliente[key];
           break;
       }
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/mclientes`, formData).subscribe( (resp: any) => {  
+      this.http.post(`${ URL }/mclientes`, formdata).subscribe( (resp: any) => {  
         console.log(resp)  
         this.formSubmitted.emit(false);                           
         if (resp['code'] === 200)  {    

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ListadoRncComponent } from 'src/app/components/listado-rnc/listado-rnc.component';
+import { OnlineRncComponent } from 'src/app/components/online-rnc/online-rnc.component';
 import { DgiiService } from 'src/app/services/dgii.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { MonedasService } from 'src/app/services/monedas.service';
@@ -59,12 +62,17 @@ export class FormularioEmpresaComponent implements OnInit {
     {label: 'PEPS', value: 'peps'},
     {label: 'UEPS', value: 'ueps'},
   ];
+  regiones: any;
+  provincias: any;
+  municipios: any;
+  sectores: any;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private empresasServ: EmpresaService,
               private monedasServ: MonedasService,
               private usuariosServ: UsuarioService,
+              public dialogService: DialogService,
               public router: Router,
               private paisesCiudadesServ: PaisesCiudadesService,
               private dgiiServ: DgiiService) { 
@@ -97,39 +105,101 @@ export class FormularioEmpresaComponent implements OnInit {
         this.imgURL = `${URL}/storage/${res.logo}`;
         
         this.forma.get('moneda').setValue(JSON.parse(res.moneda));   
-        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
-        this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
-          this.ciudades = resp;
-          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais)); 
+        
+        this.paisesCiudadesServ.buscaRegion(res.id_pais).then((resp:any) => { 
+          this.regiones = resp;
+          this.forma.get('id_region').setValue(this.regiones.find(region => region.id_region === res.id_region));
+       
+          this.paisesCiudadesServ.buscaProvincias(res.id_region).then((resp: any) => {
+            this.provincias = resp;
+            this.forma.get('id_provincia').setValue(this.provincias.find(provincia => provincia.id_provincia === res.id_provincia));
+          
+            this.paisesCiudadesServ.buscaMunicipios(res.id_provincia).then((resp: any) => {
+              this.municipios = resp;
+              this.forma.get('id_municipio').setValue(this.municipios.find(municipio => municipio.id_municipio === res.id_municipio));
+
+              this.paisesCiudadesServ.buscaCiudad(res.id_municipio).then((resp:any) => { 
+                this.ciudades = resp;
+                this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
+
+                this.paisesCiudadesServ.buscaSector(res.id_ciudad).then((resp:any) => { 
+                  this.sectores = resp;
+                  this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector === res.id_sector));
+                })
+              })
+            });          
+          });
         })
       })
     })
     
+    const observer2$ = this.dgiiServ.rncEscogido.subscribe((resp) => {
+      console.log(resp);
+      this.forma.get('nombre').setValue(resp.razon_social);
+      this.forma.get('telefono_empresa').setValue(resp.telefono);
+      this.forma.get('rnc').setValue(resp.rnc);
+    })
+
     const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
     })
 
-    this.listSubscribers = [observer1$,observer5$];
+    this.listSubscribers = [observer1$,observer2$,observer5$];
   };
 
   todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
       this.paises = resp;   
     })
+  }
+  
+  buscaRegion(event) {
+      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
+
+  buscaProvincia(event) {
+      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
+      this.provincias = resp;
+    })   
+  }
+
+  buscaMunicipio(event) {
+    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
+      this.municipios = resp;
+    })   
+  }
+ 
+  buscaCiudad(event) {
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
+      this.ciudades = resp;
+    })   
+  }
+
+  buscaSector(event) {
+    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
+      this.sectores = resp;
+    })   
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
       nombre:            ['', Validators.required],
-      telefono_empresa:  ['', Validators.required],
-      email_empresa:     ['', Validators.required],
+      telefono_empresa:  ['(333)-333-3333', Validators.required],
+      email_empresa:     ['valentinrodriguez1427@gmail.com', Validators.required],
       rnc:               ['', Validators.required],
       id_pais:           ['', Validators.required],
+      id_region:         ['', Validators.required],
+      id_provincia:      ['', Validators.required],
+      id_municipio:      ['', Validators.required],
       id_ciudad:         ['', Validators.required],
+      id_sector:         [''],
       direccion:         ['', Validators.required],
-      web:               [''],
-      contacto:          ['', Validators.required],
-      telefono_contacto: ['', Validators.required],
+      web:               ['asdasd.com'],
+      contacto:          ['luis miguel', Validators.required],
+      telefono_contacto: ['(333)-333-3333', Validators.required],
       moneda:            ['', Validators.required],
       empresa_verde:     ['', Validators.required],
       tipo_cuadre:       ['', Validators.required],
@@ -143,6 +213,10 @@ export class FormularioEmpresaComponent implements OnInit {
 
   guardarEmpresa() {
     this.formSubmitted = true;    
+    if (this.forma.get('logo').value === '') {
+      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger un logo para la empresa.');
+      return;
+    }
     if (this.forma.invalid) {  
       this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -211,6 +285,20 @@ export class FormularioEmpresaComponent implements OnInit {
     } 
   }
 
+  listadoRNC() {
+    this.dialogService.open(ListadoRncComponent, {
+      header: 'Gestión de RNC`s',
+      width: '50%'
+    });
+  }
+
+  onlineRNC() {
+    this.dialogService.open(OnlineRncComponent, {
+      header: 'Verificación online RNC',
+      width: '600'
+    });
+  }
+
   resetFormulario() {
     this.ciudades = [];
     this.forma.reset();
@@ -261,7 +349,7 @@ export class FormularioEmpresaComponent implements OnInit {
       return;
     }
 
-    this.forma.controls['logo'].setValue(files[0])
+    this.forma.get('logo').setValue(files[0])
     
     var reader = new FileReader();
     this.imagePath = files;

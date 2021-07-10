@@ -23,10 +23,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { PickListModule } from 'primeng/picklist';
 
 //RUTAS DEL MODULO
 import { ContabilidadGeneralRoutingModule } from "./contabilidad-general-routing.module";
-
+import { ComponentsModule } from 'src/app/components/components.module';
+import { AccordionModule } from 'primeng/accordion';
+import { StepsModule } from 'primeng/steps';
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FormularioCgcatalogoComponent } from './mantenimiento/catalogo-cuentas/formulario-cgcatalogo/formulario-cgcatalogo.component';
 import { CatalogoCuentasComponent } from './mantenimiento/catalogo-cuentas/catalogo-cuentas.component';
@@ -40,7 +44,8 @@ import { FormularioTransaccionesPagoComponent } from './mantenimiento/transaccio
 import { StepTransaccionesPagoComponent } from './mantenimiento/transacciones-pago/step-transacciones-pago/step-transacciones-pago.component';
 import { GastosDepartamentosComponent } from './reportes/gastos-departamentos/gastos-departamentos.component';
 import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.component';
-
+import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.component';
+import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formulario-cuadre-caja/formulario-cuadre-caja.component';
 @NgModule({
   declarations: [
     CatalogoCuentasComponent,
@@ -54,7 +59,9 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
     FormularioTransaccionesPagoComponent,
     StepTransaccionesPagoComponent,
     MayorGeneralComponent,
-    GastosDepartamentosComponent
+    GastosDepartamentosComponent,
+    CuadreCajaComponent,
+    FormularioCuadreCajaComponent
   ],
   imports: [
     CommonModule,
@@ -63,16 +70,21 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
     RouterModule,
     ContabilidadGeneralRoutingModule,
     ConfirmDialogModule,
+    MultiSelectModule,
     TableModule,
     ToggleButtonModule,
     DropdownModule,
+    PickListModule,
     ToastModule,
     TabViewModule,
     ToolbarModule,
+    StepsModule,
     PanelModule,
     InputMaskModule,
     CalendarModule,
     AutoCompleteModule,
+    ComponentsModule,
+    AccordionModule,
     InputTextModule,
     PipesModule,
     InputNumberModule,

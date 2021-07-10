@@ -12,6 +12,7 @@ export class EmpresaService {
   
   empresaEscogida = new EventEmitter();
   empresaBorrada = new EventEmitter();
+  empresaCreada = new EventEmitter();
   empresaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
@@ -49,7 +50,8 @@ export class EmpresaService {
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {                                    
+      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {      
+        this.formSubmitted.emit(false);                              
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
@@ -60,6 +62,7 @@ export class EmpresaService {
   getDato(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
@@ -69,7 +72,8 @@ export class EmpresaService {
 
   showEmpresa(empresa: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {                                    
+      this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {  
+        this.formSubmitted.emit(false);                                  
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
@@ -96,12 +100,28 @@ export class EmpresaService {
           formData.append(key, JSON.stringify(empresa[key]));          
           break;
           
-        case 'id_pais':
-          formData.append(key, empresa[key].id_pais)
+        case 'id_ciudad':          
+        formData.append(key, empresa[key].id_ciudad);
           break;
-
-        case 'id_ciudad':
-          formData.append(key, empresa[key].id_ciudad)
+  
+        case 'id_pais':          
+             formData.append(key, empresa[key].id_pais);
+          break
+  
+        case 'id_region':            
+             formData.append(key,empresa[key].id_region);
+          break;
+  
+        case 'id_provincia':          
+             formData.append(key,empresa[key].id_provincia);
+          break;
+  
+        case 'id_municipio':            
+             formData.append(key,empresa[key].id_municipio);
+          break;
+  
+        case 'id_sector':          
+             formData.append(key,empresa[key].id_sector);
           break;
 
         default:
@@ -122,30 +142,56 @@ export class EmpresaService {
 
   crearEmpresa(empresa) {
     const formData = new FormData();
-    
+    const formdata = {};
+
+    console.log(empresa);
+    // let logo = empresa.logo;
     for(let key in empresa){   
       switch (key) {
+
+        // case 'logo':
+        //   formData.append('logo', empresa.logo, empresa.logo.name );
+        //   break;
+        
         case 'moneda':
-          formData.append(key, JSON.stringify(empresa[key]));          
+          formdata[key] = JSON.stringify(empresa[key]);         
           break;
           
         case 'id_pais':
-          formData.append(key, empresa[key].id_pais)
+          formdata[key] = empresa[key].id_pais
           break;
 
         case 'id_ciudad':
-          formData.append(key, empresa[key].id_ciudad)
+          formdata[key] = empresa[key].id_ciudad
+          break;
+        
+        case 'id_region':            
+        formdata[key] = empresa[key].id_region
+          break;
+
+        case 'id_provincia':          
+        formdata[key] = empresa[key].id_provincia
+          break;
+
+        case 'id_municipio':            
+         formdata[key] = empresa[key].id_municipio
+          break;
+
+        case 'id_sector':          
+         formdata[key] = empresa[key].id_sector
           break;
 
         default:
-          formData.append(key, empresa[key])
+          formdata[key] = empresa[key]
           break;
       }  
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData).subscribe((resp: any) => {              
-        this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {              
+        this.formSubmitted.emit(false);
+        this.empresaCreada.emit(resp.data);
+        console.log(resp);        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }

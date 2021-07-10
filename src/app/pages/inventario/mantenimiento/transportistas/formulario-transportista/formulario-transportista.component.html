@@ -21,55 +21,6 @@
             [class.ng-invalid]="getNoValido('cod_transportista')" [class.ng-dirty]="getNoValido('cod_transportista')"/>
             <small *ngIf="getNoValido('cod_transportista')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
-        <div class="p-field p-col-12 p-md-3">
-            <label for="calle">Calle</label>
-            <input pInputText type="text" inputId="calle" mode="decimal" name="calle" formControlName="calle"
-            [class.ng-invalid]="getNoValido('calle')" [class.ng-dirty]="getNoValido('calle')"/>
-            <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-        <div class="p-field p-col-12 p-md-3">
-            <label for="casa_num">Casa NO.</label>
-            <input pInputText type="text" inputId="casa_num" mode="decimal" name="casa_num" formControlName="casa_num"
-            [class.ng-invalid]="getNoValido('casa_num')" [class.ng-dirty]="getNoValido('casa_num')"/>
-            <small *ngIf="getNoValido('casa_num')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-        <div class="p-field p-col-12 p-md-3">
-            <label for="barrio">Barrio</label>
-            <input pInputText type="text" inputId="barrio" mode="decimal" name="barrio" formControlName="barrio"
-            [class.ng-invalid]="getNoValido('barrio')" [class.ng-dirty]="getNoValido('barrio')"/>
-            <small *ngIf="getNoValido('barrio')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="urbanizacion">Urbanización</label>
-            <input pInputText type="text" inputId="urbanizacion" mode="decimal" name="urbanizacion" formControlName="urbanizacion"
-            [class.ng-invalid]="getNoValido('urbanizacion')" [class.ng-dirty]="getNoValido('urbanizacion')"/>
-            <small *ngIf="getNoValido('urbanizacion')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="cod_zona">Zona</label>
-            <p-dropdown inputId="cod_zona" [options]="zonas" [class.ng-invalid]="getNoValido('cod_zona')" [class.ng-dirty]="getNoValido('cod_zona')" 
-                        name="cod_zona" formControlName="cod_zona" placeholder="Escoje.." optionLabel="descripcion">
-            </p-dropdown>
-            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="id_pais">Pais</label>
-            <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" [class.ng-dirty]="getNoValido('id_pais')" 
-                        name="id_pais" formControlName="id_pais" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaPaises($event.value.id)">
-            </p-dropdown>
-            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
-
-        <div class="p-field p-col-12 p-md-3">
-            <label for="cod_provincia">Ciudad</label>
-            <p-dropdown inputId="cod_provincia" [options]="ciudades" [class.ng-invalid]="getNoValido('cod_provincia')" [class.ng-dirty]="getNoValido('cod_provincia')" 
-                        name="cod_provincia" formControlName="cod_provincia" placeholder="Escoje.." optionLabel="descripcion">
-            </p-dropdown>
-            <small *ngIf="getNoValido('cod_zona')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
         
         <div class="p-field p-col-12 p-md-3">
             <label for="telefono">Teléfono</label>
@@ -81,6 +32,106 @@
             <small *ngIf="getNoValido('telefono')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
     </div>
+
+    <p-panel header="Ubicación" [toggleable]="true">
+        <div class="p-fluid p-formgrid p-grid">
+            <!-- <div class="p-field p-col-12">
+                <label for="direccion">Dirección</label>
+                <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"
+                          [class.ng-invalid]="getNoValido('direccion')" [class.ng-dirty]="getNoValido('direccion')">
+                </textarea>
+                <small *ngIf="getNoValido('direccion')" class="p-invalid">Este campo es obligatorio.</small>
+            </div> -->
+            
+            <!-- <div class="p-field p-col-12 p-md-3">
+                <label for="urbanizacion">Urbanización</label>
+                <span class=" p-input-icon-right">
+                    <input id="urbanizacion" type="text" pInputText formControlName="urbanizacion" [class.ng-invalid]="getNoValido('urbanizacion')" 
+                           [class.ng-dirty]="getNoValido('urbanizacion')">
+                </span>
+                <small *ngIf="getNoValido('urbanizacion')" class="p-invalid">Este campo es obligatorio.</small>
+            </div> -->
+    
+            <div class="p-field p-col-12 p-md-3">
+                <label for="id_pais">Pais</label>
+                <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_pais')" 
+                            [class.ng-dirty]="getNoValido('id_pais')" name="id_pais" formControlName="id_pais" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaRegion($event.value.id_pais)">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_pais')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <!-- <div class="p-field p-col-12 p-md-3">
+                <label for="id_zona">Zona</label>
+                <p-dropdown input  [options]="paises" [class.ng-invalid]="getNoValido('id_zona')" 
+                            [class.ng-dirty]="getNoValido('id_zona')" name="id_zona" formControlName="id_zona" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaRegion($event.value.id_zona)">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_zona')" class="p-invalid">Este campo es obligatorio.</small>
+            </div> -->
+            
+            <div class="p-field p-col-12 p-md-3">
+                <label for="id_region">Región</label>
+                <p-dropdown input  [options]="regiones" [class.ng-invalid]="getNoValido('id_region')" (onChange)="buscaProvincia($event.value.id_region)"
+                            [class.ng-dirty]="getNoValido('id_region')" name="id_region" formControlName="id_region" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_region')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <div class="p-field p-col-12 p-md-3">
+                <label for="id_provincia">Provincia</label>
+                <p-dropdown input  [options]="provincias" [class.ng-invalid]="getNoValido('id_provincia')" 
+                            [class.ng-dirty]="getNoValido('id_provincia')" name="id_provincia" formControlName="id_provincia" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaMunicipio($event.value.id_provincia)">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_provincia')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+                
+            <div class="p-field p-col-12 p-md-3">
+                <label for="id_municipio">Municipio</label>
+                <p-dropdown input  [options]="municipios" [class.ng-invalid]="getNoValido('id_municipio')" 
+                            [class.ng-dirty]="getNoValido('id_municipio')" name="id_municipio" formControlName="id_municipio" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaCiudad($event.value.id_municipio)">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_municipio')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-3">
+                <label for="id_ciudad">Ciudad</label>
+                <p-dropdown input [options]="ciudades" [class.ng-invalid]="getNoValido('id_ciudad')" 
+                            [class.ng-dirty]="getNoValido('id_ciudad')" name="id_ciudad" formControlName="id_ciudad" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="buscaSector($event.value.id_ciudad)">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_ciudad')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+    
+            <div class="p-field p-col-12 p-md-3">
+                <label for="id_sector">Sector</label>
+                <p-dropdown input  [options]="sectores" [class.ng-invalid]="getNoValido('id_sector')" 
+                            [class.ng-dirty]="getNoValido('id_sector')" name="id_sector" formControlName="id_sector" 
+                            id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
+                </p-dropdown>
+                <small *ngIf="getNoValido('id_sector')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <div class="p-field p-col-12 p-md-3">
+                <label for="calle">Calle</label>
+                <input pInputText type="text" inputId="calle" mode="decimal" name="calle" formControlName="calle"
+                [class.ng-invalid]="getNoValido('calle')" [class.ng-dirty]="getNoValido('calle')"/>
+                <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <div class="p-field p-col-12 p-md-3">
+                <label for="casa_num">Casa NO.</label>
+                <input pInputText type="text" inputId="casa_num" mode="decimal" name="casa_num" formControlName="casa_num"
+                [class.ng-invalid]="getNoValido('casa_num')" [class.ng-dirty]="getNoValido('casa_num')"/>
+                <small *ngIf="getNoValido('casa_num')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>   
+        </div>
+    </p-panel>
+
+    <br>
     <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
     <button *ngIf="!this.formSubmitted && this.actualizar" (click)="ActualizarCategoria()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
     <button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 

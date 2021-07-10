@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 
 @Component({
   selector: 'app-step-toolbar',
@@ -8,15 +9,19 @@ import { Router } from '@angular/router';
 })
 export class StepToolbarComponent implements OnInit {
 
-  @Input() items: any[];
+  @Input() items: any[] = [];
   index = 0;
-  inicio:any;
+  inicio: any;
 
-  constructor(public router: Router) { }
+  constructor(public router: Router,
+              private globalServ: GlobalFunctionsService) { }
 
   ngOnInit(): void { 
     this.inicio = this.router.url.split("/");       
-    this.navegacion(this.index)
+    this.navegacion(this.index);
+
+    console.log(this.index);
+    console.log(this.items.length);
   }
   
   nextPage(pagina) {
@@ -30,11 +35,16 @@ export class StepToolbarComponent implements OnInit {
   }
 
   finalizar() {        
-    this.items = [] ;
+    this.globalServ.finalizando();
   }
 
   navegacion(pagina) {
-    this.router.navigate([`/${this.inicio[1]}/${this.items[pagina].routerLink}`]);
+    console.log(pagina);
+    
     console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);    
+    if (this.items.length !== 0) {
+      this.router.navigate([`/${this.inicio[1]}/${this.items[pagina].routerLink}`]);
+      console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 
@@ -8,11 +9,11 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 })
 export class FooterComponent implements OnInit {
 
-  year:any;
-  constructor(private datosEstaticosServ: DatosEstaticosService) {
-    
-  }
-
+  year: any;
+  @Input() simbolo: string;
+  
+  constructor(private datosEstaticosServ: DatosEstaticosService) { }
+  
   ngOnInit(): void {
     this.year = this.datosEstaticosServ.getYear();
   }

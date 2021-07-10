@@ -1,0 +1,2063 @@
+
+FUNCTION repite_codigo()
+   LET verdad = NULL
+   LET ant_art.area = fact_det[curr].area
+   LET ant_art.cod_n = fact_det[curr].cod_n
+   LET ant_art.cod_grupo = fact_det[curr].cod_grupo 
+   LET ant_art.cod_tipo = fact_det[curr].cod_tipo 
+   LET ant_art.cod_sec = fact_det[curr].cod_sec   
+   LET ant_art.cantidad = fact_det[curr].cantidad
+   LET ant_art.precio = fact_det[curr].precio
+   FOR idx = 1 TO arr_count()
+        IF idx != curr THEN
+          IF fact_det[idx].cod_n IS NOT NULL AND
+             fact_det[idx].cod_grupo IS NOT NULL AND
+             fact_det[idx].cod_tipo IS NOT NULL AND
+             fact_det[idx].cod_sec IS NOT NULL    THEN       
+
+          IF fact_Det[idx].area = ant_art.area AND
+             fact_det[idx].cod_n = ant_art.cod_n AND
+             fact_det[idx].cod_grupo = ant_art.cod_grupo AND 
+             fact_det[idx].cod_tipo = ant_art.cod_tipo AND
+             fact_det[idx].cod_sec = ant_art.cod_sec                      
+          THEN
+
+          LET numero_msg = 21
+          CALL msg(numero_msg)
+         LET verdad = "S"
+      ELSE
+        IF verdad != "S" THEN
+         LET verdad = "N"
+       END IF
+      END IF
+    END IF
+   END IF
+  END FOR
+END FUNCTION
+
+FUNCTION tarifas()      
+    OPEN WINDOW busqueda AT 7,12  WITH FORM "vefmwd014"  
+    ATTRIBUTE (BORDER,FORM LINE FIRST + 2,COMMENT LINE LAST,MESSAGE LINE LAST)
+
+    LET int_flag = false
+    CONSTRUCT criterio ON a.descrip FROM descrip 
+   
+    LET selec2 = "SELECT a.cod_tarifa,a.descrip,a.tarifa_pago FROM vetb00023 a ",
+              "WHERE a.status_t IS NULL AND ",criterio clipped," ORDER BY 1 "
+
+    IF int_flag THEN
+    LET numero_msg = 2
+    CALL msg(numero_msg)
+    GO TO salir_tarifa    
+    END IF
+
+    PREPARE busca_tarifa FROM selec2
+    IF STATUS >= 0 THEN
+        IF STATUS = NOTFOUND THEN
+           LET numero_msg = 3
+           CALL msg(numero_msg)
+        END IF
+    ELSE
+        CALL integridad()
+        IF bandera = 1 THEN
+           LET bandera = 0
+        END IF
+    END IF   
+
+    DECLARE buscar_tarifa CURSOR FOR busca_tarifa
+
+    LET idx = 1
+    
+    FOREACH buscar_tarifa INTO arr_tarifa[idx].*
+         LET idx = idx + 1
+    END FOREACH
+
+    CALL set_count(idx-1)
+    
+    DISPLAY ARRAY arr_tarifa TO s_datos.*
+    LET curr1 = arr_curr()
+
+    LET fact_gral.cod_tarifa = arr_tarifa[curr1].cod_tarifa     
+    LET descrip6 = arr_tarifa[curr1].descrip        
+
+    LABEL salir_tarifa:
+    CLOSE WINDOW busqueda
+END FUNCTION
+
+FUNCTION cons_transp()       
+     OPEN WINDOW busqueda AT 7,12  WITH FORM "vefmwd012"  
+          ATTRIBUTE (BORDER,FORM LINE FIRST + 2,COMMENT LINE LAST,MESSAGE LINE LAST)
+
+     LET int_flag = false
+     CONSTRUCT criterio ON a.nombre  FROM descrip6 
+       
+     LET selec2 = "SELECT a.cod_transp,a.sec_transp, a.nombre FROM  vetb00015 a ",
+                  "WHERE a.status_t IS NULL AND ",criterio clipped," ORDER BY 1,2"
+
+     IF int_flag THEN
+        LET numero_msg = 2
+        CALL msg(numero_msg)
+        GO TO salir_consulta_e
+     END IF
+
+    PREPARE busca_transp1 FROM selec2
+    IF STATUS >= 0 THEN
+    IF STATUS = NOTFOUND THEN
+       LET numero_msg = 3
+       CALL msg(numero_msg)
+    END IF
+    ELSE
+    CALL integridad()
+    IF bandera = 1 THEN
+       LET bandera = 0
+    END IF
+    END IF   
+
+    DECLARE buscar_transp CURSOR FOR busca_transp1 
+    LET idx = 1
+
+    FOREACH buscar_transp INTO arr_transp[idx].*
+         IF STATUS = NOTFOUND THEN
+            EXIT FOREACH
+         END IF
+
+         IF int_flag THEN
+            LET numero_msg = 2
+            CALL msg(numero_msg)
+            EXIT FOREACH
+         END IF
+
+         LET idx = idx + 1
+    END FOREACH
+
+    CALL set_count(idx-1)
+    MESSAGE "         <Esc> Selecciona Empleado donde esta el cursor" 
+    DISPLAY ARRAY arr_transp TO s_transp.*
+    LET curr1 = arr_curr()
+
+    LET fact_gral.cod_transp = arr_transp[curr1].cod_transp     
+    LET fact_gral.sec_transp = arr_transp[curr1].sec_transp     
+    LET fact_gral.nombre_tran    = arr_transp[curr1].nombre   
+
+    LABEL salir_consulta_e:
+    CLOSE WINDOW busqueda
+END FUNCTION
+
+REPORT imp_fact(x,z,porciento,bonifica,cod_f)
+DEFINE x RECORD
+    cod_cia        LIKE vetb00002.cod_cia,
+    ventas         LIKE vetb00002.ventas,
+    zona           LIKE vetb00002.zona,
+    factura        LIKE vetb00002.factura,
+    bodega         SMALLINT,
+    conduce        LIKE vetb00002.conduce,
+    fecha_conduce  LIKE vetb00002.fecha_conduce,
+    fecha_factura  LIKE vetb00002.fecha_factura,
+    tipo_cliente   LIKE vetb00002.tipo_cliente,
+    sec_cliente    LIKE vetb00002.sec_cliente,
+    nombre         CHAR(30),
+    direccion      CHAR(170),
+    ciudad         CHAR(20),
+    prima_us       LIKE vetb00002.prima_us,
+    porc_desc      LIKE vetb00002.porc_desc,
+    cond_pago      LIKE vetb00002.cond_pago,
+    orden          INT,
+    fecha_orden    LIKE vetb00002.fecha_orden,
+    porc_itbi      LIKE vetb00002.porc_itbi,
+    sec_vend       LIKE vetb00002.sec_vend,
+    nombre_vend    CHAR(30),     
+    cod_transp     LIKE iptb00006.cod_transp,
+    sec_transp     LIKE iptb00006.sec_transp,
+    cod_tarifa     LIKE iptb00006.cod_tarifa,
+    nombre_tran    CHAR(30),      
+    fecha_embarque LIKE vetb00002.fecha_embarque,
+    placa_transp   LIKE iptb00006.placa,
+    sub_total      DECIMAL(12,2),
+    desc_valor     DECIMAL(12,2),
+    itbi           DECIMAL(12,2),
+    total_fact     DECIMAL(12,2) 
+ END RECORD
+
+ DEFINE z RECORD
+    area          SMALLINT,
+    cod_n         SMALLINT,
+    cod_grupo     SMALLINT,
+    cod_tipo      SMALLINT,
+    cod_sec       SMALLINT,
+    descrip_esp   CHAR(50),
+    unidad_med    CHAR(4),
+    cantidad      DECIMAL(12,5),      
+    precio        DECIMAL(12,3),
+    cantidad_2    DEC(8,2),
+    monto_fact    DECIMAL(12,3),
+    kit_id        INT
+ END RECORD
+DEFINE bonifica INTEGER,
+       i,cod_f SMALLINT,
+       plado1,plado2,plado3,pcantidad,pmedida,total_unidades DEC(12,5)
+       
+
+DEFINE tot_b,tot_n,tot_m DECIMAL(12,2),
+       ch_fech CHAR(20),
+       descripcion_area CHAR(30)
+DEFINE porciento DECIMAL(8,3)
+DEFINE normal,doce,negras,negras_off,doble CHAR(2)
+
+DEFINE nombre_vend,apellido_vend CHAR(15)
+DEFINE comprimido,comprimido_of CHAR(1)
+
+DEFINE j,lj,h INTEGER,
+       etiqueta CHAR(30)
+
+OUTPUT
+ TOP MARGIN 2  
+ LEFT MARGIN 0
+ #PAGE LENGTH 65
+ BOTTOM MARGIN 3
+ 
+ORDER BY x.factura,z.area,z.cod_n,z.cod_grupo,z.cod_tipo,z.cod_Sec
+
+FORMAT
+ PAGE HEADER
+  LET comprimido =  ASCII 15
+  LET comprimido_of = ASCII 18
+  LET negras = ASCII 27, ASCII 69
+  LET negras_off = ASCII 27, ASCII 70
+  LET doble = ASCII 14
+  LET doce = ASCII 27, ASCII 77
+  LET normal = ASCII 27, ASCII 80
+
+  LET lj = (80 - LENGTH(p_companias.nombre CLIPPED))/2
+  LET j  = (90 - LENGTH(p_companias.direccion CLIPPED))/2
+  LET i  = (90 - LENGTH(p_companias.telefono CLIPPED))/2
+  LET h  = (90 - LENGTH(p_companias.rnc CLIPPED))/2
+  #          IF ch_encabeza = "S" THEN 
+  #           PRINT COLUMN  lj, normal,doble,p_companias.nombre CLIPPED
+  #           PRINT COLUMN  j+3, p_companias.direccion 
+             #PRINT COLUMN  i-9, "Tels : ",p_companias.telefono , 
+             #                 " Fax : ",p_companias.fax 
+             #PRINT COLUMN h-1, "RNC : ",p_companias.rnc CLIPPED,
+             #       COLUMN 100, "Pag. ", pageno using "###"
+   #         ELSE
+   #            PRINT
+   #            PRINT
+   #         END IF
+   IF ch_encabeza = "S" THEN
+     PRINT COLUMN 4, normal,doble,"MARMOTECH, S. A."
+   ELSE 
+     PRINT
+   END IF
+   PRINT COLUMN 4, doble,proforma CLIPPED,":",x.factura using "<<<<<<<<<"        
+   IF descripcion_doc IS NOT NULL THEN
+      PRINT COLUMN 4, descripcion_Doc CLIPPED
+   ELSE 
+     SKIP 1 LINE
+   END IF
+   
+   PRINT COLUMN 4, doce,"PAGINA NO. ",pageno USING "<<<"
+   #PRINT normal,comprimido_of
+   IF x.ventas = "1" THEN
+       PRINT COLUMN 4,normal,comprimido_of, negras,"SENORES :"
+   ELSE
+       PRINT COLUMN 4, "SIR :"
+   END IF
+
+       PRINT COLUMN 4, x.nombre CLIPPED," COD.#",x.tipo_cliente using "&&","-",
+                       x.sec_cliente using "&&&&&&"
+       PRINT COLUMN  4, x.direccion[1,55]
+       IF x.direccion[56,106] IS NOT NULL THEN
+          PRINT COLUMN  4, x.direccion[56,106]
+       ELSE
+           PRINT ''
+       END IF
+
+       IF x.direccion[107,170] IS NOT NULL THEN    
+          PRINT COLUMN  4, x.direccion[107,170]
+       ELSE
+          PRINT ' '
+       END IF   
+       
+       PRINT COLUMN  4, "Telefono: ",cliente_bas.telefono
+       PRINT COLUMN  4, x.ciudad CLIPPED," RNC #",cliente_bas.num_rnc
+       
+       PRINT COLUMN 4, pubicacion [1,60]
+       PRINT COLUMN 4, pubicacion[65,100] CLIPPED
+       
+       PRINT comprimido
+       SELECT a.nom1_emp,a.apell1_emp INTO p_adtb03.nom1_emp,p_adtb03.apell1_emp
+       FROM adtb00003 a WHERE a.num_emp = fact_gral.sec_vend
+    
+       IF x.cond_pago > 1 AND x.ventas = "1" THEN
+       
+          LET nombre_vend = p_adtb03.nom1_emp CLIPPED
+          LET apellido_vend = p_adtb03.apell1_emp CLIPPED
+       END IF
+
+     IF x.ventas = "2" THEN
+        LET nombre_vend = p_adtb03.nom1_emp
+        LET apellido_vend = NULL
+     END IF
+     
+     
+
+       PRINT "======================================================================================================",
+             "================================="
+       PRINT COLUMN 1, "SALIDA",
+             COLUMN 15, "ORDEN",
+             COLUMN 25, "FECHA",
+             COLUMN 38, "COTIZACION",
+             COLUMN 52, "FACTURA E",
+             COLUMN 65, "CONDICION",
+             COLUMN 80, "VENDEDOR",
+             COLUMN 113,"DOC.",
+             COLUMN 123, "FECHA FACTURA"
+
+       PRINT COLUMN 1,  x.conduce USING "<<<<<",
+             COLUMN  14, x.orden using "&&&&&&",
+             COLUMN  25, x.fecha_orden using "dd/mm/yyyy",
+             COLUMN  38, pcotizacion USING "&&&&&&",
+             COLUMN  50, factura_e USING "&&&&&&",
+            # COLUMN  65, pcondicion.getitemtext(x.cond_pago) CLIPPED,
+             COLUMN  65, condicion.descrip[1,14],
+             COLUMN  80, "(",x.sec_vend using "&&&&",") ",x.nombre_vend[1,20],
+             COLUMN 113, documento_ref[1,10],
+             COLUMN 126, x.fecha_factura using "dd/mm/yyyy"
+      # PRINT COLUMN 65, condicion.descrip[15,30]    
+       PRINT "======================================================================================================",
+             "================================="
+
+    LET tot_n = 0   
+    LET tot_b = 0   
+    LET tot_m = 0
+    PRINT COLUMN 5,"CODIGO",
+          COLUMN 21, "CANTIDAD",
+          COLUMN 37, "UNIDADES",
+          COLUMN 50, "DESCRIPCION",
+          COLUMN 102, "PRECIO",
+          COLUMN 114, "DESC.",
+          COLUMN 131, "TOTAL"
+   
+    PRINT "======================================================================================================",
+          "================================="
+
+    BEFORE GROUP OF z.area
+      SELECT a.nombre_area INTO descripcion_area
+      FROM prtb00016 a
+      WHERE a.area_num=Z.area
+      
+
+      PRINT "AREA: (",z.area USING "<<<",")",descripcion_area
+      SKIP 1 LINE
+      
+    ON EVERY ROW
+
+    IF z.cantidad <> 0 THEN
+      LET p_iptb01.factor_conv = 1
+      LET p_iptb01.unidad      = z.unidad_med
+      SELECT a.factor_conv,a.unidad INTO p_iptb01.factor_conv,p_iptb01.unidad
+      FROM iptb00001 a
+      WHERE a.cod_n = z.cod_n AND a.cod_grupo = z.cod_grupo AND
+            a.cod_tipo  = z.cod_tipo AND a.cod_sec  = z.cod_sec
+
+      IF p_iptb01.factor_conv IS NULL OR p_iptb01.factor_conv = 0 THEN
+         LET p_iptb01.factor_conv = 1
+         LET p_iptb01.unidad      = z.unidad_med
+      END IF
+   
+        PRINT COLUMN   5, z.cod_n USING "&&&&","-",z.cod_grupo USING "&&&&","-",
+                          z.cod_tipo USING "&&&&","-",z.cod_sec USING "&&&&&&",
+              COLUMN  13, z.cantidad USING "###,###.#####"," ",z.unidad_med CLIPPED,
+              COLUMN  32, z.cantidad/p_iptb01.factor_conv USING "###,###",
+              COLUMN  50, z.descrip_esp CLIPPED,
+              COLUMN  98, z.precio USING "#,###,###.###",
+              COLUMN 114, z.cantidad_2 USING "###.###",
+              COLUMN 123, z.monto_fact USING "##,###,###.##"
+     END IF
+        DECLARE busca_d1 CURSOR FOR
+          SELECT a.etiqueta,a.lado_1,a.lado_2,a.lado_3,a.cantidad,a.medida 
+          FROM iptb00025 a
+          WHERE a.area = z.area AND
+                a.cod_n = z.cod_n AND
+                a.cod_grupo = z.cod_grupo AND
+                a.cod_tipo = z.cod_tipo AND
+                a.cod_sec = z.cod_sec AND
+                a.cod_mov = p_codigo AND
+                a.num_Doc = x.conduce
+       LET total_unidades = 0
+       FOREACH busca_d1 INTO etiqueta,plado1,plado2,plado3,pcantidad,pmedida
+          PRINT COLUMN 53,pcantidad USING "<<<,<<<"," ",etiqueta clipped," DE ",plado1 USING "<<.#####"," X ",
+                                   plado2 USING "<<.#####"," X ",plado3 USING "<<.#####"," = ",pmedida USING "<<<.#####"
+          LET total_unidades = total_unidades + pcantidad
+       END FOREACH
+      # IF total_unidades > 0 THEN
+          
+       #   PRINT COLUMN 53, "TOTAL UNIDADES ",total_unidades USING "<,<<<" 
+       #END IF  
+      
+      
+ON LAST ROW
+# Impresion de informaciones que pertenecen a facturas de exportacion
+     IF x.ventas = "2" THEN
+
+
+        IF x.desc_valor <> 0 THEN
+
+            PRINT COLUMN 77, x.porc_desc using "<<<.##"," %DISCOUNT",
+                  COLUMN 122, x.desc_valor using "###,###,###.##"
+       END IF
+        PRINT COLUMN 122, "--------------"
+        PRINT COLUMN 78, "TOTAL F.O.B. PLANT, D.R.",
+              COLUMN 119, x.total_fact using "USD$###,###,###.##"
+        PRINT COLUMN 122, "______________"
+        PRINT COLUMN 122, "--------------"
+
+         LET ch_fech = x.fecha_embarque using "ddd, mmm. dd, yyyy"
+         LET ch_fech = upshift(ch_fech)
+         PRINT COLUMN 47, "INLAND FREIGHT : COLLECT"
+         PRINT COLUMN 47, "INSURANCE      : TO BE COVERED BY CUSTOMER"
+         PRINT COLUMN 47, "TO BE SHIPPED  : ", ch_fech
+      END IF
+
+# Impresion de datos que concierne solamente a tipos de facturas locales
+
+      IF x.ventas = "1"  THEN
+         IF x.ventas = "1" THEN
+            IF x.desc_valor <> 0 THEN
+               SKIP 1 LINE
+               PRINT COLUMN 78, "VALOR BRUTO ",
+                     COLUMN 122, x.sub_total using "###,###,###.##"
+
+               PRINT COLUMN 78, "DESCUENTO",
+                     COLUMN 122, x.desc_valor using "###,###,###.##"
+      
+            END IF
+
+         #-> PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "SUB-TOTAL",
+               COLUMN 122, x.sub_total-x.desc_valor using "###,###,###.##"
+         IF x.porc_itbi > 0 THEN
+            PRINT COLUMN 78, x.porc_itbi using "##.##","%"," ITBIS",
+                  COLUMN 122, x.itbi using "###,###,###.##"
+         END IF
+         PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "VALOR NETO ",
+               COLUMN 122, x.total_fact using "###,###,###.##"
+         PRINT COLUMN 122, "=============="
+        END IF
+       END IF
+
+        IF x.ventas = "3" THEN
+         SKIP 1 LINE
+         PRINT COLUMN 78, "VALOR BRUTO ",
+               COLUMN 122, x.sub_total using "###,###,###.##"
+
+         IF x.desc_valor <> 0 THEN
+
+            PRINT COLUMN 78, "DESCUENTO",
+                #  COLUMN 93, x.desc_valor using "###,###,###.##"
+                  COLUMN 122, x.desc_valor using "###,###,###.##"
+         END IF
+
+         #-> PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "SUB-TOTAL",
+               COLUMN 122, x.sub_total-x.desc_valor using "###,###,###.##"
+         IF x.porc_itbi > 0 THEN
+            PRINT COLUMN 61, porcentaje_n USING "###.##","%/ ",itbis_o USING "###.##","% ",
+                            x.porc_itbi using "###.##","%"," ITBIS",
+                  COLUMN 122, x.itbi using "###,###,###.##"
+         END IF
+         PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "VALOR NETO ",
+               COLUMN 118, x.total_fact using "USD$###,###,###.##"
+         PRINT COLUMN 122, "=============="
+      END IF
+      
+      PRINT comprimido_of
+      #SKIP 8 LINE 
+
+   PAGE TRAILER
+      PRINT doce,comprimido_of
+    
+      LET obs1=observacion[1,50]
+      LET obs2=observacion[51,101]
+      LET obs3=observacion[102,152]
+      LET obs4=observacion[152,180]
+     
+      PRINT COLUMN 3, "OBSERVACIONES: ",UPSHIFT(obs1) 
+      PRINT COLUMN 3, "               ",UPSHIFT(obs2) CLIPPED
+      PRINT COLUMN 3, "               ",UPSHIFT(obs3) CLIPPED
+      PRINT COLUMN 3, "               ",UPSHIFT(obs4) CLIPPED
+
+      SKIP 3 LINES
+
+      PRINT COLUMN 4, "NOMBRE TRANSPORTISTA: ",x.nombre_tran, "  ", 
+                      "CEDULA: ",p_cedula using "&&&&&&&&&",
+                      " SERIE: ",p_serie using "&&&"
+      IF x.ventas = "2" THEN
+        PRINT COLUMN 4, "FACTURA COMERCIAL: ",x.placa_transp
+      ELSE
+         PRINT COLUMN 4, "PLACA DEL VEHICULO: ",x.placa_transp
+      END IF
+     {
+     SKIP 10 LINES
+     PRINT COLUMN 12, x.nombre CLIPPED
+     CALL convierte(x.total_fact)
+     
+     PRINT COLUMN 05, valor_letras clipped,
+           COLUMN 72, x.total_fact using "###,###,###.##"
+     PRINT COLUMN 72, x.factura using "&&&&&"
+     PRINT COLUMN 10, condicion.dias USING "&&"
+     }
+     SKIP 3 LINES
+     PRINT COLUMN 4,"-------------------------------",20 SPACES,
+                    "-------------------------------" 
+
+     PRINT COLUMN 4,"   FACTURADO POR               ",20 SPACES,
+                    "   REVISADO POR                "
+    #SKIP 4 LINES
+END REPORT
+
+REPORT imp_fact_ncf(x,z,porciento,bonifica,cod_f,pncf,Pcodigodgii)
+
+  DEFINE x RECORD
+    cod_cia        LIKE vetb00002.cod_cia,
+    ventas         LIKE vetb00002.ventas,
+    zona           CHAR(3),
+    factura        LIKE vetb00002.factura,
+    bodega         SMALLINT,
+    conduce        LIKE vetb00002.conduce,
+    fecha_conduce  DATE,
+    fecha_factura  DATE,
+    tipo_cliente   LIKE vetb00002.tipo_cliente,
+    sec_cliente    LIKE vetb00002.sec_cliente,
+    nombre         CHAR(30),
+    direccion      CHAR(170),
+    ciudad         CHAR(20),
+    prima_us       LIKE vetb00002.prima_us,
+    porc_desc      LIKE vetb00002.porc_desc,
+    cond_pago      LIKE vetb00002.cond_pago,
+    orden          INT,
+    fecha_orden    DATE,
+    porc_itbi      LIKE vetb00002.porc_itbi,
+    sec_vend       LIKE vetb00002.sec_vend,
+    nombre_vend    CHAR(60),     
+    cod_transp     LIKE iptb00006.cod_transp,
+    sec_transp     LIKE iptb00006.sec_transp,
+    cod_tarifa     LIKE iptb00006.cod_tarifa,
+    nombre_tran    CHAR(30),      
+    fecha_embarque DATE,
+    placa_transp   LIKE iptb00006.placa,
+    sub_total      DECIMAL(12,2),
+    desc_valor     DECIMAL(12,2),
+    itbi           DECIMAL(12,2),
+    total_fact     DECIMAL(12,2) 
+END RECORD
+
+ DEFINE z RECORD
+      area      SMALLINT,
+    cod_n         SMALLINT,
+    cod_grupo     SMALLINT,
+    cod_tipo      SMALLINT,
+    cod_sec       SMALLINT,
+    descrip_esp   CHAR(50),
+    unidad_med    CHAR(5),
+    cantidad      DEC(12,5),
+    precio        LIKE vetb00003.precio,
+    cantidad_2    LIKE vetb00003.cantidad_2, 
+    monto_fact    DECIMAL(12,2),
+    kit_id        INT
+ 
+ END RECORD,
+      Pcodigodgii LIKE vetb00071.codigo_dgii
+
+DEFINE  i,cod_f SMALLINT
+DEFINE bonifica,pncf INTEGER
+DEFINE tot_b,tot_n,tot_m DECIMAL(12,2),
+       ch_fech CHAR(20)
+DEFINE porciento DECIMAL(8,3)
+DEFINE normal,doce,negras,negras_off,doble CHAR(2)
+DEFINE rnc CHAR(11)
+DEFINE comprimido,comprimido_of CHAR(1)
+DEFINE j,lj,h INTEGER
+
+OUTPUT
+ TOP MARGIN 2  
+ LEFT MARGIN 0
+# PAGE LENGTH 65
+ BOTTOM MARGIN 3
+ ORDER BY x.factura,z.cod_n,z.cod_sec
+
+FORMAT
+
+ PAGE HEADER
+  LET comprimido =  ASCII 15
+  LET comprimido_of = ASCII 18
+  LET negras = ASCII 27, ASCII 69
+  LET negras_off = ASCII 27, ASCII 70
+  LET doble = ASCII 14
+  LET doce = ASCII 27, ASCII 77
+  LET normal = ASCII 27, ASCII 80
+
+  SELECT a.nombre INTO p_companias.nombre FROM companias a
+
+  LET lj = (80 - LENGTH(p_companias.nombre CLIPPED))/2
+  LET j  = (80 - LENGTH(p_companias.direccion CLIPPED||", "||p_companias.direccion1  CLIPPED))/2
+  LET i  = (80 - LENGTH("Tels : "||p_companias.telefono || 
+                              " Fax : "||p_companias.fax CLIPPED))/2
+  LET h  = (80 - LENGTH(p_companias.rnc CLIPPED))/2
+  
+#--------------------------------------------------------
+       PRINT COLUMN  1, normal,doble,p_companias.nombre CLIPPED
+                   
+        PRINT COLUMN  1,doce, p_companias.direccion CLIPPED,", ",
+                              p_companias.direccion1 CLIPPED,
+              COLUMN  61, descripcion[1,29]
+        PRINT COLUMN  1, sucnombre,
+              COLUMN 61,descripcion[30,60]                      
+         
+        PRINT COLUMN 1, "RNC : ",p_companias.rnc,
+              COLUMN  60,"NCF: ",pcodigodgii CLIPPED,pncf USING "&&&&&&&&"     
+                 
+        PRINT COLUMN  1, "Tels : ",p_companias.telefono , 
+                         " Fax : ",p_companias.fax,
+              COLUMN  61, "Valida Hasta: ",fecha_vencimiento USING "dd/mm/yyyy"
+              
+        PRINT COLUMN 1, "Pag. ", pageno using "###"      
+                             
+                
+   
+   #PRINT normal,comprimido_of
+     
+#--------------------------------------------------------
+  
+            
+   SELECT num_rnc INTO rnc FROM vetb00004
+   WHERE tipo_cliente = x.tipo_cliente AND sec_cliente  = x.sec_cliente  AND
+         status_t IS NULL 
+
+   #PRINT normal,comprimido_of
+     PRINT COLUMN 1,"----------------------------------------------------------------------------------------------"
+        PRINT COLUMN 1, "RNC CLIENTE: ",rnc   
+        IF x.ventas = "1" THEN
+           PRINT COLUMN 1, negras,"SENORES :"
+        ELSE
+           PRINT COLUMN 1, "SIR :"
+        END IF
+       
+       PRINT COLUMN 1, x.nombre CLIPPED," COD.#",x.tipo_cliente using "&&","-",
+                       x.sec_cliente using "&&&&&&"
+       PRINT COLUMN  1, x.direccion CLIPPED," ",cliente_bas.telefono
+       PRINT COLUMN  1, x.ciudad CLIPPED
+       PRINT COLUMN 1, pubicacion[1,70]
+       PRINT COLUMN 1, pubicacion[71,80]
+
+       PRINT COLUMN 60, doble,"FACTURA ",x.factura using "&&&&&&&&"
+             
+       PRINT COLUMN 1,"--------------------------------------------------------------------------------------------"
+ PRINT normal,comprimido
+
+     
+       PRINT "======================================================================================================",
+             "================================="
+       PRINT COLUMN 1, "SALIDA",
+             COLUMN 15, "ORDEN",
+             COLUMN 35, "FECHA",
+             COLUMN 60, "CONDICION",
+             COLUMN 80, "VENDEDOR",
+             COLUMN 100, "COTIZACION",
+             COLUMN 111, "DOCUMENTO",
+             COLUMN 123, "FECHA FACTURA"
+
+       PRINT COLUMN   1, x.conduce using "&&&&&&",
+             COLUMN  14, x.orden using "&&&&&&",
+             COLUMN  34, x.fecha_orden using "dd/mm/yyyy",
+             COLUMN  60, condicion.descrip CLIPPED,
+             COLUMN  80, "(",x.sec_vend using "&&&&",") ",x.nombre_vend CLIPPED,
+             COLUMN  100, pcotizacion using "&&&&&&",
+             COLUMN  111, documento_ref[1,14],
+             COLUMN 126, x.fecha_factura using "dd/mm/yyyy"
+       PRINT "======================================================================================================",
+             "================================="
+
+    LET tot_n = 0   
+    LET tot_b = 0   
+    LET tot_m = 0
+    PRINT COLUMN 5,"CODIGO",
+          COLUMN 21, "CANTIDAD",
+          COLUMN 37, "UNIDADES",
+          COLUMN 50, "DESCRIPCION",
+          COLUMN 102, "PRECIO",
+          COLUMN 114, "DESC.",
+          COLUMN 131, "TOTAL"
+   
+    PRINT "======================================================================================================",
+          "================================="
+
+   
+    ON EVERY ROW
+
+    IF z.cantidad <> 0 THEN
+      LET p_iptb01.factor_conv = 1
+      LET p_iptb01.unidad      = z.unidad_med
+      SELECT a.factor_conv,a.unidad INTO p_iptb01.factor_conv,p_iptb01.unidad
+      FROM iptb00001 a
+      WHERE a.cod_n = z.cod_n AND a.cod_grupo = z.cod_grupo AND
+            a.cod_tipo  = z.cod_tipo AND a.cod_sec  = z.cod_sec
+
+      IF p_iptb01.factor_conv IS NULL OR p_iptb01.factor_conv = 0 THEN
+         LET p_iptb01.factor_conv = 1
+         LET p_iptb01.unidad      = z.unidad_med
+      END IF
+   
+        PRINT COLUMN   5, z.cod_n USING "&&&&","-",z.cod_grupo USING "&&&&","-",
+                          z.cod_tipo USING "&&&&","-",z.cod_sec USING "&&&&&&",
+              COLUMN  13, z.cantidad USING "###,###.###"," ",z.unidad_med CLIPPED,
+              COLUMN  32, z.cantidad/p_iptb01.factor_conv USING "###,###",
+              COLUMN  50, z.descrip_esp CLIPPED,
+              COLUMN  98, z.precio USING "###,###.###",
+              COLUMN 114, z.cantidad_2 USING "##.&&",
+              COLUMN 123, z.monto_fact USING "##,###,###.##"
+     END IF
+
+AFTER GROUP OF x.factura
+# Impresion de informaciones que pertenecen a facturas de exportacion
+     IF x.ventas = "2" or x.ventas = "4" THEN
+
+        
+           PRINT COLUMN 122,"--------------"
+           PRINT COLUMN 78, "VALOR BRUTO ",
+                 COLUMN 122, x.sub_total using "###,###,###.##"
+   
+        
+
+        IF x.desc_valor <> 0 THEN
+
+            PRINT COLUMN 78,"DISCOUNT",
+                  COLUMN 122, x.desc_valor using "###,###,###.##"
+       END IF
+        PRINT COLUMN 122, "--------------"
+        PRINT COLUMN 78, "TOTAL F.O.B. PLANT, D.R.",
+              COLUMN 122, x.total_fact using "###,###,###.##"
+        PRINT COLUMN 122, "______________"
+        PRINT COLUMN 122, "--------------"
+
+         LET ch_fech = x.fecha_embarque using "ddd, mmm. dd, yyyy"
+         LET ch_fech = upshift(ch_fech)
+         PRINT COLUMN 47, "INLAND FREIGHT : COLLECT"
+         PRINT COLUMN 47, "INSURANCE      : TO BE COVERED BY CUSTOMER"
+         PRINT COLUMN 47, "TO BE SHIPPED  : ", ch_fech
+         #PRINT COLUMN 47, "EXCHANGE RATE  : ", x.prima_us USING "###.##"
+      END IF
+
+# Impresion de datos que concierne solamente a tipos de facturas locales
+
+      IF x.ventas = "1"  THEN
+         #->PRINT COLUMN 122, "--------------"
+         SKIP 1 LINE
+         PRINT COLUMN 78, "VALOR BRUTO ",
+               COLUMN 122, x.sub_total using "###,###,###.##"
+
+         IF x.desc_valor <> 0 THEN
+
+            PRINT COLUMN 78, "DESCUENTO",
+                  COLUMN 093, x.desc_valor using "###,###,###.##"
+                 #COLUMN 122, x.desc_valor using "###,###,###.##"
+         END IF
+
+         #-> PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "SUB-TOTAL",
+               COLUMN 119, x.sub_total-x.desc_valor using "RD$###,###,###.##"
+         IF x.porc_itbi > 0 THEN
+            PRINT COLUMN 78,x.porc_itbi using "###.##","%"," ITBIS",
+                  COLUMN 122, x.itbi using "###,###,###.##"
+         END IF
+         PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "VALOR NETO ",
+               COLUMN 119, x.total_fact using "RD$###,###,###.##"
+         PRINT COLUMN 122, "=============="
+   
+      END IF
+
+      IF x.ventas = "3"  THEN
+         #->PRINT COLUMN 122, "--------------"
+         SKIP 1 LINE
+         PRINT COLUMN 78, "VALOR BRUTO ",
+               COLUMN 118, x.sub_total using "USD$###,###,###.##"
+
+         IF x.desc_valor <> 0 THEN
+
+            PRINT COLUMN 78, "DESCUENTO",
+                  COLUMN 093, x.desc_valor using "###,###,###.##"
+                 #COLUMN 122, x.desc_valor using "###,###,###.##"
+         END IF
+
+         #-> PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "SUB-TOTAL",
+               COLUMN 122, x.sub_total-x.desc_valor using "###,###,###.##"
+         IF x.porc_itbi > 0 THEN
+            PRINT COLUMN 78, x.porc_itbi using "###.##","%"," ITBIS",
+                  COLUMN 122, x.itbi using "###,###,###.##"
+         END IF
+         PRINT COLUMN 122, "--------------"
+         PRINT COLUMN 78, "VALOR NETO ",
+               COLUMN 118, x.total_fact using "USD$###,###,###.##"
+         PRINT COLUMN 122, "=============="
+   
+      END IF
+      
+      PRINT comprimido_of
+      #SKIP 8 LINE 
+
+   PAGE TRAILER
+    SKIP 1 LINE
+    PRINT doce,comprimido_of
+
+    LET obs1=observacion[1,50]
+    LET obs2=observacion[51,101]
+    LET obs3=observacion[102,152]
+    LET obs4=observacion[152,180]
+
+    PRINT COLUMN 3, "OBSERVACIONES: ",UPSHIFT(obs1) CLIPPED," ", UPSHIFT(obs2) CLIPPED
+    PRINT COLUMN 3, "               ",UPSHIFT(obs3) CLIPPED," ", UPSHIFT(obs4) CLIPPED
+
+    SKIP 2 LINES
+
+    PRINT COLUMN 4, "NOMBRE TRANSPORTISTA: ",x.nombre_tran, "  ", 
+                    "CEDULA: ",p_cedula using "&&&&&&&&&",
+                    " SERIE: ",p_serie using "&&&"
+     
+     PRINT COLUMN 4, "PLACA DEL VEHICULO: ",x.placa_transp
+    
+     SKIP 3 LINES
+     PRINT COLUMN 4,"-------------------------------",20 SPACES,
+                    "-------------------------------" 
+
+     PRINT COLUMN 4,"   FACTURADO POR               ",20 SPACES,
+                    "   REVISADO POR                "
+     SKIP 2 LINES
+END REPORT
+
+#--------------- PAGO AL CONTADO --------------------------------------------#
+FUNCTION veprfu001()
+ DEFINE pagos RECORD
+  documento       LIKE vetb00002.factura,
+  fecha_factura   DATE,
+  factura         LIKE vetb00002.factura,
+  tipo_cliente    INT,
+  sec_cliente     INT,
+  nombre          VARCHAR(100),
+  direccion       VARCHAR(100),
+  ciudad          VARCHAR(100), 
+  cheque_no       LIKE cctb00001.num_cheque,
+  banco           LIKE cctb00001.banco,
+  valor_cheque    DECIMAL(12,2),
+  valor_efectivo  DECIMAL (12,2),
+  monto_cr        DEC(12,2),
+  valor_total     DEC(12,2) 
+ END RECORD
+ 
+ OPEN WINDOW captura  AT 7,12  WITH FORM "vefmwd013"  
+      ATTRIBUTE (BORDER,FORM LINE FIRST + 1,COMMENT LINE LAST)
+  INPUT BY NAME pagos.*
+  BEFORE INPUT
+   LET pagos.tipo_cliente = fact_gral.tipo_cliente
+   LET pagos.sec_cliente = fact_gral.sec_cliente
+   LET pagos.nombre = fact_gral.nombre
+   LET pagos.direccion = fact_gral.direccion
+   LET pagos.ciudad = NULL
+   LET pagos.fecha_factura = fact_gral.fecha_factura
+   LET pagos.valor_efectivo = fact_gral.total_fact
+   LET pagos.factura = fact_gral.factura
+   LET pagos.valor_cheque = 0
+   LET pagos.valor_efectivo = fact_gral.total_fact
+   LET pagos.valor_total = fact_gral.total_fact
+   LET pagos.monto_cr = 0
+   LET pagos.fecha_factura = today
+   DISPLAY BY NAME pagos.*
+  AFTER FIELD factura
+    IF pagos.factura IS NULL THEN
+       LET numero_msg = 16
+       CALL msg(numero_msg)
+       NEXT FIELD factura
+    ELSE
+      { SELECT a.fecha_factura,a.tipo_cliente,a.sec_cliente,b.nombre,
+              a.neto,b.cod_provincia,a.sub_total,a.monto_itbi 
+       INTO
+              fact_gral.fecha_factura,fact_gral.tipo_cliente,
+              fact_gral.sec_cliente,fact_gral.nombre,fact_gral.total_fact,
+              codigo_provincia,fact_gral.sub_total,fact_gral.itbi
+       FROM  vetb00002 a,vetb00004 b
+       WHERE a.factura = pagos.factura AND a.tipo_cliente = b.tipo_cliente AND
+             a.sec_cliente = b.sec_cliente AND a.status_t IS NULL
+}
+       SELECT b.calle,b.casa_num,b.barrio INTO descrip1,descrip2,descrip3
+       FROM vetb00005 b
+       WHERE b.tipo_cliente = fact_gral.tipo_cliente AND
+             b.sec_cliente = fact_gral.sec_cliente
+
+       SELECT d.nombre_provincia INTO fact_gral.ciudad FROM vetb00020 d
+       WHERE d.cod_provincia = codigo_provincia
+    END IF
+    LET fact_gral.factura = pagos.factura
+
+  #NEXT FIELD detalle
+ 
+  AFTER FIELD valor_cheque
+    IF pagos.valor_cheque IS NOT NULL THEN
+      LET pagos.valor_efectivo = fact_gral.total_fact - pagos.valor_cheque
+    ELSE
+      LET pagos.valor_efectivo = fact_gral.total_fact
+    END IF
+
+    DISPLAY BY NAME pagos.valor_efectivo
+  AFTER FIELD monto_cr
+    
+     LET pagos.valor_total = pagos.valor_cheque + pagos.monto_cr + pagos.valor_efectivo
+     DISPLAY BY NAME pagos.valor_total 
+  AFTER INPUT
+    IF int_flag THEN
+       LET int_flag = FALSE
+       RETURN
+    END IF
+  
+    IF pagos.nombre IS NULL THEN
+       LET numero_msg = 16
+       CALL msg(numero_msg)
+       NEXT FIELD nombre
+    END IF
+    
+     LET pagos.valor_total = pagos.valor_cheque + pagos.monto_cr + pagos.valor_efectivo
+     DISPLAY BY NAME pagos.valor_total
+     IF pagos.valor_total > fact_gral.total_fact THEN
+        CALL msg(168)
+        NEXT FIELD valor_cheque
+     END IF
+     IF pagos.valor_total IS NULL THEN
+        CALL msg(16)
+        NEXT FIELD valor_cheque
+     END IF
+END INPUT
+  LET p_fecha_ven = "01/01/01"
+  LET fact_gral.total_fact = fact_gral.total_fact * -1
+
+  IF fact_gral.total_fact IS NULL THEN
+     LET fact_gral.total_fact = 0
+  END IF
+  IF fact_gral.total_fact <> 0 THEN
+       SELECT ult_recibo INTO pagos.documento FROM cctb00003 WHERE tipo_doc = "PC"
+      
+       IF pagos.documento IS NULL THEN
+          LET pagos.documento = 0
+       END IF
+       LET pagos.documento = pagos.documento + 1
+       DISPLAY BY NAME pagos.documento
+     DELETE FROM cctb00001 WHERE num_doc = pagos.documento AND tipo_doc = "PC"
+     LET pagos.valor_total = pagos.valor_total * -1
+     
+         INSERT INTO cctb00001 (cod_cia,num_doc,tipo_doc,tipo_cliente,sec_cliente,
+                                cod_emp,cod_emp_sec,fecha_orig,aplica_a,valor,
+                                monto_desc,us_crea,fech_crea,costo,
+                                valor_efectivo,valor_cheque,valor_tarjeta)
+         VALUES (fact_gral.cod_cia,pagos.documento, "PC",fact_gral.tipo_cliente,
+                 fact_gral.sec_cliente,localidad,fact_gral.sec_vend, fact_gral.fecha_factura,pagos.factura,
+                 pagos.valor_total,'0',usuarios,getdate(),'0',
+                 pagos.valor_efectivo,pagos.valor_cheque,pagos.monto_cr)
+                 
+     
+     CALL defecto(usuarios,clave,impresor) RETURNING imprime,negrilla_on,negrillas_of,
+                                                     doble_on,doble_off,comp_on,comp_off,
+                                                     doce,normal,archivo,copia
+
+     START REPORT volante TO archivo
+     
+     OUTPUT TO REPORT volante(pagos.*)
+     FINISH REPORT volante
+     RUN imprime
+     UPDATE cctb00003 SET ult_recibo = pagos.documento,
+                          us_mod = usuarios,
+                         fech_mod = getdate() WHERE tipo_doc = "PC"
+
+     CLOSE WINDOW captura
+  END IF
+END FUNCTION
+
+REPORT volante (y)
+
+ DEFINE y  RECORD
+  documento       LIKE vetb00002.factura,
+  fecha_factura   DATE,
+  factura         LIKE vetb00002.factura,
+  tipo_cliente    INT,
+  sec_cliente     INT,
+  nombre          VARCHAR(100), 
+  direccion       VARCHAR(100),
+  ciudad          VARCHAR(100),
+  cheque_no       LIKE cctb00001.num_cheque,
+  banco           LIKE cctb00001.banco,
+  valor_cheque    DECIMAL(12,2),
+  valor_efectivo  DECIMAL (12,2),
+  monto_cr        DEC(12,2),
+  valor_total     DEC(12,2) 
+ END RECORD
+
+
+  DEFINE doble CHAR(1)
+  DEFINE comp_off,negras,negras_of,italic,italic_of,normal CHAR(2)
+  DEFINE solicitante CHAR(30)
+
+  OUTPUT
+    TOP MARGIN 0
+    LEFT MARGIN 0
+
+ FORMAT 
+  PAGE HEADER
+  
+  LET normal = ASCII 27, ASCII 80
+  LET negras = ASCII 27, ASCII 69
+  LET negras_of = ASCII 27, ASCII 70
+  LET doble = ASCII 14
+  LET italic = ASCII 27, ASCII 52
+  LET italic_of = ASCII 27, ASCII 53
+  LET comp_off  = ASCII 18
+
+    PRINT COLUMN 70,comp_off, ASCII 27, ASCII 80
+    IF y.tipo_cliente <> 19 AND y.tipo_cliente <> 18 THEN
+       PRINT COLUMN 5, negras,p_companias.nombre CLIPPED,negras_of,
+          COLUMN 72, today using "dd/mm/yyyy"
+          
+       PRINT COLUMN 5, p_companias.direccion CLIPPED,"  TEL. ",p_companias.telefono
+    ELSE
+      SKIP 2 LINES   
+    END IF
+    SKIP 1 LINE 
+    PRINT COLUMN 15, italic,"RECIBO DE INGRESO"
+    SKIP 2 LINE
+
+    LET valor_orig = Y.valor_total
+    LET valor_letras = NULL
+    CALL convierte(valor_orig) 
+
+      PRINT COLUMN 5,doble,"NO. DOCUMENTO:", y.documento using "&&&&&&"
+      PRINT COLUMN 5, "RECIBIMOS DE: ",negras,y.nombre,negras_of
+    PRINT COLUMN 5, "DIRECCION: ",negras,y.direccion,negras_of
+    PRINT COLUMN 5,  "LOCALIDAD: ",negras,y.ciudad,negras_of
+    PRINT COLUMN 5, "LA SUMA DE: ", negras,valor_letras clipped,negras_of#,
+          #COLUMN 56, "RD$ ",negras,x.total_fact using "###,###,###.##",negras_of
+    PRINT COLUMN 5, "VALOR RECIBIDO: ",
+        COLUMN 25,"EN EFECTIVO: ",negras,y.valor_efectivo using "##,###,###.##",
+                                  negras_of,
+        COLUMN 58, "EN CHEQUES: ",negras,y.valor_cheque using "###,###,###.##",
+                                  negras_of
+    PRINT COLUMN 25, "TARJETA: ",y.monto_cr USING "##,###,###.##"
+    
+    PRINT COLUMN 5, 
+"CHEQUE NO: ",negras,y.cheque_no,negras_of,"BANCO: ",negras,y.banco clipped,
+              negras_of
+   # PRINT COLUMN 5, "LOCALIDAD: ",negras,t1 clipped   ,negras_of
+    SKIP 1 LINE
+
+    PRINT COLUMN 1,
+"------------------------------------------------------------------------------"
+    PRINT COLUMN 5, "FECHA",
+          COLUMN 20, "FACTURA",
+          COLUMN 39, "VALOR FACTURA",
+          COLUMN 60, "NETO COBRADO"
+    PRINT COLUMN 1,
+"------------------------------------------------------------------------------"
+    SKIP 1 LINE
+
+    PRINT COLUMN 3, y.fecha_factura using "dd/mm/yyyy",
+          COLUMN 20, y.factura using "&&&&&&" ,
+          COLUMN 38, fact_gral.total_fact using "###,###,###.##",
+          COLUMN 58, y.valor_total using "###,###,###.##"
+   ON LAST ROW       
+    PRINT italic_of
+    PRINT normal
+END REPORT
+
+FUNCTION anular()
+  DEFINE msg STRING,correos,subject ,procedimiento, cuerpo_correo VARCHAR(100),
+         fecha_xc VARCHAR(10)
+ LET INT_FLAG = FALSE       
+ OPEN WINDOW anula AT 7,5 WITH FORM "vefmwd006" ATTRIBUTE (BORDER,
+ COMMENT LINE LAST - 1,PROMPT LINE LAST,FORM LINE FIRST + 1)
+
+   
+   INPUT BY NAME fact_gral.cod_cia,p_fact_no 
+
+    AFTER FIELD p_fact_no
+     SELECT UNIQUE CONVERT(CHAR(10),a.fecha_factura,103),a.orden,a.tipo_cliente,a.sec_cliente,neto,
+                   a.conduce,a.bodega
+     INTO fact_gral.fecha_factura,fact_gral.orden,fact_gral.tipo_cliente,
+          fact_gral.sec_cliente,fact_gral.total_fact,fact_gral.conduce,
+          fact_gral.bodega
+     FROM vetb00002 a
+     WHERE a.factura = p_fact_no AND a.status_t IS NULL AND
+           a.fech_crea >'01/01/2009'  and a.cod_cia = fact_Gral.cod_cia
+
+        IF STATUS = NOTFOUND THEN
+           LET numero_msg = 102
+           CALL msg(numero_msg)
+           NEXT FIELD p_fact_no
+         END IF
+         SELECT a.nombre
+         INTO fact_gral.nombre
+         FROM vetb00004 a
+         WHERE a.tipo_cliente = fact_gral.tipo_cliente AND
+               a.sec_cliente = fact_gral.sec_cliente 
+
+      DISPLAY BY NAME fact_gral.tipo_cliente,fact_gral.sec_cliente,
+                      fact_gral.total_fact,fact_gral.nombre,
+                      fact_gral.fecha_factura ATTRIBUTE(blue)
+
+    #CONTROL DEVOLUCIONES
+      SELECT DISTINCT a.fact_no FROM iptb00006 a
+     # WHERE a.cod_mov in (12,13) and CONVERT(int,a.fact_no) = p_fact_no AND
+      WHERE a.cod_mov in (12,13) and a.fact_no = p_fact_no AND
+            a.fecha > '01/01/2009' and
+             a.status_t IS NULL
+      IF STATUS != NOTFOUND THEN
+         LET numero_msg =138
+        CALL msg(numero_msg)
+        NEXT FIELD p_fact_no
+      END IF
+      LET p_fechas = fact_gral.fecha_factura
+      #CONTROL DOCUMENTO CUENTAS POR COBRAR
+      
+      SELECT DISTINCT a.aplica_a FROM cctb00001 a
+      WHERE a.aplica_a = p_fact_no AND
+            a.tipo_cliente = fact_gral.tipo_cliente AND
+            a.sec_cliente = fact_gral.sec_cliente AND
+            a.tipo_doc NOT IN ("FT","FE",'AP','PC') AND
+            a.status_t IS NULL
+           
+     IF STATUS <> NOTFOUND THEN
+        CALL fgl_winmessage("ERROR","NO PUEDE ANULAR FACTURA, TIENE DOCUMENTOS EN CUENTAS POR COBRAR","INFO")
+        NEXT FIELD p_fact_no
+     END IF     
+     { SELECT UNIQUE a.usuario INTO p_usuario FROM seg0001 a
+      WHERE a.usuario = SUSER_SNAME()
+
+      IF p_usuario = "rsierra" THEN
+         IF fact_gral.fecha_factura != TODAY THEN
+            ERROR "NO PUEDE ANULAR FACTURA QUE NO SEAN DEL DIA DE HOY"
+            RETURN
+         END IF
+      END IF
+      }
+         CALL prd(fact_gral.fecha_factura,usuarios) RETURNING bandera
+      
+     AFTER INPUT
+       IF int_flag THEN
+          LET numero_msg = 2
+          CALL msg(numero_msg)
+          EXIT INPUT
+        END IF
+      #CONTROL DOCUMENTO CUENTAS POR COBRAR
+        SELECT DISTINCT a.aplica_a FROM cctb00001 a
+        WHERE a.aplica_a = p_fact_no AND
+            a.tipo_cliente = fact_gral.tipo_cliente AND
+            a.sec_cliente = fact_gral.sec_cliente AND
+             a.tipo_doc NOT IN ("FT","FE","AP","PC") AND
+            a.status_t IS NULL
+
+        IF STATUS <> NOTFOUND THEN
+          CALL fgl_winmessage("ERROR","NO PUEDE ANULAR FACTURA, TIENE DOCUMENTOS EN CUENTAS POR COBRAR","INFO")
+          NEXT FIELD p_fact_no
+       END IF     
+    
+        LET opt3 = FGL_WINQUESTION("PREGUNTA","Esta seguro de Anular Esta Factura?","yes","Yes|no","question",0)       
+    
+        LET opt3 =  UPSHIFT(opt3)
+
+    IF opt3 = "YES" THEN
+    
+     BEGIN WORK
+       UPDATE vetb00002 SET status_t = "E",   
+                            us_mod  = usuarios,
+                            fech_mod  = GETDATE()
+       WHERE factura = p_fact_no AND fech_crea > '01/01/2009' 
+              and cod_cia = fact_Gral.cod_cia
+
+
+#ANULACION PARA LOS OUTLETS
+   UPDATE iptb00006 SET status_t = "E",
+                            us_mod = SUSER_SNAME(),
+                            fech_mod = GETDATE()
+       WHERE num_doc = p_fact_no AND  cod_mov = 94
+
+----------------------------------------------------------------------------------------------------             
+       UPDATE iptb00006 SET iptb00006.factura = NULL,
+                            us_mod = usuarios,
+                            fech_mod = getdate() 
+       WHERE iptb00006.factura = p_fact_no AND 
+             num_doc           = fact_gral.conduce AND
+             bodega            = fact_gral.bodega AND  
+             status_T IS null
+       
+       UPDATE vetb00003 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE factura = p_fact_no AND fech_crea > '01/01/2009'
+              and cod_cia = fact_Gral.cod_cia
+
+       UPDATE cctb00001 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE num_doc = p_fact_no AND (tipo_doc = "FT" or tipo_doc = "FE") AND
+             fech_crea > '01/01/2009' and cod_cia = fact_Gral.cod_cia
+       
+       UPDATE cctb00001 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE aplica_a = p_fact_no AND tipo_doc = "PC" and
+             fech_crea > '01/01/2009' and cod_cia = fact_Gral.cod_cia
+       
+       UPDATE cctb00001 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE aplica_a = p_fact_no AND tipo_doc = "AP"               
+       
+# ANULACION DE LAS SERIES
+       IF fact_gral.ventas = "1" THEN
+          LET p_codigo = 30
+       ELSE
+          LET p_codigo = 31
+       END IF
+       UPDATE vetb00042 set status_t = "E", us_mod = usuarios, fech_mod = GETDATE()
+       WHERE factura = p_fact_no AND cod_mov = p_codigo 
+
+    COMMIT WORK   
+# ANULAR EN EXTERIOR
+
+ SET CONNECTION "IFMX"
+  LET factura_xc = NULL
+  SELECT a.factura,CONVERT(VARCHAR(10),a.fecha_factura,103) INTO factura_xc,fecha_xc
+  FROM vetb00002 a
+  WHERE a.factura_c = p_fact_no
+
+  IF factura_xc IS NOT NULL THEN
+   BEGIN WORK
+       UPDATE vetb00002 SET status_t = "E",   
+                            us_mod  = usuarios,
+                            fech_mod  = GETDATE()
+       WHERE factura = factura_xc AND fech_crea > '01/01/2009' 
+              and cod_cia = fact_Gral.cod_cia
+
+
+       UPDATE iptb00006 SET status_t = "E",
+                            us_mod = SUSER_SNAME(),
+                            fech_mod = GETDATE()
+       WHERE num_doc = factura_xc AND cod_mov IN (30,31,32,55) 
+
+       UPDATE vetb00003 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE factura = factura_xc AND fech_crea > '01/01/2009'
+              and cod_cia = fact_Gral.cod_cia
+
+       UPDATE cctb00001 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE num_doc = factura_xc AND (tipo_doc = "FT" or tipo_doc = "FE") AND
+             fech_crea > '01/01/2009' and cod_cia = fact_Gral.cod_cia
+
+       UPDATE cctb00001 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE aplica_a = factura_xc AND tipo_doc = "PC" and
+             fech_crea > '01/01/2009' and cod_cia = fact_Gral.cod_cia
+
+
+       UPDATE cctb00001 SET status_t = "E",
+                            us_mod = usuarios,
+                            fech_mod = GETDATE()
+       WHERE aplica_a = factura_xc AND tipo_doc = "AP"               
+       
+       COMMIT WORK
+       SET CONNECTION "MSSQL"
+       LET msg = "SE ANULO LA FACTURA CON NCF NO.",factura_xc USING "&&&&&&&&"
+       CALL fgl_winmessage("INFO",msg,"INFO")
+        
+        LET subject = "FACTURA ANULADA ",factura_xc USING "&&&&&&&", "CON LA FECHA ",fecha_xc
+        LET procedimiento = "{ call cc_avisadespacho(?,?,?,?) }" CLIPPED
+        LET cuerpo_correo = "FACTURA: ",factura_xc USING "&&&&&&&"
+        LET correos = "ttejeda@marmotech.com.do;valcantara@marmotech.com.do" 
+
+        CALL envia_correo('jsoto@marmotech.com.do',correos,cuerpo_correo,
+                       subject, procedimiento )
+   
+       END IF
+       
+       SET CONNECTION "MSSQL"
+       LET numero_msg = 82
+       CALL msg(numero_msg)
+       EXIT INPUT
+    ELSE
+     CONTINUE INPUT
+    END IF
+
+    EXIT INPUT
+  END INPUT
+  
+    # Este Int_flag es porque tuve que salir del input con el int_flag verdadero
+    # y asi poder salir del window sin problemas
+
+  LET fact_gral.fecha_factura = TODAY
+  
+  CLOSE WINDOW anula 
+END FUNCTION
+
+FUNCTION precios()
+# AQUI HAY QUE BUSCAR EL PRECIO PARA CALCULAR POR CLIENTE
+  LET p_costos1 = 0
+  SELECT precio INTO p_costos1 FROM vetb00025
+  WHERE ventas = fact_gral.ventas AND tipo_cliente = fact_gral.tipo_cliente AND
+        sec_cliente = fact_gral.sec_cliente AND cod_n=fact_det[curr].cod_n AND 
+        cod_grupo=fact_det[curr].cod_grupo AND cod_tipo=fact_det[curr].cod_tipo
+    AND cod_sec = fact_det[curr].cod_sec AND status_t IS NULL
+
+  IF STATUS = NOTFOUND THEN
+     SELECT precio INTO p_costos1 FROM vetb00025
+     WHERE ventas = fact_gral.ventas AND tipo_cliente IS NULL AND
+           sec_cliente IS NULL AND cod_n = fact_det[curr].cod_n AND
+           cod_grupo = fact_det[curr].cod_grupo AND
+           cod_tipo = fact_det[curr].cod_tipo AND
+           cod_sec = fact_det[curr].cod_sec AND status_t IS NULL
+
+     IF STATUS = NOTFOUND THEN
+        LET numero_msg = 85
+        CALL msg(numero_msg)
+        LET verdad = "N"
+     END IF
+     {IF fact_det[curr].cod_n = 2 THEN
+        LET verdad = "N"
+     END IF}
+  END IF
+
+  LET fact_det[curr].precio = p_costos1
+END FUNCTION
+
+FUNCTION ver_desc()
+ OPEN WINDOW descuentos AT 10,5 WITH FORM "vefmwd007" ATTRIBUTE 
+ (BORDER,FORM LINE FIRST +1,COMMENT LINE LAST -1,MESSAGE LINE LAST)
+  CALL set_count(h-1)
+  DISPLAY ARRAY descuenta TO s_desc.*
+  CLOSE WINDOW descuentos
+END FUNCTION
+
+FUNCTION detalles()
+  OPEN WINDOW wdetalle AT 12,2 WITH FORM "vefmwd075" 
+  ATTRIBUTE(BORDER,FORM LINE FIRST +1)
+  INPUT BY NAME observacion WITHOUT DEFAULTS
+  CLOSE WINDOW wdetalle
+END FUNCTION
+
+FUNCTION cantidad_desp(forden,fcod_n,fcod_tipo,fcod_grupo,fcod_sec)
+ DEFINE forden INTEGER,
+        fcod_n,fcod_tipo,fcod_grupo,fcod_sec SMALLINT
+
+  SELECT SUM(b.cantidad) INTO cant_vend    
+    FROM vetb00002 a, vetb00003 b
+    WHERE a.orden = forden AND a.fecha_factura > "31122006"
+      AND a.factura = b.factura
+      AND b.cod_n = fcod_n
+      AND b.cod_tipo = fcod_tipo
+      AND b.cod_grupo = fcod_grupo
+      AND b.cod_sec   = fcod_sec
+      AND a.status_t IS NULL
+      and b.status_t is NULL
+
+    IF STATUS = NOTFOUND THEN
+       LET cant_vend = 0
+    END IF
+
+END FUNCTION
+
+FUNCTION actualiza_st(forden)
+ DEFINE forden INTEGER,
+        prod_total,vent_total DEC(8,2)
+          
+  SELECT SUM(a.cantidad) INTO prod_total FROM prtb00013 a
+   WHERE a.num_oc    = forden
+   
+     IF STATUS = NOTFOUND THEN
+        LET prod_total = 0
+     END IF
+
+  SELECT SUM(b.cantidad) INTO vent_total    
+    FROM vetb00002 a, vetb00003 b
+    WHERE a.orden = forden AND a.fecha_factura > "31122000"
+      AND a.factura = b.factura
+      AND a.tipo_cliente = fact_gral.tipo_cliente
+      AND a.sec_cliente  = fact_gral.sec_cliente
+      AND a.status_t IS NULL 
+      AND b.status_t IS NULL
+
+    IF STATUS = NOTFOUND THEN
+       LET vent_total = 0
+    END IF
+   
+   #-> display "Vendido : ",vent_total,"         ","Prod : ",prod_total at 2,15 sleep 3
+
+#-> Actualiza la fecha de cierre de la orden de corte vg Wednesday, 17 January, 200112:42:33 PM
+   IF vent_total = prod_total THEN
+      UPDATE prtb00012 SET fecha_cierre = fact_gral.fecha_factura
+       WHERE @num_oc = forden
+         AND @tipo_cliente = fact_gral.tipo_cliente
+         AND @sec_cliente  = fact_gral.sec_cliente
+  
+      LET prtb09.num_oc = forden
+      LET prtb09.fecha  = fact_gral.fecha_factura
+      LET prtb09.pendiente = "N"
+      LET prtb09.detalle = "CIERRE DE ORDEN DE PRODUCCION SEGUN FACT. # ",fact_gral.factura USING "<<<<<<<",
+                           " DE FECHA : ",fact_gral.fecha_factura USING "dd/mm/yyyy"
+
+        INSERT INTO prtb00009 VALUES (prtb09.num_oc,prtb09.fecha,null,prtb09.pendiente,
+                                      prtb09.detalle,NULL,SUSER_SNAME(),GETDATE(),NULL,NULL) 
+      
+   END IF
+
+END FUNCTION
+
+FUNCTION convierte(valor_origen)     # Funcion para convertir de valor a letras
+ DEFINE valor_origen DECIMAL(12,2)
+ DEFINE consegui CHAR(1)
+ DEFINE p,miles,m,k,a,b,d,c,entero,unidades_mi,unidades_m,unidad,mil,millon,
+        unid_c,u INTEGER
+ DEFINE cheles DECIMAL (7,2)
+ CALL letras()
+ LET valor_letras = null
+ LET consegui = "N"
+ LET entero = valor_origen
+ LET cheles = (valor_origen - entero) * 100
+ LET unidad = entero / 100
+ LET unidad = entero - (unidad * 100)
+ LET a = entero / 1000
+ LET a = entero - (a * 1000)
+ LET d = entero - 19
+
+IF d >= 82 THEN
+   LET c = entero / 100
+# Para Controlar los miles y los cientos
+ IF c <= 9  THEN
+  LET valor_letras = valor_letras clipped," ",centenas[c] clipped
+ ELSE
+  LET c = entero / 1000
+  LET b = entero / 1000000
+END IF
+
+ IF d > 19 THEN
+  LET d = unidad - 19
+ END IF
+
+ IF unidad > 0 and unidad < 20 THEN
+  LET d = unidad
+  LET valor_letras = valor_letras clipped," ",unidades1[d] clipped
+  LET consegui = "S"
+ END IF
+
+ ELSE
+  IF d > 0 AND d <= 81 THEN
+   LET valor_letras = valor_letras clipped," ",decenas[d] clipped
+   LET consegui = "S"
+  END IF
+END IF
+
+# Para controlar los miles
+
+IF entero > 999 THEN
+   LET unidades_m = a / 100
+   LET unidades_m = a - (unidades_m * 100)
+   LET valor_letras = null
+
+   IF c = 1 THEN
+      LET valor_letras = "MIL"
+   END IF
+
+ IF c > 1 and c <= 19 THEN
+    LET valor_letras = valor_letras clipped," ",unidades1[c] clipped," ","MIL"
+ END IF
+
+ IF c >= 20 and c <= 999 THEN
+
+    IF c < 82 THEN
+       LET c = c - 19
+       LET valor_letras = valor_letras clipped," ",decenas[c] clipped
+    ELSE
+       LET k = c / 100
+       LET valor_letras = valor_letras clipped," ",centenas[k] clipped
+       LET unid_c = c - (k * 100)
+
+       IF unid_c >= 20 THEN
+          LET unid_c = unid_c - 19
+          LET valor_letras = valor_letras clipped," ",decenas[unid_c] clipped
+       END IF
+    END IF
+       LET valor_letras = valor_letras clipped," ","MIL"
+  END IF
+
+  LET c = a
+  IF c > 100 THEN
+  LET c = c / 100
+  LET valor_letras = valor_letras clipped," ",centenas[c] clipped
+  END IF
+
+  IF c = 100 THEN
+     LET valor_letras = valor_letras clipped," ",decenas[81] clipped
+  END IF
+
+  IF unidades_m > 0 and unidades_m <= 19 THEN
+     LET a = unidades_m
+     LET valor_letras = valor_letras clipped, " ",unidades1[a] clipped
+{ ELSE
+     LET a = unidades_m - 19
+     LET valor_letras = valor_letras clipped, " ",unidades1[a] clipped}
+  END IF
+END IF
+
+# Para Controlar cantidades en millones
+
+IF entero > 999999 THEN
+ LET c = 0
+ LET miles = entero - 1000000
+ LET m = miles / 1000
+ LET p = miles - (m * 1000)
+ LET u = m / 100
+ LET u = m - (u * 100)
+ LET unidades_mi = p
+ LET unidades_mi = unidades_mi / 100
+ LET unidades_mi = p - (unidades_mi * 100)
+ LET valor_letras = null
+
+ IF b = 1 THEN
+   LET valor_letras = "UN MILLON"
+ END IF
+
+ IF b > 1 and b <= 19 THEN
+  LET valor_letras = valor_letras clipped," ",unidades1[b] clipped," ",
+                     "MILLONES"
+ END IF
+
+ IF b >= 20 and b <= 999999 THEN
+  IF b < 82 THEN
+    LET b = b - 19
+    LET valor_letras = valor_letras clipped," ",decenas[b] clipped," ",
+                      "MILLONES"
+  ELSE
+  LET k = b / 100
+  LET valor_letras = valor_letras clipped," ",centenas[k] clipped," ",
+                     "MILLONES"
+  END IF
+  END IF
+
+  LET b = m
+  IF b > 100 THEN
+      LET b = b / 100
+      LET valor_letras = valor_letras clipped," ",centenas[b] clipped
+
+   IF u > 0 and u <= 19 THEN
+
+      IF u = 1 THEN
+      LET unidades1[1] = "UN"
+      END IF
+
+      LET valor_letras = valor_letras clipped," ",unidades1[u] clipped
+  END IF
+      LET valor_letras = valor_letras clipped," ","MIL"
+  END IF
+
+   IF p > 100 THEN
+      LET p = p / 100
+      LET valor_letras = valor_letras clipped," ",centenas[p] clipped
+  END IF
+
+  IF unidades_mi > 0 and unidades_mi < 19 THEN
+      LET m = unidades_mi
+      LET valor_letras = valor_letras clipped, " ",unidades1[m] clipped
+  END IF
+
+END IF
+
+ IF unidad > 0 and unidad < 20 AND consegui = "N" THEN
+      LET d = unidad
+  LET valor_letras = valor_letras clipped," ",unidades1[d] clipped
+ END IF
+
+ IF unidad >= 20 AND d <= 81 AND consegui = "N" THEN
+  LET valor_letras = valor_letras clipped," ",decenas[d] clipped
+ END IF
+ LET valor_letras = valor_letras clipped," ","CON"," ",
+                    cheles using "&&", "/100"
+END FUNCTION
+
+FUNCTION letras()
+
+  LET unidades1[1] = "UNO"
+  LET unidades1[2] = "DOS"
+  LET unidades1[3] = "TRES"
+  LET unidades1[4] = "CUATRO"
+  LET unidades1[5] = "CINCO"
+  LET unidades1[6] = "SEIS"
+  LET unidades1[7] = "SIETE"
+  LET unidades1[8] = "OCHO"
+  LET unidades1[9] = "NUEVE"
+  LET unidades1[10] = "DIEZ"
+  LET unidades1[11] = "ONCE"
+  LET unidades1[12] = "DOCE"
+  LET unidades1[13] = "TRECE"
+  LET unidades1[14] = "CATORCE"
+  LET unidades1[15] = "QUINCE"
+  LET unidades1[16] = "DIESISEIS"
+  LET unidades1[17] = "DIESISIETE"
+  LET unidades1[18] = "DIESIOCHO"
+  LET unidades1[19] = "DIESINUEVE"
+
+
+  LET decenas[1] = "VEINTE"
+  LET decenas[2] = "VEINTE Y UNO"
+  LET decenas[3] = "VEINTE Y DOS"
+  LET decenas[4] = "VEINTE Y TRES"
+  LET decenas[5] = "VEINTE Y CUATRO"
+  LET decenas[6] = "VEINTE Y CINCO"
+  LET decenas[7] = "VEINTE Y SEIS"
+  LET decenas[8] = "VEINTE Y SIETE"
+  LET decenas[9] = "VEINTE Y OCHO"
+  LET decenas[10] = "VEINTE Y NUEVE"
+  LET decenas[11] = "TREINTA"
+  LET decenas[12] = "TREINTA Y UNO"
+  LET decenas[13] = "TREINTA Y DOS"
+  LET decenas[14] = "TREINTA Y TRES"
+  LET decenas[15] = "TREINTA Y CUATRO"
+  LET decenas[16] = "TREINTA Y CINCO"
+  LET decenas[17] = "TREINTA Y SEIS"
+  LET decenas[18] = "TREINTA Y SIETE"
+  LET decenas[19] = "TREINTA Y OCHO"
+  LET decenas[20] = "TREINTA Y NUEVE"
+  LET decenas[21] = "CUARENTA"
+  LET decenas[22] = "CUARENTA Y UNO"
+  LET decenas[23] = "CUARENTA Y DOS"
+  LET decenas[24] = "CUARENTA Y TRES"
+  LET decenas[25] = "CUARENTA Y CUATRO"
+  LET decenas[26] = "CUARENTA Y CINCO"
+  LET decenas[27] = "CUARENTA Y SEIS"
+  LET decenas[28] = "CUARENTA Y SIETE"
+  LET decenas[29] = "CUARENTA Y OCHO"
+  LET decenas[30] = "CUARENTA Y NUEVE"
+  LET decenas[31] = "CINCUENTA"
+  LET decenas[32] = "CINCUENTA Y UNO"
+  LET decenas[33] = "CINCUENTA Y DOS"
+  LET decenas[34] = "CINCUENTA Y TRES"
+  LET decenas[35] = "CINCUENTA Y CUATRO"
+  LET decenas[36] = "CINCUENTA Y CINCO"
+  LET decenas[37] = "CINCUENTA Y SEIS"
+  LET decenas[38] = "CINCUENTA Y SIETE"
+  LET decenas[39] = "CINCUENTA Y OCHO"
+  LET decenas[40] = "CINCUENTA Y NUEVE"
+  LET decenas[41] = "SESENTA"
+  LET decenas[42] = "SESENTA Y UNO"
+  LET decenas[43] = "SESENTA Y DOS"
+  LET decenas[44] = "SESENTA Y TRES"
+  LET decenas[45] = "SESENTA Y CUATRO"
+  LET decenas[46] = "SESENTA Y CINCO"
+  LET decenas[47] = "SESENTA Y SEIS"
+  LET decenas[48] = "SESENTA Y SIETE"
+  LET decenas[49] = "SESENTA Y OCHO"
+  LET decenas[50] = "SESENTA Y NUEVE"
+  LET decenas[51] = "SETENTA"
+  LET decenas[52] = "SETENTA Y UNO"
+  LET decenas[53] = "SETENTA Y DOS"
+  LET decenas[54] = "SETENTA Y TRES"
+  LET decenas[55] = "SETENTA Y CUATRO"
+  LET decenas[56] = "SETENTA Y CINCO"
+  LET decenas[57] = "SETENTA Y SEIS"
+  LET decenas[58] = "SETENTA Y SIETE"
+  LET decenas[59] = "SETENTA Y OCHO"
+  LET decenas[60] = "SETENTA Y NUEVE"
+  LET decenas[61] = "OCHENTA"
+  LET decenas[62] = "OCHENTA Y UNO"
+  LET decenas[63] = "OCHENTA Y DOS"
+  LET decenas[64] = "OCHENTA Y TRES"
+  LET decenas[65] = "OCHENTA Y CUATRO"
+  LET decenas[66] = "OCHENTA Y CINCO"
+  LET decenas[67] = "OCHENTA Y SEIS"
+  LET decenas[68] = "OCHENTA Y SIETE"
+  LET decenas[69] = "OCHENTA Y OCHO"
+  LET decenas[70] = "OCHENTA Y NUEVE"
+  LET decenas[71] = "NOVENTA"
+  LET decenas[72] = "NOVENTA Y UNO"
+  LET decenas[73] = "NOVENTA Y DOS"
+  LET decenas[74] = "NOVENTA Y TRES"
+  LET decenas[75] = "NOVENTA Y CUATRO"
+  LET decenas[76] = "NOVENTA Y CINCO"
+  LET decenas[77] = "NOVENTA Y SEIS"
+  LET decenas[78] = "NOVENTA Y SIETE"
+  LET decenas[79] = "NOVENTA Y OCHO"
+  LET decenas[80] = "NOVENTA Y NUEVE"
+  LET decenas[81] = "CIEN"
+
+  LET centenas[1] = "CIENTO"
+  LET centenas[2] = "DOCIENTOS"
+  LET centenas[3] = "TRESCIENTOS"
+  LET centenas[4] = "CUATROCIENTOS"
+  LET centenas[5] = "QUINIENTOS"
+  LET centenas[6] = "SEISCIENTOS"
+  LET centenas[7] = "SETECIENTOS"
+  LET centenas[8] = "OCHOCIENTOS"
+  LET centenas[9] = "NOVECIENTOS"
+
+END FUNCTION
+
+FUNCTION after_all()
+
+    # Calculo del sub-total de la factura
+     LET fact_gral.itbi = 0
+     LET fact_gral.sub_total = 0
+     LET fact_gral.total_fact = 0
+     LET fact_gral.desc_valor = 0
+    
+     FOR idx = 1 to fact_det.getLength()
+      IF fact_det[idx].cantidad IS NOT NULL THEN
+         LET fact_gral.sub_total = fact_gral.sub_total + (fact_det[idx].cantidad * fact_det[idx].precio)
+      END IF
+     END FOR
+    
+     DISPLAY BY NAME fact_gral.sub_total
+
+     FOR idx = 1 to arr_count()
+         IF fact_det[idx].cantidad IS NOT NULL THEN
+            LET fact_det[idx].monto_fact = fact_det[idx].cantidad * fact_det[idx].precio
+        
+         IF fact_det[idx].cantidad_2 > 0 THEN  #-> calcula el valor en descuento para cada articulo vg
+            LET valor_desc = 0
+            LET valor_desc = fact_det[idx].monto_fact * (fact_det[idx].cantidad_2 / 100) 
+            LET fact_gral.desc_valor = fact_gral.desc_valor + valor_desc
+            LET fact_det[idx].monto_fact = fact_det[idx].monto_fact - valor_desc
+            
+         END IF
+         END IF
+     END FOR
+
+     DISPLAY BY NAME fact_gral.desc_valor 
+    
+     # Calcula el porciento de ITBIS de la factura dependiendo del porciento 
+     # especificado por el usuario
+
+     IF fact_gral.porc_itbi IS NOT NULL THEN
+        LET fact_gral.itbi=((fact_gral.sub_total - fact_gral.desc_valor)* fact_gral.porc_itbi/100)
+     #- LET fact_gral.itbi=(fact_gral.sub_total * fact_gral.porc_itbi/100)
+     ELSE
+        LET fact_gral.itbi=0
+     END IF
+
+     LET itbi = fact_gral.itbi using "###,###,###.##"
+     DISPLAY BY NAME fact_gral.itbi ATTRIBUTE (BOLD)
+
+# Calculo total de la factura
+
+  LET fact_gral.total_fact = (fact_gral.sub_total - fact_gral.desc_valor)+ fact_gral.itbi
+        
+  DISPLAY BY NAME fact_gral.total_fact ATTRIBUTE (BOLD)
+
+END FUNCTION
+
+FUNCTION veprmf001()
+  DEFINE tot_porc dec(8,2),
+         cod_fact SMALLINT,
+         imprime_ncf VARCHAR(3)
+
+  SET CONNECTION "MSSQL"
+  
+  CONSTRUCT criterio ON a.factura,a.fecha_factura,a.tipo_cliente,a.sec_cliente,a.orden,
+                        a.cod_vend
+                     FROM factura,fecha_factura,tipo_cliente,sec_cliente,orden,
+                          factura_e
+  AFTER CONSTRUCT
+    IF int_flag THEN
+       CALL msg(2)
+       LET int_flag = FALSE
+       RETURN
+    END IF   
+   EXIT CONSTRUCT
+ END CONSTRUCT  
+  LET selec =
+      " SELECT a.cod_cia,a.ventas,a.zona,a.factura,a.bodega,a.conduce,convert(char(10),a.fecha_conduce,103),convert(char(10),a.fecha_factura,103),a.tipo_cliente, ",
+      "        a.sec_cliente,g.nombre,ISNULL(RTRIM(b.direccion_cliente),' '), ",
+      "        l.nombre_provincia,a.prima_us,a.porc_Desc,a.cond_pago,a.orden,convert(char(10),a.fecha_orden,103),a.porc_itbi,a.sec_vend, ",
+      "        ISNULL(RTRIM(d.nom1_emp),' ') + ' ' + ISNULL(RTRIM(d.apell1_emp),' '),' ', ' ',' ',' ', ",
+      "        convert(char(10),a.fecha_embarque,103),' ',a.sub_total,a.monto_Desc, ",
+      "        a.monto_itbi,a.neto,a.cod_vend,a.documento,a.tipo_factura,a.descripcion_documento,a.documento_ref, ",
+      "        a.cotizacion_no,g.num_rnc ", 
+      " FROM vetb00002 a  left outer join ",
+      " vetb00050 b on a.tipo_cliente = b.tipo_cliente and a.sec_cliente = b.sec_cliente AND a.cotizacion_no = b.cotizacion_no, ",
+      " vetb00004 g, adtb00003 d,vetb00060 k,vetb00020 l ",
+      " WHERE  a.ventas = k.ventas and a.tipo_cliente = k.tipo_cliente and ",
+      "       a.tipo_cliente = g.tipo_cliente and ", criterio CLIPPED," and ",
+      "       a.sec_cliente = g.sec_cliente and ",
+      "       g.cod_provincia =l.cod_provincia and ",
+      "       a.sec_vend = d.num_emp and     a.status_t IS NULL ",
+      " ORDER BY a.factura "
+
+
+    PREPARE comando FROM selec
+    DECLARE consulta SCROLL CURSOR FOR comando
+    OPEN consulta
+    
+    FETCH FIRST consulta INTO fact_gral.*,factura_e,documento_ref,proforma,descripcion_doc,
+                              pdocumento_Ref,pcotizacion,cliente_bas.num_rnc
+     IF STATUS = NOTFOUND THEN
+        LET numero_msg = 3
+        CALL msg(numero_msg)
+        RETURN
+     END IF
+     CALL info() 
+     CALL informacion(fact_gral.conduce,fact_gral.ventas,fact_gral.bodega,pcotizacion)
+     LET pcondicion = ui.ComboBox.forName("formonly.cond_pago")
+     CALL ccondicion()
+     CALL bodegas('1')
+   #  CALL busca_ncf(fact_gral.factura) RETURNING codigodgii,kncf,descripcion_ncf,factura_xc
+
+     DISPLAY  BY NAME fact_gral.*,factura_e,documento_ref,codigodgii,kncf,descripcion_ncf,proforma,
+                      descripcion_Doc,pdocumento_Ref
+     DISPLAY factura_xc TO factura1
+     
+     MENU "NAVEGACION:"
+        COMMAND "Siguiente"
+          FETCH NEXT consulta iNTO fact_Gral.*,factura_e,documento_ref,proforma,descripcion_doc,pdocumento_Ref,cliente_bas.num_rnc
+          IF STATUS = NOTFOUND THEN
+             LET numero_msg = 3
+             CALL msg(numero_msg)
+             RETURN
+          END IF
+         CALL info() 
+         CALL informacion(fact_gral.conduce,fact_gral.ventas,fact_gral.bodega,pcotizacion)
+         LET pcondicion = ui.ComboBox.forName("formonly.cond_pago")
+         CALL ccondicion()
+     #    CALL busca_ncf(fact_gral.factura) RETURNING codigodgii,kncf,descripcion_ncf,factura_xc
+
+         DISPLAY  BY NAME fact_gral.*,factura_e,documento_ref,codigodgii,kncf,descripcion_ncf,documento_ref,proforma,
+                      descripcion_Doc,pdocumento_Ref
+         DISPLAY factura_xc TO factura1
+
+         COMMAND "Anterior"
+          FETCH PREVIOUS consulta iNTO fact_Gral.*,factura_e,documento_ref,proforma,descripcion_doc,pdocumento_Ref,cliente_bas.num_rnc
+          IF STATUS = NOTFOUND THEN
+             LET numero_msg = 3
+             CALL msg(numero_msg)
+             RETURN
+          END IF
+          CALL info()
+          CALL informacion(fact_gral.conduce,fact_gral.ventas,fact_gral.bodega,pcotizacion)
+          LET pcondicion = ui.ComboBox.forName("formonly.cond_pago")
+         CALL ccondicion()
+       #  CALL busca_ncf(fact_gral.factura) RETURNING codigodgii,kncf,descripcion_ncf,factura_xc
+         DISPLAY  BY NAME fact_gral.*,factura_e,documento_ref,codigodgii,kncf,descripcion_ncf,documento_ref,proforma,pdocumento_Ref
+         DISPLAY factura_xc TO factura1
+
+      COMMAND "Primero"
+          FETCH FIRST consulta iNTO fact_Gral.*,factura_e,documento_ref,proforma,descripcion_doc,pdocumento_Ref,cliente_bas.num_rnc
+          IF STATUS = NOTFOUND THEN
+             LET numero_msg = 3
+             CALL msg(numero_msg)
+             RETURN
+          END IF
+          CALL info()
+          CALL informacion(fact_gral.conduce,fact_gral.ventas,fact_gral.bodega,pcotizacion)
+          LET pcondicion = ui.ComboBox.forName("formonly.cond_pago")
+         CALL ccondicion()
+     #    CALL busca_ncf(fact_gral.factura) RETURNING codigodgii,kncf,descripcion_ncf,factura_xc
+         DISPLAY  BY NAME fact_gral.*,factura_e,documento_ref,codigodgii,kncf,descripcion_ncf,documento_ref,proforma,pdocumento_Ref
+         DISPLAY factura_xc TO factura1
+      COMMAND "Ultimo"
+          FETCH LAST consulta iNTO fact_Gral.*,factura_e,documento_ref,proforma,descripcion_doc,pdocumento_Ref,cliente_bas.num_rnc
+          IF STATUS = NOTFOUND THEN
+             LET numero_msg = 3
+             CALL msg(numero_msg)
+             RETURN
+          END IF
+          CALL info()
+          CALL informacion(fact_gral.conduce,fact_gral.ventas,fact_gral.bodega,pcotizacion)
+          LET pcondicion = ui.ComboBox.forName("formonly.cond_pago")
+         CALL ccondicion()
+     #    CALL busca_ncf(fact_gral.factura) RETURNING codigodgii,kncf,descripcion_ncf,factura_xc
+         DISPLAY  BY NAME fact_gral.*,factura_e,documento_ref,codigodgii,kncf,descripcion_ncf,documento_ref,proforma,
+                      descripcion_Doc,pdocumento_Ref
+         DISPLAY factura_xc TO factura1
+   
+        COMMAND "ITEMS"
+        SET CONNECTION "MSSQL"
+         SELECT UNIQUE CONVERT(char(10),a.fecha_oc,103),a.ubicacion,a.nombre_file,
+                      a.cond_pago,b.descrip,b.dias,a.cotizacion_no
+         INTO 
+        fact_gral.fecha_orden,pubicacion,documento_ref,
+        fact_gral.cond_pago,condicion.descrip,condicion.dias,
+         pcotizacion
+         FROM prtb00012 a,vetb00012 b
+         WHERE a.num_oc = fact_gral.orden AND 
+               a.tipo_cliente = fact_gral.tipo_cliente AND 
+               a.sec_cliente = fact_gral.sec_cliente AND 
+               a.cond_pago = b.cond_pago AND
+               a.status_t IS NULL
+
+        SELECT a.nombre,a.cod_zona,a.cod_provincia,a.telefono,a.num_rnc
+              INTO fact_gral.nombre,fact_gral.zona,codigo_provincia,
+                   cliente_bas.telefono,cliente_bas.num_rnc
+              FROM vetb00004 a
+              WHERE a.tipo_cliente = fact_gral.tipo_cliente AND
+                     a.sec_cliente = fact_gral.sec_cliente 
+       
+        LET ch_encabeza ="S"
+        CALL fact_det.clear()
+        LET factura_old = fact_gral.factura        
+        CALL defecto(usuarios,clave,impresor) RETURNING imprime,negrilla_on,negrillas_of,
+                                                       doble_on,doble_off,comp_on,comp_off,
+                                                       doce,normal,archivo,copia
+
+       DISPLAY BY NAME imprime                                        
+       START REPORT imp_fact TO archivo       
+
+      LET selec =
+        "SELECT a.area,a.cod_n,a.cod_grupo,a.cod_tipo,a.cod_Sec,b.descrip_esp,b.unidad_med, ",
+        "       a.cantidad,a.precio,a.cantidad_2,(a.cantidad*a.precio)*(a.cantidad_2/100), ",
+        "       (a.cantidad*a.precio) -(a.cantidad*a.precio)*(a.cantidad_2/100) ",
+        " FROM vetb00003 a,iptb00002 b ",
+        " WHERE a.factura = ? AND ",
+        "      a.cod_n = b.cod_n AND ",
+        "      a.cod_grupo = b.cod_grupo AND ",
+        "      a.cod_tipo = b.cod_tipo AND ",
+        "      a.cod_Sec = b.cod_Sec "
+
+         PREPARE cmdfact FROM selec
+         DECLARE busca_items CURSOR FOR cmdfact
+         OPEN busca_items USING fact_gral.factura
+         
+     LET idx = 1                            
+     FOREACH busca_items INTO fact_Det[idx].*             
+       LET valor_Desc = (fact_det[idx].cantidad * fact_det[idx].precio) * (fact_Det[idx].cantidad_2 / 100)
+       IF valor_desc IS NULL THEN
+          LET valor_desc = 0
+       END IF
+       
+       LET fact_det[idx].monto_fact = (fact_Det[idx].precio * fact_det[idx].cantidad)- valor_desc
+       LET cod_fact = 1
+       LET p_bonifica[idx]
+       = 0
+       OUTPUT TO REPORT imp_fact(fact_gral.*,fact_det[idx].*,tot_porc,
+                                 p_bonifica[idx],cod_fact)
+       LET idx = idx + 1
+     END FOREACH  
+     CALL set_count(idx-1)
+     
+     DISPLAY ARRAY fact_det TO s_fact.*
+     FINISH REPORT imp_fact
+     
+     RUN imprime
+     # CONTROL NCF
+     SELECT a.ncf INTO cliente_ncf FROM vetb00060 a WHERE a.tipo_cliente = fact_gral.tipo_cliente
+     
+     IF cliente_ncf = "S" THEN   
+        LET imprime_ncf = fgl_winquestion("NCF","DESEA IMPRIMIR FACTURA CON NCF?","NO","NO|YES","QUESTION",0)
+        IF imprime_ncf = "YES" THEN  
+     ### IMPRESION FACTURA CON NCF
+           SET CONNECTION "MSSQL"
+
+           SELECT a.sucid,b.sucnombre,b.direccion,c.nombre_provincia,b.telefono,b.fax,b.rnc
+           INTO localidad,sucnombre,p_companias.direccion,p_companias.direccion1,
+                p_companias.telefono,p_companias.fax,p_companias.rnc
+           FROM seg0001 a,sucursales b,vetb00020 c
+           WHERE a.usuario = usuarios AND a.sucid = b.sucid AND b.localidad = c.cod_provincia
+
+           LET p_companias.nombre= sucnombre
+
+           CALL defecto(usuarios,clave,impresor) RETURNING imprime,negrilla_on,negrillas_of,
+                                                     doble_on,doble_off,comp_on,comp_off,
+                                                     doce,normal,archivo,copia
+
+           SET CONNECTION "IFMX"
+
+
+           SELECT MAX(a.factura) INTO factura_xc FROM vetb00002 a WHERE a.factura_c = fact_gral.factura
+           DISPLAY  factura_xc TO factura1
+           LET codigodgii =NULL
+           LET kncf = NULL
+           LET descripcion=NULL
+           SELECT a.codigo_dgii,a.ncf,b.tipo_ncf,CONVERT(CHAR(10),b.fecha_vencimiento,103)
+           INTO codigodgii,kncf,descripcion,fecha_vencimiento FROM vetb00072 a,vetb00071 b
+           WHERE a.documento = factura_xc AND a.codigo_dgii = b.codigo_dgii AND
+                 a.tipo_doc = 'FT' AND b.disponible = 'S'
+
+   IF STATUS <> NOTFOUND  THEN      
+      LET fact_gral.factura = factura_xc   
+
+   
+      LET r_filename = "veprmt022.4rp"
+      LET r_output   = "SVG"
+      LET preview = 1
+
+   -- configure report engine; the functions prefixed fgl that are called here are part of the GRW API
+       IF fgl_report_loadCurrentSettings(r_filename) THEN    -- load the .4rp file
+         CALL fgl_report_selectDevice(r_output)                          -- changing default
+           IF preview = 0 THEN
+              CALL fgl_report_selectPreview(1)                          -- changing default
+           #   CALL fgl_report_configureSVGPreview("PrintOnDefaultPrinter")
+         ELSE
+              CALL fgl_report_selectPreview(preview)                          
+         END if     
+       
+         LET handler = fgl_report_commitCurrentSettings()    -- commit changes
+       ELSE 
+         EXIT PROGRAM
+       END IF
+            --run the report
+      IF handler IS NOT NULL THEN           -- report engine was configured ok     
+           
+           START REPORT imp_factura TO XML HANDLER HANDLER 
+           
+      END IF
+              
+       FOR idx = 1 TO fact_det.getLength()
+           IF fact_det[idx].cod_n IS NOT NULL AND 
+              fact_det[idx].cod_grupo IS NOT NULL AND 
+               fact_det[idx].cod_tipo IS NOT NULL AND 
+               fact_det[idx].cod_sec IS NOT NULL AND 
+               fact_det[idx].cantidad IS NOT NULL AND 
+               fact_det[idx].cantidad > 0 THEN
+
+               LET cod_fact = 1
+               OUTPUT TO REPORT imp_factura(fact_gral.*,fact_det[idx].*,tot_porc,
+                                         p_bonifica[idx],cod_fact,kncf,codigodgii,descripcion,observacion,usuarios,
+                                         fecha_vencimiento)
+        END IF 
+      END FOR
+      FINISH REPORT imp_factura
+
+      #END IF                       
+      LET fact_gral.factura = factura_old 
+      SET CONNECTION "MSSQL"
+
+      END IF # CLIENTE NCF
+      END IF
+      END IF
+    COMMAND "Retornar"
+       CLEAR FORM
+     EXIT MENU
+   END MENU
+END FUNCTION 
+       
+FUNCTION info()
+    LET pcotizacion = nuLL 
+    SELECT a.cotizacion_no INTO pcotizacion
+    FROM prtb00012 a
+    WHERE a.num_oc = fact_gral.orden  
+
+    DISPLAY BY NAME pcotizacion
+  END FUNCTION
+
+FUNCTION codigodgii(sec_cliente, tipo_cliente) 
+ DEFINE sec_cliente, tipo_cliente SMALLINT,
+        codigo VARCHAR(15) 
+ SELECT codigodgii INTO codigo FROM vetb00004
+ WHERE tipo_cliente = tipo_cliente AND sec_cliente = sec_cliente 
+
+ RETURN codigo
+END FUNCTION 

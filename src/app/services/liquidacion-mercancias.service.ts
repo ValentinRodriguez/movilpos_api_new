@@ -42,6 +42,17 @@ export class LiquidacionMercanciasService {
     })
   }
 
+  autollenado() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/liquidaciones/autollenado`).subscribe((resp: any) => {   
+        console.log(resp);                         
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/liquidaciones/${id}`).subscribe((resp: any) => { 

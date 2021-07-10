@@ -10,11 +10,21 @@ import { MenuesService } from 'src/app/services/menues.service';
 export class MenuCuentasPagarComponent implements OnInit {
 
   menu: any[] = [];
+  formSubmitted: boolean;
 
   constructor(private menuServ: MenuesService,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.menuServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    });
+    
+    this.getData();
+  }
+
+  getData() {
+    this.formSubmitted = true;
     this.menuServ.getMenu(10).then((resp: any) => {
       this.menu = resp;   
     })

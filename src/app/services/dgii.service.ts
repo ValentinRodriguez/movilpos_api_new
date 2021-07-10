@@ -6,6 +6,9 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class DgiiService {
+  
+  rncEscogido = new EventEmitter();
+  formSubmitted = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
@@ -14,6 +17,17 @@ export class DgiiService {
     params = params.append('rnc',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/dgii-rnc', {params}).subscribe((resp: any) => {
+          if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+        })
+    })
+  }
+
+  getRNCS() {   
+    return new Promise( resolve => {
+      this.http.get(`${URL}/dgii-rnc`).subscribe((resp: any) => {     
+          this.formSubmitted.emit(false);                               
           if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
@@ -39,5 +53,9 @@ export class DgiiService {
           }
         })
     })
+  }
+
+  rncEscogidos(data) {
+    this.rncEscogido.emit(data);
   }
 }

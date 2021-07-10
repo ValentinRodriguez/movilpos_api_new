@@ -15,8 +15,21 @@ export class RrhhService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {                         
+      this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {        
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  
+  getCajeros() {   
+    return new Promise( resolve => {
+      this.http.get(`${URL}/busqueda/cajeros`).subscribe((resp: any) => {
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -64,15 +77,74 @@ export class RrhhService {
   }
 
   crearEmpleado(empresa) {
-    const formData = new FormData();
+    let formData = {};
     
     for(let key in empresa){        
-      formData.append(key, empresa[key])
+      switch (key) {
+        // foto_empleado:  
+              
+        case 'cod_cia':
+          formData[key] = empresa[key].cod_cia
+          break
+
+        case 'departamento':
+        case 'codbancodestino':
+        case 'cod_puesto':
+        case 'cod_nac':
+        case 'educacion':
+        case 'estado_civil':
+        case 'moneda':
+        case 'num_emp_supervisor':
+        case 'sucid':
+        case 'tipo_empleado':
+        case 'tipo_sangre':
+        case 'cuenta_no':
+        case 'id_moneda':
+        case 'id_puesto':
+        case 'suc_id':
+        case 'turno':
+        case 'area':
+          formData[key] = empresa[key].id;
+          break
+
+        case 'retiro_comercial':
+          formData[key] = empresa[key].value;
+          break
+
+        case 'id_pais':
+          formData[key] = empresa[key].id_pais;
+          break
+
+        case 'id_region':
+          formData[key] = empresa[key].id_region;
+          break
+
+        case 'id_provincia':
+          formData[key] = empresa[key].id_provincia;
+          break
+
+        case 'id_municipio':
+          formData[key] = empresa[key].id_municipio;
+          break
+
+        case 'id_ciudad':
+          formData[key] = empresa[key].id_ciudad;
+          break
+
+        case 'id_sector':
+          formData[key] = empresa[key].id_sector;
+          break
+
+        default:
+          formData[key] = empresa[key]
+          break;
+      }
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formData).subscribe( (resp:any) => {
-        this.formSubmitted.emit(false);                           
+      this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
+        this.formSubmitted.emit(false);        
+        console.log(resp);                           
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }

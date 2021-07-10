@@ -24,7 +24,8 @@ export class TipoDocumentosComponent implements OnInit {
   fileUser: any;
   index: number = 0;
   empleados: any[] = [];
-
+  formSubmitted = false;
+  
   constructor(private confirmationService: ConfirmationService,
               private empleadoServ: RrhhService,
               private usuariosServ: UsuarioService,

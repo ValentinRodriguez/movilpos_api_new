@@ -10,14 +10,21 @@ import { MenuesService } from 'src/app/services/menues.service';
 export class MenuRrhhComponent implements OnInit {
 
   menu: any[] = [];
-
+  formSubmitted: boolean;
   constructor(private menuServ: MenuesService,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.getData();
+    this.menuServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp
+    })
+  }
+
+  getData() {
+    this.formSubmitted = true;
     this.menuServ.getMenu(9).then((resp: any) => {
-      this.menu = resp;
-       ;      
+      this.menu = resp;   
     })
   }
 

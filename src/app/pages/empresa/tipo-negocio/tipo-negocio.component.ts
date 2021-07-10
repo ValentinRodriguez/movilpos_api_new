@@ -20,7 +20,8 @@ export class TipoNegocioComponent implements OnInit {
   cols: any[];
    
   index: number = 0;
-
+  formSubmitted = false;
+  
   constructor(
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

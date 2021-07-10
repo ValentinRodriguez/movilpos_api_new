@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { BodegasService } from 'src/app/services/bodegas.service';
+import { BrandsService } from 'src/app/services/brands.service';
+import { CategoriasService } from 'src/app/services/categorias.service';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { InventarioService } from 'src/app/services/inventario.service';
+import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { PropiedadesService } from 'src/app/services/propiedades.service';
 
 @Component({
   selector: 'app-acto-descargo',
@@ -12,21 +18,105 @@ export class ActoDescargoComponent implements OnInit {
   fechafabricacion: any[] = [];
   clientes: any[] = [];
   clientesFiltrados: any[] = [];
+  minDate: Date;
+  paises: any[] = [];
+  regiones: any[] = [];
+  provincias: any[] = [];
+  municipios: any[] = [];
+  ciudades: any[] = [];
+  sectores: any[] = [];
+  listSubscribers: any = [];
+  brands: any = [];
+  tipoInventario: any = [];
+  categorias: any = [];
+  propiedades: any = [];
+  bodegas: any = [];
+  nacionalidades: any = [];
+  nacFiltrados: any = [];
+  display = false;
+  nacionalidad = '';
+  tipo = [
+    {label: 'Importado', value: 'importado'},
+    {label: 'Local', value: 'local'},
+  ];
 
-  form = {
+  form: any = {
+    fecha: '',
+    anio: '',
+    mes: '',
+    dias: '',
+    cliente: '',
     cedula: '',
     direccion: '',
-    password: null
+    tipo_vehiculo: '',
+    marca: '',
+    modelo: '',
+    color: '',
+    fabricacion: '',
+    placa: '4564654654',
+    chasis: '23423422',
+    testigo1: 'ana',
+    testigo2: 'jose',
+    cedulatestigo1: '111-1111111-1',
+    cedulatestigo2: '111-1111111-1',
+    nacionalidad: '',
+    fecha_formateada: '',
+    id_pais: '',
+    id_zona: '',
+    id_region: '',
+    id_provincia: '',
+    id_municipio: '',
+    id_ciudad: '',
+    id_sector: '',
   };
 
-  constructor(private DatosEstaticos: DatosEstaticosService,
-              private clientesServ: ClientesService) { }
+  constructor(private paisesCiudadesServ: PaisesCiudadesService,
+              private inventarioServ: InventarioService,
+              private DatosEstaticos: DatosEstaticosService,
+    private clientesServ: ClientesService) { }
+  
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
   ngOnInit(): void {
+    this.todaLaData();
+    this.todosLosPaises();
+    this.paisesCiudadesServ.getNacionalidades().then((resp: any) => {
+      this.nacionalidades = resp;
+    });
+    this.setMinDate();
     this.fechaFabricacion();
     this.todosLosClientes();
   }
 
+  todaLaData() {   
+    this.inventarioServ.autoLlenado().then((resp: any) =>{         
+      resp.forEach(element => {
+        switch (element.label) {
+          case 'modelos':
+            this.categorias = element.data;
+            break;
+
+          case 'color':
+            this.propiedades = element.data;
+            break;
+
+          case 'marcas':
+            this.brands = element.data;
+            break;
+
+          case 'bodegas':
+            this.bodegas = element.data;
+            break;
+
+          default:
+            break;
+        }
+      });  
+    })
+  }
+    
   todosLosClientes() {
     this.clientesServ.getDatos().then((resp: any) => {
       this.clientes = resp;
@@ -34,22 +124,84 @@ export class ActoDescargoComponent implements OnInit {
     })
   }
 
+  todosLosPaises() {
+    this.paisesCiudadesServ.getPaises().then((resp: any)=>{
+      console.log(resp);      
+      this.paises = resp;   
+    })
+  }
+  
+  buscaRegion(event) {
+      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
+      this.regiones = resp;
+    })   
+  }
+
+  buscaProvincia(event) {
+      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
+      this.provincias = resp;
+    })   
+  }
+
+  buscaMunicipio(event) {
+    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
+      this.municipios = resp;
+    })   
+  }
+ 
+  buscaCiudad(event) {
+    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
+      console.log(resp);      
+      this.ciudades = resp;
+    })   
+  }
+
+  buscaSector(event) {
+    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
+      this.sectores = resp;
+    })   
+  }
+
+  onSelectDate(event) {
+    let d = new Date(Date.parse(event));
+    this.form.anio = d.getFullYear();
+    this.form.mes = d.getMonth() + 1;
+    this.form.dias = d.getDate();
+    this.form.fecha_formateada = `${this.form.anio}/${this.form.mes}/${this.form.dia}`
+  }
+
+  filtrarNacionalidad(event) {
+    const filtered: any[] = [];
+    const query = event.query;    
+    
+    for (let i = 0; i < this.nacionalidades.length; i++) {
+      const size = this.nacionalidades[i];
+      if (size.nacionalidad.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.nacFiltrados = filtered;
+  }
+  
   print(): void {
-    let printContents, popupWin;
-    printContents = document.getElementById('print-section').innerHTML;
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    popupWin.document.open();
-    popupWin.document.write(`
-      <html>
-        <head>
-          <title>Print tab</title>
-          <style>
-          //........Customized style.......
-          </style>
-        </head>
-    <body onload="window.print();window.close()">${printContents}</body>
-      </html>`
-    );
+    console.log(this.form);
+    this.display = true;
+    setTimeout(() => {
+      let printContents, popupWin;
+      printContents = document.getElementById('print-section').innerHTML;
+      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin.document.open();
+      popupWin.document.write(`
+        <html>
+          <head>
+            <style>
+            //........Customized style.......
+            </style>
+          </head>
+            <body onload="window.print();window.close()">${printContents}</body>
+        </html>`
+      );      
+    }, 500);
     // popupWin.document.close();
   }
 
@@ -64,11 +216,13 @@ export class ActoDescargoComponent implements OnInit {
 
   datosClientes(data) {
     console.log(data);  
-    this.form.cedula = data.documento;  
+    this.form.cedula = data.documento;
+    this.form.nacionalidad = this.nacionalidades.find(doc => doc.id == data.nacionalidad);
+    this.nacionalidad = this.form.nacionalidad.nacionalidad
     this.form.direccion = data.pais +','+ data.provincia +','+ data.municipio +','+ data.urbanizacion +','+ data.ciudad +','+ data.sector +','+ data.direccion
   }
 
-  filtrarProveedor(event) {
+  filtrarClientes(event) {
     const filtered: any[] = [];
     const query = event.query;
     
@@ -80,6 +234,17 @@ export class ActoDescargoComponent implements OnInit {
       }
     }
     this.clientesFiltrados = filtered;
+  }
+
+  setMinDate() {
+    let today = new Date();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let day = today.getDate();
+    this.minDate = new Date();
+    this.minDate.setMonth(month);
+    this.minDate.setFullYear(year);
+    this.minDate.setDate(day);
   }
 
 }

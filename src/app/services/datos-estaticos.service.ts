@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import * as moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +25,28 @@ export class DatosEstaticosService {
     return date;
   }
 
+  getYearsOld(data) {
+    const years = moment().diff(data, 'years',false);
+    return years
+  }
+
+  getDiffMilliseconds(data1, data2) {    
+    var a =  moment().diff(data1);
+    var b = moment().diff(data2);
+    return a - b;    
+  }
+
+  isBetweenDate(data1, data2, data3) {
+    console.log(data1);
+    console.log(data2);
+    console.log(data3);
+    if (data2 === null) {
+      return this.getDiffMilliseconds(data1,data3)
+    } else {
+      return moment(data3).isBetween(data1, data2);      
+    }
+  }
+
   getChasis() {
     return this.http.get<any>('assets/demo/data/chasis.json')
     .toPromise()
@@ -43,6 +67,27 @@ export class DatosEstaticosService {
     let minuto = today.getMinutes();
     let segundos = today.getSeconds();
     return `${hora}:${minuto}:${segundos}`;
+  }
+
+  getHourFormatted(data) {
+    let hora = data.getHours();
+    let minuto = data.getMinutes();
+    // let segundos = data.getSeconds();
+    return `${hora}:${minuto}`;
+  }
+
+  getDataFormated(fecha) {    
+    let month = fecha.getMonth();
+    let year = fecha.getFullYear();
+    let day = fecha.getDate();
+    return `${year}/${month+1}/${day}`;
+  }
+
+  getDateTimeFormated(data) {
+    const fecha = this.getDataFormated(data)
+    const hora = this.getHourFormatted(data)
+
+    return fecha +' '+ hora;
   }
 
   getHourAmp() {
