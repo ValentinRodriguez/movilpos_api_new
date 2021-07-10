@@ -140,7 +140,7 @@ export class FormularioEmpleadosComponent implements OnInit {
               this.buscaSucursales(this.empresa[0].cod_cia)
             }
             break;
-  
+            
           case 'cuentas':
               this.cuentas = element.data;
             break;
@@ -446,6 +446,35 @@ export class FormularioEmpleadosComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de aumento debe entre la de contrato y la de salida.');
       }   
     }
+    
+    if (campo === 'fecha_suspencion' || campo === 'fecha_termino_contrato' || campo === 'fecha_ultimo_aumento' || campo === 'fecha_entrada') {
+      let d = new Date(Date.parse(event));
+      let entrada = new Date(Date.parse(this.forma.get('fecha_entrada').value));
+      const diferencia = this.datosEstaticosServ.getDiffMilliseconds(entrada, d);
+      let temp = '';
+      switch (campo) {
+        case 'fecha_suspencion':
+          temp = 'fecha de suspención';
+          break;
+
+        case 'fecha_termino_contrato':
+          temp = 'fecha de término de contrato';
+          break;
+
+        case 'fecha_ultimo_aumento':
+          temp = 'fecha de aumento';
+          break;
+
+        default:
+          break;
+      }
+      if (diferencia < 0) {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', `La ${temp} no puede ser menor a la de entrada.`);
+        this.forma.get(campo).setValue('');
+        return;
+      }  
+    }
+
     this.forma.get(campo).setValue(this.datosEstaticosServ.getDateTimeFormated(d));
   }
 

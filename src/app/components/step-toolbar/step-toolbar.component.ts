@@ -11,14 +11,17 @@ export class StepToolbarComponent implements OnInit {
 
   @Input() items: any[] = [];
   index = 0;
-  inicio:any;
+  inicio: any;
 
   constructor(public router: Router,
               private globalServ: GlobalFunctionsService) { }
 
   ngOnInit(): void { 
     this.inicio = this.router.url.split("/");       
-    this.navegacion(this.index)
+    this.navegacion(this.index);
+
+    console.log(this.index);
+    console.log(this.items.length);
   }
   
   nextPage(pagina) {
@@ -36,6 +39,8 @@ export class StepToolbarComponent implements OnInit {
   }
 
   navegacion(pagina) {
+    console.log(pagina);
+    
     console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);    
     if (this.items.length !== 0) {
       this.router.navigate([`/${this.inicio[1]}/${this.items[pagina].routerLink}`]);
