@@ -23,7 +23,7 @@ export class PermisosUsuariosComponent implements OnInit {
   accionesMod: any[] = [];
   guardando = false;
   cols: any[];
-
+  formSubmitted = true;
   restableciendo = false;
   restablecer = true;  
   user: any;
@@ -39,15 +39,25 @@ export class PermisosUsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.config.data;
     
+    this.rolesServ.formSubmitted.subscribe( resp => {
+      this.formSubmitted = resp;
+      console.log(resp);      
+    });
+
     this.cols = [
       { field:'codigo', header:'Programa'},
       { field:'todo', header:'Todo'},
       { field:'lectura', header:'Lectura'},
       { field:'escritura', header:'Escritura'},      
       { field:'eliminar', header:'Eliminar'}
-    ]
+    ];
+    
+    this.todosLosRoles();
+  }
 
-    this.rolesServ.getRolFull(this.user.email, this.user.username).then((resp: any) => {      
+  todosLosRoles() {
+    this.formSubmitted = true; 
+    this.rolesServ.getRolFull(this.user.email, this.user.username).then((resp: any) => { 
       if (resp.length !== 0) {
         this.modulosServ.getModulos().then((resp2: any) =>{
           this.modulos = resp2  
@@ -56,8 +66,7 @@ export class PermisosUsuariosComponent implements OnInit {
           this.programas = JSON.parse(resp[0].programas);
           this.listanotificaciones = JSON.parse(resp[0].notificaciones);
         })
-      }else{
-        
+      }else{        
         this.modulosServ.autoLlenado().then((resp: any) =>{
           console.log(resp);    
           resp.forEach(element => {
@@ -83,9 +92,8 @@ export class PermisosUsuariosComponent implements OnInit {
           });      
         })
       }      
-    }) 
+    });
   }
-
   todosLosModulos() {
     this.modulos.forEach(modulo => {
       console.log(modulo);      

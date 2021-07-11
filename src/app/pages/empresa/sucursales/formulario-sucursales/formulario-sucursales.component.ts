@@ -201,6 +201,8 @@ export class FormularioSucursalesComponent implements OnInit {
   }
 
   datosLocalidad(data) {
+    console.log(data);
+    
     this.formSubmitted = true;
     this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === data.value.id_pais)); 
         
@@ -221,12 +223,12 @@ export class FormularioSucursalesComponent implements OnInit {
               this.ciudades = resp;
               this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === data.value.id_ciudad));              
             }
-
             this.paisesCiudadesServ.buscaSector(data.value.id_ciudad).then((resp: any) => {
               if (resp.length !== 0) {
                 this.sectores = resp;
                 this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector === data.value.id_sector));                
               }
+              this.forma.get('calle').setValue(data.value.calle)
               this.formSubmitted = false;
             })
           })

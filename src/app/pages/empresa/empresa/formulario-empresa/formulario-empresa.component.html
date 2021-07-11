@@ -14,7 +14,8 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="rnc">RNC</label>
             <span class=" p-inputgroup">
-                <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-success" (click)="listadoRNC()"></button>    
+                <!-- <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-success" (click)="listadoRNC()"></button>     -->
+                <button type="button" pButton pRipple icon="pi pi-globe" styleClass="p-button-danger" (click)="onlineRNC()"></button> 
                 <input type="text" pInputText pInputText formControlName="rnc" 
                 [class.ng-invalid]="getNoValido('rnc')" [class.ng-dirty]="getNoValido('rnc')"
                        (keyup)="verificaRNC($event.target.value)">   
@@ -30,7 +31,6 @@
                 <span class="p-inputgroup-addon" *ngIf="rncExiste === 3">
                     <i class="pi pi-file-o"></i>
                 </span> 
-                <button type="button" pButton pRipple icon="pi pi-globe" styleClass="p-button-danger" (click)="onlineRNC()"></button> 
                 <small *ngIf="getNoValido('rnc')" class="p-invalid">Este campo es obligatorio.</small>
             </span>
         </div>
@@ -139,14 +139,6 @@
             </p-dropdown>
             <small *ngIf="getNoValido('valuacion_inv')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
-
-        <div class="p-field p-col-12">
-            <label for="direccion">Descripción</label>
-            <textarea id="direccion" type="text" rows="4" pInputTextarea name="direccion" formControlName="direccion"
-                      [class.ng-invalid]="getNoValido('direccion')" [class.ng-dirty]="getNoValido('direccion')">
-            </textarea>
-            <small *ngIf="getNoValido('direccion')" class="p-invalid">Este campo es obligatorio.</small>
-        </div>
     </div>
 
     <p-panel header="Ubicación" [toggleable]="true">
@@ -204,6 +196,15 @@
                             id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
                 </p-dropdown>
                 <small *ngIf="getNoValido('id_sector')" class="p-invalid">Este campo es obligatorio.</small>
+            </div>
+
+            <div class="p-field p-col-12 p-md-3">
+                <label for="calle">Calle</label>
+                <span class=" p-input-icon-right">
+                    <input id="calle" type="text" pInputText formControlName="calle" 
+                           [class.ng-invalid]="getNoValido('calle')" [class.ng-dirty]="getNoValido('calle')">
+                </span>
+                <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
         </div>
     </p-panel>

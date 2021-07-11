@@ -48,10 +48,10 @@ export class ListadoRncComponent implements OnInit {
   enviarDireccion(data) {
     console.log(data.data);
     this.dgiiServ.rncEscogidos(data.data);
+    this.uiMessage.getMiniInfortiveMsg('tst','infor','ERROR','RNC escogido');
     // this.ref.close();      
     // if (this.direccioneSeleccionada.length !== 0) {   
     // } else {
-    //   this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe escoger al menos una cuenta');
     // }
   }
 }

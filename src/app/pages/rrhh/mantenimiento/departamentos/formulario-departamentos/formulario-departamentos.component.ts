@@ -16,7 +16,7 @@ export class FormularioDepartamentosComponent implements OnInit {
   guardando = false;
   deptoExiste = 3;
   formSubmitted = false;
-  
+  listSubscribers: any = [];
   tipo = [
     {label: 'Producción', value: 'produccion'},
     {label: 'Administración', value: 'administracion'},
@@ -30,8 +30,22 @@ export class FormularioDepartamentosComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
   }
+
+  ngOnInit(): void {
+    this.listObserver();
+  }
+
+  listObserver = () => {
+    const observer6$ = this.departamentoServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    });
+
+    this.listSubscribers = [observer6$];
+  
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({

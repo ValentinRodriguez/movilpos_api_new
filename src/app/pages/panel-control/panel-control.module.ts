@@ -17,6 +17,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 //MODULOS DE RUTAS DEL PROYECTO
 import { PanelControlRoutingModule } from "./panel-control-routing.module";
@@ -42,6 +43,7 @@ import { ProcedimientosComponent } from './procedimientos/procedimientos.compone
     ConfirmDialogModule,
     ToastModule,
     TabViewModule,
+    ProgressBarModule,
     TableModule,
     AccordionModule,
     ToolbarModule,
