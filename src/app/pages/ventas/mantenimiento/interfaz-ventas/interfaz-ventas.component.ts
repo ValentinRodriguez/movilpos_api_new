@@ -173,7 +173,7 @@ export class InterfazVentasComponent implements OnInit {
             id_zonalocal:    [''],
             tipo_cliente:    [''],
             sec_cliente:     [''],
-            num_emp:         [this.usuario.empleado.id_numemp, Validators.required],
+            num_emp:         [this.usuario.empleado.id, Validators.required],
             total_bruto:     ['', Validators.required],
             sub_total:       ['', Validators.required],
             descuento:       ['', Validators.required],

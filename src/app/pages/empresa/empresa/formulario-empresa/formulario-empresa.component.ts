@@ -196,7 +196,7 @@ export class FormularioEmpresaComponent implements OnInit {
       id_municipio:      ['', Validators.required],
       id_ciudad:         ['', Validators.required],
       id_sector:         [''],
-      direccion:         ['', Validators.required],
+      calle:             ['', Validators.required],
       web:               ['asdasd.com'],
       contacto:          ['luis miguel', Validators.required],
       telefono_contacto: ['(333)-333-3333', Validators.required],

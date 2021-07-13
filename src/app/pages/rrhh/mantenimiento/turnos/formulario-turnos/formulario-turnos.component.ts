@@ -71,19 +71,19 @@ export class FormularioTurnosComponent implements OnInit {
   }
 
   guardarTurno(){
-    this.formSubmitted = true;    
+    // this.formSubmitted = true;    
     console.log(this.forma.value);
-
-    const horai =  this.datosEstaticos.getDateTimeFormated(this.forma.get('horario_inicial').value);
-    const horaf =  this.datosEstaticos.getDateTimeFormated(this.forma.get('horario_final').value); 
+    let horai =  new Date(Date.parse(this.forma.get('horario_inicial').value));
+    let horaf =  new Date(Date.parse(this.forma.get('horario_final').value));
     
-    console.log(horai);
-    console.log(horaf);
+    if (this.datosEstaticos.getDiffMilliseconds(horai, horaf) < 0) {
+      this.uiMessage.getMiniInfortiveMsg('tst','warn','ATENCION','La hora de salida no puede ser anterior a la de entrada.');     
+      this.forma.get('horario_final').setValue('');
+      return;
+    }
 
-    // if (horai > horaf) {
-    //   this.uiMessage.getMiniInfortiveMsg('tst','warn','ATENCION','La hora de salida no puede ser anterior a la de entrada.');     
-    //   return;
-    // }
+    let hora1 = this.datosEstaticos.getDataFormated(horai);
+    let hora2 = this.datosEstaticos.getDataFormated(horaf);
 
     if (this.forma.invalid) {    
       this.formSubmitted = false;   
@@ -102,7 +102,7 @@ export class FormularioTurnosComponent implements OnInit {
           break;
 
         default:
-          this.turnosServ.crearTurno(this.forma.value, horai, horaf).then(()=>{
+          this.turnosServ.crearTurno(this.forma.value, hora1, hora2).then(()=>{
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creada de manera correcta'); 
             this.resetFormulario(); 
           })

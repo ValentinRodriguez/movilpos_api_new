@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 const URL = environment.url;
 
 @Injectable({
@@ -9,14 +9,31 @@ const URL = environment.url;
 export class RrhhService {
 
   empleadoEscogido = new EventEmitter();
+  empleadoAct = new EventEmitter();
+  empleadoCreado = new EventEmitter();
+  empleadoBorrado = new EventEmitter();
   formSubmitted = new EventEmitter();
-  
+  actualizar = new EventEmitter();
+  guardar = new EventEmitter();
+
   constructor(private http: HttpClient) {}
 
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
         this.formSubmitted.emit(false);
+        if (resp['code'] === 200)  {        
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  getDato(id:number) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/noempleados/${id}`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false);
+        console.log(resp);        
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
@@ -76,6 +93,19 @@ export class RrhhService {
     })
   }
 
+  busquedaCedula(parametro?: any) {
+    let params = new HttpParams();
+    params = params.append('cedula',parametro);    
+    return new Promise( resolve => {
+      this.http.get(URL + '/busqueda/cedula', { params }).subscribe((resp: any) => {
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+  
   crearEmpleado(empresa) {
     let formData = {};
     
@@ -94,7 +124,7 @@ export class RrhhService {
         case 'educacion':
         case 'estado_civil':
         case 'moneda':
-        case 'num_emp_supervisor':
+        // case 'num_emp_supervisor':
         case 'sucid':
         case 'tipo_empleado':
         case 'tipo_sangre':
@@ -104,6 +134,7 @@ export class RrhhService {
         case 'suc_id':
         case 'turno':
         case 'area':
+        case 'tipo_sueldo':
           formData[key] = empresa[key].id;
           break
 
@@ -145,15 +176,102 @@ export class RrhhService {
       this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
         this.formSubmitted.emit(false);        
         console.log(resp);                           
-        if (resp['code'] === 200)  {                                      
+        if (resp['code'] === 200) {
+          this.empleadoCreado.emit(true);
           resolve(resp.data);      
         }
       });
     });    
   }
 
+  actualizarEmpleado(id,empresa) {
+    let formData = {};
+    
+    for (let key in empresa) {
+      if (empresa[key] !== undefined) {
+        switch (key) {
+          // foto_empleado:  
+                
+          case 'cod_cia':
+            formData[key] = empresa[key].cod_cia
+            break
+  
+          case 'departamento':
+          case 'codbancodestino':
+          case 'cod_puesto':
+          case 'cod_nac':
+          case 'educacion':
+          case 'estado_civil':
+          case 'moneda':
+          // case 'num_emp_supervisor':
+          case 'sucid':
+          case 'tipo_empleado':
+          case 'tipo_sangre':
+          case 'cuenta_no':
+          case 'id_moneda':
+          case 'id_puesto':
+          case 'suc_id':
+          case 'turno':
+          case 'area':
+            formData[key] = empresa[key].id;
+            break
+  
+          case 'retiro_comercial':
+            formData[key] = empresa[key].value;
+            break
+  
+          case 'id_pais':
+            formData[key] = empresa[key].id_pais;
+            break
+  
+          case 'id_region':
+            formData[key] = empresa[key].id_region;
+            break
+  
+          case 'id_provincia':
+            formData[key] = empresa[key].id_provincia;
+            break
+  
+          case 'id_municipio':
+            formData[key] = empresa[key].id_municipio;
+            break
+  
+          case 'id_ciudad':
+            formData[key] = empresa[key].id_ciudad;
+            break
+  
+          case 'id_sector':
+            formData[key] = empresa[key].id_sector;
+            break
+  
+          default:
+            formData[key] = empresa[key]
+            break;
+        }        
+      }
+    }
+
+    return new Promise( resolve => {
+      this.http.put(`${ URL }/noempleados/${id}`, formData).subscribe( (resp:any) => {
+        this.formSubmitted.emit(false);        
+        console.log(resp);                           
+        if (resp['code'] === 200) {
+          this.empleadoCreado.emit(true);
+          resolve(resp.data);      
+        }
+      });
+    });    
+  }
   empleadoEscogidos(empleado) {
     this.empleadoEscogido.emit(empleado);
+  }
+
+  actualizando(data: any) {
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
 
 }

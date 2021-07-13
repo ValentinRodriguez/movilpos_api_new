@@ -453,7 +453,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   }
 
   datosVendedor(event) {        
-    this.forma.get("sec_vend").setValue(event.id_numemp);
+    this.forma.get("sec_vend").setValue(event.id);
   }
 
   filtrarCotizacion(event) {

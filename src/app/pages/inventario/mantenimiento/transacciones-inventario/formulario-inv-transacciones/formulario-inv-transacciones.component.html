@@ -180,18 +180,18 @@
         </div>
 
         <!-- <div class="p-field p-col-12 p-md-3">
-            <label for="id_numemp">Vendedor</label>
-            <p-dropdown inputId="id_numemp" [options]="vendedores"  
-                        name="id_numemp" formControlName="id_numemp"
+            <label for="id">Vendedor</label>
+            <p-dropdown inputId="id" [options]="vendedores"  
+                        name="id" formControlName="id"
                         placeholder="Escoje.." optionLabel="primernombre">
             </p-dropdown>
-            <small *ngIf="getNoValido('id_numemp')" class="p-invalid">Este campo es obligatorio.</small>
+            <small *ngIf="getNoValido('id')" class="p-invalid">Este campo es obligatorio.</small>
         </div> -->
 
         <div class="p-field p-col-12 p-md-3">
-            <label for="id_numemp">Vendedor</label>
-            <p-autoComplete formControlName="id_numemp" [suggestions]="vendedorFiltrado"
-                [class.p-invalid]="getNoValido('id_numemp')" [class.ng-dirty]="getNoValido('id_numemp')"
+            <label for="id">Vendedor</label>
+            <p-autoComplete formControlName="id" [suggestions]="vendedorFiltrado"
+                [class.p-invalid]="getNoValido('id')" [class.ng-dirty]="getNoValido('id')"
                 (completeMethod)="filtrarVendedor($event)" (onSelect)="datosVendedor($event)" field="nombre_empleado"
                 [dropdown]="true">
                 <ng-template let-vendedor pTemplate="item">
@@ -200,7 +200,7 @@
                     </div>
                 </ng-template>
             </p-autoComplete>
-            <small *ngIf="getNoValido('id_numemp')" class="p-invalid">Este campo es obligatorio.</small>
+            <small *ngIf="getNoValido('id')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12 p-md-3">

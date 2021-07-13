@@ -20,6 +20,16 @@ export class PaisesCiudadesService {
       })
     })
   }
+  
+  localidades() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/autollenado/localidades`).subscribe((resp: any) => {
+        if (resp['code'] === 200) {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
 
   getCiudades() {
     return new Promise( resolve => {
@@ -44,7 +54,7 @@ export class PaisesCiudadesService {
   buscaRegion(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/region/pais/${id}`).subscribe((resp: any) => {  
-        console.log(resp);        
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -55,7 +65,7 @@ export class PaisesCiudadesService {
   buscaProvincias(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/provincias/region/${id}`).subscribe((resp: any) => {  
-        console.log(resp);        
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -66,7 +76,7 @@ export class PaisesCiudadesService {
   buscaMunicipios(id: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/municipios/region/${id}`).subscribe((resp: any) => {  
-        console.log(resp);        
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -75,10 +85,10 @@ export class PaisesCiudadesService {
   }
 
   buscaCiudad(id: string) {
-    console.log(id);    
+    
     return new Promise( resolve => {
       this.http.get(`${URL}/ciudad/municipio/${id}`).subscribe((resp: any) => {  
-        console.log(resp);        
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -97,10 +107,10 @@ export class PaisesCiudadesService {
   }
 
   buscaSector(id: string) {
-    console.log(id);    
+    
     return new Promise( resolve => {
       this.http.get(`${URL}/sectores/ciudad/${id}`).subscribe((resp: any) => {  
-        console.log(resp);        
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

@@ -11,7 +11,9 @@ export class DepartamentosService {
   departamentoBorrado = new EventEmitter();
   departamentoAct= new EventEmitter();
   formSubmitted = new EventEmitter();
-  
+  guardar = new EventEmitter();
+  actualizar = new EventEmitter();
+
   constructor(private http: HttpClient) { }
 
   getDatos() {
@@ -28,8 +30,9 @@ export class DepartamentosService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {    
-         this.formSubmitted.emit(false);                           
-            if (resp['code'] === 200)  {          
+        this.formSubmitted.emit(false);
+        console.log(resp);        
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -54,7 +57,7 @@ export class DepartamentosService {
     });    
   }
 
-  actualizarDepartamento(id:string, departamento: any) {
+  actualizarDepartamento(id:number, departamento: any) {
     const formData = new FormData(); 
     
     for(let key in departamento){  
@@ -63,7 +66,8 @@ export class DepartamentosService {
     
     return new Promise( resolve => {
       this.http.put(`${ URL }/departamentos/${id}`, departamento).subscribe( (resp: any) => {             
-        this.formSubmitted.emit(false);                           
+        this.formSubmitted.emit(false);
+        console.log(resp)        
         if (resp['code'] === 200)  {
           this.departamentoAct.emit( resp.data );                            
           resolve(resp.data);            
@@ -74,7 +78,8 @@ export class DepartamentosService {
   
   borrarDepartamento(id) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/departamentos/${id}`).subscribe( (resp: any) => {                             
+      this.http.delete(`${URL}/departamentos/${id}`).subscribe((resp: any) => {
+        this.formSubmitted.emit(false)
         if (resp['code'] === 200)  {            
           this.departamentoBorrado.emit(id);    
           resolve(resp.data);            
@@ -105,5 +110,13 @@ export class DepartamentosService {
 
   listadoProveedoresEscogidos(productos: any) {
     this.departamentoEscogido.emit(productos);
+  }
+
+  actualizando(data: any) {
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
 }

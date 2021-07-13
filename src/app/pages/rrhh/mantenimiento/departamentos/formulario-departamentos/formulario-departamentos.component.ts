@@ -16,7 +16,10 @@ export class FormularioDepartamentosComponent implements OnInit {
   guardando = false;
   deptoExiste = 3;
   formSubmitted = false;
-  
+  guardar = true;
+  actualizar = false;
+  id: number;
+  listSubscribers: any = [];
   tipo = [
     {label: 'Producción', value: 'produccion'},
     {label: 'Administración', value: 'administracion'},
@@ -30,14 +33,37 @@ export class FormularioDepartamentosComponent implements OnInit {
                 this.crearFormulario();
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
   }
+
+  ngOnInit(): void {
+    this.listObserver();
+  }
+  
+  listObserver = () => {
+    const observer1$ = this.departamentoServ.actualizar.subscribe((resp: any) => {
+      this.guardar = false;
+      this.actualizar = true;
+      this.formSubmitted = true;
+      this.id = Number(resp);
+      this.departamentoServ.getDato(resp).then((res: any) => {
+        this.forma.patchValue(res);
+      })
+    });
+
+    const observer2$ = this.departamentoServ.formSubmitted.subscribe(resp => {
+      this.formSubmitted = resp;
+    });  
+
+    this.listSubscribers = [observer1$,observer2$];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
-      titulo:           ['tecnologia', Validators.required],
+      titulo:           ['', Validators.required],
       tipodepartamento: ['', Validators.required],
-      descripcion:      ['test', Validators.required],
+      descripcion:      ['', Validators.required],
       estado:           ['activo', Validators.required],
       usuario_creador:  [this.usuario.username, Validators.required]
     })
@@ -67,10 +93,48 @@ export class FormularioDepartamentosComponent implements OnInit {
           })
           break;
       } 
+    }     
+  }
+
+  actualizarDepartamento() {
+    this.formSubmitted = true;    
+    if (this.forma.invalid) {      
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
+      Object.values(this.forma.controls).forEach(control =>{          
+        control.markAllAsTouched();
+      })
+    }else{   
+      switch (this.deptoExiste) {
+        case 0:
+          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
+          break;
+
+        case 2:
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
+          break;
+
+        default:
+          this.departamentoServ.actualizarDepartamento(this.id,this.forma.value).then((resp: any)=>{
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
+          })
+          break;
+      } 
     }
-     
   }
   
+  cancelar() {
+    this.actualizar = false;
+    this.guardar = true;
+    this.resetFormulario();
+    this.departamentoServ.guardando();    
+  }
+
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
+
   verificaDepartamento(data){  
     if (data === "") {
       this.deptoExiste = 3;

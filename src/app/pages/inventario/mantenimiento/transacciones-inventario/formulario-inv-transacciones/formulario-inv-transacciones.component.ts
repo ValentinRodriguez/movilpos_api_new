@@ -176,7 +176,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       direccion:         ['aasdfadsfasdf'],
       documento:         [''],
       tipo_documento:    [''],
-      id_numemp:         [''],
+      id:         [''],
       cod_transportista: [''],      
       cod_tarifa:        [''],
       placa:             [''],
@@ -572,7 +572,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           });
           this.ordenPedidoExiste = 1;
           this.forma.get('cliente').setValue(this.clientes.find(tipo => tipo.tipo_cliente === resp[0].tipo_cliente && tipo.sec_cliente === resp[0].sec_cliente));
-          this.forma.get('id_numemp').setValue(this.vendedores.find(vendedor => vendedor.id_numemp === resp[0].sec_vend));
+          this.forma.get('id').setValue(this.vendedores.find(vendedor => vendedor.id === resp[0].sec_vend));
           this.forma.get('tipo_cliente').setValue(resp[0].tipo_cliente);
           this.forma.get('fecha').setValue(new Date(resp[0].created_at));
           this.forma.get('sec_cliente').setValue(resp[0].sec_cliente);

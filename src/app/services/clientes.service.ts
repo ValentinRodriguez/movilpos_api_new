@@ -59,7 +59,7 @@ export class ClientesService {
           break;
 
         case 'vendedor':          
-          formdata[key] = cliente[key].id_numemp;
+          formdata[key] = cliente[key].id;
           break;
 
         case 'tipo_cliente':          
@@ -143,7 +143,7 @@ export class ClientesService {
           break;
 
         case 'vendedor':            
-         data[key] = client[key].id_numemp;          
+         data[key] = client[key].id;          
          break;
 
         case 'tipo_negocio':            

@@ -85,7 +85,7 @@ export class OrdenPedidosService {
         break;
 
         case 'sec_vend':
-          formData.append(key, orden[key].id_numemp)
+          formData.append(key, orden[key].id)
         break;  
 
         default:

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { PuestosService } from 'src/app/services/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh.service';
@@ -57,7 +58,10 @@ export class FormularioEmpleadosComponent implements OnInit {
   turno: any[] = [];
   sucursales: any[] = [];
   areas: any[] = [];
-  
+  guardar = true;
+  actualizar = false;
+  id: number;
+
   sino = [
     { label: 'Si', value:'si'},
     { label: 'No', value:'no'},
@@ -78,6 +82,7 @@ export class FormularioEmpleadosComponent implements OnInit {
     { label: 'Activo', value:'activo'},
     { label: 'Inactivo', value:'inactivo'},
   ] 
+  cedulaExiste: number;
 
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());
@@ -88,9 +93,9 @@ export class FormularioEmpleadosComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,           
               public dialogService: DialogService,
-              private puestosServ: PuestosService,
               private router: Router,
               private sucursalesServ: SucursalesService,
+              private globalFunction: GlobalFunctionsService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private datosEstaticosServ: DatosEstaticosService) {     
     this.usuario = this.usuariosServ.getUserLogged();
@@ -99,14 +104,11 @@ export class FormularioEmpleadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.rutaActual = this.router.url.split("/");
-    console.log(this.rutaActual);
     this.setMinDate();
     this.rangoAnio();
     this.listObserver();
     
-    this.empleadosServ.autoLlenado().then((resp: any) => {
-      console.log(resp);
-      
+    this.empleadosServ.autoLlenado().then((resp: any) => {      
       resp.forEach(element => {
         if (element.data.length === 0) {
           this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
@@ -135,7 +137,6 @@ export class FormularioEmpleadosComponent implements OnInit {
           case 'empresas':
             this.empresa = element.data;
             if (this.empresa.length === 1) {
-              console.log(this.empresa[0]);
               this.forma.get("cod_cia").setValue(this.empresa[0])
               this.buscaSucursales(this.empresa[0].cod_cia)
             }
@@ -181,15 +182,61 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
   
   listObserver = () => {
-    const observer1$ = this.puestosServ.puestoGuardada.subscribe((resp: any)=>{
-      this.puestos.push(resp);
-    })
-
-    const observer5$ = this.puestosServ.formSubmitted.subscribe((resp) => {
+    const observer1$ = this.empleadosServ.formSubmitted.subscribe((resp) => {
       this.formSubmitted = resp;
     })
 
-    this.listSubscribers = [observer1$,observer5$,observer5$];
+    const observer2$ = this.globalFunction.finalizar.subscribe((resp) => {
+      this.items = [];
+    })
+
+    const observer3$ = this.empleadosServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;
+      console.log(Number(resp));      
+      this.id = Number(resp);      
+      this.empleadosServ.getDato(this.id).then((res: any) => {
+        console.log(res);
+        //this.forma.patchValue(res);
+        this.datosLocalidad(res);
+        // Object.values(res).forEach(campos =>{           
+        //   console.log(campos);          
+        // })
+        for(const [key, value] of Object.entries(res)){
+          console.log(key, value)
+          if (this.forma.get(key) !== null && value !== null) {
+            if (key === 'fecha_entrada' || key === 'fecha_inicio_c' || key === 'fecha_nacimiento' || key === 'fecha_suspencion' ||
+              key === 'fecha_termino_contrato' || key === 'fecha_ultimo_aumento' || key === 'horario_inicial' || key === 'horario_final') {
+                this.forma.get(key).setValue(new Date(value.toString()));
+              } else {
+              this.forma.get(key).setValue(value);
+            }
+          } 
+        }
+        this.forma.get('educacion').setValue(this.educacion.find(data => data.id == res.educacion));
+        this.forma.get('cod_nac').setValue(this.paises.find(pais => pais.id_pais == res.cod_nac));
+        this.forma.get('tipo_sangre').setValue(this.tipo_sangre.find(data => data.id == res.tipo_sangre));
+        this.forma.get('sexo').setValue(res.sexo);
+        this.forma.get('turno').setValue(this.turno.find(data => data.id == res.turno));
+        this.forma.get('estado_civil').setValue(this.estado_civil.find(data => data.id == res.estado_civil));
+        this.forma.get('paga_seg').setValue(res.paga_seg);
+        this.forma.get('tipo_empleado').setValue(this.tipo_empleado.find(data => data.id == res.tipo_empleado));
+        this.forma.get('id_puesto').setValue(this.puestos.find(data => data.id == res.id_puesto));
+        this.forma.get('cod_cia').setValue(this.empresa.find(empresa => empresa.cod_cia == res.cod_cia));
+        this.forma.get('suc_id').setValue(this.sucursales.find(data => data.id == res.suc_id));
+        this.forma.get('departamento').setValue(this.departamento.find(data => data.id == res.departamento));
+        // this.forma.get('num_emp_supervisor').setValue(this.supervisores.find(data => data.id == res.id));
+        this.forma.get('area').setValue(this.areas.find(data => data.id == res.area));
+        this.forma.get('id_moneda').setValue(this.monedas.find(data => data.id == res.id_moneda));
+        this.forma.get('codbancodestino').setValue(this.bancos.find(banco => banco.id == res.codbancodestino));
+        this.forma.get('cuenta_no').setValue(this.cuentas.find(data => data.id == res.cuenta_no));
+        // this.forma.get('retiro_comercial').setValue(res.retiro_comercial);
+        this.forma.get('tipo_sueldo').setValue(res.tipo_sueldo);
+        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais == res.id_pais));  
+      })
+    })
+
+    this.listSubscribers = [observer1$, observer2$];
   };
 
   rangoAnio() {
@@ -200,26 +247,40 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    // this.formSubmitted = true;
-    console.log(this.forma);
-    this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Registro creado de manera correcta');        
-    })  
-    // if (this.forma.invalid) {  
-    //   this.formSubmitted = false;
-    //   this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
-    //   Object.values(this.forma.controls).forEach(control =>{     
-    //     console.log(control);             
-    //     control.markAllAsTouched();
-    //   })
-       
-    // }else{ 
-    //   this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
-    //     this.uiMessage.getMiniInfortiveMsg('tst','error','Excelente','Registro creado de manera correcta');        
-    //   })       
-    // } 
+    this.formSubmitted = true;
+    if (this.forma.invalid) {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control =>{           
+        control.markAllAsTouched();
+      })       
+    }else{ 
+      if (this.cedulaExiste === 2) {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'Ya existe un empleado registrado con este numero de cédula.');
+        return;
+      } else {
+        this.empleadosServ.crearEmpleado(this.forma.value).then(() => {
+          this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro creado de manera correcta');
+        });
+      }
+    } 
   }
     
+  actualizarEmpleado() {
+     // this.formSubmitted = true;
+    console.log(this.forma.value);
+    
+    if (this.forma.invalid) {
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control =>{           
+        control.markAllAsTouched();
+      })       
+    }else{ 
+      this.empleadosServ.actualizarEmpleado(this.id, this.forma.value).then(() => {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro creado de manera correcta');
+      });
+    }
+  }
+
   buscaRegion(event) {
       this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
       this.regiones = resp;
@@ -250,8 +311,7 @@ export class FormularioEmpleadosComponent implements OnInit {
     })   
   }
 
-  buscaSucursales(cod_cia) {  
-    this.formSubmitted = true;
+  buscaSucursales(cod_cia) {
     this.sucursalesServ.busquedaXempresa(cod_cia).then((resp: any) => {
       this.sucursales = resp; 
     })
@@ -279,21 +339,21 @@ export class FormularioEmpleadosComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({      
-      calle: ["asdads", Validators.required],
-      cedula: ["22500192319", Validators.required],
+      calle: ["", Validators.required],
+      cedula: ["", Validators.required],
       cod_cia: ["", Validators.required],
       cod_nac: [""],
-      cod_tss: ["234234", Validators.required],
+      cod_tss: ["", Validators.required],
       codbancodestino: [""],
-      codigo_es: ["234234"],
-      codigo_retiro_bco: ["345435"],
+      codigo_es: [""],
+      codigo_retiro_bco: [""],
       credito: [""],
-      cuenta_fi: ["2323"],
-      cuenta_no: ["234"],
+      cuenta_fi: [""],
+      cuenta_no: [""],
       departamento: ["", Validators.required],
       digiverbancodestino: [""],
       educacion: [""],
-      email: ["asdad@dfdf.com"],
+      email: [""],
       estado_civil: [""],
       estadolegal: [""],      
       fecha_entrada: ["", Validators.required],
@@ -303,6 +363,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       fecha_termino_contrato: [""],
       fecha_ultimo_aumento: [""],
       foto_empleado: [""],
+      tipo_sueldo: ["", Validators.required],
       area: ["", Validators.required],
       id_ciudad: ["", Validators.required],
       id_moneda: ["", Validators.required],
@@ -313,26 +374,26 @@ export class FormularioEmpleadosComponent implements OnInit {
       id_region: ["", Validators.required],
       id_sector: [""],
       is_sup: ["", Validators.required],
-      licencia: ["234234", Validators.required],
-      monto_adicional: ["23"],
-      no_cuenta_banco: ["23"],
-      nomina: ["23", Validators.required],
-      num_emp_supervisor: [""],
-      observacion: ["gfhfghfghfghf"],  
+      licencia: ["", Validators.required],
+      monto_adicional: [""],
+      no_cuenta_banco: [""],
+      nomina: ["", Validators.required],
+      // num_emp_supervisor: [""],
+      observacion: [""],  
       horario_inicial: [{value: '', disabled: true}],
       horario_final: [{value: '', disabled: true}],
       paga_seg: ["", Validators.required],
       poncha: ["", Validators.required],
-      primerapellido: ["rodriguez", Validators.required],
-      primernombre: ["valentin", Validators.required],
-      retiro_comercial: [""],
-      segundoapellido: ["martinez"],      
-      segundonombre: ["antonio"],
+      primerapellido: ["", Validators.required],
+      primernombre: ["", Validators.required],
+      // retiro_comercial: [""],
+      segundoapellido: [""],      
+      segundonombre: [""],
       sexo: ["", Validators.required],
       suc_id: ["", Validators.required],
       sueldo: ["", Validators.required],
-      tasa: ["2323"],
-      telefono: ["(666)-666-6666", Validators.required],
+      tasa: [""],
+      telefono: ["", Validators.required],
       tipo_empleado: ["", Validators.required],
       tipo_sangre: [""],
       tipocuenta: [""],
@@ -426,7 +487,7 @@ export class FormularioEmpleadosComponent implements OnInit {
     if (campo === 'fecha_termino_contrato') {
       const diferencia = this.datosEstaticosServ.getDiffMilliseconds(fecha1, fecha2);
       if (diferencia < 0) {
-        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de salida no puede ser menor a la fecha de contratacion.');
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'La fecha de salida no puede ser menor a la fecha de contratacion.');
         this.forma.get('fecha_termino_contrato').setValue('');
         return;
       }      
@@ -437,13 +498,12 @@ export class FormularioEmpleadosComponent implements OnInit {
         fecha2 = null;
       }
       const diferencia = this.datosEstaticosServ.isBetweenDate(fecha1, fecha2, fecha3);
-      console.log(diferencia);
       if (diferencia < 0) {
-        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de aumento debe ser mayor a la de contrato.');
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'La fecha de aumento debe ser mayor a la de contrato.');
       }
       
       if (diferencia === false) {
-        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', 'La fecha de aumento debe entre la de contrato y la de salida.');
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'La fecha de aumento debe entre la de contrato y la de salida.');
       }   
     }
     
@@ -469,7 +529,7 @@ export class FormularioEmpleadosComponent implements OnInit {
           break;
       }
       if (diferencia < 0) {
-        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atencion', `La ${temp} no puede ser menor a la de entrada.`);
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', `La ${temp} no puede ser menor a la de entrada.`);
         this.forma.get(campo).setValue('');
         return;
       }  
@@ -495,8 +555,23 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.forma.get('fecha_nacimiento').setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
   }
 
+  verificaCedula(data) {
+    if (data === "") {
+      this.cedulaExiste = 3;
+      return;
+    }
+    this.cedulaExiste = 0;
+    this.empleadosServ.busquedaCedula(data).then((resp: any)=>{
+      if(resp.length === 0) {
+        this.cedulaExiste = 1;
+      }else{
+        this.cedulaExiste = 2;
+        this.uiMessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'Ya existe un empleado registrado con este numero de cédula.');
+      }
+    })
+  }
+
   setHorarios(data) {
-    console.log(data);
     this.forma.get('horario_inicial').setValue(new Date(data.value.horario_inicial));
     this.forma.get('horario_final').setValue(new Date(data.value.horario_final));
   }
@@ -520,6 +595,53 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.empleadosServ.buscaSupervisores(id).then((resp: any) => {
       this.supervisores = resp;
     })
+  }
+  
+  datosLocalidad(data) {
+    this.formSubmitted = true;    
+           
+    this.paisesCiudadesServ.buscaRegion(data.id_pais).then((resp:any) => { 
+      this.regiones = resp;      
+      this.forma.get('id_region').setValue(this.regiones.find(region => region.id_region == data.id_region));
+   
+      this.paisesCiudadesServ.buscaProvincias(data.id_region).then((resp: any) => {
+        this.provincias = resp;
+        this.forma.get('id_provincia').setValue(this.provincias.find(provincia => provincia.id_provincia == data.id_provincia));
+      
+        this.paisesCiudadesServ.buscaMunicipios(data.id_provincia).then((resp: any) => {
+          this.municipios = resp;
+          this.forma.get('id_municipio').setValue(this.municipios.find(municipio => municipio.id_municipio == data.id_municipio));
+
+          this.paisesCiudadesServ.buscaCiudad(data.id_municipio).then((resp: any) => {
+            if (data.length !== 0) {
+              this.ciudades = resp;
+              this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad == data.id_ciudad));              
+            }
+
+            this.paisesCiudadesServ.buscaSector(data.id_ciudad).then((resp: any) => {
+              if (data.length !== 0) {
+                this.sectores = resp;
+                this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector == data.id_sector));                
+              }
+              this.formSubmitted = false;
+            })
+          })
+        });          
+      });
+    })
+  }
+  
+  cancelar() {
+    this.actualizar = false;
+    this.guardar = true;
+    this.resetFormulario();
+    this.empleadosServ.guardando();    
+  }
+
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
   getNoValido(input: string) {

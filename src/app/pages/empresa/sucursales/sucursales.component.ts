@@ -19,6 +19,7 @@ export class SucursalesComponent implements OnInit {
   cols: any[];
   detalles: any;
   formSubmitted = false;
+  listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -28,34 +29,42 @@ export class SucursalesComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
-  ngOnInit(): void {
-    this.todasLasSucursales();
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
 
-    this.sucursalesServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    })
+  ngOnInit(): void {
+    this.listObserver();
+    this.todasLasSucursales();
 
     this.cols = [
       { field: 'id', header: 'Código' },
       { field: 'descripcion', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
-    ] 
+    ];
+  }
 
-    this.sucursalesServ.sucursalesGuardada.subscribe((resp: any)=>{
+  listObserver = () => {
+    const observer1$ = this.sucursalesServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+    const observer2$ = this.sucursalesServ.sucursalesGuardada.subscribe(()=>{
       this.todasLasSucursales();
     })
 
-    this.sucursalesServ.sucursalesBorrada.subscribe((resp: any)=>{      
+    const observer3$ = this.sucursalesServ.sucursalesBorrada.subscribe(()=>{      
       this.todasLasSucursales();   
     })
 
-    this.sucursalesServ.sucursalesAct.subscribe((resp: any) => {
+    const observer4$ = this.sucursalesServ.sucursalesAct.subscribe(() => {
       this.todasLasSucursales();
     })
 
-    this.sucursalesServ.formSubmitted.subscribe((resp: any) => {
+    const observer5$ = this.sucursalesServ.formSubmitted.subscribe((resp: any) => {
       this.formSubmitted = resp;
     })
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$];
   }
 
   todasLasSucursales() {

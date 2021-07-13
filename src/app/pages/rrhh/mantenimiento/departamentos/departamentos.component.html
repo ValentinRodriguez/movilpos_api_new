@@ -3,7 +3,7 @@
 	<div class="p-col-12">
 		<div class="card">
             <h5>Gestión de Departamentos</h5>
-            <p-tabView orientation="left">
+            <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="departamentos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
 						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
@@ -70,6 +70,8 @@
                 <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
 					<app-formulario-departamentos></app-formulario-departamentos>
                 </p-tabPanel>
+				<br>
+				<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
             </p-tabView>
 		</div>	
 		

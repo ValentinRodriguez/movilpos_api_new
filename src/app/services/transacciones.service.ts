@@ -45,8 +45,8 @@ export class TransaccionesService {
           data[key] = transaccion[key].id_bodega
           break;
 
-        case 'id_numemp':
-          data[key] = transaccion[key].id_numemp
+        case 'id':
+          data[key] = transaccion[key].id
           break;
 
         case 'id_tipomov':

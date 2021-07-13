@@ -106,7 +106,7 @@ export class FormularioClientesComponent implements OnInit {
         this.forma.patchValue(res);
         this.forma.get('tipo_documento').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_documento)); 
         this.forma.get('tipo_cliente').setValue(this.tipo_cliente.find(doc => doc.tipo_cliente == res.tipo_cliente)); 
-        this.forma.get('vendedor').setValue(this.vendedor.find(doc => doc.id_numemp == res.vendedor)); 
+        this.forma.get('vendedor').setValue(this.vendedor.find(doc => doc.id == res.vendedor)); 
         this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago));
         this.forma.get('tipo_negocio').setValue(this.tiponegocio.find(doc => doc.tipo_negocio == res.tipo_negocio)); 
         // this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    

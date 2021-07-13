@@ -18,6 +18,8 @@ export class DepartamentosComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
+  formSubmitted = false;
+  index: number = 0;
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -38,6 +40,10 @@ export class DepartamentosComponent implements OnInit {
       { field: 'acciones', header: 'Acciones' },
     ] 
 
+    this.departamentoServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    })
+
     this.departamentoServ.departamentoEscogido.subscribe((resp: any)=>{
       this.todasLosDepartamentos();
     })
@@ -49,23 +55,29 @@ export class DepartamentosComponent implements OnInit {
     this.departamentoServ.departamentoAct.subscribe((resp: any) => {
       this.todasLosDepartamentos();
     })
+
+    this.departamentoServ.formSubmitted.subscribe(resp => {
+      this.formSubmitted = resp;
+    });
   }
 
   todasLosDepartamentos() {
+    this.formSubmitted = true;
     this.departamentoServ.getDatos().then((resp: any) => {
       this.departamentos = resp;
     })
   }
 
-  actualizarDepartamento(departamento) {
-    
+  actualizarDepartamento(data) {
+    this.index = 1;   
+    this.departamentoServ.actualizando(data);
   }
 
   borrarDepartamento(departamento) { 
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.departamentoServ.borrarDepartamento(departamento).then((resp: any)=>{
+        this.departamentoServ.borrarDepartamento(departamento).then(()=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

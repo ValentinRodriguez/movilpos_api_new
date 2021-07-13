@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { DatosEstaticosService } from './datos-estaticos.service';
 
 const URL = environment.url;
 @Injectable({
@@ -15,7 +16,7 @@ export class TurnosService {
   guardar = new EventEmitter();
   formSubmitted = new EventEmitter();
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private datosEstaticos: DatosEstaticosService) { }
 
   busquedaTurno(parametro?: any) {
     let params = new HttpParams();

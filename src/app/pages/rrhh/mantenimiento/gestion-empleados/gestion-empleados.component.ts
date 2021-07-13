@@ -22,6 +22,8 @@ export class GestionEmpleadosComponent implements OnInit {
   actualizar = false;
   cols: any[];
   formSubmitted = false;
+  listSubscribers: any = [];
+  index = 0;
 
   constructor(private empleadosServ: RrhhService,
               private usuariosServ: UsuarioService,
@@ -30,16 +32,17 @@ export class GestionEmpleadosComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged();
               }
 
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+            
   ngOnInit(): void {    
     this.todosLosEmpleados();
-
-    this.empleadosServ.formSubmitted.subscribe(resp => {
-      this.formSubmitted = resp;
-    });
+    this.listObserver();
     
     this.cols = [
       { field: 'foto_empleado', header: 'Foto' },
-      { field: 'id_numemp', header: 'Código' },
+      { field: 'id', header: 'Código' },
       { field: 'cedula', header: 'Cédula' },
       { field: 'depto', header: 'Departamento' },
       { field: 'fecha_entrada', header: 'Entrada' },
@@ -48,6 +51,35 @@ export class GestionEmpleadosComponent implements OnInit {
     ] 
   }
 
+  listObserver = () => {
+    const observer1$ = this.empleadosServ.formSubmitted.subscribe((resp) => {
+      this.formSubmitted = resp;
+    });
+
+    const observer2$ = this.empleadosServ.empleadoEscogido.subscribe(() => {
+      this.todosLosEmpleados();
+    });
+
+    const observer3$ = this.empleadosServ.empleadoAct.subscribe(() => {
+      this.todosLosEmpleados();
+    });
+
+    const observer4$ = this.empleadosServ.empleadoBorrado.subscribe(() => {
+      this.todosLosEmpleados();
+    });
+
+    const observer5$ = this.empleadosServ.guardar.subscribe((resp: any) => {
+      console.log(resp);      
+      this.index = resp;
+    });
+
+    const observer6$ = this.empleadosServ.empleadoCreado.subscribe(() => {
+      this.todosLosEmpleados();
+    });
+
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$, observer5$,observer6$];
+  };
+
   todosLosEmpleados() {
     this.formSubmitted = true;
     this.empleadosServ.getDatos().then((resp:any) =>{          
@@ -55,8 +87,9 @@ export class GestionEmpleadosComponent implements OnInit {
     })
   }
 
-  actualizarEmpleado(empleado) {
-    
+  actualizarEmpleado(data) {
+    this.index = 1;   
+    this.empleadosServ.actualizando(data);
   }
 
   ausenciasEmpleado(empleado) {

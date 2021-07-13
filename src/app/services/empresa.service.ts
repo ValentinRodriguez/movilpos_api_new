@@ -59,6 +59,17 @@ export class EmpresaService {
     })
   }
 
+  autoLlenado() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/autollenado-empresa`).subscribe((resp: any) => {      
+        this.formSubmitted.emit(false);                              
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   getDato(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {

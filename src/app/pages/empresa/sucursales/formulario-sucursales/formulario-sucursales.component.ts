@@ -20,7 +20,6 @@ export class FormularioSucursalesComponent implements OnInit {
   usuario: any;
   
   guardar = true;
-  actualizando = false;
   actualizar = false;
   sucursalesExiste = 3;
   formSubmitted = false;
@@ -42,6 +41,7 @@ export class FormularioSucursalesComponent implements OnInit {
               private paisesCiudadesServ: PaisesCiudadesService,
               private empresasServ: EmpresaService,
               private router: Router,
+              private datosEstaticosServ: DatosEstaticosService,
               private globalFunction: GlobalFunctionsService,
               private sucursalesServ: SucursalesService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
@@ -53,11 +53,9 @@ export class FormularioSucursalesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rutaActual = this.router.url.split("/");
-    console.log(this.rutaActual);
-    this.todasLasEmpresas();
-    this.todosLosPaises();
     this.listObserver();
+    this.rutaActual = this.router.url.split("/");
+    this.todaLaData();
   }
 
   listObserver = () => {
@@ -78,14 +76,14 @@ export class FormularioSucursalesComponent implements OnInit {
 
     
     const observer3$ = this.empresasServ.empresaCreada.subscribe((resp: any) =>{
-      this.todasLasEmpresas();
+      this.todaLaData();
     })
 
     const observer8$ = this.globalFunction.finalizar.subscribe((resp) => {
       this.items = [];
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer8$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer8$];
    };
 
   crearFormulario() {
@@ -107,20 +105,26 @@ export class FormularioSucursalesComponent implements OnInit {
     })
   }
 
-  todasLasEmpresas() {
-    this.empresasServ.getDatos().then((resp: any) => {
-      this.empresas = resp;
-      console.log(resp);
-      if (resp.length === 0) {
-        this.items.push({ label: 'Empresa', routerLink: 'empresa' })
-        console.log(this.items);        
-      }
-    })
-  }
+  todaLaData() {
+    this.empresasServ.autoLlenado().then((resp: any) => {
+      console.log(resp);      
+      resp.forEach(element => {
+        if (element.data.length === 0) {
+          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})      
+        }
+        switch (element.label) {
+          case 'empresas':
+            this.empresas = element.data;
+            break;
 
-  todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
-      this.paises = resp;   
+          case 'paises':
+            this.paises = element.data;
+            break;
+
+          default:
+            break;
+        }
+      }); 
     })
   }
   
@@ -201,6 +205,8 @@ export class FormularioSucursalesComponent implements OnInit {
   }
 
   datosLocalidad(data) {
+    console.log(data);
+    
     this.formSubmitted = true;
     this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === data.value.id_pais)); 
         
@@ -227,6 +233,7 @@ export class FormularioSucursalesComponent implements OnInit {
                 this.sectores = resp;
                 this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector === data.value.id_sector));                
               }
+              this.forma.get('calle').setValue(data.value.calle);   
               this.formSubmitted = false;
             })
           })

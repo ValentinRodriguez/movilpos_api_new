@@ -71,7 +71,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
       this.forma.get('name').setValue((resp.primernombre));
       this.forma.get('surname').setValue(resp.primerapellido);
       this.forma.get('email').setValue(resp.email);
-      this.forma.get('id_numemp').setValue(resp.id_numemp);
+      this.forma.get('id').setValue(resp.id);
     })
   }
 
@@ -81,7 +81,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
       surname:               ['', Validators.required],
       username:              ['', Validators.required],
       email:                 ['', Validators.required],
-      id_numemp:             ['', Validators.required],
+      id:             ['', Validators.required],
       password:              [, Validators.required],
       password_confirmation: [, Validators.required],
       estado:                ['activo', Validators.required],

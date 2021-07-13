@@ -50,7 +50,7 @@ export class RequisicionesService {
         break;
         
         case 'cod_emp_sec':
-          formData.append(key, requisicion[key].id_numemp)
+          formData.append(key, requisicion[key].id)
         break;
 
         case 'cliente':

@@ -233,7 +233,7 @@ export class InterfazVentas2Component implements OnInit {
             id_zonalocal:    [''],
             tipo_cliente:    [''],
             sec_cliente:     [''],
-            num_emp:         [this.usuario.empleado.id_numemp, Validators.required],
+            num_emp:         [this.usuario.empleado.id, Validators.required],
             total_bruto:     ['', Validators.required],
             sub_total:       ['', Validators.required],
             descuento:       ['', Validators.required],
@@ -439,7 +439,7 @@ export class InterfazVentas2Component implements OnInit {
         this.forma.reset();
         this.forma.get('fecha_factura').setValue(this.fecha);
         this.forma.get('nombre_cli').setValue('CLIENTE CONTADO');
-        this.forma.get('num_emp').setValue(this.usuario.empleado.id_numemp);
+        this.forma.get('num_emp').setValue(this.usuario.empleado.id);
         this.forma.get('estado').setValue('activo');
         this.forma.get('usuario_creador').setValue(this.usuario.username);
         let i = 0;
