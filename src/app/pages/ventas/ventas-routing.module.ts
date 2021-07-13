@@ -15,6 +15,7 @@ import { FormularioTiponegocioComponent } from '../empresa/tipo-negocio/formular
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/tabla-amortizaciones.component';
 import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/interfaz-ventas2.component';
+import { FormularioEmpleadosComponent } from '../rrhh/mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 
 @NgModule({
   imports: [
@@ -22,23 +23,24 @@ import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/inter
       {
        path: '',
        children: [
-        {path: '', component: RecepcionVehiculosComponent, children:[      
+        {path: 'estion-recepcion-vehiculos', component: RecepcionVehiculosComponent, children:[      
           {path: 'clientes', component: FormularioClientesComponent},
           {path: 'modelos', component: FormularioCatComponent},
           {path: 'marcas', component: FormularioMarcaComponent},
           {path: 'propiedades', component: FormularioPropiedadesComponent},
         ]},
-        {path: '', component: ClientesComponent, children:[         
+        {path: 'gestion-de-clientes', component: ClientesComponent, children:[         
           {path: 'tipo-negocio', component: FormularioTiponegocioComponent},
-          {path: 'tipo-cliente', component: FormularioTipoClientesComponent},
+          { path: 'tipo-cliente', component: FormularioTipoClientesComponent },
+          {path: 'vendedor', component: FormularioEmpleadosComponent},
         ]},
-        {path: 'gestion-de-clientes', component: ClientesComponent},
+        // {path: 'gestion-de-clientes', component: ClientesComponent},
         {path: 'interfaz-ventas', component: InterfazVentas2Component},
         {path: 'gestion-de-ordenes-de-pedidos', component: OrdenesPedidosComponent},
         {path: 'condiciones-de-pago', component: CondicionesPagoComponent},
         {path: 'acto-descargo', component: ActoDescargoComponent},
         {path: 'tabla-amortizaciones', component: TablaAmortizacionesComponent},
-        {path: 'gestion-recepcion-vehiculos', component: RecepcionVehiculosComponent}      
+        // {path: 'gestion-recepcion-vehiculos', component: RecepcionVehiculosComponent}      
        ]},
     ])
   ],

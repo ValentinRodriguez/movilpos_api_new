@@ -68,6 +68,7 @@ export class TiposProveedoresComponent implements OnInit {
   };
   
   todosLosTiposP() {
+    this.formSubmitted = true;
     this.tipoProveedorServ.getDatos().then((resp: any) => {
       this.tipo = resp;
     })

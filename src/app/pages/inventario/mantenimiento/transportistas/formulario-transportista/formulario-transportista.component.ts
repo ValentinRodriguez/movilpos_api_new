@@ -85,7 +85,6 @@ export class FormularioTransportistaComponent implements OnInit {
       nombre:              ['', Validators.required],
       cod_transportista:   ['', Validators.required],
       calle:               ['', Validators.required],
-      casa_num:            ['', Validators.required],
       telefono:            ['', Validators.required],
       id_pais:             ['', Validators.required],
       // id_zona:             ['', Validators.required],
@@ -93,7 +92,7 @@ export class FormularioTransportistaComponent implements OnInit {
       id_provincia:        ['', Validators.required],
       id_municipio:        ['', Validators.required],
       id_ciudad:           ['', Validators.required],
-      id_sector:           ['', Validators.required],
+      id_sector:           [''],
       estado:              ['activo', Validators.required],
       usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']

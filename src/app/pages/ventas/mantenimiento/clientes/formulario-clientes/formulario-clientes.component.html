@@ -260,13 +260,6 @@
                 [class.ng-invalid]="getNoValido('calle')" [class.ng-dirty]="getNoValido('calle')"/>
                 <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
-
-            <div class="p-field p-col-12 p-md-3">
-                <label for="casa_num">Casa NO.</label>
-                <input pInputText type="text" inputId="casa_num" mode="decimal" name="casa_num" formControlName="casa_num"
-                [class.ng-invalid]="getNoValido('casa_num')" [class.ng-dirty]="getNoValido('casa_num')"/>
-                <small *ngIf="getNoValido('casa_num')" class="p-invalid">Este campo es obligatorio.</small>
-            </div>  
         </div>
     </p-panel>
 

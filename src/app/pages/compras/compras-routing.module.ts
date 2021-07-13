@@ -20,17 +20,17 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
       {
        path: '',
        children: [
-        {path: '', component: OrdenesComprasComponent, children:[
+        {path: 'gestion-de-ordenes-compras', component: OrdenesComprasComponent, children:[
           {path: 'puertos', component: FormularioPuertosComponent},
           {path: 'direcciones', component: FormularioDireccionesComponent},
           {path: 'proveedores', component: FormularioProveedoresComponent},
         ]},
-        {path: '', component: ProveedoresComponent, children:[
+        {path: 'gestion-de-proveedores', component: ProveedoresComponent, children:[
           {path: 'catalogo', component: FormularioCgcatalogoComponent},
           {path: 'tipo-proveedor', component: FormularioTipoProveedoresComponent},
         ]},
-        {path: 'gestion-de-proveedores', component: ProveedoresComponent},
-        {path: 'gestion-de-ordenes-compras', component: OrdenesComprasComponent},
+        // {path: 'gestion-de-proveedores', component: ProveedoresComponent},
+        // {path: 'gestion-de-ordenes-compras', component: OrdenesComprasComponent},
         {path: 'gestion-de-requisiciones', component: RequisicionesComponent},
         {path: 'gestion-de-puertos', component: PuertosComponent},
         {path: 'gestion-direcciones-envio', component: DireccionesEnvioComponent},                    

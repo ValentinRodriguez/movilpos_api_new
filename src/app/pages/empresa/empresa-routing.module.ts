@@ -9,6 +9,7 @@ import { TipoClientesComponent } from './tipo-clientes/tipo-clientes.component';
 import { TipoNegocioComponent } from './tipo-negocio/tipo-negocio.component';
 import { ZonasComponent } from './zonas/zonas.component';
 import { FormularioEmpresaComponent } from './empresa/formulario-empresa/formulario-empresa.component';
+import { TiposProveedoresComponent } from './tipos-proveedores/tipos-proveedores.component';
 
 
 @NgModule({
@@ -22,8 +23,9 @@ import { FormularioEmpresaComponent } from './empresa/formulario-empresa/formula
           { path: 'gestion-de-tipo-clientes', component: TipoClientesComponent },        
           { path: 'gestion-de-monedas', component: MonedasComponent },        
           { path: 'gestion-de-zonas', component: ZonasComponent },
-          { path: 'gestion-de-sucursales', component: SucursalesComponent },
-          { path: '', component: SucursalesComponent, children: [           
+          //  { path: 'gestion-de-sucursales', component: SucursalesComponent },
+         { path: 'gestion-tipo-proveedores', component: TiposProveedoresComponent },
+          { path: 'gestion-de-sucursales', component: SucursalesComponent, children: [           
            { path: 'empresas', component: FormularioEmpresaComponent }           
          ]},
        ]

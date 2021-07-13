@@ -26,13 +26,12 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
         {path: 'gestion-transacciones-pago', component: TransaccionesPagoComponent},
         {path: 'gastos-departamento', component: GastosDepartamentosComponent},
         { path: 'reporte-mayor-general', component: MayorGeneralComponent },
-        { path: '', component: CuadreCajaComponent, children: [
+        { path: 'cuadre-caja', component: CuadreCajaComponent, children: [
           { path: 'turnos', component: FormularioTurnosComponent },
           { path: 'sucursales', component: FormularioSucursalesComponent },
           { path: 'empleado-caja', component: FormularioEmpleadosComponent },
           { path: 'area-caja', component: FormularioAreaEmpresasComponent },
-        ]},
-        { path: 'cuadre-caja', component: CuadreCajaComponent },
+        ]}
        ]
       }
     ])

@@ -12,8 +12,8 @@ import { FormularioCgcatalogoComponent } from '../contabilidad-general/mantenimi
       {
        path: '',
        children: [
-        {path: '', component: DashboardDemoComponent, children:[
-          {path:'', redirectTo: 'empresa', pathMatch: 'full'},
+        {path: 'dashboard', component: DashboardDemoComponent, children:[
+          // {path:'', redirectTo: 'empresa', pathMatch: 'full'},
           {path: 'empresa', component: FormularioEmpresaComponent},
           {path: 'catalogo', component: FormularioCgcatalogoComponent},
         ]},

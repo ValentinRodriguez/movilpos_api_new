@@ -1,66 +1,76 @@
-<p-tabView [(activeIndex)]="index">
-    <p-tabPanel header="Consultar">
-        <p-table #dt [columns]="cols" [value]="tipo" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                 [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','cuenta']">
-    
-        <ng-template pTemplate="caption">
-            <div class="table-header">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
-                </span>
-            </div>
-        </ng-template>
-        
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                    {{col.header}}									
-                    <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
-                </th>
-            </tr>
-        </ng-template>
-        
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr class="p-selectable-row">
-            
-                <td *ngFor="let col of columns">
-                    <span class="p-column-title">{{col.header}}</span>								
-            
-                    <span *ngIf="col.field === 'descripcion'">
-                        {{rowData[col.field] | uppercase}}
-                    </span>
-    
-                    <span *ngIf="col.field === 'cuenta_no'">
-                        {{rowData[col.field] }}
-                    </span>
+
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+            <h5>Gestión de Tipos de Proveedores</h5>
+            <p-tabView [(activeIndex)]="index">
+                <p-tabPanel header="Consultar">
+                    <p-table #dt [columns]="cols" [value]="tipo" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                             [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','cuenta']">
+                
+                    <ng-template pTemplate="caption">
+                        <div class="table-header">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
+                            </span>
+                        </div>
+                    </ng-template>
                     
-                    <span *ngIf="col.field === 'acciones'">
-                        <button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2"></button>
-                        <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarTproveedor(rowData.tipo_proveedor)"></button>
-                        <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTproveedor(rowData.tipo_proveedor)"></button>
-                        <!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
-                    </span>
-                </td>								
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="8">No existen modelos en la base de datos.</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-            <div class="p-d-flex p-ai-center p-jc-between" *ngIf="tipo.length !== 1">
-                Existen {{tipo ? tipo.length : 0 }} tipos en total.
-            </div>
-            
-            <div class="p-d-flex p-ai-center p-jc-between" *ngIf="tipo.length === 1">
-                Existe solo {{tipo ? tipo.length : 0 }} tipo en total.
-            </div>
-        </ng-template>
-        </p-table>
-    </p-tabPanel>
-    <p-tabPanel header="Adicionar">
-        <app-formulario-tipo-proveedores></app-formulario-tipo-proveedores>
-    </p-tabPanel>
-</p-tabView>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}									
+                                <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr class="p-selectable-row">
+                        
+                            <td *ngFor="let col of columns">
+                                <span class="p-column-title">{{col.header}}</span>								
+                        
+                                <span *ngIf="col.field === 'descripcion'">
+                                    {{rowData[col.field] | uppercase}}
+                                </span>
+                
+                                <span *ngIf="col.field === 'cuenta_no'">
+                                    {{rowData[col.field] }}
+                                </span>
+                                
+                                <span *ngIf="col.field === 'acciones'">
+                                    <button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2"></button>
+                                    <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarTproveedor(rowData.tipo_proveedor)"></button>
+                                    <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTproveedor(rowData.tipo_proveedor)"></button>
+                                    <!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
+                                </span>
+                            </td>								
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">No existen tipos de proveedores en la base de datos.</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="tipo.length !== 1">
+                            Existen {{tipo ? tipo.length : 0 }} tipos en total.
+                        </div>
+                        
+                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="tipo.length === 1">
+                            Existe solo {{tipo ? tipo.length : 0 }} tipo en total.
+                        </div>
+                    </ng-template>
+                    </p-table>
+                </p-tabPanel>
+                <p-tabPanel header="Adicionar">
+                    <app-formulario-tipo-proveedores></app-formulario-tipo-proveedores>
+                </p-tabPanel>
+            </p-tabView>
+            <p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+        </div>
+    </div>
+</div>
+<p-toast key="tst"></p-toast>

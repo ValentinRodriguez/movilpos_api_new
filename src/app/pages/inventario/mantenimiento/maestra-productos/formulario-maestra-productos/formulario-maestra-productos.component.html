@@ -1,4 +1,8 @@
-<div class="intermitente" *ngIf="this.items.length !== 0 && this.rutaActual[1] === 'inventario'">
+<div class="intermitente" *ngIf="this.items.length !== 0 && this.rutaActual[1] === 'inventario' && (this.rutaActual[2] === 'gestion-de-productos' ||
+                                                                                                    this.rutaActual[2] === 'tipo-inventario' ||
+                                                                                                    this.rutaActual[2] === 'marcas' ||
+                                                                                                    this.rutaActual[2] === 'modelos' ||
+                                                                                                    this.rutaActual[2] === 'color')">
 	<p-accordion styleClass="intermitente">
 		<p-accordionTab header="CLICK AQUI PARA INSERCION DE DATOS INICALES">       
 		   <div class="card">
@@ -11,8 +15,10 @@
 	</p-accordion>
 </div>
 <br>
-<button *ngIf="this.rutaActual[1] !== 'inventario'" pButton pRipple label="Ir a Formulario de Clientes" 
-        icon="pi pi-chevron" type="button" (click)="redirigir()">
+<button *ngIf="this.rutaActual[1] !== 'inventario' || (this.rutaActual[2] === 'clientes' || this.rutaActual[2] === 'transportista' ||
+               this.rutaActual[2] === 'proveedores' || this.rutaActual[2] === 'movimientos' || this.rutaActual[2] === 'productos' ||
+               this.rutaActual[2] === 'tipo-negocio' || this.rutaActual[2] === 'vendedor' || this.rutaActual[2] === 'departamentos')"
+               pButton pRipple label="Ir a Formulario de Clientes" icon="pi pi-chevron" type="button" (click)="redirigir()">
 </button>
 <br>
 <form (ngSubmit)="guardarProducto()" [formGroup]="forma" *ngIf="this.rutaActual[1] === 'inventario'">

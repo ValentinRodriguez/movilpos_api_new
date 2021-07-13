@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormularioProveedoresComponent } from '../compras/mantenimiento/proveedores/formulario-proveedores/formulario-proveedores.component';
 import { FormularioTiponegocioComponent } from '../empresa/tipo-negocio/formulario-tiponegocio/formulario-tiponegocio.component';
+import { FormularioDepartamentosComponent } from '../rrhh/mantenimiento/departamentos/formulario-departamentos/formulario-departamentos.component';
+import { FormularioEmpleadosComponent } from '../rrhh/mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 import { FormularioClientesComponent } from '../ventas/mantenimiento/clientes/formulario-clientes/formulario-clientes.component';
 
 //COMPONENTES DEL PROYECTO
@@ -31,27 +33,29 @@ import { TransportistasComponent } from './mantenimiento/transportistas/transpor
       {
        path: '',
        children: [
-        {path: '', component: TransaccionesInventarioComponent, children:[
+        {path: 'gestion-transacciones-inventario', component: TransaccionesInventarioComponent, children:[
           {path: 'clientes', component: FormularioClientesComponent},
           {path: 'transportista', component: FormularioTransportistaComponent},
           {path: 'proveedores', component: FormularioProveedoresComponent},
           {path: 'movimientos', component: FormularioTipoMovComponent},
           {path: 'productos', component: FormularioMaestraProductosComponent},
-          {path: 'tipo-negocio', component: FormularioTiponegocioComponent},
+          { path: 'tipo-negocio', component: FormularioTiponegocioComponent },
+          { path: 'vendedor', component: FormularioEmpleadosComponent },
+          {path: 'departamentos', component: FormularioDepartamentosComponent},
         ]},
-        {path: '', component: MaestraProductosComponent, children:[
+        {path: 'gestion-de-productos', component: MaestraProductosComponent, children:[
           {path: 'tipo-inventario', component: FormularioTipoinvComponent},
           {path: 'marcas', component: FormularioMarcaComponent},
           {path: 'modelos', component: FormularioCatComponent},
           {path: 'color', component: FormularioPropiedadesComponent}
         ]},
-        {path: 'gestion-de-productos', component: MaestraProductosComponent},
+        // {path: 'gestion-de-productos', component: MaestraProductosComponent},
         {path: 'gestion-de-bodegas', component: BodegasComponent},     
         {path: 'gestion-de-modelos', component: CategoriasComponent},                 
         {path: 'gestion-tipos-inventarios', component: TiposInventariosComponent}, 
         {path: 'gestion-de-marcas', component: MarcasComponent},
         {path: 'gestion-tipos-movimientos', component: TiposMovimientosComponent},  
-        {path: 'gestion-transacciones-inventario', component: TransaccionesInventarioComponent},
+        // {path: 'gestion-transacciones-inventario', component: TransaccionesInventarioComponent},
         {path: 'gestion-de-transportistas', component: TransportistasComponent},
         {path: 'gestion-de-propiedades', component: PropiedadesComponent},
         {path: 'gestion-existencias-almacenes', component: ExistenciasAlmacenesComponent},

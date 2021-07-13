@@ -108,11 +108,9 @@
     
             <div class="p-field p-col-12 p-md-3">
                 <label for="id_sector">Sector</label>
-                <p-dropdown input  [options]="sectores" [class.ng-invalid]="getNoValido('id_sector')" 
-                            [class.ng-dirty]="getNoValido('id_sector')" name="id_sector" formControlName="id_sector" 
+                <p-dropdown input  [options]="sectores" name="id_sector" formControlName="id_sector" 
                             id="drop-down" placeholder="Escoje.." optionLabel="descripcion">
                 </p-dropdown>
-                <small *ngIf="getNoValido('id_sector')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
 
             <div class="p-field p-col-12 p-md-3">
@@ -121,13 +119,6 @@
                 [class.ng-invalid]="getNoValido('calle')" [class.ng-dirty]="getNoValido('calle')"/>
                 <small *ngIf="getNoValido('calle')" class="p-invalid">Este campo es obligatorio.</small>
             </div>
-
-            <div class="p-field p-col-12 p-md-3">
-                <label for="casa_num">Casa NO.</label>
-                <input pInputText type="text" inputId="casa_num" mode="decimal" name="casa_num" formControlName="casa_num"
-                [class.ng-invalid]="getNoValido('casa_num')" [class.ng-dirty]="getNoValido('casa_num')"/>
-                <small *ngIf="getNoValido('casa_num')" class="p-invalid">Este campo es obligatorio.</small>
-            </div>   
         </div>
     </p-panel>
 

@@ -20,7 +20,9 @@ export class DashboardDemoComponent implements OnInit {
                 private permisosServ: RolesService,
                 private datosEstaticosServ: DatosEstaticosService) { }
 
-    ngOnInit() {   
+    ngOnInit() {
+        console.log('aqui');
+        
         this.permisosServ.permisos.subscribe((resp: any) => {
           const perfiles = JSON.parse(resp.perfil);          
         })

@@ -223,7 +223,6 @@ export class FormularioClientesComponent implements OnInit {
       id_ciudad:            [''],
       id_sector:            [''],
       calle:                [''],
-      casa_num:             [''],
       celular:              ['(555)-555-5555', Validators.required],
       telefono_casa:        ['(555)-555-5555'],
       email:                ['valentinrodriguez1427@gmail.com'],      
@@ -239,7 +238,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    // this.formSubmitted = true;  
+    this.formSubmitted = true;  
     console.log(this.forma.value);    
     if (this.forma.invalid) {
       this.formSubmitted = false;
