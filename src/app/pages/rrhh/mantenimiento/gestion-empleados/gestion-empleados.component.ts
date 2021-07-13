@@ -92,6 +92,10 @@ export class GestionEmpleadosComponent implements OnInit {
     this.empleadosServ.actualizando(data);
   }
 
+  duplicarEmpleado(data) {
+    this.index = 1;   
+    this.empleadosServ.duplicando(data);
+  }
   ausenciasEmpleado(empleado) {
      this.dialogService.open(AusenciasComponent, {
       data: { empleado },

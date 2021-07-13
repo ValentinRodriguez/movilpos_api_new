@@ -197,47 +197,58 @@ export class FormularioEmpleadosComponent implements OnInit {
       this.id = Number(resp);      
       this.empleadosServ.getDato(this.id).then((res: any) => {
         console.log(res);
-        //this.forma.patchValue(res);
         this.datosLocalidad(res);
-        // Object.values(res).forEach(campos =>{           
-        //   console.log(campos);          
-        // })
-        for(const [key, value] of Object.entries(res)){
-          console.log(key, value)
-          if (this.forma.get(key) !== null && value !== null) {
-            if (key === 'fecha_entrada' || key === 'fecha_inicio_c' || key === 'fecha_nacimiento' || key === 'fecha_suspencion' ||
-              key === 'fecha_termino_contrato' || key === 'fecha_ultimo_aumento' || key === 'horario_inicial' || key === 'horario_final') {
-                this.forma.get(key).setValue(new Date(value.toString()));
-              } else {
-              this.forma.get(key).setValue(value);
-            }
-          } 
-        }
-        this.forma.get('educacion').setValue(this.educacion.find(data => data.id == res.educacion));
-        this.forma.get('cod_nac').setValue(this.paises.find(pais => pais.id_pais == res.cod_nac));
-        this.forma.get('tipo_sangre').setValue(this.tipo_sangre.find(data => data.id == res.tipo_sangre));
-        this.forma.get('sexo').setValue(res.sexo);
-        this.forma.get('turno').setValue(this.turno.find(data => data.id == res.turno));
-        this.forma.get('estado_civil').setValue(this.estado_civil.find(data => data.id == res.estado_civil));
-        this.forma.get('paga_seg').setValue(res.paga_seg);
-        this.forma.get('tipo_empleado').setValue(this.tipo_empleado.find(data => data.id == res.tipo_empleado));
-        this.forma.get('id_puesto').setValue(this.puestos.find(data => data.id == res.id_puesto));
-        this.forma.get('cod_cia').setValue(this.empresa.find(empresa => empresa.cod_cia == res.cod_cia));
-        this.forma.get('suc_id').setValue(this.sucursales.find(data => data.id == res.suc_id));
-        this.forma.get('departamento').setValue(this.departamento.find(data => data.id == res.departamento));
-        // this.forma.get('num_emp_supervisor').setValue(this.supervisores.find(data => data.id == res.id));
-        this.forma.get('area').setValue(this.areas.find(data => data.id == res.area));
-        this.forma.get('id_moneda').setValue(this.monedas.find(data => data.id == res.id_moneda));
-        this.forma.get('codbancodestino').setValue(this.bancos.find(banco => banco.id == res.codbancodestino));
-        this.forma.get('cuenta_no').setValue(this.cuentas.find(data => data.id == res.cuenta_no));
-        // this.forma.get('retiro_comercial').setValue(res.retiro_comercial);
-        this.forma.get('tipo_sueldo').setValue(res.tipo_sueldo);
-        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais == res.id_pais));  
+        this.llenaCampos(res);
       })
     })
 
-    this.listSubscribers = [observer1$, observer2$];
+    const observer4$ = this.empleadosServ.duplicar.subscribe((resp: any) =>{
+      // this.guardar = false;
+      // this.actualizar = true;
+      console.log(Number(resp));      
+      this.id = Number(resp);      
+      this.empleadosServ.getDato(this.id).then((res: any) => {
+        console.log(res);
+        this.datosLocalidad(res);
+        this.llenaCampos(res) 
+      })
+    })
+    this.listSubscribers = [observer1$, observer2$,observer3$,observer4$];
   };
+
+  llenaCampos(res) {
+    for(const [key, value] of Object.entries(res)){
+      console.log(key, value)
+      if (this.forma.get(key) !== null && value !== null && key !== 'cedula') {
+        if (key === 'fecha_entrada' || key === 'fecha_inicio_c' || key === 'fecha_nacimiento' || key === 'fecha_suspencion' ||
+          key === 'fecha_termino_contrato' || key === 'fecha_ultimo_aumento' || key === 'horario_inicial' || key === 'horario_final') {
+            this.forma.get(key).setValue(new Date(value.toString()));
+          } else {
+          this.forma.get(key).setValue(value);
+        }
+      } 
+    }
+    this.forma.get('educacion').setValue(this.educacion.find(data => data.id == res.educacion));
+    this.forma.get('cod_nac').setValue(this.paises.find(pais => pais.id_pais == res.cod_nac));
+    this.forma.get('tipo_sangre').setValue(this.tipo_sangre.find(data => data.id == res.tipo_sangre));
+    this.forma.get('sexo').setValue(res.sexo);
+    this.forma.get('turno').setValue(this.turno.find(data => data.id == res.turno));
+    this.forma.get('estado_civil').setValue(this.estado_civil.find(data => data.id == res.estado_civil));
+    this.forma.get('paga_seg').setValue(res.paga_seg);
+    this.forma.get('tipo_empleado').setValue(this.tipo_empleado.find(data => data.id == res.tipo_empleado));
+    this.forma.get('id_puesto').setValue(this.puestos.find(data => data.id == res.id_puesto));
+    this.forma.get('cod_cia').setValue(this.empresa.find(empresa => empresa.cod_cia == res.cod_cia));
+    this.forma.get('suc_id').setValue(this.sucursales.find(data => data.id == res.suc_id));
+    this.forma.get('departamento').setValue(this.departamento.find(data => data.id == res.departamento));
+    // this.forma.get('num_emp_supervisor').setValue(this.supervisores.find(data => data.id == res.id));
+    this.forma.get('area').setValue(this.areas.find(data => data.id == res.area));
+    this.forma.get('id_moneda').setValue(this.monedas.find(data => data.id == res.id_moneda));
+    this.forma.get('codbancodestino').setValue(this.bancos.find(banco => banco.id == res.codbancodestino));
+    this.forma.get('cuenta_no').setValue(this.cuentas.find(data => data.id == res.cuenta_no));
+    // this.forma.get('retiro_comercial').setValue(res.retiro_comercial);
+    this.forma.get('tipo_sueldo').setValue(res.tipo_sueldo);
+    this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais == res.id_pais)); 
+  }
 
   rangoAnio() {
     const today = new Date();
@@ -247,7 +258,9 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    this.formSubmitted = true;
+    // this.formSubmitted = true;
+    console.log(this.forma.value);
+    
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{           

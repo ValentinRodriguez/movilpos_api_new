@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { DatosEstaticosService } from './datos-estaticos.service';
 const URL = environment.url;
 
 @Injectable({
@@ -14,9 +15,11 @@ export class RrhhService {
   empleadoBorrado = new EventEmitter();
   formSubmitted = new EventEmitter();
   actualizar = new EventEmitter();
+  duplicar = new EventEmitter();
   guardar = new EventEmitter();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private datosEstaticos: DatosEstaticosService) { }
 
   getDatos() {
     return new Promise( resolve => {
@@ -109,66 +112,78 @@ export class RrhhService {
   crearEmpleado(empresa) {
     let formData = {};
     
-    for(let key in empresa){        
-      switch (key) {
-        // foto_empleado:  
-              
-        case 'cod_cia':
-          formData[key] = empresa[key].cod_cia
-          break
-
-        case 'departamento':
-        case 'codbancodestino':
-        case 'cod_puesto':
-        case 'cod_nac':
-        case 'educacion':
-        case 'estado_civil':
-        case 'moneda':
-        // case 'num_emp_supervisor':
-        case 'sucid':
-        case 'tipo_empleado':
-        case 'tipo_sangre':
-        case 'cuenta_no':
-        case 'id_moneda':
-        case 'id_puesto':
-        case 'suc_id':
-        case 'turno':
-        case 'area':
-        case 'tipo_sueldo':
-          formData[key] = empresa[key].id;
-          break
-
-        case 'retiro_comercial':
-          formData[key] = empresa[key].value;
-          break
-
-        case 'id_pais':
-          formData[key] = empresa[key].id_pais;
-          break
-
-        case 'id_region':
-          formData[key] = empresa[key].id_region;
-          break
-
-        case 'id_provincia':
-          formData[key] = empresa[key].id_provincia;
-          break
-
-        case 'id_municipio':
-          formData[key] = empresa[key].id_municipio;
-          break
-
-        case 'id_ciudad':
-          formData[key] = empresa[key].id_ciudad;
-          break
-
-        case 'id_sector':
-          formData[key] = empresa[key].id_sector;
-          break
-
-        default:
-          formData[key] = empresa[key]
-          break;
+    for (let key in empresa) {
+      if (empresa[key] !== undefined) {
+        switch (key) {
+          // foto_empleado:  
+                
+          case 'cod_cia':
+            formData[key] = empresa[key].cod_cia
+            break
+  
+          case 'departamento':
+          case 'codbancodestino':
+          case 'cod_puesto':
+          case 'cod_nac':
+          case 'educacion':
+          case 'estado_civil':
+          case 'moneda':
+          // case 'num_emp_supervisor':
+          case 'sucid':
+          case 'tipo_empleado':
+          case 'tipo_sangre':
+          case 'cuenta_no':
+          case 'id_moneda':
+          case 'id_puesto':
+          case 'suc_id':
+          case 'turno':
+          case 'area':
+            formData[key] = empresa[key].id;
+            break
+  
+          case 'retiro_comercial':
+            formData[key] = empresa[key].value;
+            break
+            
+          case 'fecha_entrada':
+          case 'fecha_inicio_c':
+          case 'fecha_nacimiento':
+          case 'fecha_suspencion':
+          case 'fecha_termino_contrato':
+          case 'fecha_ultimo_aumento':
+            if (empresa[key] !== "") {
+              formData[key] = this.datosEstaticos.getDataFormated(empresa[key]);              
+            }
+            break
+  
+          case 'id_pais':
+            formData[key] = empresa[key].id_pais;
+            break
+  
+          case 'id_region':
+            formData[key] = empresa[key].id_region;
+            break
+  
+          case 'id_provincia':
+            formData[key] = empresa[key].id_provincia;
+            break
+  
+          case 'id_municipio':
+            formData[key] = empresa[key].id_municipio;
+            break
+  
+          case 'id_ciudad':
+            formData[key] = empresa[key].id_ciudad;
+            break
+  
+          case 'id_sector':
+            formData[key] = empresa[key].id_sector;
+            break
+  
+          default:
+            formData[key] = empresa[key]
+            break;
+        }        
       }
     }
 
@@ -268,6 +283,10 @@ export class RrhhService {
 
   actualizando(data: any) {
     this.actualizar.emit(data);
+  }
+
+  duplicando(data: any) {
+    this.duplicar.emit(data);
   }
 
   guardando() {

@@ -48,13 +48,14 @@
 									</span>
 							
 									<span *ngIf="col.field === 'acciones'">
-										<button pButton pRipple type="button" icon="pi pi-ban" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ausencias" (click)="ausenciasEmpleado(rowData)"></button>
+										<!-- <button pButton pRipple type="button" icon="pi pi-ban" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ausencias" (click)="ausenciasEmpleado(rowData)"></button>
 										<button pButton pRipple type="button" icon="pi pi-exclamation-circle" class="p-button p-button-success p-mr-2 p-mb-2"pTooltip="Amonestaciones" (click)="amonestacionesEmpleado(rowData)"></button>
 										<button pButton pRipple type="button" icon="pi pi-clock" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Horas Extras" (click)="horasExtrasEmpleado(rowData)"></button>
 										<button pButton pRipple type="button" icon="pi pi-dollar" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Incentivos" (click)="incentivosEmpleado(rowData)"></button>
 										<button pButton pRipple type="button" icon="pi pi-sort-amount-down" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Descuentos" (click)="descuentosEmpleado(rowData)"></button>
 										<button pButton pRipple type="button" icon="pi pi-heart" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Vacaciones" (click)="vacacionesEmpleado(rowData)"></button>
-										<button pButton pRipple type="button" icon="pi pi-eye" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Mas Detalles"></button>
+										<button pButton pRipple type="button" icon="pi pi-eye" class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Mas Detalles"></button> -->
+										<button pButton pRipple type="button" icon="fas fa-dna" class="p-button p-button-success p-mr-2 p-mb-2" (click)="duplicarEmpleado(rowData.id)" pTooltip="Copiar Registro"></button>
 										<button pButton pRipple type="button" icon="pi pi-user-edit" class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarEmpleado(rowData.id)" pTooltip="Editar"></button>
 										<button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarEmpleado(rowData.id)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
