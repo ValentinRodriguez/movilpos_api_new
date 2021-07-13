@@ -227,13 +227,16 @@ export class FormularioSucursalesComponent implements OnInit {
               this.ciudades = resp;
               this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === data.value.id_ciudad));              
             }
-
             this.paisesCiudadesServ.buscaSector(data.value.id_ciudad).then((resp: any) => {
               if (resp.length !== 0) {
                 this.sectores = resp;
                 this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector === data.value.id_sector));                
               }
+<<<<<<< HEAD
               this.forma.get('calle').setValue(data.value.calle);   
+=======
+              this.forma.get('calle').setValue(data.value.calle)
+>>>>>>> d3bb0adfcaed5ea642dd14998aade05605bb76fc
               this.formSubmitted = false;
             })
           })

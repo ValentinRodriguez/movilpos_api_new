@@ -54,6 +54,7 @@ import { RecepcionVehiculosService } from "./recepcion-vehiculos.service";
 import { SucursalesService } from "./sucursales.service";
 import { CuadresService } from "./cuadres.service";
 import { AreasEmpresaService } from "./areas-empresa.service";
+import { PanelControlService } from "./panel-control.service";
 
 @NgModule({
   declarations: [],
@@ -67,6 +68,7 @@ import { AreasEmpresaService } from "./areas-empresa.service";
     SettingsService,
     InventarioService,
     BodegasService,
+    PanelControlService,
     PaisesCiudadesService,
     UiMessagesService,
     CategoriasService,

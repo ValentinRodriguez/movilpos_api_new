@@ -16,9 +16,12 @@ export class FormularioDepartamentosComponent implements OnInit {
   guardando = false;
   deptoExiste = 3;
   formSubmitted = false;
+<<<<<<< HEAD
   guardar = true;
   actualizar = false;
   id: number;
+=======
+>>>>>>> d3bb0adfcaed5ea642dd14998aade05605bb76fc
   listSubscribers: any = [];
   tipo = [
     {label: 'Producción', value: 'produccion'},
@@ -57,6 +60,15 @@ export class FormularioDepartamentosComponent implements OnInit {
     });  
 
     this.listSubscribers = [observer1$,observer2$];
+  };
+
+  listObserver = () => {
+    const observer6$ = this.departamentoServ.formSubmitted.subscribe((resp: any) => {
+      this.formSubmitted = resp;
+    });
+
+    this.listSubscribers = [observer6$];
+  
   };
 
   crearFormulario() {

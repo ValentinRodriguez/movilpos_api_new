@@ -31,16 +31,29 @@ export class EmpresaService {
     params = params.append('empresa',parametro.empresa);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => { 
+        this.formSubmitted.emit(false);
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
     })
   }
-  
+
+  autoLlenadoPermisos() {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/autollenado/permisos-empresa`).subscribe((resp: any) => {      
+        this.formSubmitted.emit(false);                              
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);            
+        }
+      })
+    })
+  }
+
   getEmpresa() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {                                    
+      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {   
+        this.formSubmitted.emit(false);                                 
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
@@ -59,11 +72,23 @@ export class EmpresaService {
     })
   }
 
+
   autoLlenado() {
     return new Promise( resolve => {
       this.http.get(`${URL}/autollenado-empresa`).subscribe((resp: any) => {      
         this.formSubmitted.emit(false);                              
-        if (resp['code'] === 200)  {                                      
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      })
+    })
+  }                                      
+
+  getPermisosEmpresa() {   
+    return new Promise( resolve => {
+      this.http.get(`${URL}/permisos-empresa`).subscribe((resp: any) => {  
+        this.formSubmitted.emit(false);                  
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
       })
@@ -208,6 +233,18 @@ export class EmpresaService {
         }
       });
     });    
+  }
+
+  guardarPermisosEmpresa(data) {
+    return new Promise( resolve => {
+      this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {              
+        this.formSubmitted.emit(false);
+        console.log(resp);        
+        if (resp['code'] === 200)  {                                      
+          resolve(resp.data);      
+        }
+      });
+    }); 
   }
 
   actualizando(data: any) {
