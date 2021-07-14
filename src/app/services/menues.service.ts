@@ -27,7 +27,7 @@ export class MenuesService {
   getMenu(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => {   
-        this.formSubmitted.emit(false);
+        this.formSubmitted.emit(false);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

@@ -20,9 +20,7 @@ export class DashboardDemoComponent implements OnInit {
                 private permisosServ: RolesService,
                 private datosEstaticosServ: DatosEstaticosService) { }
 
-    ngOnInit() {
-        console.log('aqui');
-        
+    ngOnInit() {        
         this.permisosServ.permisos.subscribe((resp: any) => {
           const perfiles = JSON.parse(resp.perfil);          
         })
@@ -36,7 +34,6 @@ export class DashboardDemoComponent implements OnInit {
                 if (element.data.length === 0) {     
                     console.log(element);                
                     this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
-                    console.log(this.items);
                 }  
             }); 
         })

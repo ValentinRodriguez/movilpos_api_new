@@ -15,7 +15,8 @@ export class GlobalFunctionsService {
   usuario: any;
   usuarioExiste = 3;
   finalizar = new EventEmitter;
-
+  formSubmitted = new EventEmitter;
+  
   constructor(private http: HttpClient,
               private usuariosServ: UsuarioService) { 
                 this.usuario = this.usuariosServ.getUserLogged()

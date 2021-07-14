@@ -35,10 +35,16 @@ export class StepToolbarComponent implements OnInit {
     this.globalServ.finalizando();
   }
 
-  navegacion(pagina) {    
-    console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);    
+  navegacion(pagina) {
+    console.log(this.inicio);    
     if (this.items.length !== 0) {
-      this.router.navigate([`/${this.inicio[1]}/${this.inicio[2]}/${this.items[pagina].routerLink}`]);
+      if (this.inicio[1] === 'dashboard') {
+        this.router.navigate([`/${this.inicio[1]}/dashboard/${this.items[pagina].routerLink}`]);        
+        console.log(`/${this.inicio[1]}/${this.items[pagina].routerLink}`);
+      } else {
+        this.router.navigate([`/${this.inicio[1]}/${this.inicio[2]}/${this.items[pagina].routerLink}`]);
+        console.log(`/${this.inicio[1]}/${this.inicio[2]}/${this.items[pagina].routerLink}`);        
+      }
     }
   }
 }
