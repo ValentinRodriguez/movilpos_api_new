@@ -4,6 +4,7 @@ import { PuestosService } from 'src/app/services/puestos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-puestos',
   templateUrl: './formulario-puestos.component.html',
@@ -19,9 +20,9 @@ export class FormularioPuestosComponent implements OnInit {
   actualizar = false;
   puestoExiste = 3;  
   id: number;
-  formSubmitted = false;
   
-  constructor(private fb: FormBuilder,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService) { 
@@ -54,9 +55,9 @@ export class FormularioPuestosComponent implements OnInit {
   }
 
   guardarPuesto(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -99,10 +100,10 @@ export class FormularioPuestosComponent implements OnInit {
   }
 
   actualizarPuesto(){
-     this.formSubmitted = true; 
+      
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {     
-      this.formSubmitted = false;  
+        
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

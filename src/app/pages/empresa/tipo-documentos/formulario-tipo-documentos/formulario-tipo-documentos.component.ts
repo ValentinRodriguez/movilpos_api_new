@@ -7,6 +7,7 @@ import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-documentos',
   templateUrl: './formulario-tipo-documentos.component.html',
@@ -28,13 +29,13 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  formSubmitted = false;
+  
   id: number;
   estado = [
     {label: 'Activo', value: 'activo'},
     {label: 'Inactivo', value: 'inactivo'},
   ];
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService,
@@ -93,8 +94,6 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   }
 
   guardarUsuario() {
-    this.formSubmitted = true;
-
     if (this.usuarioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este usuario ya esta registrado');
       return;
@@ -117,17 +116,16 @@ export class FormularioTipoDocumentosComponent implements OnInit {
         })  
       }
     }else{
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
       return;
     }
   }
 
   actualizarUsuario() {
-     this.formSubmitted = true; 
+      
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {   
-      this.formSubmitted = false;    
+          
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -225,7 +223,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
     const pass1 = this.forma.get('password')
     const pass2 = this.forma.get('password_confirmation')
 
-    if ((pass1 !== pass2) && this.formSubmitted ) {
+    if ((pass1 !== pass2) ) {
       return true;      
     } else {
       return false;
@@ -233,7 +231,6 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   }
 
   submitted() {
-    this.formSubmitted = false;
   }
 
   passwordsIguales(pass1Name: string, pass2Name: string ) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-step-empleados',
   templateUrl: './step-empleados.component.html',
@@ -10,7 +11,7 @@ export class StepEmpleadosComponent implements OnInit {
 
   data: any[] = [];
 
-  constructor(public config: DynamicDialogConfig) { }
+  constructor(private globalFunction: GlobalFunctionsService,public config: DynamicDialogConfig) { }
 
   ngOnInit(): void {
     let data = this.config.data;

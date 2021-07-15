@@ -4,6 +4,7 @@ import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-clientes',
   templateUrl: './formulario-tipo-clientes.component.html',
@@ -19,10 +20,10 @@ export class FormularioTipoClientesComponent implements OnInit {
   actualizar = false;
   tipoCliExiste = 3;
   id: number;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoClientesServ: TipoClienteService) { 
@@ -48,15 +49,7 @@ export class FormularioTipoClientesComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{      
-      this.formSubmitted = resp;
-    })
-
-    const observer3$ = this.tipoClientesServ.formSubmitted.subscribe((resp: any) =>{      
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
    };
 
   crearFormulario() {
@@ -66,12 +59,9 @@ export class FormularioTipoClientesComponent implements OnInit {
       usuario_creador: [this.usuario.username, Validators.required]
     })
   }
-
   
   actTipoCliente() {
-    this.formSubmitted = true;
     if (this.forma.valid) {  
-      this.formSubmitted = false;
       this.tipoClientesServ.actualizarTipoCliente(this.id, this.forma.value).then((resp: any) => {             
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
       })  
@@ -85,16 +75,13 @@ export class FormularioTipoClientesComponent implements OnInit {
   }
 
   guardarTipoCliente() {
-    this.formSubmitted = true;
     if (this.tipoCliExiste === 2) {
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de cliente ya existe');
-      this.formSubmitted = false; 
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de cliente ya existe');       
       return;
     }
 
     if (this.tipoCliExiste === 0) {
       this.uiMessage.getMiniInfortiveMsg('tst','info','Atención','Verificando disponibilidad de nombre');
-      this.formSubmitted = false;
       return;
     }
 
@@ -104,7 +91,7 @@ export class FormularioTipoClientesComponent implements OnInit {
         this.reset();
       })  
     }else{
-      this.formSubmitted = false;  
+        
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })

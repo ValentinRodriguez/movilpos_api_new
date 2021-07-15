@@ -4,6 +4,7 @@ import { RolesService } from './services/roles.service';
 import { UsuarioService } from './services/usuario.service';
 import Swal from 'sweetalert2'
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html',

@@ -4,6 +4,7 @@ import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tiponegocio',
   templateUrl: './formulario-tiponegocio.component.html',
@@ -19,10 +20,10 @@ export class FormularioTiponegocioComponent implements OnInit {
   actualizar = false;
   actualizando = false;
   id: number;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoNegocioServ: TipoNegocioService) { 
@@ -47,11 +48,7 @@ export class FormularioTiponegocioComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.tipoNegocioServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
   };
  
   crearFormulario() {
@@ -64,21 +61,17 @@ export class FormularioTiponegocioComponent implements OnInit {
   }
 
   guardarTipoNegocio() {
-    this.formSubmitted = true;
     if (this.negocioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este tipo de negocio ya existe');
-      this.formSubmitted = false;
       return;
     }
 
     if (this.negocioExiste === 0) {
       this.uiMessage.getMiniInfortiveMsg('tst','info','Atención','Verificando disponibilidad de nombre');
-      this.formSubmitted = false;
       return;
     }
 
     if (this.forma.invalid) {
-      this.formSubmitted = false;
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
@@ -93,7 +86,6 @@ export class FormularioTiponegocioComponent implements OnInit {
   }
 
   actTipoNegocio() {
-    this.formSubmitted = true;
     if (this.forma.valid) {  
       this.forma.get('usuario_modificador').setValue(this.usuario.username);
       this.tipoNegocioServ.actualizarTipoNegocio(this.id, this.forma.value).then((resp: any) => {             
@@ -101,7 +93,6 @@ export class FormularioTiponegocioComponent implements OnInit {
         this.resetFormulario();
       })  
     }else{
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       return;
     }

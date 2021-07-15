@@ -11,6 +11,7 @@ import { FacturasService } from 'src/app/services/facturas.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { Router } from '@angular/router';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-topbar-page',
   templateUrl: './topbar.component.html',
@@ -35,7 +36,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
     @Input() simbolo: string
     stateOptions2: { label: string; value: string; icon: string; justify: string; }[];
     
-    constructor(public breadcrumbService: BreadcrumbService,
+    constructor(private globalFunction: GlobalFunctionsService,public breadcrumbService: BreadcrumbService,
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
                 public facturaServ: FacturasService,

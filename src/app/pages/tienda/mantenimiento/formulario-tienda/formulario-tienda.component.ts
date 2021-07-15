@@ -5,6 +5,7 @@ import { InventarioService } from 'src/app/services/inventario.service';
 import { TiendaService } from 'src/app/services/tienda.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tienda',
   templateUrl: './formulario-tienda.component.html',
@@ -21,11 +22,11 @@ export class FormularioTiendaComponent implements OnInit {
   states: any[] = [];
   index: number = 0;
   cols: any[] = [];   
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   selectedProducts3: any = [];
 
-  constructor(private inventarioServ: InventarioService,
+  constructor(private globalFunction: GlobalFunctionsService,private inventarioServ: InventarioService,
               private miTienda: TiendaService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }
@@ -69,15 +70,11 @@ export class FormularioTiendaComponent implements OnInit {
       this.index = resp;
     })
 
-    const observer5$ = this.inventarioServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
     const observer6$ = this.inventarioServ.finalizar.subscribe((resp: number) =>{
       this.index = resp;
     })
     
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$,observer6$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer6$];
  };
 
   todosLosProductos() {     

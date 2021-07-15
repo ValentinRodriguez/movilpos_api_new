@@ -5,6 +5,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ZonasService } from 'src/app/services/zonas.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-zonas',
   templateUrl: './zonas.component.html',
@@ -17,9 +18,9 @@ export class ZonasComponent implements OnInit {
   zonas: any[] = [];
   id_categoria: any;
   cols: any[];   
-  formSubmitted = false;
   
-  constructor(private uiMessage: UiMessagesService,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private zonasServ: ZonasService,
               private confirmationService: ConfirmationService,

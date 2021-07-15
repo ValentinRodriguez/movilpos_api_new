@@ -5,6 +5,7 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-propiedades',
   templateUrl: './propiedades.component.html',
@@ -17,10 +18,10 @@ export class PropiedadesComponent implements OnInit {
   actualizando = false; 
   actualizar = false;
   cols: any[];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private propiedadesServ: PropiedadesService,
               private confirmationService: ConfirmationService,
@@ -53,15 +54,10 @@ export class PropiedadesComponent implements OnInit {
       this.todasLasPropiedades();    
     })
 
-    const observer5$ = this.propiedadesServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-    
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
+    this.listSubscribers = [observer1$,observer2$,observer3$];
   };
 
   todasLasPropiedades() {
-    this.formSubmitted = true;
     this.propiedadesServ.getDatos().then((resp: any) => {
       if (resp) {
         this.propiedades = resp;        

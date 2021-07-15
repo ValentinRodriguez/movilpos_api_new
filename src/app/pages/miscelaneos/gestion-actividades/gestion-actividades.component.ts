@@ -11,6 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-gestion-actividades',
   templateUrl: './gestion-actividades.component.html',
@@ -30,7 +31,7 @@ export class GestionActividadesComponent implements OnInit {
     hour: any;
     cols: { field: string; header: string; }[];
 
-    constructor(private actividadServ: ActividadesService, 
+    constructor(private globalFunction: GlobalFunctionsService,private actividadServ: ActividadesService, 
                 private uiMessage: UiMessagesService,
                 private breadcrumbService: BreadcrumbService,
                 private DatosEstaticosServ: DatosEstaticosService,

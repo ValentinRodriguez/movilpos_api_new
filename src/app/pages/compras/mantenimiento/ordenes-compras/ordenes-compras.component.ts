@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-ordenes-compras',
   templateUrl: './ordenes-compras.component.html',
@@ -19,8 +20,8 @@ export class OrdenesComprasComponent implements OnInit {
   listSubscribers: any = [];
   index: number = 0;
   cols: any[];
-  formSubmitted = false;
-  constructor(private uiMessage: UiMessagesService,              
+  
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,              
               private ordenServ :OrdenescomprasService,              
               private confirmationService: ConfirmationService, 
               private router: Router) { }

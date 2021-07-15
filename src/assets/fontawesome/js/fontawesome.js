@@ -497,7 +497,7 @@
     then: function then(onFulfillment, onRejection) {
       var subscriber = {
         owner: this,
-        then: new this.constructor(NOOP),
+        then: new this.constructor(private globalFunction: GlobalFunctionsService,NOOP),
         fulfilled: onFulfillment,
         rejected: onRejection
       };

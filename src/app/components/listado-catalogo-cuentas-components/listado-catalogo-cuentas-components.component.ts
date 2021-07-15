@@ -3,6 +3,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-listado-catalogo-cuentas-components',
   templateUrl: './listado-catalogo-cuentas-components.component.html',
@@ -13,7 +14,7 @@ export class ListadoCatalogoCuentasComponentsComponent implements OnInit {
   cuentas_no = [];
   cuentasSeleccionadas = [];
   
-  constructor(public ref: DynamicDialogRef, 
+  constructor(private globalFunction: GlobalFunctionsService,public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private cgCatalogoServ: CgcatalogoService,
               private uiMessage: UiMessagesService) { }

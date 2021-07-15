@@ -5,6 +5,7 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 import { HomeService } from 'src/app/services/home.service';
 import { RolesService } from 'src/app/services/roles.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboarddemo.scss'],
@@ -13,9 +14,9 @@ export class DashboardDemoComponent implements OnInit {
 
     cols: any[];
     items: MenuItem[] = [];
-    formSubmitted = true;
+    
 
-    constructor(private homeService: HomeService,
+    constructor(private globalFunction: GlobalFunctionsService,private homeService: HomeService,
                 public dialogService: DialogService,
                 private permisosServ: RolesService,
                 private datosEstaticosServ: DatosEstaticosService) { }
@@ -24,11 +25,7 @@ export class DashboardDemoComponent implements OnInit {
         this.permisosServ.permisos.subscribe((resp: any) => {
           const perfiles = JSON.parse(resp.perfil);          
         })
-        
-        this.homeService.formSubmitted.subscribe((resp: any) => {
-            this.formSubmitted = resp;
-        })
-        
+                
         this.homeService.autoLlenado().then((resp: any) => { 
             resp.forEach(element => {
                 if (element.data.length === 0) {     

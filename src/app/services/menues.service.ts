@@ -16,18 +16,19 @@ export class MenuesService {
   getMenues() {
     return new Promise( resolve => {
       this.formSubmitted.emit(false);
-      this.http.get(`${ URL }/menu`).subscribe( resp => {                              
-          if (resp['code'] === 200)  {                           
-            resolve(resp['data']);            
-          }
-        });
+      this.http.get(`${URL}/menu`).subscribe(resp => {                
+        if (resp['code'] === 200)  {                           
+          resolve(resp['data']);            
+        }
+      });
     });
   }
 
   getMenu(id) {
     return new Promise( resolve => {
       this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => {   
-        this.formSubmitted.emit(false);        
+        this.formSubmitted.emit(false);
+        console.log(resp);  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

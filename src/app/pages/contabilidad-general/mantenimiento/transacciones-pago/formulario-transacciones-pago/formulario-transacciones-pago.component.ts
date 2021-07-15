@@ -10,6 +10,7 @@ import { TransacionPagosService } from 'src/app/services/transacion-pagos.servic
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-transacciones-pago',
   templateUrl: './formulario-transacciones-pago.component.html',
@@ -56,10 +57,10 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   sFragment: string;
   opciones: any[];
   value1: string = "no";
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private transaccionsServ: TransacionPagosService,
@@ -170,11 +171,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       });               
     })
 
-    const observer5$ = this.transaccionsServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
+    this.listSubscribers = [observer1$,observer2$,observer3$];
   };
 
   afectaCuentasPagar(e) {
@@ -283,9 +280,9 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
 
   guardarTransaccion(){
-    // this.formSubmitted = true;
+    // this.
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -319,10 +316,10 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   }
  
   actualizarTransaccion(){
-    this.formSubmitted = true; 
+     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {      
-      this.formSubmitted = false; 
+       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

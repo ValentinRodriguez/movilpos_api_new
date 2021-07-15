@@ -16,6 +16,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepOrdenesComprasComponent } from '../step-ordenes-compras/step-ordenes-compras.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-ordenes-compras',
   templateUrl: './formulario-ordenes-compras.component.html',
@@ -24,7 +25,7 @@ import { StepOrdenesComprasComponent } from '../step-ordenes-compras/step-ordene
 export class FormularioOrdenesComprasComponent implements OnInit {
 
   forma: FormGroup;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   totalCantidad = 0;
   totalItbis = 0;
@@ -56,7 +57,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
   uploadedFiles: any[] = [];
   items: MenuItem[] = [];
   
-  constructor(private fb: FormBuilder, 
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private ordenServ :OrdenescomprasService,
               private datosEstaticosServ: DatosEstaticosService,
@@ -128,11 +129,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
     })
   }
 
-  listObserver = () => {    
-    const observer1$ = this.ordenServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
+  listObserver = () => {
     const observer2$ = this.proveedoresServ.proveedoresCreados.subscribe((resp) => {
       this.proveedores.push(resp);
       console.log(resp);            
@@ -174,7 +171,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
       this.forma.get('telefono').setValue(resp.telefono);
     }) 
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+    this.listSubscribers = [observer2$,observer3$,observer4$,observer5$,observer6$];
   };
 
   crearFormulario() {                
@@ -245,14 +242,12 @@ export class FormularioOrdenesComprasComponent implements OnInit {
   }
 
   guardarOrdenes(){
-    this.formSubmitted = true;
     this.forma.get("total_bruto").setValue(this.totalBruto)
     this.forma.get("total_desc").setValue(this.totalDescuento)
     this.forma.get("total_itbis").setValue(this.totalItbis)
     this.forma.get("total_neto").setValue(this.totalNeto)
     
     if (this.forma.invalid) {      
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         if (control instanceof FormArray) {    

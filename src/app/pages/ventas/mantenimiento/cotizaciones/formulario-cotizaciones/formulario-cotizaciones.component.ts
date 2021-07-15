@@ -4,6 +4,7 @@ import { MonedasService } from 'src/app/services/monedas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-cotizaciones',
   templateUrl: './formulario-cotizaciones.component.html',
@@ -18,9 +19,9 @@ export class FormularioCotizacionesComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   monedaExiste = 3;
-  formSubmitted = false;
+  
   id: number;
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private monedasServ: MonedasService) { 
@@ -54,9 +55,9 @@ export class FormularioCotizacionesComponent implements OnInit {
   }
 
   guardarMoneda(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {       
-      this.formSubmitted = false;
+      this.
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -98,10 +99,10 @@ export class FormularioCotizacionesComponent implements OnInit {
   }
 
   actualizarMoneda(){
-     this.formSubmitted = true; 
+      
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {      
-      this.formSubmitted = false; 
+       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

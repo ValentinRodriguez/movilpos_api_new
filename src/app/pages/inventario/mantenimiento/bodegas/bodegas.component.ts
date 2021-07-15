@@ -9,6 +9,7 @@ import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service'
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-bodegas',
   templateUrl: './bodegas.component.html',
@@ -25,10 +26,10 @@ export class BodegasComponent implements OnInit {
   id_bodega: any;
   cols: any[];   
   index: number = 0;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private bodegasServ: BodegasService,
+  constructor(private globalFunction: GlobalFunctionsService,private bodegasServ: BodegasService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService,
@@ -70,11 +71,7 @@ export class BodegasComponent implements OnInit {
       this.index = resp;
     })
   
-    const observer5$ = this.bodegasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$, observer2$, observer3$, observer4$];
   };
 
   todasLasBodegas() {         

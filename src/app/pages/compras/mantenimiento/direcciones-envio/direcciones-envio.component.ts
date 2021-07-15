@@ -5,6 +5,7 @@ import { DireccionesService } from 'src/app/services/direcciones.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-direcciones-envio',
   templateUrl: './direcciones-envio.component.html',
@@ -17,9 +18,9 @@ export class DireccionesEnvioComponent implements OnInit {
   direcciones: any[] = [];
   id_categoria: any;
   cols: any[];   
-  formSubmitted = false;
+  
   listSubscribers: any = [];
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private dirService: DireccionesService,
               private confirmationService: ConfirmationService,
@@ -64,11 +65,7 @@ export class DireccionesEnvioComponent implements OnInit {
       this.todasLasDirecciones();
     })
 
-    const observer5$ = this.dirService.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
    };
 
   todasLasDirecciones() {

@@ -6,6 +6,7 @@ import { BrandsService } from 'src/app/services/brands.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
@@ -22,10 +23,10 @@ export class MarcasComponent implements OnInit {
   id_marca: any;
   cols: any[];   
   index: number = 0;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private marcasServ: BrandsService,
@@ -64,11 +65,7 @@ export class MarcasComponent implements OnInit {
       this.todasLasMarcas();
     })
 
-    const observer5$ = this.marcasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
    };
  
   todasLasMarcas() {     

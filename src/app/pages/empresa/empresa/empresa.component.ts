@@ -3,6 +3,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
@@ -18,10 +19,10 @@ export class EmpresaComponent implements OnInit {
   cols: any[];
    
   index: number = 0;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private usuariosServ: UsuarioService,
+  constructor(private globalFunction: GlobalFunctionsService,private usuariosServ: UsuarioService,
               private empresasServ: EmpresaService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
@@ -59,15 +60,11 @@ export class EmpresaComponent implements OnInit {
       this.todasLasEmpresas();
     })
 
-    const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   }
 
   todasLasEmpresas() {   
-    this.formSubmitted = true;  
+      
     this.empresasServ.getDatos().then((resp: any) => {
       this.empresas = resp;
       console.log(resp);       

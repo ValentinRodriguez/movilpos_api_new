@@ -9,6 +9,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StepFacturaProvedoresComponent } from '../step-factura-provedores/step-factura-provedores.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-factura-provedores',
   templateUrl: './formulario-factura-provedores.component.html',
@@ -40,10 +41,10 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   tipoOrden:any[] = [];
   itbis: string = "si";
   opciones: any[];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   cuentaForm = '';
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private coTransaccionescxpServ: CoTransaccionescxpService,
@@ -151,11 +152,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       })
     })
     
-    const observer5$ = this.coTransaccionescxpServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$];
+    this.listSubscribers = [observer1$,observer2$];
   };
 
   todaLaData() {
@@ -291,10 +288,9 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   guardarFproveedor(){
-    this.formSubmitted = true;
     this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -334,7 +330,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   }
 
   actualizarFactura(){
-    this.formSubmitted = true; 
+     
     const fecha_orig = this.forma.get('fecha_orig').value;
     const fecha_proc = this.forma.get('fecha_proc').value;
     
@@ -343,7 +339,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.forma.get('fecha_proc').setValue(this.onSelectDate(fecha_proc));
     
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

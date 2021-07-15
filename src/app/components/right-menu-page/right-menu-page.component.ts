@@ -3,6 +3,7 @@ import { AppMainComponent } from 'src/app/app.main.component';
 import {SelectItem} from 'primeng/api';
 
 AppMainComponent
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-right-menu-page',
   templateUrl: './right-menu-page.component.html',
@@ -14,7 +15,7 @@ export class RightMenuPageComponent implements OnInit {
 
   selectedAmount: any;
 
-  constructor(public app: AppMainComponent) {
+  constructor(private globalFunction: GlobalFunctionsService,public app: AppMainComponent) {
       this.amount = [
           {label: '*****24', value: {id: 1, name: '*****24', code: 'A1'}},
           {label: '*****75', value: {id: 2, name: '*****75', code: 'A2'}}

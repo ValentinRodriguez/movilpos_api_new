@@ -7,6 +7,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PermisosUsuariosComponent } from '../../panel-control/usuarios/permisos-usuarios/permisos-usuarios.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipo-documentos',
   templateUrl: './tipo-documentos.component.html',
@@ -24,9 +25,9 @@ export class TipoDocumentosComponent implements OnInit {
   fileUser: any;
   index: number = 0;
   empleados: any[] = [];
-  formSubmitted = false;
   
-  constructor(private confirmationService: ConfirmationService,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private confirmationService: ConfirmationService,
               private empleadoServ: RrhhService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,

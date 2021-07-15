@@ -5,6 +5,7 @@ import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-departamentos',
   templateUrl: './departamentos.component.html',
@@ -18,10 +19,10 @@ export class DepartamentosComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
-  formSubmitted = false;
+  
   index: number = 0;
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private departamentoServ: DepartamentosService,
               private confirmationService: ConfirmationService,
@@ -54,15 +55,10 @@ export class DepartamentosComponent implements OnInit {
 
     this.departamentoServ.departamentoAct.subscribe((resp: any) => {
       this.todasLosDepartamentos();
-    })
-
-    this.departamentoServ.formSubmitted.subscribe(resp => {
-      this.formSubmitted = resp;
     });
   }
 
   todasLosDepartamentos() {
-    this.formSubmitted = true;
     this.departamentoServ.getDatos().then((resp: any) => {
       this.departamentos = resp;
     })

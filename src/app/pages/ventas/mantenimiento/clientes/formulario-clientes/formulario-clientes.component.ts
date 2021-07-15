@@ -12,8 +12,6 @@ import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
 import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { StepclientesComponent } from '../stepclientes/stepclientes.component';
-
 @Component({
   selector: 'app-formulario-clientes',
   templateUrl: './formulario-clientes.component.html',
@@ -41,7 +39,7 @@ export class FormularioClientesComponent implements OnInit {
   paises: any[] = [];
   regiones: any[] = [];
   tipo_proveedor=[];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   items: MenuItem[] = [];
   municipios: any[] = [];
@@ -55,7 +53,7 @@ export class FormularioClientesComponent implements OnInit {
   nacionalidades: any[] = [];
   rutaActual: string[];
 
-  constructor(private fb: FormBuilder, 
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
               public router: Router,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
@@ -93,13 +91,9 @@ export class FormularioClientesComponent implements OnInit {
       this.tipo_cliente.push(resp);                                                                                               
     })
 
-    const observer4$ = this.clientesServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
     const observer3$ = this.clientesServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
-      this.formSubmitted = true;   
+         
       this.id = Number(resp);      
        
       this.clientesServ.getdato(resp).then((res: any) => {     
@@ -121,7 +115,7 @@ export class FormularioClientesComponent implements OnInit {
       this.items = [];
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$];
   };
 
   autoLlenado() {
@@ -238,10 +232,9 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   guardarCliente(){
-    this.formSubmitted = true;  
+      
     console.log(this.forma.value);    
     if (this.forma.invalid) {
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -249,7 +242,7 @@ export class FormularioClientesComponent implements OnInit {
     }else{
       this.clientesServ.crearCliente(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');              
-        this. resetFormulario();
+        this.resetFormulario();
       })
     }       
   } 
@@ -302,10 +295,10 @@ export class FormularioClientesComponent implements OnInit {
   }
   
   actualizarCliente() {
-    this.formSubmitted = true;   
+       
     this.forma.get('usuario_modificador').setValue(this.usuario.username);     
     if (this.forma.invalid) {  
-      this.formSubmitted = false;    
+          
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -313,7 +306,7 @@ export class FormularioClientesComponent implements OnInit {
     }else{      
       this.clientesServ.actualizarCliente(this.id, this.forma.value).then(()=>{    
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
-        this. resetFormulario();
+        this.resetFormulario();
       })
     }
   } 

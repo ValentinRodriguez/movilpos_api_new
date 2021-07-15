@@ -4,6 +4,7 @@ import { EmpresaService } from 'src/app/services/empresa.service';
 import { ModulosService } from 'src/app/services/modulos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-procedimientos',
   templateUrl: './procedimientos.component.html',
@@ -23,19 +24,15 @@ export class ProcedimientosComponent implements OnInit {
   restableciendo = false;
   restablecer = true;  
   user: any;
-  formSubmitted = false;
+  
 
-  constructor(private modulosServ: ModulosService,
+  constructor(private globalFunction: GlobalFunctionsService,private modulosServ: ModulosService,
               private confirmationService: ConfirmationService,
               private uiMessage: UiMessagesService,
               private empresasServ: EmpresaService) { }
 
   ngOnInit(): void {
     this.dataInicial();
-
-    this.empresasServ.formSubmitted.subscribe(resp => {
-      this.formSubmitted = resp;
-    });
 
     this.cols = [
       { field:'codigo', header:'Programa'},
@@ -47,7 +44,6 @@ export class ProcedimientosComponent implements OnInit {
   }
 
   dataInicial() {
-    this.formSubmitted = true;
     this.empresasServ.getPermisosEmpresa().then((resp: any) => {      
       console.log(resp);     
       if (resp.length !== 0) {
@@ -59,7 +55,6 @@ export class ProcedimientosComponent implements OnInit {
           // this.listanotificaciones = JSON.parse(resp[0].notificaciones);
         })
       }else{
-        this.formSubmitted = true;
         this.empresasServ.autoLlenadoPermisos().then((resp: any) =>{
           console.log(resp);          
           resp.forEach(element => {

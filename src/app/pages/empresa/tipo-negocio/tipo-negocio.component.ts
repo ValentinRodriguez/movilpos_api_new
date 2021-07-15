@@ -5,6 +5,7 @@ import { TipoNegocioService } from 'src/app/services/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipo-negocio',
   templateUrl: './tipo-negocio.component.html',
@@ -20,9 +21,9 @@ export class TipoNegocioComponent implements OnInit {
   cols: any[];
    
   index: number = 0;
-  formSubmitted = false;
   
-  constructor(
+  
+  constructor(private globalFunction: GlobalFunctionsService,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private confirmationService: ConfirmationService,

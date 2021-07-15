@@ -3,6 +3,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-lista-productos',
   templateUrl: './lista-productos.component.html',
@@ -14,7 +15,7 @@ export class ListaProductosComponent implements OnInit {
   cols: any[];
    
 
-  constructor(private inventarioServ: InventarioService,
+  constructor(private globalFunction: GlobalFunctionsService,private inventarioServ: InventarioService,
               private ref: DynamicDialogRef,
               private uiMessage: UiMessagesService) { }
 

@@ -4,6 +4,7 @@ import { BodegasService } from 'src/app/services/bodegas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-bodegas-permisos',
   templateUrl: './bodegas-permisos.component.html',
@@ -14,10 +15,10 @@ export class BodegasPermisosComponent implements OnInit {
   usuarios: any[] = [];
   usuariosPermisos: any[] = [];
   id_bodega: any;
-  formSubmitted = true;
+  
   listSubscribers: any = [];
 
-  constructor(public ref: DynamicDialogRef, 
+  constructor(private globalFunction: GlobalFunctionsService,public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
@@ -39,11 +40,7 @@ export class BodegasPermisosComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.bodegasServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-      console.log(resp);      
-    })
-    this.listSubscribers = [observer1$];
+    this.listSubscribers = [];
   };
 
    

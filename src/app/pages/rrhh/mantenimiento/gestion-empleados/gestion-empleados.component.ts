@@ -9,6 +9,7 @@ import { DescuentosComponent } from './descuentos/descuentos.component';
 import { HorasExtrasComponent } from './horas-extras/horas-extras.component';
 import { VacacionesComponent } from './vacaciones/vacaciones.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-gestion-empleados',
   templateUrl: './gestion-empleados.component.html',
@@ -21,11 +22,11 @@ export class GestionEmpleadosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   cols: any[];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   index = 0;
 
-  constructor(private empleadosServ: RrhhService,
+  constructor(private globalFunction: GlobalFunctionsService,private empleadosServ: RrhhService,
               private usuariosServ: UsuarioService,
               private confirmationService: ConfirmationService,
               private dialogService: DialogService) { 
@@ -52,10 +53,6 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.empleadosServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    });
-
     const observer2$ = this.empleadosServ.empleadoEscogido.subscribe(() => {
       this.todosLosEmpleados();
     });
@@ -77,11 +74,10 @@ export class GestionEmpleadosComponent implements OnInit {
       this.todosLosEmpleados();
     });
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$, observer5$,observer6$];
+    this.listSubscribers = [observer2$,observer3$,observer4$, observer5$,observer6$];
   };
 
   todosLosEmpleados() {
-    this.formSubmitted = true;
     this.empleadosServ.getDatos().then((resp:any) =>{          
       this.empleados = resp;   
     })

@@ -6,6 +6,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ZonasService } from 'src/app/services/zonas.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-cgcatalogo',
   templateUrl: './formulario-cgcatalogo.component.html',
@@ -29,7 +30,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   id: number;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
   sino = [
@@ -61,7 +62,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
     {label: 'Acreedor', value: 'acreedor'},
   ];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private catalogoServ: CgcatalogoService,
@@ -115,10 +116,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
       })
     })
 
-    const observer5$ = this.catalogoServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;      
-    })
-
     const observer2$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
@@ -144,7 +141,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
       })
     })
 
-    this.listSubscribers = [observer1$,observer5$,observer2$];
+    this.listSubscribers = [observer1$,observer2$];
   };
 
   crearFormulario() {
@@ -176,9 +173,8 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   guardarCatalogo(){
-    this.formSubmitted = true;
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -205,9 +201,9 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
   
   ActualizarCatalogo(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

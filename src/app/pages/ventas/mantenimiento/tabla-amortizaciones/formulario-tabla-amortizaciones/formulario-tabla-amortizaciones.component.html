@@ -119,10 +119,10 @@
         </div>   
     </p-panel>
     <br>
-    <button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Enviar" icon="pi pi-save" type="button" (click)="enviarDataFacturar()"></button>    
+    <button *ngIf="this.guardar" pButton pRipple label="Enviar" icon="pi pi-save" type="button" (click)="enviarDataFacturar()"></button>    
 </form>
 <br>
-<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+
 
 <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
 	<ng-template pTemplate>

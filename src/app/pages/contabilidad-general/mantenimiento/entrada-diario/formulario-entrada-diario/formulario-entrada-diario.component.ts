@@ -8,6 +8,7 @@ import { EntradasDiarioService } from 'src/app/services/entradas-diario.service'
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-entrada-diario',
   templateUrl: './formulario-entrada-diario.component.html',
@@ -32,11 +33,11 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   mask:string;
   cuenta1:any[]=[];
   valor:number;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
   cliente:any[] = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private entradasServ: EntradasDiarioService,
@@ -110,11 +111,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       this.cuentas=resp;
     })
 
-    const observer5$ = this.entradasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$];
+    this.listSubscribers = [observer1$,observer2$];
   };
   
   crearFormulario() {
@@ -152,9 +149,8 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   guardarEntradas(){
-    this.formSubmitted = true;
     if (this.forma.invalid) { 
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','Error!!','Debe completar los campos que son obligatorios');       
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -207,12 +203,12 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   }
 
   actualizarEntrada(){    
-    this.formSubmitted = true; 
+     
     const fecha = this.forma.get('fecha').value;   
     this.forma.get('fecha').setValue(this.onSelectDate1(fecha));     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {   
-      this.formSubmitted = false;    
+          
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

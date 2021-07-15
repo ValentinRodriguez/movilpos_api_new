@@ -7,6 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { groupBy } from 'lodash-es';
 import { ActPeriodosComponent } from './act-periodos/act-periodos.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-periodos-fiscales',
   templateUrl: './periodos-fiscales.component.html',
@@ -24,10 +25,10 @@ export class PeriodosFiscalesComponent implements OnInit {
   index: number = 0;
   periodos: any[] = [];
   meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private confirmationService: ConfirmationService,
+  constructor(private globalFunction: GlobalFunctionsService,private confirmationService: ConfirmationService,
               private periodoFserv: PeriodosFiscalesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
@@ -70,11 +71,7 @@ export class PeriodosFiscalesComponent implements OnInit {
       this.obtenerPeriodos();
     })
 
-    const observer5$ = this.periodoFserv.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   obtenerPeriodos() {

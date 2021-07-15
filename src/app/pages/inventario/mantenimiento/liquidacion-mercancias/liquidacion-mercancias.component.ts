@@ -7,6 +7,7 @@ import { LiquidacionMercanciasService } from 'src/app/services/liquidacion-merca
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-liquidacion-mercancias',
   templateUrl: './liquidacion-mercancias.component.html',
@@ -21,7 +22,7 @@ export class LiquidacionMercanciasComponent implements OnInit {
   cols: any[];
   pendientes: any;
   
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private liquidacionesServ: LiquidacionMercanciasService,
               private confirmationService: ConfirmationService,

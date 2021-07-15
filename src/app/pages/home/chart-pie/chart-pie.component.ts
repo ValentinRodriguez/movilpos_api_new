@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-chart-pie',
   templateUrl: './chart-pie.component.html',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class ChartPieComponent implements OnInit {
 
   revenueChart: any;
-  constructor() { }
+  constructor(private globalFunction: GlobalFunctionsService,) { }
 
   ngOnInit(): void {
     this.revenueChart = {

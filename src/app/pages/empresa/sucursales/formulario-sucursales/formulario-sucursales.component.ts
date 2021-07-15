@@ -22,7 +22,7 @@ export class FormularioSucursalesComponent implements OnInit {
   guardar = true;
   actualizar = false;
   sucursalesExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   paises: any = [];
@@ -35,14 +35,13 @@ export class FormularioSucursalesComponent implements OnInit {
   rutaActual: string[];
   items: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private empresasServ: EmpresaService,
               private router: Router,
               private datosEstaticosServ: DatosEstaticosService,
-              private globalFunction: GlobalFunctionsService,
               private sucursalesServ: SucursalesService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
@@ -69,11 +68,6 @@ export class FormularioSucursalesComponent implements OnInit {
         this.forma.patchValue(res);
       })
     })
-
-    const observer2$ = this.sucursalesServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
     
     const observer3$ = this.empresasServ.empresaCreada.subscribe((resp: any) =>{
       this.todaLaData();
@@ -83,7 +77,7 @@ export class FormularioSucursalesComponent implements OnInit {
       this.items = [];
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer8$];
+    this.listSubscribers = [observer1$,observer3$,observer8$];
    };
 
   crearFormulario() {
@@ -159,9 +153,9 @@ export class FormularioSucursalesComponent implements OnInit {
   }
 
   guardarSucursales(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -188,10 +182,9 @@ export class FormularioSucursalesComponent implements OnInit {
   
 
   actualizarSucursales(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -207,7 +200,6 @@ export class FormularioSucursalesComponent implements OnInit {
   datosLocalidad(data) {
     console.log(data);
     
-    this.formSubmitted = true;
     this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === data.value.id_pais)); 
         
     this.paisesCiudadesServ.buscaRegion(data.value.id_pais).then((resp:any) => { 
@@ -232,8 +224,7 @@ export class FormularioSucursalesComponent implements OnInit {
                 this.sectores = resp;
                 this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector === data.value.id_sector));                
               }
-              this.forma.get('calle').setValue(data.value.calle);   
-              this.formSubmitted = false;
+              this.forma.get('calle').setValue(data.value.calle);
             })
           })
         });          

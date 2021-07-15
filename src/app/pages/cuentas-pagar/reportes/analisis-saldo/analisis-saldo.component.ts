@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-analisis-saldo',
   templateUrl: './analisis-saldo.component.html',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnalisisSaldoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private globalFunction: GlobalFunctionsService,) { }
 
   ngOnInit(): void {
   }

@@ -5,6 +5,7 @@ import { AreasEmpresaService } from 'src/app/services/areas-empresa.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-areas-empresa',
   templateUrl: './areas-empresa.component.html',
@@ -17,9 +18,9 @@ export class AreasEmpresaComponent implements OnInit {
   areas: any[] = [];
   id_categoria: any;
   cols: any[];
-  formSubmitted = false;
+  
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private areasServ: AreasEmpresaService,
               private confirmationService: ConfirmationService,
@@ -54,14 +55,9 @@ export class AreasEmpresaComponent implements OnInit {
     this.areasServ.areaAct.subscribe((resp: any) => {
       this.todasLasAreas();
     })
-
-    this.areasServ.formSubmitted.subscribe((resp: any) => {
-      this.formSubmitted = resp;
-    })
   }
 
   todasLasAreas() {
-    this.formSubmitted = true;
     this.areasServ.getDatos().then((resp: any) => {
       this.areas = resp;
     });

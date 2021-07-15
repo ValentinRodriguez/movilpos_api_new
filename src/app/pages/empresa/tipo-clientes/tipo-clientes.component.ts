@@ -5,6 +5,7 @@ import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipo-clientes',
   templateUrl: './tipo-clientes.component.html',
@@ -20,9 +21,9 @@ export class TipoClientesComponent implements OnInit {
   cols: any[];
    
   index: number = 0;
-  formSubmitted = false;
   
-  constructor(private uiMessage: UiMessagesService,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoClienteServ: TipoClienteService,
               private confirmationService: ConfirmationService,

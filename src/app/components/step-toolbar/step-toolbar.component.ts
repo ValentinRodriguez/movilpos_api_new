@@ -13,7 +13,7 @@ export class StepToolbarComponent implements OnInit {
   index = 0;
   inicio: any;
 
-  constructor(public router: Router,
+  constructor(private globalFunction: GlobalFunctionsService,public router: Router,
               private globalServ: GlobalFunctionsService) { }
 
   ngOnInit(): void { 

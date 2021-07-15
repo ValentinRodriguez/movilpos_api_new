@@ -15,6 +15,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-interfaz-ventas',
   templateUrl: './interfaz-ventas.component.html',
@@ -58,7 +59,7 @@ export class InterfazVentasComponent implements OnInit {
     financiando = false;
     loading = true;
     
-    constructor(private fb: FormBuilder,
+    constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,

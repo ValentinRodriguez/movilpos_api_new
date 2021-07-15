@@ -10,6 +10,7 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-liquidacion-mercancias',
   templateUrl: './formulario-liquidacion-mercancias.component.html',
@@ -24,7 +25,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   ocExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   proveedores: any = [];
@@ -39,7 +40,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   totalFOB = 0;
   totalFlete = 0;
   pendientes: any;
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private invProductosServ: InventarioService,
@@ -101,10 +102,6 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.liquidacionesServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
     const observer3$ = this.liquidacionesServ.pendienteEnviadas.subscribe((resp: any) =>{
       console.log(resp);      
       this.forma.get('num_oc').setValue(resp.id_num_oc);
@@ -118,7 +115,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
       this.agregarFormulario(resp);
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    this.listSubscribers = [observer1$,observer3$];
   };
 
   crearFormulario() {
@@ -191,9 +188,9 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   }
 
   guardarLiquidacion(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -258,10 +255,9 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   }
 
   actualizarLiquidacion(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

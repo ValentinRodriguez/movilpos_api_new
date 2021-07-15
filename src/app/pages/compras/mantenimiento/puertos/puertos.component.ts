@@ -5,6 +5,7 @@ import { PuertosService } from 'src/app/services/puertos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-puertos',
   templateUrl: './puertos.component.html',
@@ -17,10 +18,10 @@ export class PuertosComponent implements OnInit {
   puerto: any[] = [];
   cols: any[];
    
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puertosService: PuertosService,
               private confirmationService: ConfirmationService,
@@ -64,11 +65,7 @@ export class PuertosComponent implements OnInit {
       this.todosLospuertos();
     })
 
-    const observer5$ = this.puertosService.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
    };
 
   todosLospuertos() {

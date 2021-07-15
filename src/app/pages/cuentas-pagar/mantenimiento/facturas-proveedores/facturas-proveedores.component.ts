@@ -5,6 +5,7 @@ import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-facturas-proveedores',
   templateUrl: './facturas-proveedores.component.html',
@@ -17,10 +18,10 @@ export class FacturasProveedoresComponent implements OnInit {
   facturas: any[] = [];
   id_categoria: any;
   cols: any[];
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private usuariosServ: UsuarioService,
+  constructor(private globalFunction: GlobalFunctionsService,private usuariosServ: UsuarioService,
               private coTransaccionesServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
               private uiMessage: UiMessagesService,
@@ -68,11 +69,7 @@ export class FacturasProveedoresComponent implements OnInit {
       this.todasLasFacturas();
     })
 
-    const observer5$ = this.coTransaccionesServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   todasLasFacturas() {

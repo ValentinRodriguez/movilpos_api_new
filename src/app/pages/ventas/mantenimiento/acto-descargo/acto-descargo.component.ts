@@ -8,6 +8,7 @@ import { InventarioService } from 'src/app/services/inventario.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-acto-descargo',
   templateUrl: './acto-descargo.component.html',
@@ -70,7 +71,7 @@ export class ActoDescargoComponent implements OnInit {
     id_sector: '',
   };
 
-  constructor(private paisesCiudadesServ: PaisesCiudadesService,
+  constructor(private globalFunction: GlobalFunctionsService,private paisesCiudadesServ: PaisesCiudadesService,
               private inventarioServ: InventarioService,
               private DatosEstaticos: DatosEstaticosService,
     private clientesServ: ClientesService) { }

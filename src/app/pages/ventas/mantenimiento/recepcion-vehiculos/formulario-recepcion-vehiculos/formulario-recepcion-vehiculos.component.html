@@ -169,11 +169,11 @@
     </div>
 </p-panel>
 <br>
-<p-progressBar mode="indeterminate" *ngIf="this.formSubmitted"></p-progressBar>
+
 <br>
-<button *ngIf="!this.formSubmitted && this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit" (click)="guardarRecepcion()"></button>
-<button *ngIf="!this.formSubmitted && this.actualizar" (click)="actualizarRecepcion()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
-<button *ngIf="!this.formSubmitted && this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
+<button *ngIf="this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit" (click)="guardarRecepcion()"></button>
+<button *ngIf="this.actualizar" (click)="actualizarRecepcion()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+<button *ngIf="this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
 
 
 <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">

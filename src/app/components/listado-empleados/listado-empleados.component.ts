@@ -4,6 +4,7 @@ import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-listado-empleados',
   templateUrl: './listado-empleados.component.html',
@@ -17,7 +18,7 @@ export class ListadoEmpleadosComponent implements OnInit {
   cols: any[]= [];
    
 
-  constructor(private empleadosServ: RrhhService,
+  constructor(private globalFunction: GlobalFunctionsService,private empleadosServ: RrhhService,
               private ref: DynamicDialogRef,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService) { }

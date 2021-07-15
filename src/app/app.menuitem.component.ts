@@ -6,6 +6,7 @@ import {filter} from 'rxjs/operators';
 import {MenuService} from './app.menu.service';
 import {AppMainComponent} from './app.main.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     /* tslint:disable:component-selector */
     selector: '[app-menuitem]',

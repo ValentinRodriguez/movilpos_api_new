@@ -5,6 +5,7 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-turnos',
   templateUrl: './formulario-turnos.component.html',
@@ -19,11 +20,11 @@ export class FormularioTurnosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   turnoExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private datosEstaticos: DatosEstaticosService,
@@ -41,22 +42,18 @@ export class FormularioTurnosComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.turnosServ.actualizar.subscribe((resp: any) =>{
+    const observer1$ = this.turnosServ.actualizar.subscribe((resp: any) => {
       this.guardar = false;
-      this.actualizar = true;   
-      this.id = Number(resp);      
+      this.actualizar = true;
+      this.id = Number(resp);
       console.log(resp);
-      this.turnosServ.getDato(resp).then((res: any) => {         
+      this.turnosServ.getDato(resp).then((res: any) => {
         this.forma.get('descripcion').setValue(res.divisa);
         this.forma.patchValue(res);
       })
-    })
+    });
 
-    const observer2$ = this.turnosServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
    };
 
   crearFormulario() {
@@ -71,7 +68,7 @@ export class FormularioTurnosComponent implements OnInit {
   }
 
   guardarTurno(){
-    // this.formSubmitted = true;    
+    //     
     console.log(this.forma.value);
     let horai =  new Date(Date.parse(this.forma.get('horario_inicial').value));
     let horaf =  new Date(Date.parse(this.forma.get('horario_final').value));
@@ -86,7 +83,7 @@ export class FormularioTurnosComponent implements OnInit {
     let hora2 = this.datosEstaticos.getDataFormated(horaf);
 
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -128,10 +125,9 @@ export class FormularioTurnosComponent implements OnInit {
   }
 
   actualizarTurno(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

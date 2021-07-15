@@ -5,6 +5,7 @@ import { ClientesService } from 'src/app/services/clientes.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
@@ -24,7 +25,7 @@ export class ClientesComponent implements OnInit {
   index: number = 0;
   listSubscribers: any = [];
 
-  constructor( private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService, private uiMessage: UiMessagesService,
                private usuariosServ: UsuarioService,
                private clientesServ: ClientesService,
                private confirmationService: ConfirmationService) {

@@ -4,6 +4,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-cat',
   templateUrl: './formulario-cat.component.html',
@@ -19,10 +20,10 @@ export class FormularioCatComponent implements OnInit {
   actualizar = false;
   categoriaExiste = 3;
   id: number;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private categoriasServ: CategoriasService) { 
@@ -49,11 +50,7 @@ export class FormularioCatComponent implements OnInit {
       })
     })
 
-    const observer5$ = this.categoriasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-   this.listSubscribers = [observer1$,observer5$];
+   this.listSubscribers = [observer1$];
   };
 
   crearFormulario() {
@@ -65,9 +62,9 @@ export class FormularioCatComponent implements OnInit {
   }
 
   guardarCategoria(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) { 
-      this.formSubmitted = false;      
+            
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -93,9 +90,9 @@ export class FormularioCatComponent implements OnInit {
   }
   
   actualizarCategoria(){
-    this.formSubmitted = true; 
+     
     if (this.forma.invalid) { 
-      this.formSubmitted = false;      
+            
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

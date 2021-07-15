@@ -9,6 +9,7 @@ import { SucursalesService } from 'src/app/services/sucursales.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-area-empresas',
   templateUrl: './formulario-area-empresas.component.html',
@@ -23,7 +24,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   areaExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   departamentos: any[] = [];
@@ -34,7 +35,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   sucursalesFiltradas: any[]= [];
   rutaActual: string[];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,
@@ -62,7 +63,6 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
-      this.formSubmitted = true;
       this.areasServ.getDato(resp).then((res: any) => {
         this.forma.patchValue(res);        
         this.forma.get('cod_cia').setValue(this.empresas.find(empresa => empresa.cod_cia == res.cod_cia));
@@ -72,16 +72,6 @@ export class FormularioAreaEmpresasComponent implements OnInit {
           this.forma.get('suc_id').setValue(this.sucursales.find(sucursal => sucursal.id === res.suc_id));
         });
       })
-    })
-
-    const observer2$ = this.areasServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-      console.log(this.formSubmitted);
-    })
-
-    const observer6$ = this.sucursalesServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-      console.log(this.formSubmitted);
     })
 
     const observer3$ = this.empresasServ.empresaCreada.subscribe((resp: any) =>{
@@ -96,7 +86,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       this.sucursales.push(resp);
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+    this.listSubscribers = [observer1$,observer3$,observer4$,observer5$];
   };
 
   todaLaData() {   
@@ -138,9 +128,9 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   }
 
   guardarArea(){
-    // this.formSubmitted = true;    
+    //     
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -166,10 +156,9 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   }
   
   actualizarArea(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -236,7 +225,6 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   }
 
   buscaSucursales(event) {
-    this.formSubmitted = true;
     this.sucursalesServ.busquedaXempresa(event.cod_cia).then((resp: any) => {
       this.sucursales = resp; 
     })

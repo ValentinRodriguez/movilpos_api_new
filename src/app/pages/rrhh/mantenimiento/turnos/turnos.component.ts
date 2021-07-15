@@ -5,6 +5,7 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-turnos',
   templateUrl: './turnos.component.html',
@@ -17,9 +18,9 @@ export class TurnosComponent implements OnInit {
   turnos: any[] = [];
   id_categoria: any;
   cols: any[];   
-  formSubmitted = false;
+  
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private turnosServ: TurnosService,
               private confirmationService: ConfirmationService,
@@ -50,15 +51,10 @@ export class TurnosComponent implements OnInit {
 
     this.turnosServ.turnoAct.subscribe((resp: any) => {
       this.todasLasTurnos();
-    })
-
-    this.turnosServ.formSubmitted.subscribe((resp: any) => {
-      this.formSubmitted = resp;
-    })
+    });
   }
 
   todasLasTurnos() {
-    this.formSubmitted = true;
     this.turnosServ.getDatos().then((resp: any) => {
       this.turnos = resp;
     });

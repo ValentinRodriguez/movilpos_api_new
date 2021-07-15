@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 
 const URL = environment.urlImagenes;
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-recepcion-vehiculos',
   templateUrl: './formulario-recepcion-vehiculos.component.html',
@@ -25,7 +26,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   recepcionExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   clientesFiltrados: any = [];
@@ -53,7 +54,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
     {label: 'Importado', value: 'importado'},
     {label: 'Local', value: 'local'},
   ];
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private marcaService: BrandsService,
@@ -82,11 +83,11 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      // this.formSubmitted = true;   
+      //    
       this.recepcionsServ.getDato(resp).then((res: any) => {         
         this.guardar = false;
         this.id = Number(resp);  
-        this.formSubmitted = false; 
+         
         this.forma.patchValue(resp);
         this.forma.get('cliente').setValue(this.clientes.find(doc => doc.id == res.cliente)); 
         this.imgURL = `${URL}/storage/${res.imagen}`;
@@ -102,11 +103,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.recepcionsServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+      this.listSubscribers = [observer1$];
    };
 
   crearFormulario() {
@@ -134,9 +131,9 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
 
   guardarRecepcion(){
     console.log(this.forma);
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -290,10 +287,9 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
   }
 
   actualizarRecepcion(){
-    // this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

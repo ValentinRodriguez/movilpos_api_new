@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UiMessagesService } from './ui-messages.service';
 import { UsuarioService } from './usuario.service';
 import { Subject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -16,6 +15,7 @@ export class GlobalFunctionsService {
   usuarioExiste = 3;
   finalizar = new EventEmitter;
   formSubmitted = new EventEmitter;
+  formReceived = new EventEmitter;
   
   constructor(private http: HttpClient,
               private usuariosServ: UsuarioService) { 

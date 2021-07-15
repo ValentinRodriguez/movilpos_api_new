@@ -5,6 +5,7 @@ import { MonedasService } from 'src/app/services/monedas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-monedas',
   templateUrl: './monedas.component.html',
@@ -17,10 +18,10 @@ export class MonedasComponent implements OnInit {
   monedas: any[] = [];
   id_categoria: any;
   cols: any[];
-  formSubmitted = false;
+  
   
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private monedasServ: MonedasService,
               private confirmationService: ConfirmationService,

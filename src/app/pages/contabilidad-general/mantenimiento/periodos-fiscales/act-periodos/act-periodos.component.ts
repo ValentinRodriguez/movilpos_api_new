@@ -5,6 +5,7 @@ import { PeriodosFiscalesService } from 'src/app/services/periodos-fiscales.serv
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-act-periodos',
   templateUrl: './act-periodos.component.html',
@@ -18,9 +19,9 @@ export class ActPeriodosComponent implements OnInit {
   meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
   month = [ "January","February","March","April","May","June","July","August","September","October","November","December" ];
   deadline: any[] = [];
-  formSubmitted = false;
   
-  constructor(private fb: FormBuilder,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private periodoServ: PeriodosFiscalesService,
               private uiMessage: UiMessagesService,
@@ -54,14 +55,13 @@ export class ActPeriodosComponent implements OnInit {
   }
 
   actualizarPeriodo() {
-    this.formSubmitted = true; 
+     
     this.forma.get('usuario_modificador').setValue(this.usuario.username);
     const divide = this.forma.get('fecha_ini_fin').value;
     this.forma.get("fecha_inicio").patchValue(this.transformarFecha(divide[0]));
     this.forma.get("fecha_corte").patchValue(this.transformarFecha(divide[1]));
 
     if (this.forma.invalid) {
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
     } else {
       this.periodoServ.actualizarPeriodo(this.periodo, this.forma.value).then((resp: any) => {

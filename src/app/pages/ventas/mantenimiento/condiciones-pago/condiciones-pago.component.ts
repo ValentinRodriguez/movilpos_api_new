@@ -5,6 +5,7 @@ import { CondicionesPagoService } from 'src/app/services/condiciones-pago.servic
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-condiciones-pago',
   templateUrl: './condiciones-pago.component.html',
@@ -20,7 +21,7 @@ export class CondicionesPagoComponent implements OnInit {
   cols: any[];
    
 
-  constructor(
+  constructor(private globalFunction: GlobalFunctionsService,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private confirmationService: ConfirmationService,

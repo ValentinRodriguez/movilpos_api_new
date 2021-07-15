@@ -7,6 +7,7 @@ import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-descuentos',
   templateUrl: './descuentos.component.html',
@@ -38,7 +39,7 @@ export class DescuentosComponent implements OnInit {
     { label: 'doctorado', value: 'Doctorado' }
   ] 
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private categoriasServ: CategoriasService,

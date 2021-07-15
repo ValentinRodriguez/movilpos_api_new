@@ -9,6 +9,7 @@ import { TransacionPagosService } from 'src/app/services/transacion-pagos.servic
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-existencias-almacenes',
   templateUrl: './existencias-almacenes.component.html',
@@ -32,7 +33,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   cols: any[];
   exportColumns: any[];
   mayor: any[] = [];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   rowGroupMetadata: any;
   productosFiltrados: any[] = [];
@@ -40,7 +41,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   bodegas: any;
   productos: any;
 
-  constructor(private existenciasServ:ExistenciaAlmacenesService,
+  constructor(private globalFunction: GlobalFunctionsService,private existenciasServ:ExistenciaAlmacenesService,
               private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
@@ -96,11 +97,8 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.existenciasServ.formSubmitted.subscribe((resp:any) =>{
-      this.formSubmitted = resp;
-    })
 
-    this.listSubscribers = [observer1$];
+    this.listSubscribers = [];
   };
  
   crearFormulario() {
@@ -126,9 +124,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   }
 
   verReporte() {
-    this.formSubmitted = true;
-    if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+    if (this.forma.invalid) {             
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

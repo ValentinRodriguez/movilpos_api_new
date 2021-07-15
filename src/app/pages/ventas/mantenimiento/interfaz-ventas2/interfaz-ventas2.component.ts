@@ -17,6 +17,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-interfaz-ventas2',
   templateUrl: './interfaz-ventas2.component.html',
@@ -62,10 +63,10 @@ export class InterfazVentas2Component implements OnInit {
     metodo: any;
     selectedProducts2: any[] = [];
     productoFIltrado: any;
-    formSubmitted = false;
+    
     guardando: boolean;
 
-    constructor(private fb: FormBuilder,
+    constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
@@ -195,10 +196,9 @@ export class InterfazVentas2Component implements OnInit {
     }
     
     todosLosProductos() {
-        this.formSubmitted = true
+        
         this.inventarioServ.getDatos().then((resp: any) =>{
             this.productos = resp;
-            this.formSubmitted = false;
         })
     }
 

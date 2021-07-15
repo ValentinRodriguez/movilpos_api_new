@@ -4,6 +4,7 @@ import { CondicionesPagoService } from 'src/app/services/condiciones-pago.servic
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-condiciones',
   templateUrl: './formulario-condiciones.component.html',
@@ -17,14 +18,14 @@ export class FormularioCondicionesComponent implements OnInit {
   usuario: any;
   guardar = true;
   actualizar = false;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   sino = [
     {label: 'Sí', value: 'si'},
     {label: 'No', value: 'no'},
   ];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private condicionServ: CondicionesPagoService,) { 
@@ -40,12 +41,8 @@ export class FormularioCondicionesComponent implements OnInit {
     this.listObserver();
   }
   
-  listObserver = () => {
-    const observer1$ = this.condicionServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$];
+  listObserver = () => {  
+    this.listSubscribers = [];
   };
 
   crearFormulario() {
@@ -59,7 +56,6 @@ export class FormularioCondicionesComponent implements OnInit {
   }
 
   guardarCondicion() {
-    this.formSubmitted = true;
     if (this.condicionExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Esta condición ya existe');
       return;
@@ -75,7 +71,6 @@ export class FormularioCondicionesComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
       })
     }else{
-      this.formSubmitted = false;
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })

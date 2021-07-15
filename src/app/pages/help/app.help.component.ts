@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {BreadcrumbService} from '../../app.breadcrumb.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     templateUrl: './app.help.component.html',
 })
@@ -9,7 +10,7 @@ export class AppHelpComponent {
 
     filteredText: any[];
 
-    constructor(private breadcrumbService: BreadcrumbService) {
+    constructor(private globalFunction: GlobalFunctionsService,private breadcrumbService: BreadcrumbService) {
         this.breadcrumbService.setItems([
             {label: 'Help'}
         ]);

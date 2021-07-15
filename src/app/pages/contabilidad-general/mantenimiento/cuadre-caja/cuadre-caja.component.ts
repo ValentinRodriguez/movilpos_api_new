@@ -5,6 +5,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CuadresService } from "src/app/services/cuadres.service";
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-cuadre-caja',
   templateUrl: './cuadre-caja.component.html',
@@ -17,9 +18,9 @@ export class CuadreCajaComponent implements OnInit {
   cuadres: any[] = [];
   id_categoria: any;
   cols: any[];
-  formSubmitted = false;
   
-  constructor(private uiMessage: UiMessagesService,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private cuadresServ: CuadresService,
               private confirmationService: ConfirmationService,
@@ -55,14 +56,10 @@ export class CuadreCajaComponent implements OnInit {
     this.cuadresServ.cuadreAct.subscribe((resp: any) => {
       this.todosLosCuadres();
     })
-
-    this.cuadresServ.formSubmitted.subscribe((resp: any) => {
-      this.formSubmitted = resp;
-    })
   }
 
   todosLosCuadres() {
-    this.formSubmitted = true
+    
     this.cuadresServ.getDatos().then((resp: any) => {
       this.cuadres = resp;
     });

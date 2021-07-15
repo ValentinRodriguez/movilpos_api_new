@@ -6,6 +6,7 @@ import { MovimientoPermisosComponent } from 'src/app/pages/inventario/mantenimie
 import { CodMovService } from 'src/app/services/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipos-movimientos',
   templateUrl: './tipos-movimientos.component.html',
@@ -28,10 +29,10 @@ export class TiposMovimientosComponent implements OnInit {
   index: number = 0;
   cols:any = [];
   cols2: { field: string; header: string; }[];
-    formSubmitted = false;
+    
   listSubscribers: any = [];
   
-  constructor(private uiMessage: UiMessagesService,              
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,              
               public dialogService: DialogService,             
               private confirmationService: ConfirmationService,
               private CodMovServ: CodMovService,
@@ -76,11 +77,7 @@ export class TiposMovimientosComponent implements OnInit {
       this.todosLosMov();
     })
 
-    const observer5$ = this.CodMovServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   todosLosMov() {

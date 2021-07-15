@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 
 const URL = environment.urlImagenes;
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-empresa',
   templateUrl: './formulario-empresa.component.html',
@@ -44,7 +45,7 @@ export class FormularioEmpresaComponent implements OnInit {
   paisesFiltrados: any[] = [];  
   ciudadesFiltradas: any[] = [];  
   id: number;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
   sino = [
@@ -67,7 +68,7 @@ export class FormularioEmpresaComponent implements OnInit {
   municipios: any;
   sectores: any;
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private empresasServ: EmpresaService,
               private monedasServ: MonedasService,
@@ -141,11 +142,7 @@ export class FormularioEmpresaComponent implements OnInit {
       this.forma.get('rnc').setValue(resp.rnc);
     })
 
-    const observer5$ = this.empresasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$,observer5$];
+    this.listSubscribers = [observer1$,observer2$];
   };
 
   todosLosPaises() {
@@ -212,13 +209,12 @@ export class FormularioEmpresaComponent implements OnInit {
   }
 
   guardarEmpresa() {
-    this.formSubmitted = true;    
+        
     if (this.forma.get('logo').value === '') {
       this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger un logo para la empresa.');
       return;
     }
     if (this.forma.invalid) {  
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -241,12 +237,10 @@ export class FormularioEmpresaComponent implements OnInit {
     } 
   }
 
-  actualizarEmpresa(){
-    this.formSubmitted = true;    
+  actualizarEmpresa(){        
     this.forma.get('usuario_modificador').setValue(this.usuario.username);
     
     if (this.forma.invalid) {  
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios.');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

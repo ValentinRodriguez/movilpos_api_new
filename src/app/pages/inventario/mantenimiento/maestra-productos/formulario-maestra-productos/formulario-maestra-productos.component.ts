@@ -31,7 +31,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   tipos: any[] = [];
   noFisico = true;
   productoExiste = 3;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   tipoInventario: any[] = [];
   fechafabricacion: any[] = [];
@@ -66,7 +66,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   getChasis = false;
   id: number;
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   
@@ -75,7 +75,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
               private tipoInv: TipoInventarioService,
               private propServ: PropiedadesService,
               private bodegasServ: BodegasService,
-              private globalFunction: GlobalFunctionsService,
               private router: Router,
               private categoriasServ: CategoriasService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
@@ -136,15 +135,11 @@ export class FormularioMaestraProductosComponent implements OnInit {
       })
     })
 
-    const observer7$ = this.inventarioServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
     const observer8$ = this.globalFunction.finalizar.subscribe((resp) => {
       this.items = [];
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
   };
 
   crearFormulario() {
@@ -180,9 +175,9 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   guardarProducto() {
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();
@@ -196,10 +191,9 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
   
   actualizarProducto() {
-    // this.formSubmitted = true;
-    this.forma.get('usuario_modificador').setValue(this.usuario.username);    
+    // this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {   
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();

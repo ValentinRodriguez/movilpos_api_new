@@ -8,6 +8,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { groupBy } from 'lodash-es';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-mayor-general',
   templateUrl: './mayor-general.component.html',
@@ -31,13 +32,13 @@ export class MayorGeneralComponent implements OnInit {
   cols: any[];
   exportColumns: any[];
   mayor: any[] = [];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   rowGroupMetadata: any;
 
 
 
-  constructor(private cgtransaccionesSev:TransacionPagosService,
+  constructor(private globalFunction: GlobalFunctionsService,private cgtransaccionesSev:TransacionPagosService,
               private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
@@ -65,11 +66,8 @@ export class MayorGeneralComponent implements OnInit {
   }
   
   listObserver = () => {
-    const observer1$ = this.cgtransaccionesSev.formSubmitted.subscribe((resp:any) =>{
-      this.formSubmitted = resp;
-    })
 
-    this.listSubscribers = [observer1$];
+    this.listSubscribers = [];
   };
  
   crearFormulario() {
@@ -81,9 +79,8 @@ export class MayorGeneralComponent implements OnInit {
   }
   
   verReporte() {
-    this.formSubmitted = true;
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

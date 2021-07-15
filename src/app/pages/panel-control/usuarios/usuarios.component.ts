@@ -7,6 +7,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PermisosUsuariosComponent } from './permisos-usuarios/permisos-usuarios.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
@@ -26,7 +27,7 @@ export class UsuariosComponent implements OnInit {
   empleados: any[] = [];
    
 
-  constructor(private confirmationService: ConfirmationService,
+  constructor(private globalFunction: GlobalFunctionsService,private confirmationService: ConfirmationService,
               private empleadoServ: RrhhService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,

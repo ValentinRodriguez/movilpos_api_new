@@ -3,6 +3,7 @@ import { AppMainComponent } from './app.main.component';
 import { FacturasService } from './services/facturas.service';
 import { SettingsService } from './services/settings.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-config',
     template: `

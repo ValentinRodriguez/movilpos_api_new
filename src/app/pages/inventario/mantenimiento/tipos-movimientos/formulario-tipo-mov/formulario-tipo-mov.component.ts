@@ -7,6 +7,7 @@ import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-mov',
   templateUrl: './formulario-tipo-mov.component.html',
@@ -27,7 +28,7 @@ export class FormularioTipoMovComponent implements OnInit {
   usuarios: any[] = [];  
   cols2: { field: string; header: string; }[];
   id: number;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
   origenes = [
@@ -40,7 +41,7 @@ export class FormularioTipoMovComponent implements OnInit {
     {label: 'No', value: 'no'},
   ];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
     private uiMessage: UiMessagesService,
     private CodMovServ: CodMovService,
     private cgCatalogoServ: CgcatalogoService,
@@ -92,11 +93,7 @@ export class FormularioTipoMovComponent implements OnInit {
       })
     })
 
-    const observer5$ = this.CodMovServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$];
+    this.listSubscribers = [observer1$,observer2$];
    };
   
   crearFormulario() {
@@ -193,9 +190,7 @@ export class FormularioTipoMovComponent implements OnInit {
   }
     
   guardarcodMov(){
-    this.formSubmitted = true;
-    if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+    if (this.forma.invalid) {   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');  
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -222,10 +217,9 @@ export class FormularioTipoMovComponent implements OnInit {
   }
 
   actualizarMov(){    
-     this.formSubmitted = true; 
+      
      this.forma.get('usuario_modificador').setValue(this.usuario.username);    
      if (this.forma.invalid) {       
-      this.formSubmitted = false;
        this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
        Object.values(this.forma.controls).forEach(control =>{          
          control.markAllAsTouched();

@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-transacciones-inventario',
   templateUrl: './transacciones-inventario.component.html',
@@ -22,12 +23,12 @@ export class TransaccionesInventarioComponent implements OnInit {
   transacciones:any[] = [];
   facturas
   cols: any[] = [];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   index = 0;
   items: MenuItem[] = [];
 
-  constructor(private transaccionesServ: TransaccionesService,
+  constructor(private globalFunction: GlobalFunctionsService,private transaccionesServ: TransaccionesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
@@ -66,15 +67,11 @@ export class TransaccionesInventarioComponent implements OnInit {
       this.todasLastransacciones();
     }) 
 
-    const observer5$ = this.transaccionesServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
     const observer3$ = this.transaccionesServ.finalizar.subscribe((resp) => {
       this.index = resp;
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer5$];
+    this.listSubscribers = [observer1$,observer2$,observer3$];
   };
 
   todasLastransacciones() {     

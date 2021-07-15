@@ -7,6 +7,7 @@ import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service'
 import { Table } from 'primeng/table/table';
 
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-zonas',
   templateUrl: './formulario-zonas.component.html',
@@ -21,14 +22,14 @@ export class FormularioZonasComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   zonaExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   provincias: any[] = [];
   provinciasSeleccionadas = [];
   result: any[] = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private provinciasServ: PaisesCiudadesService,
@@ -66,11 +67,7 @@ export class FormularioZonasComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.zonasServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
   };
 
   crearFormulario() {
@@ -84,9 +81,9 @@ export class FormularioZonasComponent implements OnInit {
   }
 
   guardarZona(){
-    // this.formSubmitted = true;    
+    //     
     if (this.forma.invalid) {    
-      this.formSubmitted = false;   
+         
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -146,10 +143,9 @@ export class FormularioZonasComponent implements OnInit {
   }
 
   actualizarZona(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

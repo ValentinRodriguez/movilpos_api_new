@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuesService } from 'src/app/services/menues.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-menu-cuentas-pagar',
   templateUrl: './menu-cuentas-pagar.component.html',
@@ -12,19 +13,15 @@ export class MenuCuentasPagarComponent implements OnInit {
   menu: any[] = [];
   formSubmitted: boolean;
 
-  constructor(private menuServ: MenuesService,
+  constructor(private globalFunction: GlobalFunctionsService,private menuServ: MenuesService,
               private router: Router) { }
 
   ngOnInit(): void {
-    this.menuServ.formSubmitted.subscribe((resp: any) => {
-      this.formSubmitted = resp;
-    });
     
     this.getData();
   }
 
   getData() {
-    this.formSubmitted = true;
     this.menuServ.getMenu(10).then((resp: any) => {
       this.menu = resp;   
     })

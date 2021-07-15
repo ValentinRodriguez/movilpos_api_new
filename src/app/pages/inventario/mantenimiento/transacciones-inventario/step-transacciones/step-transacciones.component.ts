@@ -4,6 +4,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { TransaccionesService } from 'src/app/services/transacciones.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-step-transacciones',
   templateUrl: './step-transacciones.component.html',
@@ -14,7 +15,7 @@ export class StepTransaccionesComponent implements OnInit {
   items: MenuItem[] = [];
   activeIndex = 0;
 
-  constructor(public config: DynamicDialogConfig,
+  constructor(private globalFunction: GlobalFunctionsService,public config: DynamicDialogConfig,
               public ref: DynamicDialogRef, 
               public transaccionesServ: TransaccionesService,
               public datosEstaticosServ: DatosEstaticosService,) { }

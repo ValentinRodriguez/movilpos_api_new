@@ -7,6 +7,7 @@ import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-usuarios',
   templateUrl: './formulario-usuarios.component.html',
@@ -28,7 +29,7 @@ export class FormularioUsuariosComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   estado = [
@@ -36,7 +37,7 @@ export class FormularioUsuariosComponent implements OnInit {
     {label: 'Inactivo', value: 'inactivo'},
   ];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService,
@@ -75,10 +76,6 @@ export class FormularioUsuariosComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.empleadosServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
     const observer3$ = this.empleadosServ.empleadoEscogido.subscribe(resp =>{
       this.forma.get('name').setValue((resp.primernombre));
       this.forma.get('surname').setValue(resp.primerapellido);
@@ -86,7 +83,7 @@ export class FormularioUsuariosComponent implements OnInit {
       this.forma.get('id').setValue(resp.id);
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    this.listSubscribers = [observer1$,observer3$];
    };
 
    
@@ -108,33 +105,27 @@ export class FormularioUsuariosComponent implements OnInit {
   }
 
   guardarUsuario() {
-    this.formSubmitted = true;
     if (this.usuarioExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este usuario ya esta registrado');
-      this.formSubmitted = false;
       return;
     }
 
     if (this.emailExiste === 2) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Este email ya esta registrado');
-      this.formSubmitted = false;
       return;
     }
 
     if (this.forma.valid) {      
       if (this.imgURLUser === null) {
         this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe escoger una imagen');
-        this.formSubmitted = false;
         return;
       } else {
         this.usuariosServ.register(this.forma.value).then(() => {  
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           this.resetFormulario();
-          this.formSubmitted = false;
         })  
       }
     }else{
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{ 
         control.markAllAsTouched();
@@ -144,10 +135,9 @@ export class FormularioUsuariosComponent implements OnInit {
   }
 
   actualizarUsuario() {
-     this.formSubmitted = true; 
+      
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {       
-      this.formSubmitted = false;
+    if (this.forma.invalid) {     
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -247,7 +237,7 @@ export class FormularioUsuariosComponent implements OnInit {
     const pass1 = this.forma.get('password')
     const pass2 = this.forma.get('password_confirmation')
 
-    if ((pass1 !== pass2) && this.formSubmitted ) {
+    if ((pass1 !== pass2)) {
       return true;      
     } else {
       return false;
@@ -255,7 +245,7 @@ export class FormularioUsuariosComponent implements OnInit {
   }
 
   submitted() {
-    this.formSubmitted = false;
+    
   }
 
   passwordsIguales(pass1Name: string, pass2Name: string ) {

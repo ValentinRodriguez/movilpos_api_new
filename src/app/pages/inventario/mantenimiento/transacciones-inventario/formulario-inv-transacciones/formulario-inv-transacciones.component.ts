@@ -24,6 +24,7 @@ import { StepTransaccionesComponent } from '../step-transacciones/step-transacci
 
 const URL = environment.url;
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-inv-transacciones',
   templateUrl: './formulario-inv-transacciones.component.html',
@@ -64,14 +65,14 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   minDate: Date;
   cols2: any[] = [];
   vendedorFiltrado: any[];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   noPermisos = false;
   rncExiste= 3;
   items: MenuItem[] = [];
   tipoNegocios: any[] = [];
   
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,   
               private clienteServ: ClientesService,
@@ -118,10 +119,6 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       this.productos.push(resp)
     })   
 
-    const observer7$ = this.transportistasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
     const observer8$ = this.invProductosServ.productoEscogido.subscribe((resp: any) => {
       this.productos = resp;
       this.productos.forEach(element => {
@@ -129,7 +126,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       });
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer7$,observer8$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$,observer8$];
   };
 
   ngOnDestroy(): void {
@@ -259,11 +256,10 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   guardarTransaccion() {  
-    // this.formSubmitted = true;      
+    //       
     console.log(this.forma);  
 
     if (this.forma.invalid) {  
-      this.formSubmitted = false;
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

@@ -5,12 +5,10 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { PuestosService } from 'src/app/services/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh.service';
 import { SucursalesService } from 'src/app/services/sucursales.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { StepEmpleadosComponent } from '../step-empleados/step-empleados.component';
 
 @Component({
   selector: 'app-formulario-empleados',
@@ -32,7 +30,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   minDate: Date;
   monedas: any;
   empresa: any;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   puestos: any[] = [];
   puestosFiltrados: any[];
@@ -88,14 +86,13 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.listSubscribers.forEach(a => a.unsubscribe());
   }
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,           
               public dialogService: DialogService,
               private router: Router,
               private sucursalesServ: SucursalesService,
-              private globalFunction: GlobalFunctionsService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private datosEstaticosServ: DatosEstaticosService) {     
     this.usuario = this.usuariosServ.getUserLogged();
@@ -182,9 +179,6 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
   
   listObserver = () => {
-    const observer1$ = this.empleadosServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
 
     const observer2$ = this.globalFunction.finalizar.subscribe((resp) => {
       this.items = [];
@@ -213,7 +207,7 @@ export class FormularioEmpleadosComponent implements OnInit {
         this.llenaCampos(res) 
       })
     })
-    this.listSubscribers = [observer1$, observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer2$,observer3$,observer4$];
   };
 
   llenaCampos(res) {
@@ -258,7 +252,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   guardarEmpleado() {
-    // this.formSubmitted = true;
+    // this.
     console.log(this.forma.value);
     
     if (this.forma.invalid) {
@@ -279,7 +273,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
     
   actualizarEmpleado() {
-     // this.formSubmitted = true;
+     // this.
     console.log(this.forma.value);
     
     if (this.forma.invalid) {
@@ -611,7 +605,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
   
   datosLocalidad(data) {
-    this.formSubmitted = true;    
+        
            
     this.paisesCiudadesServ.buscaRegion(data.id_pais).then((resp:any) => { 
       this.regiones = resp;      
@@ -636,7 +630,6 @@ export class FormularioEmpleadosComponent implements OnInit {
                 this.sectores = resp;
                 this.forma.get('id_sector').setValue(this.sectores.find(sector => sector.id_sector == data.id_sector));                
               }
-              this.formSubmitted = false;
             })
           })
         });          

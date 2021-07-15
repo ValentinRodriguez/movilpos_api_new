@@ -6,6 +6,7 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-catalogo-cuentas',
   templateUrl: './catalogo-cuentas.component.html',
@@ -21,10 +22,10 @@ export class CatalogoCuentasComponent implements OnInit {
   cols: any[];
   data: any[] = [];
   index: number = 0;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private cgcatalogoServ: CgcatalogoService,
               private confirmationService: ConfirmationService,
@@ -72,11 +73,7 @@ export class CatalogoCuentasComponent implements OnInit {
       this.todosLosCatalogos();
     })
 
-    const observer5$ = this.cgcatalogoServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   todosLosCatalogos() {

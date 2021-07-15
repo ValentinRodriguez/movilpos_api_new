@@ -7,6 +7,7 @@ import { RolesService } from 'src/app/services/roles.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-permisos-usuarios',
   templateUrl: './permisos-usuarios.component.html',
@@ -23,11 +24,11 @@ export class PermisosUsuariosComponent implements OnInit {
   accionesMod: any[] = [];
   guardando = false;
   cols: any[];
-  formSubmitted = true;
+  
   restableciendo = false;
   restablecer = true;  
   user: any;
-  constructor(private modulosServ: ModulosService,
+  constructor(private globalFunction: GlobalFunctionsService,private modulosServ: ModulosService,
               private menuesServ: MenuesService,
               private confirmationService: ConfirmationService,
               private usuariosServ: UsuarioService,
@@ -39,11 +40,6 @@ export class PermisosUsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.config.data;
     
-    this.rolesServ.formSubmitted.subscribe( resp => {
-      this.formSubmitted = resp;
-      console.log(resp);      
-    });
-
     this.cols = [
       { field:'codigo', header:'Programa'},
       { field:'todo', header:'Todo'},
@@ -56,7 +52,7 @@ export class PermisosUsuariosComponent implements OnInit {
   }
 
   todosLosRoles() {
-    this.formSubmitted = true; 
+     
     this.rolesServ.getRolFull(this.user.email, this.user.username).then((resp: any) => { 
       if (resp.length !== 0) {
         this.modulosServ.getModulos().then((resp2: any) =>{

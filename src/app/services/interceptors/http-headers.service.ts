@@ -1,5 +1,6 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -10,13 +11,19 @@ import { UsuarioService } from '../usuario.service';
   providedIn: 'root'
 })
 export class HttpHeadersService implements HttpInterceptor{
+
+  formSubmitted = new EventEmitter();
+
   constructor(private usuarioService: UsuarioService,
-              private globalFuntionServ: GlobalFunctionsService) { }
+              private globalFuntionServ: GlobalFunctionsService,
+              private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // console.log(req);
     
     if (req.method.toLowerCase() === 'post' || req.method.toLowerCase() === 'put' || req.method.toLowerCase() === 'delete') {
+      this.globalFuntionServ.formSubmitted.emit(true);
+      
       if (req.body instanceof FormData) {
         req =  req.clone({
           setHeaders: {
@@ -25,7 +32,8 @@ export class HttpHeadersService implements HttpInterceptor{
           },
           setParams:{
             sessionId: localStorage.getItem('sessionId'),
-            usuario_creador: `${this.usuarioService.getUserLogged().username}`
+            usuario_creador: `${this.usuarioService.getUserLogged().username}`,
+            urlRequest: this.router.url
           },
           body: req.body.append('sessionId', localStorage.getItem('sessionId'))
           
@@ -38,6 +46,11 @@ export class HttpHeadersService implements HttpInterceptor{
             'enctype'      : 'multipart/form-data',
             'Authorization': `Bearer ${this.usuarioService.getTokenLocalStorage()}`,
           },
+          setParams: {
+            sessionId: localStorage.getItem('sessionId'),
+            usuario_creador: `${this.usuarioService.getUserLogged().username}`,
+            urlRequest: this.router.url
+          },
           body: {...req.body, ...foo}
         })
       }
@@ -48,10 +61,6 @@ export class HttpHeadersService implements HttpInterceptor{
         setHeaders: {
           'enctype'      : 'multipart/form-data',
           'Authorization': `Bearer ${this.usuarioService.getTokenLocalStorage()}`,
-        },
-        setParams:{
-          sessionId: localStorage.getItem('sessionId'),
-          usuario_creador: `${this.usuarioService.getUserLogged().username}`
         }  
       });
     }
@@ -59,7 +68,7 @@ export class HttpHeadersService implements HttpInterceptor{
       tap(evt => {        
         if (evt instanceof HttpResponse) {
           if (evt.ok === true) {     
-            this.globalFuntionServ.formSubmitted.emit(evt);
+            this.globalFuntionServ.formReceived.emit(evt);
           }            
         }
     })

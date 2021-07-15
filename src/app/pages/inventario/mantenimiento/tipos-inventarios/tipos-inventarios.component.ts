@@ -6,6 +6,7 @@ import { TipoInventarioService } from 'src/app/services/tipo-inventario.service'
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipos-inventarios',
   templateUrl: './tipos-inventarios.component.html',
@@ -23,12 +24,12 @@ export class TiposInventariosComponent implements OnInit {
   cols: any[];
   cuenta_no: any;
   index: number = 0;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
 
  
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoInventarioServ: TipoInventarioService,
               private confirmationService: ConfirmationService,
@@ -71,11 +72,7 @@ export class TiposInventariosComponent implements OnInit {
       this.todosLosInvtipos();
     })
 
-    const observer5$ = this.tipoInventarioServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
   todosLosInvtipos() {         

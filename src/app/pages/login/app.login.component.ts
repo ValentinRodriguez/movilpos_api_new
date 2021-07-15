@@ -4,6 +4,7 @@ import { Message } from 'primeng/api';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-login',
   templateUrl: './app.login.component.html',
@@ -21,9 +22,9 @@ export class AppLoginComponent implements OnInit{
   interval;
   // guardando = false;
   msgs: Message[] = [];
-  formSubmitted = false;
   
-  constructor(private usuarioServ: UsuarioService,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private usuarioServ: UsuarioService,
               private router: Router,
               private datosEstaticosServ: DatosEstaticosService) { }
 
@@ -32,7 +33,6 @@ export class AppLoginComponent implements OnInit{
   }
 
   onSubmit() {
-    this.formSubmitted = true;
     this.usuarioServ.login(this.form).subscribe(
       data => this.handleResponse(data),
       error => this.handlerError(error)
@@ -40,13 +40,11 @@ export class AppLoginComponent implements OnInit{
   }
 
   handleResponse(data) {
-    this.formSubmitted = false;
     this.usuarioServ.handleToken(data);
     this.router.navigateByUrl('/');     
   }
 
   handlerError(error) {
-    this.formSubmitted = false;
     switch (error.status) {
       case 401:
         this.error = error.error.error;

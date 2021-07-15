@@ -5,6 +5,7 @@ import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipos-proveedores',
   templateUrl: './tipos-proveedores.component.html',
@@ -18,10 +19,10 @@ export class TiposProveedoresComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   index: number = 0;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoProveedorServ: TipoProveedorService,
               private confirmationService: ConfirmationService,
@@ -60,15 +61,10 @@ export class TiposProveedoresComponent implements OnInit {
       this.todosLosTiposP();
     })
 
-    const observer5$ = this.tipoProveedorServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
   
   todosLosTiposP() {
-    this.formSubmitted = true;
     this.tipoProveedorServ.getDatos().then((resp: any) => {
       this.tipo = resp;
     })

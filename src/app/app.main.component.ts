@@ -5,6 +5,7 @@ import { RolesService } from './services/roles.service';
 import { UsuarioService } from './services/usuario.service';
 import { Router } from '@angular/router';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-main',
     templateUrl: './app.main.component.html',

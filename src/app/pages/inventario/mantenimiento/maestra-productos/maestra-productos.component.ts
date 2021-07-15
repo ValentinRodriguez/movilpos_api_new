@@ -4,6 +4,7 @@ import { Table } from 'primeng/table';
 import { InventarioService } from 'src/app/services/inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-maestra-productos',
   templateUrl: './maestra-productos.component.html',
@@ -20,10 +21,10 @@ export class MaestraProductosComponent implements OnInit {
   states: any[] = [];
   index: number = 0;
   cols: any[] = [];   
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private inventarioServ: InventarioService,
+  constructor(private globalFunction: GlobalFunctionsService,private inventarioServ: InventarioService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }
 
@@ -65,15 +66,11 @@ export class MaestraProductosComponent implements OnInit {
       this.index = resp;
     })
 
-    const observer5$ = this.inventarioServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
     const observer6$ = this.inventarioServ.finalizar.subscribe((resp: number) =>{
       this.index = resp;
     })
     
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$,observer6$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer6$];
  };
 
   todosLosProductos() {     

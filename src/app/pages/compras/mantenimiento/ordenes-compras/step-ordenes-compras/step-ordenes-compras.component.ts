@@ -4,6 +4,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-step-ordenes-compras',
   templateUrl: './step-ordenes-compras.component.html',
@@ -14,7 +15,7 @@ export class StepOrdenesComprasComponent implements OnInit {
   items: MenuItem[] = [];
   activeIndex = 0;
 
-  constructor(public config: DynamicDialogConfig,
+  constructor(private globalFunction: GlobalFunctionsService,public config: DynamicDialogConfig,
               public ref: DynamicDialogRef,
               public datosEstaticosServ: DatosEstaticosService,
               public ordCompras: OrdenescomprasService ) { }

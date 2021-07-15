@@ -4,6 +4,7 @@ import { DgiiService } from 'src/app/services/dgii.service';
 import { DireccionesService } from 'src/app/services/direcciones.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-listado-rnc',
   templateUrl: './listado-rnc.component.html',
@@ -15,16 +16,12 @@ export class ListadoRncComponent implements OnInit {
   direccioneSeleccionada = [];
   productos: any[] = [];
   cols: any[];   
-  formSubmitted = false;
-  constructor(private ref: DynamicDialogRef,
+  
+  constructor(private globalFunction: GlobalFunctionsService,private ref: DynamicDialogRef,
               private dgiiServ: DgiiService,
               private uiMessage: UiMessagesService) { }
 
   ngOnInit(): void {
-    this.dgiiServ.formSubmitted.subscribe((resp: any) => {
-      this.formSubmitted = resp;
-    });
-
     this.todaladata();
 
     this.cols = [
@@ -39,7 +36,7 @@ export class ListadoRncComponent implements OnInit {
   }
   
   todaladata() {    
-    this.formSubmitted = true;     
+         
     this.dgiiServ.getRNCS().then((resp: any)=>{
       this.rncs = resp;    
     })

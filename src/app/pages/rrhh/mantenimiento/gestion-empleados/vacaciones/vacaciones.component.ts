@@ -6,6 +6,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-vacaciones',
   templateUrl: './vacaciones.component.html',
@@ -25,7 +26,7 @@ export class VacacionesComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   minDate: Date;
-  formSubmitted = false;
+  
   motivo = [
     { label: 'ninguna', value: 'Ninguna' },
     { label: 'basica', value: 'Basica' },
@@ -37,7 +38,7 @@ export class VacacionesComponent implements OnInit {
     { label: 'doctorado', value: 'Doctorado' }
   ] 
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private categoriasServ: CategoriasService,
@@ -71,10 +72,8 @@ export class VacacionesComponent implements OnInit {
   }
 
   guardarCategoria(){
-    this.formSubmitted = true;
-    
-    if (this.forma.invalid) {      
-      this.formSubmitted = false; 
+    if (this.forma.invalid) {     
+       
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

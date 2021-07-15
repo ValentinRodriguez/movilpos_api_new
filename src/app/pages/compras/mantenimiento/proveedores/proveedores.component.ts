@@ -3,6 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-proveedores',
   templateUrl: './proveedores.component.html',
@@ -15,9 +16,9 @@ export class ProveedoresComponent implements OnInit {
   cols: any[]; 
   index: number = 0;
   cuenta_no: any;  
-    formSubmitted = false;
+    
   listSubscribers: any = [];
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
     private proveedoresServ:ProveedoresService,
     private confirmationService: ConfirmationService) {
   }
@@ -54,15 +55,11 @@ export class ProveedoresComponent implements OnInit {
       this.todosLosProveedores();
     })
 
-    const observer4$ = this.proveedoresServ.proveedorBorrado.subscribe(() =>{
+    const observer4$ = this.proveedoresServ.proveedorBorrado.subscribe(() => {
       this.todosLosProveedores();
-    })
-    
-    const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
+    });
 
-    this.listSubscribers = [observer1$,observer5$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
    };
 
   todosLosProveedores() {

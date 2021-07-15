@@ -5,6 +5,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
@@ -19,7 +20,7 @@ export class CategoriasComponent implements OnInit {
   id_categoria: any;
   cols: any[];   
   index: number = 0;
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
 
@@ -27,7 +28,7 @@ export class CategoriasComponent implements OnInit {
 
 
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private categoriasServ: CategoriasService,
               private confirmationService: ConfirmationService,
@@ -65,11 +66,7 @@ export class CategoriasComponent implements OnInit {
       this.todasLasCategorias();   
     })
 
-    const observer5$ = this.categoriasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
    
   todasLasCategorias() {

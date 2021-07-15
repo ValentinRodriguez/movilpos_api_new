@@ -5,6 +5,7 @@ import { UiMessagesService } from '../../../services/ui-messages.service';
 import { UsuarioService } from '../../../services/usuario.service';
 import { SucursalesService } from "../../../services/sucursales.service";
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
@@ -18,10 +19,10 @@ export class SucursalesComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   detalles: any;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private sucursalesServ: SucursalesService,
               private confirmationService: ConfirmationService,
@@ -60,15 +61,10 @@ export class SucursalesComponent implements OnInit {
       this.todasLasSucursales();
     })
 
-    const observer5$ = this.sucursalesServ.formSubmitted.subscribe((resp: any) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   }
 
   todasLasSucursales() {
-    this.formSubmitted = true;
     this.sucursalesServ.getDatos().then((resp: any) => {
       this.sucursales = resp;
       console.log(resp);    

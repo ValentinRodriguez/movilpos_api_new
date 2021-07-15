@@ -10,16 +10,23 @@ import { GlobalFunctionsService } from 'src/app/services/global-functions.servic
 })
 export class LoadingComponent implements OnInit {
 
-  @Input() formSubmitted: boolean;
+  formSubmitted = false;
 
   constructor(private globalServ: GlobalFunctionsService,
               private router: Router) { }
 
   ngOnInit(): void {
     this.globalServ.formSubmitted.subscribe(resp => {
-      // console.log(this.router.url);      
-      // console.log(resp);      
-    })
-  }
+      this.formSubmitted = true;
+      // console.log('ENVIADO');      
+    });
 
+    this.globalServ.formReceived.subscribe(resp => {
+      if (resp.body.urlRequest === this.router.url) {
+        this.formSubmitted = false;
+        // console.log("urlRequest: "+resp.body.urlRequest);      
+      }
+    })
+
+  }
 }

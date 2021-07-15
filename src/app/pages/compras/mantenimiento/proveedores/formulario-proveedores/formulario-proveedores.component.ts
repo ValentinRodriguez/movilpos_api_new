@@ -11,6 +11,7 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 
 @Component({
   selector: 'app-formulario-proveedores',
@@ -38,13 +39,14 @@ export class FormularioProveedoresComponent implements OnInit {
   cols2:any[]= [];
   cgcatalogos: any[] = [];
   id: string;
-  formSubmitted = false;
+  
   listSubscribers: any = [];
   items: any[] = [];
   rutaActual:any;
 
-  constructor(private fb: FormBuilder, 
-              public router: Router,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
+    public router: Router,
+              private globalServ: GlobalFunctionsService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
@@ -116,14 +118,10 @@ export class FormularioProveedoresComponent implements OnInit {
           this.cgcatalogos.push(element);
           this.agregarFormulario(element);
         }
-      });               
-    })
+      });
+    });
 
-    const observer5$ = this.proveedoresServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;    
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$];
+    this.listSubscribers = [observer1$,observer2$,observer3$];
   };
 
   todaLaData() {
@@ -226,11 +224,11 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   guardarProveedor(){
-    this.formSubmitted = true; 
+     
     console.log(this.forma);
           
     if (this.forma.invalid) { 
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         if (control instanceof FormArray) {    
@@ -250,11 +248,10 @@ export class FormularioProveedoresComponent implements OnInit {
   } 
 
   actualizarProveedor(){
-    this.formSubmitted = true;            
+                
     this.forma.get('usuario_modificador').setValue(this.usuario.username);   
 
-    if (this.forma.invalid) {      
-      this.formSubmitted = false;
+    if (this.forma.invalid) {   
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

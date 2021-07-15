@@ -13,8 +13,7 @@ export class ActividadesService {
   actividadActualizada = new EventEmitter();
   formSubmitted = new EventEmitter();
 
-  constructor(private http: HttpClient) { 
-              }
+  constructor(private http: HttpClient) {}
 
   busquedaActividad(parametro?: any) {
     let params = new HttpParams();      

@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { CuadresService } from 'src/app/services/cuadres.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-cuadre-caja',
   templateUrl: './formulario-cuadre-caja.component.html',
@@ -20,7 +21,7 @@ export class FormularioCuadreCajaComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   monedaExiste = 3;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   denominaciones: any = [];
@@ -39,7 +40,7 @@ export class FormularioCuadreCajaComponent implements OnInit {
   cajeroFiltrado: any[];
   items:any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
     private uiMessage: UiMessagesService,
               private cuadresServ: CuadresService,
               private usuariosServ: UsuarioService,
@@ -84,11 +85,7 @@ export class FormularioCuadreCajaComponent implements OnInit {
       })
     })
 
-    const observer2$ = this.monedasServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
   };
 
   autoLlenado() {
@@ -139,9 +136,9 @@ export class FormularioCuadreCajaComponent implements OnInit {
   }
 
   guardarMoneda() {    
-    // this.formSubmitted = true;    
+    //     
     // if (this.forma.invalid) {    
-    //   this.formSubmitted = false;   
+    //      
     //   this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
     //   Object.values(this.forma.controls).forEach(control =>{          
     //     control.markAllAsTouched();
@@ -227,10 +224,9 @@ export class FormularioCuadreCajaComponent implements OnInit {
   }
 
   actualizarMoneda(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

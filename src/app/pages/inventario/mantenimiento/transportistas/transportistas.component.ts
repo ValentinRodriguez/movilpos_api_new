@@ -5,6 +5,7 @@ import { TransportistasService } from 'src/app/services/transportistas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-transportistas',
   templateUrl: './transportistas.component.html',
@@ -19,10 +20,10 @@ export class TransportistasComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];   
-    formSubmitted = false;
+    
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private transportistasServ: TransportistasService,
               private confirmationService: ConfirmationService,
@@ -64,11 +65,7 @@ export class TransportistasComponent implements OnInit {
       this.todosLosTransportistas();   
     })
 
-    const observer5$ = this.transportistasServ.formSubmitted.subscribe((resp) => {
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$,observer5$,observer2$,observer3$,observer4$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
    };
 
   todosLosTransportistas() {        

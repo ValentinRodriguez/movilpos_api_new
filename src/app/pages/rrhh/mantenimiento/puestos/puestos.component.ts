@@ -5,6 +5,7 @@ import { PuestosService } from 'src/app/services/puestos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-puestos',
   templateUrl: './puestos.component.html',
@@ -19,7 +20,7 @@ export class PuestosComponent implements OnInit {
   cols: any[];
    
 
-  constructor(private uiMessage: UiMessagesService,
+  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService,
               private confirmationService: ConfirmationService,

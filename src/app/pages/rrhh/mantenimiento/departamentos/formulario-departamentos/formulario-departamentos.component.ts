@@ -4,6 +4,7 @@ import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-departamentos',
   templateUrl: './formulario-departamentos.component.html',
@@ -15,7 +16,7 @@ export class FormularioDepartamentosComponent implements OnInit {
   usuario: any;
   guardando = false;
   deptoExiste = 3;
-  formSubmitted = false;
+  
   guardar = true;
   actualizar = false;
   id: number;
@@ -25,7 +26,7 @@ export class FormularioDepartamentosComponent implements OnInit {
     {label: 'Administración', value: 'administracion'},
   ];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private departamentoServ: DepartamentosService) { 
@@ -45,18 +46,13 @@ export class FormularioDepartamentosComponent implements OnInit {
     const observer1$ = this.departamentoServ.actualizar.subscribe((resp: any) => {
       this.guardar = false;
       this.actualizar = true;
-      this.formSubmitted = true;
       this.id = Number(resp);
       this.departamentoServ.getDato(resp).then((res: any) => {
         this.forma.patchValue(res);
       })
     });
 
-    const observer2$ = this.departamentoServ.formSubmitted.subscribe(resp => {
-      this.formSubmitted = resp;
-    });  
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
   };
 
   crearFormulario() {
@@ -70,9 +66,8 @@ export class FormularioDepartamentosComponent implements OnInit {
   }
 
   guardarDepartamento(){
-    this.formSubmitted = true;    
-    if (this.forma.invalid) {       
-      this.formSubmitted = false;
+        
+    if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -97,7 +92,7 @@ export class FormularioDepartamentosComponent implements OnInit {
   }
 
   actualizarDepartamento() {
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {      
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          

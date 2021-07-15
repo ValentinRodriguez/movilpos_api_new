@@ -8,6 +8,7 @@ import { FacturasService } from 'src/app/services/facturas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tabla-amortizaciones',
   templateUrl: './formulario-tabla-amortizaciones.component.html',
@@ -21,7 +22,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  formSubmitted = false;
+  
   id: number;
   listSubscribers: any = [];
   cols: any = [];
@@ -41,7 +42,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   ];
   data: any;
  
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private clientesServ: ClientesService,
@@ -81,23 +82,8 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   }
 
   listObserver = () => {
-    // const observer1$ = this.facturasServ.actualizar.subscribe((resp: any) =>{
-    //   this.guardar = false;
-    //   this.actualizar = true;   
-    //   this.id = Number(resp);      
-    //   this.facturasServ.getDato(resp).then((res: any) => {         
-    //     this.forma.get('divisa').setValue(res.divisa);
-    //     this.forma.get('simbolo').setValue(res.simbolo);
-    //     this.forma.patchValue(res);
-    //   })
-    // })
-
-    const observer2$ = this.facturasServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    // this.listSubscribers = [observer1$,observer2$];
-  };
+    
+  }
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -116,10 +102,9 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   }
 
   actualizarMoneda(){
-    this.formSubmitted = true;
     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
     if (this.forma.invalid) {  
-      this.formSubmitted = false;     
+           
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

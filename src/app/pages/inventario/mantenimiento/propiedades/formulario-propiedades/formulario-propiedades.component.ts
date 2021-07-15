@@ -4,6 +4,7 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-propiedades',
   templateUrl: './formulario-propiedades.component.html',
@@ -15,12 +16,12 @@ export class FormularioPropiedadesComponent implements OnInit {
   usuario: any;
   guardando = false;
   propiedadExiste = 3;
-  formSubmitted = false;
+  
   guardar = true;
   actualizar = false;
   listSubscribers: any = [];
 
-  constructor(private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private propiedadServ: PropiedadesService) { 
@@ -37,12 +38,8 @@ export class FormularioPropiedadesComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.propiedadServ.formSubmitted.subscribe((resp: any) =>{
-      this.formSubmitted = resp;
-    })
-
-    this.listSubscribers = [observer1$];
-   };
+    this.listSubscribers = [];
+  };
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -53,9 +50,9 @@ export class FormularioPropiedadesComponent implements OnInit {
   }
 
   guardarPropiedad(){
-    this.formSubmitted = true;    
+        
     if (this.forma.invalid) {     
-      this.formSubmitted = false;  
+        
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

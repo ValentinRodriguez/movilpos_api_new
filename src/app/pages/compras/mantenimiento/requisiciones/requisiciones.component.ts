@@ -16,6 +16,7 @@ import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-requisiciones',
   templateUrl: './requisiciones.component.html',
@@ -56,7 +57,7 @@ export class RequisicionesComponent implements OnInit {
     { label: 'Baja', value:'baja'},
   ] 
 
-  constructor(private fb: FormBuilder, 
+  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,
               private usuariosServ: UsuarioService,

@@ -8,6 +8,7 @@ import autoTable from 'jspdf-autotable'
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-catalogo-proveedores',
   templateUrl: './catalogo-proveedores.component.html',
@@ -30,10 +31,10 @@ export class CatalogoProveedoresComponent implements OnInit {
   cols: any[];
   exportColumns: any[];
   proveedores: any[] = [];
-  formSubmitted = false;
+  
   listSubscribers: any = [];
 
-  constructor(private proveedoresServ:ProveedoresService,
+  constructor(private globalFunction: GlobalFunctionsService,private proveedoresServ:ProveedoresService,
               private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
@@ -64,11 +65,7 @@ export class CatalogoProveedoresComponent implements OnInit {
   }
   
   listObserver = () => {
-    const observer1$ = this.proveedoresServ.formSubmitted.subscribe((resp:any) =>{
-      this.formSubmitted = resp; 
-    })
-
-    this.listSubscribers = [observer1$];
+    this.listSubscribers = [];
   };
  
   crearFormulario() {
@@ -90,7 +87,6 @@ export class CatalogoProveedoresComponent implements OnInit {
   }
   
   verReporte() {
-    this.formSubmitted = true;
     this.proveedoresServ.reporteCatalogoProveedores(this.forma.value).then((resp:any) =>{
       if (resp.length === 0) {
         this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');

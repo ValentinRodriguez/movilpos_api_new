@@ -4,6 +4,7 @@ import { TransaccionesService } from 'src/app/services/transacciones.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-pendientes-entrada',
   templateUrl: './pendientes-entrada.component.html',
@@ -14,7 +15,7 @@ export class PendientesEntradaComponent implements OnInit {
   cols: { field: string; header: string; }[];
   selectedProducts = [];
   usuario: any;
-  constructor(public ref: DynamicDialogRef, 
+  constructor(private globalFunction: GlobalFunctionsService,public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private transPendientes: TransaccionesService,
               private uiMessage: UiMessagesService,
