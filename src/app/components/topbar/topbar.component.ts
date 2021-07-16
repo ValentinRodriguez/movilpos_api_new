@@ -32,16 +32,14 @@ export class TopbarComponent implements OnDestroy, OnInit {
     value1: string = "pos";
     value2: string = "efectivo";
     foto: any;
-    items2: MenuItem[];
     @Input() simbolo: string
     stateOptions2: { label: string; value: string; icon: string; justify: string; }[];
     
-    constructor(private globalFunction: GlobalFunctionsService,public breadcrumbService: BreadcrumbService,
+    constructor(public breadcrumbService: BreadcrumbService,
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
                 public facturaServ: FacturasService,
                 private modulosServ: ModulosService,
-                private menuServ: MenuesService,
                 public datosEstaticos: DatosEstaticosService) {
 
         this.usuario = this.usuarioServ.getUserLogged() || null;
@@ -50,37 +48,19 @@ export class TopbarComponent implements OnDestroy, OnInit {
             this.nombre = this.usuario.name+' '+this.usuario.surname;
         }     
 
-        this.modulosServ.getModulos().then((resp: any) => {
-
-            this.modulos = resp;
-            let i = 0;
-
-            this.menuServ.getMenues().then((resp2: any)=>{
-                this.menues = resp2;   
-                resp.forEach(element => {
-                    this.tieredItems.push(
-                        {
-                            label: this.datosEstaticos.capitalizeFirstLetter(element.modulo),
-                            icon: element.icon,
-                            items:[]
-                        }
-                    )
-                    this.menues.forEach(element2 => {
-                        if (element2.modulo === element.id) {
-                            this.tieredItems[i]['items'].push({
-                                label: this.capitalizeFirstLetter(element2.nombre),
-                                icon: element2.icon,
-                                url: '#/'+element2.url
-                            })
-                        }
-                    });
-                    i++;
-                });                  
-            })
-        })
     }
-
+    
     ngOnInit(): void {
+        const mods = localStorage.getItem('modulos');
+        if (mods === null) {        
+            this.modulosServ.getModulos().then((resp: any) => {
+                localStorage.setItem('modulos', resp);
+                this.modulos = resp;
+            });            
+        } else {
+            this.modulos = JSON.parse(mods)
+        }
+        
         this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
                              { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
                              { label: 'Codigo', value: 'codigo', icon: 'fas fa-barcode', justify: 'Left' }
@@ -90,38 +70,6 @@ export class TopbarComponent implements OnDestroy, OnInit {
                               { label: 'Tarjeta', value: 'tarjeta', icon: 'far fa-credit-card', justify: 'Left' },
                               { label: 'Cheque', value: 'cheque', icon: 'fas fa-money-check', justify: 'Left' },
                               { label: 'Efectivo y Tarjeta', value: 'ambos', icon: 'fas fa-wallet', justify: 'Left' }
-        ];
-
-        this.items2 = [{
-            label: 'Options',
-            items: [{
-                label: 'Update',
-                icon: 'pi pi-refresh',
-                command: () => {
-                    // this.update();
-                }
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-times',
-                command: () => {
-                    // this.delete();
-                }
-            }
-            ]},
-            {
-                label: 'Navigate',
-                items: [{
-                    label: 'Angular',
-                    icon: 'pi pi-external-link',
-                    url: 'http://angular.io'
-                },
-                {
-                    label: 'Router',
-                    icon: 'pi pi-upload',
-                    routerLink: '/fileupload'
-                }
-            ]}
         ];
     }
 

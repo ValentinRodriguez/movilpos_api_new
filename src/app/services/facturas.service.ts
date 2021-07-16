@@ -12,7 +12,7 @@ export class FacturasService {
   facturaCreada = new EventEmitter()
   modoVenta = new EventEmitter();
   enviaData = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   guardando = new EventEmitter();
   metodo = new EventEmitter();
   constructor(private http: HttpClient) {}

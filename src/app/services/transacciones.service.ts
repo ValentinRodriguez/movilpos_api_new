@@ -9,7 +9,7 @@ export class TransaccionesService {
 
   transaccionGuardado = new EventEmitter();
   transaccionBorrada = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   finalizar = new EventEmitter();
 
   constructor(private http: HttpClient ) { }

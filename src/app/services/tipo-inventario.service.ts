@@ -15,7 +15,7 @@ export class TipoInventarioService {
   TipoInventarioAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();  
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -70,7 +70,7 @@ export class TipoInventarioService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtipos`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.TipoInventarioGuardado.emit(resp.data);        
@@ -101,7 +101,7 @@ export class TipoInventarioService {
     }
     return new Promise( resolve => {
       this.http.put(`${ URL }/invtipos/${id}`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);  
+          
         if (resp['code'] === 200)  {
           this.TipoInventarioAct.emit( resp.data );                            
           resolve(resp.data);            

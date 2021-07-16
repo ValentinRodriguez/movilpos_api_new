@@ -21,7 +21,7 @@ export class MenuMiscelaneosComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(3).then((resp: any) => {
+    this.menuServ.getMenu(3,'menu-miscelaneos').then((resp: any) => {
       this.menu = resp;   
     })
   }

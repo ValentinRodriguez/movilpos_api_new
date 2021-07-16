@@ -11,7 +11,7 @@ export class ActividadesService {
   actividadGuardada = new EventEmitter();
   actividadBorrada = new EventEmitter();
   actividadActualizada = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class ActividadesService {
     params = params.append('actividad',parametro);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/actividades', {params}).subscribe((resp: any) => { 
-           this.formSubmitted.emit(false);                           
+                                      
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
@@ -31,7 +31,7 @@ export class ActividadesService {
   getDatos() {
     return new Promise( resolve => {
       return this.http.get(`${URL}/actividades`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
+                                    
             if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -42,7 +42,7 @@ export class ActividadesService {
   getDato(id) {
     return new Promise( resolve => {
       return this.http.get(`${URL}/actividades/${id}`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
+                                    
             if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -58,7 +58,7 @@ export class ActividadesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/actividades`, actividad)
           .subscribe( (resp:any) => {
-           this.formSubmitted.emit(false);                           
+                                      
             if (resp['code'] === 200)  {                                      
             resolve(resp.data);    
             this.actividadGuardada.emit( resp.data );       
@@ -73,7 +73,7 @@ export class ActividadesService {
               .subscribe( (resp: any) => { 
                  
                 
-                 this.formSubmitted.emit(false);                           
+                                            
             if (resp['code'] === 200)  {                  
                   this.actividadActualizada.emit( resp.data );                            
                   resolve(resp.data);            
@@ -90,7 +90,7 @@ export class ActividadesService {
           .subscribe( (resp: any) => {   
              
                                       
-             this.formSubmitted.emit(false);                           
+                                        
             if (resp['code'] === 200)  {            
               this.actividadBorrada.emit(id);    
               resolve(resp.data);            

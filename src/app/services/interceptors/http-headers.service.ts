@@ -12,7 +12,7 @@ import { UsuarioService } from '../usuario.service';
 })
 export class HttpHeadersService implements HttpInterceptor{
 
-  formSubmitted = new EventEmitter();
+  
 
   constructor(private usuarioService: UsuarioService,
               private globalFuntionServ: GlobalFunctionsService,
@@ -57,6 +57,7 @@ export class HttpHeadersService implements HttpInterceptor{
     }
 
     if (req.method.toLowerCase() === 'get') {
+      console.log(req);      
       req = req.clone({
         setHeaders: {
           'enctype'      : 'multipart/form-data',

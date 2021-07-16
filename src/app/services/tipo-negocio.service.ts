@@ -14,7 +14,7 @@ export class TipoNegocioService {
   tipoNegocioAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) {}
 
@@ -55,7 +55,7 @@ export class TipoNegocioService {
   crearTipoNegocio(tipoNegocio: any) {    
     return new Promise( resolve => {
       this.http.post(`${ URL }/tiponegocios`, tipoNegocio).subscribe( (resp: any) => {          
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {    
           this.tipoNegocioguardado.emit( resp.data );                                   
           resolve(resp.data);       
@@ -78,7 +78,7 @@ export class TipoNegocioService {
   actualizarTipoNegocio(id:number, tipo: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/tiponegocios/${id}`, tipo).subscribe( (resp: any) => {            
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.tipoNegocioAct.emit( resp.data );                            
           resolve(resp.data);            

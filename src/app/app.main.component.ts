@@ -46,10 +46,19 @@ export class AppMainComponent implements OnInit{
                 }
 
     ngOnInit() {
-        this.primengConfig.ripple = true;        
-        this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
-            this.permisos = resp;          
-        })
+        this.primengConfig.ripple = true;   
+        const rol = localStorage.getItem('roles');
+        if (rol === null) {                   
+            this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
+                console.log('NO HABIA DATA');
+                
+                localStorage.setItem('roles', JSON.stringify(resp));
+                this.permisos = resp;          
+            })
+        } else {
+            console.log('HABIA DATA');
+            this.permisos = JSON.parse(rol);
+        }
 
         if (localStorage.getItem('tipo-menu')) {
             this.menuMode = localStorage.getItem('tipo-menu');    

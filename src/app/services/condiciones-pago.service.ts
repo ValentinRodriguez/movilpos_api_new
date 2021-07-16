@@ -11,7 +11,7 @@ export class CondicionesPagoService {
   condicionGuardada = new EventEmitter();
   condicionBorrada = new EventEmitter();
   condicionAct = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -62,7 +62,7 @@ export class CondicionesPagoService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/condiciones-pago`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.condicionGuardada.emit(resp.data);       
@@ -74,7 +74,7 @@ export class CondicionesPagoService {
   actualizarCondicion(id:string, condicion: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/condiciones-pago/${id}`, condicion).subscribe( (resp: any) => {     
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.condicionAct.emit( resp.data );                            
           resolve(resp.data);            
@@ -86,7 +86,7 @@ export class CondicionesPagoService {
   borrarCondicion(id: string) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/condiciones-pago/${id}`).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {            
           this.condicionBorrada.emit(id);    
           resolve(resp.data);            

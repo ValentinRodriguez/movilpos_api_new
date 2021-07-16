@@ -12,7 +12,7 @@ export class ClientesService {
   ClienteCreado = new EventEmitter();
   clienteBorrado = new EventEmitter();
   clientAct      = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   finalizar = new EventEmitter();
@@ -112,7 +112,7 @@ export class ClientesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/mclientes`, formdata).subscribe( (resp: any) => {  
         console.log(resp)  
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {    
           this.ClienteCreado.emit( resp.data );                                   
           resolve(resp.data);       
@@ -157,7 +157,7 @@ export class ClientesService {
     }
     return new Promise( resolve => {
       this.http.put(`${ URL }/mclientes/${id}`, client).subscribe( (resp: any) => {  
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.clientAct.emit( resp.data );                            
           resolve(resp.data);          
@@ -189,7 +189,7 @@ export class ClientesService {
   getZonas() {
     return new Promise( resolve => {
       this.http.get(`${URL}/zonas`).subscribe((resp: any) => {
-      this.formSubmitted.emit(false);                           
+                                 
       if (resp['code'] === 200)  {          
         resolve(resp.data);            
       }

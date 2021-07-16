@@ -14,7 +14,7 @@ export class LiquidacionMercanciasService {
   liquidacionAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   pendienteEnviadas = new EventEmitter();
 
   constructor(private http: HttpClient) { }
@@ -71,7 +71,7 @@ export class LiquidacionMercanciasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/liquidaciones`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.liquidacionGuardada.emit(resp.data);       
@@ -83,7 +83,7 @@ export class LiquidacionMercanciasService {
   actualizarLiquidacion(id:number, liquidacion: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/liquidaciones/${id}`, liquidacion).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.liquidacionAct.emit( resp.data );                            
           resolve(resp.data);            

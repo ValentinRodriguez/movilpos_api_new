@@ -21,7 +21,7 @@ export class MenuEmpresaComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(2).then((resp: any) => {
+    this.menuServ.getMenu(2,'menu-empresa').then((resp: any) => {
       this.menu = resp;   
     })
   }

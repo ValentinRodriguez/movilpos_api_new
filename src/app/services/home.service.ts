@@ -15,7 +15,7 @@ export class HomeService {
   autoLlenado() {
     return new Promise( resolve => {
       return this.http.get(`${URL}/autollenado/home`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

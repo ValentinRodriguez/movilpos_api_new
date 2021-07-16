@@ -12,7 +12,7 @@ export class PuertosService {
   puertoActualizada = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -57,7 +57,7 @@ export class PuertosService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/puertos`, formData).subscribe( (resp:any) => {     
-        this.formSubmitted.emit(false);                                 
+                                         
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.puertoGuardada.emit( resp.data );       
@@ -69,7 +69,7 @@ export class PuertosService {
   actualizarPuerto(id:number, puerto: any) {        
     return new Promise( resolve => {
       this.http.put(`${ URL }/puertos/${id}`, puerto).subscribe( (resp: any) => { 
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {                  
           this.puertoActualizada.emit( resp.data );                            
           resolve(resp.data);            

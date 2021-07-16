@@ -12,7 +12,7 @@ export class OrdenescomprasService {
   ordenact = new EventEmitter();
   ordenGuardada= new EventEmitter();
   ordenBorrada = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   finalizar = new EventEmitter();
   
   constructor(private http: HttpClient) { }
@@ -76,7 +76,7 @@ export class OrdenescomprasService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => { 
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {    
           this.ordenGuardada.emit( resp );                                   
           resolve(resp.data);       
@@ -125,7 +125,7 @@ export class OrdenescomprasService {
 
     return new Promise( resolve => {   
       this.http.post(`${ URL }/actualizarcompras/${id}`, formData).subscribe( (resp: any) => {   
-        this.formSubmitted.emit(false); 
+         
         if (resp['code'] === 200)  {   
           this.ordenact.emit(1);
           resolve(resp.data);          

@@ -14,7 +14,7 @@ export class TipoProveedorService {
   tipoPact = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -39,7 +39,7 @@ export class TipoProveedorService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -68,7 +68,7 @@ export class TipoProveedorService {
         }
       }
       this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {    
-        this.formSubmitted.emit(false);                   
+                           
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.tipoPguardado.emit(resp.data);       
@@ -90,7 +90,7 @@ export class TipoProveedorService {
       }
       
       this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata).subscribe( (resp: any) => {  
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.tipoPact.emit( resp.data );                            
           resolve(resp.data);            

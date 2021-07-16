@@ -13,7 +13,7 @@ export class ProveedoresService {
   proveedorBorrado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
 
   constructor(private http: HttpClient) {}
 
@@ -96,7 +96,7 @@ export class ProveedoresService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {                                
-        this.formSubmitted.emit(false);    
+            
         console.log(resp);                               
         if (resp['code'] === 200)  {    
           this.proveedoresCreados.emit( resp.data );                                   
@@ -132,7 +132,7 @@ export class ProveedoresService {
     }    
     return new Promise( resolve => {      
       this.http.put(`${ URL }/proveedores/${id}`, data).subscribe( (resp: any) => {     
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
             this.proveeact.emit( resp.data );                            
             resolve(resp.data);                               
@@ -182,7 +182,7 @@ export class ProveedoresService {
     }       
     return new Promise( resolve => {
       this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {  
-        this.formSubmitted.emit(false);                                
+                                        
         if (resp['code'] === 200)  {    
           this.proveedoresCreados.emit( resp.data );                                   
           resolve(resp.data);       

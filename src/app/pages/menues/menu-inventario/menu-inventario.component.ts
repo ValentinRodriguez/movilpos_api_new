@@ -20,7 +20,7 @@ export class MenuInventarioComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(4).then((resp: any) => {
+    this.menuServ.getMenu(4,'menu-inventario').then((resp: any) => {
       this.menu = resp;   
     })
   }

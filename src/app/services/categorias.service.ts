@@ -12,7 +12,7 @@ export class CategoriasService {
   categoriaActualizada = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -57,7 +57,7 @@ export class CategoriasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/categorias`, formData).subscribe( (resp:any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.categoriaGuardada.emit( resp.data );       
@@ -69,7 +69,7 @@ export class CategoriasService {
   actualizarCategoria(id:number, categoria: any) {        
     return new Promise( resolve => {   
       this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => { 
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                  
           this.categoriaActualizada.emit( resp.data );                            
           resolve(resp.data);            
@@ -81,7 +81,7 @@ export class CategoriasService {
   borrarCategoria(id: string) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/categorias/${id}`).subscribe( (resp: any) => {                             
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {            
           this.categoriaBorrada.emit(id);    
           resolve(resp.data);            

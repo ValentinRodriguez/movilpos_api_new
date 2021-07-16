@@ -14,7 +14,7 @@ export class TurnosService {
   turnoAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient, private datosEstaticos: DatosEstaticosService) { }
 
@@ -40,7 +40,7 @@ export class TurnosService {
     return new Promise(resolve => {
       this.http.get(`${URL}/turnos`).subscribe((resp: any) => {                    
         if (resp['code'] === 200)  {          
-          this.formSubmitted.emit(false);
+          
           resolve(resp.data);            
         }
       })
@@ -68,7 +68,7 @@ export class TurnosService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/turnos`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         console.log(resp);        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
@@ -81,7 +81,7 @@ export class TurnosService {
   actualizarTurno(id:number, turno: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/turnos/${id}`, turno).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.turnoAct.emit( resp.data );                            
           resolve(resp.data);            

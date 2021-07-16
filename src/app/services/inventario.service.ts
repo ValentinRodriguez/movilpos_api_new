@@ -17,7 +17,7 @@ export class InventarioService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   finalizar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   construct = '';
   usuario: any;
@@ -184,7 +184,7 @@ export class InventarioService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => { 
         console.log(resp);        
-        this.formSubmitted.emit(false);  
+          
         if (resp['code'] === 200)  {
           this.productoGuardado.emit(resp.data);                            
           resolve(resp.data);            
@@ -239,7 +239,7 @@ export class InventarioService {
       this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {    
         console.log(resp);
                                   
-        this.formSubmitted.emit(false);        
+                
         if (resp['code'] === 200)  {
           this.productoActualizado.emit( resp );                            
           resolve(resp.data);            

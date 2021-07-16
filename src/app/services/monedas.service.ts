@@ -13,7 +13,7 @@ export class MonedasService {
   monedaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -63,7 +63,7 @@ export class MonedasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/monedas`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.monedaGuardada.emit(resp.data);       
@@ -75,7 +75,7 @@ export class MonedasService {
   actualizarMoneda(id:number, moneda: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/monedas/${id}`, moneda).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.monedaAct.emit( resp.data );                            
           resolve(resp.data);            

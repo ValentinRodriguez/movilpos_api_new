@@ -12,7 +12,7 @@ export class PeriodosFiscalesService {
   periodoBorrado = new EventEmitter();
   periodoActualizado = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
  
   constructor(private http: HttpClient) { }
 
@@ -51,7 +51,7 @@ export class PeriodosFiscalesService {
   crearPeriodo(periodo: any) {    
     return new Promise( resolve => {
       this.http.post(`${ URL }/periodos-fiscales`, periodo).subscribe( (resp:any) => {                     
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.periodoGuardado.emit( resp.data );       
@@ -63,7 +63,7 @@ export class PeriodosFiscalesService {
   actualizarPeriodo(id:string, periodo: any) {        
     return new Promise( resolve => {
       this.http.put(`${ URL }/periodos-fiscales/${id}`, periodo).subscribe( (resp: any) => {                                  
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                  
           this.periodoActualizado.emit( resp.data );                            
           resolve(resp.data);            
