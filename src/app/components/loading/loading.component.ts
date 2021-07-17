@@ -11,7 +11,7 @@ import { GlobalFunctionsService } from 'src/app/services/global-functions.servic
 export class LoadingComponent implements OnInit {
 
   formSubmitted = false;
-
+  
   constructor(private globalServ: GlobalFunctionsService,
               private router: Router) { }
 
