@@ -8,13 +8,13 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class TiendaService {
-  formSubmitted = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/woocommerce`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         console.log(resp);
         
         if (resp['code'] === 200)  {          
@@ -27,7 +27,7 @@ export class TiendaService {
   crearProducto(data) {
     return new Promise( resolve => {
       this.http.post(`${URL}/woocommerce`,data).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         console.log(resp);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            

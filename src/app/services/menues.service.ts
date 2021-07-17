@@ -9,13 +9,10 @@ const URL = environment.url;
 
 export class MenuesService {
 
-  formSubmitted = new EventEmitter();
-
   constructor(private http: HttpClient) { }
   
   getMenues() {
-    return new Promise( resolve => {
-      this.formSubmitted.emit(false);
+    return new Promise( resolve => {      
       this.http.get(`${URL}/menu`).subscribe(resp => {                
         if (resp['code'] === 200)  {                           
           resolve(resp['data']);            
@@ -24,15 +21,20 @@ export class MenuesService {
     });
   }
 
-  getMenu(id) {
+  getMenu(id: number, menu = '') {
+    let localMenu = localStorage.getItem(menu);
     return new Promise( resolve => {
-      this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => {   
-        this.formSubmitted.emit(false);
-        console.log(resp);  
-        if (resp['code'] === 200)  {          
-          resolve(resp.data);            
-        }
-      })
-    })
+      if (localMenu === null) {        
+        this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => { 
+          if (resp['code'] === 200)  {   
+            localStorage.setItem(menu, JSON.stringify(resp.data));   
+            console.log(resp.data);                
+            resolve(resp.data);            
+          }
+        })
+      } else {
+        resolve(JSON.parse(localMenu));            
+      }
+    })      
   }
 }

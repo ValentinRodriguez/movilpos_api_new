@@ -10,7 +10,7 @@ export class DepartamentosService {
   departamentoEscogido = new EventEmitter();
   departamentoBorrado = new EventEmitter();
   departamentoAct= new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   guardar = new EventEmitter();
   actualizar = new EventEmitter();
 
@@ -19,7 +19,7 @@ export class DepartamentosService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/departamentos`).subscribe((resp: any) => {
-         this.formSubmitted.emit(false);                           
+                                    
             if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -30,7 +30,7 @@ export class DepartamentosService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {    
-        this.formSubmitted.emit(false);
+        
         console.log(resp);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
@@ -47,7 +47,7 @@ export class DepartamentosService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/departamentos`, formData).subscribe( (resp: any) => {               
-           this.formSubmitted.emit(false);                           
+                                      
             if (resp['code'] === 200)  {   
             this.departamentoEscogido.emit( resp );                                   
             resolve(resp.data);       
@@ -65,7 +65,7 @@ export class DepartamentosService {
     
     return new Promise( resolve => {
       this.http.put(`${ URL }/departamentos/${id}`, departamento).subscribe( (resp: any) => {             
-        this.formSubmitted.emit(false);
+        
         console.log(resp)        
         if (resp['code'] === 200)  {
           this.departamentoAct.emit( resp.data );                            
@@ -77,8 +77,7 @@ export class DepartamentosService {
   
   borrarDepartamento(id) {
     return new Promise( resolve => {      
-      this.http.delete(`${URL}/departamentos/${id}`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false)
+      this.http.delete(`${URL}/departamentos/${id}`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {            
           this.departamentoBorrado.emit(id);    
           resolve(resp.data);            

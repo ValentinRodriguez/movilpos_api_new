@@ -21,7 +21,7 @@ export class MenuContabilidadGeneralComponent implements OnInit {
 
   
   getData() {
-    this.menuServ.getMenu(7).then((resp: any) => {
+    this.menuServ.getMenu(7,'menu-contabilidad-general').then((resp: any) => {
       this.menu = resp;    
     })
   }

@@ -13,7 +13,7 @@ export class TransportistasService {
   trasnportistaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) {}
 
@@ -74,7 +74,7 @@ export class TransportistasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/transportistas`, formdata).subscribe( (resp: any) => {        
-        this.formSubmitted.emit(false);                           
+                                   
          if (resp['code'] === 200)  {    
           this.trasnportistaGuardado.emit( resp.data );                                   
           resolve(resp.data);       
@@ -100,7 +100,7 @@ export class TransportistasService {
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/transportistas/${id}`, formdata).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.trasnportistaAct.emit( resp.data );                            
           resolve(resp.data);            

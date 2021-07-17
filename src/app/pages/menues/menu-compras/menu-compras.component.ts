@@ -20,7 +20,7 @@ export class MenuComprasComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(6).then((resp: any) => {
+    this.menuServ.getMenu(6, 'menu-compras').then((resp: any) => {
       this.menu = resp;    
     })
   }

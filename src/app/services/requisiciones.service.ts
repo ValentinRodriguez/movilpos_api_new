@@ -10,7 +10,7 @@ export class RequisicionesService {
   requisicionact = new EventEmitter();
   requisicionGuardada= new EventEmitter();
   requisicionBorrada = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -73,7 +73,7 @@ export class RequisicionesService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones`, formData).subscribe( (resp: any) => {  
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {    
           this.requisicionGuardada.emit( resp );                                   
           resolve(resp.data);       
@@ -122,7 +122,7 @@ export class RequisicionesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/requisiciones/${id}`, formData).subscribe( (resp: any) => {        
-        this.formSubmitted.emit(false);         
+                 
         if (resp['code'] === 200)  {  
           this.requisicionact.emit(1);               
           resolve(resp.data);          

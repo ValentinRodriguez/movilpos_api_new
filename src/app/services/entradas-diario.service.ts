@@ -12,7 +12,7 @@ export class EntradasDiarioService {
   entradaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -62,7 +62,7 @@ export class EntradasDiarioService {
   crearEntrada(entradas: any) {
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgentradasdiarios`, entradas).subscribe( (resp: any) => { 
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);   
           this.entradaGuardada.emit(resp.data); 
@@ -74,7 +74,7 @@ export class EntradasDiarioService {
   actualizarEntrada(id:number, ent: any) {      
     return new Promise( resolve => {  
       this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);          
+                  
         if (resp['code'] === 200)  {
           this.entradaAct.emit( resp.data );                            
           resolve(resp.data);            
@@ -106,7 +106,7 @@ export class EntradasDiarioService {
     let params = new HttpParams().set('ref',ref);
     return new Promise( resolve => {
       this.http.get(`${URL}/transacciones-cg/verificaEntrada`,{params}).subscribe((resp: any) => {
-           this.formSubmitted.emit(false);                           
+                                      
             if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }

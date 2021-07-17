@@ -13,14 +13,14 @@ export class ZonasService {
   zonaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
 
   constructor(private http: HttpClient) {}
 
   getDatos() {
     return new Promise( resolve => {      
       this.http.get(`${URL}/zonas`).subscribe((resp: any) => {  
-        this.formSubmitted.emit(false);                            
+                                    
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -76,7 +76,7 @@ export class ZonasService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/zonas`, zona).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);        
+                
         console.log(resp);
                            
         if (resp['code'] === 200)  {                                      
@@ -90,7 +90,7 @@ export class ZonasService {
   actualizarZona(id:number, zona: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/zonas/${id}`, zona).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.zonaAct.emit( resp.data );                            
           resolve(resp.data);            

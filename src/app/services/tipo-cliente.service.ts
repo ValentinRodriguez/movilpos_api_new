@@ -13,7 +13,7 @@ export class TipoClienteService {
   tipoClienteAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -60,7 +60,7 @@ export class TipoClienteService {
   crearTipoCliente(tipoCliente: any) {    
     return new Promise( resolve => {
       this.http.post(`${ URL }/tipoclientes`, tipoCliente).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {    
           this.tipoClienteguardado.emit( resp.data );                                   
           resolve(resp.data);       
@@ -83,7 +83,7 @@ export class TipoClienteService {
   actualizarTipoCliente(id:number, tipo: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/tipoclientes/${id}`, tipo).subscribe( (resp: any) => {                                             
-        this.formSubmitted.emit(false);        
+                
         if (resp['code'] === 200)  {
           this.tipoClienteAct.emit( resp.data );                            
           resolve(resp.data);            

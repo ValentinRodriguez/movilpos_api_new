@@ -14,7 +14,7 @@ export class RecepcionVehiculosService {
   recepcionAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -100,7 +100,7 @@ export class RecepcionVehiculosService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/recepcion-vehiculos`, recepcion).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);  
+          
         console.log(resp);                                 
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
@@ -152,7 +152,7 @@ export class RecepcionVehiculosService {
     console.log(recepcion);    
     return new Promise( resolve => {
       this.http.post(`${ URL }/recepcion-vehiculos/${id}`, formData).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+                                   
         console.log(resp);
         
         if (resp['code'] === 200)  {

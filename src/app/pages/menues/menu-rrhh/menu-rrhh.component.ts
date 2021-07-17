@@ -20,7 +20,7 @@ export class MenuRrhhComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(9).then((resp: any) => {
+    this.menuServ.getMenu(9,'menu-rrhh').then((resp: any) => {
       this.menu = resp;   
     })
   }

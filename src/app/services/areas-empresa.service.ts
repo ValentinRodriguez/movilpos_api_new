@@ -14,7 +14,7 @@ export class AreasEmpresaService {
   areaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -39,7 +39,7 @@ export class AreasEmpresaService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/areas-empresa`).subscribe((resp: any) => {           
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -95,7 +95,7 @@ export class AreasEmpresaService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/areas-empresa`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         console.log(resp);
         
         if (resp['code'] === 200)  {                                      
@@ -131,7 +131,7 @@ export class AreasEmpresaService {
 
     return new Promise( resolve => {
       this.http.put(`${ URL }/areas-empresa/${id}`, formData).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);
+        
         console.log(resp);
         
         if (resp['code'] === 200)  {

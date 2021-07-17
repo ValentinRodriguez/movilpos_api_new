@@ -13,7 +13,7 @@ export class CodMovService {
   tipoMovActualizado = new EventEmitter();  
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) {}
 
@@ -28,7 +28,7 @@ export class CodMovService {
     params = params.append('titulo',parametro.titulo);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => {  
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -39,7 +39,7 @@ export class CodMovService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -50,7 +50,7 @@ export class CodMovService {
   getDato(cuenta: string) {
     return new Promise( resolve => {
         this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -75,7 +75,7 @@ export class CodMovService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {            
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {    
           this.tipoMovGuardado.emit( resp.data );                                   
           resolve(resp.data);       
@@ -101,7 +101,7 @@ export class CodMovService {
     
     return new Promise( resolve => {      
       this.http.put(`${ URL }/codigosmovimientos/${id}`, data).subscribe( (resp: any) => {          
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.tipoMovActualizado.emit( resp.data );                            
           resolve(resp.data);            

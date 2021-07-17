@@ -14,7 +14,7 @@ export class SucursalesService {
   sucursalesAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -39,7 +39,7 @@ export class SucursalesService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/sucursales`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -60,7 +60,7 @@ export class SucursalesService {
   busquedaXempresa(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/sucursales/${id}`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -109,7 +109,7 @@ export class SucursalesService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/sucursales`, formdata).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);        
+                
         console.log(resp);                           
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
@@ -122,7 +122,7 @@ export class SucursalesService {
   actualizarSucursales(id:number, sucursales: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/sucursales/${id}`, sucursales).subscribe( (resp: any) => {                
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.sucursalesAct.emit( resp.data );                            
           resolve(resp.data);            

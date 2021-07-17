@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuesService } from 'src/app/services/menues.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-menu-panel-control',
   templateUrl: './menu-panel-control.component.html',
@@ -17,7 +16,7 @@ export class MenuPanelControlComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.menuServ.getMenu(1).then((resp: any) => {
+    this.menuServ.getMenu(1, 'menu-panel-control').then((resp: any) => {
       this.menu = resp;
     })
   }

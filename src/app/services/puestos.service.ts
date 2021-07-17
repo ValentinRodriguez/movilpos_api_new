@@ -13,7 +13,7 @@ export class PuestosService {
   puestoAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -57,7 +57,7 @@ export class PuestosService {
     }
     return new Promise( resolve => {
       this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.puestoGuardada.emit(resp.data);       
@@ -69,7 +69,7 @@ export class PuestosService {
   actualizarPuesto(id:number, puesto: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/nopuestos/${id}`, puesto).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                     
+                             
         if (resp['code'] === 200)  {
           this.puestoAct.emit( resp.data );                            
           resolve(resp.data);            

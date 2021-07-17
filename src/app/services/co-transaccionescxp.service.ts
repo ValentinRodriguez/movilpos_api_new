@@ -15,7 +15,7 @@ export class CoTransaccionescxpService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   facturaEscogida  = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -109,7 +109,7 @@ export class CoTransaccionescxpService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {                       
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.facturaGuardada.emit(resp.data);       
@@ -143,7 +143,7 @@ export class CoTransaccionescxpService {
     }
     return new Promise( resolve => {
       this.http.put(`${ URL }/transacciones-cxp/${id}`, data).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           this.facturaAct.emit( resp.data );                            
           resolve(resp.data);            
@@ -155,7 +155,7 @@ export class CoTransaccionescxpService {
   borrarFactura(id: number) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {          
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {            
         this.facturaBorrada.emit(id);    
           resolve(resp.data);            

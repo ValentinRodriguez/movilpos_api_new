@@ -13,7 +13,7 @@ export class OrdenPedidosService {
   ordenBorrada = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -96,7 +96,7 @@ export class OrdenPedidosService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {    
           this.ordenCreada.emit( resp );                                   
           resolve(resp.data);       
@@ -108,7 +108,7 @@ export class OrdenPedidosService {
   actualizarPedido(id:number, categoria: any) {        
     return new Promise( resolve => {
       this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {                  
           this.ordenAct.emit( resp.data );                            
           resolve(resp.data);            

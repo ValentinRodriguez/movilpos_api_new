@@ -18,7 +18,7 @@ export class MenuEntradasAutomaticasComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(8).then((resp: any) => {
+    this.menuServ.getMenu(8,'menu-entradas-automaticas').then((resp: any) => {
       this.menu = resp;   
     })
   }

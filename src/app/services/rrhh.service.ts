@@ -13,7 +13,7 @@ export class RrhhService {
   empleadoAct = new EventEmitter();
   empleadoCreado = new EventEmitter();
   empleadoBorrado = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   actualizar = new EventEmitter();
   duplicar = new EventEmitter();
   guardar = new EventEmitter();
@@ -24,7 +24,7 @@ export class RrhhService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
@@ -35,7 +35,7 @@ export class RrhhService {
   getDato(id:number) {
     return new Promise( resolve => {
       this.http.get(`${URL}/noempleados/${id}`).subscribe((resp: any) => {
-        this.formSubmitted.emit(false);
+        
         console.log(resp);        
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
@@ -189,7 +189,7 @@ export class RrhhService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
-        this.formSubmitted.emit(false);        
+                
         console.log(resp);                           
         if (resp['code'] === 200) {
           this.empleadoCreado.emit(true);
@@ -268,7 +268,7 @@ export class RrhhService {
 
     return new Promise( resolve => {
       this.http.put(`${ URL }/noempleados/${id}`, formData).subscribe( (resp:any) => {
-        this.formSubmitted.emit(false);        
+                
         console.log(resp);                           
         if (resp['code'] === 200) {
           this.empleadoCreado.emit(true);

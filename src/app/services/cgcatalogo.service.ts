@@ -15,7 +15,7 @@ export class CgcatalogoService {
   catalogoGuardado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -128,7 +128,7 @@ export class CgcatalogoService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {
           resolve(resp.data);       
           this.catalogoGuardado.emit(resp.data);
@@ -178,7 +178,7 @@ export class CgcatalogoService {
       
     return new Promise( resolve => {
       this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
-          this.formSubmitted.emit(false);                           
+                                     
           if (resp['code'] === 200)  {
             this.catalogoActualizado.emit( resp.data );                            
             resolve(resp.data);            
@@ -190,7 +190,7 @@ export class CgcatalogoService {
   borrarCatalogo(id: string) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => {   
-        this.formSubmitted.emit(false);                       
+                               
         if (resp['code'] === 200)  {
           this.catalogoBorrado.emit(id);    
           resolve(resp.data);            

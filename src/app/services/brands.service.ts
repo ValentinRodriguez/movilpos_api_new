@@ -14,7 +14,7 @@ export class BrandsService {
   marcaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   constructor(private http: HttpClient) { }
 
@@ -58,7 +58,7 @@ export class BrandsService {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => {      
-        this.formSubmitted.emit(false);
+        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.marcaGuardada.emit(resp.data);       
@@ -70,7 +70,7 @@ export class BrandsService {
   actualizarMarca(id:number, marca: any) {  
     return new Promise( resolve => {
       this.http.put(`${ URL }/marca/${id}`, marca).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false); 
+         
         if (resp['code'] === 200)  {
           this.marcaAct.emit( resp.data );                            
           resolve(resp.data);            
@@ -82,7 +82,7 @@ export class BrandsService {
   borrarMarca(id: string) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/marca/${id}`).subscribe( (resp: any) => {
-        this.formSubmitted.emit(false);                           
+                                   
         if (resp['code'] === 200)  {            
           this.marcaBorrada.emit(id);    
           resolve(resp.data);            

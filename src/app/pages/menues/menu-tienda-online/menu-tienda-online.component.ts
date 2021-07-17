@@ -21,7 +21,7 @@ export class MenuTiendaOnlineComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(11).then((resp: any) => {
+    this.menuServ.getMenu(11,'menu-tienda-online').then((resp: any) => {
       this.menu = resp;   
     })
   }

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AppMainComponent } from 'src/app/app.main.component';
 import { MenuesService } from 'src/app/services/menues.service';
 import { Router } from '@angular/router';
-
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-search-page',
     templateUrl: './searchpage.component.html',
@@ -15,14 +13,20 @@ export class SearchpageComponent implements OnInit {
     selectedMenues: any;    
     filteredMenues: any[] = [];
 
-    constructor(private globalFunction: GlobalFunctionsService,public app: AppMainComponent,
+    constructor(public app: AppMainComponent,
                 private menuesService: MenuesService,
                 private router: Router) {}
 
     ngOnInit() {
-        this.menuesService.getMenues().then((resp: any) => {
-            this.menues = resp;           
-        })
+        const menu = JSON.parse(localStorage.getItem('menues'));
+        if (menu === null) {
+            this.menuesService.getMenues().then((resp: any) => {
+                localStorage.setItem('menues',JSON.stringify(resp));
+                this.menues = resp;           
+            })            
+        } else {       
+            this.menues = menu;
+        }
     }
 
     filterMenues(event) {

@@ -8,7 +8,7 @@ const URL = environment.url;
 export class DgiiService {
   
   rncEscogido = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +27,7 @@ export class DgiiService {
   getRNCS() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/dgii-rnc`).subscribe((resp: any) => {     
-          this.formSubmitted.emit(false);                               
+                                         
           if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }

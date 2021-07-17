@@ -15,7 +15,7 @@ export class UsuarioService {
   usuarioBorrado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  formSubmitted = new EventEmitter();
+  
   
   private iss = {
     login: `${URL}/login`,
@@ -134,6 +134,8 @@ export class UsuarioService {
         localStorage.removeItem('permisos');
         localStorage.removeItem('bodegas_permisos');
         localStorage.removeItem('empresa'); 
+        localStorage.removeItem('modulos'); 
+        localStorage.removeItem('perfiles'); 
         localStorage.removeItem('sessionId'); 
         this.router.navigate(['/login']);  
       }
