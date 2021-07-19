@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RrhhService } from 'src/app/services/rrhh.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { AmonestacionesComponent } from './amonestaciones/amonestaciones.component';
 import { AusenciasComponent } from './ausencias/ausencias.component';
 import { DescuentosComponent } from './descuentos/descuentos.component';

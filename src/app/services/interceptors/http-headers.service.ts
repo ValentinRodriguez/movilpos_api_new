@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GlobalFunctionsService } from '../global-functions.service';
-import { UsuarioService } from '../usuario.service';
+import { UsuarioService } from '../panel-control/usuario.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class HttpHeadersService implements HttpInterceptor{
           },
           setParams:{
             sessionId: localStorage.getItem('sessionId'),
-            usuario_creador: `${this.usuarioService.getUserLogged().username}`,
+            usuario_creador: `${this.usuarioService.getUserLogged().username}` || 'movilsoluciones',
             urlRequest: this.router.url
           },
           body: req.body.append('sessionId', localStorage.getItem('sessionId'))
@@ -48,7 +48,7 @@ export class HttpHeadersService implements HttpInterceptor{
           },
           setParams: {
             sessionId: localStorage.getItem('sessionId'),
-            usuario_creador: `${this.usuarioService.getUserLogged().username}`,
+            // usuario_creador: `${this.usuarioService.getUserLogged().username}` ,
             urlRequest: this.router.url
           },
           body: {...req.body, ...foo}

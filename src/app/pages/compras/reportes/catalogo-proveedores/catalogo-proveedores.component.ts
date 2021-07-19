@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';

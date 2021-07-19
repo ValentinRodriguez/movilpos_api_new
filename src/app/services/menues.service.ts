@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 const URL = environment.url;
@@ -21,19 +21,25 @@ export class MenuesService {
     });
   }
 
-  getMenu(id: number, menu = '') {
-    let localMenu = localStorage.getItem(menu);
+  getMenu(id: number) {
+    let localMenues = JSON.parse(localStorage.getItem('menues'));
+    let menues: any[] = []
+    
     return new Promise( resolve => {
-      if (localMenu === null) {        
+      if (localMenues === null) { 
         this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => { 
           if (resp['code'] === 200)  {   
-            localStorage.setItem(menu, JSON.stringify(resp.data));   
             console.log(resp.data);                
             resolve(resp.data);            
           }
         })
-      } else {
-        resolve(JSON.parse(localMenu));            
+      }else{
+        localMenues.forEach(element => {
+          if (element.modulo == id) {
+            menues.push(element);      
+          }
+        });
+        resolve(menues);
       }
     })      
   }

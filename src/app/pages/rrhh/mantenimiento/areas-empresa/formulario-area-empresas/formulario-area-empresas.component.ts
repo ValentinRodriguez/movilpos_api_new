@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { AreasEmpresaService } from 'src/app/services/areas-empresa.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
-import { EmpresaService } from 'src/app/services/empresa.service';
-import { SucursalesService } from 'src/app/services/sucursales.service';
+import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
+import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

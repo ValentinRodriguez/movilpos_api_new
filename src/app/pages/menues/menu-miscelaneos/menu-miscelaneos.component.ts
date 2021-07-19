@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuesService } from 'src/app/services/menues.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-menu-miscelaneos',
   templateUrl: './menu-miscelaneos.component.html',
@@ -13,7 +12,7 @@ export class MenuMiscelaneosComponent implements OnInit {
   menu: any[] = [];
   formSubmitted: boolean;
 
-  constructor(private globalFunction: GlobalFunctionsService,private menuServ: MenuesService,
+  constructor(private menuServ: MenuesService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -21,7 +20,7 @@ export class MenuMiscelaneosComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(3,'menu-miscelaneos').then((resp: any) => {
+    this.menuServ.getMenu(3).then((resp: any) => {
       this.menu = resp;   
     })
   }

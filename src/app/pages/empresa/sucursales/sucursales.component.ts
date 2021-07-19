@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { UiMessagesService } from '../../../services/ui-messages.service';
-import { UsuarioService } from '../../../services/usuario.service';
-import { SucursalesService } from "../../../services/sucursales.service";
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { UsuarioService } from '../../../services/panel-control/usuario.service';
+import { SucursalesService } from '../../../services/mi-empresa/sucursales.service';
+import { UiMessagesService } from '../../../services/ui-messages.service';
+
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
@@ -22,7 +22,7 @@ export class SucursalesComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private sucursalesServ: SucursalesService,
               private confirmationService: ConfirmationService,

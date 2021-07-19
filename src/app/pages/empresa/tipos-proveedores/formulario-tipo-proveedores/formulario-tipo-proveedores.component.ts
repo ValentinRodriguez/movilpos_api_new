@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

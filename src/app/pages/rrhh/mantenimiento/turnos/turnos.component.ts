@@ -3,7 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TurnosService } from 'src/app/services/turnos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { EmpresaService } from 'src/app/services/empresa.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
@@ -22,7 +21,7 @@ export class EmpresaComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private usuariosServ: UsuarioService,
+  constructor(private usuariosServ: UsuarioService,
               private empresasServ: EmpresaService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();

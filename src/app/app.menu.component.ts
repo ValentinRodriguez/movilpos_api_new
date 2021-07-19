@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AppMainComponent} from './app.main.component';
 import { RolesService } from './services/roles.service';
-import { UsuarioService } from './services/usuario.service';
+import { UsuarioService } from './services/panel-control/usuario.service';
 import Swal from 'sweetalert2'
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html',
@@ -16,53 +15,47 @@ export class AppMenuComponent implements OnInit {
     modulos: any[] = [];
     usuario: any;
     logo: string;
+    @Input() roles: any;
 
     constructor(public app: AppMainComponent,
-                private usuarioServ:UsuarioService,
-                private permisosServ: RolesService) {    
+                private usuarioServ:UsuarioService) {    
                     this.usuario = this.usuarioServ.getUserLogged();
                     if(this.usuario.empresa != null) {
                         this.logo = this.usuario.empresa.logo;
                     }else{
                         this.logo = null;
-                    }
-                    
+                    }                    
     }
 
     ngOnInit() {  
-        let mods = localStorage.getItem('modulos');
-        let perfs = localStorage.getItem('perfiles');
+        let mods = JSON.parse(localStorage.getItem('modulos'));
+        let perfs = JSON.parse(localStorage.getItem('perfiles'));
 
-        if (mods === null || perfs === null) {            
-            this.permisosServ.permisos.subscribe((resp: any) => { 
-              if (resp !== null) {
-                localStorage.setItem('perfiles',resp.perfil);
-                localStorage.setItem('modulos',resp.modulos);
-                this.cargarModulos(resp.modulos, resp.perfil);
-              }else{
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Este usuario no tiene permisos a ninguno de los MODULOS del sistema. Comuniquese con un administrador.',
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                })
-              }
-            })           
+        if (mods === null || perfs === null) {                    
+            if (this.roles !== null) {              
+              localStorage.setItem('perfiles',this.roles.perfil);
+              localStorage.setItem('modulos',this.roles.modulos);
+              this.cargarModulos(this.roles.modulos, this.roles.perfil);
+            }else{
+              Swal.fire({
+                  title: 'Atención!',
+                  text: 'Este usuario no tiene permisos a ninguno de los MODULOS del sistema. Comuniquese con un administrador.',
+                  icon: 'info',
+                  confirmButtonText: 'OK'
+              })
+            }          
         }else{
             this.cargarModulos(mods, perfs);
         }
     }
 
     cargarModulos(mods, perfs) {
-        let modulos = JSON.parse(mods);
-        let perfiles = JSON.parse(perfs);
-
         let admin = false;
         
-        perfiles.forEach(element => {         
+        perfs.forEach(element => {         
             if (element.modulo === 'super administrador' && element.valor === true) {
                 admin = true;
-                modulos.forEach(element => {
+                mods.forEach(element => {
                     this.test.push({label: element.modulo,icon: element.icon,
                                     items: [{
                                         label: element.modulo,

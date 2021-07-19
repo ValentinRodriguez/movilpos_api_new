@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { UsuarioService } from './usuario.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 const URL = environment.url;
 
 @Injectable({

@@ -3,7 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PeriodosFiscalesService } from 'src/app/services/periodos-fiscales.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { groupBy } from 'lodash-es';
 import { ActPeriodosComponent } from './act-periodos/act-periodos.component';
 

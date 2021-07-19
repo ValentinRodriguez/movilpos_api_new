@@ -6,7 +6,7 @@ import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
 import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { StepFacturaProvedoresComponent } from '../step-factura-provedores/step-factura-provedores.component';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';

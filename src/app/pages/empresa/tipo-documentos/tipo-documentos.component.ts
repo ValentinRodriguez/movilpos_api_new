@@ -4,7 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/listado-empleados.component';
 import { RrhhService } from 'src/app/services/rrhh.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { PermisosUsuariosComponent } from '../../panel-control/usuarios/permisos-usuarios/permisos-usuarios.component';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';

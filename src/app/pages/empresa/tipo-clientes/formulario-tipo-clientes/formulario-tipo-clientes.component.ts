@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TipoClienteService } from 'src/app/services/tipo-cliente.service';
+import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

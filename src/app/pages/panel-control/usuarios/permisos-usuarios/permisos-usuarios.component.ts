@@ -5,7 +5,7 @@ import { MenuesService } from 'src/app/services/menues.service';
 import { ModulosService } from 'src/app/services/modulos.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

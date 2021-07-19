@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { EmpresaService } from 'src/app/services/empresa.service';
-import { SucursalesService } from 'src/app/services/sucursales.service';
+import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
+import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { Router } from '@angular/router';
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';

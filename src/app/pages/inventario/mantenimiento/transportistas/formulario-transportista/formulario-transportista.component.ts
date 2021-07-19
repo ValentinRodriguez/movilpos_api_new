@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { TransportistasService } from 'src/app/services/transportistas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { ZonasService } from 'src/app/services/zonas.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

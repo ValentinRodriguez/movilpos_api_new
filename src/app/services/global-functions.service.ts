@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UsuarioService } from './usuario.service';
+import { UsuarioService } from './panel-control/usuario.service';
 import { Subject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 

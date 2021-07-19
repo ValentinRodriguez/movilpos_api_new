@@ -7,7 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 // import listPlugin from '@fullcalendar/list';
 import { ActividadesService } from 'src/app/services/actividades.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 

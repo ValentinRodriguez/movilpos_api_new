@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -133,10 +133,12 @@ export class UsuarioService {
         localStorage.removeItem('empleado');
         localStorage.removeItem('permisos');
         localStorage.removeItem('bodegas_permisos');
-        localStorage.removeItem('empresa'); 
-        localStorage.removeItem('modulos'); 
-        localStorage.removeItem('perfiles'); 
-        localStorage.removeItem('sessionId'); 
+        localStorage.removeItem('empresa');
+        localStorage.removeItem('modulos');
+        localStorage.removeItem('perfiles');
+        localStorage.removeItem('sessionId');
+        localStorage.removeItem('roles');
+        localStorage.removeItem('menues');
         this.router.navigate(['/login']);  
       }
     })

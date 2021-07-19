@@ -13,7 +13,7 @@ import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { PuertosService } from 'src/app/services/puertos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { StepOrdenesComprasComponent } from '../step-ordenes-compras/step-ordenes-compras.component';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';

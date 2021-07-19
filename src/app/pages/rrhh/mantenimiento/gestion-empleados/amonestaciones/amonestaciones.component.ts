@@ -5,7 +5,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { CategoriasService } from 'src/app/services/categorias.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

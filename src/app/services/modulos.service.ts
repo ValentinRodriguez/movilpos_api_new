@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { UsuarioService } from './usuario.service';
+import { UsuarioService } from './panel-control/usuario.service';
 
 const URL = environment.url;
 

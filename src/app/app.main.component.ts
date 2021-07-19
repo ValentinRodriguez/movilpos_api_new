@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { MenuService } from './app.menu.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { RolesService } from './services/roles.service';
-import { UsuarioService } from './services/usuario.service';
+import { UsuarioService } from './services/panel-control/usuario.service';
 import { Router } from '@angular/router';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
@@ -49,14 +49,11 @@ export class AppMainComponent implements OnInit{
         this.primengConfig.ripple = true;   
         const rol = localStorage.getItem('roles');
         if (rol === null) {                   
-            this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{
-                console.log('NO HABIA DATA');
-                
+            this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{                
                 localStorage.setItem('roles', JSON.stringify(resp));
                 this.permisos = resp;          
             })
         } else {
-            console.log('HABIA DATA');
             this.permisos = JSON.parse(rol);
         }
 

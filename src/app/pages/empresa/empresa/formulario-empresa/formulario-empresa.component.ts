@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoRncComponent } from 'src/app/components/listado-rnc/listado-rnc.component';
 import { OnlineRncComponent } from 'src/app/components/online-rnc/online-rnc.component';
 import { DgiiService } from 'src/app/services/dgii.service';
-import { EmpresaService } from 'src/app/services/empresa.service';
-import { MonedasService } from 'src/app/services/monedas.service';
+import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
+import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.urlImagenes;
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-empresa',
   templateUrl: './formulario-empresa.component.html',

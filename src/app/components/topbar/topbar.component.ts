@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { AppMainComponent } from 'src/app/app.main.component';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ModulosService } from 'src/app/services/modulos.service';
 import { MenuesService } from 'src/app/services/menues.service';
 import { FacturasService } from 'src/app/services/facturas.service';
@@ -50,17 +50,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
 
     }
     
-    ngOnInit(): void {
-        const mods = localStorage.getItem('modulos');
-        if (mods === null) {        
-            this.modulosServ.getModulos().then((resp: any) => {
-                localStorage.setItem('modulos', resp);
-                this.modulos = resp;
-            });            
-        } else {
-            this.modulos = JSON.parse(mods)
-        }
-        
+    ngOnInit(): void {          
         this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
                              { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
                              { label: 'Codigo', value: 'codigo', icon: 'fas fa-barcode', justify: 'Left' }

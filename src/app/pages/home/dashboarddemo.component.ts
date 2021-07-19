@@ -23,7 +23,7 @@ export class DashboardDemoComponent implements OnInit {
 
     ngOnInit() {        
         this.permisosServ.permisos.subscribe((resp: any) => {
-          const perfiles = JSON.parse(resp.perfil);          
+            const perfiles = JSON.parse(resp.perfil);          
         })
                 
         this.homeService.autoLlenado().then((resp: any) => { 

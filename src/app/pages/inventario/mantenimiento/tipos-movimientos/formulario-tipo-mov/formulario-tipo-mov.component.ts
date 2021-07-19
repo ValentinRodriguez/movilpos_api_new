@@ -4,7 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
 import { CodMovService } from 'src/app/services/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';

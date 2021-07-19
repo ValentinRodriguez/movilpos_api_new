@@ -13,7 +13,7 @@ export class MenuCuentasPagarComponent implements OnInit {
   menu: any[] = [];
   formSubmitted: boolean;
 
-  constructor(private globalFunction: GlobalFunctionsService,private menuServ: MenuesService,
+  constructor(private menuServ: MenuesService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class MenuCuentasPagarComponent implements OnInit {
   }
 
   getData() {
-    this.menuServ.getMenu(10,'menu-cuentas-pagar').then((resp: any) => {
+    this.menuServ.getMenu(10).then((resp: any) => {
       this.menu = resp;   
     })
   }

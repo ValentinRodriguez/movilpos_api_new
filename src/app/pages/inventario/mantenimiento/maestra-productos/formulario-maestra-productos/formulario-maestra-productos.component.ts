@@ -8,7 +8,7 @@ import { InventarioService } from 'src/app/services/inventario.service';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { TipoInventarioService } from 'src/app/services/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';

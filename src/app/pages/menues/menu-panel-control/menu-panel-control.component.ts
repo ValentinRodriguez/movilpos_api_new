@@ -16,9 +16,9 @@ export class MenuPanelControlComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.menuServ.getMenu(1, 'menu-panel-control').then((resp: any) => {
+    this.menuServ.getMenu(1).then((resp: any) => {
       this.menu = resp;
-    })
+    });
   }
   
   redirigir(ruta: string) {

@@ -6,7 +6,7 @@ import { ClientesService } from 'src/app/services/clientes.service';
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { FacturasService } from 'src/app/services/facturas.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({

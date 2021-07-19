@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { EmpresaService } from 'src/app/services/empresa.service';
+import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
 import { ModulosService } from 'src/app/services/modulos.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-procedimientos',
   templateUrl: './procedimientos.component.html',
@@ -26,7 +25,7 @@ export class ProcedimientosComponent implements OnInit {
   user: any;
   
 
-  constructor(private globalFunction: GlobalFunctionsService,private modulosServ: ModulosService,
+  constructor(private modulosServ: ModulosService,
               private confirmationService: ConfirmationService,
               private uiMessage: UiMessagesService,
               private empresasServ: EmpresaService) { }

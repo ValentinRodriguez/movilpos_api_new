@@ -6,9 +6,9 @@ import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service'
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
 import { RrhhService } from 'src/app/services/rrhh.service';
-import { SucursalesService } from 'src/app/services/sucursales.service';
+import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-formulario-empleados',

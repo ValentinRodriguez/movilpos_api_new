@@ -6,7 +6,7 @@ import { PendientesEntradaComponent } from 'src/app/components/pendientes-entrad
 import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
 import { TransaccionesService } from 'src/app/services/transacciones.service';
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;

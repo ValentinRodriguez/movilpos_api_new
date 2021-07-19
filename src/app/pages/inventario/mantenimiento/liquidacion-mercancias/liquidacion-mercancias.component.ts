@@ -5,7 +5,7 @@ import { PendientesLiquidacionComponent } from 'src/app/components/pendientes-li
 import { LiquidacionMercanciasService } from 'src/app/services/liquidacion-mercancias.service';
 
 import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
