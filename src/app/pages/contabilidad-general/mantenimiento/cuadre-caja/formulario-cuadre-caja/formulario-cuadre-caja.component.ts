@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
-import { CuadresService } from 'src/app/services/cuadres.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { CuadresService } from 'src/app/services/contabilidad/cuadres.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-cuadre-caja',
   templateUrl: './formulario-cuadre-caja.component.html',
@@ -40,7 +40,7 @@ export class FormularioCuadreCajaComponent implements OnInit {
   cajeroFiltrado: any[];
   items:any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private uiMessage: UiMessagesService,
               private cuadresServ: CuadresService,
               private usuariosServ: UsuarioService,

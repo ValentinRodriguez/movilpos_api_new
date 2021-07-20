@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { HomeService } from 'src/app/services/home.service';
-import { RolesService } from 'src/app/services/roles.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { HomeService } from 'src/app/services/globales/home.service';
+import { RolesService } from 'src/app/services/globales/roles.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboarddemo.scss'],
@@ -16,7 +15,7 @@ export class DashboardDemoComponent implements OnInit {
     items: MenuItem[] = [];
     
 
-    constructor(private globalFunction: GlobalFunctionsService,private homeService: HomeService,
+    constructor(private homeService: HomeService,
                 public dialogService: DialogService,
                 private permisosServ: RolesService,
                 private datosEstaticosServ: DatosEstaticosService) { }

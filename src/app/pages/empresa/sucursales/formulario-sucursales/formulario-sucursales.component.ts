@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
 import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { Router } from '@angular/router';
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 
 @Component({
   selector: 'app-formulario-sucursales',
@@ -35,7 +35,8 @@ export class FormularioSucursalesComponent implements OnInit {
   rutaActual: string[];
   items: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
+              private globalFunction: GlobalFunctionsService,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private paisesCiudadesServ: PaisesCiudadesService,

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PuertosService } from 'src/app/services/puertos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PuertosService } from 'src/app/services/compras/puertos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-puertos',
   templateUrl: './puertos.component.html',
@@ -21,7 +21,7 @@ export class PuertosComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puertosService: PuertosService,
               private confirmationService: ConfirmationService,

@@ -6,17 +6,17 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { DepartamentosService } from 'src/app/services/departamentos.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { OrdenPedidosService } from 'src/app/services/orden-pedidos.service';
-import { RequisicionesService } from 'src/app/services/requisiciones.service';
-import { RrhhService } from 'src/app/services/rrhh.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { DepartamentosService } from 'src/app/services/rrhh/departamentos.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.service';
+import { RequisicionesService } from 'src/app/services/compras/requisiciones.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-requisiciones',
   templateUrl: './requisiciones.component.html',
@@ -57,7 +57,7 @@ export class RequisicionesComponent implements OnInit {
     { label: 'Baja', value:'baja'},
   ] 
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
+  constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,
               private usuariosServ: UsuarioService,

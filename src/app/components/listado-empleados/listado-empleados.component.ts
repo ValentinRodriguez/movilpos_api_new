@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { RrhhService } from 'src/app/services/rrhh.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-listado-empleados',
   templateUrl: './listado-empleados.component.html',
@@ -18,7 +18,7 @@ export class ListadoEmpleadosComponent implements OnInit {
   cols: any[]= [];
    
 
-  constructor(private globalFunction: GlobalFunctionsService,private empleadosServ: RrhhService,
+  constructor(private empleadosServ: RrhhService,
               private ref: DynamicDialogRef,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService) { }

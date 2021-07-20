@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AppMainComponent} from './app.main.component';
-import { RolesService } from './services/roles.service';
 import { UsuarioService } from './services/panel-control/usuario.service';
 import Swal from 'sweetalert2'
 

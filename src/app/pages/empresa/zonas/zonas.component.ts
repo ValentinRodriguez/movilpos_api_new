@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-zonas',
   templateUrl: './zonas.component.html',
@@ -20,7 +20,7 @@ export class ZonasComponent implements OnInit {
   cols: any[];   
   
   
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private zonasServ: ZonasService,
               private confirmationService: ConfirmationService,

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CategoriasService } from 'src/app/services/categorias.service';
-import { DepartamentosService } from 'src/app/services/departamentos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CategoriasService } from 'src/app/services/inventario/categorias.service';
+import { DepartamentosService } from 'src/app/services/rrhh/departamentos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-amonestaciones',
   templateUrl: './amonestaciones.component.html',
@@ -39,7 +39,7 @@ export class AmonestacionesComponent implements OnInit {
     { label: 'doctorado', value: 'Doctorado' }
   ] 
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private categoriasServ: CategoriasService,

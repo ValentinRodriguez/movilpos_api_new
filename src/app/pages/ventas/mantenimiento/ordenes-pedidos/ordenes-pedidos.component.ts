@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { OrdenPedidosService } from 'src/app/services/orden-pedidos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-ordenes-pedidos',
   templateUrl: './ordenes-pedidos.component.html',
@@ -20,7 +20,7 @@ export class OrdenesPedidosComponent implements OnInit {
   detalleDireccion: any = {};
   index: number = 0;
 
-  constructor(private globalFunction: GlobalFunctionsService,private ordenServ :OrdenPedidosService,
+  constructor(private ordenServ :OrdenPedidosService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService,
               ){ }

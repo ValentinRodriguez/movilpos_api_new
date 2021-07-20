@@ -2,17 +2,16 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
-import { BrandsService } from 'src/app/services/brands.service';
-import { CategoriasService } from 'src/app/services/categorias.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { RecepcionVehiculosService } from 'src/app/services/recepcion-vehiculos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { BrandsService } from 'src/app/services/inventario/brands.service';
+import { CategoriasService } from 'src/app/services/inventario/categorias.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { RecepcionVehiculosService } from 'src/app/services/ventas/recepcion-vehiculos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.urlImagenes;
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-recepcion-vehiculos',
   templateUrl: './formulario-recepcion-vehiculos.component.html',
@@ -54,7 +53,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
     {label: 'Importado', value: 'importado'},
     {label: 'Local', value: 'local'},
   ];
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private marcaService: BrandsService,

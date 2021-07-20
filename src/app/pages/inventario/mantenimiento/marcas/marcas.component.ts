@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { BrandsService } from 'src/app/services/brands.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { BrandsService } from 'src/app/services/inventario/brands.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
@@ -26,7 +26,7 @@ export class MarcasComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private marcasServ: BrandsService,

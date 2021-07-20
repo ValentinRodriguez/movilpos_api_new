@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipo-negocio',
   templateUrl: './tipo-negocio.component.html',
@@ -23,7 +23,7 @@ export class TipoNegocioComponent implements OnInit {
   index: number = 0;
   
   
-  constructor(private globalFunction: GlobalFunctionsService,
+  constructor(
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private confirmationService: ConfirmationService,

@@ -3,10 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MovimientoPermisosComponent } from 'src/app/pages/inventario/mantenimiento/tipos-movimientos/movimiento-permisos/movimiento-permisos.component';
-import { CodMovService } from 'src/app/services/cod-mov.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipos-movimientos',
   templateUrl: './tipos-movimientos.component.html',
@@ -32,7 +32,7 @@ export class TiposMovimientosComponent implements OnInit {
     
   listSubscribers: any = [];
   
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,              
+  constructor(private uiMessage: UiMessagesService,              
               public dialogService: DialogService,             
               private confirmationService: ConfirmationService,
               private CodMovServ: CodMovService,

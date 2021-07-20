@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AreasEmpresaService } from 'src/app/services/areas-empresa.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { DepartamentosService } from 'src/app/services/departamentos.service';
+import { AreasEmpresaService } from 'src/app/services/rrhh/areas-empresa.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { DepartamentosService } from 'src/app/services/rrhh/departamentos.service';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
 import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-area-empresas',
   templateUrl: './formulario-area-empresas.component.html',
@@ -23,8 +22,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  areaExiste = 3;
-  
+  areaExiste = 3;  
   id: number;
   listSubscribers: any = [];
   departamentos: any[] = [];
@@ -35,7 +33,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   sucursalesFiltradas: any[]= [];
   rutaActual: string[];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,

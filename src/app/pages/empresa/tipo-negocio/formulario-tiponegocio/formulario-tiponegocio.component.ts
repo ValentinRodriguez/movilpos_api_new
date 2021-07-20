@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tiponegocio',
   templateUrl: './formulario-tiponegocio.component.html',
@@ -23,7 +23,7 @@ export class FormularioTiponegocioComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoNegocioServ: TipoNegocioService) { 

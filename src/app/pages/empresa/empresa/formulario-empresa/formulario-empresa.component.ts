@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoRncComponent } from 'src/app/components/listado-rnc/listado-rnc.component';
 import { OnlineRncComponent } from 'src/app/components/online-rnc/online-rnc.component';
-import { DgiiService } from 'src/app/services/dgii.service';
+import { DgiiService } from 'src/app/services/globales/dgii.service';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.urlImagenes;
@@ -68,7 +68,7 @@ export class FormularioEmpresaComponent implements OnInit {
   municipios: any;
   sectores: any;
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private empresasServ: EmpresaService,
               private monedasServ: MonedasService,

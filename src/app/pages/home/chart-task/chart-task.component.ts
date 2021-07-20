@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-chart-task',
   templateUrl: './chart-task.component.html',
@@ -8,7 +8,7 @@ import { GlobalFunctionsService } from 'src/app/services/global-functions.servic
 })
 export class ChartTaskComponent implements OnInit {
 
-  constructor(private globalFunction: GlobalFunctionsService,) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

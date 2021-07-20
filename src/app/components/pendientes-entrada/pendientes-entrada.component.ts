@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { TransaccionesService } from 'src/app/services/transacciones.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-pendientes-entrada',
   templateUrl: './pendientes-entrada.component.html',
@@ -15,7 +14,7 @@ export class PendientesEntradaComponent implements OnInit {
   cols: { field: string; header: string; }[];
   selectedProducts = [];
   usuario: any;
-  constructor(private globalFunction: GlobalFunctionsService,public ref: DynamicDialogRef, 
+  constructor(public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private transPendientes: TransaccionesService,
               private uiMessage: UiMessagesService,

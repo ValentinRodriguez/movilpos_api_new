@@ -3,15 +3,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PendientesEntradaComponent } from 'src/app/components/pendientes-entrada/pendientes-entrada.component';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { TransaccionesService } from 'src/app/services/transacciones.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-transacciones-inventario',
   templateUrl: './transacciones-inventario.component.html',
@@ -28,7 +28,7 @@ export class TransaccionesInventarioComponent implements OnInit {
   index = 0;
   items: MenuItem[] = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private transaccionesServ: TransaccionesService,
+  constructor(private transaccionesServ: TransaccionesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,

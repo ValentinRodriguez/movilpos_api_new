@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { RrhhService } from 'src/app/services/rrhh.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { AmonestacionesComponent } from './amonestaciones/amonestaciones.component';
 import { AusenciasComponent } from './ausencias/ausencias.component';
@@ -9,7 +9,7 @@ import { DescuentosComponent } from './descuentos/descuentos.component';
 import { HorasExtrasComponent } from './horas-extras/horas-extras.component';
 import { VacacionesComponent } from './vacaciones/vacaciones.component';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-gestion-empleados',
   templateUrl: './gestion-empleados.component.html',
@@ -26,7 +26,7 @@ export class GestionEmpleadosComponent implements OnInit {
   listSubscribers: any = [];
   index = 0;
 
-  constructor(private globalFunction: GlobalFunctionsService,private empleadosServ: RrhhService,
+  constructor(private empleadosServ: RrhhService,
               private usuariosServ: UsuarioService,
               private confirmationService: ConfirmationService,
               private dialogService: DialogService) { 

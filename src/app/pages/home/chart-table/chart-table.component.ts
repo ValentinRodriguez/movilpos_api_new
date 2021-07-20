@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/demo/domain/product';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-chart-table',
   templateUrl: './chart-table.component.html',
@@ -15,7 +15,7 @@ export class ChartTableComponent implements OnInit {
   productsLastWeek: Product[];
   productsThisWeek: Product[];
 
-  constructor(private globalFunction: GlobalFunctionsService,) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.orderWeek = [

@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'jspdf-autotable';
-import { SelectItem, ConfirmationService } from 'primeng/api';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { TiendaService } from 'src/app/services/tienda.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { ConfirmationService, SelectItem } from 'primeng/api';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { TiendaService } from 'src/app/services/tienda/tienda.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tienda',
   templateUrl: './formulario-tienda.component.html',
@@ -26,7 +25,7 @@ export class FormularioTiendaComponent implements OnInit {
   listSubscribers: any = [];
   selectedProducts3: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private inventarioServ: InventarioService,
+  constructor(private inventarioServ: InventarioService,
               private miTienda: TiendaService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }

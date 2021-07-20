@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PeriodosFiscalesService } from 'src/app/services/periodos-fiscales.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-fiscales.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { groupBy } from 'lodash-es';
 import { ActPeriodosComponent } from './act-periodos/act-periodos.component';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-periodos-fiscales',
   templateUrl: './periodos-fiscales.component.html',
@@ -28,7 +28,7 @@ export class PeriodosFiscalesComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private confirmationService: ConfirmationService,
+  constructor(private confirmationService: ConfirmationService,
               private periodoFserv: PeriodosFiscalesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,

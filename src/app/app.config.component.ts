@@ -1,9 +1,7 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AppMainComponent } from './app.main.component';
-import { FacturasService } from './services/facturas.service';
-import { SettingsService } from './services/settings.service';
+import { SettingsService } from './services/globales/settings.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-config',
     template: `
@@ -96,7 +94,6 @@ export class AppConfigComponent implements OnInit {
     @Input() simbolo: string;
 
     constructor(public app: AppMainComponent,
-                private facturasServ: FacturasService,
                 public setting: SettingsService) {}
 
     ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppMainComponent } from 'src/app/app.main.component';
-import { MenuesService } from 'src/app/services/menues.service';
+import { MenuesService } from 'src/app/services/globales/menues.service';
 import { Router } from '@angular/router';
 @Component({
     selector: 'app-search-page',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { LiquidacionMercanciasService } from 'src/app/services/liquidacion-mercancias.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { LiquidacionMercanciasService } from 'src/app/services/inventario/liquidacion-mercancias.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-pendientes-liquidacion',
   templateUrl: './pendientes-liquidacion.component.html',
@@ -16,7 +16,7 @@ export class PendientesLiquidacionComponent implements OnInit {
   productos: any[] = [];
   cols: any[];   
 
-  constructor(private globalFunction: GlobalFunctionsService,public pendientesLiquidacion: LiquidacionMercanciasService,
+  constructor(public pendientesLiquidacion: LiquidacionMercanciasService,
               private ref: DynamicDialogRef,
               public config: DynamicDialogConfig,
               private uiMessage: UiMessagesService) { }

@@ -1,30 +1,27 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
-import { BodegasService } from 'src/app/services/bodegas.service';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { CodMovService } from 'src/app/services/cod-mov.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { DgiiService } from 'src/app/services/dgii.service';
-import { FacturasService } from 'src/app/services/facturas.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { OrdenPedidosService } from 'src/app/services/orden-pedidos.service';
-import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { TransaccionesService } from 'src/app/services/transacciones.service';
-import { TransportistasService } from 'src/app/services/transportistas.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
+import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { DgiiService } from 'src/app/services/globales/dgii.service';
+import { FacturasService } from 'src/app/services/ventas/facturas.service';
+import { BodegasService } from 'src/app/services/inventario/bodegas.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
+import { TransportistasService } from 'src/app/services/inventario/transportistas.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.service';
 import { environment } from 'src/environments/environment';
-import { StepTransaccionesComponent } from '../step-transacciones/step-transacciones.component';
 
 const URL = environment.url;
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-inv-transacciones',
   templateUrl: './formulario-inv-transacciones.component.html',
@@ -72,7 +69,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   items: MenuItem[] = [];
   tipoNegocios: any[] = [];
   
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,   
               private clienteServ: ClientesService,

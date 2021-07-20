@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-chart-menu',
   templateUrl: './chart-menu.component.html',
@@ -13,7 +13,7 @@ export class ChartMenuComponent implements OnInit {
   ordersChart: any;
   ordersChartOptions: any;
   
-  constructor(private globalFunction: GlobalFunctionsService,) { }
+  constructor() { }
 
   ngOnInit(): void {
 

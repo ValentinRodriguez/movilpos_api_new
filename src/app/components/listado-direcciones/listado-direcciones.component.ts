@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { DireccionesService } from 'src/app/services/direcciones.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { DireccionesService } from 'src/app/services/compras/direcciones.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-listado-direcciones',
   templateUrl: './listado-direcciones.component.html',
@@ -13,10 +12,9 @@ export class ListadoDireccionesComponent implements OnInit {
   direcciones: any[] = [];
   direccioneSeleccionada = [];
   productos: any[] = [];
-  cols: any[];
-   
+  cols: any[];   
 
-  constructor(private globalFunction: GlobalFunctionsService,private direccionServ: DireccionesService,
+  constructor(private direccionServ: DireccionesService,
               private ref: DynamicDialogRef,
               private uiMessage: UiMessagesService) { }
 

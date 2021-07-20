@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { RrhhService } from 'src/app/services/rrhh.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
@@ -86,7 +86,8 @@ export class FormularioEmpleadosComponent implements OnInit {
     this.listSubscribers.forEach(a => a.unsubscribe());
   }
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private globalFunction: GlobalFunctionsService,
+              private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,           

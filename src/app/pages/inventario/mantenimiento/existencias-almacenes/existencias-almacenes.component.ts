@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { groupBy } from 'rxjs/operators';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { ExistenciaAlmacenesService } from 'src/app/services/existencia-almacenes.service';
-import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-existencias-almacenes',
   templateUrl: './existencias-almacenes.component.html',
@@ -41,7 +39,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   bodegas: any;
   productos: any;
 
-  constructor(private globalFunction: GlobalFunctionsService,private existenciasServ:ExistenciaAlmacenesService,
+  constructor(private existenciasServ:ExistenciaAlmacenesService,
               private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,

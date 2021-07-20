@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuesService } from 'src/app/services/menues.service';
+import { MenuesService } from 'src/app/services/globales/menues.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-menu-cuentas-pagar',
   templateUrl: './menu-cuentas-pagar.component.html',

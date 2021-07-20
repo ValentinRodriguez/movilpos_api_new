@@ -1,17 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { TipoProveedorService } from 'src/app/services/mi-empresa/tipo-proveedor.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 
 @Component({
   selector: 'app-formulario-proveedores',
@@ -44,9 +43,8 @@ export class FormularioProveedoresComponent implements OnInit {
   items: any[] = [];
   rutaActual:any;
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
-    public router: Router,
-              private globalServ: GlobalFunctionsService,
+  constructor(private fb: FormBuilder, 
+              public router: Router,              
               private paisesCiudadesServ: PaisesCiudadesService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,

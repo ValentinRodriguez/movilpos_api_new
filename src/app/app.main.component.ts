@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import { MenuService } from './app.menu.service';
-import { PrimeNGConfig } from 'primeng/api';
-import { RolesService } from './services/roles.service';
-import { UsuarioService } from './services/panel-control/usuario.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
+import { MenuService } from './app.menu.service';
+import { RolesService } from './services/globales/roles.service';
+import { UsuarioService } from './services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
     selector: 'app-main',
     templateUrl: './app.main.component.html',

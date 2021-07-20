@@ -4,13 +4,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FacturasPendientesComponent } from 'src/app/components/facturas-pendientes/facturas-pendientes.component';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { TransacionPagosService } from 'src/app/services/transacion-pagos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
+import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
+import { TransacionPagosService } from 'src/app/services/contabilidad/transacion-pagos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-transacciones-pago',
   templateUrl: './formulario-transacciones-pago.component.html',
@@ -60,7 +60,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private transaccionsServ: TransacionPagosService,

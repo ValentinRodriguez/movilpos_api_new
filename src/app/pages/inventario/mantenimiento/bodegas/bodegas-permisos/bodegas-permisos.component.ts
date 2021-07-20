@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { BodegasService } from 'src/app/services/bodegas.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { BodegasService } from 'src/app/services/inventario/bodegas.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-bodegas-permisos',
   templateUrl: './bodegas-permisos.component.html',
@@ -18,7 +18,7 @@ export class BodegasPermisosComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,public ref: DynamicDialogRef, 
+  constructor(public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,

@@ -2,12 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/listado-empleados.component';
-import { PuestosService } from 'src/app/services/puestos.service';
-import { RrhhService } from 'src/app/services/rrhh.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PuestosService } from 'src/app/services/rrhh/puestos.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-documentos',
   templateUrl: './formulario-tipo-documentos.component.html',
@@ -35,7 +35,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
     {label: 'Activo', value: 'activo'},
     {label: 'Inactivo', value: 'inactivo'},
   ];
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService,

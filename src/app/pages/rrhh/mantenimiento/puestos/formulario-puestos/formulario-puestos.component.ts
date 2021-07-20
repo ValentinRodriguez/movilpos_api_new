@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PuestosService } from 'src/app/services/puestos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PuestosService } from 'src/app/services/rrhh/puestos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-puestos',
   templateUrl: './formulario-puestos.component.html',
@@ -22,7 +22,7 @@ export class FormularioPuestosComponent implements OnInit {
   id: number;
   
   
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService) { 

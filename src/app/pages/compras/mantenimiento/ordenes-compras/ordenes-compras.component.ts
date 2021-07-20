@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
-import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-ordenes-compras',
   templateUrl: './ordenes-compras.component.html',
@@ -21,7 +21,7 @@ export class OrdenesComprasComponent implements OnInit {
   index: number = 0;
   cols: any[];
   
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,              
+  constructor(private uiMessage: UiMessagesService,              
               private ordenServ :OrdenescomprasService,              
               private confirmationService: ConfirmationService, 
               private router: Router) { }

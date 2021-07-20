@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-facturas-pendientes',
   templateUrl: './facturas-pendientes.component.html',
@@ -17,7 +17,7 @@ export class FacturasPendientesComponent implements OnInit {
   total = 0;
   totalSeleccionado = 0;
 
-  constructor(private globalFunction: GlobalFunctionsService,private facturasServ: CoTransaccionescxpService,
+  constructor(private facturasServ: CoTransaccionescxpService,
               private ref: DynamicDialogRef,
               private uiMessage: UiMessagesService) { }
 

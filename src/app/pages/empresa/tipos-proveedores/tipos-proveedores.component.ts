@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TipoProveedorService } from 'src/app/services/tipo-proveedor.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { TipoProveedorService } from 'src/app/services/mi-empresa/tipo-proveedor.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-tipos-proveedores',
   templateUrl: './tipos-proveedores.component.html',
@@ -22,7 +21,7 @@ export class TiposProveedoresComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoProveedorServ: TipoProveedorService,
               private confirmationService: ConfirmationService,

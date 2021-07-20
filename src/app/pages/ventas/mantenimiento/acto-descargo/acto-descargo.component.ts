@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { BodegasService } from 'src/app/services/bodegas.service';
-import { BrandsService } from 'src/app/services/brands.service';
-import { CategoriasService } from 'src/app/services/categorias.service';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { PropiedadesService } from 'src/app/services/propiedades.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-acto-descargo',
   templateUrl: './acto-descargo.component.html',
@@ -71,7 +67,7 @@ export class ActoDescargoComponent implements OnInit {
     id_sector: '',
   };
 
-  constructor(private globalFunction: GlobalFunctionsService,private paisesCiudadesServ: PaisesCiudadesService,
+  constructor(private paisesCiudadesServ: PaisesCiudadesService,
               private inventarioServ: InventarioService,
               private DatosEstaticos: DatosEstaticosService,
     private clientesServ: ClientesService) { }

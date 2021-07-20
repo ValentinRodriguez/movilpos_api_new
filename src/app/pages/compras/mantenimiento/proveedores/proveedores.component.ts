@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-proveedores',
   templateUrl: './proveedores.component.html',
@@ -18,7 +18,7 @@ export class ProveedoresComponent implements OnInit {
   cuenta_no: any;  
     
   listSubscribers: any = [];
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
     private proveedoresServ:ProveedoresService,
     private confirmationService: ConfirmationService) {
   }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
-import { ModulosService } from 'src/app/services/modulos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { ModulosService } from 'src/app/services/globales/modulos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 @Component({
   selector: 'app-procedimientos',

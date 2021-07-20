@@ -1,17 +1,14 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-
-import { Subscription } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { AppMainComponent } from 'src/app/app.main.component';
+import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
+import { AppMainComponent } from 'src/app/app.main.component';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { ModulosService } from 'src/app/services/globales/modulos.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
-import { ModulosService } from 'src/app/services/modulos.service';
-import { MenuesService } from 'src/app/services/menues.service';
-import { FacturasService } from 'src/app/services/facturas.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { Router } from '@angular/router';
+import { FacturasService } from 'src/app/services/ventas/facturas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+
 @Component({
   selector: 'app-topbar-page',
   templateUrl: './topbar.component.html',
@@ -39,7 +36,6 @@ export class TopbarComponent implements OnDestroy, OnInit {
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
                 public facturaServ: FacturasService,
-                private modulosServ: ModulosService,
                 public datosEstaticos: DatosEstaticosService) {
 
         this.usuario = this.usuarioServ.getUserLogged() || null;

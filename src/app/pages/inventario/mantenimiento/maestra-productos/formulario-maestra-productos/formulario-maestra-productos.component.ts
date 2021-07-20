@@ -1,18 +1,18 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { BodegasService } from 'src/app/services/bodegas.service';
-import { BrandsService } from 'src/app/services/brands.service';
-import { CategoriasService } from 'src/app/services/categorias.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { PropiedadesService } from 'src/app/services/propiedades.service';
-import { TipoInventarioService } from 'src/app/services/tipo-inventario.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { BodegasService } from 'src/app/services/inventario/bodegas.service';
+import { BrandsService } from 'src/app/services/inventario/brands.service';
+import { CategoriasService } from 'src/app/services/inventario/categorias.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { PropiedadesService } from 'src/app/services/inventario/propiedades.service';
+import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
 const URL = environment.urlImagenes;
 
@@ -66,7 +66,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
   getChasis = false;
   id: number;
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
+              private globalFunction: GlobalFunctionsService,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   

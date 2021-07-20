@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-cgcatalogo',
   templateUrl: './formulario-cgcatalogo.component.html',
@@ -62,7 +62,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
     {label: 'Acreedor', value: 'acreedor'},
   ];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private catalogoServ: CgcatalogoService,

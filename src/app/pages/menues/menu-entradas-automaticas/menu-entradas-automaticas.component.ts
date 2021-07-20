@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuesService } from 'src/app/services/menues.service';
+import { MenuesService } from 'src/app/services/globales/menues.service';
 
 @Component({
   selector: 'app-menu-entradas-automaticas',

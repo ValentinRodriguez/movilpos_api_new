@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuesService } from 'src/app/services/menues.service';
+import { MenuesService } from 'src/app/services/globales/menues.service';
 
 @Component({
   selector: 'app-menu-panel-control',

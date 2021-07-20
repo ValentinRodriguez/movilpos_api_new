@@ -2,12 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/listado-empleados.component';
-import { PuestosService } from 'src/app/services/puestos.service';
-import { RrhhService } from 'src/app/services/rrhh.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PuestosService } from 'src/app/services/rrhh/puestos.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-usuarios',
   templateUrl: './formulario-usuarios.component.html',
@@ -37,7 +36,7 @@ export class FormularioUsuariosComponent implements OnInit {
     {label: 'Inactivo', value: 'inactivo'},
   ];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private puestosServ: PuestosService,
@@ -51,8 +50,7 @@ export class FormularioUsuariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listObserver();
-    
+    this.listObserver();    
     this.puestosServ.getDatos().then((resp: any) => {
       this.puestos = resp;      
     })

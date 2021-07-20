@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/listado-empleados.component';
-import { RrhhService } from 'src/app/services/rrhh.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { PermisosUsuariosComponent } from '../../panel-control/usuarios/permisos-usuarios/permisos-usuarios.component';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipo-documentos',
   templateUrl: './tipo-documentos.component.html',
@@ -27,7 +27,7 @@ export class TipoDocumentosComponent implements OnInit {
   empleados: any[] = [];
   
   
-  constructor(private globalFunction: GlobalFunctionsService,private confirmationService: ConfirmationService,
+  constructor(private confirmationService: ConfirmationService,
               private empleadoServ: RrhhService,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,

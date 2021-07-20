@@ -1,22 +1,20 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
 import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
 import { ListadoDireccionesComponent } from 'src/app/components/listado-direcciones/listado-direcciones.component';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { DireccionesService } from 'src/app/services/direcciones.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { PuertosService } from 'src/app/services/puertos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
+import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
+import { PuertosService } from 'src/app/services/compras/puertos.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { DireccionesService } from 'src/app/services/compras/direcciones.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
-import { StepOrdenesComprasComponent } from '../step-ordenes-compras/step-ordenes-compras.component';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-ordenes-compras',
   templateUrl: './formulario-ordenes-compras.component.html',
@@ -57,7 +55,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
   uploadedFiles: any[] = [];
   items: MenuItem[] = [];
   
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
+  constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private ordenServ :OrdenescomprasService,
               private datosEstaticosServ: DatosEstaticosService,

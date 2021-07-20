@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BodegasService } from 'src/app/services/bodegas.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { BodegasService } from 'src/app/services/inventario/bodegas.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-bodegas',
   templateUrl: './formulario-bodegas.component.html',
@@ -26,7 +26,7 @@ export class FormularioBodegasComponent implements OnInit {
   
   listSubscribers: any = [];
   
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private bodegasServ: BodegasService,
               private fb: FormBuilder, 
               private usuariosServ: UsuarioService,

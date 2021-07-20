@@ -1,7 +1,7 @@
 import { Component, ElementRef, AfterViewInit, Input, NgModule, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
     selector: 'app-code',
     template: `

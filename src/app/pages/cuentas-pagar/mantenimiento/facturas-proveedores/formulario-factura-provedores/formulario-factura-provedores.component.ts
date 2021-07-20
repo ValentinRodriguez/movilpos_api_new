@@ -1,15 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { OrdenescomprasService } from 'src/app/services/ordenescompras.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
+import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { StepFacturaProvedoresComponent } from '../step-factura-provedores/step-factura-provedores.component';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-factura-provedores',
   templateUrl: './formulario-factura-provedores.component.html',
@@ -44,7 +43,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   
   listSubscribers: any = [];
   cuentaForm = '';
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private coTransaccionescxpServ: CoTransaccionescxpService,

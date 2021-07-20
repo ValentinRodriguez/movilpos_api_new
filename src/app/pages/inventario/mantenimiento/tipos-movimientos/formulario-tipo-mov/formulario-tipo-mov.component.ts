@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { CodMovService } from 'src/app/services/cod-mov.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
+import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-mov',
   templateUrl: './formulario-tipo-mov.component.html',
@@ -41,7 +41,7 @@ export class FormularioTipoMovComponent implements OnInit {
     {label: 'No', value: 'no'},
   ];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private uiMessage: UiMessagesService,
     private CodMovServ: CodMovService,
     private cgCatalogoServ: CgcatalogoService,

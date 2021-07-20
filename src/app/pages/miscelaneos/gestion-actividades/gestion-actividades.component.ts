@@ -6,12 +6,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 // import listPlugin from '@fullcalendar/list';
-import { ActividadesService } from 'src/app/services/actividades.service';
+import { ActividadesService } from 'src/app/services/miscelaneos/actividades.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-gestion-actividades',
   templateUrl: './gestion-actividades.component.html',
@@ -31,7 +31,7 @@ export class GestionActividadesComponent implements OnInit {
     hour: any;
     cols: { field: string; header: string; }[];
 
-    constructor(private globalFunction: GlobalFunctionsService,private actividadServ: ActividadesService, 
+    constructor(private actividadServ: ActividadesService, 
                 private uiMessage: UiMessagesService,
                 private breadcrumbService: BreadcrumbService,
                 private DatosEstaticosServ: DatosEstaticosService,

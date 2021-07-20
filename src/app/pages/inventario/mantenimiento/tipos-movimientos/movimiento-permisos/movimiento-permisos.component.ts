@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { CodMovService } from 'src/app/services/cod-mov.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-movimiento-permisos',
   templateUrl: './movimiento-permisos.component.html',
@@ -16,7 +16,7 @@ export class MovimientoPermisosComponent implements OnInit {
   id_mov: any;
   usuario: any;
 
-  constructor(private globalFunction: GlobalFunctionsService,private CodMovServ: CodMovService,
+  constructor(private CodMovServ: CodMovService,
               public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private usuariosServ: UsuarioService,

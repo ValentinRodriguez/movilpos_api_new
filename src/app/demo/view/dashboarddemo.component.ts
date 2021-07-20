@@ -4,7 +4,7 @@ import {Product} from '../domain/product';
 import {ProductService} from '../service/productservice';
 import {BreadcrumbService} from '../../app.breadcrumb.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboarddemo.scss'],
@@ -25,7 +25,7 @@ export class DashboardDemoComponent implements OnInit {
     revenueChart: any;
 
     modulos:any[] = [];
-    constructor(private globalFunction: GlobalFunctionsService,private productService: ProductService, 
+    constructor(private productService: ProductService, 
                 private breadcrumbService: BreadcrumbService,
                 private service: MessageService) {
         this.breadcrumbService.setItems([{label: 'Dashboard', routerLink: ['/']}]);

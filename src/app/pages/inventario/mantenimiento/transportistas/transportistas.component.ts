@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TransportistasService } from 'src/app/services/transportistas.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { TransportistasService } from 'src/app/services/inventario/transportistas.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-transportistas',
   templateUrl: './transportistas.component.html',
@@ -23,7 +23,7 @@ export class TransportistasComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private transportistasServ: TransportistasService,
               private confirmationService: ConfirmationService,

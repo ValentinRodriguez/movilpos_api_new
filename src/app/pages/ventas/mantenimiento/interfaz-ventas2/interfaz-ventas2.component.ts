@@ -1,23 +1,21 @@
-import { ChangeDetectorRef, HostListener } from '@angular/core';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { SelectItem, MenuItem, PrimeNGConfig } from 'primeng/api';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PrimeNGConfig } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { VirtualScroller } from 'primeng/virtualscroller';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { AppMainComponent } from 'src/app/app.main.component';
-import { CategoriasService } from 'src/app/services/categorias.service';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { FacturasService } from 'src/app/services/facturas.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { CategoriasService } from 'src/app/services/inventario/categorias.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { FacturasService } from 'src/app/services/ventas/facturas.service';
 import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-interfaz-ventas2',
   templateUrl: './interfaz-ventas2.component.html',
@@ -66,7 +64,7 @@ export class InterfazVentas2Component implements OnInit {
     
     guardando: boolean;
 
-    constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+    constructor(private fb: FormBuilder,
                 public breadcrumbService: BreadcrumbService, 
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CoTransaccionescxpService } from 'src/app/services/co-transaccionescxp.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-facturas-proveedores',
   templateUrl: './facturas-proveedores.component.html',
@@ -21,7 +21,7 @@ export class FacturasProveedoresComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private usuariosServ: UsuarioService,
+  constructor(private usuariosServ: UsuarioService,
               private coTransaccionesServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
               private uiMessage: UiMessagesService,

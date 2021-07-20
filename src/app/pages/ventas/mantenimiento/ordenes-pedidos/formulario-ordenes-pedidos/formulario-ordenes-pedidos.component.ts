@@ -4,18 +4,18 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { ListaProductosComponent } from 'src/app/components/lista-productos/lista-productos.component';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { CondicionesPagoService } from 'src/app/services/condiciones-pago.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { OrdenPedidosService } from 'src/app/services/orden-pedidos.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
-import { RrhhService } from 'src/app/services/rrhh.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { CondicionesPagoService } from 'src/app/services/ventas/condiciones-pago.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
+import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-ordenes-pedidos',
   templateUrl: './formulario-ordenes-pedidos.component.html',
@@ -62,7 +62,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   simbolo = '$RD'
   
   
-  constructor(private globalFunction: GlobalFunctionsService,private uiMessage: UiMessagesService,
+  constructor(private uiMessage: UiMessagesService,
               private fb: FormBuilder,              
               private ordenServ :OrdenPedidosService,
               private invProductosServ: InventarioService,

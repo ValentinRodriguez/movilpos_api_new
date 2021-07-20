@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { FacturasService } from 'src/app/services/facturas.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { FacturasService } from 'src/app/services/ventas/facturas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-tabla-amortizaciones',
   templateUrl: './formulario-tabla-amortizaciones.component.html',
@@ -42,7 +41,7 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   ];
   data: any;
  
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private clientesServ: ClientesService,

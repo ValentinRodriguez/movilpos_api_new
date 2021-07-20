@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CondicionesPagoService } from 'src/app/services/condiciones-pago.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CondicionesPagoService } from 'src/app/services/ventas/condiciones-pago.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-condiciones',
   templateUrl: './formulario-condiciones.component.html',
@@ -25,7 +25,7 @@ export class FormularioCondicionesComponent implements OnInit {
     {label: 'No', value: 'no'},
   ];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private condicionServ: CondicionesPagoService,) { 

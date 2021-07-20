@@ -1,14 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { EntradasDiarioService } from 'src/app/services/entradas-diario.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
+import { EntradasDiarioService } from 'src/app/services/contabilidad/entradas-diario.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-formulario-entrada-diario',
   templateUrl: './formulario-entrada-diario.component.html',
@@ -37,7 +36,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
   listSubscribers: any = [];
   cliente:any[] = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private entradasServ: EntradasDiarioService,

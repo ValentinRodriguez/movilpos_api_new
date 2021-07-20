@@ -4,13 +4,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { ClientesService } from 'src/app/services/clientes.service';
-import { DatosEstaticosService } from 'src/app/services/datos-estaticos.service';
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.service';
 import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-clientes',
@@ -53,7 +53,7 @@ export class FormularioClientesComponent implements OnInit {
   nacionalidades: any[] = [];
   rutaActual: string[];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder, 
+  constructor(private fb: FormBuilder, 
               public router: Router,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

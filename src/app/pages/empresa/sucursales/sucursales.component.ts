@@ -4,7 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 
 import { UsuarioService } from '../../../services/panel-control/usuario.service';
 import { SucursalesService } from '../../../services/mi-empresa/sucursales.service';
-import { UiMessagesService } from '../../../services/ui-messages.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 @Component({
   selector: 'app-sucursales',

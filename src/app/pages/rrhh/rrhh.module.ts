@@ -37,7 +37,6 @@ import { GestionEmpleadosComponent } from './mantenimiento/gestion-empleados/ges
 import { FormularioDepartamentosComponent } from './mantenimiento/departamentos/formulario-departamentos/formulario-departamentos.component';
 import { DepartamentosComponent } from './mantenimiento/departamentos/departamentos.component';
 import { StepEmpleadosComponent } from './mantenimiento/gestion-empleados/step-empleados/step-empleados.component';
-import { FormularioEmpleadosComponent } from './mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 import { FormularioPuestosComponent } from './mantenimiento/puestos/formulario-puestos/formulario-puestos.component';
 import { PuestosComponent } from './mantenimiento/puestos/puestos.component';
 import { TurnosComponent } from './mantenimiento/turnos/turnos.component';
@@ -45,6 +44,7 @@ import { FormularioTurnosComponent } from "./mantenimiento/turnos/formulario-tur
 import { AreasEmpresaComponent } from './mantenimiento/areas-empresa/areas-empresa.component';
 import { FormularioAreaEmpresasComponent } from './mantenimiento/areas-empresa/formulario-area-empresas/formulario-area-empresas.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { FormularioEmpleadosComponent } from './mantenimiento/gestion-empleados/formulario-empleados/formulario-empleados.component';
 
 @NgModule({
   declarations: [

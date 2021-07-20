@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { PeriodosFiscalesService } from 'src/app/services/periodos-fiscales.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-fiscales.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-act-periodos',
   templateUrl: './act-periodos.component.html',
@@ -21,7 +21,7 @@ export class ActPeriodosComponent implements OnInit {
   deadline: any[] = [];
   
   
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private usuariosServ: UsuarioService,
               private periodoServ: PeriodosFiscalesService,
               private uiMessage: UiMessagesService,

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, ControlContainer, FormGroupDirective, Validators } from '@angular/forms';
-import { PaisesCiudadesService } from 'src/app/services/paises-ciudades.service';
+import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-localizacion',
   templateUrl: './localizacion.component.html',
@@ -24,7 +24,7 @@ export class LocalizacionComponent implements OnInit {
   municipios: any;
   sectores: any;
 
-    constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+    constructor(private fb: FormBuilder,
                 private paisesCiudadesServ: PaisesCiudadesService, ) { 
                   this.crearFormulario();
                 }

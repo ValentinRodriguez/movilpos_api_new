@@ -1,19 +1,17 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { GlobalFunctionsService } from '../global-functions.service';
+import { GlobalFunctionsService } from '../globales/global-functions.service';
 import { UsuarioService } from '../panel-control/usuario.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpHeadersService implements HttpInterceptor{
-
   
-
   constructor(private usuarioService: UsuarioService,
               private globalFuntionServ: GlobalFunctionsService,
               private router: Router) { }

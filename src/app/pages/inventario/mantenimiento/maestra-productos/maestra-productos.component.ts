@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { InventarioService } from 'src/app/services/inventario.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { InventarioService } from 'src/app/services/inventario/inventario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-maestra-productos',
   templateUrl: './maestra-productos.component.html',
@@ -24,7 +24,7 @@ export class MaestraProductosComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private inventarioServ: InventarioService,
+  constructor(private inventarioServ: InventarioService,
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService) { }
 

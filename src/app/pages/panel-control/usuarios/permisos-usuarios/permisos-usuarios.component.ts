@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MenuesService } from 'src/app/services/menues.service';
-import { ModulosService } from 'src/app/services/modulos.service';
-import { RolesService } from 'src/app/services/roles.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { ModulosService } from 'src/app/services/globales/modulos.service';
+import { RolesService } from 'src/app/services/globales/roles.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
 @Component({
   selector: 'app-permisos-usuarios',
   templateUrl: './permisos-usuarios.component.html',
@@ -28,10 +25,8 @@ export class PermisosUsuariosComponent implements OnInit {
   restableciendo = false;
   restablecer = true;  
   user: any;
-  constructor(private globalFunction: GlobalFunctionsService,private modulosServ: ModulosService,
-              private menuesServ: MenuesService,
+  constructor(private modulosServ: ModulosService,
               private confirmationService: ConfirmationService,
-              private usuariosServ: UsuarioService,
               private rolesServ: RolesService,
               private uiMessage: UiMessagesService,
               public ref: DynamicDialogRef, 

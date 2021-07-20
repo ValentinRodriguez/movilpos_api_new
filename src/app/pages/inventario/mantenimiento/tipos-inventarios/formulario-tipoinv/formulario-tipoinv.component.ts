@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CgcatalogoService } from 'src/app/services/cgcatalogo.service';
-import { TipoInventarioService } from 'src/app/services/tipo-inventario.service';
-import { UiMessagesService } from 'src/app/services/ui-messages.service';
+import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
+import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/global-functions.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipoinv',
   templateUrl: './formulario-tipoinv.component.html',
@@ -26,7 +26,7 @@ export class FormularioTipoinvComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private globalFunction: GlobalFunctionsService,private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private tipoInventarioServ: TipoInventarioService,
               private usuariosServ: UsuarioService,
