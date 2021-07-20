@@ -3,10 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
-import { ExistenciaAlmacenesService } from 'src/app/services/existencia-almacenes.service';
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { ExistenciaAlmacenesService } from 'src/app/services/inventario/existencia-almacenes.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-existencias-almacenes',
