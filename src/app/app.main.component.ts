@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Echo from 'laravel-echo';
 import { PrimeNGConfig } from 'primeng/api';
+import { environment } from 'src/environments/environment';
 import { MenuService } from './app.menu.service';
 import { RolesService } from './services/globales/roles.service';
 import { UsuarioService } from './services/panel-control/usuario.service';
@@ -35,16 +37,22 @@ export class AppMainComponent implements OnInit{
     permisos: any;
     notificationMenuClick2: boolean;
     topbarNotificationMenuActive2: boolean;
+    echo: Echo;
 
     constructor(private menuService: MenuService,
                 public route: Router,
                 private primengConfig: PrimeNGConfig,
                 private usuarioServ: UsuarioService,
-                private permisosServ:RolesService) {
+                private permisosServ: RolesService) {
                     this.usuario = this.usuarioServ.getUserLogged();
+                    this.initializeEcho()
                 }
 
     ngOnInit() {
+        this.echo.private('test').listen('testMessage', (resp) => {
+            console.log(resp);
+        });
+
         this.primengConfig.ripple = true;   
         const rol = localStorage.getItem('roles');
         if (rol === null) {                   
@@ -76,6 +84,26 @@ export class AppMainComponent implements OnInit{
         }
     }
 
+    initializeEcho() {
+        this.echo = new Echo({
+            broadcaster: 'pusher',
+            key: environment.pusher_KEY,
+            wsHost: environment.pusher_HOST,
+            wsPort: environment.pusher_PORT,
+            forceTLS: false,
+            cluster: environment.pusher_CLUSTER,
+            authEndpoint: `${environment.urlImagenes}/api/broadcasting/auth`,
+            auth: {
+              headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`
+              }
+            },
+            disableStats: true,
+            enabledTransports: ['ws'],
+            encrypted: false
+          });
+    }
     onLayoutClick() {
         if (!this.searchClick) {
             this.search = false;

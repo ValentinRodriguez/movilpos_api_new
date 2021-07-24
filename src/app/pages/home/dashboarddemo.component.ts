@@ -21,18 +21,18 @@ export class DashboardDemoComponent implements OnInit {
                 private datosEstaticosServ: DatosEstaticosService) { }
 
     ngOnInit() {        
-        this.permisosServ.permisos.subscribe((resp: any) => {
-            const perfiles = JSON.parse(resp.perfil);          
-        })
+        // this.permisosServ.permisos.subscribe((resp: any) => {
+        //     const perfiles = JSON.parse(resp.perfil);          
+        // })
                 
-        this.homeService.autoLlenado().then((resp: any) => { 
-            resp.forEach(element => {
-                if (element.data.length === 0) {     
-                    console.log(element);                
-                    this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
-                }  
-            }); 
-        })
+        // this.homeService.autoLlenado().then((resp: any) => { 
+        //     resp.forEach(element => {
+        //         if (element.data.length === 0) {     
+        //             console.log(element);                
+        //             this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
+        //         }  
+        //     }); 
+        // })
         
     }
 

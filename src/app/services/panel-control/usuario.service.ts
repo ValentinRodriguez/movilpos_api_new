@@ -218,11 +218,11 @@ export class UsuarioService {
 
   setDataLocalStorage(data) {
     localStorage.setItem('token', data.access_token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    localStorage.setItem('empleado', JSON.stringify(data.empleado));
-    localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
-    localStorage.setItem('empresa', JSON.stringify(data.empresa));    
-    localStorage.setItem('sessionId', data.sessionId);
+    // localStorage.setItem('user', JSON.stringify(data.user));
+    // localStorage.setItem('empleado', JSON.stringify(data.empleado));
+    // localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
+    // localStorage.setItem('empresa', JSON.stringify(data.empresa));    
+    // localStorage.setItem('sessionId', data.sessionId);
   }
 
   lockLogin(email) {
