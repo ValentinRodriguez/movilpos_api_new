@@ -29,6 +29,7 @@
         "chart.js": "2.9.4",
         "jspdf": "^2.3.1",
         "jspdf-autotable": "^3.5.14",
+        "laravel-echo": "^1.11.0",
         "lodash-es": "^4.17.20",
         "moment": "^2.29.1",
         "primeflex": "2.0.0",
