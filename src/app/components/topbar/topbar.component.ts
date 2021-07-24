@@ -39,10 +39,10 @@ export class TopbarComponent implements OnDestroy, OnInit {
                 public datosEstaticos: DatosEstaticosService) {
 
         this.usuario = this.usuarioServ.getUserLogged() || null;
-        if (this.usuario !== null) {
-            this.foto = this.usuario.foto                
-            this.nombre = this.usuario.name+' '+this.usuario.surname;
-        }     
+        // if (this.usuario !== null) {
+        //     this.foto = this.usuario.foto                
+        //     this.nombre = this.usuario.name+' '+this.usuario.surname;
+        // }     
 
     }
     
