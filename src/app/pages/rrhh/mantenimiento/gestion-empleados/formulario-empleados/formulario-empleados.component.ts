@@ -191,7 +191,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       console.log(Number(resp));      
       this.id = Number(resp);      
       this.empleadosServ.getDato(this.id).then((res: any) => {
-        console.log(res);
+        
         this.datosLocalidad(res);
         this.llenaCampos(res);
       })
@@ -203,7 +203,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       console.log(Number(resp));      
       this.id = Number(resp);      
       this.empleadosServ.getDato(this.id).then((res: any) => {
-        console.log(res);
+        
         this.datosLocalidad(res);
         this.llenaCampos(res) 
       })
@@ -254,7 +254,7 @@ export class FormularioEmpleadosComponent implements OnInit {
 
   guardarEmpleado() {
     // this.
-    console.log(this.forma.value);
+    
     
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
@@ -275,7 +275,7 @@ export class FormularioEmpleadosComponent implements OnInit {
     
   actualizarEmpleado() {
      // this.
-    console.log(this.forma.value);
+    
     
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');

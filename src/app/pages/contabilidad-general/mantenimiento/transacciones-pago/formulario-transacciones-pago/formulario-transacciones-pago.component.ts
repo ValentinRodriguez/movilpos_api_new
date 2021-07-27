@@ -143,7 +143,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
     })
 
     const observer2$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      console.log(resp);
+      
       
       resp.forEach(cuenta => {
         cuenta.tipo = this.forma.get('tipo_doc').value

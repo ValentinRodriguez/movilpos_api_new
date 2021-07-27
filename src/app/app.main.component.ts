@@ -34,10 +34,10 @@ export class AppMainComponent implements OnInit{
     inputStyle = 'outlined';
     ripple: boolean;
     usuario: any;
-    permisos: any;
+    permisos: any[] = [];
     notificationMenuClick2: boolean;
     topbarNotificationMenuActive2: boolean;
-    echo: Echo;
+    //echo: Echo;
 
     constructor(private menuService: MenuService,
                 public route: Router,
@@ -45,14 +45,10 @@ export class AppMainComponent implements OnInit{
                 private usuarioServ: UsuarioService,
                 private permisosServ: RolesService) {
                     this.usuario = this.usuarioServ.getUserLogged();
-                    this.initializeEcho()
+                    //this.initializeEcho()
                 }
 
     ngOnInit() {
-        this.echo.channel('users').listen('userUpdated', (resp) => {
-            console.log(resp);
-        });
-
         this.primengConfig.ripple = true;   
         const rol = localStorage.getItem('roles');
         if (rol === null) {                   
@@ -85,15 +81,21 @@ export class AppMainComponent implements OnInit{
     }
 
     initializeEcho() {
-        console.log(`${environment.urlImagenes}/api/broadcasting/auth`);
-        
-        this.echo = new Echo({
+        const echo = new Echo({
             broadcaster: 'pusher',
+            cluster: environment.pusher_CLUSTER,
+            key: environment.pusher_KEY,
+            wsHost: window.location.hostname,
+            wsPort: environment.pusher_PORT,
+            forceTLS: false,
+            disableStats: true,
+            enabledTransports: ['ws'],
+
+            /*broadcaster: 'pusher',
             key: environment.pusher_KEY,
             wsHost: environment.pusher_HOST,
             wsPort: environment.pusher_PORT,
             forceTLS: false,
-            cluster: environment.pusher_CLUSTER,
             authEndpoint: `${environment.urlImagenes}/api/broadcasting/auth`,
             auth: {
               headers: {
@@ -102,10 +104,14 @@ export class AppMainComponent implements OnInit{
               }
             },
             disableStats: true,
-            enabledTransports: ['ws'],
-            encrypted: false
-          });
+            encrypted: false*/
+        });
+        
+        echo.channel('chanel-chat').listen('testMessage', (resp) => {
+            console.log(resp);
+        });
     }
+
     onLayoutClick() {
         if (!this.searchClick) {
             this.search = false;

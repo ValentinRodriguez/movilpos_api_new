@@ -101,7 +101,7 @@ export class UsuarioService {
   getPerfiles() {
     return new Promise( resolve => {
       this.http.get(`${URL}/perfiles`).subscribe((resp: any) => {                      
-        if (resp['code'] === 200)  {          
+        if (resp['access_token'] === 200)  {          
           resolve(resp.data);  
         }
       })
@@ -122,7 +122,15 @@ export class UsuarioService {
   }
 
   login(forma: any) {
-    return this.http.post(`${URL}/login`, forma)
+    return new Promise(resolve => {
+      this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
+        if (resp['access_token'])  {          
+          resolve(resp);  
+        } else {
+          resolve(false)
+        }        
+      })
+    })    
   }
   
   logout(email) {
@@ -218,11 +226,11 @@ export class UsuarioService {
 
   setDataLocalStorage(data) {
     localStorage.setItem('token', data.access_token);
-    // localStorage.setItem('user', JSON.stringify(data.user));
-    // localStorage.setItem('empleado', JSON.stringify(data.empleado));
-    // localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
-    // localStorage.setItem('empresa', JSON.stringify(data.empresa));    
-    // localStorage.setItem('sessionId', data.sessionId);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('empleado', JSON.stringify(data.empleado));
+    localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
+    localStorage.setItem('empresa', JSON.stringify(data.empresa));    
+    localStorage.setItem('sessionId', data.sessionId);
   }
 
   lockLogin(email) {

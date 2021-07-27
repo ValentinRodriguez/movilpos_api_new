@@ -110,7 +110,7 @@ export class SucursalesService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/sucursales`, formdata).subscribe( (resp: any) => {
                 
-        console.log(resp);                           
+                                   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.sucursalesGuardada.emit(resp.data);       

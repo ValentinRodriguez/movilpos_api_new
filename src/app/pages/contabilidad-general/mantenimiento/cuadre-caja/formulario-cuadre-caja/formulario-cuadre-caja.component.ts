@@ -90,7 +90,7 @@ export class FormularioCuadreCajaComponent implements OnInit {
 
   autoLlenado() {
     this.cuadresServ.autoLlenado().then((resp: any) => {
-      console.log(resp);
+      
       
       resp.forEach(element => {
         if (element.data.length === 0) {

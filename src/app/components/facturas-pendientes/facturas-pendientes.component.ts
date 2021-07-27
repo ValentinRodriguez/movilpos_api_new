@@ -37,12 +37,9 @@ export class FacturasPendientesComponent implements OnInit {
     this.facturasServ.facturasPendientes().then((resp:any)=>{      
       this.facturas = resp   
       
-      this.facturas.forEach(element => {
-        console.log(element);        
+      this.facturas.forEach(element => {    
         this.total += (element.valor + element.monto_itbi);
-      });
-
-      console.log(this.total);      
+      });     
     })
   }
 

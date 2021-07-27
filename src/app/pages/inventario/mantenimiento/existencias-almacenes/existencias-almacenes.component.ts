@@ -133,7 +133,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
           this.mayor = [];
           return;
         }
-        console.log(resp);        
+                
         this.mayor = resp;         
         // let test = this.agrupaData(resp, 'cuenta_no');              
       })
@@ -261,7 +261,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 test(data) {
-  console.log(data)
+  
 }
 
 }

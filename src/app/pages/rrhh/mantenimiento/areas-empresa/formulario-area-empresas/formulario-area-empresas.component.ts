@@ -89,7 +89,7 @@ export class FormularioAreaEmpresasComponent implements OnInit {
 
   todaLaData() {   
     this.areasServ.autoLlenado().then((resp: any) =>{
-      console.log(resp);
+      
         
       resp.forEach(element => {
         if (element.data.length === 0) {

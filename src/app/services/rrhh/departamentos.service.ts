@@ -30,7 +30,7 @@ export class DepartamentosService {
     return new Promise( resolve => {
       this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {    
         
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -65,7 +65,7 @@ export class DepartamentosService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/departamentos/${id}`, departamento).subscribe( (resp: any) => {             
         
-        console.log(resp)        
+                
         if (resp['code'] === 200)  {
           this.departamentoAct.emit( resp.data );                            
           resolve(resp.data);            

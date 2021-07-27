@@ -155,7 +155,6 @@ export class FormularioEntradaDiarioComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{    
-      console.log("esto",this.cuenta_no.value);
       const diferencia = this.calculaTotal(this.cuenta_no.value);  
 
       if (diferencia !== 0) {
@@ -287,7 +286,7 @@ export class FormularioEntradaDiarioComponent implements OnInit {
 
   verificaRef(event){
     this.entradasServ.verificaEntrada(this.ref.value).then((resp: any) => { 
-      console.log(resp);
+      
       if (resp !== null) {
         this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Este NCF ya ha ido registrado con este proveedor'); 
         this.ref.reset();

@@ -97,7 +97,7 @@ export class ProveedoresService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {                                
             
-        console.log(resp);                               
+                                       
         if (resp['code'] === 200)  {    
           this.proveedoresCreados.emit( resp.data );                                   
           resolve(resp.data);       

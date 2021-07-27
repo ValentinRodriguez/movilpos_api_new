@@ -74,7 +74,7 @@ export class InventarioService {
   getDatos() {
     return new Promise( resolve => {
       this.http.get(`${URL}/invproductos`).subscribe((resp: any) => {       
-        console.log(resp);                                 
+                                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -183,7 +183,7 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => { 
-        console.log(resp);        
+                
           
         if (resp['code'] === 200)  {
           this.productoGuardado.emit(resp.data);                            
@@ -237,7 +237,7 @@ export class InventarioService {
     console.log(invProducto);
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {    
-        console.log(resp);
+        
                                   
                 
         if (resp['code'] === 200)  {

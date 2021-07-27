@@ -64,7 +64,7 @@ export class RecepcionVehiculosComponent implements OnInit {
 
   todasLasRecepcion() {
     this.recepcionServ.getDatos().then((resp: any) => {
-      console.log(resp);      
+            
       this.recepcion = resp;
     });
   }

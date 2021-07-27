@@ -96,7 +96,7 @@ export class AreasEmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/areas-empresa`, formData).subscribe( (resp: any) => {
         
-        console.log(resp);
+        
         
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
@@ -132,7 +132,7 @@ export class AreasEmpresaService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/areas-empresa/${id}`, formData).subscribe( (resp: any) => {                
         
-        console.log(resp);
+        
         
         if (resp['code'] === 200)  {
           this.areaAct.emit( resp.data );                            

@@ -66,7 +66,7 @@ export class GestionEmpleadosComponent implements OnInit {
     });
 
     const observer5$ = this.empleadosServ.guardar.subscribe((resp: any) => {
-      console.log(resp);      
+            
       this.index = resp;
     });
 

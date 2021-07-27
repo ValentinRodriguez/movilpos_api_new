@@ -60,8 +60,6 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     modoPago(tipo) {
-        console.log(tipo);
-        
         const obj:any = {};
         switch (tipo.value) {
             case 'efectivo':
@@ -98,7 +96,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     onMenuButtonClick(data) {
-        console.log(data)
+        
     }
     
     capitalizeFirstLetter(string) {

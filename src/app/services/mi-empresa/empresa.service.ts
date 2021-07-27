@@ -227,7 +227,7 @@ export class EmpresaService {
       this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {              
         
         this.empresaCreada.emit(resp.data);
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }
@@ -239,7 +239,7 @@ export class EmpresaService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {              
         
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }

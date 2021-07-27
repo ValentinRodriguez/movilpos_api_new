@@ -60,7 +60,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
 
   ngOnInit(): void {
     this.pendientesLiquidacionServ.autollenado().then((resp: any) =>{
-      console.log(resp);      
+            
       resp.forEach(element => {
         switch (element.label) {
           case 'proveedores':
@@ -103,7 +103,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
     })
 
     const observer3$ = this.liquidacionesServ.pendienteEnviadas.subscribe((resp: any) =>{
-      console.log(resp);      
+            
       this.forma.get('num_oc').setValue(resp.id_num_oc);
       this.forma.get('cod_sp').setValue(resp.cod_sp);
       this.forma.get('cod_sp_sec').setValue(resp.cod_sp_sec);
@@ -233,7 +233,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
        
       const proveedor = resp[0].proveedor;
       if(resp.length !== 0){          
-        console.log(resp);
+        
         
         // this.productos = resp[0].productos;     
         // this.productos.forEach(element => {

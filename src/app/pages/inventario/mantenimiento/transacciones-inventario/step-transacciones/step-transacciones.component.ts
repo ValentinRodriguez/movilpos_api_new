@@ -22,7 +22,7 @@ export class StepTransaccionesComponent implements OnInit {
 
   ngOnInit(): void {
     let data = this.config.data;
-    console.log(data);
+    ;
     
     for (let index = 0; index < data.length; index++) {      
       if (data[index].data.length === 0) {     
@@ -33,8 +33,6 @@ export class StepTransaccionesComponent implements OnInit {
 
   cambiaIndex(index) {
     this.activeIndex = index;  
-    console.log(this.activeIndex);
-    console.log(this.config.data);
   }
 
   prevPage() {

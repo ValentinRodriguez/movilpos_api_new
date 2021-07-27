@@ -130,7 +130,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
   listObserver = () => {
     const observer2$ = this.proveedoresServ.proveedoresCreados.subscribe((resp) => {
       this.proveedores.push(resp);
-      console.log(resp);            
+                  
     })
 
     const observer3$ = this.direccionesServ.direccionGuardada.subscribe((resp) => {
@@ -143,7 +143,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
 
     const observer5$ =  this.invProductosServ.productoEscogido.subscribe((resp: any) => {      
       resp.forEach(element => {
-        console.log(element);        
+                
         element.descuento = 0;    
         this.agregarFormulario(element);
         this.productos.push(element)
@@ -155,7 +155,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
         totalCantidad += 1;
       }
       this.totalCantidad = totalCantidad;
-      console.log(this.forma.value);
+      
       
     })
 
@@ -235,8 +235,7 @@ export class FormularioOrdenesComprasComponent implements OnInit {
       if (element.data.length === 0) {
         this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
       }
-    });    
-    console.log(this.items);    
+    });      
   }
 
   guardarOrdenes(){

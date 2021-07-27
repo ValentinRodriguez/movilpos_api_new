@@ -233,7 +233,7 @@ export class FormularioClientesComponent implements OnInit {
 
   guardarCliente(){
       
-    console.log(this.forma.value);    
+        
     if (this.forma.invalid) {
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{          

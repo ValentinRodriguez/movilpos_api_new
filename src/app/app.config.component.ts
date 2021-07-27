@@ -97,8 +97,6 @@ export class AppConfigComponent implements OnInit {
                 public setting: SettingsService) {}
 
     ngOnInit() {
-        console.log(this.simbolo);
-        
         if (localStorage.getItem('esquema-color')) {
             this.changeColorScheme(this.app.colorScheme);        
         }
@@ -146,8 +144,7 @@ export class AppConfigComponent implements OnInit {
         ];
     }
 
-    tipoMenu() {
-        console.log(this.app.menuMode);   
+    tipoMenu() {   
         localStorage.setItem('tipo-menu', this.app.menuMode);   
         const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
 

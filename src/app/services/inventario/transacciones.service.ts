@@ -81,7 +81,7 @@ export class TransaccionesService {
     
     return new Promise( resolve => {
       this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {      
-        console.log(resp);                         
+                                 
         if (resp['code'] === 200)  {                                      
           this.transaccionGuardado.emit(resp.data);
           resolve(resp.data);

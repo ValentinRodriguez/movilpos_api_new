@@ -35,8 +35,7 @@ export class StepToolbarComponent implements OnInit {
     this.globalServ.finalizando();
   }
 
-  navegacion(pagina) {
-    console.log(this.inicio);    
+  navegacion(pagina) {    
     if (this.items.length !== 0) {
       if (this.inicio[1] === 'dashboard') {
         this.router.navigate([`/${this.inicio[1]}/dashboard/${this.items[pagina].routerLink}`]);        

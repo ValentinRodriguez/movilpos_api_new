@@ -73,7 +73,7 @@ export class OrdenesComprasComponent implements OnInit {
   todosLasOrdenes() {     
     this.ordenServ.getDatos().then((resp: any) => {       
       this.ordenes = resp;
-      console.log(resp);      
+            
     })
   }
 

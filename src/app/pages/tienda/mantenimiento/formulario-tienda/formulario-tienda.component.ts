@@ -96,9 +96,9 @@ export class FormularioTiendaComponent implements OnInit {
   }
 
   guardarProducto(data) {
-    console.log(data);
+    ;
     this.miTienda.crearProducto(data).then((resp: any) => {
-      console.log(resp);      
+            
     })
     
   }

@@ -29,7 +29,7 @@ export class MenuesService {
       if (localMenues === null) { 
         this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => { 
           if (resp['code'] === 200)  {   
-            console.log(resp.data);                
+                            
             resolve(resp.data);            
           }
         })

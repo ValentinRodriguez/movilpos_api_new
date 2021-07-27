@@ -17,11 +17,9 @@ export class HttpHeadersService implements HttpInterceptor{
               private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // console.log(req);
+    this.globalFuntionServ.formSubmitted.emit(true);
     
-    if (req.method.toLowerCase() === 'post' || req.method.toLowerCase() === 'put' || req.method.toLowerCase() === 'delete') {
-      this.globalFuntionServ.formSubmitted.emit(true);
-      
+    if (req.method.toLowerCase() === 'post' || req.method.toLowerCase() === 'put' || req.method.toLowerCase() === 'delete') {     
       if (req.body instanceof FormData) {
         req =  req.clone({
           setHeaders: {
@@ -46,7 +44,6 @@ export class HttpHeadersService implements HttpInterceptor{
           },
           setParams: {
             sessionId: localStorage.getItem('sessionId'),
-            // usuario_creador: `${this.usuarioService.getUserLogged().username}` ,
             urlRequest: this.router.url
           },
           body: {...req.body, ...foo}
@@ -54,8 +51,7 @@ export class HttpHeadersService implements HttpInterceptor{
       }
     }
 
-    if (req.method.toLowerCase() === 'get') {
-      console.log(req);      
+    if (req.method.toLowerCase() === 'get') {    
       req = req.clone({
         setHeaders: {
           'enctype'      : 'multipart/form-data',
@@ -63,12 +59,15 @@ export class HttpHeadersService implements HttpInterceptor{
         }  
       });
     }
+
     return next.handle(req).pipe(      
       tap(evt => {        
         if (evt instanceof HttpResponse) {
-          if (evt.ok === true) {     
-            this.globalFuntionServ.formReceived.emit(evt);
-          }            
+          this.globalFuntionServ.formReceived.emit(false);
+          console.log('enviando request');
+          
+          // if (evt.ok === true) {     
+          // }            
         }
     })
     )

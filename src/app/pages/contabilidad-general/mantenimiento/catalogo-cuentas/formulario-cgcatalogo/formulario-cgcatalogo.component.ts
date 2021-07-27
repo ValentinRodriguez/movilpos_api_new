@@ -91,15 +91,14 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   listObserver = () => {
-    console.log('aqui');
     const observer1$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      console.log(resp);
+      
       this.catalogoServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
-        console.log(res);
+        
         this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
         this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
         this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
@@ -120,7 +119,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      console.log(resp);
+      
       this.catalogoServ.getDato(resp).then((res: any) => {         
         this.forma.patchValue(res);
        

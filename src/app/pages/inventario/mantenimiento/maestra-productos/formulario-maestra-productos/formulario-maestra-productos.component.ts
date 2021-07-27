@@ -119,9 +119,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
-      this.inventarioServ.getDato(resp).then((res: any) => {   
-        console.log(res );
-        
+      this.inventarioServ.getDato(resp).then((res: any) => {           
         this.forma.patchValue(res);
         this.imgURL = res.galeriaImagenes;
         this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
