@@ -57,7 +57,7 @@ export class ZonasComponent implements OnInit {
   todasLasZonas() {
     this.zonasServ.getDatos().then((resp: any) => {
       this.zonas = resp;
-      console.log(resp);
+      
       
     });
   }

@@ -32,33 +32,21 @@ export class AppLoginComponent implements OnInit{
     this.year = this.datosEstaticosServ.getYear();
   }
 
+  // data => this.handleResponse(data),
+  // error => this.handlerError(error)
   onSubmit() {
-    this.usuarioServ.login(this.form).subscribe(
-      data => this.handleResponse(data),
-      error => this.handlerError(error)
-    );
+    this.usuarioServ.login(this.form).then((resp: any) => {
+      if (resp) {       
+        this.handleResponse(resp)
+      } else {        
+        this.showErrorViaMessages();
+      }   
+    });
   }
 
   handleResponse(data) {
-    this.usuarioServ.handleToken(data);
     this.router.navigateByUrl('/');     
-  }
-
-  handlerError(error) {
-    switch (error.status) {
-      case 401:
-        this.error = error.error.error;
-        this.showErrorViaMessages();
-        break;
-
-      case 429:
-        this.tryout = 'Cantidad de intentos excedida, espere: ';
-        this.startTimer();
-        break;
-
-      default:
-        break;
-    }     
+    this.usuarioServ.handleToken(data);
   }
 
   showErrorViaMessages() {

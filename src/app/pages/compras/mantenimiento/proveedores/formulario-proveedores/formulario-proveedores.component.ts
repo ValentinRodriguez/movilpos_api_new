@@ -223,7 +223,7 @@ export class FormularioProveedoresComponent implements OnInit {
 
   guardarProveedor(){
      
-    console.log(this.forma);
+    
           
     if (this.forma.invalid) { 
            

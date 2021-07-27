@@ -125,7 +125,7 @@ export class InterfazVentasComponent implements OnInit {
             this.forma.get('financiado').reset;
             this.forma.get('financiado').setValue(resp);
             this.financiando = true;
-            console.log(resp);            
+                        
         })
     }
 
@@ -137,7 +137,7 @@ export class InterfazVentasComponent implements OnInit {
 
     todosLosProductos() {
         this.inventarioServ.getDatos().then((resp: any) =>{
-            console.log(resp);
+            
             this.productos = resp;
             this.loading = false;
         })
@@ -230,10 +230,10 @@ export class InterfazVentasComponent implements OnInit {
     }
 
     financiarFactura() {
-        console.log(this.forma.value);
+        
         if (this.financiando) {
             this.facturaServ.crearFacturaPrestamo(this.forma.get('financiar').value).then((resp: any) => {
-                console.log(resp);                
+                                
             })
         } else {
             

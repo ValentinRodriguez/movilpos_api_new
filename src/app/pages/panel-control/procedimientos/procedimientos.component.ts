@@ -44,7 +44,7 @@ export class ProcedimientosComponent implements OnInit {
 
   dataInicial() {
     this.empresasServ.getPermisosEmpresa().then((resp: any) => {      
-      console.log(resp);     
+           
       if (resp.length !== 0) {
         this.modulosServ.getModulos().then((resp2: any) =>{
           this.modulos = resp2  
@@ -55,7 +55,7 @@ export class ProcedimientosComponent implements OnInit {
         })
       }else{
         this.empresasServ.autoLlenadoPermisos().then((resp: any) =>{
-          console.log(resp);          
+                    
           resp.forEach(element => {
             switch (element.label) {
               case 'modulos':
@@ -77,7 +77,7 @@ export class ProcedimientosComponent implements OnInit {
                 break;
             }
           });      
-          console.log(resp);    
+              
         });  
       }      
     }) 

@@ -77,7 +77,7 @@ export class TransaccionesInventarioComponent implements OnInit {
   todasLastransacciones() {     
     this.transaccionesServ.getDatos().then((resp: any)=>{      
       this.transacciones = resp;
-      console.log(resp);      
+            
     })
   }
   
@@ -88,7 +88,6 @@ export class TransaccionesInventarioComponent implements OnInit {
   //         this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
   //       } 
   //     });  
-  //     console.log();
       
   //   })
   // }

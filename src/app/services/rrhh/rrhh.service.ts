@@ -36,7 +36,7 @@ export class RrhhService {
     return new Promise( resolve => {
       this.http.get(`${URL}/noempleados/${id}`).subscribe((resp: any) => {
         
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
@@ -48,7 +48,7 @@ export class RrhhService {
   getCajeros() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/busqueda/cajeros`).subscribe((resp: any) => {
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -101,7 +101,7 @@ export class RrhhService {
     params = params.append('cedula',parametro);    
     return new Promise( resolve => {
       this.http.get(URL + '/busqueda/cedula', { params }).subscribe((resp: any) => {
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -190,7 +190,7 @@ export class RrhhService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
                 
-        console.log(resp);                           
+                                   
         if (resp['code'] === 200) {
           this.empleadoCreado.emit(true);
           resolve(resp.data);      
@@ -269,7 +269,7 @@ export class RrhhService {
     return new Promise( resolve => {
       this.http.put(`${ URL }/noempleados/${id}`, formData).subscribe( (resp:any) => {
                 
-        console.log(resp);                           
+                                   
         if (resp['code'] === 200) {
           this.empleadoCreado.emit(true);
           resolve(resp.data);      

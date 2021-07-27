@@ -109,7 +109,7 @@ export class FormularioZonasComponent implements OnInit {
 
   onRowSelect(event, e) {
     this.zonasServ.getZonaProvincia(event.data.id_provincia).then((resp: any) => {  
-      console.log(resp);      
+            
       if (resp.length !== 0) {
         let zona = resp[0].desc_zona.toUpperCase();
         let element = e.tableViewChild.nativeElement.children[1].children;
@@ -119,8 +119,7 @@ export class FormularioZonasComponent implements OnInit {
         // result = this.provinciasSeleccionadas.filter(data => data.id_provincia !== event.data.id_provincia)   
       } else {
         this.result.push(event.data)
-      }
-      console.log(this.result);  
+      } 
       this.forma.get('provincias').setValue(this.result)               
     })  
   }

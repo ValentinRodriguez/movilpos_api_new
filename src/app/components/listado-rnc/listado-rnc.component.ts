@@ -41,7 +41,6 @@ export class ListadoRncComponent implements OnInit {
   }
   
   enviarDireccion(data) {
-    console.log(data.data);
     this.dgiiServ.rncEscogidos(data.data);
     this.uiMessage.getMiniInfortiveMsg('tst','infor','ERROR','RNC escogido');
     // this.ref.close();      

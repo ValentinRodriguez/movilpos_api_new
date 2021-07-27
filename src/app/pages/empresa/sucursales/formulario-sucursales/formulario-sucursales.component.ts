@@ -102,7 +102,7 @@ export class FormularioSucursalesComponent implements OnInit {
 
   todaLaData() {
     this.empresasServ.autoLlenado().then((resp: any) => {
-      console.log(resp);      
+            
       resp.forEach(element => {
         if (element.data.length === 0) {
           this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})      
@@ -199,7 +199,7 @@ export class FormularioSucursalesComponent implements OnInit {
   }
 
   datosLocalidad(data) {
-    console.log(data);
+    ;
     
     this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === data.value.id_pais)); 
         

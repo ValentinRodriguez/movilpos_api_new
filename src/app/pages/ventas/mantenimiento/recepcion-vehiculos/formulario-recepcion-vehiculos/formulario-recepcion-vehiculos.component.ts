@@ -129,7 +129,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
   }
 
   guardarRecepcion(){
-    console.log(this.forma);
+    
         
     if (this.forma.invalid) {    
          

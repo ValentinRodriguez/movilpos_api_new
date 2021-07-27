@@ -253,9 +253,6 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   guardarTransaccion() {  
-    //       
-    console.log(this.forma);  
-
     if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control =>{          
@@ -333,8 +330,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   agregarFormulario(producto) {
     // let cantidad1 = 1;
     // let cantidad =1;
-    let margen = 1;
-    console.log(producto);    
+    let margen = 1;  
     this._productos.push(this.agregarFormularioTransacciones(producto,margen));    
   }
   
@@ -349,9 +345,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
     });
   }
 
-  verMovimiento(mov) {    
-    console.log(mov);
-    
+  verMovimiento(mov) {     
     this.productos = [];
     this.cfactura = false;
     this.cCliente = false;
@@ -412,8 +406,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
           this.forma.controls['id_num_oc'].reset();
         break;
 
-        case 'control_orden_compra':
-          console.log('control_orden_compra');   
+        case 'control_orden_compra': 
           const id_bodega_d = this.forma.get('id_bodega_d')        
           id_bodega_d.setValidators(Validators.required);
           // id_bodega_d.updateValueAndValidity
@@ -604,7 +597,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       }
       this.ocExiste = 0;
       this.ordenCompraServ.buscaOrdenCompra(data).then((resp: any)=>{
-        console.log(resp);
+        
         
         const proveedor = resp[0].proveedor;
         if(resp.length !== 0){          

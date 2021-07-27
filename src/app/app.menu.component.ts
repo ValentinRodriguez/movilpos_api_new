@@ -29,12 +29,12 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {  
         let mods = JSON.parse(localStorage.getItem('modulos'));
         let perfs = JSON.parse(localStorage.getItem('perfiles'));
-
+        
         if (mods === null || perfs === null) {                    
             if (this.roles !== null) {              
               localStorage.setItem('perfiles',this.roles.perfil);
-              localStorage.setItem('modulos',this.roles.modulos);
-              this.cargarModulos(this.roles.modulos, this.roles.perfil);
+                localStorage.setItem('modulos', this.roles.modulos);
+                this.cargarModulos(JSON.parse(this.roles.modulos),JSON.parse(this.roles.perfil));
             }else{
               Swal.fire({
                   title: 'Atención!',
@@ -43,7 +43,7 @@ export class AppMenuComponent implements OnInit {
                   confirmButtonText: 'OK'
               })
             }          
-        }else{
+        } else {
             this.cargarModulos(mods, perfs);
         }
     }

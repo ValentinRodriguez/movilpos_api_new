@@ -1,15 +1,17 @@
 <div class="layout-sidebar" (click)="onMenuClick($event)">
-    <a [routerLink]="['/dashboard']" class="logo">
-        <img id="app-logo" class="logo-image" src="../assets/images/logo.png" alt="movilsoluciones"/>
-        <!-- <span class="app-name">DIAMOND</span> -->
-    </a>
-
-    <div class="layout-menu-container">
-        <ul class="layout-menu">
-            <ng-container *ngFor="let item of test; let i = index;">
-                <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
-                <!-- <li *ngIf="item.separator" class="menu-separator"></li> -->
-            </ng-container>
-        </ul>
-    </div>
+    <ng-container>
+        <a [routerLink]="['/dashboard']" class="logo">
+            <img id="app-logo" class="logo-image" src="../assets/images/logo.png" alt="movilsoluciones"/>
+            <!-- <span class="app-name">DIAMOND</span> -->
+        </a>
+    
+        <div class="layout-menu-container">
+            <ul class="layout-menu">
+                <ng-container *ngFor="let item of test; let i = index;">
+                    <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
+                    <!-- <li *ngIf="item.separator" class="menu-separator"></li> -->
+                </ng-container>
+            </ul>
+        </div>
+    </ng-container>
 </div>

@@ -32,7 +32,7 @@ export class PuestosService {
   getDatos() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/nopuestos`).subscribe((resp: any) => {
-        console.log(resp);
+        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

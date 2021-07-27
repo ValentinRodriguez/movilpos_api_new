@@ -28,7 +28,7 @@ export class DashboardDemoComponent implements OnInit {
         // this.homeService.autoLlenado().then((resp: any) => { 
         //     resp.forEach(element => {
         //         if (element.data.length === 0) {     
-        //             console.log(element);                
+        //                             
         //             this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
         //         }  
         //     }); 

@@ -19,7 +19,7 @@ export class ExistenciaAlmacenesService {
   constructor(private http: HttpClient) { }
 
   existenciasAlmacen(data: any) {
-    console.log(data);    
+    ;    
     for(let key in data){   
       switch (key) {
       
@@ -42,7 +42,7 @@ export class ExistenciaAlmacenesService {
     }
     return new Promise( resolve => {
       this.http.post(`${URL}/existencias-almacen`,data).subscribe((resp: any) => {  
-        console.log(resp);      
+              
         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
@@ -54,7 +54,7 @@ export class ExistenciaAlmacenesService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/existencias-almacen`).subscribe((resp: any) => { 
-        console.log(resp);                   
+                           
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

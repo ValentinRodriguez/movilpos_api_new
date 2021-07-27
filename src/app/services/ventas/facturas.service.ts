@@ -61,7 +61,7 @@ export class FacturasService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
         this.guardando.emit(false);
-        console.log(resp);
+        
         
         if (resp['code'] === 200)  {    
           this.facturaCreada.emit( resp );                                   
@@ -75,7 +75,7 @@ export class FacturasService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/cctransacciones`, factura).subscribe( (resp: any) => {                   
         this.guardando.emit(false);
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {    
           this.facturaCreada.emit( resp );                                   
           resolve(resp.data);       

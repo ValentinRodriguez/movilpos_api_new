@@ -254,7 +254,7 @@ export class InterfazVentas2Component implements OnInit {
     }
 
     cobrarFactura() {
-        console.log(this.forma);
+        
         this.guardando = true;
         if (this.forma.valid) {          
             if (this.tipo(this.metodo)) {
@@ -290,7 +290,7 @@ export class InterfazVentas2Component implements OnInit {
     financiarFactura() {
         if (this.financiando) {
             this.facturaServ.crearFacturaPrestamo(this.forma.get('financiar').value).then((resp: any) => {
-                console.log(resp);                
+                                
             })
         } else {
             

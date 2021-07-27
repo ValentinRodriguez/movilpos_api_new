@@ -98,7 +98,7 @@ export class FormularioTransportistaComponent implements OnInit {
 
   guardarTransportista(){
          
-    console.log(this.forma);
+    
         
     if (this.forma.invalid) {    
          

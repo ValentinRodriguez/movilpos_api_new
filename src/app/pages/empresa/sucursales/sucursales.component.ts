@@ -67,7 +67,7 @@ export class SucursalesComponent implements OnInit {
   todasLasSucursales() {
     this.sucursalesServ.getDatos().then((resp: any) => {
       this.sucursales = resp;
-      console.log(resp);    
+          
     });
   }
   

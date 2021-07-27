@@ -33,7 +33,7 @@ export class BodegasPermisosComponent implements OnInit {
     this.listObserver();
     this.id_bodega = this.config.data.bodega;
     this.usuariosServ.getUsers().then((resp:any)=>{
-      console.log(resp);      
+            
       this.usuarios = resp;      
       this.permisosBodega(this.usuario.id)
     })    
@@ -65,7 +65,7 @@ export class BodegasPermisosComponent implements OnInit {
 
   permisosBodega(id) {    
     this.bodegasServ.usuariosPermisosBodegas(id).then((resp: any)=>{
-      console.log(resp);
+      
       
       this.usuariosPermisos = resp;              
       this.usuariosPermisos.forEach(element => {        

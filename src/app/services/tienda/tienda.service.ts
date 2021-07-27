@@ -15,7 +15,7 @@ export class TiendaService {
     return new Promise( resolve => {
       this.http.get(`${URL}/woocommerce`).subscribe((resp: any) => {
         
-        console.log(resp);
+        
         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
@@ -28,7 +28,7 @@ export class TiendaService {
     return new Promise( resolve => {
       this.http.post(`${URL}/woocommerce`,data).subscribe((resp: any) => {
         
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

@@ -35,6 +35,14 @@ export class GlobalFunctionsService {
   finalizando() {
     this.finalizar.emit(true);
   }
+
+  enviando(resp) {
+    this.formSubmitted.emit(resp);
+  }
+
+  recibiendo(resp) {
+    this.formReceived.emit(resp);
+  }
   
   sendMessage(message: string) {
     this.subject.next({ text: message });

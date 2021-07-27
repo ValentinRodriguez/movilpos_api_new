@@ -75,7 +75,7 @@ export class TiendaComponent implements OnInit {
   todosLosProductos() {     
     this.miTienda.getDatos().then((resp: any) =>{
       this.productos = resp;        
-      console.log(resp);      
+            
     })
   }
 

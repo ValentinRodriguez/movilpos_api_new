@@ -89,10 +89,7 @@ export class MayorGeneralComponent implements OnInit {
           this.mayor = [];
           return;
         }
-        this.mayor = resp; 
-        console.log(this.mayor);
-        
-        let test = this.agrupaData(resp, 'cuenta_no');              
+        this.mayor = resp;               
       })
     }
   }
@@ -121,9 +118,7 @@ export class MayorGeneralComponent implements OnInit {
     const nombre = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primernombre);
     const apellido = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primerapellido);
 
-    var raw = this.bodyRows(this.mayor);
-    console.log(raw);
-    
+    var raw = this.bodyRows(this.mayor);    
     autoTable(doc, {
         head: this.headRows(),
         body: this.bodyRows(this.mayor),

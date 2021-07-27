@@ -117,13 +117,13 @@ export class ActoDescargoComponent implements OnInit {
   todosLosClientes() {
     this.clientesServ.getDatos().then((resp: any) => {
       this.clientes = resp;
-      console.log(resp);      
+            
     })
   }
 
   todosLosPaises() {
     this.paisesCiudadesServ.getPaises().then((resp: any)=>{
-      console.log(resp);      
+            
       this.paises = resp;   
     })
   }
@@ -148,7 +148,7 @@ export class ActoDescargoComponent implements OnInit {
  
   buscaCiudad(event) {
     this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => {  
-      console.log(resp);      
+            
       this.ciudades = resp;
     })   
   }
@@ -212,7 +212,7 @@ export class ActoDescargoComponent implements OnInit {
   }
 
   datosClientes(data) {
-    console.log(data);  
+    ;  
     this.form.cedula = data.documento;
     this.form.nacionalidad = this.nacionalidades.find(doc => doc.id == data.nacionalidad);
     this.nacionalidad = this.form.nacionalidad.nacionalidad

@@ -66,7 +66,7 @@ export class EmpresaComponent implements OnInit {
       
     this.empresasServ.getDatos().then((resp: any) => {
       this.empresas = resp;
-      console.log(resp);       
+             
     })
   }
 

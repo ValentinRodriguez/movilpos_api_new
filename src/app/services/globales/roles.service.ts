@@ -16,7 +16,8 @@ export class RolesService {
 
   getRoles() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/roles`).subscribe((resp: any) => {                    
+      this.http.get(`${URL}/roles`).subscribe((resp: any) => {
+                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -27,8 +28,7 @@ export class RolesService {
   getRol(email: string) {
     return new Promise( resolve => {
       this.http.get(`${URL}/roles/${email}`).subscribe((resp: any) => {                                
-        if (resp['code'] === 200)  {  
-          this.permisos.emit(resp.data);       
+        if (resp['code'] === 200)  {                   
           resolve(resp.data);            
         }
       })

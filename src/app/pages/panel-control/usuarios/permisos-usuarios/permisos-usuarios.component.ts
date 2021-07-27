@@ -59,7 +59,7 @@ export class PermisosUsuariosComponent implements OnInit {
         })
       }else{        
         this.modulosServ.autoLlenado().then((resp: any) =>{
-          console.log(resp);    
+              
           resp.forEach(element => {
             switch (element.label) {
               case 'modulos':

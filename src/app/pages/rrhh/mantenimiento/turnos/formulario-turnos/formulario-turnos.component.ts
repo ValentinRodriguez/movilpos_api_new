@@ -46,7 +46,7 @@ export class FormularioTurnosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;
       this.id = Number(resp);
-      console.log(resp);
+      
       this.turnosServ.getDato(resp).then((res: any) => {
         this.forma.get('descripcion').setValue(res.divisa);
         this.forma.patchValue(res);
@@ -69,7 +69,7 @@ export class FormularioTurnosComponent implements OnInit {
 
   guardarTurno(){
     //     
-    console.log(this.forma.value);
+    
     let horai =  new Date(Date.parse(this.forma.get('horario_inicial').value));
     let horaf =  new Date(Date.parse(this.forma.get('horario_final').value));
     

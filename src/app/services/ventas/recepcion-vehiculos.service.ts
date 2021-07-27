@@ -44,7 +44,7 @@ export class RecepcionVehiculosService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.http.get(`${URL}/autollenado/recepcion-vehiculos`).subscribe((resp: any) => {  
-        console.log(resp);                   
+                           
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -55,7 +55,7 @@ export class RecepcionVehiculosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.http.get(`${URL}/recepcion-vehiculos/${id}`).subscribe((resp: any) => { 
-        console.log(resp);        
+                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -101,7 +101,7 @@ export class RecepcionVehiculosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/recepcion-vehiculos`, recepcion).subscribe( (resp: any) => {
           
-        console.log(resp);                                 
+                                         
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.recepcionGuardada.emit(resp.data);       
@@ -153,7 +153,7 @@ export class RecepcionVehiculosService {
     return new Promise( resolve => {
       this.http.post(`${ URL }/recepcion-vehiculos/${id}`, formData).subscribe( (resp: any) => {                
                                    
-        console.log(resp);
+        
         
         if (resp['code'] === 200)  {
           this.recepcionAct.emit( resp.data );                            
@@ -166,7 +166,7 @@ export class RecepcionVehiculosService {
   borrarRecepcion(id: string) {
     return new Promise( resolve => {      
       this.http.delete(`${ URL }/recepcion-vehiculos/${id}`).subscribe( (resp: any) => {    
-        console.log(resp);                              
+                                      
         if (resp['code'] === 200)  {            
           this.recepcionBorrada.emit(id);    
           resolve(resp.data);            

@@ -79,7 +79,7 @@ export class LiquidacionMercanciasComponent implements OnInit {
   }
   
   listadoPendientes(data) {
-    console.log(data);    
+    ;    
     if (data === 1) {
       this.liquidacionesServ.getDatos().then((resp: any) => {
         if (resp.length !== 0) {
