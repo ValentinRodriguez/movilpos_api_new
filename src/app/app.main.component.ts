@@ -49,7 +49,7 @@ export class AppMainComponent implements OnInit{
                 }
 
     ngOnInit() {
-        this.echo.private('test').listen('testMessage', (resp) => {
+        this.echo.channel('users').listen('userUpdated', (resp) => {
             console.log(resp);
         });
 
@@ -85,6 +85,8 @@ export class AppMainComponent implements OnInit{
     }
 
     initializeEcho() {
+        console.log(`${environment.urlImagenes}/api/broadcasting/auth`);
+        
         this.echo = new Echo({
             broadcaster: 'pusher',
             key: environment.pusher_KEY,
@@ -96,7 +98,7 @@ export class AppMainComponent implements OnInit{
             auth: {
               headers: {
                 Accept: 'application/json',
-                Authorization: `Bearer ${sessionStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('token')}`
               }
             },
             disableStats: true,
