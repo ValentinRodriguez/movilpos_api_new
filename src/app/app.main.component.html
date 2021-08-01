@@ -8,7 +8,7 @@
     'layout-mobile-active': staticMenuMobileActive,
     'layout-static-inactive': staticMenuDesktopInactive && menuMode === 'static',
     'p-input-filled': inputStyle === 'filled', 'p-ripple-disabled': !ripple}" [class]="colorScheme === 'light' ? menuTheme : ''"
-     [attr.data-theme]="colorScheme" (click)="onLayoutClick()">
+    [attr.data-theme]="colorScheme" (click)="onLayoutClick()">
 
      <div class="layout-content-wrapper">
         <app-topbar-page [simbolo]="this.route.url"></app-topbar-page>
@@ -16,7 +16,7 @@
         <div class="layout-content">
             <router-outlet></router-outlet>
         </div>
-        <app-loading *ngIf="this.route.url !== '/dashboard'"></app-loading>
+        <!-- <app-loading *ngIf="this.route.url !== '/dashboard'"></app-loading> -->
         <app-footer-page [simbolo]="this.route.url"></app-footer-page>
     </div>
 

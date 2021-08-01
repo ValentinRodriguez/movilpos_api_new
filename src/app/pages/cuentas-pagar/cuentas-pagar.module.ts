@@ -31,13 +31,17 @@ import { FacturasProveedoresComponent } from './mantenimiento/facturas-proveedor
 import { StepFacturaProvedoresComponent } from './mantenimiento/facturas-proveedores/step-factura-provedores/step-factura-provedores.component';
 import { FormularioFacturaProvedoresComponent } from './mantenimiento/facturas-proveedores/formulario-factura-provedores/formulario-factura-provedores.component';
 import { AnalisisSaldoComponent } from './reportes/analisis-saldo/analisis-saldo.component';
+import { GestionDocNcndComponent } from './gestion-doc-ncnd/gestion-doc-ncnd.component';
+import { FormularioGestionDocNcndComponent } from './gestion-doc-ncnd/formulario-gestion-doc-ncnd/formulario-gestion-doc-ncnd.component';
 
 @NgModule({
   declarations: [
     FacturasProveedoresComponent,
     StepFacturaProvedoresComponent,
     FormularioFacturaProvedoresComponent,
-    AnalisisSaldoComponent
+    AnalisisSaldoComponent,
+    GestionDocNcndComponent,
+    FormularioGestionDocNcndComponent
   ],
   imports: [
     CommonModule,

@@ -4,7 +4,7 @@
 		<div class="card">
             <h5>Gestión de Proveedores</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
-                <p-tabPanel header="Consultar Proveedores" leftIcon="pi pi-search">
+                <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="proveedores" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
                                  [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" dataKey="documento"
                                  [globalFilterFields]="['nombre','num_rnc','email','celular','vendedor']">
@@ -103,7 +103,7 @@
 					</p-table>
                 </p-tabPanel>
 
-                <p-tabPanel header="Adicionar Proveedores" leftIcon="pi pi-plus">
+                <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
                     <app-formulario-proveedores></app-formulario-proveedores>
 				</p-tabPanel>				
             </p-tabView>
