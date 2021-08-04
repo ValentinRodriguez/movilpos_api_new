@@ -63,8 +63,7 @@ export class EmpresaService {
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {      
-                                      
+      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
@@ -216,6 +215,10 @@ export class EmpresaService {
         case 'id_sector':          
          formdata[key] = empresa[key].id_sector
           break;
+        
+        case 'tipo_documento':          
+          formdata[key] = empresa[key].id
+           break;
 
         default:
           formdata[key] = empresa[key]
@@ -224,11 +227,10 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {              
-        
-        this.empresaCreada.emit(resp.data);
-                
+      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {     
+        console.log(resp);        
         if (resp['code'] === 200)  {                                      
+          this.empresaCreada.emit(resp.data);
           resolve(resp.data);      
         }
       });

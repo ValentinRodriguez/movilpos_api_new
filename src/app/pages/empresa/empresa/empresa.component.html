@@ -33,8 +33,12 @@
                             <td *ngFor="let col of columns">
                                 <span class="p-column-title">{{col.header}}</span>								
                         
-                                <span>
-                                    {{rowData[col.field] }}
+                                <span *ngIf="col.field ==='id'">
+                                    {{ rowData[col.field] }}
+                                </span>
+
+                                <span *ngIf="col.field ==='nombre'">
+                                    {{ rowData[col.field] | titlecase }}
                                 </span>
                         
                                 <span *ngIf="col.field === 'acciones'">

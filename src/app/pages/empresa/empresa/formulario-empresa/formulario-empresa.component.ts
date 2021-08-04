@@ -12,6 +12,7 @@ import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { environment } from 'src/environments/environment';
+import { ClientesService } from 'src/app/services/ventas/clientes.service';
 
 const URL = environment.urlImagenes;
 
@@ -38,7 +39,7 @@ export class FormularioEmpresaComponent implements OnInit {
   actualizar = false;
   imagePath;
   empresa: any;
-
+  documento=[];
   paises: any[] = [];
   ciudades: any[] = [];
 
@@ -67,6 +68,9 @@ export class FormularioEmpresaComponent implements OnInit {
   provincias: any;
   municipios: any;
   sectores: any;
+  cedula = false;
+  rnc = true;
+  pasaporte = false;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
@@ -75,6 +79,7 @@ export class FormularioEmpresaComponent implements OnInit {
               private usuariosServ: UsuarioService,
               public dialogService: DialogService,
               public router: Router,
+              private clientesServ: ClientesService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private dgiiServ: DgiiService) { 
     this.usuario = this.usuariosServ.getUserLogged()
@@ -87,6 +92,12 @@ export class FormularioEmpresaComponent implements OnInit {
 
   ngOnInit(): void {      
     this.todosLosPaises();
+    
+    this.clientesServ.getDocumento().then((resp: any) => {
+      this.documento = resp;
+      this.forma.get('tipo_documento').setValue(this.documento.find(doc => doc.descripcion === 'RNC'));
+    })
+
     this.listObserver();
 
     this.monedasServ.getDatos().then((resp: any) =>{
@@ -95,6 +106,26 @@ export class FormularioEmpresaComponent implements OnInit {
 
   }
 
+  tipoDoc(doc) {
+    if (doc.descripcion === 'cedula') {
+      this.cedula = true;
+      this.rnc = false;
+      this.pasaporte = false;
+    } 
+    if (doc.descripcion === 'RNC') {
+      this.cedula = false;
+      this.rnc = true;
+      this.pasaporte = false;
+    } 
+
+    if (doc.descripcion === 'pasaporte') {
+      this.cedula = false;
+      this.rnc = false;
+      this.pasaporte = true;
+    } 
+    this.forma.get('documento').reset()
+  }
+  
   listObserver = () => {
     const observer1$ = this.empresasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
@@ -186,7 +217,8 @@ export class FormularioEmpresaComponent implements OnInit {
       nombre:            ['', Validators.required],
       telefono_empresa:  ['(333)-333-3333', Validators.required],
       email_empresa:     ['valentinrodriguez1427@gmail.com', Validators.required],
-      rnc:               ['', Validators.required],
+      documento:         ['', Validators.required],
+      tipo_documento:    ['', Validators.required],
       id_pais:           ['', Validators.required],
       id_region:         ['', Validators.required],
       id_provincia:      ['', Validators.required],
