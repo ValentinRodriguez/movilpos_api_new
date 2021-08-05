@@ -233,6 +233,7 @@ export class FormularioEmpresaComponent implements OnInit {
       empresa_verde:     ['', Validators.required],
       tipo_cuadre:       ['', Validators.required],
       valuacion_inv:     ['', Validators.required],
+      tipo_empresa:      ['D', Validators.required],
       logo:              [],
       estado:            ['activo'],
       usuario_creador:   [this.usuario.username],
@@ -252,12 +253,12 @@ export class FormularioEmpresaComponent implements OnInit {
         control.markAllAsTouched();
       })      
     }else{ 
-      if (this.nombreExiste === 1) {
+      if (this.nombreExiste === 2) {
         this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una empresa con este nombre.');  
         return;
       }
 
-      if (this.rncExiste === 1) {
+      if (this.rncExiste === 2) {
         this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','El RNC especificado no es valido.');  
         return;
       }
