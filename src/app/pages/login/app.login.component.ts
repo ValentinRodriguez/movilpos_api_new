@@ -4,16 +4,18 @@ import { Message } from 'primeng/api';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-login',
   templateUrl: './app.login.component.html',
 })
 export class AppLoginComponent implements OnInit{
+  
   form = {
     email: 'valentinrodriguez1427@gmail.com',
-    password: null
+    password: null,
+    store: false
   };
+
   error = null;
   tryout = null;
   wait = false;
@@ -36,17 +38,14 @@ export class AppLoginComponent implements OnInit{
   // error => this.handlerError(error)
   onSubmit() {
     this.usuarioServ.login(this.form).then((resp: any) => {
-      if (resp) {       
-        this.handleResponse(resp)
-      } else {        
-        this.showErrorViaMessages();
-      }   
+      console.log(resp);
+      this.handleResponse(resp)
     });
   }
 
   handleResponse(data) {
-    this.router.navigateByUrl('/');     
     this.usuarioServ.handleToken(data);
+    this.router.navigateByUrl('/');     
   }
 
   showErrorViaMessages() {
