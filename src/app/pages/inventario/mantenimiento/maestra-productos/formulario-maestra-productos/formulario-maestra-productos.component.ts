@@ -134,10 +134,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
       })
     })
 
-    const observer8$ = this.globalFunction.finalizar.subscribe((resp) => {
-      this.items = [];
-    })
-
     this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
   };
 
