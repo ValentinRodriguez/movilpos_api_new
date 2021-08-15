@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TiendaComponent } from './mantenimiento/tienda.component';
-
-
+import { CreacionProductosTiendaComponent } from './mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component';
 
 @NgModule({
   imports: [
@@ -10,7 +8,7 @@ import { TiendaComponent } from './mantenimiento/tienda.component';
       {
        path: '',
        children: [
-          { path: 'creacion-productos-plaza', component: TiendaComponent },             
+          { path: 'creacion-productos-plaza', component: CreacionProductosTiendaComponent },             
        ]
       }
     ])

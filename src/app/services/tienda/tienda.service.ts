@@ -9,38 +9,30 @@ const URL = environment.url;
 })
 export class TiendaService {
   
+  guardar = new EventEmitter();
+  productoGuardado= new EventEmitter();
+  productoBorrada= new EventEmitter();
+  productoAct= new EventEmitter();
+  actualizando= new EventEmitter();
   constructor(private http: HttpClient) { }
 
   getDatos() {
-    return new Promise( resolve => {
-      this.http.get(`${URL}/woocommerce`).subscribe((resp: any) => {
-        
-        
-        
-        if (resp['code'] === 200)  {          
-          resolve(resp.data);            
-        }
-      })
-    })
+    return this.http.get(`${URL}/productos-plaza`);
   }
 
   crearProducto(data) {
-    return new Promise( resolve => {
-      this.http.post(`${URL}/woocommerce`,data).subscribe((resp: any) => {
-        
-                
-        if (resp['code'] === 200)  {          
-          resolve(resp.data);            
-        }
-      })
-    })
+    return this.http.post(`${URL}/productos-plaza`,data);
   }
 
   actProductosTienda(page: number) {
-    return this.http.get(`${URL}/woocommerce/actprecio/${page}`);
+    return this.http.get(`${URL}/productos-plaza`);
+  }
+
+  borrarProducto(page: number) {
+    return this.http.get(`${URL}/productos-plaza`);
   }
 
   contarProductosTienda(page: number) {
-    return this.http.get(`${URL}/woocommerce/contarprecio/${page}`);
+    return this.http.get(`${URL}/productos-plaza`);
   }
 }
