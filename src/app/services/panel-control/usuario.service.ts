@@ -124,11 +124,10 @@ export class UsuarioService {
   login(forma: any) {
     return new Promise(resolve => {
       this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
-        if (resp['access_token'])  {          
-          resolve(resp);  
-        } else {
-          resolve(false)
-        }        
+        console.log(resp);        
+        if (resp.code === 200)  {          
+          resolve(resp.data);  
+        }       
       })
     })    
   }
@@ -225,7 +224,8 @@ export class UsuarioService {
   }
 
   setDataLocalStorage(data) {
-    localStorage.setItem('token', data.access_token);
+    console.log(data);    
+    localStorage.setItem('token', data.access_token.accessToken);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('empleado', JSON.stringify(data.empleado));
     localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
@@ -291,13 +291,15 @@ export class UsuarioService {
   }
 
   validateToken() {
-    const token = this.getTokenLocalStorage();
-    if (token) {
-      const payload = this.payload(token);
-      if (payload) {
-        return Object.values(this.iss).indexOf(payload.iss) === 0 ? true : false;
-      }
-    }
+    const token = this.getTokenLocalStorage();    
+    return token?.length === 0 ? false : true;
+    // const token = this.getTokenLocalStorage();
+    // if (token) {
+    //   const payload = this.payload(token);
+    //   if (payload) {
+    //     return Object.values(this.iss).indexOf(payload.iss) === 0 ? true : false;
+    //   }
+    // }
   }
 
   payload(token) {
