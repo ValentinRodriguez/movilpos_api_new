@@ -11,6 +11,7 @@ import { BodegasComponent } from './mantenimiento/bodegas/bodegas.component';
 import { FormularioBodegasComponent } from './mantenimiento/bodegas/formulario-bodegas/formulario-bodegas.component';
 import { CategoriasComponent } from './mantenimiento/categorias/categorias.component';
 import { FormularioCatComponent } from './mantenimiento/categorias/formulario-cat/formulario-cat.component';
+import { CostoStandardComponent } from './mantenimiento/costo-standard/costo-standard.component';
 import { ExistenciasAlmacenesComponent } from './mantenimiento/existencias-almacenes/existencias-almacenes.component';
 import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/liquidacion-mercancias.component';
 import { FormularioMaestraProductosComponent } from './mantenimiento/maestra-productos/formulario-maestra-productos/formulario-maestra-productos.component';
@@ -59,7 +60,8 @@ import { TransportistasComponent } from './mantenimiento/transportistas/transpor
         {path: 'gestion-de-transportistas', component: TransportistasComponent},
         {path: 'gestion-de-propiedades', component: PropiedadesComponent},
         {path: 'gestion-existencias-almacenes', component: ExistenciasAlmacenesComponent},
-        {path: 'gestion-liquidacion-mercancias', component: LiquidacionMercanciasComponent},
+         { path: 'gestion-liquidacion-mercancias', component: LiquidacionMercanciasComponent },
+         {path: 'gestion-costo-standard', component: CostoStandardComponent},
        ]
       }
     ])

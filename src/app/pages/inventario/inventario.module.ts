@@ -61,6 +61,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/liquidacion-mercancias.component';
 import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/formulario-liquidacion-mercancias/formulario-liquidacion-mercancias.component';
+import { CostoStandardComponent } from './mantenimiento/costo-standard/costo-standard.component';
+import { FormularioCostoStandardComponent } from './mantenimiento/costo-standard/formulario-costo-standard/formulario-costo-standard.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +91,9 @@ import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquid
     FormularioTransportistaComponent,
     ExistenciasAlmacenesComponent,
     LiquidacionMercanciasComponent,
-    FormularioLiquidacionMercanciasComponent
+    FormularioLiquidacionMercanciasComponent,
+    CostoStandardComponent,
+    FormularioCostoStandardComponent
   ],
   imports: [
     CommonModule,
