@@ -84,8 +84,7 @@ export class ProcedimientosComponent implements OnInit {
   }
 
   todosLosModulos() {
-    this.modulos.forEach(modulo => {
-      console.log(modulo);      
+    this.modulos.forEach(modulo => { 
       this.listaModulos.push({'modulo': modulo.modulo, 
                               'valor': false, 
                               'acciones': this.todasLasAccionesModulos(modulo),

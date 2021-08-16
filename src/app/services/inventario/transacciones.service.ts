@@ -36,7 +36,6 @@ export class TransaccionesService {
 
   crearTransaccion(transaccion: any) {
     let data = {}
-    console.log(transaccion);
     
     for(let key in transaccion){  
       switch (key) {

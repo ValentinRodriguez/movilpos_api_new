@@ -67,9 +67,7 @@ export class AreasEmpresaService {
     })
   }
 
-  crearArea(area: any) {
-    console.log(area);
-    
+  crearArea(area: any) {    
     const formData = new FormData();  
     for(let key in area){  
       formData.append(key, area[key]);
@@ -107,8 +105,6 @@ export class AreasEmpresaService {
   }
 
   actualizarArea(id: number, area: any) {
-    console.log(area);
-    
     let formData = {};
     
     for(let key in area){  

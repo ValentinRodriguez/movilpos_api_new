@@ -61,7 +61,6 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
     this.todosLosClientes();
     this.data = this.config.data;
     this.forma.get('monto_total').setValue(this.data.neto);    
-    console.log(this.data);
     
     // this.listObserver();
 

@@ -24,7 +24,7 @@ export class CostoStandardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('se destruyo');    
+      
   }
 
 
