@@ -53,7 +53,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit(): void {  
-        this.listObserver(); 
+        // this.listObserver(); 
 
         this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
                              { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
@@ -117,7 +117,8 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     logout() {
-        this.logoutMethod = this.usuarioServ.logout(this.usuario.email).subscribe((resp: any) => {           
+        this.logoutMethod = this.usuarioServ.logout(this.usuario.email).subscribe((resp: any) => {
+            console.log(resp);            
             if (resp['code'] === 200)  {  
               localStorage.removeItem('token');
               localStorage.removeItem('user');
