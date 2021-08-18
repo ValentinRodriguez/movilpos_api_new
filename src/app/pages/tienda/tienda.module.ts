@@ -18,15 +18,33 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextModule } from 'primeng/inputtext';
 import {DataViewModule} from 'primeng/dataview';
+import { FieldsetModule } from 'primeng/fieldset';
+import { DropdownModule } from 'primeng/dropdown';
+import { StepsModule } from 'primeng/steps';
+
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
 import { FormularioCreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/formulario-creacion-productos-tienda.component";
-import { FieldsetModule } from 'primeng/fieldset';
-import { DropdownModule } from 'primeng/dropdown';
+import { GeneralComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/general/general.component';
+import { EnvioComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/envio/envio.component';
+import { RecomendadosComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/recomendados/recomendados.component';
+import { AtributosComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/atributos/atributos.component';
+import { ClasificacionComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/clasificacion/clasificacion.component';
+import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/visuales/visuales.component';
+import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/crear/crear.component';
+import { ComponentsModule } from 'src/app/components/components.module';
+
 @NgModule({
   declarations: [
     CreacionProductosTiendaComponent,
-    FormularioCreacionProductosTiendaComponent
+    FormularioCreacionProductosTiendaComponent,
+    GeneralComponent,
+    EnvioComponent,
+    RecomendadosComponent,
+    AtributosComponent,
+    ClasificacionComponent,
+    VisualesComponent,
+    CrearComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +54,9 @@ import { DropdownModule } from 'primeng/dropdown';
     FieldsetModule,
     ReactiveFormsModule,
     RouterModule,
+    ComponentsModule,
     PipesModule,
+    StepsModule,
     DropdownModule,
     DataViewModule,
     InputTextModule,

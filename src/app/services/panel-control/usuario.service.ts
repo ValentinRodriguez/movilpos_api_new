@@ -122,6 +122,7 @@ export class UsuarioService {
   login(forma: any) {
     return new Promise(resolve => {
       this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
+        console.log(resp);        
         if (resp.code === 200)  {          
           resolve(resp.data);  
         }       
