@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-general',
@@ -7,9 +8,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneralComponent implements OnInit {
 
-  constructor() { }
+  personalInformation: any;
+  submitted: boolean = false;
+  
+  constructor(private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() { 
+      // this.personalInformation = this.ticketService.getTicketInformation().personalInformation;
+      this.personalInformation = {
+        titulo: '',
+        descripcion: '',
+        tipo: '',
+        virtual: false,
+        descargable: false,
+        precio: null,
+        precio_rebajado: null,
+        stock: null,
+        fecha_rebaja: null
+      };
   }
 
+  programar() {
+    
+  }
+
+  nextPage() {
+      if (this.personalInformation.titulo && this.personalInformation.descripcion && this.personalInformation.age) {
+          // this.ticketService.ticketInformation.personalInformation = this.personalInformation;
+          this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
+          return;
+      }
+
+      this.submitted = true;
+  }
 }

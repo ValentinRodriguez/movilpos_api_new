@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
+import { Subscription } from 'rxjs';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
   selector: 'app-formulario-creacion-productos-tienda',
@@ -9,8 +12,10 @@ import { MenuItem } from 'primeng/api/menuitem';
 export class FormularioCreacionProductosTiendaComponent implements OnInit {
 
   items: MenuItem[] = [];
-  
-  constructor() { }
+  subscription: Subscription;
+
+  constructor(private tiendaService: TiendaService,
+              private uiMessage: UiMessagesService) { }
 
   ngOnInit(): void {
     this.items = [
@@ -22,8 +27,17 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       {label: 'Datos Envío',routerLink: 'envios'},
       {label: 'Crear Producto',routerLink: 'crear-producto'},
     ];
+
+    this.subscription = this.tiendaService.productoGuardado.subscribe(() =>{
+      this.uiMessage.getMiniInfortiveMsg('tsc', 'success', 'Excelente!!', 'Producto Guardado Exitosamente');
+    });
   }
   
+  ngOnDestroy() {
+    if (this.subscription) {
+        this.subscription.unsubscribe();
+    }
+}
   
   
   
