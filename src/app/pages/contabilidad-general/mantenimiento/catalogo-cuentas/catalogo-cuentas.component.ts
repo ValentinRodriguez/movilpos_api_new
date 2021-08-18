@@ -52,7 +52,11 @@ export class CatalogoCuentasComponent implements OnInit {
       { field: 'depto', header: 'Departamento'},
       { field: 'selectivo_consumo', header: 'Selectivo Consumo'},
       { field: 'retencion', header: 'Retención'},
+      { field: 'cuenta_resultado', header: 'Cuenta Resultados'},
+      { field: 'estado_bg', header: 'Codigo Estado Ganancia / Perdida'},
+      { field: 'estado_resultado', header: 'Codigo Estado Resultado'},
       { field: 'acciones', header: 'Acciones'},
+      
     ]
   }
 

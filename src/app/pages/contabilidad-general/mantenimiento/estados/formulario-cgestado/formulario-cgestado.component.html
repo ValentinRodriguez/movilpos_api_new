@@ -1,13 +1,12 @@
-
 <div class="p-grid table-demo">
 	<div class="p-col-12">
 		<div class="card">
-            <h5>Gestión de Catalogo de Cuentas</h5>
+            <h5>Gestión Codigos Estados Financieros</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
-					<p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+					<p-table #dt [columns]="cols" [value]="" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
 						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
-						[globalFilterFields]="['descripcion_c','catalogo','origen']">
+						[globalFilterFields]="['descripcion_esp','descripcion_ing']">
 					
 						<ng-template pTemplate="caption">
 							<div class="table-header">
@@ -33,30 +32,26 @@
 								<td *ngFor="let col of columns">
 									<span class="p-column-title">{{col.header}}</span>
 
-									<div *ngIf="col.field === 'catalogo' || col.field === 'referencia' || col.field === 'depto' || 
-												col.field === 'selectivo_consumo' || col.field === 'retencion' || 
-												col.field === 'cuenta_resultado' ">
-										<span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
-											{{rowData[col.field] | titlecase}}										
-										</span>
-								
-										<span *ngIf="rowData[col.field] === 'no'" class="p-badge p-badge-lg p-badge-warning">
-											{{rowData[col.field] | titlecase}}										
-										</span>
-									</div>
-									
-									<span *ngIf="col.field === 'descripcion_c'">
+									<span *ngIf="col.field === 'id_estado'">
 										{{rowData[col.field] | uppercase}}
 									</span>
 
-									<span *ngIf="col.field === 'origen' || col.field === 'tipo_cuenta'">
+                                    <span *ngIf="col.field === 'descripcion_esp'">
+										{{rowData[col.field] | uppercase}}
+									</span>
+
+                                    <span *ngIf="col.field === 'descripcion_ing'">
+										{{rowData[col.field] | uppercase}}
+									</span>
+
+									<span *ngIf="col.field === 'grupo' || col.field === 'orden_grupo'">
 										{{rowData[col.field] | titlecase}}
 									</span>
 
-									<span *ngIf="col.field === 'cuenta_no' || col.field === 'aplica_a' || col.field === 'codigo_isr' 
-									|| col.field === 'cuenta_resultado'">
-										{{rowData[col.field] }}
+                                    <span *ngIf="col.field === 'tipo_estado'">
+										{{rowData[col.field] | uppercase}}
 									</span>
+
 							
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
@@ -86,11 +81,7 @@
                 <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
 					<app-formulario-cgcatalogo></app-formulario-cgcatalogo>
                 </p-tabPanel>
-            </p-tabView>
-		</div>	
-		
-		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" message="Esta seguro de borrar este registro?"
-						 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text">
-		</p-confirmDialog>
-	</div>	
-</div>
+            </p-tabView>            
+        </div>
+    </div>
+</div>        
