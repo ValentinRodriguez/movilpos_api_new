@@ -14,7 +14,11 @@ export class FormularioCgestadoComponent implements OnInit {
   listsubcriber: any = [];
   index: number = 0;
   forma: FormGroup;
- 
+  vtipoEstado: [
+    {label: 'ACTIVOS',values: 'ACTIVOS'},
+    {label: 'PASIVOS Y CAPITAL',values: 'PASIVOS Y CAPITAL'},
+    {label: 'CAPITAL',values: 'CAPITAL'}
+  ]
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private estadosSrv: EstadosService) {
