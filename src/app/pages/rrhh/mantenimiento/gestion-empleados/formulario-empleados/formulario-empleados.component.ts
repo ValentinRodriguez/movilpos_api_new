@@ -187,8 +187,7 @@ export class FormularioEmpleadosComponent implements OnInit {
 
     const observer3$ = this.empleadosServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
-      this.actualizar = true;
-      console.log(Number(resp));      
+      this.actualizar = true;    
       this.id = Number(resp);      
       this.empleadosServ.getDato(this.id).then((res: any) => {
         
@@ -197,13 +196,9 @@ export class FormularioEmpleadosComponent implements OnInit {
       })
     })
 
-    const observer4$ = this.empleadosServ.duplicar.subscribe((resp: any) =>{
-      // this.guardar = false;
-      // this.actualizar = true;
-      console.log(Number(resp));      
+    const observer4$ = this.empleadosServ.duplicar.subscribe((resp: any) =>{    
       this.id = Number(resp);      
-      this.empleadosServ.getDato(this.id).then((res: any) => {
-        
+      this.empleadosServ.getDato(this.id).then((res: any) => {        
         this.datosLocalidad(res);
         this.llenaCampos(res) 
       })
@@ -213,7 +208,6 @@ export class FormularioEmpleadosComponent implements OnInit {
 
   llenaCampos(res) {
     for(const [key, value] of Object.entries(res)){
-      console.log(key, value)
       if (this.forma.get(key) !== null && value !== null && key !== 'cedula') {
         if (key === 'fecha_entrada' || key === 'fecha_inicio_c' || key === 'fecha_nacimiento' || key === 'fecha_suspencion' ||
           key === 'fecha_termino_contrato' || key === 'fecha_ultimo_aumento' || key === 'horario_inicial' || key === 'horario_final') {

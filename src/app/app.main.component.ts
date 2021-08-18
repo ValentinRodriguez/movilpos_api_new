@@ -64,11 +64,11 @@ export class AppMainComponent implements OnInit{
             this.menuMode = localStorage.getItem('tipo-menu');    
             const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
 
-            if (this.menuMode === 'slim') {
-                appLogoLink.src = 'assets/layout/images/mini-logo.png';
-            }else{
-                appLogoLink.src = 'assets/layout/images/logo.png';
-            } 
+            // if (this.menuMode === 'slim') {
+            //     appLogoLink.src = 'assets/layout/images/mini-logo.png';
+            // }else{
+            //     appLogoLink.src = 'assets/layout/images/logo.png';
+            // } 
         }
 
         if (localStorage.getItem('tipo-input')) {

@@ -74,9 +74,7 @@ export class FormularioClientesComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    this.rutaActual = this.router.url.split("/");
-    console.log(this.rutaActual);
-    
+    this.rutaActual = this.router.url.split("/");    
     this.todosLosPaises();
     this.listObserver();
     this.autoLlenado(); 

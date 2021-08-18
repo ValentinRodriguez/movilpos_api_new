@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 const URL = environment.url;
 
@@ -22,8 +21,7 @@ export class UsuarioService {
     signup: `${URL}/signup`,
   }  
   
-  constructor(private http: HttpClient, 
-              private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   busquedaEmail(parametro?: any) {
        
@@ -124,7 +122,6 @@ export class UsuarioService {
   login(forma: any) {
     return new Promise(resolve => {
       this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
-        console.log(resp);        
         if (resp.code === 200)  {          
           resolve(resp.data);  
         }       
@@ -133,22 +130,7 @@ export class UsuarioService {
   }
   
   logout(email) {
-    this.http.post(`${URL}/logout`, email).subscribe((resp: any) => {                         
-      if (resp['code'] === 200)  {  
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('empleado');
-        localStorage.removeItem('permisos');
-        localStorage.removeItem('bodegas_permisos');
-        localStorage.removeItem('empresa');
-        localStorage.removeItem('modulos');
-        localStorage.removeItem('perfiles');
-        localStorage.removeItem('sessionId');
-        localStorage.removeItem('roles');
-        localStorage.removeItem('menues');
-        this.router.navigate(['/login']);  
-      }
-    })
+    return this.http.post(`${URL}/logout`, email);
   }
 
   register(data: any) {
@@ -224,7 +206,6 @@ export class UsuarioService {
   }
 
   setDataLocalStorage(data) {
-    console.log(data);    
     localStorage.setItem('token', data.access_token.accessToken);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('empleado', JSON.stringify(data.empleado));

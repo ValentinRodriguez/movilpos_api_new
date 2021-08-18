@@ -10,9 +10,7 @@ export class FiltroPipe implements PipeTransform {
     if ( texto === '' || texto === undefined) {
       return arreglo;
     }    
-    return arreglo.filter(item => {
-      console.log(item[columna]);
-      
+    return arreglo.filter(item => {      
       return item[columna].toLowerCase().includes( texto );
     });
   }

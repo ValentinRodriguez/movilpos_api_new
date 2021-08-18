@@ -63,11 +63,7 @@ export class HttpHeadersService implements HttpInterceptor{
     return next.handle(req).pipe(      
       tap(evt => {        
         if (evt instanceof HttpResponse) {
-          this.globalFuntionServ.formReceived.emit(false);
-          console.log('enviando request');
-          
-          // if (evt.ok === true) {     
-          // }            
+          this.globalFuntionServ.formReceived.emit(false);      
         }
     })
     )

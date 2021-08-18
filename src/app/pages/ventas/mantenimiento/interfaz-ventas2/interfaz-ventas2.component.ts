@@ -168,7 +168,6 @@ export class InterfazVentas2Component implements OnInit {
         const efectivo = Number(this.forma.get('efectivo').value)
         const tarjeta = this.forma.get('tarjeta').value
         const cheque = this.forma.get('cheque').value
-        console.log(efectivo);
         
         if (valor.efectivo === true && efectivo === 0) {            
             this.uiMessage.getMiniInfortiveMsg('tc', 'warn', '', 'Debe especificar el valor en EFECTIVO.');

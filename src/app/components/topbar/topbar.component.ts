@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
@@ -16,7 +17,6 @@ import { FacturasService } from 'src/app/services/ventas/facturas.service';
 })
 export class TopbarComponent implements OnDestroy, OnInit {
 
-    subscription: Subscription;
     @Input() menu: string;
     items: MenuItem[];
     usuario: any;
@@ -31,22 +31,30 @@ export class TopbarComponent implements OnDestroy, OnInit {
     foto: any;
     @Input() simbolo: string
     stateOptions2: { label: string; value: string; icon: string; justify: string; }[];
-    
+    listSubscribers: any = [];
+    logoutMethod: Subscription;
+
     constructor(public breadcrumbService: BreadcrumbService,
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
                 public facturaServ: FacturasService,
+                private router: Router,
                 public datosEstaticos: DatosEstaticosService) {
 
         this.usuario = this.usuarioServ.getUserLogged() || null;
         // if (this.usuario !== null) {
         //     this.foto = this.usuario.foto                
         //     this.nombre = this.usuario.name+' '+this.usuario.surname;
-        // }     
-
+        // }    
     }
     
-    ngOnInit(): void {          
+    ngOnDestroy(): void {
+        this.listSubscribers.forEach(a => a.unsubscribe());
+    }
+
+    ngOnInit(): void {  
+        // this.listObserver(); 
+
         this.stateOptions = [{label: 'POS', value: 'pos', icon: 'fas fa-store', justify: 'Left'}, 
                              { label: 'Orden', value: 'orden', icon: 'fas fa-file-alt', justify: 'Left' },
                              { label: 'Codigo', value: 'codigo', icon: 'fas fa-barcode', justify: 'Left' }
@@ -58,6 +66,11 @@ export class TopbarComponent implements OnDestroy, OnInit {
                               { label: 'Efectivo y Tarjeta', value: 'ambos', icon: 'fas fa-wallet', justify: 'Left' }
         ];
     }
+
+    listObserver = () => {
+        const observer1$ = this.logoutMethod;
+        this.listSubscribers = [observer1$];
+    };
 
     modoPago(tipo) {
         const obj:any = {};
@@ -103,14 +116,24 @@ export class TopbarComponent implements OnDestroy, OnInit {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-
     logout() {
-        this.usuarioServ.logout(this.usuario.email)
+        this.logoutMethod = this.usuarioServ.logout(this.usuario.email).subscribe((resp: any) => {
+            console.log(resp);            
+            if (resp['code'] === 200)  {  
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              localStorage.removeItem('empleado');
+              localStorage.removeItem('permisos');
+              localStorage.removeItem('bodegas_permisos');
+              localStorage.removeItem('empresa');
+              localStorage.removeItem('modulos');
+              localStorage.removeItem('perfiles');
+              localStorage.removeItem('sessionId');
+              localStorage.removeItem('roles');
+              localStorage.removeItem('menues');
+              this.router.navigate(['/login']);  
+            }
+        })
     }
 
     desplegar() {

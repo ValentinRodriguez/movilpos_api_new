@@ -67,7 +67,6 @@ export class CreacionProductosTiendaComponent implements OnInit {
   todosLosProductos() {
     this.productosServ.getDatos().subscribe((resp: any) => {
       this.productos = resp.data;
-      console.log(resp);      
     });
   }
   

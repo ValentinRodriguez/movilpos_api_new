@@ -179,15 +179,8 @@ export class EmpresaService {
     const formData = new FormData();
     const formdata = {};
 
-    console.log(empresa);
-    // let logo = empresa.logo;
     for(let key in empresa){   
-      switch (key) {
-
-        // case 'logo':
-        //   formData.append('logo', empresa.logo, empresa.logo.name );
-        //   break;
-        
+      switch (key) {        
         case 'moneda':
           formdata[key] = JSON.stringify(empresa[key]);         
           break;
@@ -227,8 +220,7 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {     
-        console.log(resp);        
+      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {         
         if (resp['code'] === 200)  {                                      
           this.empresaCreada.emit(resp.data);
           resolve(resp.data);      
@@ -239,9 +231,7 @@ export class EmpresaService {
 
   guardarPermisosEmpresa(data) {
     return new Promise( resolve => {
-      this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {              
-        
-                
+      this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }

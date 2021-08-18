@@ -118,8 +118,7 @@ export class RecepcionVehiculosService {
     for(let key in recepcion){   
       switch (key) {
         case 'archivos':          
-          for (let i = 0; i < archivos.length; i++) {           
-            console.log(typeof(archivos[i]));
+          for (let i = 0; i < archivos.length; i++) {  
             if (typeof(archivos[i]) == 'object') {
               formData.append('archivos'+[i], archivos[i], archivos[i].name );              
               formData.append('archivosLength', archivos.length);
@@ -149,7 +148,7 @@ export class RecepcionVehiculosService {
         break;
       }
     }
-    console.log(recepcion);    
+    
     return new Promise( resolve => {
       this.http.post(`${ URL }/recepcion-vehiculos/${id}`, formData).subscribe( (resp: any) => {                
                                    
