@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
-import { EventService } from 'src/app/demo/service/eventservice';
 import esLocale from '@fullcalendar/core/locales/es';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';

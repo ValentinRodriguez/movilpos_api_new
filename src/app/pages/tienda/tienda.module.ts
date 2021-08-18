@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 // MODULOS DEL PROYECTO
 import { PipesModule } from '../../pipes/pipes.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 // RUTAS DEL MODULO
 import { TiendaRoutingModule } from "./tienda-routing.module";
@@ -21,6 +22,12 @@ import {DataViewModule} from 'primeng/dataview';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DropdownModule } from 'primeng/dropdown';
 import { StepsModule } from 'primeng/steps';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import {CalendarModule} from 'primeng/calendar';
+
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -32,7 +39,6 @@ import { AtributosComponent } from './mantenimiento/creacion-productos-tienda/fo
 import { ClasificacionComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/clasificacion/clasificacion.component';
 import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/visuales/visuales.component';
 import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/crear/crear.component';
-import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
@@ -52,14 +58,19 @@ import { ComponentsModule } from 'src/app/components/components.module';
     PipesModule,
     AutoCompleteModule,
     FieldsetModule,
+    InputTextareaModule,
     ReactiveFormsModule,
+    CheckboxModule,
     RouterModule,
+    CalendarModule,
     ComponentsModule,
     PipesModule,
+    InputNumberModule,
     StepsModule,
     DropdownModule,
     DataViewModule,
     InputTextModule,
+    CardModule,
     TiendaRoutingModule,
     ToastModule,
     ConfirmDialogModule,

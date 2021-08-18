@@ -68,13 +68,6 @@ import {AppMenuComponent} from './app.menu.component';
 import {AppMenuitemComponent} from './app.menuitem.component';
 import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
 import {KeyFilterModule} from 'primeng/keyfilter';
-import {CountryService} from './demo/service/countryservice';
-import {CustomerService} from './demo/service/customerservice';
-import {EventService} from './demo/service/eventservice';
-import {IconService} from './demo/service/iconservice';
-import {NodeService} from './demo/service/nodeservice';
-import {PhotoService} from './demo/service/photoservice';
-import {ProductService} from './demo/service/productservice';
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
@@ -214,14 +207,7 @@ import { TiendaModule } from "./pages/tienda/tienda.module";
             useClass: HttpHeadersService,
             multi: true,
         },
-        AppMainComponent,
-        CountryService, 
-        CustomerService, 
-        EventService, 
-        IconService, 
-        NodeService,        
-        PhotoService, 
-        ProductService, 
+        AppMainComponent,  
         MenuService, 
         BreadcrumbService, 
         ConfirmationService,

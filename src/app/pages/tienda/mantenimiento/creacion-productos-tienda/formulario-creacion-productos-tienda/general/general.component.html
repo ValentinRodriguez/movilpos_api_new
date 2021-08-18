@@ -1,1 +1,83 @@
-<p>general works!</p>
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title">
+            Datos generales del producto.
+        </ng-template>
+        <!-- <ng-template pTemplate="subtitle">
+            Enter your personal information
+        </ng-template> -->
+        <ng-template pTemplate="content">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-6">
+                    <label for="titulo">Título</label>
+                    <input #titulo="ngModel" id="titulo" type="text" required pInputText [(ngModel)]="personalInformation.titulo" 
+                           [ngClass]="{'ng-dirty': (titulo.invalid && submitted) || (titulo.dirty && titulo.invalid)}"> 
+                    <small *ngIf="(titulo.invalid && submitted) || (titulo.dirty && titulo.invalid)" class="p-error">Este campo es obligatorio.</small>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="tipo">Tipo Producto</label>
+                    <p-dropdown placeholder="Escoje.." input [options]="" optionLabel="" #tipo="ngModel" id="tipo" [(ngModel)]="personalInformation.tipo"
+                                [ngClass]="{'ng-dirty': (tipo.invalid && submitted) || (tipo.dirty && tipo.invalid)}" required>
+                    </p-dropdown>
+                    <small *ngIf="(tipo.invalid && submitted) || (tipo.dirty && tipo.invalid)" class="p-error">Este campo es obligatorio.</small>
+                </div>
+
+                <div class="p-field p-col-3 p-formgroup-inline">
+                    <div class="p-field-checkbox">
+                        <p-checkbox name="virtual" [(ngModel)]="personalInformation.virtual" inputId="virtual" binary="true"></p-checkbox>
+                        <label for="virtual">Virtual</label>
+                    </div>
+                    <div class="p-field-checkbox">
+                        <p-checkbox name="descargable" [(ngModel)]="personalInformation.descargable" inputId="descargable" binary="true"></p-checkbox>
+                        <label for="descargable">Descargable</label>
+                    </div>
+                </div>
+
+                <div class="p-field p-col-12">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" type="text" rows="4" pInputTextarea #descripcion="ngModel" required [(ngModel)]="personalInformation.descripcion" 
+                              [ngClass]="{'ng-dirty': (descripcion.invalid && submitted) || (descripcion.dirty && descripcion.invalid)}">
+                    </textarea>
+                    <small *ngIf="(descripcion.invalid && submitted) || (descripcion.dirty && descripcion.invalid)" class="p-error">Este campo es obligatorio.</small>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="precio">Precio</label>
+                    <p-inputNumber inputId="precio" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #precio="ngModel" 
+                                   [(ngModel)]="personalInformation.precio" [ngClass]="{'ng-dirty': (precio.invalid && submitted) || (precio.dirty && precio.invalid)}" 
+                                   required>
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="precio_rebajado">Precio Rebajado</label>
+                    <a href="javascript:void(0)" style="margin: 2em;" (click)="programar()">Programar</a>
+                    <p-inputNumber inputId="precio_rebajado" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #precio_rebajado="ngModel"
+                                   [(ngModel)]="personalInformation.precio_rebajado">
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="fecha_rebaja">Fecha Rebaja</label>
+                    <p-calendar [(ngModel)]="personalInformation.fecha_rebaja" selectionMode="range" [readonlyInput]="true" 
+                                inputId="fecha_rebaja">
+                    </p-calendar>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="stock">Stock</label>
+                    <p-inputNumber inputId="stock" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #stock="ngModel" 
+                                   [(ngModel)]="personalInformation.stock" [ngClass]="{'ng-dirty': (stock.invalid && submitted) || 
+                                   (stock.dirty && stock.invalid)}" required>
+                    </p-inputNumber>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="p-grid p-nogutter p-justify-end">
+                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>
