@@ -1,87 +1,36 @@
-<div class="p-grid table-demo">
-	<div class="p-col-12">
-		<div class="card">
-            <h5>Gestión Codigos Estados Financieros</h5>
-            <p-tabView orientation="left" [(activeIndex)]="index">
-                <p-tabPanel header="Consultar" leftIcon="pi pi-search">
-					<p-table #dt [columns]="cols" [value]="" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
-						[globalFilterFields]="['descripcion_esp','descripcion_ing']">
-					
-						<ng-template pTemplate="caption">
-							<div class="table-header">
-								<span class="p-input-icon-left">
-									<i class="pi pi-search"></i>
-									<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..."/>
-								</span>
-							</div>
-						</ng-template>
-						
-						<ng-template pTemplate="header" let-columns>
-							<tr>
-								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
-									{{col.header}}									
-									<p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
-								</th>
-							</tr>
-						</ng-template>
-						
-						<ng-template pTemplate="body" let-rowData let-columns="columns">
-							<tr class="p-selectable-row">
-							
-								<td *ngFor="let col of columns">
-									<span class="p-column-title">{{col.header}}</span>
-
-									<span *ngIf="col.field === 'id_estado'">
-										{{rowData[col.field] | uppercase}}
-									</span>
-
-                                    <span *ngIf="col.field === 'descripcion_esp'">
-										{{rowData[col.field] | uppercase}}
-									</span>
-
-                                    <span *ngIf="col.field === 'descripcion_ing'">
-										{{rowData[col.field] | uppercase}}
-									</span>
-
-									<span *ngIf="col.field === 'grupo' || col.field === 'orden_grupo'">
-										{{rowData[col.field] | titlecase}}
-									</span>
-
-                                    <span *ngIf="col.field === 'tipo_estado'">
-										{{rowData[col.field] | uppercase}}
-									</span>
-
-							
-									<span *ngIf="col.field === 'acciones'">
-										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarCatalogo(rowData.id)" pTooltip="Actualizar"></button>
-										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTransportista(rowData.id)" pTooltip="Eliminar"></button>
-									</span>
-								</td>								
-							</tr>
-						</ng-template>
-						<ng-template pTemplate="emptymessage">
-							<tr>
-								<td colspan="8">No existen cuentas en la base de datos.</td>
-							</tr>
-						</ng-template>
-						<ng-template pTemplate="summary">
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length !== 1">
-								Existen {{cuentas ? cuentas.length : 0 }} cuentas en total.
-							</div>
-							
-							<div class="p-d-flex p-ai-center p-jc-between" *ngIf="cuentas.length === 1">
-								Existe solo {{cuentas ? cuentas.length : 0 }} cuenta en total.
-							</div>
-						</ng-template>
-					</p-table>
-                </p-tabPanel>
-
-                <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
-					<app-formulario-cgcatalogo></app-formulario-cgcatalogo>
-                </p-tabPanel>
-            </p-tabView>            
+       
+<form (ngSubmit)="guardarEstado()" [formGroup]="forma">
+	
+	<div class="p-fluid p-formgrid p-grid"> 
+		<div class="p-field p-col-12 p-md-3">
+            <label for="descripcion_esp">Descripción Esp.</label>
+            <span class=" p-input-icon-right">
+                <input id="descripcion_esp_cat" type="text" pInputText formControlName="descripcion_esp" [class.ng-invalid]="getNoValido('descripcion_esp')" 
+                       [class.ng-dirty]="getNoValido('descripcion_esp')">
+            </span>
         </div>
-    </div>
-</div>        
+		<div class="p-field p-col-12 p-md-3">
+			<label for="descripcion_ing">Descripción Ing.</label>
+			<span class=" p-input-icon-right">
+				<input id="descripcion_ing_cat" type="text" pInputText formControlName="descripcion_ing" [class.ng-invalid]="getNoValido('descripcion_ing')" 
+					   [class.ng-dirty]="getNoValido('descripcion_ing')">
+			</span>
+		</div>
+		<div class="p-field p-col-12 p-md-3">
+			<label for="id_estado">Descripción Ing.</label>
+			<span class=" p-input-icon-right">
+				<input id="id_estado_cat" type="text" pInputText formControlName="id_estado" [class.ng-invalid]="getNoValido('id_estado')" 
+					   [class.ng-dirty]="getNoValido('id_estado')">
+			</span>
+		</div>
+		<div class="p-field p-col-12 p-md-3">
+            <label for="grupo">Grupo</label>
+            <span class=" p-input-icon-right">
+                <input id="grupo_cat" type="text" pInputText formControlName="grupo" [class.ng-invalid]="getNoValido('grupo')" 
+                       [class.ng-dirty]="getNoValido('grupo')">
+            </span>
+        </div>
+	</div>
+
+	<button pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+</form>
