@@ -131,10 +131,14 @@
         </div>
         <div class="p-field p-col-12 p-md-2">
             <label for="retencion">Estado Resultado</label>
-            <p-dropdown inputId="estado_resultado" [options]="sino" name="estado_resultado" formControlName="estado_resultado"
-                        placeholder="Escoje.." optionLabel="label">
-            </p-dropdown>
-            <small *ngIf="getNoValido('retencion')" class="p-invalid">Este campo es obligatorio.</small>
+                <input id="estado_resultado" type="label" pInputText formControlName="estado_resultado" 
+                       [class.p-invalid]="getNoValido('estado_resultado')"
+                (keyup)="verificaCuenta($event.target.value)" [class.ng-invalid]="getNoValido('estado_resultado')" 
+            [class.ng-dirty]="getNoValido('estado_resultado')">
+                <i class="pi pi-spin pi-spinner" *ngIf="cuentaExiste === 0" style="color:#f5df18"></i>
+                <i class="pi pi-check" *ngIf="cuentaExiste === 1" style="color:#36b61d"></i>
+                <i class="pi pi-times" *ngIf="cuentaExiste === 2" style="color:#d83131"></i>
+                <i class="pi pi-file-o" *ngIf="cuentaExiste === 3"></i>
         </div>
     </div>
     <button *ngIf="this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

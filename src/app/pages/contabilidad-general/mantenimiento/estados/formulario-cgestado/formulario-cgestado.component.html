@@ -30,6 +30,13 @@
                        [class.ng-dirty]="getNoValido('grupo')">
             </span>
         </div>
+		
+        <div class="p-field p-col-12 p-md-2">
+            <label for="orden_grupo">Orden Grupo</label>
+			<input id="orden_grupo" type="number" pInputText formControlName="orden_grupo"> 
+            
+             <small *ngIf="getNoValido('orden_grupo')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
 	</div>
 
 	<button pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>

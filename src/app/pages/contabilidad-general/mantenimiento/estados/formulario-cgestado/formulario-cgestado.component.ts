@@ -14,7 +14,7 @@ export class FormularioCgestadoComponent implements OnInit {
   listsubcriber: any = [];
   index: number = 0;
   forma: FormGroup;
-
+ 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private estadosSrv: EstadosService) {
