@@ -11,6 +11,18 @@ export class EstadosService {
 
   constructor(private http: HttpClient) { }
 
+  getDatos() {
+    return this.http.get(`${URL}/estados`);
+  }
+
+  busquedaEstado(parametro: string) {
+    console.log(parametro);
+    
+    let params = new HttpParams();  
+    params = params.append('estado',parametro);   
+    return this.http.get(`${URL}/busqueda-estados`,{params});
+  }
+  
   crearEstado(data: any) {
     return this.http.post(`${URL}/estados`, data);
   }

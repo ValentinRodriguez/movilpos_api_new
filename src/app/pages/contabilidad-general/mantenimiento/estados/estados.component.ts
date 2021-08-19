@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EstadosService } from 'src/app/services/contabilidad/estados.service';
 
 @Component({
   selector: 'app-estados',
@@ -10,9 +11,9 @@ export class EstadosComponent implements OnInit {
   cols: any;
   listsubcriber: any = [];
   index: number = 0;
-  cuentas: any[] = [];
+  estados: any[] = [];
   
-  constructor() { }
+  constructor(private estadosServ: EstadosService) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -22,9 +23,18 @@ export class EstadosComponent implements OnInit {
       { field: 'grupo', header: 'Grupo'},
       { field: 'orden_grupo', header: 'Orden'},
       { field: 'tipo_estado', header: 'Tipo Estado'},
-      { field: 'signo', header: 'Orientacion Signo'},
-      
+      { field: 'signo', header: 'Signo' },
+      { field: 'acciones', header: 'Acciones'}  
     ]
+
+    this.getEstados();
   }
 
+  getEstados() {
+    this.estadosServ.getDatos().subscribe((resp: any) => {
+      if (resp.code === 200) {
+        this.estados = resp.data
+      }     
+    })
+  }
 }

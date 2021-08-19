@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EstadosService } from 'src/app/services/contabilidad/estados.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-formulario-cgestado',
@@ -14,18 +15,34 @@ export class FormularioCgestadoComponent implements OnInit {
   listsubcriber: any = [];
   index: number = 0;
   forma: FormGroup;
-  vtipoEstado: [
-    {label: 'ACTIVOS',values: 'ACTIVOS'},
-    {label: 'PASIVOS Y CAPITAL',values: 'PASIVOS Y CAPITAL'},
-    {label: 'CAPITAL',values: 'CAPITAL'}
-  ]
+
+  vtipoEstado: any = [];
+  signo: any = [];
+  usuario: any = [];
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private estadosSrv: EstadosService) {
-    this.crearFormulario();
+    private estadosSrv: EstadosService,
+    private usuarioServ: UsuarioService) {
+      this.usuario = this.usuarioServ.getUserLogged()
+      console.log(this.usuario);
+    
+      this.crearFormulario();
   }
 
   ngOnInit(): void {
+    
+    this.vtipoEstado = [
+      {label: 'ACTIVOS',values: 'ACTIVOS'},
+      {label: 'PASIVOS Y CAPITAL',values: 'PASIVOS_Y_CAPITAL'},
+      {label: 'CAPITAL',values: 'CAPITAL'}
+    ]
+
+    this.signo = [
+      {label: '1',values: 1},
+      {label: '-1',values: -1}
+    ]
+    
     this.cols = [
       { field: 'descripcion_esp', header: 'Descripción Espanol'},
       { field: 'descripcion_ing', header: 'Descripcion Ingles'},
@@ -35,6 +52,7 @@ export class FormularioCgestadoComponent implements OnInit {
       { field: 'tipo_estado', header: 'Tipo Estado'},
       { field: 'signo', header: 'Orientacion Signo'}      
     ]
+    console.log(this.vtipoEstado);
   }
 
   crearFormulario() {
@@ -46,10 +64,12 @@ export class FormularioCgestadoComponent implements OnInit {
       orden_grupo: [''],
       tipo_estado: [''],
       signo: [''],
+      estado: ['activo'],
+      usuario_creador: [this.usuario.username]
     })
   }
 
-  guardarEstado() {
+  guardarEstado() {    
     if (this.forma.invalid) {
       console.log(this.forma.value);      
       this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios');
@@ -58,7 +78,10 @@ export class FormularioCgestadoComponent implements OnInit {
       })
     } else {
       this.estadosSrv.crearEstado(this.forma.value).subscribe((resp: any) => {
-              
+        console.log(resp);              
+        if (resp.code === 200) {
+          this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro Guardado de manera correcta.');
+        }
       })
     }
   }
