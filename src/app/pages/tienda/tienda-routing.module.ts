@@ -15,16 +15,19 @@ import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/for
       {
        path: '',
        children: [
-          { path: 'creacion-productos-plaza', component: CreacionProductosTiendaComponent , children:[
-            { path: 'atributos', component: AtributosComponent},
-            { path: 'clasificacion', component: ClasificacionComponent},
-            { path: 'envios', component: EnvioComponent},
-            { path: 'general', component: GeneralComponent},
-            { path: 'productos-enlazados', component: RecomendadosComponent},
-            { path: 'imagenes-videos', component: VisualesComponent},
-            { path: 'crear-producto', component: CrearComponent},
+          {
+            path: 'creacion-productos-plaza', component: CreacionProductosTiendaComponent, children: [
+              { path: '', redirectTo: 'general', pathMatch: 'full' },             
+              { path: 'atributos', component: AtributosComponent },
+              { path: 'variantes', component: AtributosComponent},
+              { path: 'clasificacion', component: ClasificacionComponent},
+              { path: 'envios', component: EnvioComponent},
+              { path: 'general', component: GeneralComponent},
+              { path: 'productos-enlazados', component: RecomendadosComponent},
+              { path: 'imagenes-videos', component: VisualesComponent},
+              { path: 'crear-producto', component: CrearComponent},
           ]},             
-       ]
+        ]
       }
     ])
   ],

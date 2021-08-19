@@ -27,7 +27,7 @@ import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {CalendarModule} from 'primeng/calendar';
-
+import {TooltipModule} from 'primeng/tooltip';
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -39,7 +39,9 @@ import { AtributosComponent } from './mantenimiento/creacion-productos-tienda/fo
 import { ClasificacionComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/clasificacion/clasificacion.component';
 import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/visuales/visuales.component';
 import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/crear/crear.component';
-
+import { ToolbarModule } from 'primeng/toolbar';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { PanelModule } from 'primeng/panel';
 @NgModule({
   declarations: [
     CreacionProductosTiendaComponent,
@@ -57,7 +59,11 @@ import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formul
     FormsModule,
     PipesModule,
     AutoCompleteModule,
+    PanelModule,
+    ToolbarModule,
+    SelectButtonModule,
     FieldsetModule,
+    TooltipModule,
     InputTextareaModule,
     ReactiveFormsModule,
     CheckboxModule,

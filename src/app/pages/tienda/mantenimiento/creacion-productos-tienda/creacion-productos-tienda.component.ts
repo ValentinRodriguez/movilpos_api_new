@@ -21,22 +21,30 @@ export class CreacionProductosTiendaComponent implements OnInit {
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
-  
+  listSubscribers: any = [];
+  opciones: any[];
+  itbis: string = "basico";
+
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private productosServ: TiendaService,
               private confirmationService: ConfirmationService,
+              private tiendaService: TiendaService,
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }
 
   ngOnInit(): void {
+    this.listObserver();
     this.todosLosProductos();
 
-    this.productosServ.guardar.subscribe((resp: any)=>{  
-      this.index = resp;
-    });
-
+    this.opciones = [
+      { label: 'Basico', value: 'basico' },
+      { label: 'Variable', value: 'variable' },
+      { label: 'Compuesto', value: 'compuesto' },
+      { label: 'Digital', value: 'digital' },
+    ];
+    
     this.sortOptions = [
       {label: 'Price High to Low', value: '!price'},
       {label: 'Price Low to High', value: 'price'}
@@ -50,19 +58,31 @@ export class CreacionProductosTiendaComponent implements OnInit {
       { field: 'departamento', header: 'departamento' },
       { field: 'acciones', header: 'Acciones' },
     ] 
-
-    this.productosServ.productoGuardado.subscribe((resp: any)=>{
-      this.todosLosProductos();
-    })
-
-    this.productosServ.productoBorrada.subscribe((resp: any)=>{      
-      this.todosLosProductos();   
-    })
-
-    this.productosServ.productoAct.subscribe((resp: any) => {
-      this.todosLosProductos();
-    })
   }
+
+  ngOnDestroy() {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+
+  listObserver = () => {
+    const observer1$ = this.productosServ.guardar.subscribe((resp: any)=>{  
+      this.index = resp;
+    });
+
+    const observer2$ = this.productosServ.productoGuardado.subscribe((resp: any) => {
+      this.todosLosProductos();
+    });
+
+    const observer3$ = this.productosServ.productoBorrada.subscribe((resp: any) => {
+      this.todosLosProductos();
+    });
+      
+    const observer4$ = this.productosServ.productoAct.subscribe((resp: any) => {
+      this.todosLosProductos();
+    });
+
+    this.listSubscribers = [observer1$,observer2$,observer3$, observer4$];
+  };
 
   todosLosProductos() {
     this.productosServ.getDatos().subscribe((resp: any) => {
@@ -97,6 +117,10 @@ export class CreacionProductosTiendaComponent implements OnInit {
         this.sortOrder = 1;
         this.sortField = value;
     }
-}
+  }
+
+  setTipo(e) {
+    this.tiendaService.tipoProductos(e)
+  }
 
 }

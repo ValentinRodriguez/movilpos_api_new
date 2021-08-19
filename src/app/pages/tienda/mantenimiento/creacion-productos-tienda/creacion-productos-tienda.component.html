@@ -64,6 +64,15 @@
                 </p-tabPanel>
 
                 <p-tabPanel header="Adicionar" leftIcon="pi pi-plus">
+                    <p-toolbar>	
+                        <div class="p-toolbar-group-left"></div>						
+                        <div class="p-toolbar-group-right">
+                            <span style="margin-right: 10px;"><strong>Tipo Producto</strong></span>
+                        <p-selectButton [options]="opciones" [(ngModel)]="this.itbis" optionLabel="label" optionValue="value" 
+                        (onChange)="setTipo($event)"></p-selectButton>	
+                        </div>
+                    </p-toolbar>
+                    <br>
                     <app-formulario-creacion-productos-tienda></app-formulario-creacion-productos-tienda>
                 </p-tabPanel>
             </p-tabView>

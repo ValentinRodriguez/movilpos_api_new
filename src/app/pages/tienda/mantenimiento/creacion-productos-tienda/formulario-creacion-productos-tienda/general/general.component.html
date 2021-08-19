@@ -15,25 +15,6 @@
                     <small *ngIf="(titulo.invalid && submitted) || (titulo.dirty && titulo.invalid)" class="p-error">Este campo es obligatorio.</small>
                 </div>
 
-                <div class="p-field p-col-12 p-md-3">
-                    <label for="tipo">Tipo Producto</label>
-                    <p-dropdown placeholder="Escoje.." input [options]="" optionLabel="" #tipo="ngModel" id="tipo" [(ngModel)]="personalInformation.tipo"
-                                [ngClass]="{'ng-dirty': (tipo.invalid && submitted) || (tipo.dirty && tipo.invalid)}" required>
-                    </p-dropdown>
-                    <small *ngIf="(tipo.invalid && submitted) || (tipo.dirty && tipo.invalid)" class="p-error">Este campo es obligatorio.</small>
-                </div>
-
-                <div class="p-field p-col-3 p-formgroup-inline">
-                    <div class="p-field-checkbox">
-                        <p-checkbox name="virtual" [(ngModel)]="personalInformation.virtual" inputId="virtual" binary="true"></p-checkbox>
-                        <label for="virtual">Virtual</label>
-                    </div>
-                    <div class="p-field-checkbox">
-                        <p-checkbox name="descargable" [(ngModel)]="personalInformation.descargable" inputId="descargable" binary="true"></p-checkbox>
-                        <label for="descargable">Descargable</label>
-                    </div>
-                </div>
-
                 <div class="p-field p-col-12">
                     <label for="descripcion">Descripción</label>
                     <textarea id="descripcion" type="text" rows="4" pInputTextarea #descripcion="ngModel" required [(ngModel)]="personalInformation.descripcion" 
@@ -51,28 +32,73 @@
                 </div>
 
                 <div class="p-field p-col-12 p-md-3">
-                    <label for="precio_rebajado">Precio Rebajado</label>
-                    <a href="javascript:void(0)" style="margin: 2em;" (click)="programar()">Programar</a>
+                    <label for="precio_rebajado">Precio Rebajado</label>    
+                    <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                       pTooltip="Este valor se utiliza para indicar que el producto esta en oferta. tambien muestra la cantidad que se ahorraria tu cliente si completa la compra." tooltipPosition="top">
+                    </i>                
+                    <a href="javascript:void(0)" *ngIf="!this.rebaja" style="margin-left: 2em;" (click)="programar()">Programar</a>
+                    <a href="javascript:void(0)" *ngIf="this.rebaja" style="margin-left: 2em; color: #777c80;" (click)="programar()">Cancelar</a>
                     <p-inputNumber inputId="precio_rebajado" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #precio_rebajado="ngModel"
                                    [(ngModel)]="personalInformation.precio_rebajado">
                     </p-inputNumber>
                 </div>
 
-                <div class="p-field p-col-12 p-md-3">
+                <div class="p-field p-col-12 p-md-3" *ngIf="this.rebaja">
                     <label for="fecha_rebaja">Fecha Rebaja</label>
+                    <i class="pi pi-question-circle" style="margin-left: 120px; color:#777c80" 
+                       pTooltip="La oferta inicia a la 12:00 AM de la fecha inicio y termina a las 11:59 PM de la fecha final." tooltipPosition="top">
+                    </i>
                     <p-calendar [(ngModel)]="personalInformation.fecha_rebaja" selectionMode="range" [readonlyInput]="true" 
-                                inputId="fecha_rebaja">
+                                inputId="fecha_rebaja" pTooltip="Click to proceed">
                     </p-calendar>
                 </div>
 
                 <div class="p-field p-col-12 p-md-3">
                     <label for="stock">Stock</label>
+                    <i class="pi pi-question-circle" style="margin-left: 163px; color:#777c80" 
+                       pTooltip="Indica la cantidad de este articulo que tienes disponible para vender." tooltipPosition="top">
+                    </i>
                     <p-inputNumber inputId="stock" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #stock="ngModel" 
                                    [(ngModel)]="personalInformation.stock" [ngClass]="{'ng-dirty': (stock.invalid && submitted) || 
                                    (stock.dirty && stock.invalid)}" required>
                     </p-inputNumber>
                 </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="cantidadLim">Cantidad en Venta</label>
+                    <i class="pi pi-question-circle" style="margin-left: 85px; color:#777c80" 
+                       pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
+                    </i>
+                    <p-inputNumber inputId="cantidadLim" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #cantidadLim="ngModel" 
+                                   [(ngModel)]="personalInformation.cantidadLim" [ngClass]="{'ng-dirty': (cantidadLim.invalid && submitted) || 
+                                   (cantidadLim.dirty && cantidadLim.invalid)}" required>
+                    </p-inputNumber>
+                </div>
             </div>
+            <p-panel header="Title">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="limDescargas">Limite de descargas</label>
+                        <i class="pi pi-question-circle" style="margin-left: 60px; color:#777c80" 
+                           pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
+                        </i>
+                        <p-inputNumber inputId="limDescargas" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #limDescargas="ngModel" 
+                                       [(ngModel)]="personalInformation.limDescargas" [ngClass]="{'ng-dirty': (limDescargas.invalid && submitted) || 
+                                       (limDescargas.dirty && limDescargas.invalid)}" required>
+                        </p-inputNumber>
+                    </div>
+    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="fechaLimDescarga">Fecha Limite</label>
+                        <i class="pi pi-question-circle" style="margin-left: 60px; color:#777c80" 
+                           pTooltip="La oferta inicia a la 12:00 AM de la fecha inicio y termina a las 11:59 PM de la fecha final." tooltipPosition="top">
+                        </i>
+                        <p-calendar [(ngModel)]="personalInformation.fechaLimDescarga" 
+                                    inputId="fechaLimDescarga" pTooltip="Click to proceed">
+                        </p-calendar>
+                    </div>
+                </div>
+            </p-panel>
         </ng-template>
         <ng-template pTemplate="footer">
             <div class="p-grid p-nogutter p-justify-end">

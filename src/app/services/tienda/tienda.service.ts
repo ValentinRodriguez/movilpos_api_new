@@ -13,7 +13,9 @@ export class TiendaService {
   productoGuardado= new EventEmitter();
   productoBorrada= new EventEmitter();
   productoAct= new EventEmitter();
-  actualizando= new EventEmitter();
+  actualizando = new EventEmitter();
+  tipoProducto = new EventEmitter();
+
   constructor(private http: HttpClient) { }
 
   getDatos() {
@@ -34,5 +36,9 @@ export class TiendaService {
 
   contarProductosTienda(page: number) {
     return this.http.get(`${URL}/productos-plaza`);
+  }
+
+  tipoProductos(data: any) {
+    this.tipoProducto.emit(data)
   }
 }

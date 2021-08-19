@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
   selector: 'app-general',
@@ -10,26 +11,28 @@ export class GeneralComponent implements OnInit {
 
   personalInformation: any;
   submitted: boolean = false;
+  rebaja: boolean = false;
   
   constructor(private router: Router) { }
 
   ngOnInit() { 
-      // this.personalInformation = this.ticketService.getTicketInformation().personalInformation;
       this.personalInformation = {
         titulo: '',
         descripcion: '',
-        tipo: '',
-        virtual: false,
-        descargable: false,
+        tipo: null,
         precio: null,
         precio_rebajado: null,
         stock: null,
-        fecha_rebaja: null
-      };
+        cantidadLim: null,
+        fecha_rebaja: null,
+        limDescargas: null,
+        fechaLimDescarga: null
+    };
+    
   }
 
   programar() {
-    
+    this.rebaja = !this.rebaja    
   }
 
   nextPage() {
@@ -38,7 +41,6 @@ export class GeneralComponent implements OnInit {
           this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
           return;
       }
-
       this.submitted = true;
   }
 }
