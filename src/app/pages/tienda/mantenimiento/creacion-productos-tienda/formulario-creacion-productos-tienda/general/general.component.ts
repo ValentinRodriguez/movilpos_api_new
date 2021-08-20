@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { FileUpload } from 'primeng/fileupload';
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
@@ -12,6 +13,9 @@ export class GeneralComponent implements OnInit {
   personalInformation: any;
   submitted: boolean = false;
   rebaja: boolean = false;
+  uploadedFiles: any[] = [];
+  @ViewChild(FileUpload)
+  fileUpload: FileUpload
   
   constructor(private router: Router) { }
 
@@ -26,13 +30,18 @@ export class GeneralComponent implements OnInit {
         cantidadLim: null,
         fecha_rebaja: null,
         limDescargas: null,
-        fechaLimDescarga: null
+        fechaLimDescarga: null,
+        galeriaImagenes: null,
     };
     
   }
 
   programar() {
     this.rebaja = !this.rebaja    
+  }
+
+  onFileSelect(event) {
+     this.personalInformation.galeriaImagenes = this.fileUpload.files;
   }
 
   nextPage() {

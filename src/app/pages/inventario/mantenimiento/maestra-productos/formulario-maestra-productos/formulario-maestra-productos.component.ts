@@ -67,7 +67,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
   id: number;
 
   constructor(private fb: FormBuilder,
-              private globalFunction: GlobalFunctionsService,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   

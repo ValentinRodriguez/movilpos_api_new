@@ -42,6 +42,8 @@ import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formul
 import { ToolbarModule } from 'primeng/toolbar';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PanelModule } from 'primeng/panel';
+import { FileUploadModule } from 'primeng/fileupload';
+
 @NgModule({
   declarations: [
     CreacionProductosTiendaComponent,
@@ -65,6 +67,7 @@ import { PanelModule } from 'primeng/panel';
     FieldsetModule,
     TooltipModule,
     InputTextareaModule,
+    FileUploadModule,
     ReactiveFormsModule,
     CheckboxModule,
     RouterModule,
