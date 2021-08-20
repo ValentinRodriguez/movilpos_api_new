@@ -7,7 +7,8 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-estados',
   templateUrl: './estados.component.html',
-  styleUrls: ['./estados.component.scss']
+  styleUrls: ['./estados.component.scss'],
+  providers: [EstadosService]
 })
 export class EstadosComponent implements OnInit {
 
@@ -45,10 +46,8 @@ export class EstadosComponent implements OnInit {
   }
 
   getEstados() {
-    this.estadosServ.getDatos().subscribe((resp: any) => {
-      if (resp.code === 200) {
-        this.estados = resp.data
-      }     
+    this.estadosServ.getDatos().then((resp: any) => {
+      this.estados = resp.data
     })
   }
 
@@ -63,11 +62,9 @@ export class EstadosComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.estadosServ.borrarEstado(id).subscribe((resp: any) => {
-          if (resp.code === 200) {
-            this.estadosServ.llamarEstado.emit(true);
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');
-          }
+        this.estadosServ.borrarEstado(id).then((resp: any) => {
+          this.estadosServ.llamarEstado.emit(true);
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');
         })       
       }
     })

@@ -37,10 +37,10 @@ export class FormularioCgestadoComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;
       this.id = id;
-      this.estadosSrv.getDato(id).subscribe((resp: any) => {
-        this.forma.patchValue(resp.data);
-        this.forma.get('tipo_estado').setValue(this.vtipoEstado.find(estado => resp.data.tipo_estado === estado.values));
-        this.forma.get('signo').setValue(this.signo.find(estado => resp.data.signo === estado.values))
+      this.estadosSrv.getDato(id).then((resp: any) => {
+        this.forma.patchValue(resp);
+        this.forma.get('tipo_estado').setValue(this.vtipoEstado.find(estado => resp.tipo_estado === estado.values));
+        this.forma.get('signo').setValue(this.signo.find(estado => resp.signo === estado.values))
       })      
     });
 
@@ -89,7 +89,7 @@ export class FormularioCgestadoComponent implements OnInit {
         control.markAllAsTouched();
       })
     } else {
-      this.estadosSrv.crearEstado(this.forma.value).subscribe((resp: any) => {
+      this.estadosSrv.crearEstado(this.forma.value).then((resp: any) => {
         console.log(resp);              
         if (resp.code === 200) {
           this.estadosSrv.llamarEstado.emit(true);
@@ -111,12 +111,9 @@ export class FormularioCgestadoComponent implements OnInit {
         control.markAllAsTouched();
       })
     } else {
-      this.estadosSrv.actualizarEstado(this.id,this.forma.value).subscribe((resp: any) => {
-        console.log(resp);              
-        if (resp.code === 200) {
-          this.estadosSrv.llamarEstado.emit(true);
-          this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro Guardado de manera correcta.');
-        }
+      this.estadosSrv.actualizarEstado(this.id,this.forma.value).then((resp: any) => {
+        this.estadosSrv.llamarEstado.emit(true);
+        this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro Guardado de manera correcta.');
       })
     }
   }

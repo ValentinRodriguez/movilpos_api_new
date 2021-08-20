@@ -299,10 +299,9 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
     this.estadoExiste = 0;
 
-    this.estadosServ.busquedaEstado(data).subscribe((resp: any) => {
-      console.log(resp.data);
-      
-      if(resp.data.length === 0) {
+    this.estadosServ.busquedaEstado(data).then((resp: any) => {
+      console.log(resp);      
+      if(resp.length === 0) {
         this.estadoExiste = 2;
       }else{
         this.estadoExiste = 1;
