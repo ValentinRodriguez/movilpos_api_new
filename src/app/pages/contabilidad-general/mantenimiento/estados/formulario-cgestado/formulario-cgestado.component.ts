@@ -15,15 +15,17 @@ export class FormularioCgestadoComponent implements OnInit {
   listsubcriber: any = [];
   index: number = 0;
   forma: FormGroup;
-
+  guardar = true;
+  actualizar = false;
   vtipoEstado: any = [];
   signo: any = [];
   usuario: any = [];
+  id: number;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-    private estadosSrv: EstadosService,
-    private usuarioServ: UsuarioService) {
+              private estadosSrv: EstadosService,
+              private usuarioServ: UsuarioService) {
       this.usuario = this.usuarioServ.getUserLogged()
       console.log(this.usuario);
     
@@ -31,7 +33,17 @@ export class FormularioCgestadoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.estadosSrv.actualizar.subscribe((id: any) => {
+      this.guardar = false;
+      this.actualizar = true;
+      this.id = id;
+      this.estadosSrv.getDato(id).subscribe((resp: any) => {
+        this.forma.patchValue(resp.data);
+        this.forma.get('tipo_estado').setValue(this.vtipoEstado.find(estado => resp.data.tipo_estado === estado.values));
+        this.forma.get('signo').setValue(this.signo.find(estado => resp.data.signo === estado.values))
+      })      
+    });
+
     this.vtipoEstado = [
       {label: 'ACTIVOS',values: 'ACTIVOS'},
       {label: 'PASIVOS Y CAPITAL',values: 'PASIVOS_Y_CAPITAL'},
@@ -80,6 +92,7 @@ export class FormularioCgestadoComponent implements OnInit {
       this.estadosSrv.crearEstado(this.forma.value).subscribe((resp: any) => {
         console.log(resp);              
         if (resp.code === 200) {
+          this.estadosSrv.llamarEstado.emit(true);
           this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro Guardado de manera correcta.');
         }
       })
@@ -90,4 +103,34 @@ export class FormularioCgestadoComponent implements OnInit {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
 
+  ActualizarEstado() {
+    if (this.forma.invalid) {
+      console.log(this.forma.value);      
+      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control => {
+        control.markAllAsTouched();
+      })
+    } else {
+      this.estadosSrv.actualizarEstado(this.id,this.forma.value).subscribe((resp: any) => {
+        console.log(resp);              
+        if (resp.code === 200) {
+          this.estadosSrv.llamarEstado.emit(true);
+          this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro Guardado de manera correcta.');
+        }
+      })
+    }
+  }
+  
+  cancelar() {
+    this.actualizar = false;
+    this.guardar = true;
+    this.resetFormulario();
+    this.estadosSrv.guardando();  
+  }
+
+  resetFormulario() {
+    this.forma.reset();
+    this.forma.get('estado').setValue('activo');
+    this.forma.get('usuario_creador').setValue(this.usuario.username);
+  }
 }

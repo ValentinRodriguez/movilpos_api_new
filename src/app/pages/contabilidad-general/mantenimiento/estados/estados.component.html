@@ -47,8 +47,8 @@
 							
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class= "p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarCatalogo(rowData.id)" pTooltip="Actualizar"></button>
-										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTransportista(rowData.id)" pTooltip="Eliminar"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class= "p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarEstado(rowData.id)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarEstado(rowData.id)" pTooltip="Eliminar"></button>
 									</span>
 								</td>								
 							</tr>
@@ -75,5 +75,8 @@
                 </p-tabPanel>
             </p-tabView>            
         </div>
+		<p-confirmDialog header="Atención" icon="pi pi-exclamation-triangle" message="Esta seguro de borrar este registro?"
+						 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text">
+		</p-confirmDialog>
     </div>
 </div> 

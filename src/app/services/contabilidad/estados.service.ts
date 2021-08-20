@@ -9,10 +9,19 @@ const URL = environment.url;
 })
 export class EstadosService {
 
+  actualizar = new EventEmitter();
+  guardar = new EventEmitter();
+  llamarEstado = new EventEmitter();
+
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return this.http.get(`${URL}/estados`);
+  }
+
+  getDato(id: string) {
+    console.log(id);    
+    return this.http.get(`${URL}/estados/${id}`);
   }
 
   busquedaEstado(parametro: string) {
@@ -25,5 +34,21 @@ export class EstadosService {
   
   crearEstado(data: any) {
     return this.http.post(`${URL}/estados`, data);
+  }
+
+  actualizarEstado(id: any, data:any){
+    return this.http.put(`${URL}/estados/${id}`,data);
+  }
+
+  borrarEstado(id: any) {
+    return this.http.delete(`${URL}/estados/${id}`);
+  }
+
+  actualizando(data: any) {
+    this.actualizar.emit(data);
+  }
+
+  guardando() {
+    this.guardar.emit(0);
   }
 }
