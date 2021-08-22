@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoriasStoreService } from 'src/app/services/tienda/categorias-store.service';
 
 @Component({
   selector: 'app-clasificacion',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClasificacionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private categoriasStoreSrv: CategoriasStoreService) { }
 
   ngOnInit(): void {
+    this.categoriasStoreSrv.getDatos().then((resp: any) =>{
+      console.log(resp);      
+    }) 
   }
 
 }

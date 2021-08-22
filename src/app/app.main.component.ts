@@ -45,6 +45,10 @@ export class AppMainComponent implements OnInit{
                 private usuarioServ: UsuarioService,
                 private permisosServ: RolesService) {
                     this.usuario = this.usuarioServ.getUserLogged();
+                    if (this.usuario === null) {
+                        this.route.navigate(['/login'])
+                    }
+                    console.log(this.usuario);                    
                     //this.initializeEcho()
                 }
 

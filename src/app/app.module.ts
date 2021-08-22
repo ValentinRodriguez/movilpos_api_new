@@ -101,6 +101,7 @@ import { ServicesModule } from "./services/services.module";
 import { HomeModule } from "./pages/home/home.module";
 import { StepsModule } from 'primeng/steps';
 import { TiendaModule } from "./pages/tienda/tienda.module";
+import { ImagenRotaDirective } from './directives/imagen.directive';
 
 @NgModule({
     imports: [
@@ -195,7 +196,8 @@ import { TiendaModule } from "./pages/tienda/tienda.module";
         AppAccessdeniedComponent,
         AppErrorComponent,
         AppHelpComponent,
-        AppNotfoundComponent
+        AppNotfoundComponent,
+        ImagenRotaDirective
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

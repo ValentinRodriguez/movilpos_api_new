@@ -85,8 +85,8 @@ export class CreacionProductosTiendaComponent implements OnInit {
   };
 
   todosLosProductos() {
-    this.productosServ.getDatos().subscribe((resp: any) => {
-      this.productos = resp.data;
+    this.productosServ.getDatos().then((resp: any) => {
+      this.productos = resp;
     });
   }
   
@@ -99,7 +99,7 @@ export class CreacionProductosTiendaComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.productosServ.borrarProducto(categoria).subscribe(()=>{
+        this.productosServ.borrarProducto(categoria).then(()=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

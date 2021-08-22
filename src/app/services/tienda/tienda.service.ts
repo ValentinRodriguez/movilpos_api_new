@@ -19,26 +19,62 @@ export class TiendaService {
   constructor(private http: HttpClient) { }
 
   getDatos() {
-    return this.http.get(`${URL}/productos-plaza`);
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
   }
 
   crearProducto(data) {
-    return this.http.post(`${URL}/productos-plaza`,data);
+    return new Promise( resolve => {
+      this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
   }
 
   actProductosTienda(page: number) {
-    return this.http.get(`${URL}/productos-plaza`);
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
   }
 
   borrarProducto(page: number) {
-    return this.http.get(`${URL}/productos-plaza`);
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
   }
 
   contarProductosTienda(page: number) {
-    return this.http.get(`${URL}/productos-plaza`);
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+        })
+    })
   }
 
   tipoProductos(data: any) {
-    this.tipoProducto.emit(data)
+    return new Promise( resolve => {
+      this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+      })
+    })
   }
 }

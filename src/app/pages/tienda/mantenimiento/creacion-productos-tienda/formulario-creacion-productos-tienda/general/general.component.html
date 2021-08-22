@@ -45,7 +45,7 @@
 
                 <div class="p-field p-col-12 p-md-3" *ngIf="this.rebaja">
                     <label for="fecha_rebaja">Fecha Rebaja</label>
-                    <i class="pi pi-question-circle" style="margin-left: 120px; color:#777c80" 
+                    <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                        pTooltip="La oferta inicia a la 12:00 AM de la fecha inicio y termina a las 11:59 PM de la fecha final." tooltipPosition="top">
                     </i>
                     <p-calendar [(ngModel)]="personalInformation.fecha_rebaja" selectionMode="range" [readonlyInput]="true" 
@@ -55,7 +55,7 @@
 
                 <div class="p-field p-col-12 p-md-3">
                     <label for="stock">Stock</label>
-                    <i class="pi pi-question-circle" style="margin-left: 163px; color:#777c80" 
+                    <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                        pTooltip="Indica la cantidad de este articulo que tienes disponible para vender." tooltipPosition="top">
                     </i>
                     <p-inputNumber inputId="stock" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #stock="ngModel" 
@@ -66,31 +66,29 @@
 
                 <div class="p-field p-col-12 p-md-3">
                     <label for="cantidadLim">Cantidad en Venta</label>
-                    <i class="pi pi-question-circle" style="margin-left: 85px; color:#777c80" 
+                    <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                        pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
                     </i>
                     <p-inputNumber inputId="cantidadLim" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #cantidadLim="ngModel" 
-                                   [(ngModel)]="personalInformation.cantidadLim" [ngClass]="{'ng-dirty': (cantidadLim.invalid && submitted) || 
-                                   (cantidadLim.dirty && cantidadLim.invalid)}" required>
+                                   [(ngModel)]="personalInformation.cantidadLim">
                     </p-inputNumber>
                 </div>
             </div>
-            <p-panel header="Title">
+            <p-panel header="Title" *ngIf="this.tipo === 'digital'">
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-3">
                         <label for="limDescargas">Limite de descargas</label>
-                        <i class="pi pi-question-circle" style="margin-left: 60px; color:#777c80" 
+                        <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                            pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
                         </i>
                         <p-inputNumber inputId="limDescargas" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #limDescargas="ngModel" 
-                                       [(ngModel)]="personalInformation.limDescargas" [ngClass]="{'ng-dirty': (limDescargas.invalid && submitted) || 
-                                       (limDescargas.dirty && limDescargas.invalid)}" required>
+                                       [(ngModel)]="personalInformation.limDescargas">
                         </p-inputNumber>
                     </div>
     
                     <div class="p-field p-col-12 p-md-3">
                         <label for="fechaLimDescarga">Fecha Limite</label>
-                        <i class="pi pi-question-circle" style="margin-left: 60px; color:#777c80" 
+                        <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                            pTooltip="La oferta inicia a la 12:00 AM de la fecha inicio y termina a las 11:59 PM de la fecha final." tooltipPosition="top">
                         </i>
                         <p-calendar [(ngModel)]="personalInformation.fechaLimDescarga" 
@@ -113,7 +111,7 @@
         </ng-template>
         <ng-template pTemplate="footer">
             <div class="p-grid p-nogutter p-justify-end">
-                <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+                <p-button label="Siguiente" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
             </div>
         </ng-template>
     </p-card>

@@ -9,7 +9,6 @@ import { DescuentosComponent } from './descuentos/descuentos.component';
 import { HorasExtrasComponent } from './horas-extras/horas-extras.component';
 import { VacacionesComponent } from './vacaciones/vacaciones.component';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-gestion-empleados',
   templateUrl: './gestion-empleados.component.html',
