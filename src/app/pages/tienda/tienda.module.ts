@@ -29,6 +29,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import {CalendarModule} from 'primeng/calendar';
 import {TooltipModule} from 'primeng/tooltip';
 import {PanelMenuModule} from 'primeng/panelmenu';
+import {TreeModule} from 'primeng/tree';
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -67,6 +68,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     PanelMenuModule,
     SelectButtonModule,
     FieldsetModule,
+    TreeModule,
     TooltipModule,
     InputTextareaModule,
     FileUploadModule,
