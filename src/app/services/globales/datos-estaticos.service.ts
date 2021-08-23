@@ -37,9 +37,6 @@ export class DatosEstaticosService {
   }
 
   isBetweenDate(data1, data2, data3) {
-    console.log(data1);
-    console.log(data2);
-    console.log(data3);
     if (data2 === null) {
       return this.getDiffMilliseconds(data1,data3)
     } else {

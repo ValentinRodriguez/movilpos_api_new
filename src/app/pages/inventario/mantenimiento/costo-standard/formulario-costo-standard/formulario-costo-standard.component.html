@@ -1,0 +1,11 @@
+<form (ngSubmit)="crearCosto()" [formGroup]="forma">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-2">
+            <label for="tipo_producto">Ventas</label>
+            <p-dropdown inputId="ventas" [options]="ventas" formControlName="ventas"
+                        optionLabel="titulo" placeholder="Escoge...">
+            </p-dropdown>
+            <!-- <small *ngIf="getNoValido('tipo_producto')" class="p-invalid">Este campo es obligatorio.</small> -->
+        </div>
+    </div>
+</form>

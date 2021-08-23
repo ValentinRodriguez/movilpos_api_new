@@ -46,6 +46,8 @@ import { GastosDepartamentosComponent } from './reportes/gastos-departamentos/ga
 import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.component';
 import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.component';
 import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formulario-cuadre-caja/formulario-cuadre-caja.component';
+import { EstadosComponent } from './mantenimiento/estados/estados.component';
+import { FormularioCgestadoComponent } from './mantenimiento/estados/formulario-cgestado/formulario-cgestado.component';
 @NgModule({
   declarations: [
     CatalogoCuentasComponent,
@@ -61,7 +63,9 @@ import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formu
     MayorGeneralComponent,
     GastosDepartamentosComponent,
     CuadreCajaComponent,
-    FormularioCuadreCajaComponent
+    FormularioCuadreCajaComponent,
+    EstadosComponent,
+    FormularioCgestadoComponent
   ],
   imports: [
     CommonModule,

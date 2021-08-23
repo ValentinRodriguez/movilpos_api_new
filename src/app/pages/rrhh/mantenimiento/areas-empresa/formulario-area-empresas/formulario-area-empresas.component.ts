@@ -203,7 +203,6 @@ export class FormularioAreaEmpresasComponent implements OnInit {
       }
     }
     this.sucursalesFiltradas = filtered;
-    console.log(this.sucursales);
   }
 
   verificaArea(data){  

@@ -137,9 +137,7 @@ export class InventarioService {
   }
 
   crearInvProducto( invProducto: any ) {    
-    const formData = new FormData();    
-    console.log(invProducto);
-    
+    const formData = new FormData();     
     for(let key in invProducto){ 
       switch (key) {
 
@@ -234,7 +232,7 @@ export class InventarioService {
           break;
       }     
     }
-    console.log(invProducto);
+    
     return new Promise( resolve => {
       this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {    
         

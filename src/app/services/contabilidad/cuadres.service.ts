@@ -19,13 +19,7 @@ export class CuadresService {
   constructor(private http: HttpClient) { }
 
   busquedaCuadre(parametro?: any) {
-    let params = new HttpParams();
-    if (parametro === undefined) {
-      parametro = {};
-    }
-    if (parametro.parametro === undefined || parametro.parametro === null) {
-      parametro.parametro = '';
-    }     
+    let params = new HttpParams();  
     params = params.append('cuadre-caja',parametro.cuadres);    
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/cuadre-caja', {params}).subscribe((resp: any) => {                         

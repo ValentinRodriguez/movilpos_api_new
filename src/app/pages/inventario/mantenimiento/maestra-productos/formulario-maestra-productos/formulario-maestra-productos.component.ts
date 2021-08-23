@@ -67,7 +67,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
   id: number;
 
   constructor(private fb: FormBuilder,
-              private globalFunction: GlobalFunctionsService,
               private usuariosServ: UsuarioService,
               private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   
@@ -132,10 +131,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
         this.forma.get('id_bodega').setValue(this.bodegas.find(bodega => bodega.id_bodega === res.id_bodega));
         this.tipo(res.tipo_producto)
       })
-    })
-
-    const observer8$ = this.globalFunction.finalizar.subscribe((resp) => {
-      this.items = [];
     })
 
     this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];

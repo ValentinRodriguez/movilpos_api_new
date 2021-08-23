@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/demo/domain/product';
 
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
@@ -11,9 +10,9 @@ export class ChartTableComponent implements OnInit {
 
   orderWeek: any;
   selectedOrderWeek: any;
-  products: Product[];
-  productsLastWeek: Product[];
-  productsThisWeek: Product[];
+  products: any[];
+  productsLastWeek: any[];
+  productsThisWeek: any[];
 
   constructor() { }
 

@@ -64,23 +64,7 @@ export class AppMenuComponent implements OnInit {
                     })
                 }); 
             }
-        });
-        
-        // if (admin === false) {
-        //     modulos.forEach(element => {
-        //         if (element.valor === true && admin === false) {
-        //             console.log(element.valor);                
-        //             this.test.push({label: element.label,
-        //                             icon: element.icon,
-        //                             items: [{
-        //                                 label: element.label, 
-        //                                 icon: element.icon,
-        //                                 routerLink: 'menues/'+element.routerLink
-        //                             }] 
-        //                         })                
-        //         }
-        //     });             
-        // }        
+        });       
     }
 
     onMenuClick(event) {      

@@ -7,6 +7,7 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+import { EstadosService } from 'src/app/services/contabilidad/estados.service';
 @Component({
   selector: 'app-formulario-cgcatalogo',
   templateUrl: './formulario-cgcatalogo.component.html',
@@ -18,6 +19,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   usuario: any;
   transportistaExiste = 3;
   cuentaExiste = 3;
+  estadoExiste = 3;
   cuentaAplicaExiste = 3;
   zonas: any[] = [];
   onLabel = 'Resumen Analítico';
@@ -66,6 +68,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private catalogoServ: CgcatalogoService,
+              private estadosServ:EstadosService,
               public router: Router,
               private zonasServ: ZonasService) { 
                 this.usuario = this.usuariosServ.getUserLogged()
@@ -185,12 +188,11 @@ export class FormularioCgcatalogoComponent implements OnInit {
           break;
 
         case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');
+          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una cuenta con este nombre');
           break;
 
         default:
           this.catalogoServ.crearCgcatalogos(this.forma.value).then((resp: any)=>{
-             (resp);            
             this.resetFormulario();            
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");
           })
@@ -268,12 +270,14 @@ export class FormularioCgcatalogoComponent implements OnInit {
   }
 
   verificaCuenta(data){  
+     console.log(data);
      
     if (data === "") {
       this.cuentaExiste = 3;
       return;
     }
     this.cuentaExiste = 0;
+
     this.catalogoServ.busquedaCatalogo(data).then((resp: any)=>{
       if (this.isControl) {
         this.cuentaAplicaExiste = 1;
@@ -283,6 +287,24 @@ export class FormularioCgcatalogoComponent implements OnInit {
         this.cuentaExiste = 1;
       }else{
         this.cuentaExiste = 2;
+      }
+    })
+  }
+
+  verificaEstado(data){       
+    if (data === "") {
+      this.estadoExiste = 3;
+      return;
+    }
+
+    this.estadoExiste = 0;
+
+    this.estadosServ.busquedaEstado(data).then((resp: any) => {
+      console.log(resp);      
+      if(resp.length === 0) {
+        this.estadoExiste = 2;
+      }else{
+        this.estadoExiste = 1;
       }
     })
   }

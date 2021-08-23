@@ -1,0 +1,61 @@
+       
+<form (ngSubmit)="guardarEstado()" [formGroup]="forma">	
+	<div class="p-fluid p-formgrid p-grid"> 
+		<div class="p-field p-col-12 p-md-3">
+            <label for="descripcion_esp">Descripción Esp.</label>
+            <span class=" p-input-icon-right">
+                <input id="descripcion_esp_cat" type="text" pInputText formControlName="descripcion_esp" [class.ng-invalid]="getNoValido('descripcion_esp')" 
+                       [class.ng-dirty]="getNoValido('descripcion_esp')">
+            </span>
+        </div>
+		<div class="p-field p-col-12 p-md-3">
+			<label for="descripcion_ing">Descripción Ing.</label>
+			<span class=" p-input-icon-right">
+				<input id="descripcion_ing_cat" type="text" pInputText formControlName="descripcion_ing" [class.ng-invalid]="getNoValido('descripcion_ing')" 
+					   [class.ng-dirty]="getNoValido('descripcion_ing')">
+			</span>
+		</div>
+		<div class="p-field p-col-12 p-md-3">
+			<label for="id_estado">Descripción Ing.</label>
+			<span class=" p-input-icon-right">
+				<input id="id_estado_cat" type="text" pInputText formControlName="id_estado" [class.ng-invalid]="getNoValido('id_estado')" 
+					   [class.ng-dirty]="getNoValido('id_estado')">
+			</span>
+		</div>
+		<div class="p-field p-col-12 p-md-3">
+            <label for="grupo">Grupo</label>
+            <span class=" p-input-icon-right">
+                <input id="grupo_cat" type="text" pInputText formControlName="grupo" [class.ng-invalid]="getNoValido('grupo')" 
+                       [class.ng-dirty]="getNoValido('grupo')">
+            </span>
+        </div>
+		
+        <div class="p-field p-col-12 p-md-2">
+            <label for="orden_grupo">Orden Grupo</label>
+			<input id="orden_grupo" type="number" pInputText formControlName="orden_grupo">
+             <small *ngIf="getNoValido('orden_grupo')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+		<div class="p-field p-col-12 p-md-3">
+            <label for="tipo_estado">Tipo Estado</label>
+            <p-dropdown inputId="tipo_estado" [options]="vtipoEstado" [class.ng-invalid]="getNoValido('tipo_estado')" 
+                        name="tipo_estado" formControlName="tipo_estado" [class.ng-dirty]="getNoValido('tipo_estado')" 
+						placeholder="Escoje.." optionLabel="label">
+            </p-dropdown>
+            <small *ngIf="getNoValido('tipo_estado')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+		<div class="p-field p-col-12 p-md-3">
+            <label for="signo">Signo</label>
+            <p-dropdown inputId="signo" [options]="signo" [class.ng-invalid]="getNoValido('signo')" 
+                        name="signo" formControlName="signo" [class.ng-dirty]="getNoValido('signo')" 
+						placeholder="Escoje.." optionLabel="label">
+            </p-dropdown>
+            <small *ngIf="getNoValido('signo')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+	</div>
+	<button *ngIf="this.guardar" pButton pRipple label="Guardar" icon="pi pi-save" type="submit"></button>
+    <button *ngIf="this.actualizar" (click)="ActualizarEstado()" pButton pRipple label="Actualizar" icon="pi pi-user-edit" type="button" class="p-button-warning p-mr-2 p-mb-2"></button>
+    <button *ngIf="this.actualizar" (click)="cancelar()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-secondary p-mr-2 p-mb-2"></button> 
+</form>
+<p-toast key="tst"></p-toast>

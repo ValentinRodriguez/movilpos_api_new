@@ -22,9 +22,9 @@ import { LoginGuard } from "./services/guards/login.guard";
                 canActivate: [LoginGuard],
                 children: [
                     // {path: 'pages/help', component: AppHelpComponent},
-                    {path:'', redirectTo: 'dashboard', pathMatch: 'full'},
+                    {path:'', redirectTo: 'home', pathMatch: 'full'},
 
-                    {path: 'dashboard', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
+                    {path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
 
                     //MENUES
                     {path: 'menues', loadChildren: () => import('./pages/menues/menues.module').then(m => m.MenuesModule) },
@@ -60,10 +60,10 @@ import { LoginGuard } from "./services/guards/login.guard";
                     {path: 'plaza-online', loadChildren: () => import('./pages/tienda/tienda.module').then(m => m.TiendaModule) },
                 ]
             },
-            {path: 'interfaz-ventas', component: InterfazVentasComponent},
-            {path: 'error', component: AppErrorComponent},
-            {path: 'access', component: AppAccessdeniedComponent},
-            {path: 'notfound', component: AppNotfoundComponent},
+            {path: 'interfaz-ventas', component: InterfazVentasComponent, canActivate: [LoginGuard]},
+            {path: 'error', component: AppErrorComponent, canActivate: [LoginGuard]},
+            {path: 'access', component: AppAccessdeniedComponent, canActivate: [LoginGuard]},
+            {path: 'notfound', component: AppNotfoundComponent, canActivate: [LoginGuard]},
             {path: 'login', component: AppLoginComponent},
             {path: '**', redirectTo: '/notfound'},
         ], { scrollPositionRestoration: 'enabled', relativeLinkResolution: 'legacy' })

@@ -181,7 +181,6 @@ export class ActoDescargoComponent implements OnInit {
   }
   
   print(): void {
-    console.log(this.form);
     this.display = true;
     setTimeout(() => {
       let printContents, popupWin;

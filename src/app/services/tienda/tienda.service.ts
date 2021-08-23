@@ -9,16 +9,20 @@ const URL = environment.url;
 })
 export class TiendaService {
   
+  guardar = new EventEmitter();
+  productoGuardado= new EventEmitter();
+  productoBorrada= new EventEmitter();
+  productoAct= new EventEmitter();
+  actualizando = new EventEmitter();
+  tipoProducto = new EventEmitter();
+  
   constructor(private http: HttpClient) { }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/woocommerce`).subscribe((resp: any) => {
-        
-        
-        
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
-          resolve(resp.data);            
+            resolve(resp.data);            
         }
       })
     })
@@ -26,9 +30,47 @@ export class TiendaService {
 
   crearProducto(data) {
     return new Promise( resolve => {
-      this.http.post(`${URL}/woocommerce`,data).subscribe((resp: any) => {
-        
-                
+      this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  actProductosTienda(page: number) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  borrarProducto(page: number) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      })
+    })
+  }
+
+  contarProductosTienda(page: number) {
+    return new Promise( resolve => {
+      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+          }
+        })
+    })
+  }
+
+  tipoProductos(data: any) {
+    return new Promise( resolve => {
+      this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
@@ -36,11 +78,24 @@ export class TiendaService {
     })
   }
 
-  actProductosTienda(page: number) {
-    return this.http.get(`${URL}/woocommerce/actprecio/${page}`);
-  }
-
-  contarProductosTienda(page: number) {
-    return this.http.get(`${URL}/woocommerce/contarprecio/${page}`);
+  createProduct(data) {
+    console.log(data);    
+    // let obj:any = {};
+    // for (const property in data) {
+    //   // console.log(`${property}: ${data[property]}`);
+    //   obj[property] = data[property];
+    // }
+    // console.log(obj);
+    switch (data.step) {
+      case 'general':
+        localStorage.setItem('general',JSON.stringify(data));        
+        break;
+    
+      case 'clasificacion':
+        localStorage.setItem('clasificacion',JSON.stringify(data));        
+        break;
+      default:
+        break;
+    }
   }
 }

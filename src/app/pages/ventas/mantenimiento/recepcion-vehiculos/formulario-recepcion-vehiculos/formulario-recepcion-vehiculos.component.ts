@@ -161,8 +161,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
     this.recepcionsServ.autoLlenado().then((resp: any) =>{    
       resp.forEach(element => {
         if (element.data.length === 0) {
-          this.items.push({label: this.DatosEstaticos.capitalizeFirstLetter(element.label), routerLink: element.label})
-          console.log(this.items);          
+          this.items.push({label: this.DatosEstaticos.capitalizeFirstLetter(element.label), routerLink: element.label});       
         }
         switch (element.label) {
           case 'clientes':
@@ -259,8 +258,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
     this.forma.get('fecha_entrega').setValue(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`);
   }
 
-  datosCliente(cliente) {    
-    console.log(cliente);    
+  datosCliente(cliente) {      
     // this.forma.get('tipo_cliente').setValue(cliente.tipo_cliente);
     // this.forma.get('sec_cliente').setValue(cliente.sec_cliente);
     // this.forma.get('nombre_cliente').setValue(cliente.nombre);
@@ -351,7 +349,6 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
   resetFormulario() {
     this.forma.reset();
     this.file.nativeElement.value = "";
-    console.log(this.inspecciones);
     
     this.inspecciones.forEach(element => {
       element.valor = 'no';

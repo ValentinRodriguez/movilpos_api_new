@@ -1,0 +1,26 @@
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title">
+            Categorias del producto
+        </ng-template>
+        
+        <ng-template pTemplate="subtitle">
+            Escoge la categoria a la que pertenecerá tu producto.
+        </ng-template>
+
+        <ng-template pTemplate="content">
+            <!-- <p-panelMenu [model]="items" [style]="{'width':'300px'}"></p-panelMenu>   -->
+            <p-tree [value]="items" selectionMode="single" [(selection)]="selectedFile"
+                (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+            </p-tree>  
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <div class="p-grid p-nogutter p-justify-between">
+                <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
+                <p-button label="Siguiente" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>
+<!-- <p-toast key="tst"></p-toast> -->

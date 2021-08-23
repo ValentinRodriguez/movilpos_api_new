@@ -7,7 +7,7 @@
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="cuentas" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
 						[rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" 
-						[globalFilterFields]="['nombre','cedula','cod_transportista','sec_transp']">
+						[globalFilterFields]="['descripcion_c','catalogo','origen']">
 					
 						<ng-template pTemplate="caption">
 							<div class="table-header">
@@ -34,7 +34,8 @@
 									<span class="p-column-title">{{col.header}}</span>
 
 									<div *ngIf="col.field === 'catalogo' || col.field === 'referencia' || col.field === 'depto' || 
-												col.field === 'selectivo_consumo' || col.field === 'retencion'">
+												col.field === 'selectivo_consumo' || col.field === 'retencion' || 
+												col.field === 'cuenta_resultado' ">
 										<span *ngIf="rowData[col.field] === 'si'" class="p-badge p-badge-lg p-badge-success">
 											{{rowData[col.field] | titlecase}}										
 										</span>
@@ -52,7 +53,8 @@
 										{{rowData[col.field] | titlecase}}
 									</span>
 
-									<span *ngIf="col.field === 'cuenta_no' || col.field === 'aplica_a' || col.field === 'codigo_isr' || col.field === 'cod_transportista'">
+									<span *ngIf="col.field === 'cuenta_no' || col.field === 'aplica_a' || col.field === 'codigo_isr' 
+									|| col.field === 'cuenta_resultado'">
 										{{rowData[col.field] }}
 									</span>
 							

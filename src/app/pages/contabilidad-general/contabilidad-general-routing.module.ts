@@ -13,6 +13,7 @@ import { PeriodosFiscalesComponent } from './mantenimiento/periodos-fiscales/per
 import { TransaccionesPagoComponent } from './mantenimiento/transacciones-pago/transacciones-pago.component';
 import { GastosDepartamentosComponent } from './reportes/gastos-departamentos/gastos-departamentos.component';
 import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.component';
+import { EstadosComponent } from './mantenimiento/estados/estados.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.co
        path: '',
        children: [
         {path: 'gestion-catalogo-cuentas', component: CatalogoCuentasComponent},
+        { path: 'gestion-estados', component: EstadosComponent },
         {path: 'gestion-periodos-fiscales', component: PeriodosFiscalesComponent},
         {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
         {path: 'gestion-transacciones-pago', component: TransaccionesPagoComponent},

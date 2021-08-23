@@ -84,7 +84,6 @@ export class InterfazVentasComponent implements OnInit {
         this.todosLosProductos();
         this.todosLasCategorias();
         this.todosLosClientes()  
-        console.log(this.cliente);
 
         this.cols = [
             { field: 'imagen', header: 'Imagen' },
@@ -269,8 +268,7 @@ export class InterfazVentasComponent implements OnInit {
         this.calcularTotal(this.producto.value);        
     }
 
-    agregarProducto(producto) {   
-        console.log(producto)     
+    agregarProducto(producto) {     
         const nuevoArray = this.productosSeleccionados.filter( (data: any) => {   
             return data.id === producto.id;
         });

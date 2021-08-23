@@ -45,6 +45,10 @@ export class AppMainComponent implements OnInit{
                 private usuarioServ: UsuarioService,
                 private permisosServ: RolesService) {
                     this.usuario = this.usuarioServ.getUserLogged();
+                    if (this.usuario === null) {
+                        this.route.navigate(['/login'])
+                    }
+                    console.log(this.usuario);                    
                     //this.initializeEcho()
                 }
 
@@ -64,11 +68,11 @@ export class AppMainComponent implements OnInit{
             this.menuMode = localStorage.getItem('tipo-menu');    
             const appLogoLink: HTMLImageElement = document.getElementById('app-logo') as HTMLImageElement;
 
-            if (this.menuMode === 'slim') {
-                appLogoLink.src = 'assets/layout/images/mini-logo.png';
-            }else{
-                appLogoLink.src = 'assets/layout/images/logo.png';
-            } 
+            // if (this.menuMode === 'slim') {
+            //     appLogoLink.src = 'assets/layout/images/mini-logo.png';
+            // }else{
+            //     appLogoLink.src = 'assets/layout/images/logo.png';
+            // } 
         }
 
         if (localStorage.getItem('tipo-input')) {

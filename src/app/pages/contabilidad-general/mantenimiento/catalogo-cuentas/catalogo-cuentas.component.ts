@@ -6,7 +6,6 @@ import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-catalogo-cuentas',
   templateUrl: './catalogo-cuentas.component.html',
@@ -52,7 +51,11 @@ export class CatalogoCuentasComponent implements OnInit {
       { field: 'depto', header: 'Departamento'},
       { field: 'selectivo_consumo', header: 'Selectivo Consumo'},
       { field: 'retencion', header: 'Retención'},
+      { field: 'cuenta_resultado', header: 'Cuenta Resultados'},
+      { field: 'estado_bg', header: 'Codigo Estado Ganancia / Perdida'},
+      { field: 'estado_resultado', header: 'Codigo Estado Resultado'},
       { field: 'acciones', header: 'Acciones'},
+      
     ]
   }
 
