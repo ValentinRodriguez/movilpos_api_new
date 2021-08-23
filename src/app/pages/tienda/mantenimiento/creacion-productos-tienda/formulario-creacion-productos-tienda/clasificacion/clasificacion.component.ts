@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { CategoriasStoreService } from 'src/app/services/tienda/categorias-store.service';
+import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
   selector: 'app-clasificacion',
@@ -14,14 +15,14 @@ export class ClasificacionComponent implements OnInit {
 
   items: TreeNode[];
   selectedFile: TreeNode;
-  categoria:any[] = []
+  categoria:any = []
   constructor(private categoriasStoreSrv: CategoriasStoreService,
+              private tiendaServ: TiendaService,
               private router: Router,
               private uimessage: UiMessagesService) { }
 
   ngOnInit(): void {
-    this.categoriasStoreSrv.getDatos().then((resp: any) =>{
-      console.log(resp);      
+    this.categoriasStoreSrv.getDatos().then((resp: any) =>{    
       let temp2: any[] = [];
       
       resp.forEach((element: any) => {                        
@@ -35,8 +36,7 @@ export class ClasificacionComponent implements OnInit {
           temp2.push(dato)
       });
 
-      this.items = temp2
-      console.log(this.items);      
+      this.items = temp2    
     }) 
   }
 
@@ -59,7 +59,7 @@ export class ClasificacionComponent implements OnInit {
     // console.log(this.selectedFile); 
     // console.log('Categoria sub-sub-hija');
     console.log(event);
-    
+    this.categoria = []
     if (event.node.parent === undefined) {
       this.categoria.push({descripcion:event.node.label, id:event.node.data})
     }else{
@@ -85,7 +85,9 @@ export class ClasificacionComponent implements OnInit {
 
   nextPage() {
     if (this.categoria.length !== 0) {
-        this.router.navigate(['plaza-online/creacion-productos-plaza/atributos']);
+      this.router.navigate(['plaza-online/creacion-productos-plaza/atributos']);
+      this.categoria.step = 'clasificacion'
+      this.tiendaServ.createProduct(this.categoria);
     }else{
       this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
     }

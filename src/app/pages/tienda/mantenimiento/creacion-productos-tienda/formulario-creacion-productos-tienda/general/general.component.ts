@@ -12,7 +12,7 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 })
 export class GeneralComponent implements OnInit {
 
-  personalInformation: any;
+  generalInformation: any;
   submitted: boolean = false;
   rebaja: boolean = false;
   uploadedFiles: any[] = [];
@@ -26,7 +26,7 @@ export class GeneralComponent implements OnInit {
     ngOnInit() { 
       this.listObserver();
 
-      this.personalInformation = {
+      this.generalInformation = {
         titulo: 'testse',
         descripcion: 'testse',
         tipo: null,
@@ -58,15 +58,16 @@ export class GeneralComponent implements OnInit {
   }
 
   onFileSelect(event) {
-     this.personalInformation.galeriaImagenes = this.fileUpload.files;
+     this.generalInformation.galeriaImagenes = this.fileUpload.files;
   }
 
   nextPage() {
-      if (this.personalInformation.titulo && this.personalInformation.descripcion && 
-          this.personalInformation.precio && this.personalInformation.stock) {
-          // this.ticketService.ticketInformation.personalInformation = this.personalInformation;
-          this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
-          return;
+      if (this.generalInformation.titulo && this.generalInformation.descripcion && 
+        this.generalInformation.precio && this.generalInformation.stock) {
+        this.generalInformation.step = 'general';
+        this.tiendaServ.createProduct(this.generalInformation);
+        this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
+        return;
       }
       this.submitted = true;
   }

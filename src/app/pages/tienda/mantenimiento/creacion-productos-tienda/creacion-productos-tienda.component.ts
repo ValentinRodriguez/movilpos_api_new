@@ -14,7 +14,7 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 export class CreacionProductosTiendaComponent implements OnInit {
 
   usuario: any;
-  index: number = 0;
+  index: number = 1;
   productos: any[] = [];
   id_categoria: any;
   cols: any[];

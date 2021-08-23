@@ -15,7 +15,7 @@ export class TiendaService {
   productoAct= new EventEmitter();
   actualizando = new EventEmitter();
   tipoProducto = new EventEmitter();
-
+  
   constructor(private http: HttpClient) { }
 
   getDatos() {
@@ -72,9 +72,30 @@ export class TiendaService {
     return new Promise( resolve => {
       this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
+          resolve(resp.data);            
+        }
       })
     })
+  }
+
+  createProduct(data) {
+    console.log(data);    
+    // let obj:any = {};
+    // for (const property in data) {
+    //   // console.log(`${property}: ${data[property]}`);
+    //   obj[property] = data[property];
+    // }
+    // console.log(obj);
+    switch (data.step) {
+      case 'general':
+        localStorage.setItem('general',JSON.stringify(data));        
+        break;
+    
+      case 'clasificacion':
+        localStorage.setItem('clasificacion',JSON.stringify(data));        
+        break;
+      default:
+        break;
+    }
   }
 }

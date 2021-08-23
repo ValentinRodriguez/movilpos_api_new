@@ -1,1 +1,22 @@
-<p>atributos works!</p>
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title">
+            Atributos del producto
+        </ng-template>
+        
+        <ng-template pTemplate="subtitle">
+            Escoge los atributos de tú producto.
+        </ng-template>
+
+        <ng-template pTemplate="content">
+              
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <div class="p-grid p-nogutter p-justify-between">
+                <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
+                <p-button label="Siguiente" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>
