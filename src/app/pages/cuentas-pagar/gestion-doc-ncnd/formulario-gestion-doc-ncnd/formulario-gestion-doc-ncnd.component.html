@@ -21,27 +21,103 @@
         <div class="p-field p-col-12 p-md-3">
             <label for="tipo_doc">Documento</label>
             <p-dropdown inputId="tipo_doc" [options]="documento" [class.ng-invalid]="getNoValido('tipo_doc')" [class.ng-dirty]="getNoValido('tipo_doc')" 
-                        name="tipo_doc" formControlName="tipo_doc" id="drop-down" placeholder="Escoje.." optionLabel="descripcion" (onChange)="tipoDoc($event.value)">
+                        name="tipo_doc" formControlName="tipo_doc" id="drop-down" placeholder="Escoje.." optionLabel="label" (onChange)="tipoDoc($event.value)">
             </p-dropdown>
             <small *ngIf="getNoValido('tipo_doc')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
         
-        <!-- <div class="p-field p-col-12 p-md-3">
-            <label for="documento">RNC</label>
+         <div class="p-field p-col-12 p-md-3">
+            <label for="num_doc">NO.</label>
             <span class=" p-input-icon-right">
-                <input   type="text" pInputText formControlName="documento" maxlength="11" [class.ng-invalid]="getNoValido('documento')" 
-                       [class.ng-dirty]="getNoValido('documento')">
+                <input   type="text" pInputText formControlName="num_doc" maxlength="11" [class.ng-invalid]="getNoValido('num_doc')" 
+                       [class.ng-dirty]="getNoValido('num_doc')">
             </span>
-            <small *ngIf="getNoValido('documento')" class="p-invalid">Este campo es obligatorio.</small>
+            <small *ngIf="getNoValido('num_doc')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cta_ctble">Cuenta</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="cta_ctble" maxlength="11" [class.ng-invalid]="getNoValido('cta_ctble')" 
+                       [class.ng-dirty]="getNoValido('cta_ctble')">
+            </span>
+            <small *ngIf="getNoValido('cta_ctble')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cod_sp">Codigo Suplidor</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="cod_sp" maxlength="11" [class.ng-invalid]="getNoValido('cod_sp')" 
+                       [class.ng-dirty]="getNoValido('cod_sp')">
+            </span>
+            <small *ngIf="getNoValido('cod_sp')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="cod_sp_sec">Secuencia Suplidor</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="cod_sp_sec" maxlength="11" [class.ng-invalid]="getNoValido('cod_sp_sec')" 
+                       [class.ng-dirty]="getNoValido('cod_sp_sec')">
+            </span>
+            <small *ngIf="getNoValido('cod_sp_sec')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="fecha_orig">fecha</label>
+            <span class=" p-input-icon-right">
+                <p-calendar formControlName="fecha_orig" dateFormat="yy/mm/dd" inputId="fecha_orig" [readonlyInput]="true"
+                            [class.ng-invalid]="getNoValido('fecha_orig')" [class.ng-dirty]="getNoValido('fecha_orig')">
+                </p-calendar>
+            </span>      
+            <small *ngIf="getNoValido('fecha_orig')" class="p-invalid">Este campo es obligatorio.</small>                          
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="monto_itbi">itbi</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="monto_itbi" maxlength="11" [class.ng-invalid]="getNoValido('monto_itbi')" 
+                       [class.ng-dirty]="getNoValido('monto_itbi')">
+            </span>
+            <small *ngIf="getNoValido('monto_itbi')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="valor">Valor</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="valor" maxlength="11" [class.ng-invalid]="getNoValido('valor')" 
+                       [class.ng-dirty]="getNoValido('valor')">
+            </span>
+            <small *ngIf="getNoValido('valor')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="codigo_fiscal">Tipo Gasto</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="codigo_fiscal" maxlength="11" [class.ng-invalid]="getNoValido('codigo_fiscal')" 
+                       [class.ng-dirty]="getNoValido('codigo_fiscal')">
+            </span>
+            <small *ngIf="getNoValido('codigo_fiscal')" class="p-invalid">Este campo es obligatorio.</small>
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="ncf">NCF</label>
+            <span class=" p-input-icon-right">
+                <input   type="text" pInputText formControlName="ncf" maxlength="11" [class.ng-invalid]="getNoValido('ncf')" 
+                       [class.ng-dirty]="getNoValido('ncf')">
+            </span>
+            <small *ngIf="getNoValido('ncf')" class="p-invalid">Este campo es obligatorio.</small>
         </div>
 
         <div class="p-field p-col-12">
-            <label for="dir_sp">Dirección</label>
-            <textarea id="dir_sp" type="text" rows="4" pInputTextarea name="dir_sp" formControlName="dir_sp"
-                      [class.ng-invalid]="getNoValido('dir_sp')" [class.ng-dirty]="getNoValido('dir_sp')">
+            <label for="detalle">Concepto</label>
+            <textarea id="detalle" type="text" rows="4" pInputTextarea name="detalle" formControlName="detalle"
+                      [class.ng-invalid]="getNoValido('detalle')" [class.ng-dirty]="getNoValido('detalle')">
             </textarea>
-            <small *ngIf="getNoValido('dir_sp')" class="p-invalid">Este campo es obligatorio.</small>
-        </div> -->
+            <small *ngIf="getNoValido('detalle')" class="p-invalid">Este campo es obligatorio.</small>
+        </div> 
+
+
+      
 
         <!-- <p-panel header="Otras cuentas vinculadas al proveedor" [toggleable]="true">		
             <div formArrayName="cuentas_no">

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GestionDocNcdcService } from 'src/app/services/cuentas-pagar/gestion-doc-ncdc.service';
+import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
@@ -13,22 +15,59 @@ export class FormularioGestionDocNcndComponent implements OnInit {
   guardar = true;
   actualizar = false;
   usuario: any;
-
-  documento = [
-    { value: 'nd', label: 'Nota de Debito' },
-    { value: 'nc', label:'Nota de Credito'}
-  ]
+  cols: any;
+  documento :any =[];
   constructor(private fb: FormBuilder,
-              private usuarioServ: UsuarioService) {
+              private usuarioServ: UsuarioService,
+              private uiMessage: UiMessagesService,
+              private ncndService: GestionDocNcdcService) {
               this.usuario = this.usuarioServ.getUserLogged();
     this.crearFormulario()
   }
 
   ngOnInit(): void {
+    this.documento=[
+      { label: 'Nota de Debito', value: 'nd' },
+      { label:'Nota de Credito', value: 'nc'}
+    ]
+
+    this.cols = [
+      {field: 'tipo_doc',header: 'Tipo Documento'},
+      {field: 'num_doc',header: 'Numero'},
+      {field: 'cta_ctble',header: 'Cuenta'},
+      {field: 'cod_sp',header: 'Codigo Suplidor'},
+      {field: 'cod_sp_sec',header: 'Secuencia Suplidor'},
+      {field: 'fecha_orig',header: 'Fecha'},
+   {field: 'monto_itbi',header: 'itbis'},
+      {field: 'valor',header: 'Valor'},
+      {field: 'codigo_fiscal',header: 'Tipo Ncf'},
+      {field: 'ncf',header: 'Ncf'},
+      {field: 'detalle',header: 'Detalle'},
+    ]
+
   }
-
+  
   guardarDocumento() {
-
+   // this.forma.get('cod_cia').setValue(this.usuario.empresa.cod_cia);  
+    if (this.forma.invalid){
+      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control=>{
+        control.markAllAsTouched();
+      })
+    }else{
+      const fecha_orig = this.forma.get('fecha_orig').value;
+      console.log(fecha_orig);
+      this.forma.get('fecha_orig').setValue(this.onSelectDate(fecha_orig));
+      console.log(fecha_orig);
+      this.ncndService.crearDocumento(this.forma.value).subscribe((resp:any)=>{
+        if (resp.code===200){
+          console.log(resp);
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro Guardado');
+        }
+       
+       
+      })
+    }
   }
 
   tipoDoc(data) {
@@ -37,16 +76,29 @@ export class FormularioGestionDocNcndComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      tipo_doc:            ['', Validators.required],      
-      usuario_creador:     [this.usuario.username, Validators.required],
-      usuario_modificador: [''],
-      estado:              ['activo'],
-      cuentas_no:          this.fb.array([])
+      tipo_doc:                 ['', Validators.required], 
+      num_doc:                  [''],
+      cta_ctble:                [''],
+      cod_sp:                   [''],
+      cod_sp_sec:               [''],
+      fecha_orig:                    [''],
+      monto_itbi:                [''],
+      valor:                    [''],
+      codigo_fiscal:            [''],
+      ncf:                      [''],  
+      detalle:                  [''],
+      usuario_creador:          [this.usuario.username, Validators.required],
+      estado:                   ['activo'],
     })
   }
 
   // FUNCIONES PARA EL MANEJO DE LOS ERRORES EN LOS CAMPOS DEL FORMULARIO
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
+  }
+
+  onSelectDate(fecha) {
+    let d = new Date(Date.parse(fecha));
+    return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GestionDocNcdcService } from 'src/app/services/cuentas-pagar/gestion-doc-ncdc.service';
 
 @Component({
   selector: 'app-gestion-doc-ncnd',
@@ -10,17 +11,24 @@ export class GestionDocNcndComponent implements OnInit {
   cols: any;
   documentos: any[] = [];
   
-  constructor() { }
+  constructor(private ndncService :GestionDocNcdcService) { }
 
   ngOnInit(): void {
+    this.obtenerDocumentos()
     this.cols = [
-      { field: 'nom_sp', header: 'Proveedor' },
-      { field: 'documento', header: 'Documento' },
-      { field: 'tel_sp', header: 'Teléfono' },
-      { field: 'email', header: 'Email' },
-      { field: 'ciudad', header: 'Ciudad' },
-      { field: 'acciones', header: 'Acciones' },
+      { field: 'num_doc', header: 'Documento' },
+      { field: 'tipo_doc', header: 'Tipo Documento' },
+      { field: 'fecha_orig', header: 'Fecha' },
     ] 
+  }
+
+  obtenerDocumentos() {    
+     
+    this.ndncService.getDatos().subscribe((resp: any) =>{
+      if (resp.code===200){
+        this.documentos=resp.data;
+      } 
+    })
   }
 
 }

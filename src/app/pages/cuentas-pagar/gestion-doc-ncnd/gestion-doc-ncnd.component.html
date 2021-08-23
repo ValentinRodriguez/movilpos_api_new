@@ -34,28 +34,23 @@
                                 <td *ngFor="let col of columns">
                                     <div class="p-column-title">{{col.header}}</div>								
                                                 
-                                    <div *ngIf="col.field === 'nom_sp' || col.field === 'ciudad'">
-                                        {{rowData[col.field] | titlecase}}
-                                    </div>
+                                    <span *ngIf="col.field === 'num_doc' ">
+										{{rowData[col.field] }}
+									</span>
 
-                                    <div *ngIf="col.field === 'email'" class="p-text-nowrap p-text-truncate" style="width: 10rem">
-                                        {{rowData[col.field]}}
-                                    </div>
+                                    <span *ngIf="col.field === 'tipo_doc'">
+										{{rowData[col.field] }}
+									</span>
 
-                                    <div *ngIf="col.field === 'documento'">
-                                        <span *ngIf="rowData['tipo_doc'] == 1">CED-{{rowData[col.field] }}</span>
-                                        <span *ngIf="rowData['tipo_doc'] == 2">RNC-{{rowData[col.field] }}</span>
-                                    </div>
+                                    <span *ngIf="col.field === 'fecha_orig'">
+										{{rowData[col.field] }}
+									</span>
 
-                                    <div *ngIf="col.field === 'tel_sp'">
-                                        {{rowData[col.field] }}
-                                    </div>
-
-                                    <div *ngIf="col.field === 'acciones'">
+                                   <!-- <div *ngIf="col.field === 'acciones'">
                                         <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarProveedor(rowData.cod_sp, rowData.cod_sp_sec)" pTooltip="Actualizar"></button>
                                         <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarProveedor(rowData.id)" pTooltip="Eliminar"></button>
-                                        <!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
-                                    </div>
+                                         <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> 
+                                    </div>-->
                                 </td>								
                             </tr>
                         </ng-template>
