@@ -69,13 +69,7 @@ export class TiendaService {
   }
 
   tipoProductos(data: any) {
-    return new Promise( resolve => {
-      this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
-        if (resp['code'] === 200)  {          
-          resolve(resp.data);            
-        }
-      })
-    })
+    this.tipoProducto.emit(data);
   }
 
   createProduct(data) {
