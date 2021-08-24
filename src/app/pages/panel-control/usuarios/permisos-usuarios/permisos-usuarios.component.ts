@@ -8,7 +8,8 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-permisos-usuarios',
   templateUrl: './permisos-usuarios.component.html',
-  styleUrls: ['./permisos-usuarios.component.scss']
+  styleUrls: ['./permisos-usuarios.component.scss'],
+  providers:[ModulosService,RolesService]
 })
 export class PermisosUsuariosComponent implements OnInit {
   

@@ -5,7 +5,8 @@ import { MenuesService } from 'src/app/services/globales/menues.service';
 @Component({
   selector: 'app-menu-contabilidad-general',
   templateUrl: './menu-contabilidad-general.component.html',
-  styleUrls: ['./menu-contabilidad-general.component.scss']
+  styleUrls: ['./menu-contabilidad-general.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuContabilidadGeneralComponent implements OnInit {
 

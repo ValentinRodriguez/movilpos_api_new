@@ -9,11 +9,11 @@ import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-bodegas',
   templateUrl: './bodegas.component.html',
-  styleUrls: ['./bodegas.component.scss']
+  styleUrls: ['./bodegas.component.scss'],
+  providers:[BodegasService,UsuarioService,PaisesCiudadesService]
 })
 export class BodegasComponent implements OnInit {
   

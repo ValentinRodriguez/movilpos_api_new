@@ -6,7 +6,6 @@ import { ListadoRncComponent } from 'src/app/components/listado-rnc/listado-rnc.
 import { OnlineRncComponent } from 'src/app/components/online-rnc/online-rnc.component';
 import { DgiiService } from 'src/app/services/globales/dgii.service';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
@@ -19,7 +18,8 @@ const URL = environment.urlImagenes;
 @Component({
   selector: 'app-formulario-empresa',
   templateUrl: './formulario-empresa.component.html',
-  styleUrls: ['./formulario-empresa.component.scss']
+  styleUrls: ['./formulario-empresa.component.scss'],
+  providers:[EmpresaService,MonedasService,UsuarioService,ClientesService,PaisesCiudadesService,DgiiService]
 })
 export class FormularioEmpresaComponent implements OnInit {
 

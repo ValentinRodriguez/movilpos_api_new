@@ -12,7 +12,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-area-empresas',
   templateUrl: './formulario-area-empresas.component.html',
-  styleUrls: ['./formulario-area-empresas.component.scss']
+  styleUrls: ['./formulario-area-empresas.component.scss'],
+  providers:[UsuarioService,EmpresaService,DepartamentosService,SucursalesService,AreasEmpresaService]
 })
 export class FormularioAreaEmpresasComponent implements OnInit {
 

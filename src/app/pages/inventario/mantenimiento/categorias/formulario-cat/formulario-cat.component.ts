@@ -4,11 +4,11 @@ import { CategoriasService } from 'src/app/services/inventario/categorias.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-cat',
   templateUrl: './formulario-cat.component.html',
-  styleUrls: ['./formulario-cat.component.scss']
+  styleUrls: ['./formulario-cat.component.scss'],
+  providers:[UsuarioService,CategoriasService]
 })
 export class FormularioCatComponent implements OnInit {
 
@@ -19,8 +19,7 @@ export class FormularioCatComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   categoriaExiste = 3;
-  id: number;
-    
+  id: number;    
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,

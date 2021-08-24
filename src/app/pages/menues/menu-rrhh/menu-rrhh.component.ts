@@ -5,7 +5,8 @@ import { MenuesService } from 'src/app/services/globales/menues.service';
 @Component({
   selector: 'app-menu-rrhh',
   templateUrl: './menu-rrhh.component.html',
-  styleUrls: ['./menu-rrhh.component.scss']
+  styleUrls: ['./menu-rrhh.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuRrhhComponent implements OnInit {
 

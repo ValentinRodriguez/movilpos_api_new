@@ -4,7 +4,8 @@ import { GestionDocNcdcService } from 'src/app/services/cuentas-pagar/gestion-do
 @Component({
   selector: 'app-gestion-doc-ncnd',
   templateUrl: './gestion-doc-ncnd.component.html',
-  styleUrls: ['./gestion-doc-ncnd.component.scss']
+  styleUrls: ['./gestion-doc-ncnd.component.scss'],
+  providers:[GestionDocNcdcService]
 })
 export class GestionDocNcndComponent implements OnInit {
 
@@ -22,13 +23,9 @@ export class GestionDocNcndComponent implements OnInit {
     ] 
   }
 
-  obtenerDocumentos() {    
-     
-    this.ndncService.getDatos().subscribe((resp: any) =>{
-      if (resp.code===200){
-        this.documentos=resp.data;
-      } 
+  obtenerDocumentos() {         
+    this.ndncService.getDatos().then((resp: any) =>{
+      this.documentos=resp.data;
     })
   }
-
 }

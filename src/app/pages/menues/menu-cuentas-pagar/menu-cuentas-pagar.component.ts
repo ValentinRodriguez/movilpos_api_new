@@ -5,7 +5,8 @@ import { MenuesService } from 'src/app/services/globales/menues.service';
 @Component({
   selector: 'app-menu-cuentas-pagar',
   templateUrl: './menu-cuentas-pagar.component.html',
-  styleUrls: ['./menu-cuentas-pagar.component.scss']
+  styleUrls: ['./menu-cuentas-pagar.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuCuentasPagarComponent implements OnInit {
 

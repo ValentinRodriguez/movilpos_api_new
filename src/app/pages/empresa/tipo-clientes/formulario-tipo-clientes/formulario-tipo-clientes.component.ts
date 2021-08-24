@@ -4,11 +4,11 @@ import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.ser
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-clientes',
   templateUrl: './formulario-tipo-clientes.component.html',
-  styleUrls: ['./formulario-tipo-clientes.component.scss']
+  styleUrls: ['./formulario-tipo-clientes.component.scss'],
+  providers:[UsuarioService,TipoClienteService]
 })
 export class FormularioTipoClientesComponent implements OnInit {
 
@@ -19,8 +19,7 @@ export class FormularioTipoClientesComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   tipoCliExiste = 3;
-  id: number;
-  
+  id: number;  
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,

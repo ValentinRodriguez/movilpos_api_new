@@ -4,11 +4,11 @@ import { PuestosService } from 'src/app/services/rrhh/puestos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-puestos',
   templateUrl: './formulario-puestos.component.html',
-  styleUrls: ['./formulario-puestos.component.scss']
+  styleUrls: ['./formulario-puestos.component.scss'],
+  providers:[UsuarioService,PuestosService]
 })
 export class FormularioPuestosComponent implements OnInit {
 
@@ -19,8 +19,7 @@ export class FormularioPuestosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   puestoExiste = 3;  
-  id: number;
-  
+  id: number; 
   
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,

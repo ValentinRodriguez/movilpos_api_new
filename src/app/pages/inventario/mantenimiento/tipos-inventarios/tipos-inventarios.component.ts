@@ -6,11 +6,11 @@ import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventar
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipos-inventarios',
   templateUrl: './tipos-inventarios.component.html',
-  styleUrls: ['./tipos-inventarios.component.scss']
+  styleUrls: ['./tipos-inventarios.component.scss'],
+  providers:[UsuarioService,TipoInventarioService]
 })
 export class TiposInventariosComponent implements OnInit {
 
@@ -32,8 +32,7 @@ export class TiposInventariosComponent implements OnInit {
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoInventarioServ: TipoInventarioService,
-              private confirmationService: ConfirmationService,
-              
+              private confirmationService: ConfirmationService,              
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();
               }

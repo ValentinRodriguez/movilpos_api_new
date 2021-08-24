@@ -5,11 +5,11 @@ import { RecepcionVehiculosService } from 'src/app/services/ventas/recepcion-veh
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-recepcion-vehiculos',
   templateUrl: './recepcion-vehiculos.component.html',
-  styleUrls: ['./recepcion-vehiculos.component.scss']
+  styleUrls: ['./recepcion-vehiculos.component.scss'],
+  providers:[UsuarioService,RecepcionVehiculosService]
 })
 export class RecepcionVehiculosComponent implements OnInit {
 
@@ -18,8 +18,6 @@ export class RecepcionVehiculosComponent implements OnInit {
   recepcion: any[] = [];
   id_categoria: any;
   cols: any[];
-   
-
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private recepcionServ: RecepcionVehiculosService,

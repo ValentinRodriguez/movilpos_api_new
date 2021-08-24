@@ -6,11 +6,11 @@ import { CategoriasService } from 'src/app/services/inventario/categorias.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-ausencias',
   templateUrl: './ausencias.component.html',
-  styleUrls: ['./ausencias.component.scss']
+  styleUrls: ['./ausencias.component.scss'],
+  providers:[UsuarioService,CategoriasService]
 })
 export class AusenciasComponent implements OnInit {
 
@@ -25,8 +25,7 @@ export class AusenciasComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];
-  minDate: Date;
-  
+  minDate: Date;  
   
   motivo = [
     { label: 'ninguna', value: 'Ninguna' },

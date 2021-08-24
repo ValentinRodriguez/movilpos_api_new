@@ -12,14 +12,15 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
 const URL = environment.urlImagenes;
 
 @Component({
   selector: 'app-formulario-maestra-productos',
   templateUrl: './formulario-maestra-productos.component.html',
-  styleUrls: ['./formulario-maestra-productos.component.scss']
+  styleUrls: ['./formulario-maestra-productos.component.scss'],
+  providers:[UsuarioService,InventarioService,BrandsService,TipoInventarioService,PropiedadesService,
+             BodegasService,CategoriasService]
 })
 export class FormularioMaestraProductosComponent implements OnInit {
 

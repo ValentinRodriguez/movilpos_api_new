@@ -10,11 +10,11 @@ import { TransacionPagosService } from 'src/app/services/contabilidad/transacion
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-transacciones-pago',
   templateUrl: './formulario-transacciones-pago.component.html',
-  styleUrls: ['./formulario-transacciones-pago.component.scss']
+  styleUrls: ['./formulario-transacciones-pago.component.scss'],
+  providers:[UsuarioService,TransacionPagosService,CgcatalogoService,CoTransaccionescxpService,]
 })
 export class FormularioTransaccionesPagoComponent implements OnInit {
 

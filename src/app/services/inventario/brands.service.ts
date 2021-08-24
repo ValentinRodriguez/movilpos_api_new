@@ -14,38 +14,48 @@ export class BrandsService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaMarca(parametro?: any) {  
     let params = new HttpParams();
     params = params.append('marca',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/marca', {params}).subscribe((resp: any) => {                   
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/marca', {params}).subscribe((resp: any) => {                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/marca`).subscribe((resp: any) => {                        
+      this.listSubscribers.push(this.http.get(`${URL}/marca`).subscribe((resp: any) => {                        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/marca/${id}`).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.get(`${URL}/marca/${id}`).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -56,37 +66,34 @@ export class BrandsService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => {      
-        
+      this.listSubscribers.push(this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => {    
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.marcaGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   actualizarMarca(id:number, marca: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/marca/${id}`, marca).subscribe( (resp: any) => {
-         
+      this.listSubscribers.push(this.http.put(`${ URL }/marca/${id}`, marca).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {
           this.marcaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarMarca(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/marca/${id}`).subscribe( (resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.delete(`${ URL }/marca/${id}`).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {            
           this.marcaBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

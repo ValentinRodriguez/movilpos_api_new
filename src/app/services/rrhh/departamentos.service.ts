@@ -13,28 +13,37 @@ export class DepartamentosService {
   
   guardar = new EventEmitter();
   actualizar = new EventEmitter();
-
+  
+  listSubscribers: any = [];
+  
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/departamentos`).subscribe((resp: any) => {                                    
+      this.listSubscribers.push(this.http.get(`${URL}/departamentos`).subscribe((resp: any) => {                                    
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {    
-        
-                
+      this.listSubscribers.push(this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -45,13 +54,12 @@ export class DepartamentosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/departamentos`, formData).subscribe( (resp: any) => {               
-                                      
-            if (resp['code'] === 200)  {   
-            this.departamentoEscogido.emit( resp );                                   
-            resolve(resp.data);       
-          }
-      });
+      this.listSubscribers.push(this.http.post(`${ URL }/departamentos`, formData).subscribe( (resp: any) => {  
+        if (resp['code'] === 200)  {   
+          this.departamentoEscogido.emit( resp );                                   
+          resolve(resp.data);       
+        }
+      }))
     });    
   }
 
@@ -63,25 +71,23 @@ export class DepartamentosService {
     }
     
     return new Promise( resolve => {
-      this.http.put(`${ URL }/departamentos/${id}`, departamento).subscribe( (resp: any) => {             
-        
-                
+      this.listSubscribers.push(this.http.put(`${ URL }/departamentos/${id}`, departamento).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {
           this.departamentoAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
   
   borrarDepartamento(id) {
     return new Promise( resolve => {      
-      this.http.delete(`${URL}/departamentos/${id}`).subscribe((resp: any) => {        
+      this.listSubscribers.push(this.http.delete(`${URL}/departamentos/${id}`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {            
           this.departamentoBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
@@ -97,11 +103,11 @@ export class DepartamentosService {
     params = params.append('departamento',parametro.departamento);
 
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/departamentos', {params}).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/departamentos', {params}).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 

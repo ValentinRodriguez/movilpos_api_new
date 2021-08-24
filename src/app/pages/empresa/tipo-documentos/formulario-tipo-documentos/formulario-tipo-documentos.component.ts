@@ -7,11 +7,11 @@ import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-documentos',
   templateUrl: './formulario-tipo-documentos.component.html',
-  styleUrls: ['./formulario-tipo-documentos.component.scss']
+  styleUrls: ['./formulario-tipo-documentos.component.scss'],
+  providers:[UsuarioService,PuestosService,RrhhService,]
 })
 export class FormularioTipoDocumentosComponent implements OnInit {
 

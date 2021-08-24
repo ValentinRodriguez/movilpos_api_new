@@ -14,26 +14,36 @@ export class TransportistasService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {      
-      this.http.get(`${URL}/transportistas`).subscribe((resp: any) => {                 
+      this.listSubscribers.push(this.http.get(`${URL}/transportistas`).subscribe((resp: any) => {                 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/transportistas/${id}`).subscribe((resp: any) => {      
+      this.listSubscribers.push(this.http.get(`${URL}/transportistas/${id}`).subscribe((resp: any) => {      
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -73,13 +83,12 @@ export class TransportistasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/transportistas`, formdata).subscribe( (resp: any) => {        
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/transportistas`, formdata).subscribe( (resp: any) => {  
          if (resp['code'] === 200)  {    
           this.trasnportistaGuardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -99,24 +108,23 @@ export class TransportistasService {
     }
       
     return new Promise( resolve => {
-      this.http.put(`${ URL }/transportistas/${id}`, formdata).subscribe( (resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/transportistas/${id}`, formdata).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {
           this.trasnportistaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarTransportista(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/transportistas/${id}`).subscribe( (resp: any) => {                          
+      this.listSubscribers.push(this.http.delete(`${ URL }/transportistas/${id}`).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {            
           this.trasnportistaBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

@@ -7,11 +7,11 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-mov',
   templateUrl: './formulario-tipo-mov.component.html',
-  styleUrls: ['./formulario-tipo-mov.component.scss']
+  styleUrls: ['./formulario-tipo-mov.component.scss'],
+  providers:[CodMovService,CgcatalogoService,UsuarioService,]
 })
 export class FormularioTipoMovComponent implements OnInit {
 

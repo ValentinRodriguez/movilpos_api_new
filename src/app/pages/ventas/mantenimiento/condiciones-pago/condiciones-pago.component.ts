@@ -5,11 +5,11 @@ import { CondicionesPagoService } from 'src/app/services/ventas/condiciones-pago
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-condiciones-pago',
   templateUrl: './condiciones-pago.component.html',
-  styleUrls: ['./condiciones-pago.component.scss']
+  styleUrls: ['./condiciones-pago.component.scss'],
+  providers:[UsuarioService,CondicionesPagoService]
 })
 export class CondicionesPagoComponent implements OnInit {
 

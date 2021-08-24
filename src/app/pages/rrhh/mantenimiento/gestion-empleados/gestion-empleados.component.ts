@@ -12,7 +12,8 @@ import { VacacionesComponent } from './vacaciones/vacaciones.component';
 @Component({
   selector: 'app-gestion-empleados',
   templateUrl: './gestion-empleados.component.html',
-  styleUrls: ['./gestion-empleados.component.scss']
+  styleUrls: ['./gestion-empleados.component.scss'],
+  providers:[RrhhService,UsuarioService]
 })
 export class GestionEmpleadosComponent implements OnInit {
  

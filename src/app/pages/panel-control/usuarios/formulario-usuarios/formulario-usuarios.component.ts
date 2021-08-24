@@ -10,7 +10,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-usuarios',
   templateUrl: './formulario-usuarios.component.html',
-  styleUrls: ['./formulario-usuarios.component.scss']
+  styleUrls: ['./formulario-usuarios.component.scss'],
+  providers:[UsuarioService,PuestosService,RrhhService]
 })
 export class FormularioUsuariosComponent implements OnInit {
 

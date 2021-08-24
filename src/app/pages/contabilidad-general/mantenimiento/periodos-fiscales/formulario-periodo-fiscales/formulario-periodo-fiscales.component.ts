@@ -6,11 +6,11 @@ import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-periodo-fiscales',
   templateUrl: './formulario-periodo-fiscales.component.html',
-  styleUrls: ['./formulario-periodo-fiscales.component.scss']
+  styleUrls: ['./formulario-periodo-fiscales.component.scss'],
+  providers:[UsuarioService,PeriodosFiscalesService,]
 })
 export class FormularioPeriodoFiscalesComponent implements OnInit {
 

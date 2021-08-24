@@ -5,11 +5,11 @@ import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-act-periodos',
   templateUrl: './act-periodos.component.html',
-  styleUrls: ['./act-periodos.component.scss']
+  styleUrls: ['./act-periodos.component.scss'],
+  providers:[UsuarioService,PeriodosFiscalesService,]
 })
 export class ActPeriodosComponent implements OnInit {
   periodo: any;

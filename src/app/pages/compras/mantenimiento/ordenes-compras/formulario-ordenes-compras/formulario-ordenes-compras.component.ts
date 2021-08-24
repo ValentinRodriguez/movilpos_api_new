@@ -18,7 +18,9 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-formulario-ordenes-compras',
   templateUrl: './formulario-ordenes-compras.component.html',
-  styleUrls: ['./formulario-ordenes-compras.component.scss']
+  styleUrls: ['./formulario-ordenes-compras.component.scss'],
+  providers: [OrdenescomprasService, InventarioService, DialogService, UsuarioService,
+              ProveedoresService,PuertosService,DireccionesService,]
 })
 export class FormularioOrdenesComprasComponent implements OnInit {
 

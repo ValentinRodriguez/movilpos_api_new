@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GestionDocNcndComponent } from './gestion-doc-ncnd/gestion-doc-ncnd.component';
+import { GestionDocNcndComponent } from './mantenimiento/gestion-doc-ncnd/gestion-doc-ncnd.component';
 
 //COMPONENTES DEL PROYECTO
 import { FacturasProveedoresComponent } from './mantenimiento/facturas-proveedores/facturas-proveedores.component';

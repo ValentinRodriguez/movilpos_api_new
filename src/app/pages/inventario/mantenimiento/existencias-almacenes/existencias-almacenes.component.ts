@@ -10,7 +10,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-existencias-almacenes',
   templateUrl: './existencias-almacenes.component.html',
-  styleUrls: ['./existencias-almacenes.component.scss']
+  styleUrls: ['./existencias-almacenes.component.scss'],
+  providers:[ExistenciaAlmacenesService,UsuarioService,]
 })
 export class ExistenciasAlmacenesComponent implements OnInit {
 
@@ -29,8 +30,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   selectedProducts: [];
   cols: any[];
   exportColumns: any[];
-  mayor: any[] = [];
-  
+  mayor: any[] = [];  
   listSubscribers: any = [];
   rowGroupMetadata: any;
   productosFiltrados: any[] = [];

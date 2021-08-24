@@ -5,11 +5,11 @@ import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.ser
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipo-clientes',
   templateUrl: './tipo-clientes.component.html',
-  styleUrls: ['./tipo-clientes.component.scss']
+  styleUrls: ['./tipo-clientes.component.scss'],
+  providers:[UsuarioService,TipoClienteService,]
 })
 export class TipoClientesComponent implements OnInit {
 
@@ -18,11 +18,9 @@ export class TipoClientesComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   id_categoria: any;
-  cols: any[];
-   
+  cols: any[];   
   index: number = 0;
-  
-  
+
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private tipoClienteServ: TipoClienteService,

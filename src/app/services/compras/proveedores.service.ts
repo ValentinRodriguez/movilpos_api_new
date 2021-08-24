@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 const URL = environment.url;
@@ -6,7 +6,7 @@ const URL = environment.url;
 @Injectable({
   providedIn: 'root'
 })
-export class ProveedoresService {
+export class ProveedoresService implements OnDestroy{
   proveedorEscogido = new EventEmitter;
   proveedoresCreados = new EventEmitter()
   proveeact = new EventEmitter();
@@ -14,46 +14,56 @@ export class ProveedoresService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
+  
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/proveedores`).subscribe((resp: any) => {   
+      this.listSubscribers.push(this.http.get(`${URL}/proveedores`).subscribe((resp: any) => {   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {                               
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {                               
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autollenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {                                
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {                                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => {                           
+      this.listSubscribers.push(this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => {                           
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -61,11 +71,11 @@ export class ProveedoresService {
     let params = new HttpParams();
     params = params.append('proveedor',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => {                                
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => {                                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -95,14 +105,12 @@ export class ProveedoresService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {                                
-            
-                                       
+      this.listSubscribers.push(this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
         if (resp['code'] === 200)  {    
           this.proveedoresCreados.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -131,24 +139,23 @@ export class ProveedoresService {
       }
     }    
     return new Promise( resolve => {      
-      this.http.put(`${ URL }/proveedores/${id}`, data).subscribe( (resp: any) => {     
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/proveedores/${id}`, data).subscribe( (resp: any) => {   
         if (resp['code'] === 200)  {
-            this.proveeact.emit( resp.data );                            
-            resolve(resp.data);                               
+          this.proveeact.emit( resp.data );                            
+          resolve(resp.data);                               
         }
-      });
+      }))
     });
   }
 
   borrarProveedor(id:string){
     return new Promise(resolve =>{
-      this.http.delete(`${ URL }/proveedores/${id}`).subscribe((resp:any)=>{
+      this.listSubscribers.push(this.http.delete(`${ URL }/proveedores/${id}`).subscribe((resp:any)=>{
         if(resp['code']==200){
           this.proveedorBorrado.emit(id);
           resolve(resp.data);
         }
-      })
+      }))
     })
   }
 
@@ -181,13 +188,12 @@ export class ProveedoresService {
       }
     }       
     return new Promise( resolve => {
-      this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {  
-                                        
+      this.listSubscribers.push(this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {    
           this.proveedoresCreados.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     }); 
   }
 

@@ -9,39 +9,48 @@ const URL = environment.url;
 })
 export class RolesService {
   
+  listSubscribers: any = [];
   permisos = new EventEmitter();
 
   constructor(private http: HttpClient,
-              private usuarioServ: UsuarioService) { }
+              private usuarioServ: UsuarioService) { }  
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getRoles() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/roles`).subscribe((resp: any) => {
-                
+      this.listSubscribers.push(this.http.get(`${URL}/roles`).subscribe((resp: any) => {                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getRol(email: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/roles/${email}`).subscribe((resp: any) => {                                
+      this.listSubscribers.push(this.http.get(`${URL}/roles/${email}`).subscribe((resp: any) => {                                
         if (resp['code'] === 200)  {                   
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getRolFull(email: string, usuario: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/roles/usuario/${usuario}/${email}`).subscribe((resp: any) => {  
+      this.listSubscribers.push(this.http.get(`${URL}/roles/usuario/${usuario}/${email}`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -57,22 +66,21 @@ export class RolesService {
     formData.append('usuario_creador', this.usuarioServ.getUserLogged().username);
     
     return new Promise( resolve => {
-      this.http.post(`${URL}/roles`, formData).subscribe((resp: any) => {
-                              
+      this.listSubscribers.push(this.http.post(`${URL}/roles`, formData).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
   eliminarRoles(email) {
     return new Promise( resolve => {
-      this.http.delete(`${URL}/roles/${email}`).subscribe((resp: any) => {  
+      this.listSubscribers.push(this.http.delete(`${URL}/roles/${email}`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {        
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 }

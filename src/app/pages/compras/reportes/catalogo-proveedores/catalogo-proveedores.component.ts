@@ -8,11 +8,11 @@ import autoTable from 'jspdf-autotable'
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-catalogo-proveedores',
   templateUrl: './catalogo-proveedores.component.html',
-  styleUrls: ['./catalogo-proveedores.component.scss']
+  styleUrls: ['./catalogo-proveedores.component.scss'],
+  providers:[ProveedoresService,UsuarioService,PaisesCiudadesService,]
 })
 export class CatalogoProveedoresComponent implements OnInit {
   forma: FormGroup;

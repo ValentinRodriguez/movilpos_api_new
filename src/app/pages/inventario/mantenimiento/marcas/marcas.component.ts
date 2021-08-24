@@ -6,11 +6,11 @@ import { BrandsService } from 'src/app/services/inventario/brands.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
-  styleUrls: ['./marcas.component.scss']
+  styleUrls: ['./marcas.component.scss'],
+  providers:[UsuarioService,BrandsService]
 })
 export class MarcasComponent implements OnInit {
 
@@ -22,8 +22,7 @@ export class MarcasComponent implements OnInit {
   actualizar = false;
   id_marca: any;
   cols: any[];   
-  index: number = 0;
-    
+  index: number = 0;    
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,

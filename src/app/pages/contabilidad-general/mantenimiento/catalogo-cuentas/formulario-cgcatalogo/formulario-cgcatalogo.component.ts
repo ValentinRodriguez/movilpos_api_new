@@ -5,13 +5,12 @@ import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.serv
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
-
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { EstadosService } from 'src/app/services/contabilidad/estados.service';
 @Component({
   selector: 'app-formulario-cgcatalogo',
   templateUrl: './formulario-cgcatalogo.component.html',
-  styleUrls: ['./formulario-cgcatalogo.component.scss']
+  styleUrls: ['./formulario-cgcatalogo.component.scss'],
+  providers:[UsuarioService,CgcatalogoService,EstadosService,ZonasService]
 })
 export class FormularioCgcatalogoComponent implements OnInit {
 
@@ -31,8 +30,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  id: number;
-  
+  id: number;  
   listSubscribers: any = [];
 
   sino = [

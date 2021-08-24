@@ -12,8 +12,18 @@ export class CondicionesPagoService {
   condicionBorrada = new EventEmitter();
   condicionAct = new EventEmitter();
   
-  
+  listSubscribers: any = [];
+
   constructor(private http: HttpClient) { }
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedacondicion(parametro?: any) {
     let params = new HttpParams();
@@ -25,31 +35,31 @@ export class CondicionesPagoService {
     }     
     params = params.append('condicion',parametro.condicion);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/condiciones-pago', {params}).subscribe((resp: any) => {   
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/condiciones-pago', {params}).subscribe((resp: any) => {   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/condiciones-pago`).subscribe((resp: any) => {                                      
+      this.listSubscribers.push(this.http.get(`${URL}/condiciones-pago`).subscribe((resp: any) => {                                      
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/condiciones-pago/${id}`).subscribe((resp: any) => {      
+      this.listSubscribers.push(this.http.get(`${URL}/condiciones-pago/${id}`).subscribe((resp: any) => {      
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -61,37 +71,35 @@ export class CondicionesPagoService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/condiciones-pago`, formData).subscribe( (resp: any) => {
+      this.listSubscribers.push(this.http.post(`${ URL }/condiciones-pago`, formData).subscribe( (resp: any) => {
                                    
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.condicionGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   actualizarCondicion(id:string, condicion: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/condiciones-pago/${id}`, condicion).subscribe( (resp: any) => {     
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/condiciones-pago/${id}`, condicion).subscribe( (resp: any) => { 
         if (resp['code'] === 200)  {
           this.condicionAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarCondicion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/condiciones-pago/${id}`).subscribe( (resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.delete(`${ URL }/condiciones-pago/${id}`).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {            
           this.condicionBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 }

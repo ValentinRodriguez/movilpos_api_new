@@ -12,87 +12,93 @@ export class RrhhService {
   empleadoEscogido = new EventEmitter();
   empleadoAct = new EventEmitter();
   empleadoCreado = new EventEmitter();
-  empleadoBorrado = new EventEmitter();
-  
+  empleadoBorrado = new EventEmitter();  
   actualizar = new EventEmitter();
   duplicar = new EventEmitter();
   guardar = new EventEmitter();
 
+  listSubscribers: any = [];
+
   constructor(private http: HttpClient,
               private datosEstaticos: DatosEstaticosService) { }
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id:number) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/noempleados/${id}`).subscribe((resp: any) => {
-        
-                
+      this.listSubscribers.push(this.http.get(`${URL}/noempleados/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   
   getCajeros() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/cajeros`).subscribe((resp: any) => {
-                
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/cajeros`).subscribe((resp: any) => {                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getBancos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/bancos`).subscribe((resp: any) => {                        
+        this.listSubscribers.push(this.http.get(`${URL}/bancos`).subscribe((resp: any) => {                        
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/empleados`).subscribe((resp: any) => {                         
+        this.listSubscribers.push(this.http.get(`${URL}/autollenado/empleados`).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {        
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   buscaVendedores() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  { 
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   buscaSupervisores(id:string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/supervisores/${id}`).subscribe((resp: any) => {                            
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/supervisores/${id}`).subscribe((resp: any) => {                            
         if (resp['code'] === 200)  { 
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -100,12 +106,11 @@ export class RrhhService {
     let params = new HttpParams();
     params = params.append('cedula',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL + '/busqueda/cedula', { params }).subscribe((resp: any) => {
-                
+      this.listSubscribers.push(this.http.get(URL + '/busqueda/cedula', { params }).subscribe((resp: any) => {                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
   
@@ -188,14 +193,12 @@ export class RrhhService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
-                
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
         if (resp['code'] === 200) {
           this.empleadoCreado.emit(true);
           resolve(resp.data);      
         }
-      });
+      }))
     });    
   }
 
@@ -267,16 +270,15 @@ export class RrhhService {
     }
 
     return new Promise( resolve => {
-      this.http.put(`${ URL }/noempleados/${id}`, formData).subscribe( (resp:any) => {
-                
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/noempleados/${id}`, formData).subscribe( (resp:any) => {
         if (resp['code'] === 200) {
           this.empleadoCreado.emit(true);
           resolve(resp.data);      
         }
-      });
+      }))
     });    
   }
+
   empleadoEscogidos(empleado) {
     this.empleadoEscogido.emit(empleado);
   }
@@ -292,5 +294,4 @@ export class RrhhService {
   guardando() {
     this.guardar.emit(0);
   }
-
 }

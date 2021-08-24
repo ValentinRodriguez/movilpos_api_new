@@ -14,17 +14,26 @@ export class ZonasService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
+  
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {      
-      this.http.get(`${URL}/zonas`).subscribe((resp: any) => {  
-                                    
+      this.listSubscribers.push(this.http.get(`${URL}/zonas`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -38,33 +47,31 @@ export class ZonasService {
     }     
     params = params.append('zona',parametro.zona);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/zonas', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/zonas', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
   
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/zonas/${id}`).subscribe((resp: any) => { 
+      this.listSubscribers.push(this.http.get(`${URL}/zonas/${id}`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getZonaProvincia(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/zonas-provincias/${id}`).subscribe((resp: any) => { 
-        // 
-        
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/zonas-provincias/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -73,40 +80,35 @@ export class ZonasService {
     for(let key in zona){  
       formData.append(key, zona[key]);
     }
-
     return new Promise( resolve => {
-      this.http.post(`${ URL }/zonas`, zona).subscribe( (resp: any) => {
-                
-        
-                           
+      this.listSubscribers.push(this.http.post(`${ URL }/zonas`, zona).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.zonaGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   actualizarZona(id:number, zona: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/zonas/${id}`, zona).subscribe( (resp: any) => {                
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/zonas/${id}`, zona).subscribe( (resp: any) => {    
         if (resp['code'] === 200)  {
           this.zonaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarZona(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/zonas/${id}`).subscribe( (resp: any) => {                          
+      this.listSubscribers.push(this.http.delete(`${ URL }/zonas/${id}`).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {            
           this.zonaBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

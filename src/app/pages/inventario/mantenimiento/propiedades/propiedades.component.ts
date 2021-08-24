@@ -5,11 +5,11 @@ import { PropiedadesService } from 'src/app/services/inventario/propiedades.serv
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-propiedades',
   templateUrl: './propiedades.component.html',
-  styleUrls: ['./propiedades.component.scss']
+  styleUrls: ['./propiedades.component.scss'],
+  providers:[UsuarioService,PropiedadesService]
 })
 export class PropiedadesComponent implements OnInit {
 

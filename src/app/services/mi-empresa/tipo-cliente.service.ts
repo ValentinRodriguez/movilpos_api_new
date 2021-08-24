@@ -14,26 +14,36 @@ export class TipoClienteService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
 
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
+
   getDatos(){
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipoclientes`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/tipoclientes`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id:number){
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipoclientes/${id}`).subscribe((resp: any) => {          
+      this.listSubscribers.push(this.http.get(`${URL}/tipoclientes/${id}`).subscribe((resp: any) => {          
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -49,46 +59,45 @@ export class TipoClienteService {
     params = params.append('descripcion',parametro.descripcion);
 
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/tipoclientes', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/tipoclientes', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   crearTipoCliente(tipoCliente: any) {    
     return new Promise( resolve => {
-      this.http.post(`${ URL }/tipoclientes`, tipoCliente).subscribe( (resp: any) => {
+      this.listSubscribers.push(this.http.post(`${ URL }/tipoclientes`, tipoCliente).subscribe( (resp: any) => {
         
         if (resp['code'] === 200)  {    
           this.tipoClienteguardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   borrarTipoCliente(id) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/tipoclientes/${id}`).subscribe( (resp: any) => {                          
+      this.listSubscribers.push(this.http.delete(`${ URL }/tipoclientes/${id}`).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {            
           this.tipoClienteBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   actualizarTipoCliente(id:number, tipo: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/tipoclientes/${id}`, tipo).subscribe( (resp: any) => {                                             
-                
+      this.listSubscribers.push(this.http.put(`${ URL }/tipoclientes/${id}`, tipo).subscribe( (resp: any) => {     
         if (resp['code'] === 200)  {
           this.tipoClienteAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

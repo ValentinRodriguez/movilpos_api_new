@@ -6,18 +6,16 @@ import { CategoriasService } from 'src/app/services/inventario/categorias.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-vacaciones',
   templateUrl: './vacaciones.component.html',
-  styleUrls: ['./vacaciones.component.scss']
+  styleUrls: ['./vacaciones.component.scss'],
+  providers:[UsuarioService,CategoriasService]
 })
 export class VacacionesComponent implements OnInit {
 
-  forma: FormGroup;
- 
+  forma: FormGroup; 
   categorias: any[] = [];
-
   usuario: any;
   guardando = false;
   actualizando = false;

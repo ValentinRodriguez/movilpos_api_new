@@ -5,11 +5,11 @@ import { TipoProveedorService } from 'src/app/services/mi-empresa/tipo-proveedor
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipo-proveedores',
   templateUrl: './formulario-tipo-proveedores.component.html',
-  styleUrls: ['./formulario-tipo-proveedores.component.scss']
+  styleUrls: ['./formulario-tipo-proveedores.component.scss'],
+  providers:[UsuarioService,CgcatalogoService,TipoProveedorService]
 })
 export class FormularioTipoProveedoresComponent implements OnInit {
 
@@ -22,9 +22,9 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   proveedorExiste = 3;
   cuenta_no: any[] = [];
   cuentasFiltradas: any[] = [];
-  id: number;
-    
+  id: number;    
   listSubscribers: any = [];
+  
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

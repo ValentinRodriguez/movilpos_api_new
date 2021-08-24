@@ -3,11 +3,11 @@ import { ConfirmationService } from 'primeng/api';
 import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-ordenes-pedidos',
   templateUrl: './ordenes-pedidos.component.html',
-  styleUrls: ['./ordenes-pedidos.component.scss']
+  styleUrls: ['./ordenes-pedidos.component.scss'],
+  providers:[OrdenPedidosService]
 })
 export class OrdenesPedidosComponent implements OnInit {
  
@@ -19,6 +19,7 @@ export class OrdenesPedidosComponent implements OnInit {
   displayPosition: boolean;
   detalleDireccion: any = {};
   index: number = 0;
+  listSubscribers: any = [];
 
   constructor(private ordenServ :OrdenPedidosService,
               private uiMessage: UiMessagesService,
@@ -27,6 +28,7 @@ export class OrdenesPedidosComponent implements OnInit {
 
   ngOnInit(): void {
     this.todosLasOrdenes(); 
+    this.listObserver();
 
     this.cols = [
       {field: 'num_oc', header: 'Orden'},
@@ -40,26 +42,34 @@ export class OrdenesPedidosComponent implements OnInit {
       {field: 'estado_despacho', header: 'Despachada'},
       {field: 'acciones', header: 'Acciones' }
     ]
-
-    this.ordenServ.ordenCreada.subscribe(resp => {
+  }
+  
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());
+  }
+  
+  listObserver = () => {
+    const obserber1$ = this.ordenServ.ordenCreada.subscribe(resp => {
       this.todosLasOrdenes();
     })
 
-    this.ordenServ.ordenBorrada.subscribe(resp => {
+    const obserber2$ = this.ordenServ.ordenBorrada.subscribe(resp => {
       this.todosLasOrdenes();
     })
 
-    this.ordenServ.ordenAct.subscribe(resp => {
+    const obserber3$ = this.ordenServ.ordenAct.subscribe(resp => {
       this.todosLasOrdenes();
     })
 
-    this.ordenServ.guardar.subscribe(resp => {
+    const obserber4$ = this.ordenServ.guardar.subscribe(resp => {
       this.index = resp;
     })
-  }
+  
+    this.listSubscribers = [obserber1$,obserber2$,obserber3$,obserber4$];
+  };
 
-  todosLasOrdenes() {
-     
+
+  todosLasOrdenes() {     
     this.ordenServ.getDatos().then((resp: any) => { 
       this.ordenes = resp;   
     })

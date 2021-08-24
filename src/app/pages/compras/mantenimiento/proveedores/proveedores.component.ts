@@ -3,11 +3,11 @@ import { ConfirmationService } from 'primeng/api';
 import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-proveedores',
   templateUrl: './proveedores.component.html',
-  styleUrls: ['./proveedores.component.scss']
+  styleUrls: ['./proveedores.component.scss'],
+  providers:[ProveedoresService]
 })
 export class ProveedoresComponent implements OnInit {
 

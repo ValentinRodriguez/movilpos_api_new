@@ -11,24 +11,34 @@ const URL = environment.url;
 export class GlobalFunctionsService {
 
   private subject = new Subject<any>();
-  usuario: any;
-  usuarioExiste = 3;
   finalizar = new EventEmitter;
   formSubmitted = new EventEmitter;
   formReceived = new EventEmitter;
+  usuario: any;
+  usuarioExiste = 3;
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient,
-              private usuariosServ: UsuarioService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+    private usuariosServ: UsuarioService) { 
+    this.usuario = this.usuariosServ.getUserLogged()
   }
-
+  
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
+  
   editando(id: string, ruta: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/${ruta}/${id}`).subscribe((resp: any) => {  
+      this.listSubscribers.push(this.http.get(`${URL}/${ruta}/${id}`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
  
@@ -56,7 +66,6 @@ export class GlobalFunctionsService {
     return this.subject.asObservable();
   }
 
-  //array.sort(this.ordenaData);
   ordenaData(a, b) {
     // Use toUpperCase() to ignore character casing
     const bandA = a.brand;

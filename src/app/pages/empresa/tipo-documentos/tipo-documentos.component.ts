@@ -7,11 +7,11 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { PermisosUsuariosComponent } from '../../panel-control/usuarios/permisos-usuarios/permisos-usuarios.component';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipo-documentos',
   templateUrl: './tipo-documentos.component.html',
-  styleUrls: ['./tipo-documentos.component.scss']
+  styleUrls: ['./tipo-documentos.component.scss'],
+  providers:[RrhhService,UsuarioService,]
 })
 export class TipoDocumentosComponent implements OnInit {
 
@@ -24,8 +24,7 @@ export class TipoDocumentosComponent implements OnInit {
   message: string;
   fileUser: any;
   index: number = 0;
-  empleados: any[] = [];
-  
+  empleados: any[] = [];  
   
   constructor(private confirmationService: ConfirmationService,
               private empleadoServ: RrhhService,

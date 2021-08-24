@@ -3,27 +3,24 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PendientesEntradaComponent } from 'src/app/components/pendientes-entrada/pendientes-entrada.component';
-import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
-
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-transacciones-inventario',
   templateUrl: './transacciones-inventario.component.html',
-  styleUrls: ['./transacciones-inventario.component.scss']
+  styleUrls: ['./transacciones-inventario.component.scss'],
+  providers:[TransaccionesService,UsuarioService]
 })
 export class TransaccionesInventarioComponent implements OnInit {
 
   usuario: any;
   transacciones:any[] = [];
   facturas
-  cols: any[] = [];
-  
+  cols: any[] = [];  
   listSubscribers: any = [];
   index = 0;
   items: MenuItem[] = [];
@@ -33,7 +30,6 @@ export class TransaccionesInventarioComponent implements OnInit {
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
               private confirmationService: ConfirmationService,
-              private datosEstaticosServ: DatosEstaticosService,
               @Inject(DOCUMENT) private document: Document) {  
                 this.usuario = this.usuariosServ.getUserLogged();
               }

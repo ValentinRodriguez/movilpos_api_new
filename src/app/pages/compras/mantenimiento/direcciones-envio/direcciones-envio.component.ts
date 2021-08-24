@@ -5,11 +5,11 @@ import { DireccionesService } from 'src/app/services/compras/direcciones.service
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-direcciones-envio',
   templateUrl: './direcciones-envio.component.html',
-  styleUrls: ['./direcciones-envio.component.scss']
+  styleUrls: ['./direcciones-envio.component.scss'],
+  providers:[UsuarioService, DireccionesService]
 })
 export class DireccionesEnvioComponent implements OnInit {
 
@@ -17,9 +17,9 @@ export class DireccionesEnvioComponent implements OnInit {
   index: number = 0;
   direcciones: any[] = [];
   id_categoria: any;
-  cols: any[];   
-  
+  cols: any[];
   listSubscribers: any = [];
+  
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private dirService: DireccionesService,
@@ -68,11 +68,9 @@ export class DireccionesEnvioComponent implements OnInit {
     this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
    };
 
-  todasLasDirecciones() {
-     
+  todasLasDirecciones() {     
     this.dirService.getDatos().then((resp: any) => {
-      this.direcciones = resp;
-       
+      this.direcciones = resp;       
     });
   }
   
@@ -87,7 +85,7 @@ export class DireccionesEnvioComponent implements OnInit {
       accept:() =>{ 
         this.dirService.borrarDireccion(direccion).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
-        })       
+        })     
       }
     })
   }

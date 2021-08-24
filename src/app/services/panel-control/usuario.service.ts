@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -8,7 +8,7 @@ const URL = environment.url;
   providedIn: 'root'
 })
 
-export class UsuarioService {
+export class UsuarioService implements OnDestroy {
   usuarioActualizado = new EventEmitter();
   usuarioGuardado = new EventEmitter();
   usuarioBorrado = new EventEmitter();
@@ -20,8 +20,21 @@ export class UsuarioService {
     login: `${URL}/login`,
     signup: `${URL}/signup`,
   }  
+  listSubscribers: any = [];
+  
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');
+    
+    this.listSubscribers.forEach(a => {
+      console.log(a);      
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaEmail(parametro?: any) {
        
@@ -35,12 +48,12 @@ export class UsuarioService {
 
     params = params.append('email',parametro.email);
 
-    return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {                      
+    return new Promise(resolve => {
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {                      
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -54,12 +67,11 @@ export class UsuarioService {
     }     
     params = params.append('username',parametro.username);   
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/username', {params}).subscribe((resp: any) => {        
-                                     
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/username', {params}).subscribe((resp: any) => {  
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
@@ -68,49 +80,50 @@ export class UsuarioService {
     params = params.append('empleado',parametro);
 
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/numemp', {params}).subscribe((resp: any) => {   
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/numemp', {params}).subscribe((resp: any) => {   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getUsers() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/users`).subscribe((resp: any) => {                     
+      this.listSubscribers.push(this.http.get(`${URL}/users`).subscribe((resp: any) => {
+        console.log(resp);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
   getUser(id) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/users/${id}`).subscribe((resp: any) => {                     
+      this.listSubscribers.push(this.http.get(`${URL}/users/${id}`).subscribe((resp: any) => {                     
         if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
   getPerfiles() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/perfiles`).subscribe((resp: any) => {                      
+      this.listSubscribers.push(this.http.get(`${URL}/perfiles`).subscribe((resp: any) => {                      
         if (resp['access_token'] === 200)  {          
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
   getUserLogged() {
     let user = JSON.parse(localStorage.getItem('user'));
     if (user !== null) {
-      user.bodegas_permisos = JSON.parse(localStorage.getItem('bodegas_permisos'));
-      user.empleado = JSON.parse(localStorage.getItem('empleado'));
+      user.bodegas_permisos = JSON.parse(localStorage.getItem('bodegas_permisos') || '{}');
+      // user.empleado = JSON.parse(localStorage.getItem('empleado'));
       user.empresa = JSON.parse(localStorage.getItem('empresa'));
       user.sessionId = localStorage.getItem('sessionId');
       return user;      
@@ -121,12 +134,12 @@ export class UsuarioService {
 
   login(forma: any) {
     return new Promise(resolve => {
-      this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
         console.log(resp);        
         if (resp.code === 200)  {          
           resolve(resp.data);  
         }       
-      })
+      }))
     })    
   }
   
@@ -151,12 +164,12 @@ export class UsuarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${URL}/signup`, formData).subscribe((resp: any) => {                      
+      this.listSubscribers.push(this.http.post(`${URL}/signup`, formData).subscribe((resp: any) => {                      
         if (resp['code'] === 200)  {  
           this.usuarioGuardado.emit( resp.data );        
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
@@ -182,23 +195,23 @@ export class UsuarioService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/usuario/${id}`, formData).subscribe( (resp: any) => {                         
+      this.listSubscribers.push(this.http.post(`${ URL }/act/usuario/${id}`, formData).subscribe( (resp: any) => {                         
         if (resp['code'] === 200)  {  
           this.usuarioActualizado.emit( resp.data );                                     
           resolve(resp.data);
         }
-      });
+      }))
     });    
   }
 
   eliminarUsuario(id) {
     return new Promise( resolve => {
-      this.http.delete(`${URL}/users/${id}`).subscribe((resp: any) => {                    
+      this.listSubscribers.push(this.http.delete(`${URL}/users/${id}`).subscribe((resp: any) => {                    
         if (resp['code'] === 200)  {  
           this.usuarioBorrado.emit( resp.data );        
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
@@ -220,11 +233,11 @@ export class UsuarioService {
     formData.append('email', email);
 
     return new Promise( resolve => {
-      this.http.post(`${URL}/lockLogin`, formData).subscribe((resp: any) => {                      
+      this.listSubscribers.push(this.http.post(`${URL}/lockLogin`, formData).subscribe((resp: any) => {                      
         if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
@@ -233,11 +246,11 @@ export class UsuarioService {
     formData.append('email', email);
 
     return new Promise( resolve => {
-      this.http.post(`${URL}/unlocklogin`, formData).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.post(`${URL}/unlocklogin`, formData).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
@@ -246,21 +259,21 @@ export class UsuarioService {
     formData.append('email', email);
 
     return new Promise( resolve => {
-      this.http.post(`${URL}/desactivar`, formData).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.post(`${URL}/desactivar`, formData).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 
   refreshToken() {
     return new Promise( resolve => {
-      this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  { 
           resolve(resp.data);  
         }
-      })
+      }))
     })
   }
 

@@ -7,7 +7,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-cgestado',
   templateUrl: './formulario-cgestado.component.html',
-  styleUrls: ['./formulario-cgestado.component.scss']
+  styleUrls: ['./formulario-cgestado.component.scss'],
+  providers:[EstadosService,UsuarioService]
 })
 export class FormularioCgestadoComponent implements OnInit {
 

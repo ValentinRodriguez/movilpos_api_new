@@ -15,7 +15,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-proveedores',
   templateUrl: './formulario-proveedores.component.html',
-  styleUrls: ['./formulario-proveedores.component.scss']
+  styleUrls: ['./formulario-proveedores.component.scss'],
+  providers: [PaisesCiudadesService, UsuarioService, ProveedoresService, CgcatalogoService, TipoProveedorService]
 })
 export class FormularioProveedoresComponent implements OnInit {
   forma: FormGroup;
@@ -37,8 +38,7 @@ export class FormularioProveedoresComponent implements OnInit {
   rnc = false; 
   cols2:any[]= [];
   cgcatalogos: any[] = [];
-  id: string;
-  
+  id: string;  
   listSubscribers: any = [];
   items: any[] = [];
   rutaActual:any;

@@ -9,7 +9,8 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
-  styleUrls: ['./sucursales.component.scss']
+  styleUrls: ['./sucursales.component.scss'],
+  providers:[UsuarioService,SucursalesService,]
 })
 export class SucursalesComponent implements OnInit {
 
@@ -18,8 +19,7 @@ export class SucursalesComponent implements OnInit {
   sucursales: any[] = [];
   id_categoria: any;
   cols: any[];
-  detalles: any;
-  
+  detalles: any;  
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,

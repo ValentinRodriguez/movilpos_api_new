@@ -5,11 +5,11 @@ import { DepartamentosService } from 'src/app/services/rrhh/departamentos.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-departamentos',
   templateUrl: './departamentos.component.html',
-  styleUrls: ['./departamentos.component.scss']
+  styleUrls: ['./departamentos.component.scss'],
+  providers:[UsuarioService,DepartamentosService]
 })
 export class DepartamentosComponent implements OnInit {
   

@@ -5,11 +5,11 @@ import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-cotizaciones',
   templateUrl: './cotizaciones.component.html',
-  styleUrls: ['./cotizaciones.component.scss']
+  styleUrls: ['./cotizaciones.component.scss'],
+  providers:[UsuarioService,MonedasService]
 })
 export class CotizacionesComponent implements OnInit {
 

@@ -15,7 +15,8 @@ const URL = environment.urlImagenes;
 @Component({
   selector: 'app-formulario-recepcion-vehiculos',
   templateUrl: './formulario-recepcion-vehiculos.component.html',
-  styleUrls: ['./formulario-recepcion-vehiculos.component.scss']
+  styleUrls: ['./formulario-recepcion-vehiculos.component.scss'],
+  providers:[UsuarioService,BrandsService,CategoriasService,RecepcionVehiculosService]
 })
 export class FormularioRecepcionVehiculosComponent implements OnInit {
 
@@ -63,7 +64,6 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
                 this.usuario = this.usuariosServ.getUserLogged()
                 this.crearFormulario();
                 this.stateOptions = [{label: 'Si', value: 'si'}, {label: 'No', value: 'no'}];
-
   }
 
   ngOnDestroy(): void {

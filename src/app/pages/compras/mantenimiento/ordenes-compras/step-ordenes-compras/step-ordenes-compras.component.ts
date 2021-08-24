@@ -4,11 +4,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-step-ordenes-compras',
   templateUrl: './step-ordenes-compras.component.html',
-  styleUrls: ['./step-ordenes-compras.component.scss']
+  styleUrls: ['./step-ordenes-compras.component.scss'],
+  providers:[OrdenescomprasService]
 })
 export class StepOrdenesComprasComponent implements OnInit {
 

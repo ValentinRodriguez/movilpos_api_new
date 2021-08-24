@@ -14,8 +14,18 @@ export class CodMovService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaCodMov(parametro?: any) {
     let params = new HttpParams();
@@ -27,34 +37,31 @@ export class CodMovService {
     }     
     params = params.append('titulo',parametro.titulo);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => {  
-                                   
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(cuenta: string) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
-                                   
+        this.listSubscribers.push(this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -74,13 +81,12 @@ export class CodMovService {
     }     
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {            
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
         if (resp['code'] === 200)  {    
           this.tipoMovGuardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -100,24 +106,23 @@ export class CodMovService {
     }
     
     return new Promise( resolve => {      
-      this.http.put(`${ URL }/codigosmovimientos/${id}`, data).subscribe( (resp: any) => {          
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/codigosmovimientos/${id}`, data).subscribe( (resp: any) => {   
         if (resp['code'] === 200)  {
           this.tipoMovActualizado.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
   
   borrarTipoMov(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/codigosmovimientos/${id}`).subscribe( (resp: any) => {                            
+      this.listSubscribers.push(this.http.delete(`${ URL }/codigosmovimientos/${id}`).subscribe( (resp: any) => {                            
         if (resp['code'] === 200)  {            
           this.tipoMovBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
@@ -129,21 +134,21 @@ export class CodMovService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => {                          
+      this.listSubscribers.push(this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   usuariosPermisosMov(id) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {                   
+      this.listSubscribers.push(this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 

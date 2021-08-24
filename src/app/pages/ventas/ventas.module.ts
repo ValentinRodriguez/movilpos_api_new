@@ -54,6 +54,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/tabla-amortizaciones.component';
 import { FormularioTablaAmortizacionesComponent } from './mantenimiento/tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/interfaz-ventas2.component';
+import { FormularioCotizacionesComponent } from "./mantenimiento/cotizaciones/formulario-cotizaciones/formulario-cotizaciones.component";
 
 @NgModule({
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
@@ -71,6 +72,7 @@ import { InterfazVentas2Component } from './mantenimiento/interfaz-ventas2/inter
     RecepcionVehiculosComponent,
     FormularioRecepcionVehiculosComponent,
     ActoDescargoComponent,
+    FormularioCotizacionesComponent,
     TablaAmortizacionesComponent,
     FormularioTablaAmortizacionesComponent,
     InterfazVentas2Component

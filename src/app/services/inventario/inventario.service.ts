@@ -23,7 +23,18 @@ export class InventarioService {
   usuario: any;
   params: any;
 
+  listSubscribers: any = [];
+  
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaProducto(parametro?: any) {
     let params = new HttpParams();
@@ -35,11 +46,11 @@ export class InventarioService {
     }     
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -53,32 +64,31 @@ export class InventarioService {
     }     
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {                
+      this.listSubscribers.push(this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {                
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/invproductos`).subscribe((resp: any) => {       
-                                         
+      this.listSubscribers.push(this.http.get(`${URL}/invproductos`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -88,51 +98,51 @@ export class InventarioService {
         "x-rapidapi-key":"2c9e85a058mshf1042b431dadc78p1f24fajsn64bcd991b70b",
         "x-rapidapi-host":"vindecoder.p.rapidapi.com"
       });      
-      this.http.get(`${URLAPI}${chasis}`,{headers}).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URLAPI}${chasis}`,{headers}).subscribe((resp: any) => {
         if (resp.success) {
           resolve(resp.specification);
         }
-      })
+      }))
     })
   }
 
   getTipoProducto() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipo/invproducto`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/tipo/invproducto`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getMedidas() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/medidas/invproducto`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/medidas/invproducto`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getPropiedades() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/propiedades/invproducto`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/propiedades/invproducto`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/invproducto`).subscribe((resp: any) => {                                        
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/invproducto`).subscribe((resp: any) => {                                        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -180,14 +190,12 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/invproductos`, formData).subscribe( (resp: any) => { 
-                
-          
+      this.listSubscribers.push(this.http.post(`${ URL }/invproductos`, formData).subscribe((resp: any) => {
         if (resp['code'] === 200)  {
           this.productoGuardado.emit(resp.data);                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
@@ -234,15 +242,12 @@ export class InventarioService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe( (resp: any) => {    
-        
-                                  
-                
+      this.listSubscribers.push(this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe((resp: any) => {
         if (resp['code'] === 200)  {
           this.productoActualizado.emit( resp );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
   
@@ -257,22 +262,22 @@ export class InventarioService {
     }
 
     return new Promise( resolve => {
-      this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {                 
+      this.listSubscribers.push(this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {                 
         if (resp['code'] === 200)  {                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarInvProducto(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/invproductos/${id}`).subscribe( (resp: any) => {
+      this.listSubscribers.push(this.http.delete(`${ URL }/invproductos/${id}`).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {            
           this.productoBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
@@ -309,11 +314,11 @@ export class InventarioService {
     });
     
     return new Promise( resolve => {
-      this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                      
+      this.listSubscribers.push(this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                      
         if (resp['code'] === 200)  {  
           resolve(resp.specification);            
         }
-      })
+      }))
     })
   }
 

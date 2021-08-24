@@ -6,11 +6,11 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-transportista',
   templateUrl: './formulario-transportista.component.html',
-  styleUrls: ['./formulario-transportista.component.scss']
+  styleUrls: ['./formulario-transportista.component.scss'],
+  providers:[UsuarioService,PaisesCiudadesService,TransportistasService,ZonasService]
 })
 export class FormularioTransportistaComponent implements OnInit {
 

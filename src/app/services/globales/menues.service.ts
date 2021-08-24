@@ -9,15 +9,26 @@ const URL = environment.url;
 
 export class MenuesService {
 
+  listSubscribers: any = [];
+  
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
   
   getMenues() {
     return new Promise( resolve => {      
-      this.http.get(`${URL}/menu`).subscribe(resp => {                
+      this.listSubscribers.push(this.http.get(`${URL}/menu`).subscribe(resp => {                
         if (resp['code'] === 200)  {                           
           resolve(resp['data']);            
         }
-      });
+      }))
     });
   }
 
@@ -27,12 +38,11 @@ export class MenuesService {
     
     return new Promise( resolve => {
       if (localMenues === null) { 
-        this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => { 
-          if (resp['code'] === 200)  {   
-                            
+        this.listSubscribers.push(this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => { 
+          if (resp['code'] === 200)  {
             resolve(resp.data);            
           }
-        })
+        }))
       }else{
         localMenues.forEach(element => {
           if (element.modulo == id) {

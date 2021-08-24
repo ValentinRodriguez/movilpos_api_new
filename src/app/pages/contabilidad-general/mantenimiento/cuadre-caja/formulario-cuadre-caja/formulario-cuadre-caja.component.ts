@@ -5,12 +5,12 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { CuadresService } from 'src/app/services/contabilidad/cuadres.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
 @Component({
   selector: 'app-formulario-cuadre-caja',
   templateUrl: './formulario-cuadre-caja.component.html',
-  styleUrls: ['./formulario-cuadre-caja.component.scss']
+  styleUrls: ['./formulario-cuadre-caja.component.scss'],
+  providers:[CuadresService,UsuarioService,MonedasService]
 })
 export class FormularioCuadreCajaComponent implements OnInit {
 

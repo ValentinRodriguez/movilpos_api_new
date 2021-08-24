@@ -14,39 +14,49 @@ export class BodegasService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
+  
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaBodega(parametro?: any) {
     let params = new HttpParams();
     
     params = params.append('bodega',parametro.bodega);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/bodega', {params}).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/bodega', {params}).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {                       
+        this.listSubscribers.push(this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/bodegas/${id}`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/bodegas/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -68,13 +78,12 @@ export class BodegasService {
       }
     }
     return new Promise( resolve => {
-      this.http.post(`${ URL }/bodegas`, formData).subscribe( (resp: any) => {                   
-                                 
-      if (resp['code'] === 200)  {    
-        this.bodegaGuardada.emit( resp.data );                                   
-        resolve(resp.data);       
-      }
-      });
+      this.listSubscribers.push(this.http.post(`${ URL }/bodegas`, formData).subscribe( (resp: any) => {   
+        if (resp['code'] === 200)  {    
+          this.bodegaGuardada.emit( resp.data );                                   
+          resolve(resp.data);       
+        }
+      }))
     });    
   }
 
@@ -88,25 +97,24 @@ export class BodegasService {
       }
     }      
     return new Promise( resolve => {
-      this.http.put(`${ URL }/bodegas/${id}`, formdata).subscribe( (resp: any) => {   
+      this.listSubscribers.push(this.http.put(`${ URL }/bodegas/${id}`, formdata).subscribe( (resp: any) => {   
                                    
         if (resp['code'] === 200)  {
           this.bodegaActualizada.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
   
   borrarBodega(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/bodegas/${id}`).subscribe( (resp: any) => {                             
-                                   
+      this.listSubscribers.push(this.http.delete(`${ URL }/bodegas/${id}`).subscribe( (resp: any) => {   
         if (resp['code'] === 200)  {            
           this.bodegaBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
@@ -116,45 +124,42 @@ export class BodegasService {
       formData.append(key, permisos[key])
     }
     return new Promise( resolve => {
-      this.http.post(`${ URL }/permisos/bodegas`, formData).subscribe( (resp: any) => {  
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/permisos/bodegas`, formData).subscribe( (resp: any) => {  
         if (resp['code'] === 200)  {    
           this.bodegaGuardada.emit( resp );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   usuariosPermisosBodegas(id: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/usuarios/bodega/${id}`).subscribe((resp: any) => {   
-        
-                
+      this.listSubscribers.push(this.http.get(`${URL}/usuarios/bodega/${id}`).subscribe((resp: any) => {   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
   
   autoLlenado(email: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/bodega/${email}`).subscribe((resp: any) => {                           
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/bodega/${email}`).subscribe((resp: any) => {                           
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   bodegasConpermisos(email: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/bodegas-usuarios/${email}`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/bodegas-usuarios/${email}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 

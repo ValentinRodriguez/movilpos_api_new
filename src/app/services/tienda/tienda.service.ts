@@ -15,56 +15,67 @@ export class TiendaService {
   productoAct= new EventEmitter();
   actualizando = new EventEmitter();
   tipoProducto = new EventEmitter();
-  
+
+  listSubscribers: any = [];
+
   constructor(private http: HttpClient) { }
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   crearProducto(data) {
     return new Promise( resolve => {
-      this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   actProductosTienda(page: number) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   borrarProducto(page: number) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   contarProductosTienda(page: number) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 

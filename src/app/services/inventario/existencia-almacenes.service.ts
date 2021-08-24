@@ -15,14 +15,22 @@ export class ExistenciaAlmacenesService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
 
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
+
   existenciasAlmacen(data: any) {
-    ;    
     for(let key in data){   
-      switch (key) {
-      
+      switch (key) {      
         case 'id_tipoinventario': 
           data[key] = data[key].id_tipoinventario || '';      
         break;
@@ -35,30 +43,26 @@ export class ExistenciaAlmacenesService {
           data[key] = data[key].id || '';
         break;  
 
-        default:
-          
+        default:          
         break;
       }
     }
     return new Promise( resolve => {
-      this.http.post(`${URL}/existencias-almacen`,data).subscribe((resp: any) => {  
-              
-        
+      this.listSubscribers.push(this.http.post(`${URL}/existencias-almacen`,data).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenado() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/existencias-almacen`).subscribe((resp: any) => { 
-                           
+      this.listSubscribers.push(this.http.get(`${URL}/existencias-almacen`).subscribe((resp: any) => {                            
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 

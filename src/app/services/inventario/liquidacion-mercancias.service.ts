@@ -17,49 +17,60 @@ export class LiquidacionMercanciasService {
   
   pendienteEnviadas = new EventEmitter();
 
+  listSubscribers: any = [];
+  
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaLiquidacion(parametro?: any) {
     let params = new HttpParams();  
     params = params.append('liquidaciones',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/liquidaciones', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/liquidaciones', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/liquidaciones/pendientes`).subscribe((resp: any) => {   
+      this.listSubscribers.push(this.http.get(`${URL}/liquidaciones/pendientes`).subscribe((resp: any) => {   
                                  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autollenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/liquidaciones/autollenado`).subscribe((resp: any) => {   
+      this.listSubscribers.push(this.http.get(`${URL}/liquidaciones/autollenado`).subscribe((resp: any) => {   
                                  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/liquidaciones/${id}`).subscribe((resp: any) => { 
+      this.listSubscribers.push(this.http.get(`${URL}/liquidaciones/${id}`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -70,36 +81,34 @@ export class LiquidacionMercanciasService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/liquidaciones`, formData).subscribe( (resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/liquidaciones`, formData).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.liquidacionGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   actualizarLiquidacion(id:number, liquidacion: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/liquidaciones/${id}`, liquidacion).subscribe( (resp: any) => {                
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/liquidaciones/${id}`, liquidacion).subscribe( (resp: any) => {        
         if (resp['code'] === 200)  {
           this.liquidacionAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarLiquidacion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/liquidaciones/${id}`).subscribe( (resp: any) => {                          
+      this.listSubscribers.push(this.http.delete(`${ URL }/liquidaciones/${id}`).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {            
           this.liquidacionBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

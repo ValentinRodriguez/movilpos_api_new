@@ -7,11 +7,11 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { PermisosUsuariosComponent } from './permisos-usuarios/permisos-usuarios.component';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.scss']
+  styleUrls: ['./usuarios.component.scss'],
+  providers:[RrhhService,UsuarioService]
 })
 export class UsuariosComponent implements OnInit {
 

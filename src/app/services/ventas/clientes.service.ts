@@ -17,35 +17,46 @@ export class ClientesService {
   guardar = new EventEmitter();
   finalizar = new EventEmitter();
 
-  constructor(private http: HttpClient) {}
+  listSubscribers: any = [];
+
+  constructor(private http: HttpClient) { }
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/mclientes`).subscribe((resp: any) => {                       
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/mclientes`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   autollenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/clientes`).subscribe((resp: any) => {                   
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/clientes`).subscribe((resp: any) => {                   
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
   
   getdato(id) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/mclientes/${id}`).subscribe((resp: any) => {                        
+        this.listSubscribers.push(this.http.get(`${URL}/mclientes/${id}`).subscribe((resp: any) => {                        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -110,14 +121,12 @@ export class ClientesService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/mclientes`, formdata).subscribe( (resp: any) => {  
-          
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/mclientes`, formdata).subscribe( (resp: any) => { 
         if (resp['code'] === 200)  {    
           this.ClienteCreado.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -156,75 +165,73 @@ export class ClientesService {
       }
     }
     return new Promise( resolve => {
-      this.http.put(`${ URL }/mclientes/${id}`, client).subscribe( (resp: any) => {  
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/mclientes/${id}`, client).subscribe( (resp: any) => {                                     
         if (resp['code'] === 200)  {
           this.clientAct.emit( resp.data );                            
           resolve(resp.data);          
         }
-      });
+      }))
     });
   }
 
   getCiudad() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {                          
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {                          
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   getPais() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/pais`).subscribe((resp: any) => {                       
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/pais`).subscribe((resp: any) => {                       
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   getZonas() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/zonas`).subscribe((resp: any) => {
-                                 
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/zonas`).subscribe((resp: any) => {                                 
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   getVendedor() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   getDocumento(){
     return new Promise( resolve => {
-      this.http.get(`${URL}/documento`).subscribe((resp: any) => {                         
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/documento`).subscribe((resp: any) => {                         
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   borrarCliente(id:string){
     return new Promise(resolve =>{
-      this.http.delete(`${ URL }/mclientes/${id}`).subscribe((resp:any)=>{
+      this.listSubscribers.push(this.http.delete(`${ URL }/mclientes/${id}`).subscribe((resp:any)=>{
         if(resp['code']==200){
           this.clienteBorrado.emit(id);
           resolve(resp.data);
         }
-      })
+      }))
     })
   }
 

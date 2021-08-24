@@ -12,10 +12,12 @@ import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.ser
 import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 @Component({
   selector: 'app-formulario-clientes',
   templateUrl: './formulario-clientes.component.html',
   styleUrls: ['./formulario-clientes.component.scss'],
+  providers:[UsuarioService,ClientesService,TipoNegocioService,TipoClienteService,PaisesCiudadesService]
 })
 export class FormularioClientesComponent implements OnInit {
 

@@ -25,14 +25,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
-
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FacturasProveedoresComponent } from './mantenimiento/facturas-proveedores/facturas-proveedores.component';
 import { StepFacturaProvedoresComponent } from './mantenimiento/facturas-proveedores/step-factura-provedores/step-factura-provedores.component';
 import { FormularioFacturaProvedoresComponent } from './mantenimiento/facturas-proveedores/formulario-factura-provedores/formulario-factura-provedores.component';
 import { AnalisisSaldoComponent } from './reportes/analisis-saldo/analisis-saldo.component';
-import { GestionDocNcndComponent } from './gestion-doc-ncnd/gestion-doc-ncnd.component';
-import { FormularioGestionDocNcndComponent } from './gestion-doc-ncnd/formulario-gestion-doc-ncnd/formulario-gestion-doc-ncnd.component';
+import { GestionDocNcndComponent } from './mantenimiento/gestion-doc-ncnd/gestion-doc-ncnd.component';
+import { FormularioGestionDocNcndComponent } from './mantenimiento/gestion-doc-ncnd/formulario-gestion-doc-ncnd/formulario-gestion-doc-ncnd.component';
 
 @NgModule({
   declarations: [

@@ -4,11 +4,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-stepclientes',
   templateUrl: './stepclientes.component.html',
-  styleUrls: ['./stepclientes.component.scss']
+  styleUrls: ['./stepclientes.component.scss'],
+  providers:[ClientesService]
 })
 export class StepclientesComponent implements OnInit {
 

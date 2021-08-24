@@ -5,11 +5,11 @@ import { CategoriasService } from 'src/app/services/inventario/categorias.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.scss']
+  styleUrls: ['./categorias.component.scss'],
+  providers:[UsuarioService,CategoriasService]
 })
 export class CategoriasComponent implements OnInit {
 
@@ -19,14 +19,8 @@ export class CategoriasComponent implements OnInit {
   actualizar = false;
   id_categoria: any;
   cols: any[];   
-  index: number = 0;
-    
+  index: number = 0;    
   listSubscribers: any = [];
-
-
-
-
-
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

@@ -7,7 +7,8 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-procedimientos',
   templateUrl: './procedimientos.component.html',
-  styleUrls: ['./procedimientos.component.scss']
+  styleUrls: ['./procedimientos.component.scss'],
+  providers:[ModulosService,EmpresaService]
 })
 export class ProcedimientosComponent implements OnInit {
 

@@ -7,11 +7,11 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { groupBy } from 'lodash-es';
 import { ActPeriodosComponent } from './act-periodos/act-periodos.component';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-periodos-fiscales',
   templateUrl: './periodos-fiscales.component.html',
-  styleUrls: ['./periodos-fiscales.component.scss']
+  styleUrls: ['./periodos-fiscales.component.scss'],
+  providers:[PeriodosFiscalesService,UsuarioService,]
 })
 export class PeriodosFiscalesComponent implements OnInit {
 

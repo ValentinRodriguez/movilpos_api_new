@@ -12,7 +12,8 @@ import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos
 @Component({
   selector: 'app-formulario-sucursales',
   templateUrl: './formulario-sucursales.component.html',
-  styleUrls: ['./formulario-sucursales.component.scss']
+  styleUrls: ['./formulario-sucursales.component.scss'],
+  providers:[UsuarioService,PaisesCiudadesService,EmpresaService,SucursalesService]
 })
 export class FormularioSucursalesComponent implements OnInit {
 

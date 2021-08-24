@@ -11,7 +11,8 @@ import { FacturasService } from 'src/app/services/ventas/facturas.service';
 @Component({
   selector: 'app-formulario-tabla-amortizaciones',
   templateUrl: './formulario-tabla-amortizaciones.component.html',
-  styleUrls: ['./formulario-tabla-amortizaciones.component.scss']
+  styleUrls: ['./formulario-tabla-amortizaciones.component.scss'],
+  providers:[UsuarioService,ClientesService,FacturasService]
 })
 export class FormularioTablaAmortizacionesComponent implements OnInit {
 

@@ -4,11 +4,11 @@ import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-movimiento-permisos',
   templateUrl: './movimiento-permisos.component.html',
-  styleUrls: ['./movimiento-permisos.component.scss']
+  styleUrls: ['./movimiento-permisos.component.scss'],
+  providers:[CodMovService,UsuarioService]
 })
 export class MovimientoPermisosComponent implements OnInit {
   usuariosmov: any[] = [];  

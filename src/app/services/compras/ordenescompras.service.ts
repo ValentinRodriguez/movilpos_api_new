@@ -1,5 +1,5 @@
 import { environment } from 'src/environments/environment';
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 const URL = environment.url;
@@ -7,7 +7,7 @@ const URL = environment.url;
 @Injectable({
   providedIn: 'root'
 })
-export class OrdenescomprasService {
+export class OrdenescomprasService implements OnDestroy {
   
   ordenact = new EventEmitter();
   ordenGuardada= new EventEmitter();
@@ -15,25 +15,36 @@ export class OrdenescomprasService {
   
   finalizar = new EventEmitter();
   
+  listSubscribers: any = [];
+  
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/ordenescompras`).subscribe((resp: any) => {                                    
-      if (resp['code'] === 200)  {          
-        resolve(resp.data);            
-      }
-     })
+      this.listSubscribers.push(this.http.get(`${URL}/ordenescompras`).subscribe((resp: any) => {                                    
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+     }))
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/ordenescompras`).subscribe((resp: any) => {                                      
+        this.listSubscribers.push(this.http.get(`${URL}/autollenado/ordenescompras`).subscribe((resp: any) => {                                      
           if (resp['code'] === 200)  {          
             resolve(resp.data);            
           }
-      })
+      }))
     })
   }
 
@@ -75,33 +86,32 @@ export class OrdenescomprasService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => { 
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {    
           this.ordenGuardada.emit( resp );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   getDato(id:any) {
     return new Promise( resolve => {
-        this.http.get(`${URL}/ordenescompras/${id}`).subscribe((resp: any) => {
+        this.listSubscribers.push(this.http.get(`${URL}/ordenescompras/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);                         
         }
-      })
+      }))
     })
   }
 
   buscaOrdenCompra(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -124,24 +134,23 @@ export class OrdenescomprasService {
     }
 
     return new Promise( resolve => {   
-      this.http.post(`${ URL }/actualizarcompras/${id}`, formData).subscribe( (resp: any) => {   
-         
+      this.listSubscribers.push(this.http.post(`${ URL }/actualizarcompras/${id}`, formData).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {   
           this.ordenact.emit(1);
           resolve(resp.data);          
         }
-      });
+      }))
     });  
   }
 
   borrar(id:string){
     return new Promise(resolve =>{
-      this.http.delete(`${ URL }/ordenescompras/${id}`).subscribe((resp:any)=>{
+      this.listSubscribers.push(this.http.delete(`${ URL }/ordenescompras/${id}`).subscribe((resp:any)=>{
         if(resp['code']==200){
           this.ordenBorrada.emit(id);
           resolve(resp.data);
         }
-      })
+      }))
     })
   }
 
@@ -155,11 +164,11 @@ export class OrdenescomprasService {
     }     
     params = params.append('orden',parametro.orden);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => { 
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 

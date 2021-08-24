@@ -15,8 +15,18 @@ export class TipoProveedorService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaTproveedor(parametro?: any) {
     let params = new HttpParams();
@@ -28,32 +38,31 @@ export class TipoProveedorService {
     }     
     params = params.append('tipo',parametro.tipo);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/tipo-proveedor', {params}).subscribe((resp: any) => {                                     
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/tipo-proveedor', {params}).subscribe((resp: any) => {                                     
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/tipo-proveedores/${id}`).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.get(`${URL}/tipo-proveedores/${id}`).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -67,13 +76,12 @@ export class TipoProveedorService {
           formData.append(key, tipo[key]);
         }
       }
-      this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {    
-                           
+      this.listSubscribers.push(this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {  
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.tipoPguardado.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -89,24 +97,23 @@ export class TipoProveedorService {
         }
       }
       
-      this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata).subscribe( (resp: any) => {  
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata).subscribe( (resp: any) => {                                     
         if (resp['code'] === 200)  {
           this.tipoPact.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarTproveedor(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/tipo-proveedores/${id}`).subscribe( (resp: any) => {               
+      this.listSubscribers.push(this.http.delete(`${ URL }/tipo-proveedores/${id}`).subscribe( (resp: any) => {               
         if (resp['code'] === 200)  {            
           this.tipoPborrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

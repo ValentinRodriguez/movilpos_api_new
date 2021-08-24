@@ -25,7 +25,10 @@ const URL = environment.url;
 @Component({
   selector: 'app-formulario-inv-transacciones',
   templateUrl: './formulario-inv-transacciones.component.html',
-  styleUrls: ['./formulario-inv-transacciones.component.scss']
+  styleUrls: ['./formulario-inv-transacciones.component.scss'],
+  providers:[UsuarioService,ClientesService,TransportistasService,ProveedoresService,
+            CodMovService,InventarioService,OrdenPedidosService,FacturasService,OrdenescomprasService,
+            TransaccionesService,CodMovService,BodegasService]
 })
 export class FormularioInvTransaccionesComponent implements OnInit {
 

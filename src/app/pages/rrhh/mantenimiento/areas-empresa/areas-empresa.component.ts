@@ -5,11 +5,11 @@ import { AreasEmpresaService } from 'src/app/services/rrhh/areas-empresa.service
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-areas-empresa',
   templateUrl: './areas-empresa.component.html',
-  styleUrls: ['./areas-empresa.component.scss']
+  styleUrls: ['./areas-empresa.component.scss'],
+  providers:[UsuarioService,AreasEmpresaService]
 })
 export class AreasEmpresaComponent implements OnInit {
 

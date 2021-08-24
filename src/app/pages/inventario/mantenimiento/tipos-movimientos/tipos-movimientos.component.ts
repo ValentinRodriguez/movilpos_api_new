@@ -6,11 +6,11 @@ import { MovimientoPermisosComponent } from 'src/app/pages/inventario/mantenimie
 import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-tipos-movimientos',
   templateUrl: './tipos-movimientos.component.html',
-  styleUrls: ['./tipos-movimientos.component.scss']
+  styleUrls: ['./tipos-movimientos.component.scss'],
+  providers:[CodMovService]
 })
 
 export class TiposMovimientosComponent implements OnInit {

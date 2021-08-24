@@ -4,11 +4,11 @@ import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.ser
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tiponegocio',
   templateUrl: './formulario-tiponegocio.component.html',
-  styleUrls: ['./formulario-tiponegocio.component.scss']
+  styleUrls: ['./formulario-tiponegocio.component.scss'],
+  providers:[UsuarioService,TipoNegocioService]
 })
 export class FormularioTiponegocioComponent implements OnInit {
 
@@ -19,8 +19,7 @@ export class FormularioTiponegocioComponent implements OnInit {
   guardando = false;
   actualizar = false;
   actualizando = false;
-  id: number;
-  
+  id: number;  
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,

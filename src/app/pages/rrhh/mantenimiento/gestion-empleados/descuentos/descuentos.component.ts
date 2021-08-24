@@ -7,11 +7,11 @@ import { DepartamentosService } from 'src/app/services/rrhh/departamentos.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-descuentos',
   templateUrl: './descuentos.component.html',
-  styleUrls: ['./descuentos.component.scss']
+  styleUrls: ['./descuentos.component.scss'],
+  providers:[UsuarioService,CategoriasService,DepartamentosService]
 })
 export class DescuentosComponent implements OnInit {
 

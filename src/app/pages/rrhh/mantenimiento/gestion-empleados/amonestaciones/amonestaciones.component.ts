@@ -7,16 +7,15 @@ import { DepartamentosService } from 'src/app/services/rrhh/departamentos.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-amonestaciones',
   templateUrl: './amonestaciones.component.html',
-  styleUrls: ['./amonestaciones.component.scss']
+  styleUrls: ['./amonestaciones.component.scss'],
+  providers:[UsuarioService,CategoriasService,DepartamentosService]
 })
 export class AmonestacionesComponent implements OnInit {
 
-  forma: FormGroup;
- 
+  forma: FormGroup; 
   departamento: any[] = [];
   empleados: any[] = [];
   usuario: any;

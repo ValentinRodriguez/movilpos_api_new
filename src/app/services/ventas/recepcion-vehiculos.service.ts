@@ -15,51 +15,59 @@ export class RecepcionVehiculosService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
-  
+  listSubscribers: any = [];
+
   constructor(private http: HttpClient) { }
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaRecepcion(parametro?: any) {
     let params = new HttpParams();
         
     params = params.append('recepciones',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/recepcion-vehiculos', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/recepcion-vehiculos', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/recepcion-vehiculos`).subscribe((resp: any) => {                    
+      this.listSubscribers.push(this.http.get(`${URL}/recepcion-vehiculos`).subscribe((resp: any) => {                    
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenado() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/recepcion-vehiculos`).subscribe((resp: any) => {  
-                           
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/recepcion-vehiculos`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/recepcion-vehiculos/${id}`).subscribe((resp: any) => { 
-                
+      this.listSubscribers.push(this.http.get(`${URL}/recepcion-vehiculos/${id}`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -99,14 +107,12 @@ export class RecepcionVehiculosService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/recepcion-vehiculos`, recepcion).subscribe( (resp: any) => {
-          
-                                         
+      this.listSubscribers.push(this.http.post(`${ URL }/recepcion-vehiculos`, recepcion).subscribe( (resp: any) => {     
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.recepcionGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -150,27 +156,23 @@ export class RecepcionVehiculosService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/recepcion-vehiculos/${id}`, formData).subscribe( (resp: any) => {                
-                                   
-        
-        
+      this.listSubscribers.push(this.http.post(`${ URL }/recepcion-vehiculos/${id}`, formData).subscribe( (resp: any) => { 
         if (resp['code'] === 200)  {
           this.recepcionAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarRecepcion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/recepcion-vehiculos/${id}`).subscribe( (resp: any) => {    
-                                      
+      this.listSubscribers.push(this.http.delete(`${ URL }/recepcion-vehiculos/${id}`).subscribe( (resp: any) => {                                          
         if (resp['code'] === 200)  {            
           this.recepcionBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

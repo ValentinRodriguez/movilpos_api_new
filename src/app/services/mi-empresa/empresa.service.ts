@@ -17,8 +17,18 @@ export class EmpresaService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaEmpresa(parametro?: any) {
     let params = new HttpParams();
@@ -30,89 +40,82 @@ export class EmpresaService {
     }     
     params = params.append('empresa',parametro.empresa);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => { 
-        
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenadoPermisos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/permisos-empresa`).subscribe((resp: any) => {      
-                                      
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/permisos-empresa`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getEmpresa() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {   
-                                         
+      this.listSubscribers.push(this.http.get(`${URL}/empresa`).subscribe((resp: any) => {                                            
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa`).subscribe((resp: any) => {  
+      this.listSubscribers.push(this.http.get(`${URL}/empresa`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
 
   autoLlenado() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado-empresa`).subscribe((resp: any) => {      
-                                      
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado-empresa`).subscribe((resp: any) => {  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }                                      
 
   getPermisosEmpresa() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/permisos-empresa`).subscribe((resp: any) => {  
-                          
+      this.listSubscribers.push(this.http.get(`${URL}/permisos-empresa`).subscribe((resp: any) => {                            
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   showEmpresa(empresa: string) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {  
-                                          
+      this.listSubscribers.push(this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {                                            
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -166,12 +169,11 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/act/empresa/${id}`, formData).subscribe( (resp: any) => { 
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/act/empresa/${id}`, formData).subscribe( (resp: any) => {                                    
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -220,22 +222,22 @@ export class EmpresaService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {         
+      this.listSubscribers.push(this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {         
         if (resp['code'] === 200)  {                                      
           this.empresaCreada.emit(resp.data);
           resolve(resp.data);      
         }
-      });
+      }))
     });    
   }
 
   guardarPermisosEmpresa(data) {
     return new Promise( resolve => {
-      this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {   
+      this.listSubscribers.push(this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);      
         }
-      });
+      }))
     }); 
   }
 

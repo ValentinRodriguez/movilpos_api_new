@@ -5,7 +5,8 @@ import { MenuesService } from 'src/app/services/globales/menues.service';
 @Component({
   selector: 'app-menu-miscelaneos',
   templateUrl: './menu-miscelaneos.component.html',
-  styleUrls: ['./menu-miscelaneos.component.scss']
+  styleUrls: ['./menu-miscelaneos.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuMiscelaneosComponent implements OnInit {
 

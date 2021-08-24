@@ -4,19 +4,18 @@ import { PropiedadesService } from 'src/app/services/inventario/propiedades.serv
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-propiedades',
   templateUrl: './formulario-propiedades.component.html',
-  styleUrls: ['./formulario-propiedades.component.scss']
+  styleUrls: ['./formulario-propiedades.component.scss'],
+  providers:[UsuarioService,PropiedadesService]
 })
 export class FormularioPropiedadesComponent implements OnInit {
   
   forma: FormGroup;
   usuario: any;
   guardando = false;
-  propiedadExiste = 3;
-  
+  propiedadExiste = 3;  
   guardar = true;
   actualizar = false;
   listSubscribers: any = [];

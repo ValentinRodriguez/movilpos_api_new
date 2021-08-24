@@ -5,11 +5,11 @@ import { PuestosService } from 'src/app/services/rrhh/puestos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-puestos',
   templateUrl: './puestos.component.html',
-  styleUrls: ['./puestos.component.scss']
+  styleUrls: ['./puestos.component.scss'],
+  providers:[UsuarioService,PuestosService]
 })
 export class PuestosComponent implements OnInit {
 

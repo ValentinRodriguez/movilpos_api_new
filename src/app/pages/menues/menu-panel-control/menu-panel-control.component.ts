@@ -5,7 +5,8 @@ import { MenuesService } from 'src/app/services/globales/menues.service';
 @Component({
   selector: 'app-menu-panel-control',
   templateUrl: './menu-panel-control.component.html',
-  styleUrls: ['./menu-panel-control.component.scss']
+  styleUrls: ['./menu-panel-control.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuPanelControlComponent implements OnInit {
 

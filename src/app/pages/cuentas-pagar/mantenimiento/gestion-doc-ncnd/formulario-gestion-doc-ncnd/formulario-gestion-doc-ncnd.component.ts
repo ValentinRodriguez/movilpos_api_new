@@ -7,7 +7,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-gestion-doc-ncnd',
   templateUrl: './formulario-gestion-doc-ncnd.component.html',
-  styleUrls: ['./formulario-gestion-doc-ncnd.component.scss']
+  styleUrls: ['./formulario-gestion-doc-ncnd.component.scss'],
+  providers:[UsuarioService,GestionDocNcdcService]
 })
 export class FormularioGestionDocNcndComponent implements OnInit {
 
@@ -38,7 +39,7 @@ export class FormularioGestionDocNcndComponent implements OnInit {
       {field: 'cod_sp',header: 'Codigo Suplidor'},
       {field: 'cod_sp_sec',header: 'Secuencia Suplidor'},
       {field: 'fecha_orig',header: 'Fecha'},
-   {field: 'monto_itbi',header: 'itbis'},
+      {field: 'monto_itbi',header: 'itbis'},
       {field: 'valor',header: 'Valor'},
       {field: 'codigo_fiscal',header: 'Tipo Ncf'},
       {field: 'ncf',header: 'Ncf'},
@@ -59,13 +60,8 @@ export class FormularioGestionDocNcndComponent implements OnInit {
       console.log(fecha_orig);
       this.forma.get('fecha_orig').setValue(this.onSelectDate(fecha_orig));
       console.log(fecha_orig);
-      this.ncndService.crearDocumento(this.forma.value).subscribe((resp:any)=>{
-        if (resp.code===200){
-          console.log(resp);
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro Guardado');
-        }
-       
-       
+      this.ncndService.crearDocumento(this.forma.value).then((resp:any)=>{
+        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro Guardado');
       })
     }
   }

@@ -3,11 +3,9 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PendientesLiquidacionComponent } from 'src/app/components/pendientes-liquidacion/pendientes-liquidacion.component';
 import { LiquidacionMercanciasService } from 'src/app/services/inventario/liquidacion-mercancias.service';
-
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-liquidacion-mercancias',
   templateUrl: './liquidacion-mercancias.component.html',
@@ -25,8 +23,7 @@ export class LiquidacionMercanciasComponent implements OnInit {
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private liquidacionesServ: LiquidacionMercanciasService,
-              private confirmationService: ConfirmationService,
-              
+              private confirmationService: ConfirmationService,              
               public dialogService: DialogService) { 
                 this.usuario = this.usuariosServ.getUserLogged();                
               }

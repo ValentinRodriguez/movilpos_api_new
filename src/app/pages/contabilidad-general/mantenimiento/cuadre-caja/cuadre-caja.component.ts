@@ -5,11 +5,11 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { CuadresService } from "src/app/services/contabilidad/cuadres.service";
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-cuadre-caja',
   templateUrl: './cuadre-caja.component.html',
-  styleUrls: ['./cuadre-caja.component.scss']
+  styleUrls: ['./cuadre-caja.component.scss'],
+  providers:[UsuarioService,CuadresService,]
 })
 export class CuadreCajaComponent implements OnInit {
 
@@ -17,8 +17,7 @@ export class CuadreCajaComponent implements OnInit {
   index: number = 0;
   cuadres: any[] = [];
   id_categoria: any;
-  cols: any[];
-  
+  cols: any[];  
   
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

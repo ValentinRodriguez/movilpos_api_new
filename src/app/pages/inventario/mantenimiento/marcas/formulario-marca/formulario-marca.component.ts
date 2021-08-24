@@ -5,11 +5,11 @@ import { BrandsService } from 'src/app/services/inventario/brands.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-marca',
   templateUrl: './formulario-marca.component.html',
-  styleUrls: ['./formulario-marca.component.scss']
+  styleUrls: ['./formulario-marca.component.scss'],
+  providers:[UsuarioService,BrandsService]
 })
 export class FormularioMarcaComponent implements OnInit {
 

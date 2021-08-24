@@ -4,11 +4,11 @@ import { Table } from 'primeng/table';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-maestra-productos',
   templateUrl: './maestra-productos.component.html',
-  styleUrls: ['./maestra-productos.component.scss']
+  styleUrls: ['./maestra-productos.component.scss'],
+  providers:[InventarioService]
 })
 export class MaestraProductosComponent implements OnInit {
 
@@ -20,8 +20,7 @@ export class MaestraProductosComponent implements OnInit {
   selectedState: any = null;
   states: any[] = [];
   index: number = 0;
-  cols: any[] = [];   
-  
+  cols: any[] = [];     
   listSubscribers: any = [];
 
   constructor(private inventarioServ: InventarioService,

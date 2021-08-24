@@ -5,11 +5,11 @@ import { TurnosService } from 'src/app/services/rrhh/turnos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-turnos',
   templateUrl: './formulario-turnos.component.html',
-  styleUrls: ['./formulario-turnos.component.scss']
+  styleUrls: ['./formulario-turnos.component.scss'],
+  providers:[UsuarioService,TurnosService]
 })
 export class FormularioTurnosComponent implements OnInit {
 

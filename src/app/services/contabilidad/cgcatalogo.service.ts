@@ -15,9 +15,19 @@ export class CgcatalogoService {
   catalogoGuardado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  
+
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busqueda(parametro?: any) {
     let params = new HttpParams();
@@ -29,11 +39,11 @@ export class CgcatalogoService {
     }  
     params = params.append('descripcion',parametro.descripcion);  
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {                                              
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {                                              
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -41,53 +51,51 @@ export class CgcatalogoService {
     let params = new HttpParams();    
     params = params.append('cuenta_no',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {                           
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {                           
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/cgcatalogo`).subscribe((resp: any) => {                          
+      this.listSubscribers.push(this.http.get(`${URL}/cgcatalogo`).subscribe((resp: any) => {                          
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatosAux() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {  
-        
-                                
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   codigosRetencion() {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/codigos-retencion`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/codigos-retencion`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/cgcatalogo/${id}`).subscribe((resp: any) => {        
+      this.listSubscribers.push(this.http.get(`${URL}/cgcatalogo/${id}`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
   
@@ -127,13 +135,12 @@ export class CgcatalogoService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {        
         if (resp['code'] === 200)  {
           resolve(resp.data);       
           this.catalogoGuardado.emit(resp.data);
         }
-      });
+      }))
     });    
   }
 
@@ -177,25 +184,23 @@ export class CgcatalogoService {
     }
       
     return new Promise( resolve => {
-      this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
-                                     
-          if (resp['code'] === 200)  {
-            this.catalogoActualizado.emit( resp.data );                            
-            resolve(resp.data);            
-          }
-      });
+      this.listSubscribers.push(this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
+        if (resp['code'] === 200)  {
+          this.catalogoActualizado.emit( resp.data );                            
+          resolve(resp.data);            
+        }
+      }))
     });
   }
 
   borrarCatalogo(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => {   
-                               
+      this.listSubscribers.push(this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => { 
         if (resp['code'] === 200)  {
           this.catalogoBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

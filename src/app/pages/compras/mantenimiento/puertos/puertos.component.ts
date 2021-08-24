@@ -5,11 +5,11 @@ import { PuertosService } from 'src/app/services/compras/puertos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-puertos',
   templateUrl: './puertos.component.html',
-  styleUrls: ['./puertos.component.scss']
+  styleUrls: ['./puertos.component.scss'],
+  providers:[UsuarioService,PuertosService,]
 })
 export class PuertosComponent implements OnInit {
 
@@ -17,8 +17,6 @@ export class PuertosComponent implements OnInit {
   index: number = 0;
   puerto: any[] = [];
   cols: any[];
-   
-    
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,

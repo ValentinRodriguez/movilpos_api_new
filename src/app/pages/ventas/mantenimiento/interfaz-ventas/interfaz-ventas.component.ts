@@ -15,11 +15,11 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-interfaz-ventas',
   templateUrl: './interfaz-ventas.component.html',
-  styleUrls: ['./interfaz-ventas.component.scss']
+  styleUrls: ['./interfaz-ventas.component.scss'],
+  providers:[UsuarioService,InventarioService,FacturasService,CategoriasService,ClientesService]
 })
 export class InterfazVentasComponent implements OnInit {
 
@@ -72,8 +72,7 @@ export class InterfazVentasComponent implements OnInit {
                 private dialogService: DialogService,
                 private primengConfig: PrimeNGConfig) {
 
-                this.usuario = this.usuarioServ.getUserLogged(); 
-                
+                this.usuario = this.usuarioServ.getUserLogged();                 
                 this.nombre = this.usuario.name+' '+this.usuario.surname;   
                 this.fecha = this.datosEstaticosServ.getDate();
                 this.crearFormulario();

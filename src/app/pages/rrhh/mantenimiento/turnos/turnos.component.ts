@@ -5,11 +5,11 @@ import { TurnosService } from 'src/app/services/rrhh/turnos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-turnos',
   templateUrl: './turnos.component.html',
-  styleUrls: ['./turnos.component.scss']
+  styleUrls: ['./turnos.component.scss'],
+  providers:[UsuarioService,TurnosService]
 })
 export class TurnosComponent implements OnInit {
 
@@ -19,7 +19,6 @@ export class TurnosComponent implements OnInit {
   id_categoria: any;
   cols: any[];   
   
-
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private turnosServ: TurnosService,

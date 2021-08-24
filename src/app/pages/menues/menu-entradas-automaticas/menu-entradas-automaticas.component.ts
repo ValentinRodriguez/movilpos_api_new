@@ -4,7 +4,8 @@ import { MenuesService } from 'src/app/services/globales/menues.service';
 @Component({
   selector: 'app-menu-entradas-automaticas',
   templateUrl: './menu-entradas-automaticas.component.html',
-  styleUrls: ['./menu-entradas-automaticas.component.scss']
+  styleUrls: ['./menu-entradas-automaticas.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuEntradasAutomaticasComponent implements OnInit {
   menu: any[] = [];

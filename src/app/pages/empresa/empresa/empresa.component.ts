@@ -6,7 +6,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
-  styleUrls: ['./empresa.component.scss']
+  styleUrls: ['./empresa.component.scss'],
+  providers:[UsuarioService,EmpresaService,]
 })
 export class EmpresaComponent implements OnInit {
 

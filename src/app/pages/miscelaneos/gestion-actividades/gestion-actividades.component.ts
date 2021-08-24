@@ -10,11 +10,11 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-gestion-actividades',
   templateUrl: './gestion-actividades.component.html',
-  styleUrls: ['./gestion-actividades.component.scss']
+  styleUrls: ['./gestion-actividades.component.scss'],
+  providers:[ActividadesService,UsuarioService]
 })
 export class GestionActividadesComponent implements OnInit {
 

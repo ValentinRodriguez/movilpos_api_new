@@ -5,11 +5,11 @@ import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-monedas',
   templateUrl: './monedas.component.html',
-  styleUrls: ['./monedas.component.scss']
+  styleUrls: ['./monedas.component.scss'],
+  providers:[UsuarioService,MonedasService,]
 })
 export class MonedasComponent implements OnInit {
 
@@ -18,8 +18,6 @@ export class MonedasComponent implements OnInit {
   monedas: any[] = [];
   id_categoria: any;
   cols: any[];
-  
-  
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,

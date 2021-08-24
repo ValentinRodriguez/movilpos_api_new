@@ -4,11 +4,11 @@ import { PuertosService } from 'src/app/services/compras/puertos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-puertos',
   templateUrl: './formulario-puertos.component.html',
-  styleUrls: ['./formulario-puertos.component.scss']
+  styleUrls: ['./formulario-puertos.component.scss'],
+  providers:[UsuarioService,PuertosService]
 })
 export class FormularioPuertosComponent implements OnInit {
 

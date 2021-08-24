@@ -8,18 +8,29 @@ const URL = environment.url;
 })
 export class SecuenciasService {
 
+  listSubscribers: any = [];
+  
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   secuenciaDocumentos(tipo:string, cuenta_no:string) {
     let params = new HttpParams().set('tipo',tipo)
                                  .set('cuenta_no',cuenta_no);
 
     return new Promise( resolve => {
-      return this.http.get(`${URL}/secuencias/cgtransacciones`,{params}).subscribe((resp: any) => {                          
+      this.listSubscribers.push(this.http.get(`${URL}/secuencias/cgtransacciones`,{params}).subscribe((resp: any) => {                          
             if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 }

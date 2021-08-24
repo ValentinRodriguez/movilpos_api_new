@@ -5,11 +5,11 @@ import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventar
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-tipoinv',
   templateUrl: './formulario-tipoinv.component.html',
-  styleUrls: ['./formulario-tipoinv.component.scss']
+  styleUrls: ['./formulario-tipoinv.component.scss'],
+  providers:[TipoInventarioService,UsuarioService,CgcatalogoService]
 })
 export class FormularioTipoinvComponent implements OnInit {
 

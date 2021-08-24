@@ -14,72 +14,81 @@ export class CoTransaccionescxpService {
   facturaAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  facturaEscogida  = new EventEmitter();
+  facturaEscogida = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
 
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
+
   busquedaFactura(parametro?: any) {
-    let params = new HttpParams();
-       
+    let params = new HttpParams();       
     params = params.append('factura',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/transacciones-cxp', {params}).subscribe((resp: any) => {                          
-          if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/transacciones-cxp', {params}).subscribe((resp: any) => {                          
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   autoLlenado() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/autollenado/transacciones-cxp`).subscribe((resp: any) => {      
-          if (resp['code'] === 200)  {          
-              resolve(resp.data);            
-          }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/transacciones-cxp`).subscribe((resp: any) => {      
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      }))
     })
   }
   
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/transacciones-cxp`).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.get(`${URL}/transacciones-cxp`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   facturasPendientes() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/facturas-pendientes/transacciones-cxp`).subscribe((resp: any) => {                           
+      this.listSubscribers.push(this.http.get(`${URL}/facturas-pendientes/transacciones-cxp`).subscribe((resp: any) => {                           
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/transacciones-cxp/${id}`).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.get(`${URL}/transacciones-cxp/${id}`).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   verificaNCF(proveedor, ncf) {   
     let params = new HttpParams().set('proveedor',proveedor).set('ncf',ncf);
     return new Promise( resolve => {
-      this.http.get(`${URL}/transacciones-cxp/verificancf`,{params}).subscribe((resp: any) => {                                  
+      this.listSubscribers.push(this.http.get(`${URL}/transacciones-cxp/verificancf`,{params}).subscribe((resp: any) => {                                  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -108,13 +117,12 @@ export class CoTransaccionescxpService {
     }
     
     return new Promise( resolve => {
-      this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {                       
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {   
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.facturaGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
@@ -142,25 +150,23 @@ export class CoTransaccionescxpService {
       }      
     }
     return new Promise( resolve => {
-      this.http.put(`${ URL }/transacciones-cxp/${id}`, data).subscribe( (resp: any) => {
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/transacciones-cxp/${id}`, data).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {
           this.facturaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarFactura(id: number) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {          
-                                   
+      this.listSubscribers.push(this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {   
         if (resp['code'] === 200)  {            
         this.facturaBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

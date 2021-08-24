@@ -15,11 +15,12 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-ordenes-pedidos',
   templateUrl: './formulario-ordenes-pedidos.component.html',
-  styleUrls: ['./formulario-ordenes-pedidos.component.scss']
+  styleUrls: ['./formulario-ordenes-pedidos.component.scss'],
+  providers:[OrdenPedidosService,InventarioService,RrhhService,ClientesService,CondicionesPagoService,
+            UsuarioService,PaisesCiudadesService,ZonasService,]
 })
 export class FormularioOrdenesPedidosComponent implements OnInit {
 
@@ -59,8 +60,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
   actualizando = false;
   actualizar = false;
   id: number;
-  simbolo = '$RD'
-  
+  simbolo = '$RD'  
   
   constructor(private uiMessage: UiMessagesService,
               private fb: FormBuilder,              

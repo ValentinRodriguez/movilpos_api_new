@@ -13,7 +13,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-empleados',
   templateUrl: './formulario-empleados.component.html',
-  styleUrls: ['./formulario-empleados.component.scss']
+  styleUrls: ['./formulario-empleados.component.scss'],
+  providers:[UsuarioService,RrhhService,SucursalesService,PaisesCiudadesService]
 })
 export class FormularioEmpleadosComponent implements OnInit {
 
@@ -29,8 +30,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   imagePathUser: any;
   minDate: Date;
   monedas: any;
-  empresa: any;
-  
+  empresa: any;  
   listSubscribers: any = [];
   puestos: any[] = [];
   puestosFiltrados: any[];

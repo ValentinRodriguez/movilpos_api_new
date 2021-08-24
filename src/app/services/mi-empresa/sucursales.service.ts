@@ -15,8 +15,18 @@ export class SucursalesService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaSucursales(parametro?: any) {
     let params = new HttpParams();
@@ -28,43 +38,41 @@ export class SucursalesService {
     }     
     params = params.append('sucursales',parametro.sucursales);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/sucursales', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/sucursales', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/sucursales`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/sucursales`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
   
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/sucursales/${id}`).subscribe((resp: any) => { 
+      this.listSubscribers.push(this.http.get(`${URL}/sucursales/${id}`).subscribe((resp: any) => { 
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   busquedaXempresa(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/sucursales/${id}`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/sucursales/${id}`).subscribe((resp: any) => {        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
 }
   
@@ -108,37 +116,34 @@ export class SucursalesService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/sucursales`, formdata).subscribe( (resp: any) => {
-                
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/sucursales`, formdata).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.sucursalesGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   actualizarSucursales(id:number, sucursales: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/sucursales/${id}`, sucursales).subscribe( (resp: any) => {                
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/sucursales/${id}`, sucursales).subscribe( (resp: any) => {  
         if (resp['code'] === 200)  {
           this.sucursalesAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarSucursales(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/sucursales/${id}`).subscribe( (resp: any) => {                          
+      this.listSubscribers.push(this.http.delete(`${ URL }/sucursales/${id}`).subscribe( (resp: any) => {                          
         if (resp['code'] === 200)  {            
           this.sucursalesBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

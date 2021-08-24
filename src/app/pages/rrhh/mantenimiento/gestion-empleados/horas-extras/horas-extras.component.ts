@@ -7,11 +7,11 @@ import { DepartamentosService } from 'src/app/services/rrhh/departamentos.servic
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-horas-extras',
   templateUrl: './horas-extras.component.html',
-  styleUrls: ['./horas-extras.component.scss']
+  styleUrls: ['./horas-extras.component.scss'],
+  providers:[UsuarioService,CategoriasService,DepartamentosService]
 })
 export class HorasExtrasComponent implements OnInit {
 

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuesService } from 'src/app/services/globales/menues.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-menu-tienda-online',
   templateUrl: './menu-tienda-online.component.html',
-  styleUrls: ['./menu-tienda-online.component.scss']
+  styleUrls: ['./menu-tienda-online.component.scss'],
+  providers:[MenuesService]
 })
 export class MenuTiendaOnlineComponent implements OnInit {
 

@@ -6,11 +6,11 @@ import { EntradasDiarioService } from 'src/app/services/contabilidad/entradas-di
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-entrada-diario',
   templateUrl: './entrada-diario.component.html',
-  styleUrls: ['./entrada-diario.component.scss']
+  styleUrls: ['./entrada-diario.component.scss'],
+  providers:[UsuarioService,EntradasDiarioService,]
 })
 export class EntradaDiarioComponent implements OnInit {
 
@@ -21,10 +21,8 @@ export class EntradaDiarioComponent implements OnInit {
   marcaExiste = 3;
   actualizar = false;
   id_marca: any;
-  cols: any[];
-   
-  index: number = 0;
-    
+  cols: any[];   
+  index: number = 0;    
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,

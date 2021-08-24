@@ -14,52 +14,59 @@ export class CuadresService {
   cuadreAct = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-  
+
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaCuadre(parametro?: any) {
     let params = new HttpParams();  
     params = params.append('cuadre-caja',parametro.cuadres);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/cuadre-caja', {params}).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/cuadre-caja', {params}).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/cuadre-caja`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/cuadre-caja`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   autoLlenado() {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/autollenado/cuadre-caja`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/autollenado/cuadre-caja`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {   
     return new Promise( resolve => {
-      this.http.get(`${URL}/cuadre-caja/${id}`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.get(`${URL}/cuadre-caja/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -70,47 +77,43 @@ export class CuadresService {
     }
 
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cuadre-caja`, formData).subscribe( (resp: any) => {
+      this.listSubscribers.push(this.http.post(`${ URL }/cuadre-caja`, formData).subscribe( (resp: any) => {
                                    
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.cuadreGuardada.emit(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   actualizarCuadre(id:number, cuadre: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/cuadre-caja/${id}`, cuadre).subscribe( (resp: any) => {                
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/cuadre-caja/${id}`, cuadre).subscribe( (resp: any) => { 
         if (resp['code'] === 200)  {
           this.cuadreAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarCuadre(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${URL}/cuadre-caja/${id}`).subscribe((resp: any) => {
-        
+      this.listSubscribers.push(this.http.delete(`${URL}/cuadre-caja/${id}`).subscribe((resp: any) => {
         if (resp['code'] === 200)  {            
           this.cuadreBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   actualizando(data: any) {
-    
     this.actualizar.emit(data);
   }
 
   guardando() {
-    
     this.guardar.emit(0);
   }
 }

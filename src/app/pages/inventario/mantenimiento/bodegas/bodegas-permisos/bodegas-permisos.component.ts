@@ -4,18 +4,17 @@ import { BodegasService } from 'src/app/services/inventario/bodegas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-bodegas-permisos',
   templateUrl: './bodegas-permisos.component.html',
-  styleUrls: ['./bodegas-permisos.component.scss']
+  styleUrls: ['./bodegas-permisos.component.scss'],
+  providers:[UsuarioService,BodegasService]
 })
 export class BodegasPermisosComponent implements OnInit {
   usuario: any;
   usuarios: any[] = [];
   usuariosPermisos: any[] = [];
-  id_bodega: any;
-  
+  id_bodega: any;  
   listSubscribers: any = [];
 
   constructor(public ref: DynamicDialogRef, 

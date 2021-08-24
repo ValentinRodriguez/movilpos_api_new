@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 const URL = environment.url;
@@ -7,7 +7,7 @@ const URL = environment.url;
 @Injectable({
   providedIn: 'root'
 })
-export class DireccionesService {
+export class DireccionesService implements OnDestroy{
 
   direccionGuardada = new EventEmitter();
   direccionBorrada = new EventEmitter();
@@ -16,40 +16,48 @@ export class DireccionesService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaDireccion(parametro?: any) {
     let params = new HttpParams();      
     params = params.append('direccion',parametro);    
     return new Promise( resolve => {
-      this.http.get(URL+'/busqueda/direccion', {params}).subscribe((resp: any) => { 
-                                      
-            if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-        })
+    this.listSubscribers.push(this.http.get(URL+'/busqueda/direccion', {params}).subscribe((resp: any) => {
+          if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   getDatos() {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/direccion-envio`).subscribe((resp: any) => {
-                                    
-            if (resp['code'] === 200)  {          
+     this.listSubscribers.push(this.http.get(`${URL}/direccion-envio`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id) {
     return new Promise( resolve => {
-      return this.http.get(`${URL}/direccion-envio/${id}`).subscribe((resp: any) => {                                   
+     this.listSubscribers.push(this.http.get(`${URL}/direccion-envio/${id}`).subscribe((resp: any) => {                                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
@@ -68,13 +76,12 @@ export class DireccionesService {
       }
     }
     return new Promise( resolve => {
-      this.http.post(`${ URL }/direccion-envio`, data).subscribe( (resp:any) => {             
-                                   
+     this.listSubscribers.push(this.http.post(`${ URL }/direccion-envio`, data).subscribe( (resp:any) => { 
         if (resp['code'] === 200)  {                                      
           resolve(resp.data);    
           this.direccionGuardada.emit( resp.data );       
         }
-      });
+      }))
     });    
   }
 
@@ -93,24 +100,23 @@ export class DireccionesService {
       }
     }       
     return new Promise( resolve => {
-      this.http.put(`${ URL }/direccion-envio/${id}`, data).subscribe( (resp: any) => { 
-                                   
+     this.listSubscribers.push(this.http.put(`${ URL }/direccion-envio/${id}`, data).subscribe( (resp: any) => {                                    
         if (resp['code'] === 200)  {                  
           this.direccionActualizada.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   borrarDireccion(id: string) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/direccion-envio/${id}`).subscribe( (resp: any) => {
+     this.listSubscribers.push(this.http.delete(`${ URL }/direccion-envio/${id}`).subscribe( (resp: any) => {
         if (resp['code'] === 200)  {            
           this.direccionBorrada.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

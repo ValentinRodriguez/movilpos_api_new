@@ -19,7 +19,8 @@ import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/
 @Component({
   selector: 'app-interfaz-ventas2',
   templateUrl: './interfaz-ventas2.component.html',
-  styleUrls: ['./interfaz-ventas2.component.scss']
+  styleUrls: ['./interfaz-ventas2.component.scss'],
+  providers:[UsuarioService,InventarioService,FacturasService,CategoriasService,ClientesService]
 })
     
     
@@ -32,10 +33,8 @@ export class InterfazVentas2Component implements OnInit {
     @ViewChild('input') input: ElementRef;
     @ViewChild('general') elementView: ElementRef;
     @ViewChild('vs') vs: VirtualScroller;
-  
-    
-    usuario: any;
-    
+      
+    usuario: any;    
     productos: any[] = [];
     productosSeleccionados: any[] = [];
     clientes: any[] = [];

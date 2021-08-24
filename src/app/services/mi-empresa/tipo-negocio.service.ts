@@ -15,75 +15,81 @@ export class TipoNegocioService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
+  listSubscribers: any = [];
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
 
   busquedaTipoN(parametro) {
     let params = new HttpParams();
-
-    params = params.append('descripcion',parametro);
-    
+    params = params.append('descripcion',parametro);    
     return new Promise( resolve => {      
-      this.http.get(URL+'/busqueda/tiponegocios', {params}).subscribe((resp: any) => {                                  
+      this.listSubscribers.push(this.http.get(URL+'/busqueda/tiponegocios', {params}).subscribe((resp: any) => {                                  
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDatos(){
     return new Promise( resolve => {
-      this.http.get(`${URL}/tiponegocios`).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.get(`${URL}/tiponegocios`).subscribe((resp: any) => {                       
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   getDato(id:number){
     return new Promise( resolve => {
-      this.http.get(`${URL}/tiponegocios/${id}`).subscribe((resp: any) => {                                   
+      this.listSubscribers.push(this.http.get(`${URL}/tiponegocios/${id}`).subscribe((resp: any) => {                                   
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   crearTipoNegocio(tipoNegocio: any) {    
     return new Promise( resolve => {
-      this.http.post(`${ URL }/tiponegocios`, tipoNegocio).subscribe( (resp: any) => {          
-                                   
+      this.listSubscribers.push(this.http.post(`${ URL }/tiponegocios`, tipoNegocio).subscribe( (resp: any) => {    
         if (resp['code'] === 200)  {    
           this.tipoNegocioguardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   borrarTipoNegocio(id) {
     return new Promise( resolve => {      
-      this.http.delete(`${ URL }/tiponegocios/${id}`).subscribe( (resp: any) => {                         
+      this.listSubscribers.push(this.http.delete(`${ URL }/tiponegocios/${id}`).subscribe( (resp: any) => {                         
         if (resp['code'] === 200)  {            
           this.tipoNegocioBorrado.emit(id);    
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 
   actualizarTipoNegocio(id:number, tipo: any) {  
     return new Promise( resolve => {
-      this.http.put(`${ URL }/tiponegocios/${id}`, tipo).subscribe( (resp: any) => {            
-                                   
+      this.listSubscribers.push(this.http.put(`${ URL }/tiponegocios/${id}`, tipo).subscribe( (resp: any) => {  
         if (resp['code'] === 200)  {
           this.tipoNegocioAct.emit( resp.data );                            
           resolve(resp.data);            
         }
-      });
+      }))
     });
   }
 

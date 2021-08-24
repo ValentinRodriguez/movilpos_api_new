@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MonedasService } from 'src/app/services/monedas.service';
-import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+import { MonedasService } from "../../../../../services/mi-empresa/monedas.service";
+import { UsuarioService } from "../../../../../services/panel-control/usuario.service";
+import { UiMessagesService } from "../../../../../services/globales/ui-messages.service";
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-cotizaciones',
   templateUrl: './formulario-cotizaciones.component.html',
-  styleUrls: ['./formulario-cotizaciones.component.scss']
+  styleUrls: ['./formulario-cotizaciones.component.scss'],
+  providers:[UsuarioService,MonedasService]
 })
 export class FormularioCotizacionesComponent implements OnInit {
 
@@ -30,7 +30,6 @@ export class FormularioCotizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.monedasServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;   
@@ -57,7 +56,6 @@ export class FormularioCotizacionesComponent implements OnInit {
   guardarMoneda(){
         
     if (this.forma.invalid) {       
-      this.
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

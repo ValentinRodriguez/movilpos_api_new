@@ -11,7 +11,8 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-formulario-entrada-diario',
   templateUrl: './formulario-entrada-diario.component.html',
-  styleUrls: ['./formulario-entrada-diario.component.scss']
+  styleUrls: ['./formulario-entrada-diario.component.scss'],
+  providers:[UsuarioService,EntradasDiarioService,CgcatalogoService,]
 })
 export class FormularioEntradaDiarioComponent implements OnInit {
   totalC = 0;

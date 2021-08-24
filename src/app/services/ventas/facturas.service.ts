@@ -15,72 +15,81 @@ export class FacturasService {
   
   guardando = new EventEmitter();
   metodo = new EventEmitter();
-  constructor(private http: HttpClient) {}
+  
+  listSubscribers: any = [];
+
+  constructor(private http: HttpClient) { }
+            
+  ngOnDestroy() {
+    console.log('destruido');    
+    this.listSubscribers.forEach(a => {
+      if (a !== undefined) {
+        a.unsubscribe()        
+      }
+    });
+  }
   
   getDatos() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
-          if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   getDato() {
     return new Promise( resolve => {
-        this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
-          if (resp['code'] === 200)  {          
-            resolve(resp.data);            
-          }
-      })
+      this.listSubscribers.push(this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
+        if (resp['code'] === 200)  {          
+          resolve(resp.data);            
+        }
+      }))
     })
   }
 
   buscaFactura(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/factura/${id}`).subscribe((resp: any) => {                         
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/factura/${id}`).subscribe((resp: any) => {                         
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   buscaOrdenPedido(id: any) {
     return new Promise( resolve => {
-      this.http.get(`${URL}/busqueda/orden/${id}`).subscribe((resp: any) => {                             
+      this.listSubscribers.push(this.http.get(`${URL}/busqueda/orden/${id}`).subscribe((resp: any) => {                             
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }
-      })
+      }))
     })
   }
 
   crearFactura(factura: any) {
     return new Promise( resolve => {
-      this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
+      this.listSubscribers.push(this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
         this.guardando.emit(false);
-        
-        
         if (resp['code'] === 200)  {    
           this.facturaCreada.emit( resp );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 
   crearFacturaPrestamo(factura: any) {
     return new Promise( resolve => {
-      this.http.post(`${ URL }/cctransacciones`, factura).subscribe( (resp: any) => {                   
-        this.guardando.emit(false);
-                
+      this.listSubscribers.push(this.http.post(`${ URL }/cctransacciones`, factura).subscribe( (resp: any) => {                   
+        this.guardando.emit(false);                
         if (resp['code'] === 200)  {    
           this.facturaCreada.emit( resp );                                   
           resolve(resp.data);       
         }
-      });
+      }))
     });    
   }
 

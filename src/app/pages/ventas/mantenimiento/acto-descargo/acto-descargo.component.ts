@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 
 @Component({
   selector: 'app-acto-descargo',
   templateUrl: './acto-descargo.component.html',
-  styleUrls: ['./acto-descargo.component.scss']
+  styleUrls: ['./acto-descargo.component.scss'],
+  providers:[PaisesCiudadesService,InventarioService]
 })
 export class ActoDescargoComponent implements OnInit {
 

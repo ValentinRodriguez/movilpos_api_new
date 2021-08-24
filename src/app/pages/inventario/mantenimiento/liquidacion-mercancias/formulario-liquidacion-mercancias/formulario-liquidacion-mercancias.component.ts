@@ -6,15 +6,14 @@ import { PendientesLiquidacionComponent } from 'src/app/components/pendientes-li
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { LiquidacionMercanciasService } from 'src/app/services/inventario/liquidacion-mercancias.service';
 import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
-import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-liquidacion-mercancias',
   templateUrl: './formulario-liquidacion-mercancias.component.html',
-  styleUrls: ['./formulario-liquidacion-mercancias.component.scss']
+  styleUrls: ['./formulario-liquidacion-mercancias.component.scss'],
+  providers:[UsuarioService,InventarioService,OrdenescomprasService,LiquidacionMercanciasService,LiquidacionMercanciasService,]
 })
 export class FormularioLiquidacionMercanciasComponent implements OnInit {
 
@@ -24,8 +23,7 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  ocExiste = 3;
-  
+  ocExiste = 3;  
   id: number;
   listSubscribers: any = [];
   proveedores: any = [];
@@ -34,17 +32,16 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
   productos = [];
   opciones: any[];
   value1: string = "no";
-
   totalImpuestos = 0;
   totalGastos = 0;
   totalFOB = 0;
   totalFlete = 0;
   pendientes: any;
+
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
               private invProductosServ: InventarioService,
-              private proveedoresServ: ProveedoresService,
               private ordenCompraServ:OrdenescomprasService,
               public pendientesLiquidacionServ: LiquidacionMercanciasService,
               private liquidacionesServ: LiquidacionMercanciasService,

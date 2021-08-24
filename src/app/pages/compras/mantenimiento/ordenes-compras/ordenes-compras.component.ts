@@ -7,11 +7,11 @@ import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-ordenes-compras',
   templateUrl: './ordenes-compras.component.html',
-  styleUrls: ['./ordenes-compras.component.scss']
+  styleUrls: ['./ordenes-compras.component.scss'],
+  providers: [OrdenescomprasService]
 })
 
 export class OrdenesComprasComponent implements OnInit {

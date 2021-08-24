@@ -9,7 +9,8 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-catalogo-cuentas',
   templateUrl: './catalogo-cuentas.component.html',
-  styleUrls: ['./catalogo-cuentas.component.scss']
+  styleUrls: ['./catalogo-cuentas.component.scss'],
+  providers:[UsuarioService,CgcatalogoService,]
 })
 export class CatalogoCuentasComponent implements OnInit {
 
