@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { AmonestacionesComponent } from './amonestaciones/amonestaciones.component';
 import { AusenciasComponent } from './ausencias/ausencias.component';
 import { DescuentosComponent } from './descuentos/descuentos.component';
@@ -13,7 +13,7 @@ import { VacacionesComponent } from './vacaciones/vacaciones.component';
   selector: 'app-gestion-empleados',
   templateUrl: './gestion-empleados.component.html',
   styleUrls: ['./gestion-empleados.component.scss'],
-  providers:[RrhhService,UsuarioService]
+  providers:[RrhhService]
 })
 export class GestionEmpleadosComponent implements OnInit {
  
@@ -27,10 +27,10 @@ export class GestionEmpleadosComponent implements OnInit {
   index = 0;
 
   constructor(private empleadosServ: RrhhService,
-              private usuariosServ: UsuarioService,
+              
               private confirmationService: ConfirmationService,
               private dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
               }
 
   ngOnDestroy(): void {

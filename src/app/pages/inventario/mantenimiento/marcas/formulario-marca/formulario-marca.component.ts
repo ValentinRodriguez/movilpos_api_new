@@ -3,13 +3,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BrandsService } from 'src/app/services/inventario/brands.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-marca',
   templateUrl: './formulario-marca.component.html',
   styleUrls: ['./formulario-marca.component.scss'],
-  providers:[UsuarioService,BrandsService]
+  providers:[BrandsService]
 })
 export class FormularioMarcaComponent implements OnInit {
 
@@ -25,11 +25,10 @@ export class FormularioMarcaComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private marcasServ: BrandsService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

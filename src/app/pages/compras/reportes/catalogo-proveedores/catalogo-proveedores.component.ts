@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
@@ -12,7 +11,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
   selector: 'app-catalogo-proveedores',
   templateUrl: './catalogo-proveedores.component.html',
   styleUrls: ['./catalogo-proveedores.component.scss'],
-  providers:[ProveedoresService,UsuarioService,PaisesCiudadesService,]
+  providers:[ProveedoresService,PaisesCiudadesService,]
 })
 export class CatalogoProveedoresComponent implements OnInit {
   forma: FormGroup;
@@ -35,12 +34,11 @@ export class CatalogoProveedoresComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private proveedoresServ:ProveedoresService,
-              private usuariosServ: UsuarioService,
               private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
               private uiMessage: UiMessagesService,
               private datosEstaticos: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.crearFormulario()
               }
               

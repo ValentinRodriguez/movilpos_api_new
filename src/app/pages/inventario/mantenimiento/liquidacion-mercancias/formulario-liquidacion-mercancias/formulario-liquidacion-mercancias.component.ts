@@ -7,13 +7,13 @@ import { InventarioService } from 'src/app/services/inventario/inventario.servic
 import { LiquidacionMercanciasService } from 'src/app/services/inventario/liquidacion-mercancias.service';
 import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-liquidacion-mercancias',
   templateUrl: './formulario-liquidacion-mercancias.component.html',
   styleUrls: ['./formulario-liquidacion-mercancias.component.scss'],
-  providers:[UsuarioService,InventarioService,OrdenescomprasService,LiquidacionMercanciasService,LiquidacionMercanciasService,]
+  providers:[InventarioService,OrdenescomprasService,LiquidacionMercanciasService,LiquidacionMercanciasService,]
 })
 export class FormularioLiquidacionMercanciasComponent implements OnInit {
 
@@ -40,14 +40,13 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private invProductosServ: InventarioService,
               private ordenCompraServ:OrdenescomprasService,
               public pendientesLiquidacionServ: LiquidacionMercanciasService,
               private liquidacionesServ: LiquidacionMercanciasService,
               private dialogService: DialogService) { 
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

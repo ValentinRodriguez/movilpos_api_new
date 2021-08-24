@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { TipoProveedorService } from 'src/app/services/mi-empresa/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 @Component({
   selector: 'app-tipos-proveedores',
   templateUrl: './tipos-proveedores.component.html',
-  styleUrls: ['./tipos-proveedores.component.scss']
+  styleUrls: ['./tipos-proveedores.component.scss'],
+  providers:[TipoProveedorService]
 })
 export class TiposProveedoresComponent implements OnInit {
   
@@ -21,12 +22,11 @@ export class TiposProveedoresComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private tipoProveedorServ: TipoProveedorService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.todosLosTiposP();
               }
   ngOnDestroy(): void {

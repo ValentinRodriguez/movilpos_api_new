@@ -3,7 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-fiscales.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { groupBy } from 'lodash-es';
 import { ActPeriodosComponent } from './act-periodos/act-periodos.component';
 
@@ -11,7 +11,7 @@ import { ActPeriodosComponent } from './act-periodos/act-periodos.component';
   selector: 'app-periodos-fiscales',
   templateUrl: './periodos-fiscales.component.html',
   styleUrls: ['./periodos-fiscales.component.scss'],
-  providers:[PeriodosFiscalesService,UsuarioService,]
+  providers:[PeriodosFiscalesService]
 })
 export class PeriodosFiscalesComponent implements OnInit {
 
@@ -30,10 +30,9 @@ export class PeriodosFiscalesComponent implements OnInit {
 
   constructor(private confirmationService: ConfirmationService,
               private periodoFserv: PeriodosFiscalesService,
-              private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
               }
 
   ngOnDestroy(): void {

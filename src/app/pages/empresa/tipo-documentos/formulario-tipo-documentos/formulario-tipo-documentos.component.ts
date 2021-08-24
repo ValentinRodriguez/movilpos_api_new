@@ -5,13 +5,13 @@ import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/
 import { PuestosService } from 'src/app/services/rrhh/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-tipo-documentos',
   templateUrl: './formulario-tipo-documentos.component.html',
   styleUrls: ['./formulario-tipo-documentos.component.scss'],
-  providers:[UsuarioService,PuestosService,RrhhService,]
+  providers:[PuestosService,RrhhService,]
 })
 export class FormularioTipoDocumentosComponent implements OnInit {
 
@@ -37,11 +37,11 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   ];
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private puestosServ: PuestosService,
               private empleadosServ: RrhhService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
               }
 

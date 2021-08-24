@@ -10,13 +10,12 @@ import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { TipoProveedorService } from 'src/app/services/mi-empresa/tipo-proveedor.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-formulario-proveedores',
   templateUrl: './formulario-proveedores.component.html',
   styleUrls: ['./formulario-proveedores.component.scss'],
-  providers: [PaisesCiudadesService, UsuarioService, ProveedoresService, CgcatalogoService, TipoProveedorService]
+  providers: [PaisesCiudadesService, ProveedoresService, CgcatalogoService, TipoProveedorService]
 })
 export class FormularioProveedoresComponent implements OnInit {
   forma: FormGroup;
@@ -46,7 +45,6 @@ export class FormularioProveedoresComponent implements OnInit {
   constructor(private fb: FormBuilder, 
               public router: Router,              
               private paisesCiudadesServ: PaisesCiudadesService,
-              private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private proveedoresServ:ProveedoresService,
               private cgCatalogoServ: CgcatalogoService,
@@ -55,7 +53,7 @@ export class FormularioProveedoresComponent implements OnInit {
               public dialogService: DialogService,
               private cd: ChangeDetectorRef,
               @Inject(DOCUMENT) private document: Document) { 
-      this.usuario = this.usuariosServ.getUserLogged();
+      ;
       this.crearFormulario() 
   }
 

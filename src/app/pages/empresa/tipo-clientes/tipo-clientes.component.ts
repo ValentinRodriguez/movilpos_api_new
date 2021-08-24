@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-tipo-clientes',
   templateUrl: './tipo-clientes.component.html',
   styleUrls: ['./tipo-clientes.component.scss'],
-  providers:[UsuarioService,TipoClienteService,]
+  providers:[TipoClienteService,]
 })
 export class TipoClientesComponent implements OnInit {
 
@@ -22,11 +22,11 @@ export class TipoClientesComponent implements OnInit {
   index: number = 0;
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private tipoClienteServ: TipoClienteService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
               }
 
   ngOnInit(): void {

@@ -2,27 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GestionDocNcdcService } from 'src/app/services/cuentas-pagar/gestion-doc-ncdc.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-gestion-doc-ncnd',
   templateUrl: './formulario-gestion-doc-ncnd.component.html',
   styleUrls: ['./formulario-gestion-doc-ncnd.component.scss'],
-  providers:[UsuarioService,GestionDocNcdcService]
+  providers:[GestionDocNcdcService]
 })
 export class FormularioGestionDocNcndComponent implements OnInit {
 
   forma: FormGroup;
   guardar = true;
   actualizar = false;
-  usuario: any;
   cols: any;
-  documento :any =[];
+  documento: any = [];
+  
   constructor(private fb: FormBuilder,
-              private usuarioServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private ncndService: GestionDocNcdcService) {
-              this.usuario = this.usuarioServ.getUserLogged();
     this.crearFormulario()
   }
 

@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TransacionPagosService } from 'src/app/services/contabilidad/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-transacciones-pago',
   templateUrl: './transacciones-pago.component.html',
   styleUrls: ['./transacciones-pago.component.scss'],
-  providers:[UsuarioService,TransacionPagosService,]
+  providers:[TransacionPagosService,]
 })
 export class TransaccionesPagoComponent implements OnInit {
 
@@ -21,12 +21,11 @@ export class TransaccionesPagoComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private cgTransaccionesServ: TransacionPagosService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());

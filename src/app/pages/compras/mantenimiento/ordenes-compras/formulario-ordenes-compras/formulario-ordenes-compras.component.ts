@@ -12,14 +12,13 @@ import { PuertosService } from 'src/app/services/compras/puertos.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { DireccionesService } from 'src/app/services/compras/direcciones.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 @Component({
   selector: 'app-formulario-ordenes-compras',
   templateUrl: './formulario-ordenes-compras.component.html',
   styleUrls: ['./formulario-ordenes-compras.component.scss'],
-  providers: [OrdenescomprasService, InventarioService, DialogService, UsuarioService,
+  providers: [OrdenescomprasService, InventarioService, DialogService,
               ProveedoresService,PuertosService,DireccionesService,]
 })
 export class FormularioOrdenesComprasComponent implements OnInit {
@@ -63,12 +62,11 @@ export class FormularioOrdenesComprasComponent implements OnInit {
               private datosEstaticosServ: DatosEstaticosService,
               private invProductosServ: InventarioService,
               public dialogService: DialogService,
-              private usuariosServ: UsuarioService,
               private proveedoresServ: ProveedoresService,
               private puertosServ: PuertosService,
               private direccionesServ: DireccionesService,
               @Inject(DOCUMENT) private document: Document) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.crearFormulario()
               }
 

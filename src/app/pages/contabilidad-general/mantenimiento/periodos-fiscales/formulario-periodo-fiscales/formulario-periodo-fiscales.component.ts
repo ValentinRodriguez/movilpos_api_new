@@ -6,11 +6,12 @@ import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
+
 @Component({
   selector: 'app-formulario-periodo-fiscales',
   templateUrl: './formulario-periodo-fiscales.component.html',
   styleUrls: ['./formulario-periodo-fiscales.component.scss'],
-  providers:[UsuarioService,PeriodosFiscalesService,]
+  providers:[PeriodosFiscalesService,]
 })
 export class FormularioPeriodoFiscalesComponent implements OnInit {
 
@@ -33,11 +34,10 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private periodoServ: PeriodosFiscalesService,
               public dialogService: DialogService,
-              public DatosEstaticos: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              private usuariosServ: UsuarioService,
+              public DatosEstaticos: DatosEstaticosService) {                 
                 this.crearFormulario();
               }
 

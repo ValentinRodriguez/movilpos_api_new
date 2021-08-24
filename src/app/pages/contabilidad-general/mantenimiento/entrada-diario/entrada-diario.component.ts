@@ -4,13 +4,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EntradasDiarioService } from 'src/app/services/contabilidad/entradas-diario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-entrada-diario',
   templateUrl: './entrada-diario.component.html',
   styleUrls: ['./entrada-diario.component.scss'],
-  providers:[UsuarioService,EntradasDiarioService,]
+  providers:[EntradasDiarioService,]
 })
 export class EntradaDiarioComponent implements OnInit {
 
@@ -27,11 +27,10 @@ export class EntradaDiarioComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private EntradaServ: EntradasDiarioService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();              
               }
 

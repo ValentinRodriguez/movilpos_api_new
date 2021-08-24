@@ -7,13 +7,13 @@ import { BodegasPermisosComponent } from 'src/app/pages/inventario/mantenimiento
 import { BodegasService } from 'src/app/services/inventario/bodegas.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-bodegas',
   templateUrl: './bodegas.component.html',
   styleUrls: ['./bodegas.component.scss'],
-  providers:[BodegasService,UsuarioService,PaisesCiudadesService]
+  providers:[BodegasService,PaisesCiudadesService]
 })
 export class BodegasComponent implements OnInit {
   
@@ -29,13 +29,12 @@ export class BodegasComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private bodegasServ: BodegasService,
-              private usuariosServ: UsuarioService,
+  constructor(private bodegasServ: BodegasService,              
               private uiMessage: UiMessagesService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService,
               private paisesCiudadesServ: PaisesCiudadesService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
               }
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());

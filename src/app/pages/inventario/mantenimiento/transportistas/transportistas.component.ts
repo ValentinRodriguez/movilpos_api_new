@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TransportistasService } from 'src/app/services/inventario/transportistas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-transportistas',
   templateUrl: './transportistas.component.html',
   styleUrls: ['./transportistas.component.scss'],
-  providers:[UsuarioService,TransportistasService]
+  providers:[TransportistasService]
 })
 export class TransportistasComponent implements OnInit {
 
@@ -23,12 +23,10 @@ export class TransportistasComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private transportistasServ: TransportistasService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+              public dialogService: DialogService) {                 ;
                 this.todosLosTransportistas();
               }
 

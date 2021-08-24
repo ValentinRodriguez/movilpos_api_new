@@ -3,7 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
@@ -21,12 +21,12 @@ export class FacturasProveedoresComponent implements OnInit {
     
   listSubscribers: any = [];
 
-  constructor(private usuariosServ: UsuarioService,
+  constructor(
               private coTransaccionesServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());

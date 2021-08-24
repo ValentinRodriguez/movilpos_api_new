@@ -4,13 +4,12 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-catalogo-cuentas',
   templateUrl: './catalogo-cuentas.component.html',
   styleUrls: ['./catalogo-cuentas.component.scss'],
-  providers:[UsuarioService,CgcatalogoService,]
+  providers:[CgcatalogoService,]
 })
 export class CatalogoCuentasComponent implements OnInit {
 
@@ -26,12 +25,11 @@ export class CatalogoCuentasComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private cgcatalogoServ: CgcatalogoService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService,
               public datos: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.todosLosCatalogos();
               }
   ngOnDestroy(): void {

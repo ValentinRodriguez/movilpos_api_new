@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TurnosService } from 'src/app/services/rrhh/turnos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-turnos',
   templateUrl: './turnos.component.html',
   styleUrls: ['./turnos.component.scss'],
-  providers:[UsuarioService,TurnosService]
+  providers:[TurnosService]
 })
 export class TurnosComponent implements OnInit {
 
@@ -20,11 +20,11 @@ export class TurnosComponent implements OnInit {
   cols: any[];   
   
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private turnosServ: TurnosService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnInit(): void {

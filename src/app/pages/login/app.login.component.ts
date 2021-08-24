@@ -4,9 +4,11 @@ import { Message } from 'primeng/api';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './app.login.component.html',
+  providers:[UsuarioService]
 })
 export class AppLoginComponent implements OnInit{
   

@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriasService } from 'src/app/services/inventario/categorias.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-cat',
   templateUrl: './formulario-cat.component.html',
   styleUrls: ['./formulario-cat.component.scss'],
-  providers:[UsuarioService,CategoriasService]
+  providers:[CategoriasService]
 })
 export class FormularioCatComponent implements OnInit {
 
@@ -23,10 +23,8 @@ export class FormularioCatComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
-              private categoriasServ: CategoriasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              private uiMessage: UiMessagesService,              
+              private categoriasServ: CategoriasService) {                 
                 this.crearFormulario();
   }
 

@@ -3,13 +3,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { TipoProveedorService } from 'src/app/services/mi-empresa/tipo-proveedor.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-tipo-proveedores',
   templateUrl: './formulario-tipo-proveedores.component.html',
   styleUrls: ['./formulario-tipo-proveedores.component.scss'],
-  providers:[UsuarioService,CgcatalogoService,TipoProveedorService]
+  providers:[CgcatalogoService,TipoProveedorService]
 })
 export class FormularioTipoProveedoresComponent implements OnInit {
 
@@ -26,11 +26,10 @@ export class FormularioTipoProveedoresComponent implements OnInit {
   listSubscribers: any = [];
   
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private cgcatalogoServ: CgcatalogoService,
               private tipoProveedorServ: TipoProveedorService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

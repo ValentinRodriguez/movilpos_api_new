@@ -3,13 +3,12 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DireccionesService } from 'src/app/services/compras/direcciones.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-direcciones-envio',
   templateUrl: './direcciones-envio.component.html',
   styleUrls: ['./direcciones-envio.component.scss'],
-  providers:[UsuarioService, DireccionesService]
+  providers:[DireccionesService]
 })
 export class DireccionesEnvioComponent implements OnInit {
 
@@ -21,11 +20,10 @@ export class DireccionesEnvioComponent implements OnInit {
   listSubscribers: any = [];
   
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private dirService: DireccionesService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnDestroy(): void {

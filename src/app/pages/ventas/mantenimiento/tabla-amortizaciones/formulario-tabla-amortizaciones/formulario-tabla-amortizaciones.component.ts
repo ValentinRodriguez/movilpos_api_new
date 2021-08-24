@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 import { FacturasService } from 'src/app/services/ventas/facturas.service';
@@ -12,7 +12,7 @@ import { FacturasService } from 'src/app/services/ventas/facturas.service';
   selector: 'app-formulario-tabla-amortizaciones',
   templateUrl: './formulario-tabla-amortizaciones.component.html',
   styleUrls: ['./formulario-tabla-amortizaciones.component.scss'],
-  providers:[UsuarioService,ClientesService,FacturasService]
+  providers:[ClientesService,FacturasService]
 })
 export class FormularioTablaAmortizacionesComponent implements OnInit {
 
@@ -43,14 +43,12 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
   data: any;
  
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private clientesServ: ClientesService,
               private facturasServ: FacturasService,
               private datosEst: DatosEstaticosService,
               public config: DynamicDialogConfig,
-              public ref: DynamicDialogRef) {
-                this.usuario = this.usuariosServ.getUserLogged()
+              public ref: DynamicDialogRef) {                
                 this.crearFormulario();
   }
 

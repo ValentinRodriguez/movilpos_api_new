@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PropiedadesService } from 'src/app/services/inventario/propiedades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-propiedades',
   templateUrl: './formulario-propiedades.component.html',
   styleUrls: ['./formulario-propiedades.component.scss'],
-  providers:[UsuarioService,PropiedadesService]
+  providers:[PropiedadesService]
 })
 export class FormularioPropiedadesComponent implements OnInit {
   
@@ -21,10 +21,8 @@ export class FormularioPropiedadesComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
-              private propiedadServ: PropiedadesService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              private uiMessage: UiMessagesService,              
+              private propiedadServ: PropiedadesService) {                 
                 this.crearFormulario();
   }
 

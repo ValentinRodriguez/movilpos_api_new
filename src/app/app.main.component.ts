@@ -5,7 +5,6 @@ import { PrimeNGConfig } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { MenuService } from './app.menu.service';
 import { RolesService } from './services/globales/roles.service';
-import { UsuarioService } from './services/panel-control/usuario.service';
 
 @Component({
     selector: 'app-main',
@@ -42,14 +41,7 @@ export class AppMainComponent implements OnInit{
     constructor(private menuService: MenuService,
                 public route: Router,
                 private primengConfig: PrimeNGConfig,
-                private usuarioServ: UsuarioService,
-                private permisosServ: RolesService) {
-                    this.usuario = this.usuarioServ.getUserLogged();
-                    
-                    if (this.usuario === null) {
-                        this.route.navigate(['/login'])
-                    }
-                    console.log(this.usuario);                    
+                private permisosServ: RolesService) {                  
                     //this.initializeEcho()
                 }
 

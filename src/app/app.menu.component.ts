@@ -12,15 +12,15 @@ export class AppMenuComponent implements OnInit {
     model: any[];
     test: any[] = [];
     modulos: any[] = [];
-    usuario: any;
+    empresa: any;
     logo: string;
     @Input() roles: any;
 
     constructor(public app: AppMainComponent,
                 private usuarioServ:UsuarioService) {    
-                    this.usuario = this.usuarioServ.getUserLogged();
-                    if(this.usuario.empresa != null) {
-                        this.logo = this.usuario.empresa.logo;
+                    this.empresa = this.usuarioServ.getUserLogged().empresa;
+                    if(this.empresa != null) {
+                        this.logo = this.empresa.logo;
                     }else{
                         this.logo = null;
                     }                    

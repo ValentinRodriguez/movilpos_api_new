@@ -7,7 +7,7 @@ import { CategoriasService } from 'src/app/services/inventario/categorias.servic
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { RecepcionVehiculosService } from 'src/app/services/ventas/recepcion-vehiculos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { environment } from 'src/environments/environment';
 
 const URL = environment.urlImagenes;
@@ -16,7 +16,7 @@ const URL = environment.urlImagenes;
   selector: 'app-formulario-recepcion-vehiculos',
   templateUrl: './formulario-recepcion-vehiculos.component.html',
   styleUrls: ['./formulario-recepcion-vehiculos.component.scss'],
-  providers:[UsuarioService,BrandsService,CategoriasService,RecepcionVehiculosService]
+  providers:[BrandsService,CategoriasService,RecepcionVehiculosService]
 })
 export class FormularioRecepcionVehiculosComponent implements OnInit {
 
@@ -56,12 +56,11 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
   ];
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private marcaService: BrandsService,
               private categoriasServ: CategoriasService,
               private DatosEstaticos: DatosEstaticosService,
-              private recepcionsServ: RecepcionVehiculosService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              private recepcionsServ: RecepcionVehiculosService) {                 
                 this.crearFormulario();
                 this.stateOptions = [{label: 'Si', value: 'si'}, {label: 'No', value: 'no'}];
   }

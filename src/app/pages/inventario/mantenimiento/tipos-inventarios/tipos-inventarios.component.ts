@@ -4,13 +4,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-tipos-inventarios',
   templateUrl: './tipos-inventarios.component.html',
   styleUrls: ['./tipos-inventarios.component.scss'],
-  providers:[UsuarioService,TipoInventarioService]
+  providers:[TipoInventarioService]
 })
 export class TiposInventariosComponent implements OnInit {
 
@@ -23,18 +23,14 @@ export class TiposInventariosComponent implements OnInit {
   tipoInventario: any[] = [];
   cols: any[];
   cuenta_no: any;
-  index: number = 0;
-    
+  index: number = 0;    
   listSubscribers: any = [];
-
-
  
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private tipoInventarioServ: TipoInventarioService,
               private confirmationService: ConfirmationService,              
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
               }
               ngOnDestroy(): void {
                 this.listSubscribers.forEach(a => a.unsubscribe());

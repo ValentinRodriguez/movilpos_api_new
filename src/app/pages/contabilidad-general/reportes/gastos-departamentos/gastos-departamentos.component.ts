@@ -5,13 +5,13 @@ import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { TransacionPagosService } from 'src/app/services/contabilidad/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+
 @Component({
   selector: 'app-gastos-departamentos',
   templateUrl: './gastos-departamentos.component.html',
-  styleUrls: ['./gastos-departamentos.component.scss']
+  styleUrls: ['./gastos-departamentos.component.scss'],
+  providers:[TransacionPagosService]
 })
 export class GastosDepartamentosComponent implements OnInit {
 
@@ -34,12 +34,10 @@ export class GastosDepartamentosComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private cgtransaccionesSev:TransacionPagosService,
-              private usuariosServ: UsuarioService,
+  constructor(private cgtransaccionesSev:TransacionPagosService,              
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
-              private datosEstaticos: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+              private datosEstaticos: DatosEstaticosService) {                 
                 this.crearFormulario()
               }
 

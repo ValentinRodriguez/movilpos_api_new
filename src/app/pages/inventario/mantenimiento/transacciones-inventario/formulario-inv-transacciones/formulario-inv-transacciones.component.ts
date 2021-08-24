@@ -13,12 +13,13 @@ import { BodegasService } from 'src/app/services/inventario/bodegas.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
 import { TransportistasService } from 'src/app/services/inventario/transportistas.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.service';
 import { environment } from 'src/environments/environment';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 const URL = environment.url;
 
@@ -26,7 +27,7 @@ const URL = environment.url;
   selector: 'app-formulario-inv-transacciones',
   templateUrl: './formulario-inv-transacciones.component.html',
   styleUrls: ['./formulario-inv-transacciones.component.scss'],
-  providers:[UsuarioService,ClientesService,TransportistasService,ProveedoresService,
+  providers:[ClientesService,TransportistasService,ProveedoresService,
             CodMovService,InventarioService,OrdenPedidosService,FacturasService,OrdenescomprasService,
             TransaccionesService,CodMovService,BodegasService]
 })
@@ -64,16 +65,14 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   ProveedoresFiltrados: any[];
   minDate: Date;
   cols2: any[] = [];
-  vendedorFiltrado: any[];
-  
+  vendedorFiltrado: any[];  
   listSubscribers: any = [];
   noPermisos = false;
   rncExiste= 3;
   items: MenuItem[] = [];
   tipoNegocios: any[] = [];
   
-  constructor(private fb: FormBuilder,
-              private usuariosServ: UsuarioService,
+  constructor(private fb: FormBuilder,              
               private uiMessage: UiMessagesService,   
               private clienteServ: ClientesService,
               private transportistasServ: TransportistasService,
@@ -86,12 +85,13 @@ export class FormularioInvTransaccionesComponent implements OnInit {
               private transaccionesServ: TransaccionesService,
               private codMovServ: CodMovService,              
               private bodegasServ: BodegasService,
+              private usuariosServ: UsuarioService,
               public dialogService: DialogService,
               private dgiiServ: DgiiService,
               private datosEstaticosServ: DatosEstaticosService,
               @Inject(DOCUMENT) private document: Document,
               private cd: ChangeDetectorRef) { 
-    this.usuario = this.usuariosServ.getUserLogged();
+    ;
   }
 
   listObserver = () => {

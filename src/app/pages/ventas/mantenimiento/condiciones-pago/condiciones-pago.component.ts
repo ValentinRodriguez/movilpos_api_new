@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CondicionesPagoService } from 'src/app/services/ventas/condiciones-pago.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-condiciones-pago',
   templateUrl: './condiciones-pago.component.html',
   styleUrls: ['./condiciones-pago.component.scss'],
-  providers:[UsuarioService,CondicionesPagoService]
+  providers:[CondicionesPagoService]
 })
 export class CondicionesPagoComponent implements OnInit {
 
@@ -23,11 +23,11 @@ export class CondicionesPagoComponent implements OnInit {
 
   constructor(
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private confirmationService: ConfirmationService,
               private condicionServ: CondicionesPagoService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
               }
 
   ngOnInit(): void {

@@ -5,7 +5,7 @@ import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { TransacionPagosService } from 'src/app/services/contabilidad/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { groupBy } from 'lodash-es';
 
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
@@ -35,12 +35,11 @@ export class MayorGeneralComponent implements OnInit {
   listSubscribers: any = [];
   rowGroupMetadata: any;
 
-  constructor(private cgtransaccionesSev:TransacionPagosService,
-              private usuariosServ: UsuarioService,
+  constructor(private cgtransaccionesSev:TransacionPagosService,              
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private datosEstaticos: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.crearFormulario()
               }
 

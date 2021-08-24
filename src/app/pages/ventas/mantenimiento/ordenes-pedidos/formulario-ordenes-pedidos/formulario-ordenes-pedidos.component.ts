@@ -12,7 +12,7 @@ import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.servi
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
   templateUrl: './formulario-ordenes-pedidos.component.html',
   styleUrls: ['./formulario-ordenes-pedidos.component.scss'],
   providers:[OrdenPedidosService,InventarioService,RrhhService,ClientesService,CondicionesPagoService,
-            UsuarioService,PaisesCiudadesService,ZonasService,]
+            PaisesCiudadesService,ZonasService]
 })
 export class FormularioOrdenesPedidosComponent implements OnInit {
 
@@ -69,13 +69,12 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
               private datosEstaticosServ: DatosEstaticosService,
               private noempleadosServ: RrhhService,
               private clientesServ: ClientesService,
-              private condicionesServ: CondicionesPagoService,              
-              private usuariosServ: UsuarioService,
+              private condicionesServ: CondicionesPagoService,             
+              
               private paisesCiudadesServ: PaisesCiudadesService,
               private zonasLocal: ZonasService,
               public dialogService: DialogService,) {
                 this.year = this.datosEstaticosServ.getDate();
-                this.usuario = this.usuariosServ.getUserLogged(), 
                 this.crearFormulario()
                }
 

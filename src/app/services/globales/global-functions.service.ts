@@ -20,7 +20,7 @@ export class GlobalFunctionsService {
   
   constructor(private http: HttpClient,
     private usuariosServ: UsuarioService) { 
-    this.usuario = this.usuariosServ.getUserLogged()
+    
   }
   
   ngOnDestroy() {

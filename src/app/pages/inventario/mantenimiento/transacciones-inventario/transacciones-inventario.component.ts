@@ -5,7 +5,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { PendientesEntradaComponent } from 'src/app/components/pendientes-entrada/pendientes-entrada.component';
 import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
@@ -13,7 +13,7 @@ const URL = environment.url;
   selector: 'app-transacciones-inventario',
   templateUrl: './transacciones-inventario.component.html',
   styleUrls: ['./transacciones-inventario.component.scss'],
-  providers:[TransaccionesService,UsuarioService]
+  providers:[TransaccionesService]
 })
 export class TransaccionesInventarioComponent implements OnInit {
 
@@ -25,13 +25,12 @@ export class TransaccionesInventarioComponent implements OnInit {
   index = 0;
   items: MenuItem[] = [];
 
-  constructor(private transaccionesServ: TransaccionesService,
-              private usuariosServ: UsuarioService,
+  constructor(private transaccionesServ: TransaccionesService,              
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
               private confirmationService: ConfirmationService,
               @Inject(DOCUMENT) private document: Document) {  
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
               }
 
   ngOnDestroy(): void {

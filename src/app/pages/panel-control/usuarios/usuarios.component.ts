@@ -4,8 +4,9 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/listado-empleados.component';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { PermisosUsuariosComponent } from './permisos-usuarios/permisos-usuarios.component';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -32,7 +33,7 @@ export class UsuariosComponent implements OnInit {
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.obtenerUsuarios();
               }
 

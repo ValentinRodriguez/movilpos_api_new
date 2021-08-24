@@ -7,11 +7,12 @@ import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
+
 @Component({
   selector: 'app-formulario-usuarios',
   templateUrl: './formulario-usuarios.component.html',
   styleUrls: ['./formulario-usuarios.component.scss'],
-  providers:[UsuarioService,PuestosService,RrhhService]
+  providers:[PuestosService,RrhhService]
 })
 export class FormularioUsuariosComponent implements OnInit {
 
@@ -38,12 +39,11 @@ export class FormularioUsuariosComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private puestosServ: PuestosService,
               private empleadosServ: RrhhService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              private usuariosServ: UsuarioService,
+              public dialogService: DialogService) {                 
                 this.crearFormulario();
               }
   ngOnDestroy(): void {

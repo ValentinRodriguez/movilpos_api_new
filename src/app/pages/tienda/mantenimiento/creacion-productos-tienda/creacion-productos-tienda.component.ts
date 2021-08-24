@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
   selector: 'app-creacion-productos-tienda',
   templateUrl: './creacion-productos-tienda.component.html',
   styleUrls: ['./creacion-productos-tienda.component.scss'],
-  providers:[UsuarioService,TiendaService,TiendaService]
+  providers:[TiendaService,TiendaService]
 })
 export class CreacionProductosTiendaComponent implements OnInit {
 
@@ -26,12 +26,12 @@ export class CreacionProductosTiendaComponent implements OnInit {
   itbis: string = "basico";
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private productosServ: TiendaService,
               private confirmationService: ConfirmationService,
               private tiendaService: TiendaService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnInit(): void {

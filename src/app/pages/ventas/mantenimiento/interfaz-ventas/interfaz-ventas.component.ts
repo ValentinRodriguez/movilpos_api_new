@@ -12,14 +12,15 @@ import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos
 import { FacturasService } from 'src/app/services/ventas/facturas.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-interfaz-ventas',
   templateUrl: './interfaz-ventas.component.html',
   styleUrls: ['./interfaz-ventas.component.scss'],
-  providers:[UsuarioService,InventarioService,FacturasService,CategoriasService,ClientesService]
+  providers:[InventarioService,FacturasService,CategoriasService,ClientesService]
 })
 export class InterfazVentasComponent implements OnInit {
 

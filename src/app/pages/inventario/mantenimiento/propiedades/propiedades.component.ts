@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PropiedadesService } from 'src/app/services/inventario/propiedades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-propiedades',
   templateUrl: './propiedades.component.html',
   styleUrls: ['./propiedades.component.scss'],
-  providers:[UsuarioService,PropiedadesService]
+  providers:[PropiedadesService]
 })
 export class PropiedadesComponent implements OnInit {
 
@@ -22,11 +22,10 @@ export class PropiedadesComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private propiedadesServ: PropiedadesService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+              public dialogService: DialogService) {    
                 this.todasLasPropiedades();
               }
               ngOnDestroy(): void {

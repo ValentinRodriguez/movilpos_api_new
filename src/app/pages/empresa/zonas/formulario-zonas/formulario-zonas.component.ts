@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 @Component({
   selector: 'app-formulario-zonas',
   templateUrl: './formulario-zonas.component.html',
   styleUrls: ['./formulario-zonas.component.scss'],
-  providers:[UsuarioService,PaisesCiudadesService,ZonasService]
+  providers:[PaisesCiudadesService,ZonasService]
 })
 export class FormularioZonasComponent implements OnInit {
 
@@ -28,10 +28,10 @@ export class FormularioZonasComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private provinciasServ: PaisesCiudadesService,
               private zonasServ: ZonasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

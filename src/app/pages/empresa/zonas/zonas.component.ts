@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-zonas',
   templateUrl: './zonas.component.html',
-  styleUrls: ['./zonas.component.scss']
+  styleUrls: ['./zonas.component.scss'],
+  providers:[ZonasService]
 })
 export class ZonasComponent implements OnInit {
 
@@ -20,12 +20,10 @@ export class ZonasComponent implements OnInit {
   cols: any[];   
   
   
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private zonasServ: ZonasService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+              public dialogService: DialogService) {  
               }
 
   ngOnInit(): void {

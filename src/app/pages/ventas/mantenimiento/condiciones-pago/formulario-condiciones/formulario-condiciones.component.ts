@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CondicionesPagoService } from 'src/app/services/ventas/condiciones-pago.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-condiciones',
   templateUrl: './formulario-condiciones.component.html',
   styleUrls: ['./formulario-condiciones.component.scss'],
-  providers:[UsuarioService,CondicionesPagoService]
+  providers:[CondicionesPagoService]
 })
 export class FormularioCondicionesComponent implements OnInit {
 
@@ -27,9 +27,9 @@ export class FormularioCondicionesComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private condicionServ: CondicionesPagoService,) { 
-    this.usuario = this.usuariosServ.getUserLogged()
+    
     this.crearFormulario();
   }
   

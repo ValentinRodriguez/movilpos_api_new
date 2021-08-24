@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
   styleUrls: ['./empresa.component.scss'],
-  providers:[UsuarioService,EmpresaService,]
+  providers:[EmpresaService,]
 })
 export class EmpresaComponent implements OnInit {
 
@@ -22,11 +22,9 @@ export class EmpresaComponent implements OnInit {
   
   listSubscribers: any = [];
 
-  constructor(private usuariosServ: UsuarioService,
+  constructor(
               private empresasServ: EmpresaService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
-              }
+              public dialogService: DialogService) {}
 
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());

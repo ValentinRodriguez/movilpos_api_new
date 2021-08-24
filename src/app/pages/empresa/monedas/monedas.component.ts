@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-monedas',
   templateUrl: './monedas.component.html',
   styleUrls: ['./monedas.component.scss'],
-  providers:[UsuarioService,MonedasService,]
+  providers:[MonedasService,]
 })
 export class MonedasComponent implements OnInit {
 
@@ -20,11 +20,11 @@ export class MonedasComponent implements OnInit {
   cols: any[];
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private monedasServ: MonedasService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnInit(): void {

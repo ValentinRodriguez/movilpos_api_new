@@ -4,7 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { PendientesLiquidacionComponent } from 'src/app/components/pendientes-liquidacion/pendientes-liquidacion.component';
 import { LiquidacionMercanciasService } from 'src/app/services/inventario/liquidacion-mercancias.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-liquidacion-mercancias',
@@ -20,12 +20,11 @@ export class LiquidacionMercanciasComponent implements OnInit {
   cols: any[];
   pendientes: any;
   
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private liquidacionesServ: LiquidacionMercanciasService,
               private confirmationService: ConfirmationService,              
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                               
               }
 
   ngOnInit(): void {   

@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PuestosService } from 'src/app/services/rrhh/puestos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-puestos',
   templateUrl: './puestos.component.html',
   styleUrls: ['./puestos.component.scss'],
-  providers:[UsuarioService,PuestosService]
+  providers:[PuestosService]
 })
 export class PuestosComponent implements OnInit {
 
@@ -21,11 +21,11 @@ export class PuestosComponent implements OnInit {
    
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private puestosServ: PuestosService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnInit(): void {

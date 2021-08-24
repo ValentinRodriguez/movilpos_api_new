@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { CuadresService } from 'src/app/services/contabilidad/cuadres.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 
@@ -10,7 +10,7 @@ import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos
   selector: 'app-formulario-cuadre-caja',
   templateUrl: './formulario-cuadre-caja.component.html',
   styleUrls: ['./formulario-cuadre-caja.component.scss'],
-  providers:[CuadresService,UsuarioService,MonedasService]
+  providers:[CuadresService,MonedasService]
 })
 export class FormularioCuadreCajaComponent implements OnInit {
 
@@ -43,10 +43,9 @@ export class FormularioCuadreCajaComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private uiMessage: UiMessagesService,
               private cuadresServ: CuadresService,
-              private usuariosServ: UsuarioService,
               private datosEstaticosServ: DatosEstaticosService,
               private monedasServ: MonedasService) {
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

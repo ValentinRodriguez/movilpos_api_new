@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RecepcionVehiculosService } from 'src/app/services/ventas/recepcion-vehiculos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-recepcion-vehiculos',
   templateUrl: './recepcion-vehiculos.component.html',
   styleUrls: ['./recepcion-vehiculos.component.scss'],
-  providers:[UsuarioService,RecepcionVehiculosService]
+  providers:[RecepcionVehiculosService]
 })
 export class RecepcionVehiculosComponent implements OnInit {
 
@@ -19,12 +19,10 @@ export class RecepcionVehiculosComponent implements OnInit {
   id_categoria: any;
   cols: any[];
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private recepcionServ: RecepcionVehiculosService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
-              }
+              public dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.todasLasRecepcion();

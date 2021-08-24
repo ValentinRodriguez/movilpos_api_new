@@ -14,13 +14,12 @@ import { OrdenPedidosService } from 'src/app/services/ventas/orden-pedidos.servi
 import { RequisicionesService } from 'src/app/services/compras/requisiciones.service';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-requisiciones',
   templateUrl: './requisiciones.component.html',
   styleUrls: ['./requisiciones.component.scss'],
-  providers:[RrhhService,UsuarioService,InventarioService,DepartamentosService,OrdenPedidosService,
+  providers:[RrhhService,InventarioService,DepartamentosService,OrdenPedidosService,
     ClientesService, RequisicionesService
   ]
 })
@@ -62,7 +61,6 @@ export class RequisicionesComponent implements OnInit {
   constructor(private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,
-              private usuariosServ: UsuarioService,
               private invProductosServ: InventarioService,
               private confirmationService: ConfirmationService,
               private departamentoServ: DepartamentosService,
@@ -72,7 +70,6 @@ export class RequisicionesComponent implements OnInit {
               private clientesServ: ClientesService,
               private requisicionesServ: RequisicionesService,
               private datosEstaticosServ: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged(), 
                 this.crearFormulario()
               }
 

@@ -4,11 +4,12 @@ import { BodegasService } from 'src/app/services/inventario/bodegas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
+
 @Component({
   selector: 'app-bodegas-permisos',
   templateUrl: './bodegas-permisos.component.html',
   styleUrls: ['./bodegas-permisos.component.scss'],
-  providers:[UsuarioService,BodegasService]
+  providers:[BodegasService,UsuarioService]
 })
 export class BodegasPermisosComponent implements OnInit {
   usuario: any;
@@ -18,11 +19,11 @@ export class BodegasPermisosComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(public ref: DynamicDialogRef, 
-              public config: DynamicDialogConfig,
+    public config: DynamicDialogConfig,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,
               private bodegasServ: BodegasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
               }
   ngOnDestroy(): void {
     this.listSubscribers.forEach(a => a.unsubscribe());

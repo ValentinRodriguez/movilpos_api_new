@@ -8,13 +8,13 @@ import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.serv
 import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
 import { TransacionPagosService } from 'src/app/services/contabilidad/transacion-pagos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-transacciones-pago',
   templateUrl: './formulario-transacciones-pago.component.html',
   styleUrls: ['./formulario-transacciones-pago.component.scss'],
-  providers:[UsuarioService,TransacionPagosService,CgcatalogoService,CoTransaccionescxpService,]
+  providers:[TransacionPagosService,CgcatalogoService,CoTransaccionescxpService,]
 })
 export class FormularioTransaccionesPagoComponent implements OnInit {
 
@@ -62,13 +62,13 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private transaccionsServ: TransacionPagosService,
               private cgCatalogoServ: CgcatalogoService,
               private transaccionescxpServ: CoTransaccionescxpService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];
                 this.crearFormulario();
   }

@@ -4,14 +4,15 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/listado-empleados.component';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { PermisosUsuariosComponent } from '../../panel-control/usuarios/permisos-usuarios/permisos-usuarios.component';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-tipo-documentos',
   templateUrl: './tipo-documentos.component.html',
   styleUrls: ['./tipo-documentos.component.scss'],
-  providers:[RrhhService,UsuarioService,]
+  providers:[RrhhService]
 })
 export class TipoDocumentosComponent implements OnInit {
 
@@ -27,11 +28,10 @@ export class TipoDocumentosComponent implements OnInit {
   empleados: any[] = [];  
   
   constructor(private confirmationService: ConfirmationService,
-              private empleadoServ: RrhhService,
-              private usuariosServ: UsuarioService,
+              private empleadoServ: RrhhService,              
               private uiMessage: UiMessagesService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+              private usuariosServ: UsuarioService,
+              public dialogService: DialogService) {                 
                 this.obtenerUsuarios();
               }
 

@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BodegasService } from 'src/app/services/inventario/bodegas.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-bodegas',
   templateUrl: './formulario-bodegas.component.html',
   styleUrls: ['./formulario-bodegas.component.scss'],
-  providers:[BodegasService,UsuarioService,PaisesCiudadesService]
+  providers:[BodegasService,PaisesCiudadesService]
 })
 export class FormularioBodegasComponent implements OnInit {
 
@@ -27,10 +27,9 @@ export class FormularioBodegasComponent implements OnInit {
   
   constructor(private uiMessage: UiMessagesService,
               private bodegasServ: BodegasService,
-              private fb: FormBuilder, 
-              private usuariosServ: UsuarioService,
+              private fb: FormBuilder,               
               private paisesCiudadesServ: PaisesCiudadesService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
               }
 

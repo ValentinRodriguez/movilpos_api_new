@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PeriodosFiscalesService } from 'src/app/services/contabilidad/periodos-fiscales.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-act-periodos',
   templateUrl: './act-periodos.component.html',
   styleUrls: ['./act-periodos.component.scss'],
-  providers:[UsuarioService,PeriodosFiscalesService,]
+  providers:[PeriodosFiscalesService,]
 })
 export class ActPeriodosComponent implements OnInit {
   periodo: any;
@@ -22,12 +22,11 @@ export class ActPeriodosComponent implements OnInit {
   
   
   constructor(private fb: FormBuilder,
-              private usuariosServ: UsuarioService,
               private periodoServ: PeriodosFiscalesService,
               private uiMessage: UiMessagesService,
               private ref: DynamicDialogRef,
               public config: DynamicDialogConfig) { 
-        this.usuario = this.usuariosServ.getUserLogged();
+        ;
         this.crearFormulario();
   }
 

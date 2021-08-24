@@ -4,14 +4,15 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-formulario-tipo-mov',
   templateUrl: './formulario-tipo-mov.component.html',
   styleUrls: ['./formulario-tipo-mov.component.scss'],
-  providers:[CodMovService,CgcatalogoService,UsuarioService,]
+  providers:[CodMovService,CgcatalogoService]
 })
 export class FormularioTipoMovComponent implements OnInit {
 
@@ -42,12 +43,11 @@ export class FormularioTipoMovComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder,
+    private usuariosServ: UsuarioService,
     private uiMessage: UiMessagesService,
     private CodMovServ: CodMovService,
-    private cgCatalogoServ: CgcatalogoService,
-    private usuariosServ: UsuarioService,
-    public dialogService: DialogService) { 
-      this.usuario = this.usuariosServ.getUserLogged()
+    private cgCatalogoServ: CgcatalogoService,    
+    public dialogService: DialogService) {       
       this.crearFormulario();
     }
 

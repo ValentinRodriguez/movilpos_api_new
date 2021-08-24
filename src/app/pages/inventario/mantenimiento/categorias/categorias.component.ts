@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CategoriasService } from 'src/app/services/inventario/categorias.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
   styleUrls: ['./categorias.component.scss'],
-  providers:[UsuarioService,CategoriasService]
+  providers:[CategoriasService]
 })
 export class CategoriasComponent implements OnInit {
 
@@ -22,12 +22,11 @@ export class CategoriasComponent implements OnInit {
   index: number = 0;    
   listSubscribers: any = [];
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private categoriasServ: CategoriasService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.todasLasCategorias();
               }
   ngOnDestroy(): void {

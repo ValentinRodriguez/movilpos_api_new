@@ -4,13 +4,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BrandsService } from 'src/app/services/inventario/brands.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
   styleUrls: ['./marcas.component.scss'],
-  providers:[UsuarioService,BrandsService]
+  providers:[BrandsService]
 })
 export class MarcasComponent implements OnInit {
 
@@ -26,12 +26,10 @@ export class MarcasComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private marcasServ: BrandsService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              public dialogService: DialogService) {                 
                 this.crearFormulario();
                 this.todasLasMarcas();
               }

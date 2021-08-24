@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DireccionesService } from 'src/app/services/compras/direcciones.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-formulario-direcciones',
   templateUrl: './formulario-direcciones.component.html',
@@ -28,10 +26,9 @@ export class FormularioDireccionesComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private dirServ: DireccionesService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

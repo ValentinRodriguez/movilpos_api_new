@@ -12,6 +12,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { CategoriasService } from 'src/app/services/inventario/categorias.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 import { FacturasService } from 'src/app/services/ventas/facturas.service';
 import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/formulario-tabla-amortizaciones/formulario-tabla-amortizaciones.component';
@@ -20,7 +21,7 @@ import { FormularioTablaAmortizacionesComponent } from '../tabla-amortizaciones/
   selector: 'app-interfaz-ventas2',
   templateUrl: './interfaz-ventas2.component.html',
   styleUrls: ['./interfaz-ventas2.component.scss'],
-  providers:[UsuarioService,InventarioService,FacturasService,CategoriasService,ClientesService]
+  providers:[InventarioService,FacturasService,CategoriasService,ClientesService]
 })
     
     

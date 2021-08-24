@@ -8,7 +8,7 @@ import { UiMessagesService } from "../../../../../services/globales/ui-messages.
   selector: 'app-formulario-cotizaciones',
   templateUrl: './formulario-cotizaciones.component.html',
   styleUrls: ['./formulario-cotizaciones.component.scss'],
-  providers:[UsuarioService,MonedasService]
+  providers:[MonedasService]
 })
 export class FormularioCotizacionesComponent implements OnInit {
 
@@ -23,9 +23,9 @@ export class FormularioCotizacionesComponent implements OnInit {
   id: number;
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private monedasServ: MonedasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

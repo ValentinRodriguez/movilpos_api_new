@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { TransportistasService } from 'src/app/services/inventario/transportistas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 
 @Component({
   selector: 'app-formulario-transportista',
   templateUrl: './formulario-transportista.component.html',
   styleUrls: ['./formulario-transportista.component.scss'],
-  providers:[UsuarioService,PaisesCiudadesService,TransportistasService,ZonasService]
+  providers:[PaisesCiudadesService,TransportistasService,ZonasService]
 })
 export class FormularioTransportistaComponent implements OnInit {
 
@@ -33,12 +33,10 @@ export class FormularioTransportistaComponent implements OnInit {
   sectores: any;
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private paisesCiudadesServ: PaisesCiudadesService,
               private transportistaServ: TransportistasService,
-              private zonasServ: ZonasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              private zonasServ: ZonasService) {                 
                 this.crearFormulario();
   }
 

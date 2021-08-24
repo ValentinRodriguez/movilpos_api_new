@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 import { EstadosService } from 'src/app/services/contabilidad/estados.service';
+
 @Component({
   selector: 'app-formulario-cgcatalogo',
   templateUrl: './formulario-cgcatalogo.component.html',
   styleUrls: ['./formulario-cgcatalogo.component.scss'],
-  providers:[UsuarioService,CgcatalogoService,EstadosService,ZonasService]
+  providers:[CgcatalogoService,EstadosService,ZonasService]
 })
 export class FormularioCgcatalogoComponent implements OnInit {
 
@@ -64,12 +64,11 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private catalogoServ: CgcatalogoService,
               private estadosServ:EstadosService,
               public router: Router,
               private zonasServ: ZonasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

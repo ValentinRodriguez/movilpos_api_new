@@ -4,6 +4,7 @@ import { CodMovService } from 'src/app/services/inventario/cod-mov.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
+
 @Component({
   selector: 'app-movimiento-permisos',
   templateUrl: './movimiento-permisos.component.html',
@@ -21,7 +22,7 @@ export class MovimientoPermisosComponent implements OnInit {
               public config: DynamicDialogConfig,
               private usuariosServ: UsuarioService,
               private uiMessage: UiMessagesService,) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
               }
 
   ngOnInit(): void {

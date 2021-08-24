@@ -4,13 +4,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CategoriasService } from 'src/app/services/inventario/categorias.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-ausencias',
   templateUrl: './ausencias.component.html',
   styleUrls: ['./ausencias.component.scss'],
-  providers:[UsuarioService,CategoriasService]
+  providers:[CategoriasService]
 })
 export class AusenciasComponent implements OnInit {
 
@@ -39,12 +39,10 @@ export class AusenciasComponent implements OnInit {
   ] 
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private categoriasServ: CategoriasService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+              public dialogService: DialogService) {                 
                 this.crearFormulario();
               }
 

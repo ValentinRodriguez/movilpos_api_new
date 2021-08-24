@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EstadosService } from 'src/app/services/contabilidad/estados.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-cgestado',
   templateUrl: './formulario-cgestado.component.html',
   styleUrls: ['./formulario-cgestado.component.scss'],
-  providers:[EstadosService,UsuarioService]
+  providers:[EstadosService]
 })
 export class FormularioCgestadoComponent implements OnInit {
 
@@ -25,11 +25,7 @@ export class FormularioCgestadoComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private estadosSrv: EstadosService,
-              private usuarioServ: UsuarioService) {
-      this.usuario = this.usuarioServ.getUserLogged()
-      console.log(this.usuario);
-    
+              private estadosSrv: EstadosService) {    
       this.crearFormulario();
   }
 

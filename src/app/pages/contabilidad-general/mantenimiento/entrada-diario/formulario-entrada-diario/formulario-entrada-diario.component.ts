@@ -5,14 +5,14 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { EntradasDiarioService } from 'src/app/services/contabilidad/entradas-diario.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 @Component({
   selector: 'app-formulario-entrada-diario',
   templateUrl: './formulario-entrada-diario.component.html',
   styleUrls: ['./formulario-entrada-diario.component.scss'],
-  providers:[UsuarioService,EntradasDiarioService,CgcatalogoService,]
+  providers:[EntradasDiarioService,CgcatalogoService,]
 })
 export class FormularioEntradaDiarioComponent implements OnInit {
   totalC = 0;
@@ -39,12 +39,11 @@ export class FormularioEntradaDiarioComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private entradasServ: EntradasDiarioService,
               public dialogService: DialogService,
               public cuentaServices: CgcatalogoService,
               @Inject(DOCUMENT) private document: Document) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
   ngOnDestroy(): void {

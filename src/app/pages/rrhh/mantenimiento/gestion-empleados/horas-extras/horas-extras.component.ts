@@ -5,13 +5,13 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { CategoriasService } from 'src/app/services/inventario/categorias.service';
 import { DepartamentosService } from 'src/app/services/rrhh/departamentos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-horas-extras',
   templateUrl: './horas-extras.component.html',
   styleUrls: ['./horas-extras.component.scss'],
-  providers:[UsuarioService,CategoriasService,DepartamentosService]
+  providers:[CategoriasService,DepartamentosService]
 })
 export class HorasExtrasComponent implements OnInit {
 
@@ -41,12 +41,12 @@ export class HorasExtrasComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private categoriasServ: CategoriasService,
               private confirmationService: ConfirmationService,
               private departamentoServ: DepartamentosService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
               }
 

@@ -3,13 +3,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { TurnosService } from 'src/app/services/rrhh/turnos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-turnos',
   templateUrl: './formulario-turnos.component.html',
   styleUrls: ['./formulario-turnos.component.scss'],
-  providers:[UsuarioService,TurnosService]
+  providers:[TurnosService]
 })
 export class FormularioTurnosComponent implements OnInit {
 
@@ -26,10 +26,10 @@ export class FormularioTurnosComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private datosEstaticos: DatosEstaticosService,
               private turnosServ: TurnosService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

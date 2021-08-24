@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-monedas',
   templateUrl: './formulario-monedas.component.html',
   styleUrls: ['./formulario-monedas.component.scss'],
-  providers:[UsuarioService,MonedasService]
+  providers:[MonedasService]
 })
 export class FormularioMonedasComponent implements OnInit {
 
@@ -25,9 +25,9 @@ export class FormularioMonedasComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private monedasServ: MonedasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

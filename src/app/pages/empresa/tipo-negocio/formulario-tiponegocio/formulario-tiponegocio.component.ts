@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-tiponegocio',
   templateUrl: './formulario-tiponegocio.component.html',
   styleUrls: ['./formulario-tiponegocio.component.scss'],
-  providers:[UsuarioService,TipoNegocioService]
+  providers:[TipoNegocioService]
 })
 export class FormularioTiponegocioComponent implements OnInit {
 
@@ -24,9 +24,9 @@ export class FormularioTiponegocioComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private tipoNegocioServ: TipoNegocioService) { 
-    this.usuario = this.usuariosServ.getUserLogged()
+    
     this.crearFormulario();
   }
   

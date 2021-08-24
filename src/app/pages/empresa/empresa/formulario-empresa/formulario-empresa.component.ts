@@ -8,7 +8,7 @@ import { DgiiService } from 'src/app/services/globales/dgii.service';
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
 import { MonedasService } from 'src/app/services/mi-empresa/monedas.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { environment } from 'src/environments/environment';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
@@ -19,7 +19,7 @@ const URL = environment.urlImagenes;
   selector: 'app-formulario-empresa',
   templateUrl: './formulario-empresa.component.html',
   styleUrls: ['./formulario-empresa.component.scss'],
-  providers:[EmpresaService,MonedasService,UsuarioService,ClientesService,PaisesCiudadesService,DgiiService]
+  providers:[EmpresaService,MonedasService,ClientesService,PaisesCiudadesService,DgiiService]
 })
 export class FormularioEmpresaComponent implements OnInit {
 
@@ -75,14 +75,13 @@ export class FormularioEmpresaComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
               private empresasServ: EmpresaService,
-              private monedasServ: MonedasService,
-              private usuariosServ: UsuarioService,
+              private monedasServ: MonedasService,              
               public dialogService: DialogService,
               public router: Router,
               private clientesServ: ClientesService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private dgiiServ: DgiiService) { 
-    this.usuario = this.usuariosServ.getUserLogged()
+    
     this.crearFormulario();
   }
 

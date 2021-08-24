@@ -3,13 +3,12 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PuertosService } from 'src/app/services/compras/puertos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-puertos',
   templateUrl: './puertos.component.html',
   styleUrls: ['./puertos.component.scss'],
-  providers:[UsuarioService,PuertosService,]
+  providers:[PuertosService,]
 })
 export class PuertosComponent implements OnInit {
 
@@ -20,11 +19,10 @@ export class PuertosComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
               private puertosService: PuertosService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnDestroy(): void {

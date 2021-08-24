@@ -7,13 +7,13 @@ import { DepartamentosService } from 'src/app/services/rrhh/departamentos.servic
 import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
 import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-area-empresas',
   templateUrl: './formulario-area-empresas.component.html',
   styleUrls: ['./formulario-area-empresas.component.scss'],
-  providers:[UsuarioService,EmpresaService,DepartamentosService,SucursalesService,AreasEmpresaService]
+  providers:[EmpresaService,DepartamentosService,SucursalesService,AreasEmpresaService]
 })
 export class FormularioAreaEmpresasComponent implements OnInit {
 
@@ -35,15 +35,14 @@ export class FormularioAreaEmpresasComponent implements OnInit {
   rutaActual: string[];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              private uiMessage: UiMessagesService,              
               private DatosEstaticos: DatosEstaticosService,
               private empresasServ: EmpresaService,
               private departamentosServ: DepartamentosService,
               private sucursalesServ: SucursalesService,
               private router: Router,
               private areasServ: AreasEmpresaService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

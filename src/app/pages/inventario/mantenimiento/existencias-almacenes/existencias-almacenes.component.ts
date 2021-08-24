@@ -5,13 +5,13 @@ import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { ExistenciaAlmacenesService } from 'src/app/services/inventario/existencia-almacenes.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-existencias-almacenes',
   templateUrl: './existencias-almacenes.component.html',
   styleUrls: ['./existencias-almacenes.component.scss'],
-  providers:[ExistenciaAlmacenesService,UsuarioService,]
+  providers:[ExistenciaAlmacenesService]
 })
 export class ExistenciasAlmacenesComponent implements OnInit {
 
@@ -38,12 +38,11 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   bodegas: any;
   productos: any;
 
-  constructor(private existenciasServ:ExistenciaAlmacenesService,
-              private usuariosServ: UsuarioService,
+  constructor(private existenciasServ:ExistenciaAlmacenesService,              
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private datosEstaticos: DatosEstaticosService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
                 this.crearFormulario()
               }
 

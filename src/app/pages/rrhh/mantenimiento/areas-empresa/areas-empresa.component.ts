@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AreasEmpresaService } from 'src/app/services/rrhh/areas-empresa.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-areas-empresa',
   templateUrl: './areas-empresa.component.html',
   styleUrls: ['./areas-empresa.component.scss'],
-  providers:[UsuarioService,AreasEmpresaService]
+  providers:[AreasEmpresaService]
 })
 export class AreasEmpresaComponent implements OnInit {
 
@@ -20,17 +20,14 @@ export class AreasEmpresaComponent implements OnInit {
   cols: any[];
   
 
-  constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+  constructor(private uiMessage: UiMessagesService,              
               private areasServ: AreasEmpresaService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+              public dialogService: DialogService) {                    
               }
 
   ngOnInit(): void {
     this.todasLasAreas();
-
     this.areasServ.guardar.subscribe((resp: any)=>{  
       this.index = resp;
     })

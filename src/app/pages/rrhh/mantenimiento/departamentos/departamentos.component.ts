@@ -3,13 +3,13 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DepartamentosService } from 'src/app/services/rrhh/departamentos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-departamentos',
   templateUrl: './departamentos.component.html',
   styleUrls: ['./departamentos.component.scss'],
-  providers:[UsuarioService,DepartamentosService]
+  providers:[DepartamentosService]
 })
 export class DepartamentosComponent implements OnInit {
   
@@ -23,11 +23,10 @@ export class DepartamentosComponent implements OnInit {
   index: number = 0;
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private departamentoServ: DepartamentosService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
                 this.todasLosDepartamentos();
               }
 

@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DepartamentosService } from 'src/app/services/rrhh/departamentos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-departamentos',
   templateUrl: './formulario-departamentos.component.html',
   styleUrls: ['./formulario-departamentos.component.scss'],
-  providers:[UsuarioService,DepartamentosService]
+  providers:[DepartamentosService]
 })
 export class FormularioDepartamentosComponent implements OnInit {
 
@@ -27,10 +27,8 @@ export class FormularioDepartamentosComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
-              private departamentoServ: DepartamentosService) { 
-                this.usuario = this.usuariosServ.getUserLogged();
+              private uiMessage: UiMessagesService,              
+              private departamentoServ: DepartamentosService) {  
                 this.crearFormulario();
   }
 

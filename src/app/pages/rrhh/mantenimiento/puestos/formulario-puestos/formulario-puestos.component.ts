@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PuestosService } from 'src/app/services/rrhh/puestos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-puestos',
   templateUrl: './formulario-puestos.component.html',
   styleUrls: ['./formulario-puestos.component.scss'],
-  providers:[UsuarioService,PuestosService]
+  providers:[PuestosService]
 })
 export class FormularioPuestosComponent implements OnInit {
 
@@ -23,9 +23,9 @@ export class FormularioPuestosComponent implements OnInit {
   
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private puestosServ: PuestosService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

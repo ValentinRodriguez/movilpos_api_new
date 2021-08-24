@@ -4,7 +4,7 @@ import { EmpresaService } from 'src/app/services/mi-empresa/empresa.service';
 import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
 import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { Router } from '@angular/router';
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
@@ -13,7 +13,7 @@ import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos
   selector: 'app-formulario-sucursales',
   templateUrl: './formulario-sucursales.component.html',
   styleUrls: ['./formulario-sucursales.component.scss'],
-  providers:[UsuarioService,PaisesCiudadesService,EmpresaService,SucursalesService]
+  providers:[PaisesCiudadesService,EmpresaService,SucursalesService]
 })
 export class FormularioSucursalesComponent implements OnInit {
 
@@ -39,13 +39,13 @@ export class FormularioSucursalesComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private globalFunction: GlobalFunctionsService,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private paisesCiudadesServ: PaisesCiudadesService,
               private empresasServ: EmpresaService,
               private router: Router,
               private datosEstaticosServ: DatosEstaticosService,
               private sucursalesServ: SucursalesService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
   }
 

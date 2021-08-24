@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-tipoinv',
   templateUrl: './formulario-tipoinv.component.html',
   styleUrls: ['./formulario-tipoinv.component.scss'],
-  providers:[TipoInventarioService,UsuarioService,CgcatalogoService]
+  providers:[TipoInventarioService,CgcatalogoService]
 })
 export class FormularioTipoinvComponent implements OnInit {
 
@@ -28,10 +28,8 @@ export class FormularioTipoinvComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private tipoInventarioServ: TipoInventarioService,
-              private usuariosServ: UsuarioService,
+              private tipoInventarioServ: TipoInventarioService,              
               private cgcatalogoServ: CgcatalogoService) {
-                this.usuario = this.usuariosServ.getUserLogged();
                 this.crearFormulario();
               }
 

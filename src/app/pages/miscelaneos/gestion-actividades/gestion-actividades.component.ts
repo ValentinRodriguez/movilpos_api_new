@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 // import listPlugin from '@fullcalendar/list';
 import { ActividadesService } from 'src/app/services/miscelaneos/actividades.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
@@ -14,7 +14,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
   selector: 'app-gestion-actividades',
   templateUrl: './gestion-actividades.component.html',
   styleUrls: ['./gestion-actividades.component.scss'],
-  providers:[ActividadesService,UsuarioService]
+  providers:[ActividadesService]
 })
 export class GestionActividadesComponent implements OnInit {
 
@@ -33,12 +33,9 @@ export class GestionActividadesComponent implements OnInit {
     constructor(private actividadServ: ActividadesService, 
                 private uiMessage: UiMessagesService,
                 private breadcrumbService: BreadcrumbService,
-                private DatosEstaticosServ: DatosEstaticosService,
-                private usuariosServ: UsuarioService) {
+                private DatosEstaticosServ: DatosEstaticosService) {
                     this.year = this.DatosEstaticosServ.getDate();
-                    this.hour = this.DatosEstaticosServ.getHour();
-                    this.usuario = this.usuariosServ.getUserLogged();
-                    
+                    this.hour = this.DatosEstaticosServ.getHour();                    
                     this.breadcrumbService.setItems([
                         {label: 'Calendar'}
                     ]);

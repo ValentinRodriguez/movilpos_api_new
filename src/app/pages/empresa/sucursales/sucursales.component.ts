@@ -10,7 +10,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
   styleUrls: ['./sucursales.component.scss'],
-  providers:[UsuarioService,SucursalesService,]
+  providers:[SucursalesService,]
 })
 export class SucursalesComponent implements OnInit {
 
@@ -23,11 +23,11 @@ export class SucursalesComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor(private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private sucursalesServ: SucursalesService,
               private confirmationService: ConfirmationService,
               public dialogService: DialogService) { 
-                this.usuario = this.usuariosServ.getUserLogged();                
+                ;                
               }
 
   ngOnDestroy(): void {

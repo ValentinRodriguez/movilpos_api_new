@@ -8,13 +8,13 @@ import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { SucursalesService } from 'src/app/services/mi-empresa/sucursales.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-empleados',
   templateUrl: './formulario-empleados.component.html',
   styleUrls: ['./formulario-empleados.component.scss'],
-  providers:[UsuarioService,RrhhService,SucursalesService,PaisesCiudadesService]
+  providers:[RrhhService,SucursalesService,PaisesCiudadesService]
 })
 export class FormularioEmpleadosComponent implements OnInit {
 
@@ -87,8 +87,7 @@ export class FormularioEmpleadosComponent implements OnInit {
   }
 
   constructor(private globalFunction: GlobalFunctionsService,
-              private fb: FormBuilder,
-              private usuariosServ: UsuarioService,
+              private fb: FormBuilder,              
               private uiMessage: UiMessagesService,
               private empleadosServ: RrhhService,           
               public dialogService: DialogService,
@@ -96,7 +95,7 @@ export class FormularioEmpleadosComponent implements OnInit {
               private sucursalesServ: SucursalesService,
               private paisesCiudadesServ: PaisesCiudadesService,
               private datosEstaticosServ: DatosEstaticosService) {     
-    this.usuario = this.usuariosServ.getUserLogged();
+    ;
     this.crearFormulario();
    }
 

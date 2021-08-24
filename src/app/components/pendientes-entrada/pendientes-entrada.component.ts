@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 @Component({
   selector: 'app-pendientes-entrada',
@@ -17,9 +16,8 @@ export class PendientesEntradaComponent implements OnInit {
   constructor(public ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
               private transPendientes: TransaccionesService,
-              private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,) {
-                this.usuario = this.usuariosServ.getUserLogged()
+              private uiMessage: UiMessagesService) {
+                
                }
 
   ngOnInit(): void {

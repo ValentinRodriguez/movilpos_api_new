@@ -8,7 +8,7 @@ import { InventarioService } from 'src/app/services/inventario/inventario.servic
 import { PropiedadesService } from 'src/app/services/inventario/propiedades.service';
 import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { environment } from 'src/environments/environment';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ const URL = environment.urlImagenes;
   selector: 'app-formulario-maestra-productos',
   templateUrl: './formulario-maestra-productos.component.html',
   styleUrls: ['./formulario-maestra-productos.component.scss'],
-  providers:[UsuarioService,InventarioService,BrandsService,TipoInventarioService,PropiedadesService,
+  providers:[InventarioService,BrandsService,TipoInventarioService,PropiedadesService,
              BodegasService,CategoriasService]
 })
 export class FormularioMaestraProductosComponent implements OnInit {
@@ -67,8 +67,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   getChasis = false;
   id: number;
 
-  constructor(private fb: FormBuilder,
-              private usuariosServ: UsuarioService,
+  constructor(private fb: FormBuilder,              
               private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   
               private inventarioServ: InventarioService,
@@ -78,7 +77,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               private bodegasServ: BodegasService,
               private router: Router,
               private categoriasServ: CategoriasService) { 
-                this.usuario = this.usuariosServ.getUserLogged()
+                
                 this.crearFormulario();
               }
 

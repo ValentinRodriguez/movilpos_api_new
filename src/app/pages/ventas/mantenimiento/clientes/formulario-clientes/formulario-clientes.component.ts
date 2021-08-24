@@ -11,13 +11,13 @@ import { PaisesCiudadesService } from 'src/app/services/globales/paises-ciudades
 import { TipoClienteService } from 'src/app/services/mi-empresa/tipo-cliente.service';
 import { TipoNegocioService } from 'src/app/services/mi-empresa/tipo-negocio.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-formulario-clientes',
   templateUrl: './formulario-clientes.component.html',
   styleUrls: ['./formulario-clientes.component.scss'],
-  providers:[UsuarioService,ClientesService,TipoNegocioService,TipoClienteService,PaisesCiudadesService]
+  providers:[ClientesService,TipoNegocioService,TipoClienteService,PaisesCiudadesService]
 })
 export class FormularioClientesComponent implements OnInit {
 
@@ -58,7 +58,7 @@ export class FormularioClientesComponent implements OnInit {
   constructor(private fb: FormBuilder, 
               public router: Router,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private clientesServ: ClientesService,     
               private tiponegocioServ: TipoNegocioService,
               private tipoClienteServ: TipoClienteService, 
@@ -67,7 +67,7 @@ export class FormularioClientesComponent implements OnInit {
               public dialogService: DialogService,
               private globalServ: GlobalFunctionsService,
               @Inject(DOCUMENT) private document: Document) {
-    this.usuario = this.usuariosServ.getUserLogged()
+    
     this.crearFormulario();
   }
 
@@ -115,7 +115,7 @@ export class FormularioClientesComponent implements OnInit {
       this.items = [];
     })
 
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    this.listSubscribers = [observer1$,observer2$,observer3$,observer5$];
   };
 
   autoLlenado() {

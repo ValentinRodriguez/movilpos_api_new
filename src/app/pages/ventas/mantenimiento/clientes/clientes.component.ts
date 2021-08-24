@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.scss'],
-  providers:[UsuarioService,ClientesService,]
+  providers:[ClientesService,]
 })
 export class ClientesComponent implements OnInit {
 
@@ -26,10 +26,10 @@ export class ClientesComponent implements OnInit {
   listSubscribers: any = [];
 
   constructor( private uiMessage: UiMessagesService,
-               private usuariosServ: UsuarioService,
+               
                private clientesServ: ClientesService,
                private confirmationService: ConfirmationService) {
-                this.usuario = this.usuariosServ.getUserLogged();
+                ;
   }
 
   ngOnDestroy(): void {

@@ -5,7 +5,7 @@ import { ListadoCatalogoCuentasComponentsComponent } from 'src/app/components/li
 import { CoTransaccionescxpService } from 'src/app/services/cuentas-pagar/co-transaccionescxp.service';
 import { OrdenescomprasService } from 'src/app/services/compras/ordenescompras.service';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
-import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
+
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { StepFacturaProvedoresComponent } from '../step-factura-provedores/step-factura-provedores.component';
 
@@ -45,13 +45,13 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
   cuentaForm = '';
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              private usuariosServ: UsuarioService,
+              
               private coTransaccionescxpServ: CoTransaccionescxpService,
               private ordenCompraServ: OrdenescomprasService,
               private cgCatalogoServ: CgcatalogoService,
               public dialogService: DialogService,
               private cd: ChangeDetectorRef) { 
-                this.usuario = this.usuariosServ.getUserLogged();    
+                ;    
                 this.opciones = [{label: 'Sí', value: 'si'}, {label: 'No', value: 'no'}];                          
                 this.crearFormulario();
   }
