@@ -35,7 +35,7 @@ export class AtributosComponent implements OnInit {
   }
 
   prevPage() {
-      this.router.navigate(['plaza-online/creacion-productos-plaza/atributo']);
+      this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
   }
 
 }
