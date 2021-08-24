@@ -236,7 +236,6 @@ export class FormularioEmpresaComponent implements OnInit {
       tipo_empresa:      ['D', Validators.required],
       logo:              [],
       estado:            ['activo'],
-      usuario_creador:   [this.usuario.username],
       usuario_modificador:   ['']
     })
   }

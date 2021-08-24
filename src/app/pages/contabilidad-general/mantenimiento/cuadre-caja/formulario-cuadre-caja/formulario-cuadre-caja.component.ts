@@ -130,7 +130,6 @@ export class FormularioCuadreCajaComponent implements OnInit {
       cod_cia:             ['', Validators.required],
       suc_id:              ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

@@ -95,7 +95,6 @@ export class FormularioTablaAmortizacionesComponent implements OnInit {
       tasa:                ['6', Validators.required],
       prestamo:            [''],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

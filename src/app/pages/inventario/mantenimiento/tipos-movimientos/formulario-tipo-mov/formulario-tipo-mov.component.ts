@@ -110,7 +110,6 @@ export class FormularioTipoMovComponent implements OnInit {
       control_transferencia: ['no', Validators.required],
       control_orden_compra:  ['no', Validators.required],
       estado:                ['ACTIVO', Validators.required],
-      usuario_creador:       [this.usuario.username, Validators.required],
       usuario_modificador:   ['']
     })
   }

@@ -83,7 +83,6 @@ export class EntradaDiarioComponent implements OnInit {
     this.formaAct = this.fb.group({
       descripcion:         ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     ['', Validators.required],
       usuario_modificador: ['', Validators.required]
     })
   }

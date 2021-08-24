@@ -60,8 +60,7 @@ export class FormularioDepartamentosComponent implements OnInit {
       titulo:           ['', Validators.required],
       tipodepartamento: ['', Validators.required],
       descripcion:      ['', Validators.required],
-      estado:           ['activo', Validators.required],
-      usuario_creador:  [this.usuario.username, Validators.required]
+      estado:           ['activo', Validators.required]
     })
   }
 

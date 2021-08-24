@@ -202,7 +202,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       valor:               ['1000', Validators.required],
       detalle:             ['xdfgsdfg dsfgdsfg sdfgsdgf'],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       detalle_cxp:         this.fb.array([]),
       detalle_cuentas:     this.fb.array([]),
       usuario_modificador: ['']
@@ -248,7 +247,7 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       detalle:         ['sadfadsf', Validators.required],
       ncf:             [0, Validators.required],
       estado:          ['activo'],
-      usuario_creador: [this.usuario.username],
+      
     });
   }
 
@@ -268,7 +267,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
       cod_aux:         [cuenta.catalogo],
       cod_sec:         [12],
       estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required],
     });
   }
 

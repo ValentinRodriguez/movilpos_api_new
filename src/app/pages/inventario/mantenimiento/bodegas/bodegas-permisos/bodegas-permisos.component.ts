@@ -31,8 +31,7 @@ export class BodegasPermisosComponent implements OnInit {
   ngOnInit(): void {
     this.listObserver();
     this.id_bodega = this.config.data.bodega;
-    this.usuariosServ.getUsers().then((resp:any)=>{
-            
+    this.usuariosServ.getUsers().then((resp:any)=>{            
       this.usuarios = resp;      
       this.permisosBodega(this.usuario.id)
     })    
@@ -52,7 +51,6 @@ export class BodegasPermisosComponent implements OnInit {
     let param = {
       id_bodega : this.id_bodega,
       usuario_permisos: JSON.stringify(this.usuariosPermisos),
-      usuario_creador: this.usuario.username,
       email: this.usuario.email,
       estado: 'activo'
     }
@@ -63,8 +61,7 @@ export class BodegasPermisosComponent implements OnInit {
   }
 
   permisosBodega(id) {    
-    this.bodegasServ.usuariosPermisosBodegas(id).then((resp: any)=>{
-      
+    this.bodegasServ.usuariosPermisosBodegas(id).then((resp: any)=>{      
       
       this.usuariosPermisos = resp;              
       this.usuariosPermisos.forEach(element => {        

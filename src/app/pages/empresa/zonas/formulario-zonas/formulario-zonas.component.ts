@@ -72,7 +72,6 @@ export class FormularioZonasComponent implements OnInit {
       descripcion:         ['', Validators.required],
       provincias:          [''],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

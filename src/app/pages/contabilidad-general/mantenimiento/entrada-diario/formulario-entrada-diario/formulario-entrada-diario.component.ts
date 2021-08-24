@@ -122,7 +122,6 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       periodo:             [''],
       detalle:             [''],
       estado:              ['activo'],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: [''],
       cuentas: this.fb.array([])     
     })    

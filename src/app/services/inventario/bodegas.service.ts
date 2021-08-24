@@ -42,7 +42,9 @@ export class BodegasService {
 
   getDatos() {
     return new Promise( resolve => {
-        this.listSubscribers.push(this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {                       
+      this.listSubscribers.push(this.http.get(`${URL}/bodegas`).subscribe((resp: any) => {
+          console.log(resp);
+          
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
         }

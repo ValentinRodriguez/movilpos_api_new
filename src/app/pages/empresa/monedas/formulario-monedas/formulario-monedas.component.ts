@@ -59,7 +59,6 @@ export class FormularioMonedasComponent implements OnInit {
       descripcion:         ['', Validators.required],
       simbolo:             ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

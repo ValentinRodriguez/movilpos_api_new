@@ -83,7 +83,6 @@ export class FormularioGestionDocNcndComponent implements OnInit {
       codigo_fiscal:            [''],
       ncf:                      [''],  
       detalle:                  [''],
-      usuario_creador:          [this.usuario.username, Validators.required],
       estado:                   ['activo'],
     })
   }

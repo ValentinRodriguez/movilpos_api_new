@@ -133,7 +133,6 @@ export class FormularioLiquidacionMercanciasComponent implements OnInit {
       porciento:           ['', Validators.required],
       productos:           this.fb.array([]),     
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

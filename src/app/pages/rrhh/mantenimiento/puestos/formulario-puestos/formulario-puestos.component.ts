@@ -48,7 +48,6 @@ export class FormularioPuestosComponent implements OnInit {
       sueldo_inicial:      ['', Validators.required],
       sueldo_actual:       [''],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

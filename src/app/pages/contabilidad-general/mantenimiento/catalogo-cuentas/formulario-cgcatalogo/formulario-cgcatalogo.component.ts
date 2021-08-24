@@ -167,7 +167,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
       estado_m:          [''],
       codigo_estado:     [''],
       estado:            ['activo', Validators.required],
-      usuario_creador:   [this.usuario.username, Validators.required],
       usuario_modificador : ['']
     })
   }

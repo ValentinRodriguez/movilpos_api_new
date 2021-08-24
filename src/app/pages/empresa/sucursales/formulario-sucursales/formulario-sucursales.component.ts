@@ -96,7 +96,6 @@ export class FormularioSucursalesComponent implements OnInit {
       id_sector:           [''],
       calle:               [''],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

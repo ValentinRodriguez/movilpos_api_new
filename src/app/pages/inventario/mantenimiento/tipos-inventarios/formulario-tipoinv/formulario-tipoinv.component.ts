@@ -65,7 +65,6 @@ export class FormularioTipoinvComponent implements OnInit {
       descripcion:         ['', Validators.required],
       cuenta_no:           ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

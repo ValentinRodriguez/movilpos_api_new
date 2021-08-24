@@ -42,7 +42,6 @@ export class MovimientoPermisosComponent implements OnInit {
     let param = {
       id_tipomov : this.id_mov,
       usuario_permisos: JSON.stringify(this.usuariosPermisosmov),
-      usuario_creador: this.usuario.username,
       email: this.usuario.email,
       estado: 'activo'
     }

@@ -123,7 +123,6 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
       archivos:            [''],
       inspecciones:        ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

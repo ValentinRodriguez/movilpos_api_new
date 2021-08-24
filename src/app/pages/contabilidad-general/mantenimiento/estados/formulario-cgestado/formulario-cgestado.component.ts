@@ -78,7 +78,7 @@ export class FormularioCgestadoComponent implements OnInit {
       tipo_estado: [''],
       signo: [''],
       estado: ['activo'],
-      usuario_creador: [this.usuario.username]
+      
     })
   }
 

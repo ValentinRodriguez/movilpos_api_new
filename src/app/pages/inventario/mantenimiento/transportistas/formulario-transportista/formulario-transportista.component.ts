@@ -91,7 +91,6 @@ export class FormularioTransportistaComponent implements OnInit {
       id_ciudad:           ['', Validators.required],
       id_sector:           [''],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

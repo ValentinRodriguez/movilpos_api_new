@@ -47,11 +47,10 @@ export class FormularioCondicionesComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      descripcion:     ['', Validators.required],
-      defecto:         ['', Validators.required],
-      dias:            ['', Validators.required],
-      estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      descripcion: ['', Validators.required],
+      defecto:     ['', Validators.required],
+      dias:        ['', Validators.required],
+      estado:      ['activo', Validators.required]
     })
   }
 

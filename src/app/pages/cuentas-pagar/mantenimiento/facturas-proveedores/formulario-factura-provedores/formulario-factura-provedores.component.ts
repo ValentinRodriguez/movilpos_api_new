@@ -230,7 +230,7 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       tipo_fact:       [''], //
       cod_cia:         [''],
       estado:          ['activo'],
-      usuario_creador: [this.usuario.username],
+      
     });
   }
 
@@ -281,7 +281,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
       proveedor:           ['', Validators.required],
       cuentas_no:          this.fb.array([]),
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

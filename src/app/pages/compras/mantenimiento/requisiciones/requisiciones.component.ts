@@ -178,7 +178,7 @@ export class RequisicionesComponent implements OnInit {
       documento:       [""],
       procesada:       ["no"],
       estado:          ['activo'],
-      usuario_creador: [this.usuario.username],
+      
       productos: this.fb.array([])     
     })
   }

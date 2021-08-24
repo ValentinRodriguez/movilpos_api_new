@@ -73,7 +73,6 @@ export class FormularioBodegasComponent implements OnInit {
       id_pais:         ['', Validators.required],
       id_ciudad:       ['', Validators.required],
       estado:          ['ACTIVO', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

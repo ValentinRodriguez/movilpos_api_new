@@ -88,7 +88,6 @@ export class FormularioTipoDocumentosComponent implements OnInit {
       estado:                ['activo', Validators.required],
       impresora:             ['', Validators.required],
       usuario_modificador:   [''],
-      usuario_creador:       [this.usuario.username],
       foto:                  []
     })
   }

@@ -109,7 +109,6 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
       estado:                ['activo', Validators.required],
       gracia:                [''],
       usuario_modificador:   [''],
-      usuario_creador:       [this.usuario.username, Validators.required],
       meses: this.fb.array([])     
     })
   }

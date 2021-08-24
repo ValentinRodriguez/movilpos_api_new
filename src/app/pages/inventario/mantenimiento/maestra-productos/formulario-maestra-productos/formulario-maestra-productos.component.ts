@@ -164,7 +164,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
       galeriaImagenes:      [''],
       estado:               ['activo'],
       descuento:            ['', Validators.required],
-      usuario_creador:      [this.usuario.username, Validators.required],
       usuario_modificador:  ['']
     })
   }

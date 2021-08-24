@@ -64,8 +64,7 @@ export class VacacionesComponent implements OnInit {
       total_tiempo: ['', Validators.required],
       motivo:       ['', Validators.required],
       observacion:  ['', Validators.required],
-      estado:       ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      estado:       ['activo', Validators.required]
     })
   }
 

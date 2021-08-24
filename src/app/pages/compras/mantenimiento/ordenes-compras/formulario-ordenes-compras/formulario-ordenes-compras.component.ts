@@ -197,7 +197,6 @@ export class FormularioOrdenesComprasComponent implements OnInit {
       direccion_b:       ['', Validators.required],
       telefono:          [''],
       estado:            ['ACTIVO'],
-      usuario_creador:   [this.usuario.username],
       proveedor:         ['', Validators.required],
       productos: this.fb.array([])     
     })

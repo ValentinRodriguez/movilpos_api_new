@@ -59,7 +59,6 @@ export class FormularioPuertosComponent implements OnInit {
       descripcion:         ['', Validators.required],
       dias:                ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

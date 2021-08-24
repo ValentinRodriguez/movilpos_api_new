@@ -184,7 +184,6 @@ export class FormularioProveedoresComponent implements OnInit {
       cuenta_no:           ['', Validators.required],
       id_pais:             ['', Validators.required],            
       id_ciudad:           ['', Validators.required],          
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: [''],
       estado:              ['activo'],
       cuentas_no:          this.fb.array([])

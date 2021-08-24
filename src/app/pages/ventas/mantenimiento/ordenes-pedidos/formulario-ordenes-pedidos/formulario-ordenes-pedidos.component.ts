@@ -252,8 +252,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
       orden_sustituta:   [''],
       estado:            ['activo'],
       productos:         this.fb.array([]),  
-      archivos:          [''],   
-      usuario_creador:   [this.usuario.username]
+      archivos:          ['']
     })
   }
 

@@ -62,7 +62,6 @@ export class FormularioTurnosComponent implements OnInit {
       horario_inicial:     ['', Validators.required],
       horario_final:       ['', Validators.required],
       estado:              ['activo', Validators.required],
-      usuario_creador:     [this.usuario.username, Validators.required],
       usuario_modificador: ['']
     })
   }

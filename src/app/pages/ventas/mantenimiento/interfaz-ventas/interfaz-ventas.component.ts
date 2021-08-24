@@ -182,7 +182,7 @@ export class InterfazVentasComponent implements OnInit {
             financiado:      [''],
             productos:       this.fb.array([]),
             estado:          ['activo'],
-            usuario_creador: [this.usuario.username]
+            
         })
     }
     

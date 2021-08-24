@@ -415,8 +415,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       // departamento_out: [""],
       // fecha_valido_retiro: [""],
       // monto_retiro: [""],
-      estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      estado:          ['activo', Validators.required]
     })
   }
 

@@ -84,8 +84,7 @@ export class DescuentosComponent implements OnInit {
       departamento:     ['', Validators.required],
       motivo:       ['', Validators.required],
       comentario:  ['', Validators.required],
-      estado:       ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      estado:       ['activo', Validators.required]
     })
   }
 

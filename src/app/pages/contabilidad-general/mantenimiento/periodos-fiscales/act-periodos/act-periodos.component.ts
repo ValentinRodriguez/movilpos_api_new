@@ -49,8 +49,7 @@ export class ActPeriodosComponent implements OnInit {
       dias_gracia:         [''],
       mes:                 [''],
       estado:              ['activo', Validators.required],
-      usuario_modificador: [''],
-      usuario_creador:     [this.usuario.username, Validators.required]   
+      usuario_modificador: ['']  
     })
   }
 

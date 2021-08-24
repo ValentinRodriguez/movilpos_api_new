@@ -226,7 +226,6 @@ export class FormularioClientesComponent implements OnInit {
       url:                  ['ddgfdfg.com'],
       contacto:             ['luis miguel'],
       estado:               ['activo'],
-      usuario_creador:      [this.usuario.username],
       usuario_modificador:  ['']
     })
   }

@@ -54,8 +54,7 @@ export class FormularioTipoClientesComponent implements OnInit {
   crearFormulario() {
     this.forma = this.fb.group({
       descripcion:     ['', Validators.required],
-      estado:          ['activo', Validators.required],
-      usuario_creador: [this.usuario.username, Validators.required]
+      estado:          ['activo', Validators.required]
     })
   }
   

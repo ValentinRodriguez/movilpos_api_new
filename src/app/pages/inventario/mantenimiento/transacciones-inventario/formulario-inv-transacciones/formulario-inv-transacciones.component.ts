@@ -182,8 +182,7 @@ export class FormularioInvTransaccionesComponent implements OnInit {
       estado:            ['activo'],      
       condicion_recibo:  ['si'],
       cuenta_no:         [''],
-      productos:         this.fb.array([]),
-      usuario_creador:   [this.usuario.username]
+      productos:         this.fb.array([])
     })
   }
 

@@ -17,8 +17,7 @@ export class TablaAmortizacionesComponent implements OnInit {
   index: number = 0;
   monedas: any[] = [];
   id_categoria: any;
-  cols: any[];
-   
+  cols: any[];   
 
   constructor(private uiMessage: UiMessagesService,
               private usuariosServ: UsuarioService,
