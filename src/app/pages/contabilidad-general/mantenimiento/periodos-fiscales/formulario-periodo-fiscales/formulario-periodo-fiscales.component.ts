@@ -157,7 +157,6 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
             this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
             this.forma.reset();
             this.forma.get('estado').setValue('activo');
-            this.forma.get('usuario_creador').setValue(this.usuario.username);
           })
         }
          
@@ -206,7 +205,6 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
     this.guardar = true;
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username); 
     this.usuariosServ.guardando();    
   }
 

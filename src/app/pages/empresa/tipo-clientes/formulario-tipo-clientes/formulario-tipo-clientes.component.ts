@@ -101,7 +101,7 @@ export class FormularioTipoClientesComponent implements OnInit {
   reset() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    
   }
 
   cancelar() {

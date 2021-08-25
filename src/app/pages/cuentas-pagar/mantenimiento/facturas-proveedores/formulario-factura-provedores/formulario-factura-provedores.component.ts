@@ -138,7 +138,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
         this.forma.get('estado').setValue(res.estado)  
         this.forma.get('itbis').setValue(res.itbis)       
         this.itbis = res.itbis;
-        this.forma.get('usuario_creador').setValue(res.usuario_creador)
 
         res.detalle_factura.forEach(element => {
           this.cuentas.push(element);
@@ -416,7 +415,6 @@ export class FormularioFacturaProvedoresComponent implements OnInit {
     this.forma.get('servicios').setValue(0);
     this.forma.get('retencion').setValue(0);
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.forma.get('cond_pago').disable()
     this.forma.get('fecha_orig').disable()
     this.forma.get('fecha_proc').disable()

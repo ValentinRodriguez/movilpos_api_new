@@ -66,7 +66,6 @@ export class FormularioOrdenesComprasComponent implements OnInit {
               private puertosServ: PuertosService,
               private direccionesServ: DireccionesService,
               @Inject(DOCUMENT) private document: Document) { 
-                ;
                 this.crearFormulario()
               }
 

@@ -166,7 +166,7 @@ export class FormularioUsuariosComponent implements OnInit {
     this.imgURLUser = null;
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    
   }
   verificaUsuario(data){  
     if (data === "") {

@@ -1,0 +1,11 @@
+<div class="p-col-12">
+    <h5>Galería de Imagenes</h5>
+    <p-fileUpload multiple="multiple" accept="image/*" maxFileSize="1000000" [showUploadButton]="false"
+                  (onSelect)="onFileSelect()" chooseLabel="Escoja Imagen" cancelLabel="Cancelar">
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
+</div>

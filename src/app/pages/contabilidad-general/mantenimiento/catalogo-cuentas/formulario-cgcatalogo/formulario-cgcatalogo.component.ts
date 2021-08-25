@@ -246,7 +246,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
     this.forma.get('retencion').setValue({label: 'No', value: 'no'});
     this.forma.get('referencia').setValue({label: 'No', value: 'no'});
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
   verificaDescripcion(data){  

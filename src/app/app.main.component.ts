@@ -5,6 +5,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { MenuService } from './app.menu.service';
 import { RolesService } from './services/globales/roles.service';
+import { UsuarioService } from './services/panel-control/usuario.service';
 
 @Component({
     selector: 'app-main',
@@ -39,15 +40,18 @@ export class AppMainComponent implements OnInit{
     //echo: Echo;
 
     constructor(private menuService: MenuService,
-                public route: Router,
+        public route: Router,
+                private usuarioSrv: UsuarioService,
                 private primengConfig: PrimeNGConfig,
-                private permisosServ: RolesService) {                  
+                private permisosServ: RolesService) {
+            this.usuario = usuarioSrv.getUserLogged()
                     //this.initializeEcho()
                 }
 
     ngOnInit() {
         this.primengConfig.ripple = true;   
         const rol = localStorage.getItem('roles');
+        
         if (rol === null) {                   
             this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{                
                 localStorage.setItem('roles', JSON.stringify(resp));

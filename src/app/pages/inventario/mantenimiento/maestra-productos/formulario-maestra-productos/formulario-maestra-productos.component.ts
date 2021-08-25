@@ -8,19 +8,16 @@ import { InventarioService } from 'src/app/services/inventario/inventario.servic
 import { PropiedadesService } from 'src/app/services/inventario/propiedades.service';
 import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-
-import { environment } from 'src/environments/environment';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';
-
-const URL = environment.urlImagenes;
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-formulario-maestra-productos',
   templateUrl: './formulario-maestra-productos.component.html',
   styleUrls: ['./formulario-maestra-productos.component.scss'],
-  providers:[InventarioService,BrandsService,TipoInventarioService,PropiedadesService,
-             BodegasService,CategoriasService]
+  // providers:[InventarioService,BrandsService,TipoInventarioService,PropiedadesService,
+  //            BodegasService,CategoriasService]
 })
 export class FormularioMaestraProductosComponent implements OnInit {
 
@@ -41,9 +38,9 @@ export class FormularioMaestraProductosComponent implements OnInit {
   brands: any[] = [];
   bodegas: any[] = [];
   medidas: any[] = [];
-  // uploadedFiles: any[] = [];
-  // @ViewChild(FileUpload)
-  // fileUpload: FileUpload  
+  uploadedFiles: any[] = [];
+  @ViewChild(FileUpload)
+  fileUpload: FileUpload  
   @ViewChild('file')
   file: ElementRef;
   imgEmpresa = null;
@@ -66,7 +63,9 @@ export class FormularioMaestraProductosComponent implements OnInit {
   usuario: any;
   getChasis = false;
   id: number;
-
+  fileArr: any[] = []
+  image: any;
+  
   constructor(private fb: FormBuilder,              
               private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   
@@ -74,7 +73,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               private marcaService: BrandsService,
               private tipoInv: TipoInventarioService,
               private propServ: PropiedadesService,
-              private bodegasServ: BodegasService,
+              private bodegasServ: BodegasService,              
               private router: Router,
               private categoriasServ: CategoriasService) { 
                 
@@ -118,23 +117,27 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);
-      this.inventarioServ.getDato(resp).then((res: any) => {           
-        this.forma.patchValue(res);
-        this.imgURL = res.galeriaImagenes;
-        this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
-        this.forma.get('fabricacion').setValue({value: Number(res.fabricacion)});
-        this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand));
-        this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria));
-        this.forma.get('id_propiedad').setValue(this.propiedades.find(propiedad => propiedad.id_propiedad === res.id_propiedad));        
-        this.forma.get('id_tipoinventario').setValue(this.tipoInventario.find(tipo => tipo.id_tipoinventario === res.id_tipoinventario));
-        //this.forma.get('origen').setValue(this.origenes.find(origen => origen.value === res.origen));
-        this.forma.get('id_bodega').setValue(this.bodegas.find(bodega => bodega.id_bodega === res.id_bodega));
-        this.tipo(res.tipo_producto)
+      this.inventarioServ.getDato(resp).then((res: any) => {
+        this.inventarioServ.enviarUrlImagenes(res.galeriaImagenes)
+        // this.forma.patchValue(res);
+        // this.imgURL = res.galeriaImagenes;
+        // this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
+        // this.forma.get('fabricacion').setValue({value: Number(res.fabricacion)});
+        // this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand));
+        // this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria));
+        // this.forma.get('id_propiedad').setValue(this.propiedades.find(propiedad => propiedad.id_propiedad === res.id_propiedad));        
+        // this.forma.get('id_tipoinventario').setValue(this.tipoInventario.find(tipo => tipo.id_tipoinventario === res.id_tipoinventario));
+        // //this.forma.get('origen').setValue(this.origenes.find(origen => origen.value === res.origen));
+        // this.forma.get('id_bodega').setValue(this.bodegas.find(bodega => bodega.id_bodega === res.id_bodega));
+        // this.tipo(res.tipo_producto)
       })
     })
-
     this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
   };
+
+  recibeFiles(event) {
+    console.log(event);    
+  }
 
   crearFormulario() {
     this.forma = this.fb.group({
@@ -354,10 +357,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.imgURL = reader.result; 
     }
   }
-
-  // onFileSelect(event) {
-  //   this.forma.get("galeriaImagenes").setValue(this.fileUpload.files);
-  // }
   
   checaChasis(data) {
     if (this.getChasis) { 

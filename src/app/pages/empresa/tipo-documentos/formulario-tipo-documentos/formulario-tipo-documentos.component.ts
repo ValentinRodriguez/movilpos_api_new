@@ -5,13 +5,14 @@ import { ListadoEmpleadosComponent } from 'src/app/components/listado-empleados/
 import { PuestosService } from 'src/app/services/rrhh/puestos.service';
 import { RrhhService } from 'src/app/services/rrhh/rrhh.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 
 @Component({
   selector: 'app-formulario-tipo-documentos',
   templateUrl: './formulario-tipo-documentos.component.html',
   styleUrls: ['./formulario-tipo-documentos.component.scss'],
-  providers:[PuestosService,RrhhService,]
+  providers:[PuestosService,RrhhService,UsuarioService]
 })
 export class FormularioTipoDocumentosComponent implements OnInit {
 
@@ -37,7 +38,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
   ];
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
-              
+              private usuariosServ: UsuarioService,
               private puestosServ: PuestosService,
               private empleadosServ: RrhhService,
               public dialogService: DialogService) { 
@@ -111,7 +112,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
         this.usuariosServ.register(this.forma.value).then((resp: any) => {  
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           this.forma.reset();
-          this.forma.get('usuario_creador').setValue(this.usuario.username);
+          
         })  
       }
     }else{
@@ -143,7 +144,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
     this.imgUser = null;
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    
 
     const password = this.forma.get('password');
     const password_confirmation = this.forma.get('password_confirmation');

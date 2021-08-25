@@ -179,7 +179,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
     this.guardar = true;
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    
     this.ordenServ.guardando();    
   }
 

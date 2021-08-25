@@ -14,6 +14,7 @@ import { TransaccionesPagoComponent } from './mantenimiento/transacciones-pago/t
 import { GastosDepartamentosComponent } from './reportes/gastos-departamentos/gastos-departamentos.component';
 import { MayorGeneralComponent } from './reportes/mayor-general/mayor-general.component';
 import { EstadosComponent } from './mantenimiento/estados/estados.component';
+import { ReporteCatalogoCuentasComponent } from "./reportes/reporte-catalogo-cuentas/reporte-catalogo-cuentas.component";
 
 @NgModule({
   imports: [
@@ -23,11 +24,13 @@ import { EstadosComponent } from './mantenimiento/estados/estados.component';
        children: [
         {path: 'gestion-catalogo-cuentas', component: CatalogoCuentasComponent},
         { path: 'gestion-estados', component: EstadosComponent },
-        {path: 'gestion-periodos-fiscales', component: PeriodosFiscalesComponent},
+         { path: 'gestion-periodos-fiscales', component: PeriodosFiscalesComponent },
+         { path: 'reporte-catalogo', component:  ReporteCatalogoCuentasComponent},         
         {path: 'gestion-entradas-diario', component: EntradaDiarioComponent},
         {path: 'gestion-transacciones-pago', component: TransaccionesPagoComponent},
         {path: 'gastos-departamento', component: GastosDepartamentosComponent},
-        { path: 'reporte-mayor-general', component: MayorGeneralComponent },
+         { path: 'reporte-mayor-general', component: MayorGeneralComponent },
+         { path: 'reporte-diario-general', component: MayorGeneralComponent },         
         { path: 'cuadre-caja', component: CuadreCajaComponent, children: [
           { path: 'turnos', component: FormularioTurnosComponent },
           { path: 'sucursales', component: FormularioSucursalesComponent },
@@ -38,10 +41,6 @@ import { EstadosComponent } from './mantenimiento/estados/estados.component';
       }
     ])
   ],
-
-  
-    
-    
     
   exports: [RouterModule]
 })

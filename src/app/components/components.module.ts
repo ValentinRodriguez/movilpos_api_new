@@ -28,7 +28,6 @@ import {TooltipModule} from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {BlockUIModule} from 'primeng/blockui';
 
-
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -46,6 +45,8 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
 import { ListadoRncComponent } from './listado-rnc/listado-rnc.component';
 import { OnlineRncComponent } from './online-rnc/online-rnc.component';
 import { LoadingComponent } from './loading/loading.component';
+import { FileuploadsComponent } from './fileuploads/fileuploads.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { LoadingComponent } from './loading/loading.component';
     LocalizacionComponent,
     ListadoRncComponent,
     OnlineRncComponent,
-    LoadingComponent
+    LoadingComponent,
+    FileuploadsComponent
   ],
   
   exports: [
@@ -77,9 +79,10 @@ import { LoadingComponent } from './loading/loading.component';
     PendientesEntradaComponent,
     StepToolbarComponent,
     LocalizacionComponent,
-    LoadingComponent
+    LoadingComponent,
+    FileuploadsComponent
   ],
-
+  
   imports: [
     CommonModule,
     DropdownModule,
@@ -87,6 +90,7 @@ import { LoadingComponent } from './loading/loading.component';
     FormsModule,
     ReactiveFormsModule,
     ProgressBarModule,
+    FileUploadModule,
     ProgressSpinnerModule,
     RouterModule,
     MenubarModule,

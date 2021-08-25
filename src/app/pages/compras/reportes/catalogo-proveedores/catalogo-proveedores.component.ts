@@ -37,8 +37,7 @@ export class CatalogoProveedoresComponent implements OnInit {
               private fb: FormBuilder, 
               private paisesCiudadesServ: PaisesCiudadesService,
               private uiMessage: UiMessagesService,
-              private datosEstaticos: DatosEstaticosService) { 
-                ;
+              private datosEstaticos: DatosEstaticosService) {                 
                 this.crearFormulario()
               }
               

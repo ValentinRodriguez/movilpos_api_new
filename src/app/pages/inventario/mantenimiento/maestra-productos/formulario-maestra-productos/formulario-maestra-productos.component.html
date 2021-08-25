@@ -23,18 +23,7 @@
 <br>
 <form (ngSubmit)="guardarProducto()" [formGroup]="forma" *ngIf="this.rutaActual[1] === 'inventario'">
     <div class="p-fluid p-formgrid p-grid">
-        <p-fieldset legend="Datos Básicos del Vehículo"  class="p-col-12 p-mb-4" >
-            <div class="p-field p-col-12 p-md-3">
-                <a href="javascript:void(0);">
-                    <img *ngIf="imgURL !== null" [src]="imgURL" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 120px;">
-                    <img *ngIf="imgURL === null" [src]="imgEmpresa | invProductos" width="64" height="64" alt="" class="media-object rounded" style="width: 160px; height: 120px;">
-                </a>
-                <span style="color:red;" *ngIf="message">{{message}}</span>
-                <div>
-                    <input #file type="file" accept='image/*' (change)="preview(file.files)" />
-                </div>
-            </div>
-            
+        <p-fieldset legend="Datos Básicos del Vehículo"  class="p-col-12 p-mb-4" >            
             <div class="p-fluid p-formgrid p-grid">
                 <div class="p-field p-col-12 p-md-2">
                     <label for="tipo_producto">Clase</label>
@@ -129,7 +118,9 @@
                     [class.ng-invalid]="getNoValido('descripcion')" [class.ng-dirty]="getNoValido('descripcion')"></textarea>
                     <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
-
+                <div class="p-col-12">
+                    <app-fileuploads (propagar)="recibeFiles($event)"></app-fileuploads>
+                </div>
                 <!-- <div class="p-col-12">
                     <h5>Galería de Imagenes</h5>
                     <p-fileUpload multiple="multiple" accept="image/*" maxFileSize="1000000" [showUploadButton]="false"

@@ -438,7 +438,7 @@ export class InterfazVentas2Component implements OnInit {
         this.forma.get('nombre_cli').setValue('CLIENTE CONTADO');
         this.forma.get('num_emp').setValue(this.usuario.empleado.id);
         this.forma.get('estado').setValue('activo');
-        this.forma.get('usuario_creador').setValue(this.usuario.username);
+        
         let i = 0;
         while (0 !== this.producto.length) {
           this.producto.removeAt(0);

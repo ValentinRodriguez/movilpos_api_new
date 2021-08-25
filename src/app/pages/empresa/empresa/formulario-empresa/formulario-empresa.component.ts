@@ -329,7 +329,7 @@ export class FormularioEmpresaComponent implements OnInit {
     this.forma.reset();
     this.imgURL = null;
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    
   }
 
   cancelar() {

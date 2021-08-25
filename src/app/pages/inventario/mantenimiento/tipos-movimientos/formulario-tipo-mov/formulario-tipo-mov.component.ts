@@ -266,7 +266,7 @@ export class FormularioTipoMovComponent implements OnInit {
     this.forma.get('control_devoluciones').setValue('no');
     this.forma.get('control_transferencia').setValue('no');
     this.forma.get('control_orden_compra').setValue('no');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
+    
      
     
   }

@@ -223,7 +223,6 @@ export class FormularioEntradaDiarioComponent implements OnInit {
     this.guardar = true;
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.entradasServ.guardando();    
   }
 

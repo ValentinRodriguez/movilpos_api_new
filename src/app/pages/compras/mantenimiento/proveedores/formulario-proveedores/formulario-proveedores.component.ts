@@ -306,7 +306,6 @@ export class FormularioProveedoresComponent implements OnInit {
     }
     this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == 1)); 
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
     this.selectedMultiMoneda = [];
     this.cgcatalogos = [];
     this.cd.detectChanges();

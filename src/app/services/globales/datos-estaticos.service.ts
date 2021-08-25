@@ -83,8 +83,11 @@ export class DatosEstaticosService {
   getDateTimeFormated(data) {
     const fecha = this.getDataFormated(data)
     const hora = this.getHourFormatted(data)
-
     return fecha +' '+ hora;
+  }
+
+  getMilliseconds() {
+    return moment().valueOf();
   }
 
   getHourAmp() {

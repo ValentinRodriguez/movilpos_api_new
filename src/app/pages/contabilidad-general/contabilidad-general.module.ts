@@ -48,6 +48,7 @@ import { CuadreCajaComponent } from './mantenimiento/cuadre-caja/cuadre-caja.com
 import { FormularioCuadreCajaComponent } from './mantenimiento/cuadre-caja/formulario-cuadre-caja/formulario-cuadre-caja.component';
 import { EstadosComponent } from './mantenimiento/estados/estados.component';
 import { FormularioCgestadoComponent } from './mantenimiento/estados/formulario-cgestado/formulario-cgestado.component';
+import { ReporteCatalogoCuentasComponent } from './reportes/reporte-catalogo-cuentas/reporte-catalogo-cuentas.component';
 @NgModule({
   declarations: [
     CatalogoCuentasComponent,
@@ -65,7 +66,8 @@ import { FormularioCgestadoComponent } from './mantenimiento/estados/formulario-
     CuadreCajaComponent,
     FormularioCuadreCajaComponent,
     EstadosComponent,
-    FormularioCgestadoComponent
+    FormularioCgestadoComponent,
+    ReporteCatalogoCuentasComponent
   ],
   imports: [
     CommonModule,

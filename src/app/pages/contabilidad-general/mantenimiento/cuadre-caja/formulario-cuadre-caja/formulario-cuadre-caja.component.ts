@@ -247,7 +247,6 @@ export class FormularioCuadreCajaComponent implements OnInit {
   resetFormulario() {
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
   getNoValido(input: string) {

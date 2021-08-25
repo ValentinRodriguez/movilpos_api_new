@@ -17,7 +17,7 @@ export class InventarioService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   finalizar = new EventEmitter();
-  
+  enviarImagen= new EventEmitter(); 
   
   construct = '';
   usuario: any;
@@ -27,8 +27,7 @@ export class InventarioService {
   
   constructor(private http: HttpClient) { }
 
-  ngOnDestroy() {
-    console.log('destruido');    
+  ngOnDestroy() {  
     this.listSubscribers.forEach(a => {
       if (a !== undefined) {
         a.unsubscribe()        
@@ -74,8 +73,8 @@ export class InventarioService {
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {                
-        if (resp['code'] === 200)  {          
+      this.listSubscribers.push(this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {    
+        if (resp['code'] === 200) {
           resolve(resp.data);            
         }
       }))
@@ -342,11 +341,15 @@ export class InventarioService {
   listadoProductosEscogidos(productos: any) {
     this.productoEscogido.emit(productos);
   }
-
+  
   actualizando(data: any) {
     this.actualizar.emit(data);
   }
-
+  
+  enviarUrlImagenes(data: any) {
+    this.enviarImagen.emit(data);
+  }
+  
   guardando() {
     this.guardar.emit(0);
   }

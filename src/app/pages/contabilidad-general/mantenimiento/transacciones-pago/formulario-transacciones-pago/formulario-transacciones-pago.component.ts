@@ -471,7 +471,6 @@ export class FormularioTransaccionesPagoComponent implements OnInit {
 
     this.forma.reset();
     this.forma.get('estado').setValue('activo');
-    this.forma.get('usuario_creador').setValue(this.usuario.username);
   }
 
   padLeft(value, length) {

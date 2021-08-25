@@ -31,7 +31,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { StepsModule } from 'primeng/steps';
 import {AccordionModule} from 'primeng/accordion';
-
 // COMPONENTES DEL MODULO DE COMPRAS
 import { BodegasComponent } from './mantenimiento/bodegas/bodegas.component';
 import { FormularioBodegasComponent } from './mantenimiento/bodegas/formulario-bodegas/formulario-bodegas.component';
@@ -63,7 +62,9 @@ import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-merc
 import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/formulario-liquidacion-mercancias/formulario-liquidacion-mercancias.component';
 import { CostoStandardComponent } from './mantenimiento/costo-standard/costo-standard.component';
 import { FormularioCostoStandardComponent } from './mantenimiento/costo-standard/formulario-costo-standard/formulario-costo-standard.component';
-
+import { ReporteCatalogoProductosComponent } from './reportes/reporte-catalogo-productos/reporte-catalogo-productos.component';
+import { ReporteOperacionesMovimientoComponent } from './reportes/reporte-operaciones-movimiento/reporte-operaciones-movimiento.component';
+import { FileUploadModule } from 'primeng/fileupload';
 @NgModule({
   declarations: [
     BodegasComponent,
@@ -93,7 +94,9 @@ import { FormularioCostoStandardComponent } from './mantenimiento/costo-standard
     LiquidacionMercanciasComponent,
     FormularioLiquidacionMercanciasComponent,
     CostoStandardComponent,
-    FormularioCostoStandardComponent
+    FormularioCostoStandardComponent,
+    ReporteCatalogoProductosComponent,
+    ReporteOperacionesMovimientoComponent
   ],
   imports: [
     CommonModule,
@@ -104,7 +107,9 @@ import { FormularioCostoStandardComponent } from './mantenimiento/costo-standard
     DropdownModule,
     TableModule,
     AccordionModule,
+    ComponentsModule,
     ConfirmDialogModule,
+    FileUploadModule,
     StepsModule,
     ToastModule,
     TabViewModule,
