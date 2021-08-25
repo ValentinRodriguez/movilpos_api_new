@@ -314,8 +314,9 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                      
-        if (resp['code'] === 200)  {  
-          resolve(resp.specification);            
+        console.log(resp);        
+        if (resp['code'] === 200) {
+          resolve(resp.data);            
         }
       }))
     })

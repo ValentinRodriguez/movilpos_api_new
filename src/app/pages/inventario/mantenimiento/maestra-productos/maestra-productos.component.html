@@ -1,13 +1,12 @@
 
-<div class="p-grid table-demo">
-	
+<div class="p-grid table-demo">	
 	<div class="p-col-12">
 		<div class="card">
             <h5>Gestión de Productos</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel  header="Consultar" leftIcon="pi pi-search">							
 					<p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						     [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+						     [rowHover]="true" [rows]="10" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
 						
 						<ng-template pTemplate="caption">
 							<div class="table-header">
