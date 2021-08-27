@@ -39,6 +39,16 @@ export class TiendaService {
     })
   }
 
+  getDataCategoria(id:string,url:string) {
+    return new Promise( resolve => {
+      this.listSubscribers.push(this.http.get(`${URL}/${url}/${id}`).subscribe((resp: any) =>{
+        if (resp['code'] === 200)  {          
+            resolve(resp.data);            
+        }
+      }))
+    })
+  }
+
   crearProducto(data) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{

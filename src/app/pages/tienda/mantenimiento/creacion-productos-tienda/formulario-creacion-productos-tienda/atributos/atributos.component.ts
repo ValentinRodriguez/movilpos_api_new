@@ -9,7 +9,6 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 })
 export class AtributosComponent implements OnInit {
   atributo: any;
-  tiendaServ: any;
   uimessage: any;
 
   constructor(private tiendaSrv: TiendaService,
@@ -18,18 +17,24 @@ export class AtributosComponent implements OnInit {
   ngOnInit(): void {
     const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
     console.log(clasificacion);
-    
+
     switch (clasificacion.length) {
       case 1:
-        console.log(clasificacion[0]);        
+        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'categoria-plaza').then((resp: any) => {
+          console.log(resp);          
+        })
         break;
       
       case 2:
-        console.log(clasificacion[1]);
+        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'sub-categoria-plaza').then((resp: any) => {
+          console.log(resp);          
+        })
         break;
       
       case 3:
-        console.log(clasificacion[2]);
+        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'sub-sub-categoria-plaza').then((resp: any) => {
+          console.log(resp);          
+        })
         break;
       
       default:
@@ -39,11 +44,11 @@ export class AtributosComponent implements OnInit {
 
   nextPage() {
     this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
-    // if (this.atributo.length !== 0) {
-    //   this.tiendaServ.createProduct(this.atributo);
-    // }else{
-    //   this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
-    // }
+    if (this.atributo.length !== 0) {
+      this.tiendaSrv.createProduct(this.atributo);
+    }else{
+      this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
+    }
   }
 
   prevPage() {

@@ -20,12 +20,10 @@ export class LoadingComponent implements OnInit {
       this.formSubmitted = false;
     } else {
       this.globalServ.formSubmitted.subscribe(resp => {
-        console.log('FORMULARIO ENVIADO');      
         this.formSubmitted = resp;      
       });
   
       this.globalServ.formReceived.subscribe(resp => {
-        console.log('FORMULARIO RECIBIDO'); 
         this.formSubmitted = resp;
       })      
     }

@@ -16,7 +16,7 @@ export class HttpHeadersService implements HttpInterceptor{
   constructor(private usuarioService: UsuarioService,
               private globalFuntionServ: GlobalFunctionsService,
               private router: Router) {
-                this.user = this.usuarioService.getUserLogged().username;
+                this.user = this.usuarioService.getUserLogged()?.username || 'movilsoluciones';
                 console.log(this.user);    
               }
 
@@ -61,8 +61,6 @@ export class HttpHeadersService implements HttpInterceptor{
       tap(evt => {        
         if (evt instanceof HttpResponse) {
           this.globalFuntionServ.formReceived.emit(false);
-          console.log('evento recibido');
-          
         }
       })
     )
