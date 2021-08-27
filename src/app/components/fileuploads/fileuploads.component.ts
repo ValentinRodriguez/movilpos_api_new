@@ -27,8 +27,12 @@ export class FileuploadsComponent implements OnInit {
 
   ngOnInit(): void {
     this.invProductoSrv.enviarImagen.subscribe(resp => {
-      console.log( `${URLs}/storage/${resp}`);
-      this.test(`${URLs}/storage/${resp}`);
+      console.log();
+      const image = JSON.parse(resp);
+      image.forEach(element => {
+        console.log(element);        
+        this.test(`${URLs}/storage/${element}`);        
+      });
     })   
   }
 
@@ -66,6 +70,18 @@ export class FileuploadsComponent implements OnInit {
   }
 
   onFileSelect() {
-    this.propagar.emit(this.fileUpload.files);
+    this.enviarImagenes()
+  }
+
+  onClear(data) {
+    this.enviarImagenes() 
+  }
+
+  onRemove(data) {
+    this.enviarImagenes()
+  }
+
+  enviarImagenes() {
+    this.propagar.emit(this.fileUpload.files)
   }
 }

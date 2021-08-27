@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
@@ -9,19 +10,24 @@ import { GlobalFunctionsService } from 'src/app/services/globales/global-functio
 export class LoadingComponent implements OnInit {
 
   formSubmitted = true;
-  
+  @Input() url:string = ''
   constructor(private globalServ: GlobalFunctionsService) { }
 
   ngOnInit(): void {
-    this.globalServ.formSubmitted.subscribe(resp => {
-      console.log('FORMULARIO ENVIADO');      
-      this.formSubmitted = resp;      
-    });
-
-    this.globalServ.formReceived.subscribe(resp => {
-      console.log('FORMULARIO RECIBIDO'); 
-      this.formSubmitted = resp;
-    })
-
+    const ruta = this.url.split('/')
+    console.log(ruta);
+    if (ruta[1] === 'home' || ruta[1] === 'menues') {
+      this.formSubmitted = false;
+    } else {
+      this.globalServ.formSubmitted.subscribe(resp => {
+        console.log('FORMULARIO ENVIADO');      
+        this.formSubmitted = resp;      
+      });
+  
+      this.globalServ.formReceived.subscribe(resp => {
+        console.log('FORMULARIO RECIBIDO'); 
+        this.formSubmitted = resp;
+      })      
+    }
   }
 }

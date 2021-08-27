@@ -135,8 +135,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
   };
 
   recibeFiles(event) {
-    console.log(event);
-    this.forma.get('galeriaImagenes').setValue(event);    
+    this.forma.get('galeriaImagenes').setValue(event);
+    console.log(this.forma.value);    
   }
 
   crearFormulario() {
@@ -170,8 +170,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     })
   }
 
-  guardarProducto() {    
-    console.log(this.forma.value);        
+  guardarProducto() {           
     // if (this.forma.invalid) {           
     //   this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
     //   Object.values(this.forma.controls).forEach(control =>{

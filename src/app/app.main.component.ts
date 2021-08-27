@@ -49,6 +49,8 @@ export class AppMainComponent implements OnInit{
                 }
 
     ngOnInit() {
+        console.log(this.route.url);
+        
         this.primengConfig.ripple = true;   
         const rol = localStorage.getItem('roles');
         

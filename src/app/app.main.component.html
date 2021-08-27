@@ -16,7 +16,7 @@
         <div class="layout-content">
             <router-outlet></router-outlet>
         </div>
-        <!-- <app-loading *ngIf="this.route.url !== '/dashboard'"></app-loading> -->
+        <app-loading [url]="this.route.url"></app-loading>
         <app-footer-page [simbolo]="this.route.url"></app-footer-page>
     </div>
 

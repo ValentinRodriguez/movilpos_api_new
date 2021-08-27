@@ -17,11 +17,23 @@ export class AtributosComponent implements OnInit {
 
   ngOnInit(): void {
     const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
-
-    if (clasificacion[0].id === 4 || clasificacion[0].id === 5) {
-      console.log('es ropa');      
-    } else {
-      console.log('no es ropa');      
+    console.log(clasificacion);
+    
+    switch (clasificacion.length) {
+      case 1:
+        console.log(clasificacion[0]);        
+        break;
+      
+      case 2:
+        console.log(clasificacion[1]);
+        break;
+      
+      case 3:
+        console.log(clasificacion[2]);
+        break;
+      
+      default:
+        break;
     }
   }
 

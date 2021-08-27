@@ -16,9 +16,8 @@ export class HttpHeadersService implements HttpInterceptor{
   constructor(private usuarioService: UsuarioService,
               private globalFuntionServ: GlobalFunctionsService,
               private router: Router) {
-    this.user = this.usuarioService.getUserLogged().username;
-    console.log(this.user);
-    
+                this.user = this.usuarioService.getUserLogged().username;
+                console.log(this.user);    
               }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {    
@@ -61,7 +60,9 @@ export class HttpHeadersService implements HttpInterceptor{
     return next.handle(req).pipe(      
       tap(evt => {        
         if (evt instanceof HttpResponse) {
-          this.globalFuntionServ.formReceived.emit(false);      
+          this.globalFuntionServ.formReceived.emit(false);
+          console.log('evento recibido');
+          
         }
       })
     )

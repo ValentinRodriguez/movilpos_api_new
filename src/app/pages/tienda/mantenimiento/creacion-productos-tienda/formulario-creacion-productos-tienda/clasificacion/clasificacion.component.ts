@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { CategoriasStoreService } from 'src/app/services/tienda/categorias-store.service';
@@ -15,7 +14,8 @@ export class ClasificacionComponent implements OnInit {
 
   items: TreeNode[];
   selectedFile: TreeNode;
-  categoria:any = []
+  categoria: any = [];
+  
   constructor(private categoriasStoreSrv: CategoriasStoreService,
               private tiendaServ: TiendaService,
               private router: Router,
@@ -70,9 +70,10 @@ export class ClasificacionComponent implements OnInit {
           {descripcion: event.node.label, id:event.node.data}
         )
       } else {
+        console.log(event.node);        
         this.categoria.push(
-          {descripcion: event.node.parent.parent.label, id:event.node.parent.parent.data},
-          {descripcion: event.node.parent.label, id:event.node.parent.data}
+          {descripcion: event.node.parent.label, id:event.node.parent.data},
+          {descripcion: event.node.label, id:event.node.data}
         )     
       }
     }
@@ -84,7 +85,7 @@ export class ClasificacionComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.categoria.length !== 0) {
+    if (this.categoria.length !== 0) {      
       this.router.navigate(['plaza-online/creacion-productos-plaza/atributos']);
       this.categoria.step = 'clasificacion'
       this.tiendaServ.createProduct(this.categoria);
