@@ -29,9 +29,7 @@ export class FileuploadsComponent implements OnInit {
     this.invProductoSrv.enviarImagen.subscribe(resp => {
       console.log( `${URLs}/storage/${resp}`);
       this.test(`${URLs}/storage/${resp}`);
-    })
-
-   
+    })   
   }
 
   test(imgURL: string) {

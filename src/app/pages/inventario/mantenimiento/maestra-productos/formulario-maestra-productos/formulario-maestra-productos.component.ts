@@ -75,8 +75,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               private propServ: PropiedadesService,
               private bodegasServ: BodegasService,              
               private router: Router,
-              private categoriasServ: CategoriasService) { 
-                
+              private categoriasServ: CategoriasService) {                 
                 this.crearFormulario();
               }
 
@@ -136,7 +135,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
   };
 
   recibeFiles(event) {
-    console.log(event);    
+    console.log(event);
+    this.forma.get('galeriaImagenes').setValue(event);    
   }
 
   crearFormulario() {
@@ -170,26 +170,24 @@ export class FormularioMaestraProductosComponent implements OnInit {
     })
   }
 
-  guardarProducto() {
-        
-    if (this.forma.invalid) {  
-           
-      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-      Object.values(this.forma.controls).forEach(control =>{
-        control.markAllAsTouched();
-      })
-    }else{
+  guardarProducto() {    
+    console.log(this.forma.value);        
+    // if (this.forma.invalid) {           
+    //   this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
+    //   Object.values(this.forma.controls).forEach(control =>{
+    //     control.markAllAsTouched();
+    //   })
+    // }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
         this.resetFormulario();
       })
-    }       
+    // }       
   }
   
   actualizarProducto() {
     // this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {   
-         
+    if (this.forma.invalid) {           
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
       Object.values(this.forma.controls).forEach(control =>{
         control.markAllAsTouched();
@@ -338,25 +336,23 @@ export class FormularioMaestraProductosComponent implements OnInit {
     }
   }
 
-  preview(files) {
-    if (files.length === 0)
-      return;
+  // preview(files) {
+  //   if (files.length === 0)
+  //     return;
  
-    var mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      this.message = "Solo puede escoger imagenes";
-      return;
-    }
-
-    this.forma.get("galeriaImagenes").setValue(files[0]);
-    
-    var reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]); 
-    reader.onload = (_event) => { 
-      this.imgURL = reader.result; 
-    }
-  }
+  //   var mimeType = files[0].type;
+  //   if (mimeType.match(/image\/*/) == null) {
+  //     this.message = "Solo puede escoger imagenes";
+  //     return;
+  //   }
+  //   this.forma.get("galeriaImagenes").setValue(files[0]);    
+  //   var reader = new FileReader();
+  //   this.imagePath = files;
+  //   reader.readAsDataURL(files[0]); 
+  //   reader.onload = (_event) => { 
+  //     this.imgURL = reader.result; 
+  //   }
+  // }
   
   checaChasis(data) {
     if (this.getChasis) { 
@@ -375,8 +371,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
               "estado": "activo",
             }
             this.marcaService.crearMarca(marca).then((res: any) =>{ 
-               
-              
               this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand))          
             })
           }          
@@ -389,8 +383,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
               "usuario_creador": this.usuario.username,
               "estado": "activo",
             }
-            this.categoriasServ.crearCategoria(categoria).then((res: any) =>{     
-                 
+            this.categoriasServ.crearCategoria(categoria).then((res: any) =>{   
               this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria))  
             })
           }          
@@ -408,11 +401,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   resetFormulario() {
     this.forma.reset();
-    // this.fileUpload.clear();
-    this.file.nativeElement.value = "";
     this.imgEmpresa = null;
-    this.imgURL = null;
-    this.forma.get('usuario_creador').setValue(this.usuario.username);    
+    this.imgURL = null;    
     this.forma.get('estado').setValue('activo');
   }
 

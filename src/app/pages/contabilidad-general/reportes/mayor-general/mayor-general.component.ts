@@ -7,8 +7,6 @@ import { TransacionPagosService } from 'src/app/services/contabilidad/transacion
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 import { groupBy } from 'lodash-es';
-
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-mayor-general',
   templateUrl: './mayor-general.component.html',
@@ -39,7 +37,6 @@ export class MayorGeneralComponent implements OnInit {
               private fb: FormBuilder, 
               private uiMessage: UiMessagesService,
               private datosEstaticos: DatosEstaticosService) { 
-                ;
                 this.crearFormulario()
               }
 
@@ -62,7 +59,6 @@ export class MayorGeneralComponent implements OnInit {
   }
   
   listObserver = () => {
-
     this.listSubscribers = [];
   };
  
@@ -75,8 +71,7 @@ export class MayorGeneralComponent implements OnInit {
   }
   
   verReporte() {
-    if (this.forma.invalid) {  
-           
+    if (this.forma.invalid) {             
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();

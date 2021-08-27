@@ -29,9 +29,7 @@ export class InventarioService {
 
   ngOnDestroy() {  
     this.listSubscribers.forEach(a => {
-      if (a !== undefined) {
-        a.unsubscribe()        
-      }
+      if (a !== undefined) a.unsubscribe()  
     });
   }
 
@@ -146,9 +144,19 @@ export class InventarioService {
   }
 
   crearInvProducto( invProducto: any ) {    
-    const formData = new FormData();     
-    for(let key in invProducto){ 
-      switch (key) {
+    const formData = new FormData(); 
+    const imagenes = invProducto.galeriaImagenes;    
+    for(let key in invProducto){  
+      switch (key) {        
+        case 'galeriaImagenes':
+          console.log(key);
+          
+          for (let i = 0; i < imagenes.length; i++) {
+            const imagen = imagenes[i];
+            formData.append('imageLength', imagenes.length);
+            formData.append(key+i, imagen, imagen.name);          
+          }
+        break;
 
         case 'fabricacion':
           formData.append(key, invProducto[key].value || '');
@@ -190,6 +198,7 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/invproductos`, formData).subscribe((resp: any) => {
+        console.log(resp);        
         if (resp['code'] === 200)  {
           this.productoGuardado.emit(resp.data);                            
           resolve(resp.data);            

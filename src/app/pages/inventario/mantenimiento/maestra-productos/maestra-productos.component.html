@@ -33,7 +33,7 @@
 									<span class="p-column-title">{{col.header}}</span>
 
 									<span *ngIf="col.field === 'imagen'">
-										<img [src]="rowData.galeriaImagenes | invProductos" width="64"
+										<img [src]="decodeJson(rowData.galeriaImagenes) | invProductos" width="64"
 											style="vertical-align: middle"/>
 										<div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
 											{{rowData['titulo']}}

@@ -74,10 +74,14 @@ export class MaestraProductosComponent implements OnInit {
 
   todosLosProductos() {     
     this.inventarioServ.getDatos().then((resp: any) =>{
-      this.productos = resp;        
+      this.productos = resp;   
+      console.log(resp);
     })
   }
 
+  decodeJson(rowData) {
+    return JSON.parse(rowData);
+  }
   onSortChange(event) {
     let value = event.value;
 

@@ -6,15 +6,13 @@ const URL = environment.urlImagenes;
   name: 'invProductos'
 })
 export class InvProductosPipe implements PipeTransform {
-
-  transform(img: any): any {      
+  transform(img: any): any {    
     if (img === null || img === '' || img == '[]') {
       return "../assets/images/empty-image.png";
     }else{         
       // let tmp = JSON.parse(img);
-      let url = URL + '/storage/' + img;
+      let url = URL + '/storage/' + img[0];
       return url;
     }
   }
-
 }

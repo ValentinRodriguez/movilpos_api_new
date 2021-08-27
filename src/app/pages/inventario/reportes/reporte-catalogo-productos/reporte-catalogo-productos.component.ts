@@ -5,6 +5,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
+import { groupBy } from 'lodash-es';
 
 @Component({
   selector: 'app-reporte-catalogo-productos',
@@ -65,6 +66,15 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         return;
       }   
       this.productos = resp; 
+      let test = this.agrupaData(this.productos, 'marca')
+      console.log(test);
+      for (const key in test) {
+        if (Object.prototype.hasOwnProperty.call(test, key)) {
+          const element = test[key];
+          let testw = this.agrupaData(element, 'categoria')
+          console.log(testw);
+        }
+      }
     })
   }
 
@@ -138,5 +148,9 @@ export class ReporteCatalogoProductosComponent implements OnInit {
       })      
     });
     return body
+  }
+
+  agrupaData(value: any, column: string) { 
+    return groupBy(value, column)    
   }
 }

@@ -74,8 +74,8 @@
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="id_brand">Marca</label>
                     <p-dropdown inputId="id_brand" [options]="brands" name="id_brand" formControlName="id_brand"
-                                placeholder="Escoge..." optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_brand')" 
-                                [class.ng-dirty]="getNoValido('id_brand')">
+                                optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_brand')" 
+                                [class.ng-dirty]="getNoValido('id_brand')" placeholder="Escoge...">
                     </p-dropdown>
                     <small *ngIf="getNoValido('id_brand')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -83,8 +83,8 @@
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="id_categoria">Modelo</label>
                     <p-dropdown inputId="id_categoria" [options]="categorias" name="id_categoria" formControlName="id_categoria"
-                                placeholder="Escoge..." optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_categoria')" 
-                                [class.ng-dirty]="getNoValido('id_categoria')">
+                                optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_categoria')" 
+                                [class.ng-dirty]="getNoValido('id_categoria')" placeholder="Escoge...">
                     </p-dropdown>
                     <small *ngIf="getNoValido('id_categoria')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -92,8 +92,8 @@
                 <div class="p-field p-col-12 p-md-2" *ngIf="noFisico">
                     <label for="id_propiedad">Color</label>
                     <p-dropdown inputId="id_propiedad" [options]="propiedades" name="id_propiedad" formControlName="id_propiedad"
-                                placeholder="Escoge..." optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_propiedad')" 
-                                [class.ng-dirty]="getNoValido('id_propiedad')">
+                                optionLabel="descripcion" [class.ng-invalid]="getNoValido('id_propiedad')" 
+                                [class.ng-dirty]="getNoValido('id_propiedad')" placeholder="Escoge...">
                     </p-dropdown>
                     <small *ngIf="getNoValido('id_propiedad')" class="p-invalid">Este campo es obligatorio.</small>
                 </div>
@@ -121,23 +121,12 @@
                 <div class="p-col-12">
                     <app-fileuploads (propagar)="recibeFiles($event)"></app-fileuploads>
                 </div>
-                <!-- <div class="p-col-12">
-                    <h5>Galería de Imagenes</h5>
-                    <p-fileUpload multiple="multiple" accept="image/*" maxFileSize="1000000" [showUploadButton]="false"
-                                  (onSelect)="onFileSelect($event)" chooseLabel="Escoja Imagen" cancelLabel="Cancelar">
-                        <ng-template pTemplate="content">
-                            <ul *ngIf="uploadedFiles.length">
-                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-                            </ul>
-                        </ng-template>
-                    </p-fileUpload>
-                </div> -->
             </div>
         </p-fieldset>
         
         <div class="p-field p-col-12 p-md-2">
             <label for="origen">Origen</label>
-            <p-dropdown input  [options]="origenes" name="origen" formControlName="origen"placeholder="Escoge..." 
+            <p-dropdown input  [options]="origenes" name="origen" formControlName="origen" placeholder="Escoge..." 
             [class.ng-invalid]="getNoValido('origen')" [class.ng-dirty]="getNoValido('origen')">
             </p-dropdown>
             <small *ngIf="getNoValido('origen')" class="p-invalid">Este campo es obligatorio.</small>
