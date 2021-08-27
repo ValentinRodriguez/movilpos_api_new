@@ -66,15 +66,15 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         return;
       }   
       this.productos = resp; 
-      let test = this.agrupaData(this.productos, 'marca')
-      console.log(test);
-      for (const key in test) {
-        if (Object.prototype.hasOwnProperty.call(test, key)) {
-          const element = test[key];
-          let testw = this.agrupaData(element, 'categoria')
-          console.log(testw);
-        }
-      }
+      // let test = this.agrupaData(this.productos, 'marca')
+      // console.log(test);
+      // for (const key in test) {
+      //   if (Object.prototype.hasOwnProperty.call(test, key)) {
+      //     const element = test[key];
+      //     let testw = this.agrupaData(element, 'categoria')
+      //     console.log(testw);
+      //   }
+      // }
     })
   }
 

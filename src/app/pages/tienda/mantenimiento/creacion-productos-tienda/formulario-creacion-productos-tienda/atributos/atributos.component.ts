@@ -26,13 +26,13 @@ export class AtributosComponent implements OnInit {
         break;
       
       case 2:
-        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'sub-categoria-plaza').then((resp: any) => {
+        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subcategoria-plaza').then((resp: any) => {
           console.log(resp);          
         })
         break;
       
       case 3:
-        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'sub-sub-categoria-plaza').then((resp: any) => {
+        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subsubcategoria-plaza').then((resp: any) => {
           console.log(resp);          
         })
         break;
