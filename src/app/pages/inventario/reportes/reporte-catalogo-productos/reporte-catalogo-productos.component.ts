@@ -56,9 +56,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
     })
   }
 
-  verReporte() {
-    console.log('aqui');
-    
+  verReporte() {    
     this.invProductoSrv.repCatalogoProductos(this.forma.value).then((resp:any) =>{
       if (resp.length === 0) {
         this.uiMessage.getMiniInfortiveMsg('tst','warn','Nada que mostrar','No hemos encontrado coincidencias con los datos suministrados');
@@ -66,36 +64,32 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         return;
       }   
       this.productos = resp;
-      console.log(this.productos);
-      
-      let test = this.agrupaData(this.productos, 'marca')
 
-      var nest = function (seq: any, keys: string | any[]) {
-        if (!keys.length)
-            return seq;
+      // FILTER
+      // let temp = this.productos.filter(x => x.marca === 'marca generica1')
+
+      // MAP
+      // let temp = this.productos.map(x => x.costo * (Math.random() * 10))
+
+      // REDUCE
+      // let temp = this.productos.reduce((acc, el) =>({
+      //   ...acc,
+      //   [el.codigo]:el
+      // }),{})    
+
+      console.time('1')
+      var nest =  (seq: any, keys: string | any[]) => {
+        if (!keys.length) return seq;
         var first = keys[0];
         var rest = keys.slice(1);
         return mapValues(groupBy(seq, first), function (value: any) { 
             return nest(value, rest)
         });
-
       };
-      var nested = nest(this.productos, ['marca', 'categoria']);
-
-      console.log(JSON.stringify(nested, null, 4));
-      
-      // Object.values(test).forEach(control =>{
-      //   console.log(control);
-        
-      // })
-      // for (const key in test) {
-
-      //   // if (Object.prototype.hasOwnProperty.call(test, key)) {
-      //   //   const element = test[key];
-      //   //   let testw = this.agrupaData(element, 'categoria')
-      //   //   console.log(testw);
-      //   // }
-      // }
+      var nested = nest(this.productos, ['marca','categoria','propiedad']);
+      console.timeEnd('1')
+      nested.redu
+      console.log(nested);
     })
   }
 
@@ -170,9 +164,5 @@ export class ReporteCatalogoProductosComponent implements OnInit {
       })      
     });
     return body
-  }
-
-  agrupaData(value: any, column: string) { 
-    return groupBy(value, column)    
   }
 }
