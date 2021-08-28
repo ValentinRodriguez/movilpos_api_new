@@ -27,7 +27,9 @@ export class HttpHeadersService implements HttpInterceptor{
     const usuario_creador = `${this.user}`;
     const token = this.usuarioService.getTokenLocalStorage();
 
-    if (req.method.toLowerCase() === 'post' || req.method.toLowerCase() === 'put' || req.method.toLowerCase() === 'delete') {     
+    if (req.method.toLowerCase() === 'post' ||
+        req.method.toLowerCase() === 'put' ||
+        req.method.toLowerCase() === 'delete') {
       req =  req.clone({
         setHeaders: {
           'enctype'      : 'multipart/form-data',

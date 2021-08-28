@@ -5,7 +5,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
-import { groupBy } from 'lodash-es';
+import { groupBy,mapValues } from 'lodash-es';
 
 @Component({
   selector: 'app-reporte-catalogo-productos',
@@ -65,15 +65,36 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         this.productos = [];
         return;
       }   
-      this.productos = resp; 
-      // let test = this.agrupaData(this.productos, 'marca')
-      // console.log(test);
+      this.productos = resp;
+      console.log(this.productos);
+      
+      let test = this.agrupaData(this.productos, 'marca')
+
+      var nest = function (seq: any, keys: string | any[]) {
+        if (!keys.length)
+            return seq;
+        var first = keys[0];
+        var rest = keys.slice(1);
+        return mapValues(groupBy(seq, first), function (value: any) { 
+            return nest(value, rest)
+        });
+
+      };
+      var nested = nest(this.productos, ['marca', 'categoria']);
+
+      console.log(JSON.stringify(nested, null, 4));
+      
+      // Object.values(test).forEach(control =>{
+      //   console.log(control);
+        
+      // })
       // for (const key in test) {
-      //   if (Object.prototype.hasOwnProperty.call(test, key)) {
-      //     const element = test[key];
-      //     let testw = this.agrupaData(element, 'categoria')
-      //     console.log(testw);
-      //   }
+
+      //   // if (Object.prototype.hasOwnProperty.call(test, key)) {
+      //   //   const element = test[key];
+      //   //   let testw = this.agrupaData(element, 'categoria')
+      //   //   console.log(testw);
+      //   // }
       // }
     })
   }
@@ -82,6 +103,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
     this.crearFormulario();
     this.productos = []; 
   }
+  
   exportPdf() {
     const doc = new jsPDF('p', 'mm', 'a4');
     let pageWidth = doc.internal.pageSize.getWidth();
@@ -135,9 +157,9 @@ export class ReporteCatalogoProductosComponent implements OnInit {
     return [{ producto: 'Nombre', marca: 'marca', categoria: 'categoria', codigo: 'codigo', precio: 'precio', tipo: 'tipo' }]
   }
 
-  bodyRows(data) {
+  bodyRows(data: any[]) {
     var body = []
-    data.forEach(element => {
+    data.forEach((element: { producto: any; marca: any; categoria: any; codigo: any; precio: any; tipo: any; }) => {
       body.push({
         producto: element.producto,
         marca: element.marca,
