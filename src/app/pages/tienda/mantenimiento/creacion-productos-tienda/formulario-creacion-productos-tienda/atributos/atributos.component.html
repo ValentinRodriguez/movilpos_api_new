@@ -8,8 +8,24 @@
             Escoge los atributos de tú producto.
         </ng-template>
 
-        <ng-template pTemplate="content">
-              
+        <ng-template pTemplate="content">             
+            <div class="p-d-flex">
+                <div class="p-mr-4" *ngFor="let items of this.atributos; let i = index">
+                    <p-card>
+                        <h4>{{items.descripcion | titlecase}}</h4>
+                        <div class="p-field-checkbox" *ngFor="let item of items.atributo">
+                            <ng-container *ngIf="item.value !== ''">
+                                <p-checkbox [name]="item.value" [value]="item.value" [(ngModel)]="checked"></p-checkbox>
+                                <label for="binary">{{item.label}}</label>
+                            </ng-container>
+                            <ng-container *ngIf="item.value === ''">
+                                <span class="p-ml-2">{{item.label}}</span>
+                                <input pInputText type="text" name="input" id="input">
+                            </ng-container>
+                        </div> 
+                    </p-card>
+                </div>
+            </div>       
         </ng-template>
 
         <ng-template pTemplate="footer">

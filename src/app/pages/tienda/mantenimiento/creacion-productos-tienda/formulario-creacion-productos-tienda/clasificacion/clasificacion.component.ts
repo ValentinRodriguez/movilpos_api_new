@@ -56,9 +56,6 @@ export class ClasificacionComponent implements OnInit {
   } 
 
   nodeSelect(event) {
-    // console.log(this.selectedFile); 
-    // console.log('Categoria sub-sub-hija');
-    console.log(event);
     this.categoria = []
     if (event.node.parent === undefined) {
       this.categoria.push({descripcion:event.node.label, id:event.node.data})
@@ -69,15 +66,13 @@ export class ClasificacionComponent implements OnInit {
           {descripcion: event.node.parent.label, id:event.node.parent.data},
           {descripcion: event.node.label, id:event.node.data}
         )
-      } else {
-        console.log(event.node);        
+      } else {      
         this.categoria.push(
           {descripcion: event.node.parent.label, id:event.node.parent.data},
           {descripcion: event.node.label, id:event.node.data}
         )     
       }
     }
-   console.log(this.categoria);   
   }
 
   nodeUnselect(event) {

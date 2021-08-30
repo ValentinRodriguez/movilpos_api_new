@@ -5,7 +5,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
-import { groupBy,mapValues } from 'lodash-es';
+import { groupBy,mapValues,mapKeys,flatMap } from 'lodash-es';
 
 @Component({
   selector: 'app-reporte-catalogo-productos',
@@ -64,7 +64,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         return;
       }   
       this.productos = resp;
-
+      
       // FILTER
       // let temp = this.productos.filter(x => x.marca === 'marca generica1')
 
@@ -78,18 +78,40 @@ export class ReporteCatalogoProductosComponent implements OnInit {
       // }),{})    
 
       console.time('1')
-      var nest =  (seq: any, keys: string | any[]) => {
+
+      var nest = (seq: any, keys: string | any[]) => {
         if (!keys.length) return seq;
         var first = keys[0];
         var rest = keys.slice(1);
-        return mapValues(groupBy(seq, first), function (value: any) { 
-            return nest(value, rest)
+        return mapValues(groupBy(seq, first), function (value: any) {           
+          return nest(value, rest)
         });
       };
+
       var nested = nest(this.productos, ['marca','categoria','propiedad']);
-      console.timeEnd('1')
-      nested.redu
-      console.log(nested);
+      console.log(nested);      
+      let temp = Object.entries(nested);  
+      console.log(temp);      
+      
+      console.timeEnd('1')     
+
+      temp.forEach(function(item) {        
+        Object.keys(item).forEach(function(key) {
+          // let container = []
+          let value = item[key];
+          let res = key;  
+          if (typeof(value) === 'string') console.log(value);          
+          
+          if (typeof(value) === 'object') {
+            Object.keys(value).forEach(function(key2) {
+              console.log(key2);              
+              console.log(value[key2]);
+              // res = res + ' ' + key2 + ' ' + value[key2].first + ' ' + value[key2].last;
+            });            
+          }
+        });
+      });
+
     })
   }
 

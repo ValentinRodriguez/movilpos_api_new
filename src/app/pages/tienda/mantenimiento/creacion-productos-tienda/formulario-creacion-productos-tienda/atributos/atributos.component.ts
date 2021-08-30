@@ -10,30 +10,39 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 export class AtributosComponent implements OnInit {
   atributo: any;
   uimessage: any;
+  checked: any[] = [];
+  atributos: any[] = [];
 
   constructor(private tiendaSrv: TiendaService,
               private router: Router) { }
 
   ngOnInit(): void {
     const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
-    console.log(clasificacion);
 
     switch (clasificacion.length) {
       case 1:
         this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'categoria-plaza').then((resp: any) => {
-          console.log(resp);          
+           resp.atributo.forEach(element => {
+            this.atributos.push(JSON.parse(element.atributo));          
+          });  
         })
         break;
       
       case 2:
         this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subcategoria-plaza').then((resp: any) => {
-          console.log(resp);          
+           resp.atributo.forEach(element => {
+            this.atributos.push(JSON.parse(element.atributo));          
+          }); 
         })
         break;
       
       case 3:
         this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subsubcategoria-plaza').then((resp: any) => {
-          console.log(resp);          
+          resp.atributo.forEach(element => {
+            element.atributo = JSON.parse(element.atributo);
+            this.atributos.push(element);                     
+          });
+          console.log(this.atributos);        
         })
         break;
       
