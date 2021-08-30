@@ -23,6 +23,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
   productos: any[] = []
   cols: { field: string; header: string; }[];
   exportColumns: { title: string; dataKey: string; }[];
+  productosOrdenados: any[];
 
   constructor(private fb: FormBuilder,
     private invProductoSrv: InventarioService,
@@ -89,29 +90,12 @@ export class ReporteCatalogoProductosComponent implements OnInit {
       };
 
       var nested = nest(this.productos, ['marca','categoria','propiedad']);
-      console.log(nested);      
-      let temp = Object.entries(nested);  
-      console.log(temp);      
+      console.log(nested);
       
-      console.timeEnd('1')     
-
-      temp.forEach(function(item) {        
-        Object.keys(item).forEach(function(key) {
-          // let container = []
-          let value = item[key];
-          let res = key;  
-          if (typeof(value) === 'string') console.log(value);          
-          
-          if (typeof(value) === 'object') {
-            Object.keys(value).forEach(function(key2) {
-              console.log(key2);              
-              console.log(value[key2]);
-              // res = res + ' ' + key2 + ' ' + value[key2].first + ' ' + value[key2].last;
-            });            
-          }
-        });
-      });
-
+      let temp = Object.entries(nested);
+      this.productosOrdenados = temp;
+      console.log(temp);     
+       
     })
   }
 
@@ -132,7 +116,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
 
     autoTable(doc, {
         head: this.headRows(),
-        body: this.bodyRows(this.productos),
+        body: this.bodyRows(this.productosOrdenados),
         headStyles: { fillColor: [0, 128, 255] },
         didDrawPage: (dataArg) => { 
           // doc.text(anio+' '+hora, dataArg.settings.margin.right, 22, { align: "right" });

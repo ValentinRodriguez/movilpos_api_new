@@ -40,9 +40,12 @@ export class AtributosComponent implements OnInit {
         this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subsubcategoria-plaza').then((resp: any) => {
           resp.atributo.forEach(element => {
             element.atributo = JSON.parse(element.atributo);
+            this.checked.push(element.atributo);
             this.atributos.push(element);                     
           });
-          console.log(this.atributos);        
+          console.log(this.atributos);
+          console.log(this.checked);
+          
         })
         break;
       
@@ -51,13 +54,18 @@ export class AtributosComponent implements OnInit {
     }
   }
 
+  ver(event) {
+    console.log(event);
+    
+  }
   nextPage() {
-    this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
-    if (this.atributo.length !== 0) {
-      this.tiendaSrv.createProduct(this.atributo);
-    }else{
-      this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
-    }
+    console.log(this.checked);    
+    // this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
+    // if (this.atributo.length !== 0) {
+    //   this.tiendaSrv.createProduct(this.atributo);
+    // }else{
+    //   this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
+    // }
   }
 
   prevPage() {

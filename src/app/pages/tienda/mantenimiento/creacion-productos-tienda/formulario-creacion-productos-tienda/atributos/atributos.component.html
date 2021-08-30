@@ -13,15 +13,10 @@
                 <div class="p-mr-4" *ngFor="let items of this.atributos; let i = index">
                     <p-card>
                         <h4>{{items.descripcion | titlecase}}</h4>
-                        <div class="p-field-checkbox" *ngFor="let item of items.atributo">
-                            <ng-container *ngIf="item.value !== ''">
-                                <p-checkbox [name]="item.value" [value]="item.value" [(ngModel)]="checked"></p-checkbox>
-                                <label for="binary">{{item.label}}</label>
-                            </ng-container>
-                            <ng-container *ngIf="item.value === ''">
-                                <span class="p-ml-2">{{item.label}}</span>
-                                <input pInputText type="text" name="input" id="input">
-                            </ng-container>
+                        <div class="p-field-checkbox" *ngFor="let item of items.atributo; let z = index">
+                            <p-checkbox [name]="item.label" value="{{checked[i][z].value}}" [value]="checked[i][z].value" [(ngModel)]="checked[i][z]" (onChange)="ver(checked[i][z])" 
+                                        [inputId]="item.label+i"></p-checkbox>
+                            <label for="binary">{{item.label | uppercase}}</label>                           
                         </div> 
                     </p-card>
                 </div>
