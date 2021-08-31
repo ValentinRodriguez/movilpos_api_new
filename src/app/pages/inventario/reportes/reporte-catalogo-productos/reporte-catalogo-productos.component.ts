@@ -94,7 +94,23 @@ export class ReporteCatalogoProductosComponent implements OnInit {
       
       let temp = Object.entries(nested);
       this.productosOrdenados = temp;
-      console.log(temp);     
+      // console.log(temp);     
+
+      Object.keys(nested).forEach(key =>{
+        console.log(key);        
+
+        Object.keys(nested[key]).forEach(key2 =>{
+          console.log(key2);          
+
+          Object.keys(nested[key][key2]).forEach(key3 =>{
+            console.log(key3);            
+            Object.keys(nested[key][key2][key3]).forEach(key4 =>{
+              console.log(nested[key][key2][key3][key4]); 
+            })
+          })
+        })
+        
+      })
        
     })
   }

@@ -30,6 +30,11 @@ import {CalendarModule} from 'primeng/calendar';
 import {TooltipModule} from 'primeng/tooltip';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {TreeModule} from 'primeng/tree';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { PanelModule } from 'primeng/panel';
+import { FileUploadModule } from 'primeng/fileupload';
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -41,10 +46,6 @@ import { AtributosComponent } from './mantenimiento/creacion-productos-tienda/fo
 import { ClasificacionComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/clasificacion/clasificacion.component';
 import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/visuales/visuales.component';
 import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/crear/crear.component';
-import { ToolbarModule } from 'primeng/toolbar';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { PanelModule } from 'primeng/panel';
-import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     PanelModule,
     ToolbarModule,
     PanelMenuModule,
+    RadioButtonModule,
     SelectButtonModule,
     FieldsetModule,
     TreeModule,

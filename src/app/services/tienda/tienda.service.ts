@@ -101,16 +101,16 @@ export class TiendaService {
     //   obj[property] = data[property];
     // }
     // console.log(obj);
-    switch (data.step) {
-      case 'general':
-        localStorage.setItem('general',JSON.stringify(data));        
-        break;
+    localStorage.setItem(data.step,JSON.stringify(data));        
+    // switch (data.step) {
+    //   case 'general':
+    //     break;
     
-      case 'clasificacion':
-        localStorage.setItem('clasificacion',JSON.stringify(data));        
-        break;
-      default:
-        break;
-    }
+    //   case 'clasificacion':
+    //     localStorage.setItem('clasificacion',JSON.stringify(data));        
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 }

@@ -10,9 +10,11 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 export class AtributosComponent implements OnInit {
   atributo: any;
   uimessage: any;
-  checked: any[] = [];
+  checked: any = [];
   atributos: any[] = [];
 
+  estado = "nuevo";
+  
   constructor(private tiendaSrv: TiendaService,
               private router: Router) { }
 
@@ -42,11 +44,10 @@ export class AtributosComponent implements OnInit {
             element.atributo = JSON.parse(element.atributo);
             this.checked.push(element.atributo);
             this.atributos.push(element);                     
-          });
-          console.log(this.atributos);
+          });          
           console.log(this.checked);
-          
         })
+        
         break;
       
       default:
@@ -55,14 +56,24 @@ export class AtributosComponent implements OnInit {
   }
 
   ver(event) {
-    console.log(event);
-    
+    console.log(event);    
   }
+
   nextPage() {
-    console.log(this.checked);    
+    var bandera = 0;
+    this.checked.forEach(element => {
+      element.forEach(element => {
+        if (element.value === true) {
+          bandera += 1;
+        }
+      });
+    });  
+    console.log(bandera);
+    
     // this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
-    // if (this.atributo.length !== 0) {
-    //   this.tiendaSrv.createProduct(this.atributo);
+    // if (bandera === true) {
+    //   this.checked.step = 'atributo'
+    //   this.tiendaSrv.createProduct(this.checked);
     // }else{
     //   this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
     // }

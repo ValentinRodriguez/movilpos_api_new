@@ -10,13 +10,40 @@
 
         <ng-template pTemplate="content">             
             <div class="p-d-flex">
+                <!-- <div class="p-field-radiobutton">
+                    <p-radioButton name="city" value="we" [(ngModel)]="city" inputId="city1"></p-radioButton>
+                    <label for="city1">Chicago</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton name="city" value="we" [(ngModel)]="city" inputId="city2"></p-radioButton>
+                    <label for="city2">Los Angeles</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton name="city" value="wevc" [(ngModel)]="city" inputId="city3"></p-radioButton>
+                    <label for="city3">New York</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton name="city" value="we" [(ngModel)]="city" inputId="city4"></p-radioButton>
+                    <label for="city4">San Francisco</label>
+                </div> -->
                 <div class="p-mr-4" *ngFor="let items of this.atributos; let i = index">
                     <p-card>
                         <h4>{{items.descripcion | titlecase}}</h4>
                         <div class="p-field-checkbox" *ngFor="let item of items.atributo; let z = index">
-                            <p-checkbox [name]="item.label" value="{{checked[i][z].value}}" [value]="checked[i][z].value" [(ngModel)]="checked[i][z]" (onChange)="ver(checked[i][z])" 
-                                        [inputId]="item.label+i"></p-checkbox>
-                            <label for="binary">{{item.label | uppercase}}</label>                           
+                            <ng-container *ngIf="items.descripcion !== 'estado'">
+                                <p-checkbox *ngIf="items.descripcion !== 'estado'" 
+                                            [name]="item.label+i" [value]="checked[i][z].value" [(ngModel)]="checked[i][z].value" 
+                                            [inputId]="item.label+i" binary="true">
+                                </p-checkbox>
+                                <label for="binary">{{item.label | uppercase}}</label>                           
+                            </ng-container>
+                            <ng-container *ngIf="items.descripcion === 'estado'">
+                                <p-radioButton [name]="items.descripcion" [value]="item.label" [(ngModel)]="city" 
+                                               [inputId]="item.label+i" (onClick)="ver(city)">
+                                </p-radioButton>
+                                <label for="binary">{{item.label | uppercase}}</label>
+                            </ng-container>
+                            
                         </div> 
                     </p-card>
                 </div>
