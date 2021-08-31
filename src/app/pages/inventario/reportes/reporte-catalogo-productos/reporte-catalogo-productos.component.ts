@@ -23,8 +23,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
   productos: any[] = []
   cols: { field: string; header: string; }[];
   exportColumns: { title: string; dataKey: string; }[];
-  productosOrdenados: any[];
-
+  
   constructor(private fb: FormBuilder,
     private invProductoSrv: InventarioService,
     private uiMessage: UiMessagesService,
@@ -66,53 +65,44 @@ export class ReporteCatalogoProductosComponent implements OnInit {
       }   
       this.productos = resp;
       
-      // FILTER
-      // let temp = this.productos.filter(x => x.marca === 'marca generica1')
-
-      // MAP
-      // let temp = this.productos.map(x => x.costo * (Math.random() * 10))
-
-      // REDUCE
-      // let temp = this.productos.reduce((acc, el) =>({
-      //   ...acc,
-      //   [el.codigo]:el
-      // }),{})    
-
-      console.time('1')
-
-      var nest = (seq: any, keys: string | any[]) => {
-        if (!keys.length) return seq;
-        var first = keys[0];
-        var rest = keys.slice(1);
-        return mapValues(groupBy(seq, first), function (value: any) {           
-          return nest(value, rest)
-        });
-      };
-
-      var nested = nest(this.productos, ['marca','categoria','propiedad']);
-      console.log(nested);
+      this.ordenaData(this.productos, ['marca','categoria','propiedad'])
       
-      let temp = Object.entries(nested);
-      this.productosOrdenados = temp;
-      // console.log(temp);     
+    })
+  }
 
-      Object.keys(nested).forEach(key =>{
-        console.log(key);        
+  ordenaData(data, params) {
+    var nest = (seq: any, keys: string | any[]) => {
+      if (!keys.length) return seq;
+      var first = keys[0];
+      var rest = keys.slice(1);
+      return mapValues(groupBy(seq, first), function (value: any) {           
+        return nest(value, rest)
+      });
+    };
 
-        Object.keys(nested[key]).forEach(key2 =>{
-          console.log(key2);          
-
-          Object.keys(nested[key][key2]).forEach(key3 =>{
-            console.log(key3);            
-            Object.keys(nested[key][key2][key3]).forEach(key4 =>{
-              console.log(nested[key][key2][key3][key4]); 
+    var nested = nest(data, params);
+    var productosOrdenados:any[] = []
+       
+    Object.keys(nested).forEach((key) =>{
+        productosOrdenados.push({producto:key.toUpperCase(), encabezado: true})
+      Object.keys(nested[key]).forEach(key2 =>{
+          productosOrdenados.push({producto:key2.toUpperCase(), encabezado: true})
+        Object.keys(nested[key][key2]).forEach(key3 =>{
+            productosOrdenados.push({producto:key3.toUpperCase(), encabezado: true})
+          Object.keys(nested[key][key2][key3]).forEach(key4 =>{
+              productosOrdenados.push({
+              producto: nested[key][key2][key3][key4].producto,
+              codigo: nested[key][key2][key3][key4].codigo,
+              precio: nested[key][key2][key3][key4].precio,
+              tipo: nested[key][key2][key3][key4].tipo,
             })
           })
         })
-        
-      })
-       
+      })        
     })
+    console.log( productosOrdenados);
+
+    this.exportPdf(productosOrdenados, params)
   }
 
   limpiarForm(){
@@ -120,7 +110,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
     this.productos = []; 
   }
   
-  exportPdf() {
+  exportPdf(data, params) {
     const doc = new jsPDF('p', 'mm', 'a4');
     let pageWidth = doc.internal.pageSize.getWidth();
     const totalPagesExp = '{total_pages_count_string}'
@@ -132,8 +122,14 @@ export class ReporteCatalogoProductosComponent implements OnInit {
 
     autoTable(doc, {
         head: this.headRows(),
-        body: this.bodyRows(this.productosOrdenados),
+        body: this.bodyRows(data),
         headStyles: { fillColor: [0, 128, 255] },
+        didParseCell: (dataArg) => {
+          console.log(dataArg);          
+          if (dataArg.row.raw['encabezado'] === true) {
+            dataArg.cell.styles.fillColor = [40, 170, 100]
+          }
+        },
         didDrawPage: (dataArg) => { 
           // doc.text(anio+' '+hora, dataArg.settings.margin.right, 22, { align: "right" });
           // var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
@@ -170,21 +166,21 @@ export class ReporteCatalogoProductosComponent implements OnInit {
   }
 
   headRows() {
-    return [{ producto: 'Nombre', marca: 'marca', categoria: 'categoria', codigo: 'codigo', precio: 'precio', tipo: 'tipo' }]
+    return [{ producto: 'Nombre', codigo: 'Código', precio: 'Precio', tipo: 'Tipo' }]
   }
 
   bodyRows(data: any[]) {
     var body = []
-    data.forEach((element: { producto: any; marca: any; categoria: any; codigo: any; precio: any; tipo: any; }) => {
+    data.forEach((element: any) => {
       body.push({
         producto: element.producto,
-        marca: element.marca,
-        categoria: element.categoria,
         codigo: element.codigo,
         precio: element.precio,
+        encabezado: element.encabezado || '',
         tipo: element.tipo
-      })      
+      })
     });
+    console.log(body);    
     return body
   }
 }

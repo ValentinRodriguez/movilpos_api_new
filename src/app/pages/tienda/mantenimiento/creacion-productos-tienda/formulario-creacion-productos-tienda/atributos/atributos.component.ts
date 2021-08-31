@@ -13,8 +13,17 @@ export class AtributosComponent implements OnInit {
   checked: any = [];
   atributos: any[] = [];
 
-  estado = "nuevo";
-  
+  estado = "Nuevo";
+  marca = '';
+  medida = '';
+  memoria = [];
+  memorias: any[] = [];
+  almacenamientos: any;
+  almacenamiento: any;
+  camara: any;
+  camaras: any;
+  procesadores: any;
+  procesador: any;
   constructor(private tiendaSrv: TiendaService,
               private router: Router) { }
 
@@ -31,7 +40,7 @@ export class AtributosComponent implements OnInit {
         break;
       
       case 2:
-        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subcategoria-plaza').then((resp: any) => {
+        this.tiendaSrv.getDataCategoria(clasificacion[1].id, 'subcategoria-plaza').then((resp: any) => {
            resp.atributo.forEach(element => {
             this.atributos.push(JSON.parse(element.atributo));          
           }); 
@@ -39,8 +48,30 @@ export class AtributosComponent implements OnInit {
         break;
       
       case 3:
-        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'subsubcategoria-plaza').then((resp: any) => {
+        this.tiendaSrv.getDataCategoria(clasificacion[2].id, 'subsubcategoria-plaza').then((resp: any) => {
           resp.atributo.forEach(element => {
+            switch (element.descripcion) {
+              case 'memoria':
+                this.memorias = JSON.parse(element.atributo);                
+                break;
+              
+                case 'almacenamiento':
+                  this.almacenamientos = JSON.parse(element.atributo);                
+                break;
+              
+                case 'camara':
+                  this.camaras = JSON.parse(element.atributo);                
+                break;
+              
+                case 'procesador':
+                  this.procesadores = JSON.parse(element.atributo);                
+                  break;
+              default:
+                break;
+            }
+            
+            console.log(element.atributo);
+            
             element.atributo = JSON.parse(element.atributo);
             this.checked.push(element.atributo);
             this.atributos.push(element);                     

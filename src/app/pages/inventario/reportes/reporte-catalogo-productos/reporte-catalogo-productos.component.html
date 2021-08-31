@@ -50,19 +50,19 @@
                     </div>
                 </div>
                 <br>
-                <button pButton pRipple label="Ver Reporte" icon="pi pi-eye" type="submit" class="p-mr-2 p-mb-2"></button>                
+                <button pButton pRipple label="Crear Reporte" icon="pi pi-eye" type="submit" class="p-mr-2 p-mb-2"></button>                
                 <button pButton pRipple label="Limpiar Formulario" icon="pi pi-trash" type="button" (click)="limpiarForm()" class="p-button-warning p-mr-2 p-mb-2"></button> 
+                <!-- <button type="button" pButton pRipple icon="pi pi-file-o" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button> -->
+                <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button> -->
             </form>
         </div>
     </div>
 
-    <p-table #dt [columns]="cols" [value]="productos" *ngIf="this.productos.length !== 0">
+    <!-- <p-table #dt [columns]="cols" [value]="productos" *ngIf="this.productos.length !== 0">
         <ng-template pTemplate="caption">
             <div class="p-d-flex">
                 <button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-                <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
                 <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-                <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
             </div>
         </ng-template>
         
@@ -82,5 +82,5 @@
                 </td>
             </tr>
         </ng-template>
-    </p-table>
+    </p-table> -->
 </div>

@@ -30,21 +30,53 @@
                     <p-card>
                         <h4>{{items.descripcion | titlecase}}</h4>
                         <div class="p-field-checkbox" *ngFor="let item of items.atributo; let z = index">
-                            <ng-container *ngIf="items.descripcion !== 'estado'">
-                                <p-checkbox *ngIf="items.descripcion !== 'estado'" 
-                                            [name]="item.label+i" [value]="checked[i][z].value" [(ngModel)]="checked[i][z].value" 
-                                            [inputId]="item.label+i" binary="true">
-                                </p-checkbox>
-                                <label for="binary">{{item.label | uppercase}}</label>                           
+                            <!-- PARA LOS CHECKBOX -->
+                            <ng-container *ngIf="items.tipo === 'checkbox'">
+
+                                <ng-container *ngIf="items.descripcion === 'talla'">
+                                    <p-checkbox *ngIf="items.descripcion === 'talla'" [name]="item.label+i" [value]="checked[i][z].value" [(ngModel)]="checked[i][z].value" 
+                                                [inputId]="item.label+i" binary="true">
+                                    </p-checkbox>
+                                    <label [for]="item.label+i">{{item.label | uppercase}}</label>
+                                </ng-container>
+
                             </ng-container>
-                            <ng-container *ngIf="items.descripcion === 'estado'">
-                                <p-radioButton [name]="items.descripcion" [value]="item.label" [(ngModel)]="city" 
-                                               [inputId]="item.label+i" (onClick)="ver(city)">
-                                </p-radioButton>
-                                <label for="binary">{{item.label | uppercase}}</label>
+
+                            <!-- PARA LOS RADIOBUTTONS -->
+                            <ng-container *ngIf="items.tipo === 'radio'">
+                                <ng-container *ngIf="items.descripcion === 'medida'">
+                                    <p-radioButton *ngIf="items.descripcion === 'medida'" [name]="items.descripcion" [value]="item.label" [(ngModel)]="medida" 
+                                                   [inputId]="item.label+i" (onClick)="ver(medida)">
+                                    </p-radioButton>
+                                    <label [for]="item.label+i">{{item.label | uppercase}}</label>
+                                </ng-container>
+                                <ng-container *ngIf="items.descripcion === 'estado'">
+                                    <p-radioButton *ngIf="items.descripcion === 'estado'" [name]="items.descripcion" [value]="item.label" [(ngModel)]="estado" 
+                                                   [inputId]="item.label+i" (onClick)="ver(estado)">
+                                    </p-radioButton>
+                                    <label [for]="item.label+i">{{item.label | uppercase}}</label>
+                                </ng-container>
                             </ng-container>
-                            
                         </div> 
+
+                        <!-- PARA LOS SELECT -->
+                        <ng-container *ngIf="items.tipo === 'select'">
+                            <ng-container *ngIf="items.descripcion === 'memoria'">
+                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
+                            </ng-container>
+
+                            <ng-container *ngIf="items.descripcion === 'almacenamiento'">
+                                <p-dropdown [options]="almacenamientos" [(ngModel)]="almacenamiento" optionLabel="label"></p-dropdown>
+                            </ng-container>
+
+                            <ng-container *ngIf="items.descripcion === 'camara'">
+                                <p-dropdown [options]="camaras" [(ngModel)]="camara" optionLabel="label"></p-dropdown>
+                            </ng-container>
+
+                            <ng-container *ngIf="items.descripcion === 'procesador'">
+                                <p-dropdown [options]="procesadores" [(ngModel)]="procesador" optionLabel="label"></p-dropdown>
+                            </ng-container>
+                        </ng-container>
                     </p-card>
                 </div>
             </div>       
