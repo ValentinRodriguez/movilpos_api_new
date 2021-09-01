@@ -19,7 +19,8 @@
                                     <!-- PARA LOS CHECKBOX -->
                                     <ng-container *ngIf="items.tipo === 'checkbox'">            
                                         <ng-container *ngIf="items.descripcion === 'talla'">
-                                            <p-checkbox *ngIf="items.descripcion === 'talla'" [name]="item.label+i" [value]="checked[i][z].value" [(ngModel)]="checked[i][z].value" 
+                                            <p-checkbox *ngIf="items.descripcion === 'talla'" [name]="item.label+i" 
+                                                        [value]="checked[i][z].value" [(ngModel)]="atributosModel.talla[z].value" 
                                                         [inputId]="item.label+i" binary="true">
                                             </p-checkbox>
                                             <label [for]="item.label+i">{{item.label | uppercase}}</label>
@@ -29,13 +30,15 @@
                                     <!-- PARA LOS RADIOBUTTONS -->
                                     <ng-container *ngIf="items.tipo === 'radio'">
                                         <ng-container *ngIf="items.descripcion === 'medida'">
-                                            <p-radioButton *ngIf="items.descripcion === 'medida'" [name]="items.descripcion" [value]="item.label" [(ngModel)]="medida" 
+                                            <p-radioButton *ngIf="items.descripcion === 'medida'" [name]="items.descripcion" 
+                                                            [value]="item" [(ngModel)]="atributosModel.medida" 
                                                            [inputId]="item.label+i" (onClick)="ver(medida)">
                                             </p-radioButton>
                                             <label [for]="item.label+i">{{item.label | uppercase}}</label>
                                         </ng-container>
                                         <ng-container *ngIf="items.descripcion === 'estado'">
-                                            <p-radioButton *ngIf="items.descripcion === 'estado'" [name]="items.descripcion" [value]="item.label" [(ngModel)]="estado" 
+                                            <p-radioButton *ngIf="items.descripcion === 'estado'" [name]="items.descripcion" 
+                                                            [value]="item" [(ngModel)]="atributosModel.estado" 
                                                            [inputId]="item.label+i" (onClick)="ver(estado)">
                                             </p-radioButton>
                                             <label [for]="item.label+i">{{item.label | uppercase}}</label>
@@ -49,6 +52,64 @@
                     <!-- PARA LOS SELECT -->
                     <ng-container *ngIf="items.tipo === 'select'">
                         
+                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'memoria'">
+                            <p-card>
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <ng-container>
+                                    <div class="p-field p-col-12 p-md-12">
+                                        <div class="p-inputgroup">
+                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.memoria.valor1">
+                                            <p-dropdown [options]="memorias" [(ngModel)]="atributosModel.memoria.valor2" placeholder="???" 
+                                                        optionLabel="label"></p-dropdown>
+                                        </div> 
+                                    </div>
+                                </ng-container>
+                            </p-card>
+                        </div>
+
+                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'almacenamiento'">
+                            <p-card>
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <ng-container>
+                                    <div class="p-field p-col-12 p-md-12">
+                                        <div class="p-inputgroup">
+                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.almacenamiento.valor1">
+                                            <p-dropdown [options]="almacenamientos" [(ngModel)]="atributosModel.almacenamiento.valor2" placeholder="???" 
+                                                        optionLabel="label"></p-dropdown>
+                                        </div> 
+                                    </div>
+                                </ng-container>
+                            </p-card>
+                        </div>
+
+                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'camara'">
+                            <p-card>
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <ng-container>
+                                    <div class="p-field p-col-12 p-md-12">
+                                        <div class="p-inputgroup">
+                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.camara.valor1">
+                                        </div> 
+                                    </div>
+                                </ng-container>
+                            </p-card>
+                        </div>
+
+                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'procesador'">
+                            <p-card>
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <ng-container>
+                                    <div class="p-field p-col-12 p-md-12">
+                                        <div class="p-inputgroup">
+                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.procesador.valor1">
+                                            <p-dropdown [options]="procesadores" [(ngModel)]="atributosModel.procesador.valor2" placeholder="???" 
+                                                        optionLabel="label"></p-dropdown>
+                                        </div> 
+                                    </div>
+                                </ng-container>
+                            </p-card>
+                        </div>
+
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'actividad'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
@@ -118,71 +179,7 @@
                                 <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
-
-                        <div class="p-field p-col-12 p-md-3 tarjeta" *ngIf="items.descripcion === 'memoria'">
-                            <h4>{{items.descripcion | titlecase}}</h4>
-                            <div class="p-inputgroup">
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-inputNumber [(ngModel)]="value18" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="128"
-                                        decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-                                        </p-inputNumber>
-                                    </div>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3 tarjeta" *ngIf="items.descripcion === 'almacenamiento'">
-                            <h4>{{items.descripcion | titlecase}}</h4>
-                            <div class="p-inputgroup">
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-inputNumber [(ngModel)]="value18" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="100"
-                                        decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-                                        </p-inputNumber>
-                                    </div>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-dropdown [options]="almacenamientos" [(ngModel)]="almacenamiento" optionLabel="label"></p-dropdown>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3 tarjeta" *ngIf="items.descripcion === 'camara'">
-                            <h4>{{items.descripcion | titlecase}}</h4>
-                            <div class="p-inputgroup">
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-inputNumber [(ngModel)]="value18" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="100"
-                                        decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-                                        </p-inputNumber>
-                                    </div>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-dropdown [options]="camaras" [(ngModel)]="camara" optionLabel="label"></p-dropdown>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3 tarjeta" *ngIf="items.descripcion === 'procesador'">
-                            <h4>{{items.descripcion | titlecase}}</h4>
-                            <div class="p-inputgroup">
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-inputNumber [(ngModel)]="value18" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="100"
-                                        decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-                                        </p-inputNumber>
-                                    </div>
-                                    <div class="p-field p-col-12 p-md-6">
-                                        <p-dropdown [options]="procesadores" [(ngModel)]="procesador" optionLabel="label"></p-dropdown>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-                        
+                       
                     </ng-container>
           
                 </ng-container>

@@ -35,6 +35,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PanelModule } from 'primeng/panel';
 import { FileUploadModule } from 'primeng/fileupload';
+import {KeyFilterModule} from 'primeng/keyfilter';
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -69,6 +70,7 @@ import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formul
     ToolbarModule,
     PanelMenuModule,
     RadioButtonModule,
+    KeyFilterModule,
     SelectButtonModule,
     FieldsetModule,
     TreeModule,

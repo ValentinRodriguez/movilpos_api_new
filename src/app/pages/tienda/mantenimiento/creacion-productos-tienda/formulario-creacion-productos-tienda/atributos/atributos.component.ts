@@ -12,18 +12,28 @@ export class AtributosComponent implements OnInit {
   uimessage: any;
   checked: any = [];
   atributos: any[] = [];
-
   estado = "Nuevo";
+  
+  atributosModel = {
+    memoria: {},
+    talla: [],
+    medida: {},
+    estado: {},
+    almacenamiento: {},
+    camara: {},
+    procesador: {}
+  }
+
   marca = '';
   medida = '';
   memoria = [];
   memorias: any[] = [];
   almacenamientos: any;
-  almacenamiento: any;
   camara: any;
   camaras: any;
   procesadores: any;
   procesador: any;
+
   constructor(private tiendaSrv: TiendaService,
               private router: Router) { }
 
@@ -49,10 +59,13 @@ export class AtributosComponent implements OnInit {
       
       case 3:
         this.tiendaSrv.getDataCategoria(clasificacion[2].id, 'subsubcategoria-plaza').then((resp: any) => {
-          resp.atributo.forEach(element => {
-            console.log(element);
-            
+          resp.atributo.forEach(element => {            
             switch (element.descripcion) {
+              case 'talla':
+                this.atributosModel.talla = JSON.parse(element.atributo);
+                console.log(this.atributosModel);                
+                break;
+              
               case 'memoria':
                 this.memorias = JSON.parse(element.atributo);                
                 break;
@@ -72,10 +85,13 @@ export class AtributosComponent implements OnInit {
                 break;
             }
                         
+            this.atributos.push(element);                     
             element.atributo = JSON.parse(element.atributo);
             this.checked.push(element.atributo);
-            this.atributos.push(element);                     
           });          
+          console.log(this.checked);
+          console.log(this.atributos);
+          
         })
         
         break;
@@ -85,20 +101,8 @@ export class AtributosComponent implements OnInit {
     }
   }
 
-  ver(event) {
-    console.log(event);    
-  }
-
   nextPage() {
-    var bandera = 0;
-    this.checked.forEach(element => {
-      element.forEach(element => {
-        if (element.value === true) {
-          bandera += 1;
-        }
-      });
-    });  
-    console.log(bandera);
+    console.log(this.atributosModel);
     
     // this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
     // if (bandera === true) {
