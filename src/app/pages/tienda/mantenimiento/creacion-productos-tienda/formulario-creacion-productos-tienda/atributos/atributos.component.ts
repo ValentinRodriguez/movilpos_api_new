@@ -50,6 +50,8 @@ export class AtributosComponent implements OnInit {
       case 3:
         this.tiendaSrv.getDataCategoria(clasificacion[2].id, 'subsubcategoria-plaza').then((resp: any) => {
           resp.atributo.forEach(element => {
+            console.log(element);
+            
             switch (element.descripcion) {
               case 'memoria':
                 this.memorias = JSON.parse(element.atributo);                
@@ -69,14 +71,11 @@ export class AtributosComponent implements OnInit {
               default:
                 break;
             }
-            
-            console.log(element.atributo);
-            
+                        
             element.atributo = JSON.parse(element.atributo);
             this.checked.push(element.atributo);
             this.atributos.push(element);                     
           });          
-          console.log(this.checked);
         })
         
         break;

@@ -65,6 +65,7 @@ import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formul
     PipesModule,
     AutoCompleteModule,
     PanelModule,
+    InputNumberModule,
     ToolbarModule,
     PanelMenuModule,
     RadioButtonModule,
