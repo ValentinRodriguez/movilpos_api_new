@@ -13,14 +13,20 @@
                 <ng-container *ngFor="let items of this.atributos; let i = index">
                     <ng-container *ngIf="items.tipo !== 'select'">                        
                         <div class="p-field p-col-12 p-md-3">
-                            <p-card>
+                            <p-card>                                
                                 <h4>{{items.descripcion | titlecase}}</h4>
+                                <div *ngIf="items.descripcion === 'color'">   
+                                    <p-button (onClick)="addColor()" icon="pi pi-plus"></p-button> 
+                                    <p-colorPicker *ngFor="let item of atributosModel.color; let y = index" 
+                                                   [(ngModel)]="atributosModel.color[y]">
+                                    </p-colorPicker>
+                                </div>
                                 <div class="p-field-checkbox" *ngFor="let item of items.atributo; let z = index">
                                     <!-- PARA LOS CHECKBOX -->
                                     <ng-container *ngIf="items.tipo === 'checkbox'">            
                                         <ng-container *ngIf="items.descripcion === 'talla'">
-                                            <p-checkbox *ngIf="items.descripcion === 'talla'" [name]="item.label+i" 
-                                                        [value]="checked[i][z].value" [(ngModel)]="atributosModel.talla[z].value" 
+                                            <p-checkbox [name]="item.label+i" [value]="checked[i][z].value" 
+                                                        [(ngModel)]="atributosModel.talla[z].value" 
                                                         [inputId]="item.label+i" binary="true">
                                             </p-checkbox>
                                             <label [for]="item.label+i">{{item.label | uppercase}}</label>
@@ -31,15 +37,15 @@
                                     <ng-container *ngIf="items.tipo === 'radio'">
                                         <ng-container *ngIf="items.descripcion === 'medida'">
                                             <p-radioButton *ngIf="items.descripcion === 'medida'" [name]="items.descripcion" 
-                                                            [value]="item" [(ngModel)]="atributosModel.medida" 
-                                                           [inputId]="item.label+i" (onClick)="ver(medida)">
+                                                            [value]="item.label" [(ngModel)]="atributosModel.medida" 
+                                                           [inputId]="item.label+i" (onClick)="ver(atributosModel.medida)">
                                             </p-radioButton>
                                             <label [for]="item.label+i">{{item.label | uppercase}}</label>
                                         </ng-container>
                                         <ng-container *ngIf="items.descripcion === 'estado'">
                                             <p-radioButton *ngIf="items.descripcion === 'estado'" [name]="items.descripcion" 
-                                                            [value]="item" [(ngModel)]="atributosModel.estado" 
-                                                           [inputId]="item.label+i" (onClick)="ver(estado)">
+                                                            [value]="item.label" [(ngModel)]="atributosModel.estado" 
+                                                           [inputId]="item.label+i" (onClick)="ver(atributosModel.estado)">
                                             </p-radioButton>
                                             <label [for]="item.label+i">{{item.label | uppercase}}</label>
                                         </ng-container>
@@ -51,137 +57,28 @@
                     
                     <!-- PARA LOS SELECT -->
                     <ng-container *ngIf="items.tipo === 'select'">
-                        
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'memoria'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-12">
-                                        <div class="p-inputgroup">
-                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.memoria.valor1">
-                                            <p-dropdown [options]="memorias" [(ngModel)]="atributosModel.memoria.valor2" placeholder="???" 
-                                                        optionLabel="label"></p-dropdown>
-                                        </div> 
-                                    </div>
-                                </ng-container>
-                            </p-card>
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'almacenamiento'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-12">
-                                        <div class="p-inputgroup">
-                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.almacenamiento.valor1">
-                                            <p-dropdown [options]="almacenamientos" [(ngModel)]="atributosModel.almacenamiento.valor2" placeholder="???" 
-                                                        optionLabel="label"></p-dropdown>
-                                        </div> 
-                                    </div>
-                                </ng-container>
-                            </p-card>
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'camara'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-12">
-                                        <div class="p-inputgroup">
-                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.camara.valor1">
-                                        </div> 
-                                    </div>
-                                </ng-container>
-                            </p-card>
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'procesador'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <ng-container>
-                                    <div class="p-field p-col-12 p-md-12">
-                                        <div class="p-inputgroup">
-                                            <input type="text" #campo pInputText pKeyFilter="num" [(ngModel)]="atributosModel.procesador.valor1">
-                                            <p-dropdown [options]="procesadores" [(ngModel)]="atributosModel.procesador.valor2" placeholder="???" 
-                                                        optionLabel="label"></p-dropdown>
-                                        </div> 
-                                    </div>
-                                </ng-container>
-                            </p-card>
-                        </div>
-
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'actividad'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'pantalla'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'celular'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'resolucion'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'modelo automovil'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'marca automovil'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
+                                <p-dropdown [options]="actividades" [(ngModel)]="atributosModel.actividad" optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
                         
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'año'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
-                        <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'marca'">
-                            <p-card>
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
-                            </p-card>   
-                        </div>
-
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'material'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
+                                <p-dropdown [options]="materiales" [(ngModel)]="atributosModel.material" optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
 
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'edad'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="memorias" [(ngModel)]="memoria" optionLabel="label"></p-dropdown>
+                                <p-dropdown [options]="edades" [(ngModel)]="atributosModel.edad" optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
                        
-                    </ng-container>
-          
+                    </ng-container>          
                 </ng-container>
             </div>      
         </ng-template>

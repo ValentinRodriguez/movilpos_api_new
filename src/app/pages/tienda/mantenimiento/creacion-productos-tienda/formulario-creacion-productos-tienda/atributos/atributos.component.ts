@@ -8,35 +8,27 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
   styleUrls: ['./atributos.component.scss']
 })
 export class AtributosComponent implements OnInit {
-  atributo: any;
   uimessage: any;
   checked: any = [];
   atributos: any[] = [];
-  estado = "Nuevo";
-  
-  atributosModel = {
-    memoria: {},
-    talla: [],
-    medida: {},
-    estado: {},
-    almacenamiento: {},
-    camara: {},
-    procesador: {}
-  }
+  materiales: any[] = [];
+  actividades: any[] = [];
+  edades: any[] = [];
 
-  marca = '';
-  medida = '';
-  memoria = [];
-  memorias: any[] = [];
-  almacenamientos: any;
-  camara: any;
-  camaras: any;
-  procesadores: any;
-  procesador: any;
+  atributosModel = {
+    talla: [],
+    medida: '',
+    estado: 'Nuevo',
+    material: '',
+    actividad: '',
+    edad: '',
+    color: [],
+    step: 'atributo'
+  }
 
   constructor(private tiendaSrv: TiendaService,
               private router: Router) { }
-
+              
   ngOnInit(): void {
     const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
 
@@ -59,41 +51,13 @@ export class AtributosComponent implements OnInit {
       
       case 3:
         this.tiendaSrv.getDataCategoria(clasificacion[2].id, 'subsubcategoria-plaza').then((resp: any) => {
-          resp.atributo.forEach(element => {            
-            switch (element.descripcion) {
-              case 'talla':
-                this.atributosModel.talla = JSON.parse(element.atributo);
-                console.log(this.atributosModel);                
-                break;
-              
-              case 'memoria':
-                this.memorias = JSON.parse(element.atributo);                
-                break;
-              
-                case 'almacenamiento':
-                  this.almacenamientos = JSON.parse(element.atributo);                
-                break;
-              
-                case 'camara':
-                  this.camaras = JSON.parse(element.atributo);                
-                break;
-              
-                case 'procesador':
-                  this.procesadores = JSON.parse(element.atributo);                
-                  break;
-              default:
-                break;
-            }
-                        
+          resp.atributo.forEach(element => {                        
+            this.setValues(element)            
             this.atributos.push(element);                     
             element.atributo = JSON.parse(element.atributo);
             this.checked.push(element.atributo);
-          });          
-          console.log(this.checked);
-          console.log(this.atributos);
-          
-        })
-        
+          });                    
+        })        
         break;
       
       default:
@@ -101,16 +65,37 @@ export class AtributosComponent implements OnInit {
     }
   }
 
-  nextPage() {
-    console.log(this.atributosModel);
+  setValues(element) {
+    console.log(element);
     
-    // this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
-    // if (bandera === true) {
-    //   this.checked.step = 'atributo'
-    //   this.tiendaSrv.createProduct(this.checked);
-    // }else{
-    //   this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
-    // }
+    switch (element.descripcion) {
+      case 'material':
+        this.materiales = JSON.parse(element.atributo);
+        break;
+
+      case 'actividad':
+        this.actividades = JSON.parse(element.atributo);    
+        break;
+
+      case 'edad':
+        this.edades = JSON.parse(element.atributo);               
+        break;
+
+      case 'talla':
+        this.atributosModel.talla = JSON.parse(element.atributo);
+        console.log(this.atributosModel);                
+        break;
+                     
+      default:
+        break;
+    }
+  }
+  addColor(){this.atributosModel.color.push('#1976D2')}
+
+  nextPage() {
+    console.log(this.atributosModel);    
+    this.tiendaSrv.createProduct(this.atributosModel);
+    this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
   }
 
   prevPage() {

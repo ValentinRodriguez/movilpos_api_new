@@ -29,9 +29,9 @@ export class TiendaService {
     });
   }
 
-  getDatos() {
+  getDatosProducto(urlS:string) {
     return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.get(`${URL}/${urlS}`).subscribe((resp: any) =>{
         if (resp['code'] === 200)  {          
             resolve(resp.data);            
         }

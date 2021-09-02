@@ -12,16 +12,13 @@ export class RecomendadosComponent implements OnInit {
   enlazados = [];
   cols2 = [];
 
-  constructor(private tiendaSrv: TiendaService,
+  constructor(private tiendaServ: TiendaService,
               private router: Router) { }
 
   ngOnInit(): void {
-    const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
-    if (clasificacion[0].id === 4 || clasificacion[0].id === 5) {
-      console.log('es ropa');      
-    } else {
-    console.log('no es ropa');      
-    }
+    // const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
+    this.buscarProductos();
+
     this.cols2 = [
       { field: 'descripcion', header: 'Descripción' },
       { field: 'cuenta_no', header: 'Cuenta' },
@@ -30,6 +27,13 @@ export class RecomendadosComponent implements OnInit {
       { field: 'catalogo', header: 'Catálogo' },
       { field: 'acciones', header: 'Acciones' },
     ]
+  }
+
+  buscarProductos() {
+    this.tiendaServ.getDatosProducto('productos-plaza').then((resp: any) => {
+      this.enlazados = resp;
+      console.log(resp);      
+    })
   }
 
   borrarProductoEscogido() {
@@ -41,12 +45,11 @@ export class RecomendadosComponent implements OnInit {
   }
 
   nextPage() {
+    if (this.enlazados.length !== 0) {
+      // this.enlazados.step
+      // this.tiendaServ.createProduct(this.atributo);
+    }
     this.router.navigate(['plaza-online/creacion-productos-plaza/imagenes-videos']);
-    // if (this.atributo.length !== 0) {
-    //   this.tiendaServ.createProduct(this.atributo);
-    // }else{
-    //   this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
-    // }
   }
 
   prevPage() {

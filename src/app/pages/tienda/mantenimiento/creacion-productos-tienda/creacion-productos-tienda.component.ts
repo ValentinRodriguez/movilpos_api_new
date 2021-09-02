@@ -85,7 +85,7 @@ export class CreacionProductosTiendaComponent implements OnInit {
   };
 
   todosLosProductos() {
-    this.productosServ.getDatos().then((resp: any) => {
+    this.productosServ.getDatosProducto('productos-plaza').then((resp: any) => {
       this.productos = resp;
     });
   }

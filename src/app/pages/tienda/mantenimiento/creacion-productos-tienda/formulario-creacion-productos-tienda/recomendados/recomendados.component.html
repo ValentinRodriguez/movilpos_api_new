@@ -1,79 +1,82 @@
 <div class="stepsdemo-content">
     <p-card>
-        <ng-template pTemplate="title">
-            Atributos del producto
-        </ng-template>
-        
-        <ng-template pTemplate="content">
-            <p-panel header="Cuentas vinculadas al movimiento">		
-                <p-toolbar>	
-                    <div class="p-toolbar-group-left">
-                    </div>						
-                    <div class="p-toolbar-group-right">
-                        <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaProductos()"></button>	
-                    </div>
-                </p-toolbar>
-                <br>
-                <p-table #dt [columns]="cols2" [value]="enlazados" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-                        [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','cuenta_no','origen','tipo_cuenta','catalogo']">
-                    
-                    <ng-template pTemplate="caption">
-                        <div class="table-header">
-                            <span class="p-input-icon-left">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar...."/>
-                            </span>
+        <ng-container *ngIf="this.enlazados.length !== 0">
+            <ng-template pTemplate="title">
+                Productos disponibles
+            </ng-template>
+            
+            <ng-template pTemplate="content">
+                <p-panel header="Cuentas vinculadas al movimiento">		
+                    <p-toolbar>	
+                        <div class="p-toolbar-group-left">
+                        </div>						
+                        <div class="p-toolbar-group-right">
+                            <button pButton pRipple label="Buscar cuentas" icon="pi pi-search" type="button" (click)="buscaProductos()"></button>	
                         </div>
-                    </ng-template>
-                    
-                    <ng-template pTemplate="header" let-columns>
-                        <tr>
-                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                {{col.header}}									
-                                <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
-                            </th>
-                        </tr>
-                    </ng-template>
-
-                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                        <tr class="p-selectable-row">							
-                            <td *ngFor="let col of columns">
-                                <span class="p-column-title">{{col.header}}</span>		
+                    </p-toolbar>
+                    <br>
+                    <p-table #dt [columns]="cols2" [value]="enlazados" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
+                            [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','cuenta_no','origen','tipo_cuenta','catalogo']">
                         
-                                <span *ngIf="(rowData[col.field] === 'cuenta_no')">
-                                    {{rowData[col.field]}}										
+                        <ng-template pTemplate="caption">
+                            <div class="table-header">
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar...."/>
                                 </span>
-
-                                <span *ngIf="(rowData[col.field] !== 'cuenta_no')">
-                                    {{rowData[col.field] | titlecase}}										
-                                </span>
-                                        
-                                <span *ngIf="col.field === 'acciones'">
-                                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" 
-                                            (click)="borrarProductoEscogido(i)"></button>
-                                </span>
-                            </td>								
-                        </tr>
-                    </ng-template>
-                    
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="8">No haz seleccionado ninguna cuenta.</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="summary">
-                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="enlazados.length !== 1">
-                            No hay cuentas seleccionadas.
-                        </div>
+                            </div>
+                        </ng-template>
                         
-                        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="enlazados.length === 1">
-                            {{enlazados ? enlazados.length : 0 }} cuenta seleccionada.
-                        </div>
-                    </ng-template>
-                </p-table>
-            </p-panel>
-        </ng-template>
-
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                    {{col.header}}									
+                                    <p-sortIcon [field]="col.field" *ngIf="col.field !== 'acciones'"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+    
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr class="p-selectable-row">							
+                                <td *ngFor="let col of columns">
+                                    <span class="p-column-title">{{col.header}}</span>		
+                            
+                                    <span *ngIf="(rowData[col.field] === 'cuenta_no')">
+                                        {{rowData[col.field]}}										
+                                    </span>
+    
+                                    <span *ngIf="(rowData[col.field] !== 'cuenta_no')">
+                                        {{rowData[col.field] | titlecase}}										
+                                    </span>
+                                            
+                                    <span *ngIf="col.field === 'acciones'">
+                                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button p-button-danger p-mr-2 p-mb-2" 
+                                                (click)="borrarProductoEscogido(i)"></button>
+                                    </span>
+                                </td>								
+                            </tr>
+                        </ng-template>
+                        
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8">No haz seleccionado ninguna cuenta.</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between" *ngIf="enlazados.length !== 1">
+                                No hay cuentas seleccionadas.
+                            </div>
+                            
+                            <div class="p-d-flex p-ai-center p-jc-between" *ngIf="enlazados.length === 1">
+                                {{enlazados ? enlazados.length : 0 }} cuenta seleccionada.
+                            </div>
+                        </ng-template>
+                    </p-table>
+                </p-panel>
+            </ng-template>
+    
+        </ng-container>
+        <div class="p-mb-3 p-text-center" *ngIf="this.enlazados.length === 0" style="font-size: 3em;">No tienes productos disponibles para enlazar.</div>
         <ng-template pTemplate="footer">
             <div class="p-grid p-nogutter p-justify-between">
                 <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
