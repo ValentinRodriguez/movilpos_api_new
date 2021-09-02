@@ -73,13 +73,20 @@
                                    [(ngModel)]="generalInformation.cantidadLim">
                     </p-inputNumber>
                 </div>
+                <br>
+                <div class="p-field p-col-12" *ngIf="this.tipo !== 'digital'">
+                    <app-fileuploads (propagar)="recibeFiles($event)"></app-fileuploads>
+                </div>
             </div>
-            <p-panel header="Title" *ngIf="this.tipo === 'digital'">
+            
+            <p-panel header="Documentos digitales" *ngIf="this.tipo === 'digital'">
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-3">
                         <label for="limDescargas">Limite de descargas</label>
                         <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
-                           pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
+                           pTooltip="Establecer una cantidad limite de descargas para este producto. Cuando se alcance esta cifra el 
+                                     producto de visualizara como agotado. Marcar esta opcion tambien hara que el producto se muestre 
+                                     como una oferta." tooltipPosition="top">
                         </i>
                         <p-inputNumber inputId="limDescargas" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #limDescargas="ngModel" 
                                        [(ngModel)]="generalInformation.limDescargas">

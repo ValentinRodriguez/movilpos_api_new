@@ -27,8 +27,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       {label: 'Clasificación',routerLink: 'clasificacion'},
       {label: 'Atributos',routerLink: 'atributos'},
       {label: 'Productos Enlazados',routerLink: 'productos-enlazados'},
-      {label: 'Imagenes y Videos',routerLink: 'imagenes-videos'},
-      {label: 'Datos Envío',routerLink: 'envios'},
+      // {label: 'Datos Envío',routerLink: 'envios'},
       {label: 'Crear Producto',routerLink: 'crear-producto'},
     ];
     
@@ -44,9 +43,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       this.uiMessage.getMiniInfortiveMsg('tsc', 'success', 'Excelente!!', 'Producto Guardado Exitosamente');
     });
 
-    const observer2$ = this.tiendaService.tipoProducto.subscribe((resp) => {
-      console.log(resp.value);
-      
+    const observer2$ = this.tiendaService.tipoProducto.subscribe((resp) => {      
       switch (resp.value) {
         case 'basico':
           this.items = this.items$;

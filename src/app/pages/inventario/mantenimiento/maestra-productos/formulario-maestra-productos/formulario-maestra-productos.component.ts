@@ -11,13 +11,14 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
 @Component({
   selector: 'app-formulario-maestra-productos',
   templateUrl: './formulario-maestra-productos.component.html',
   styleUrls: ['./formulario-maestra-productos.component.scss'],
   // providers:[InventarioService,BrandsService,TipoInventarioService,PropiedadesService,
-  //            BodegasService,CategoriasService]
+  //            BodegasService,CategoriasService,GlobalFunctionsService]
 })
 export class FormularioMaestraProductosComponent implements OnInit {
 
@@ -73,7 +74,8 @@ export class FormularioMaestraProductosComponent implements OnInit {
               private marcaService: BrandsService,
               private tipoInv: TipoInventarioService,
               private propServ: PropiedadesService,
-              private bodegasServ: BodegasService,              
+              private bodegasServ: BodegasService,
+              private gf: GlobalFunctionsService,
               private router: Router,
               private categoriasServ: CategoriasService) {                 
                 this.crearFormulario();
@@ -117,7 +119,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp);
       this.inventarioServ.getDato(resp).then((res: any) => {
-        this.inventarioServ.enviarUrlImagenes(res.galeriaImagenes)
+        this.gf.enviarUrlImagenes(res.galeriaImagenes)
         // this.forma.patchValue(res);
         // this.imgURL = res.galeriaImagenes;
         // this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
@@ -136,7 +138,6 @@ export class FormularioMaestraProductosComponent implements OnInit {
 
   recibeFiles(event) {
     this.forma.get('galeriaImagenes').setValue(event);
-    console.log(this.forma.value);    
   }
 
   crearFormulario() {
@@ -170,18 +171,18 @@ export class FormularioMaestraProductosComponent implements OnInit {
     })
   }
 
-  guardarProducto() {           
-    // if (this.forma.invalid) {           
-    //   this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-    //   Object.values(this.forma.controls).forEach(control =>{
-    //     control.markAllAsTouched();
-    //   })
-    // }else{
+  guardarProducto() {
+    if (this.forma.invalid) {           
+      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
+      Object.values(this.forma.controls).forEach(control =>{
+        control.markAllAsTouched();
+      })
+    }else{
       this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
         this.resetFormulario();
       })
-    // }       
+    }       
   }
   
   actualizarProducto() {
@@ -403,6 +404,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
     this.imgEmpresa = null;
     this.imgURL = null;    
     this.forma.get('estado').setValue('activo');
+    this.gf.ClearProductFU();
   }
 
   getNoValido(input: string) {

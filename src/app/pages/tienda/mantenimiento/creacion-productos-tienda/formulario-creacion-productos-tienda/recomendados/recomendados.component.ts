@@ -45,11 +45,8 @@ export class RecomendadosComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.enlazados.length !== 0) {
-      // this.enlazados.step
-      // this.tiendaServ.createProduct(this.atributo);
-    }
-    this.router.navigate(['plaza-online/creacion-productos-plaza/imagenes-videos']);
+    this.tiendaServ.createProduct(this.enlazados, 'enlazados');
+    this.router.navigate(['plaza-online/creacion-productos-plaza/envios']);
   }
 
   prevPage() {

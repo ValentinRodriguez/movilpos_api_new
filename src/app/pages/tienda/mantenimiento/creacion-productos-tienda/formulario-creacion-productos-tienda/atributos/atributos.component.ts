@@ -30,7 +30,7 @@ export class AtributosComponent implements OnInit {
               private router: Router) { }
               
   ngOnInit(): void {
-    const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
+    const clasificacion = this.tiendaSrv.getProduct('atributo')
 
     switch (clasificacion.length) {
       case 1:
@@ -65,9 +65,7 @@ export class AtributosComponent implements OnInit {
     }
   }
 
-  setValues(element) {
-    console.log(element);
-    
+  setValues(element) {    
     switch (element.descripcion) {
       case 'material':
         this.materiales = JSON.parse(element.atributo);
@@ -92,9 +90,8 @@ export class AtributosComponent implements OnInit {
   }
   addColor(){this.atributosModel.color.push('#1976D2')}
 
-  nextPage() {
-    console.log(this.atributosModel);    
-    this.tiendaSrv.createProduct(this.atributosModel);
+  nextPage() {  
+    this.tiendaSrv.createProduct(this.atributosModel, 'atributos');
     this.router.navigate(['plaza-online/creacion-productos-plaza/productos-enlazados']);
   }
 

@@ -25,14 +25,11 @@ export class CreacionProductosTiendaComponent implements OnInit {
   opciones: any[];
   itbis: string = "basico";
 
-  constructor(private uiMessage: UiMessagesService,
-              
+  constructor(private uiMessage: UiMessagesService,              
               private productosServ: TiendaService,
               private confirmationService: ConfirmationService,
               private tiendaService: TiendaService,
-              public dialogService: DialogService) { 
-                ;                
-              }
+              public dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.listObserver();

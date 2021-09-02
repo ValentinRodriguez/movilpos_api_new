@@ -17,7 +17,8 @@ export class InventarioService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   finalizar = new EventEmitter();
-  enviarImagen= new EventEmitter(); 
+  
+  clearProductfu = new EventEmitter();
   
   construct = '';
   usuario: any;
@@ -356,9 +357,7 @@ export class InventarioService {
     this.actualizar.emit(data);
   }
   
-  enviarUrlImagenes(data: any) {
-    this.enviarImagen.emit(data);
-  }
+  
   
   guardando() {
     this.guardar.emit(0);
@@ -366,6 +365,10 @@ export class InventarioService {
 
   finalizando() {
     this.finalizar.emit(1);
+  }
+
+  ClearProductFU() {
+    this.clearProductfu.emit();
   }
 
 }

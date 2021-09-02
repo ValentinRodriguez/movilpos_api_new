@@ -22,6 +22,15 @@ export class ClasificacionComponent implements OnInit {
               private uimessage: UiMessagesService) { }
 
   ngOnInit(): void {
+    const categoriasPrev = this.tiendaServ.getProduct('clasificacion');
+    const generalesPrev = this.tiendaServ.getProduct('general');
+
+    if (generalesPrev == null) {
+      this.prevPage();
+    }
+
+    console.log(generalesPrev);
+    
     this.categoriasStoreSrv.getDatos().then((resp: any) =>{    
       let temp2: any[] = [];
       
@@ -82,8 +91,7 @@ export class ClasificacionComponent implements OnInit {
   nextPage() {
     if (this.categoria.length !== 0) {      
       this.router.navigate(['plaza-online/creacion-productos-plaza/atributos']);
-      this.categoria.step = 'clasificacion'
-      this.tiendaServ.createProduct(this.categoria);
+      this.tiendaServ.createProduct(this.categoria, 'clasificacion');
     }else{
       this.uimessage.getMiniInfortiveMsg('tst','warn','Atención','Debe escoger una categoría')
     }

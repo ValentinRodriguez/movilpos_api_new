@@ -1,1 +1,67 @@
-<p>envio works!</p>
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title">
+            Datos de envio.
+        </ng-template>
+        <!-- <ng-template pTemplate="subtitle">
+            Enter your personal information
+        </ng-template> -->
+        <ng-template pTemplate="content">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="peso">peso</label>
+                    <p-inputNumber inputId="peso" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #peso="ngModel" 
+                                   [(ngModel)]="generalInformation.peso" [ngClass]="{'ng-dirty': (peso.invalid && submitted) || (peso.dirty && precio.invalid)}" 
+                                   required>
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="peso">peso</label>
+                    <p-inputNumber inputId="peso" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #peso="ngModel" 
+                                   [(ngModel)]="generalInformation.peso" [ngClass]="{'ng-dirty': (peso.invalid && submitted) || (peso.dirty && precio.invalid)}" 
+                                   required>
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="longitud">longitud</label>
+                    <p-inputNumber inputId="longitud" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #longitud="ngModel" 
+                                   [(ngModel)]="generalInformation.longitud" [ngClass]="{'ng-dirty': (longitud.invalid && submitted) || (longitud.dirty && precio.invalid)}" 
+                                   required>
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="anchura">anchura</label>
+                    <p-inputNumber inputId="anchura" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #anchura="ngModel" 
+                                   [(ngModel)]="generalInformation.anchura" [ngClass]="{'ng-dirty': (anchura.invalid && submitted) || (anchura.dirty && precio.invalid)}" 
+                                   required>
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="altura">Altura</label>
+                    <p-inputNumber inputId="altura" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" #altura="ngModel" 
+                                   [(ngModel)]="generalInformation.altura" [ngClass]="{'ng-dirty': (altura.invalid && submitted) || (anchura.dirty && precio.invalid)}" 
+                                   required>
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-field p-col-12">
+                    <label for="notas">Notas de envio</label>
+                    <textarea id="notas" type="text" rows="4" pInputTextarea #notas="ngModel" required [(ngModel)]="generalInformation.notas" 
+                              [ngClass]="{'ng-dirty': (notas.invalid && submitted) || (notas.dirty && notas.invalid)}">
+                    </textarea>
+                    <small *ngIf="(notas.invalid && submitted) || (notas.dirty && notas.invalid)" class="p-error">Este campo es obligatorio.</small>
+                </div>
+
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="p-grid p-nogutter p-justify-end">
+                <p-button label="Siguiente" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

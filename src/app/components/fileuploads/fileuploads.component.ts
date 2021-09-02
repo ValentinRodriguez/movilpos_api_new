@@ -2,10 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileUpload } from 'primeng/fileupload';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { environment } from 'src/environments/environment';
 
 const URLs = environment.urlImagenes;
+
 @Component({
   selector: 'app-fileuploads',
   templateUrl: './fileuploads.component.html',
@@ -19,19 +21,34 @@ export class FileuploadsComponent implements OnInit {
   fileUpload: FileUpload
   image: any;
   imgURL: any;
+
   @Output() propagar = new EventEmitter<any>();
 
   constructor(private sanitizer: DomSanitizer,
     private DatosEstaticos: DatosEstaticosService,
-    private invProductoSrv: InventarioService) { }
+              private gf: GlobalFunctionsService,
+              private invProductoSrv: InventarioService) { }
 
   ngOnInit(): void {
-    this.invProductoSrv.enviarImagen.subscribe(resp => {
-      console.log();
-      const image = JSON.parse(resp);
-      image.forEach(element => {
-        console.log(element);        
-        this.test(`${URLs}/storage/${element}`);        
+    this.invProductoSrv.clearProductfu.subscribe(() => {
+      this.uploadedFiles = [];
+      this.fileUpload.clear()
+    });
+
+    this.gf.enviarImagen.subscribe(resp => {
+      console.log(resp);
+      this.fileUpload.clear();
+      resp.forEach(element => {
+        if (typeof (element) === 'object') {          
+          this.fileUpload.files.push(element)
+          console.log(this.fileUpload.files);
+          
+        } else {
+          const imagen = JSON.parse(resp);    
+          imagen.forEach(element => {    
+            this.test(`${URLs}/storage/${element}`);        
+          });          
+        }
       });
     })   
   }

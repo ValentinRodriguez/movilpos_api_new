@@ -18,6 +18,14 @@ export class TiendaService {
 
   listSubscribers: any = [];
 
+  readonly ProductFull = {
+    general: null,
+    envio: null,
+    atributos: null,
+    clasificacion: null,
+    enlazados: null
+  }
+
   constructor(private http: HttpClient) { }
             
   ngOnDestroy() {
@@ -93,24 +101,12 @@ export class TiendaService {
     this.tipoProducto.emit(data);
   }
 
-  createProduct(data) {
-    console.log(data);    
-    // let obj:any = {};
-    // for (const property in data) {
-    //   // console.log(`${property}: ${data[property]}`);
-    //   obj[property] = data[property];
-    // }
-    // console.log(obj);
-    localStorage.setItem(data.step,JSON.stringify(data));        
-    // switch (data.step) {
-    //   case 'general':
-    //     break;
-    
-    //   case 'clasificacion':
-    //     localStorage.setItem('clasificacion',JSON.stringify(data));        
-    //     break;
-    //   default:
-    //     break;
-    // }
+  createProduct(data, campo) {
+    this.ProductFull[campo] = data;
+    console.log(this.ProductFull);    
+  }
+
+  getProduct(campo) {
+    return this.ProductFull[campo]    
   }
 }

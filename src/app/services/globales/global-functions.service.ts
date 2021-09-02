@@ -14,6 +14,9 @@ export class GlobalFunctionsService {
   finalizar = new EventEmitter;
   formSubmitted = new EventEmitter;
   formReceived = new EventEmitter;
+  clearProductfu = new EventEmitter();
+  enviarImagen = new EventEmitter(); 
+
   usuario: any;
   usuarioExiste = 3;
   listSubscribers: any = [];
@@ -78,6 +81,14 @@ export class GlobalFunctionsService {
       comparison = -1;
     }
     return comparison;
+  }
+
+  ClearProductFU() {
+    this.clearProductfu.emit();
+  }
+
+  enviarUrlImagenes(data: any) {
+    this.enviarImagen.emit(data);
   }
 }
 

@@ -7,7 +7,6 @@ import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formul
 import { EnvioComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/envio/envio.component';
 import { GeneralComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/general/general.component';
 import { RecomendadosComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/recomendados/recomendados.component';
-import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/visuales/visuales.component';
 
 @NgModule({
   imports: [
@@ -24,7 +23,6 @@ import { VisualesComponent } from './mantenimiento/creacion-productos-tienda/for
               { path: 'envios', component: EnvioComponent},
               { path: 'general', component: GeneralComponent},
               { path: 'productos-enlazados', component: RecomendadosComponent},
-              { path: 'imagenes-videos', component: VisualesComponent},
               { path: 'crear-producto', component: CrearComponent},
           ]},             
         ]
