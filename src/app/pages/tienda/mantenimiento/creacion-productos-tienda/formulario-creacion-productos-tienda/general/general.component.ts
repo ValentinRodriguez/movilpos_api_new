@@ -21,7 +21,6 @@ export class GeneralComponent implements OnInit {
   uploadedFiles: any[] = [];
   @ViewChild(FileUpload)
   fileUpload: FileUpload
-  tipo: any;
   listSubscribers: any = [];
   groupedCities: any = [];
   selectedCity3: string;
@@ -43,7 +42,7 @@ export class GeneralComponent implements OnInit {
         titulo: 'testse',
         descripcion: 'testse',
         categoria: null,
-        tipo: null,
+        tipo: 'basico',
         precio: 100,
         precio_rebajado: null,
         stock: 50,
@@ -62,7 +61,7 @@ export class GeneralComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
-      this.tipo = resp.value;    
+      this.generalInformation.tipo = resp.value;      
     });
     
     this.listSubscribers = [observer1$];

@@ -61,9 +61,33 @@ export class TiendaService {
     })
   }
 
-  crearProducto(data) {
+  crearProducto(storeProduct) {
+    const formData = new FormData(); 
+    const imagenes = storeProduct.galeriaImagenes;
+    
+    for (let key in storeProduct) {
+      if (storeProduct[key] !== null) {
+        switch (key) {
+          case 'galeriaImagenes':          
+            for (let i = 0; i < imagenes.length; i++) {
+              const imagen = imagenes[i];
+              formData.append('imageLength', imagenes.length);
+              formData.append(key + i, imagen, imagen.name);
+            }
+            break;
+          
+          case 'atributos':
+            formData.append(key, JSON.stringify(storeProduct[key]));
+            break;
+          
+          default:
+            formData.append(key, storeProduct[key]);
+            break;
+        }        
+      }
+    }
     return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
+      this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,formData).subscribe((resp: any) =>{
         console.log(resp);        
         if (resp['code'] === 200)  {          
           resolve(resp.data);            
@@ -109,6 +133,7 @@ export class TiendaService {
       this.router.navigate(['plaza-online/creacion-productos-plaza/general']);
     }
   }
+
   tipoProductos(data: any) {
     this.tipoProducto.emit(data);
   }

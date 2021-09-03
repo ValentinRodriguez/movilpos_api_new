@@ -18,17 +18,22 @@ export class CrearComponent implements OnInit {
 
   crearProducto() {
     const parametros = this.tiendSrv.ProductFull;
-    let obj = {};
-
+    let objTemp = {};
+    let obj = {}
     for (const key in parametros) {
-      if (Object.prototype.hasOwnProperty.call(parametros, key)) {
-        const element = parametros[key];
-        if (element !== null) {
-          obj[key] = parametros[key];   
-        }
+      if (parametros[key] !== null) {
+        // objTemp[key] = parametros[key];   
+        Object.keys(parametros[key]).forEach(key2 => {
+          if (key === 'general') {
+            obj[key2] = parametros[key][key2];      
+          } else {
+            obj[key] = parametros[key];
+          }
+        });
       }
     }
     console.log(obj);
+    
     this.tiendSrv.crearProducto(obj).then((resp: any) =>{
       console.log(resp);      
     })

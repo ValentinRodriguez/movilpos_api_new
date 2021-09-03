@@ -46,6 +46,7 @@ import { RecomendadosComponent } from './mantenimiento/creacion-productos-tienda
 import { AtributosComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/atributos/atributos.component';
 import { ClasificacionComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/clasificacion/clasificacion.component';
 import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/crear/crear.component';
+import { ProductosCompuestosComponent } from './mantenimiento/creacion-productos-tienda/formulario-creacion-productos-tienda/productos-compuestos/productos-compuestos.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { CrearComponent } from './mantenimiento/creacion-productos-tienda/formul
     RecomendadosComponent,
     AtributosComponent,
     ClasificacionComponent,
-    CrearComponent
+    CrearComponent,
+    ProductosCompuestosComponent
   ],
   imports: [
     CommonModule,

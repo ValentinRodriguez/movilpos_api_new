@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
@@ -23,11 +24,12 @@ export class CreacionProductosTiendaComponent implements OnInit {
   sortField: string;
   listSubscribers: any = [];
   opciones: any[];
-  itbis: string = "basico";
+  tipoProducto: string = "basico";
 
   constructor(private uiMessage: UiMessagesService,              
               private productosServ: TiendaService,
               private confirmationService: ConfirmationService,
+              private router: Router,
               private tiendaService: TiendaService,
               public dialogService: DialogService) {}
 
@@ -35,9 +37,16 @@ export class CreacionProductosTiendaComponent implements OnInit {
     this.listObserver();
     this.todosLosProductos();
 
+    const rutaActual = this.router.url.split('/')
+    if (rutaActual[3] === 'productos-compuestos') {
+      this.tipoProducto = 'compuesto'
+      console.log(this.tipoProducto);
+      
+    }
+
     this.opciones = [
       { label: 'Basico', value: 'basico' },
-      { label: 'Variable', value: 'variable' },
+      // { label: 'Variable', value: 'variable' },
       { label: 'Compuesto', value: 'compuesto' },
       { label: 'Digital', value: 'digital' },
     ];

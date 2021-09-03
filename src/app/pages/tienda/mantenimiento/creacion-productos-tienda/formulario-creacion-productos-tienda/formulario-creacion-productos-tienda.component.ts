@@ -20,8 +20,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.listObserver();
-    
+    this.listObserver();    
     this.items$ = [
       {label: 'General',routerLink: 'general'},
       // {label: 'Clasificación',routerLink: 'clasificacion'},
@@ -47,27 +46,30 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       switch (resp.value) {
         case 'basico':
           this.items = this.items$;
+          this.router.navigate([`plaza-online/creacion-productos-plaza/general`]);
           break;
         
-          case 'variable':
-            this.items = this.items$.slice();
-            this.items.pop();
-            this.items.push({label: 'Variantes',routerLink: 'variantes'})
-            this.items.push({label: 'Crear Producto',routerLink: 'crear-producto'})
-          break;
+          // case 'variable':
+          //   this.items = this.items$.slice();
+          //   this.items.pop();
+          //   this.items.push({label: 'Variantes',routerLink: 'variantes'})
+          //   this.items.push({label: 'Crear Producto',routerLink: 'crear-producto'})
+          // break;
         
           case 'digital':
             let temp = this.items$.slice();
             this.items = temp.filter(function (e: any) {              
               return e.routerLink !== 'envios';
             });
+            this.router.navigate([`plaza-online/creacion-productos-plaza/general`]);
           break;
         
           case 'compuesto':
             this.items = [
-              {label: 'Productos Enlazados',routerLink: 'productos-enlazados'},
+              {label: 'Productos',routerLink: 'productos-compuestos'},
               {label: 'Crear Producto',routerLink: 'crear-producto'},
-            ];
+          ];
+          this.router.navigate([`plaza-online/creacion-productos-plaza/productos-compuestos`]);
           break;
         
         default:
