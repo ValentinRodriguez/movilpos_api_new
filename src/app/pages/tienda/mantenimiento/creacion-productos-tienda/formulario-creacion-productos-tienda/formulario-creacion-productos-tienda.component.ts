@@ -24,7 +24,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     
     this.items$ = [
       {label: 'General',routerLink: 'general'},
-      {label: 'Clasificación',routerLink: 'clasificacion'},
+      // {label: 'Clasificación',routerLink: 'clasificacion'},
       {label: 'Atributos',routerLink: 'atributos'},
       {label: 'Productos Enlazados',routerLink: 'productos-enlazados'},
       // {label: 'Datos Envío',routerLink: 'envios'},
@@ -74,7 +74,8 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
           this.items = this.items$;
           break;
       }
-      this.router.navigate([`plaza-online/creacion-productos-plaza/${this.items[0].routerLink}`]);
+      this.tiendaService.setTipo(this.items)
+      // this.router.navigate([`plaza-online/creacion-productos-plaza/${this.items[0].routerLink}`]);
     });
 
     this.listSubscribers = [observer1$,observer2$];

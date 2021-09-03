@@ -16,7 +16,7 @@ export class RecomendadosComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    // const clasificacion = JSON.parse(localStorage.getItem('clasificacion'));
+    this.tiendaServ.returnToGeneral()
     this.buscarProductos();
 
     this.cols2 = [
@@ -45,8 +45,12 @@ export class RecomendadosComponent implements OnInit {
   }
 
   nextPage() {
-    this.tiendaServ.createProduct(this.enlazados, 'enlazados');
-    this.router.navigate(['plaza-online/creacion-productos-plaza/envios']);
+    if (this.enlazados.length === 0) {
+      this.tiendaServ.createProduct(null, 'enlazados');      
+    }else{
+      this.tiendaServ.createProduct(this.enlazados, 'enlazados');      
+    }
+    this.router.navigate(['plaza-online/creacion-productos-plaza/crear-producto']);
   }
 
   prevPage() {

@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { CategoriasStoreService } from 'src/app/services/tienda/categorias-store.service';
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
@@ -21,18 +23,26 @@ export class GeneralComponent implements OnInit {
   fileUpload: FileUpload
   tipo: any;
   listSubscribers: any = [];
+  groupedCities: any = [];
+  selectedCity3: string;
 
   constructor(private router: Router,
+              private categoriasStoreSrv: CategoriasStoreService,
+              private de: DatosEstaticosService,
               private uimessage: UiMessagesService,
               private gf: GlobalFunctionsService,
               private tiendaServ: TiendaService) { }
     
     ngOnInit() { 
       this.listObserver();
-      const params = this.tiendaServ.getProduct('general');
+      
+      this.setValues()
+      this.getCategorias();
+
       this.generalInformation = {
         titulo: 'testse',
         descripcion: 'testse',
+        categoria: null,
         tipo: null,
         precio: 100,
         precio_rebajado: null,
@@ -44,7 +54,6 @@ export class GeneralComponent implements OnInit {
         galeriaImagenes: null,
         documentosDigitales: null
       };
-      this.setValues(params)
   }
   
   ngOnDestroy(): void {
@@ -54,12 +63,41 @@ export class GeneralComponent implements OnInit {
   listObserver = () => {
     const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
       this.tipo = resp.value;    
-    })
-
+    });
+    
     this.listSubscribers = [observer1$];
   };
 
-  setValues(params) {    
+  getCategorias() {
+    this.categoriasStoreSrv.getDatos().then((resp: any) =>{    
+      let temp2: any[] = [];
+      
+      resp.forEach((element: any) => {                        
+         let dato = {
+              label: element.descripcion.toUpperCase(), 
+              value: 'de',
+              items: this.crearhijos(element.items)
+          }                
+          temp2.push(dato)
+      });
+
+      this.groupedCities = temp2;
+    }) 
+  }
+  crearhijos(element: any) {
+    const temp: any = [];        
+    element.forEach((subelement: any) => {                        
+        let obj = {
+          label: subelement.descripcion, 
+          value: subelement.id,
+        }
+        temp.push(obj)
+    });        
+    return temp
+  } 
+
+  setValues() {  
+    const params = this.tiendaServ.getProduct('general');  
     if (params !== null) {
       Object.keys(this.generalInformation).forEach((key) => {
         switch (key) {
@@ -75,6 +113,7 @@ export class GeneralComponent implements OnInit {
       });
     }
   }
+
   programar() {
     this.rebaja = !this.rebaja    
   }
@@ -87,17 +126,17 @@ export class GeneralComponent implements OnInit {
     this.generalInformation.galeriaImagenes = event;
   }
 
-  nextPage() {
-      if (this.generalInformation.titulo && this.generalInformation.descripcion && 
-          this.generalInformation.precio && this.generalInformation.stock &&
-          this.generalInformation.galeriaImagenes) {
-          this.tiendaServ.createProduct(this.generalInformation, 'general');
-          this.gf.ClearProductFU();
-          this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
-          return;
-      } else {
-        this.uimessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'Debe completar los campos obligatorios');
-      }
-      this.submitted = true;
+  nextPage() {    
+    if (this.generalInformation.titulo && this.generalInformation.descripcion && 
+        this.generalInformation.precio && this.generalInformation.stock &&
+        this.generalInformation.galeriaImagenes && this.generalInformation.categoria) {
+        this.tiendaServ.createProduct(this.generalInformation, 'general');
+        this.gf.ClearProductFU();
+        this.router.navigate(['plaza-online/creacion-productos-plaza/atributos']);
+        return;
+    } else {
+      this.uimessage.getMiniInfortiveMsg('tst', 'warn', 'Atención', 'Debe completar los campos obligatorios');
+    }
+    this.submitted = true;
   }
 }

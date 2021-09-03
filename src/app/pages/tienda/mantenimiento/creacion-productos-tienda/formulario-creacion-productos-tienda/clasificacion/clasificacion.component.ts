@@ -22,12 +22,10 @@ export class ClasificacionComponent implements OnInit {
               private uimessage: UiMessagesService) { }
 
   ngOnInit(): void {
+    this.tiendaServ.returnToGeneral()
+
     const categoriasPrev = this.tiendaServ.getProduct('clasificacion');
     const generalesPrev = this.tiendaServ.getProduct('general');
-
-    if (generalesPrev == null) {
-      this.prevPage();
-    }
 
     console.log(generalesPrev);
     

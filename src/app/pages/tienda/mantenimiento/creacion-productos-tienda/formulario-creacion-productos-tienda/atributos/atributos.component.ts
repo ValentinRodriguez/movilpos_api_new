@@ -30,39 +30,23 @@ export class AtributosComponent implements OnInit {
               private router: Router) { }
               
   ngOnInit(): void {
-    const clasificacion = this.tiendaSrv.getProduct('atributo')
+    this.getCateriaProducto();  
+  }
 
-    switch (clasificacion.length) {
-      case 1:
-        this.tiendaSrv.getDataCategoria(clasificacion[0].id, 'categoria-plaza').then((resp: any) => {
-           resp.atributo.forEach(element => {
-            this.atributos.push(JSON.parse(element.atributo));          
-          });  
-        })
-        break;
-      
-      case 2:
-        this.tiendaSrv.getDataCategoria(clasificacion[1].id, 'subcategoria-plaza').then((resp: any) => {
-           resp.atributo.forEach(element => {
-            this.atributos.push(JSON.parse(element.atributo));          
-          }); 
-        })
-        break;
-      
-      case 3:
-        this.tiendaSrv.getDataCategoria(clasificacion[2].id, 'subsubcategoria-plaza').then((resp: any) => {
-          resp.atributo.forEach(element => {                        
-            this.setValues(element)            
-            this.atributos.push(element);                     
-            element.atributo = JSON.parse(element.atributo);
-            this.checked.push(element.atributo);
-          });                    
-        })        
-        break;
-      
-      default:
-        break;
-    }
+  getCateriaProducto() {
+    const general = this.tiendaSrv.getProduct('general')
+    
+    this.tiendaSrv.returnToGeneral();
+    
+    this.tiendaSrv.getDataCategoria(general.categoria, 'subcategoria-plaza').then((resp: any) => {
+      console.log(resp);        
+      resp.atributo.forEach(element => {                        
+        this.setValues(element)            
+        this.atributos.push(element);                     
+        element.atributo = JSON.parse(element.atributo);
+        this.checked.push(element.atributo);
+      }); 
+    })
   }
 
   setValues(element) {    
@@ -96,7 +80,7 @@ export class AtributosComponent implements OnInit {
   }
 
   prevPage() {
-      this.router.navigate(['plaza-online/creacion-productos-plaza/clasificacion']);
+      this.router.navigate(['plaza-online/creacion-productos-plaza/general']);
   }
 
 }

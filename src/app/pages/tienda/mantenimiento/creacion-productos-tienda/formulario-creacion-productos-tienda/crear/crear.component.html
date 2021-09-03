@@ -1,1 +1,17 @@
-<p>crear works!</p>
+
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="content">
+            <div class="demo-container p-p-4">
+                <button pButton pRipple type="button" label="CREAR PRODUCTO" (click)="crearProducto()" 
+                        class=" p-button-lg p-d-block p-mx-auto"></button>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <div class="p-grid p-nogutter p-justify-between">
+                <p-button label="Anterior" (onClick)="prevPage()" icon="pi pi-angle-left"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

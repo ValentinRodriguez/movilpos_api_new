@@ -60,21 +60,24 @@
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'actividad'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="actividades" [(ngModel)]="atributosModel.actividad" optionLabel="label"></p-dropdown>
+                                <p-dropdown [options]="actividades" [(ngModel)]="atributosModel.actividad" 
+                                            placeholder="Elige actividad..." optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
                         
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'material'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="materiales" [(ngModel)]="atributosModel.material" optionLabel="label"></p-dropdown>
+                                <p-dropdown [options]="materiales" [(ngModel)]="atributosModel.material" 
+                                            placeholder="Elige actividad..." optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
 
                         <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'edad'">
                             <p-card>
                                 <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="edades" [(ngModel)]="atributosModel.edad" optionLabel="label"></p-dropdown>
+                                <p-dropdown [options]="edades" [(ngModel)]="atributosModel.edad" 
+                                            placeholder="Elige actividad..." optionLabel="label"></p-dropdown>
                             </p-card>   
                         </div>
                        

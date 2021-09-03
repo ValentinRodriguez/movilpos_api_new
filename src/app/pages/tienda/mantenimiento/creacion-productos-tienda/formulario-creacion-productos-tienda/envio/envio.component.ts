@@ -20,6 +20,7 @@ export class EnvioComponent implements OnInit {
               private tiendaServ: TiendaService) { }
     
     ngOnInit() { 
+      this.tiendaServ.returnToGeneral()
       this.listObserver();
 
       this.generalInformation = {

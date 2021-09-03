@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 const URL = environment.url;
 
 @Injectable({
@@ -26,7 +27,10 @@ export class TiendaService {
     enlazados: null
   }
 
-  constructor(private http: HttpClient) { }
+  readonly tiposProducto = {}
+
+  constructor(private http: HttpClient,
+              private router: Router) { }
             
   ngOnDestroy() {
     console.log('destruido');    
@@ -60,8 +64,9 @@ export class TiendaService {
   crearProducto(data) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,data).subscribe((resp: any) =>{
+        console.log(resp);        
         if (resp['code'] === 200)  {          
-            resolve(resp.data);            
+          resolve(resp.data);            
         }
       }))
     })
@@ -97,6 +102,13 @@ export class TiendaService {
     })
   }
 
+  returnToGeneral() {
+    const general = this.getProduct('general')
+    console.log(general);
+    if (general == null) {
+      this.router.navigate(['plaza-online/creacion-productos-plaza/general']);
+    }
+  }
   tipoProductos(data: any) {
     this.tipoProducto.emit(data);
   }
@@ -108,5 +120,16 @@ export class TiendaService {
 
   getProduct(campo) {
     return this.ProductFull[campo]    
+  }
+
+  setTipo(data) {
+    Object.keys(data).forEach((key) =>{
+      this.tiposProducto[key] = data[key];
+    })
+    console.log(this.tiposProducto);    
+  }
+
+  getTipo(campo) {
+    return this.tiposProducto[campo]    
   }
 }
