@@ -72,6 +72,7 @@ export class AtributosComponent implements OnInit {
         break;
     }
   }
+  
   addColor(){this.atributosModel.color.push('#1976D2')}
 
   nextPage() {  

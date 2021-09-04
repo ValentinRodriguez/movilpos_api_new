@@ -36,6 +36,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { PanelModule } from 'primeng/panel';
 import { FileUploadModule } from 'primeng/fileupload';
 import {ColorPickerModule} from 'primeng/colorpicker';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -74,6 +75,7 @@ import { ProductosCompuestosComponent } from './mantenimiento/creacion-productos
     SelectButtonModule,
     FieldsetModule,
     TreeModule,
+    MultiSelectModule,
     TooltipModule,
     InputTextareaModule,
     FileUploadModule,

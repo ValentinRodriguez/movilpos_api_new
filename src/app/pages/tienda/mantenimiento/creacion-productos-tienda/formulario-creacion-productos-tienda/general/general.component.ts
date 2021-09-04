@@ -61,7 +61,7 @@ export class GeneralComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
-      this.generalInformation.tipo = resp.value;      
+      this.generalInformation.tipo = resp.value;         
     });
     
     this.listSubscribers = [observer1$];
@@ -83,6 +83,7 @@ export class GeneralComponent implements OnInit {
       this.groupedCities = temp2;
     }) 
   }
+
   crearhijos(element: any) {
     const temp: any = [];        
     element.forEach((subelement: any) => {                        

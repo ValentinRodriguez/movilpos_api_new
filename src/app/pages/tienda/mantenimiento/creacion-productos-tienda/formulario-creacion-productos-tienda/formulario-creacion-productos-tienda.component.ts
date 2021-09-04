@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api/menuitem';
+import { FileUpload } from 'primeng/fileupload';
+import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { CategoriasStoreService } from 'src/app/services/tienda/categorias-store.service';
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
@@ -11,75 +16,160 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 })
 export class FormularioCreacionProductosTiendaComponent implements OnInit {
 
-  items: MenuItem[] = [];
-  items$: MenuItem[] = [];
+  forma: FormGroup;
+  tipo = 'basico';
+  rebaja: boolean = false;
+  uploadedFiles: any[] = [];
+  @ViewChild(FileUpload)
+  fileUpload: FileUpload
   listSubscribers: any = [];
+  groupedCities: any = [];
+  selectedCity3: string;
+  checked: any = [];
+  atributos: any[] = [];
+  materiales: any[] = [];
+  actividades: any[] = [];
+  edades: any[] = [];
+  tallas: any[];
+  color: any[];
+  estados: any;
 
-  constructor(private tiendaService: TiendaService,
-              private uiMessage: UiMessagesService,
-              private router: Router) { }
-
-  ngOnInit(): void {
-    this.listObserver();    
-    this.items$ = [
-      {label: 'General',routerLink: 'general'},
-      // {label: 'Clasificación',routerLink: 'clasificacion'},
-      {label: 'Atributos',routerLink: 'atributos'},
-      {label: 'Productos Enlazados',routerLink: 'productos-enlazados'},
-      // {label: 'Datos Envío',routerLink: 'envios'},
-      {label: 'Crear Producto',routerLink: 'crear-producto'},
-    ];
+  constructor(private fb: FormBuilder, 
+              private categoriasStoreSrv: CategoriasStoreService,
+              private tiendaServ: TiendaService) { 
+                this.crearFormulario()
+              }
     
-    this.items = this.items$;
+  ngOnInit() { 
+    this.listObserver();    
+    this.setValues()
+    this.getCategorias();    
   }
   
-  ngOnDestroy() {
-    this.listSubscribers.forEach(a => a.unsubscribe());
+  campo(data, campo) {
+    return this.forma.get(campo).setValue(data); 
   }
-  
+
+  get categoria() {
+    return this.forma.get('categoria').value
+  }
+
+  crearFormulario() {
+    this.forma = this.fb.group({
+      titulo: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      categoria: ['', Validators.required],
+      tipo: ['', Validators.required],
+      precio: ['', Validators.required],
+      precio_rebajado: [''],
+      stock: ['', Validators.required],
+      cantidadLim: [''],
+      fecha_rebaja: [''],
+      limDescargas: [''],
+      fechaLimDescarga: [''],
+      galeriaImagenes: [''],
+      documentosDigitales: ['']
+    })
+  }
+  ngOnDestroy(): void {
+    this.listSubscribers.forEach(a => a.unsubscribe());   
+  }
+
   listObserver = () => {
-    const observer1$ = this.tiendaService.productoGuardado.subscribe(() =>{
-      this.uiMessage.getMiniInfortiveMsg('tsc', 'success', 'Excelente!!', 'Producto Guardado Exitosamente');
+    const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
+      this.tipo = resp.value;         
     });
-
-    const observer2$ = this.tiendaService.tipoProducto.subscribe((resp) => {      
-      switch (resp.value) {
-        case 'basico':
-          this.items = this.items$;
-          this.router.navigate([`plaza-online/creacion-productos-plaza/general`]);
-          break;
-        
-          // case 'variable':
-          //   this.items = this.items$.slice();
-          //   this.items.pop();
-          //   this.items.push({label: 'Variantes',routerLink: 'variantes'})
-          //   this.items.push({label: 'Crear Producto',routerLink: 'crear-producto'})
-          // break;
-        
-          case 'digital':
-            let temp = this.items$.slice();
-            this.items = temp.filter(function (e: any) {              
-              return e.routerLink !== 'envios';
-            });
-            this.router.navigate([`plaza-online/creacion-productos-plaza/general`]);
-          break;
-        
-          case 'compuesto':
-            this.items = [
-              {label: 'Productos',routerLink: 'productos-compuestos'},
-              {label: 'Crear Producto',routerLink: 'crear-producto'},
-          ];
-          this.router.navigate([`plaza-online/creacion-productos-plaza/productos-compuestos`]);
-          break;
-        
-        default:
-          this.items = this.items$;
-          break;
-      }
-      this.tiendaService.setTipo(this.items)
-      // this.router.navigate([`plaza-online/creacion-productos-plaza/${this.items[0].routerLink}`]);
-    });
-
-    this.listSubscribers = [observer1$,observer2$];
+    
+    this.listSubscribers = [observer1$];
   };
+
+  crearProducto() {
+
+  }
+
+  getCategorias() {
+    this.categoriasStoreSrv.getDatos().then((resp: any) =>{    
+      let temp2: any[] = [];
+      
+      resp.forEach((element: any) => {                        
+         let dato = {
+              label: element.descripcion.toUpperCase(), 
+              value: 'de',
+              items: this.crearhijos(element.items)
+          }                
+          temp2.push(dato)
+      });
+
+      this.groupedCities = temp2;
+    }) 
+  }
+
+  getAtributosProducto(categoria) {
+    console.log(categoria);    
+    this.tiendaServ.getDataCategoria(categoria, 'subcategoria-plaza').then((resp: any) => {
+      console.log(resp);        
+      resp.atributo.forEach(element => {                        
+        this.setValuesC(element)            
+        this.atributos.push(element);                     
+        element.atributo = JSON.parse(element.atributo);
+        this.checked.push(element.atributo);
+      }); 
+    })
+  }
+
+  setValuesC(element) {    
+    switch (element.descripcion) {
+      case 'estado':
+        this.estados = JSON.parse(element.atributo);
+        break;
+
+      case 'actividad':
+        this.actividades = JSON.parse(element.atributo);    
+        break;
+
+      case 'edad':
+        this.edades = JSON.parse(element.atributo);               
+        break;
+
+      case 'talla':
+        this.tallas = JSON.parse(element.atributo);    
+        console.log(this.tallas);
+                   
+        break;
+                     
+      default:
+        break;
+    }
+  }
+  
+  addColor(){this.color.push('#1976D2')}
+
+  crearhijos(element: any) {
+    const temp: any = [];        
+    element.forEach((subelement: any) => {                        
+        let obj = {
+          label: subelement.descripcion, 
+          value: subelement.id,
+        }
+        temp.push(obj)
+    });        
+    return temp
+  } 
+
+  recibeFiles(data){
+    this.campo(data, 'galeriaImagenes')
+    console.log(this.forma.value);    
+  }
+
+  setValues() {  
+    const params = this.tiendaServ.getProduct('general'); 
+  }
+
+  programar() {
+    this.rebaja = !this.rebaja    
+  }
+
+  getNoValido(input: string) {
+    return this.forma.get(input).invalid && this.forma.get(input).touched;
+  }
 }

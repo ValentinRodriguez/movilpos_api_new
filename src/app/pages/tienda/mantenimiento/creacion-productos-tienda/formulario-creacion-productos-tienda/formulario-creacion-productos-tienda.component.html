@@ -1,7 +1,184 @@
-<div class="card">
+<!-- <div class="card">
     <p-toast></p-toast>
     <p-steps [model]="items" [readonly]="true"></p-steps>
 </div>
-<router-outlet></router-outlet>
-<!-- <app-step-toolbar [items]="this.items"></app-step-toolbar> -->
-<!-- <p-toast key="tst"></p-toast> -->
+<router-outlet></router-outlet> -->
+<div class="stepsdemo-content">
+    <p-card>
+        <ng-template pTemplate="title">
+            Datos generales del producto.
+        </ng-template>
+        <!-- <ng-template pTemplate="subtitle">
+            Enter your personal information
+        </ng-template> -->
+        <ng-template pTemplate="content">
+            <form (ngSubmit)="guardarProducto()" [formGroup]="forma">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6">
+                        <label for="titulo">Título</label>
+                        <input id="titulo" type="text" pInputText [class.ng-invalid]="getNoValido('titulo')" 
+                               [class.ng-dirty]="getNoValido('titulo')" formControlName="titulo"> 
+                        <small *ngIf="getNoValido('titulo')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+    
+                    <div class="p-field p-col-3">
+                        <label for="categoria">Categoría</label>
+                        <p-dropdown [options]="groupedCities" placeholder="Elige categoría" inputId="categoria" [group]="true" 
+                                    [class.ng-invalid]="getNoValido('titulo')" [class.ng-dirty]="getNoValido('titulo')" 
+                                    formControlName="titulo" (onChange)="getAtributosProducto($event.value)">
+                            <ng-template let-group pTemplate="group">
+                                <div class="p-d-flex p-ai-center">
+                                    <img src="assets/images/flag_placeholder.png" [class]="'p-mr-2 flag flag-' + group.value" style="width: 20px"/>
+                                    <span>{{group.label | titlecase}}</span>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <small *ngIf="getNoValido('categoria')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="precio">Precio</label>
+                        <p-inputNumber inputId="precio" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                                       [class.ng-invalid]="getNoValido('precio')" [class.ng-dirty]="getNoValido('precio')" 
+                                       formControlName="precio">
+                        </p-inputNumber>
+                        <small *ngIf="getNoValido('precio')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+                    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="precio_rebajado">Precio Rebajado</label>    
+                        <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                           pTooltip="Este valor se utiliza para indicar que el producto esta en oferta. tambien muestra la cantidad que se ahorraria tu cliente si completa la compra." tooltipPosition="top">
+                        </i>                
+                        <a href="javascript:void(0)" *ngIf="!this.rebaja" style="margin-left: 2em;" (click)="programar()">Programar</a>
+                        <a href="javascript:void(0)" *ngIf="this.rebaja" style="margin-left: 2em; color: #777c80;" (click)="programar()">Cancelar</a>
+                        <p-inputNumber inputId="precio_rebajado" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" formControlName="precio_rebajado">
+                        </p-inputNumber>
+                    </div>
+    
+                    <div class="p-field p-col-12 p-md-3" *ngIf="this.rebaja">
+                        <label for="fecha_rebaja">Fecha Rebaja</label>
+                        <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                           pTooltip="La oferta inicia a la 12:00 AM de la fecha inicio y termina a las 11:59 PM de la fecha final." tooltipPosition="top">
+                        </i>
+                        <p-calendar formControlName="fecha_rebaja" selectionMode="range" [readonlyInput]="true" 
+                                    inputId="fecha_rebaja" pTooltip="Click to proceed">
+                        </p-calendar>
+                    </div>
+    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="stock">Stock</label>
+                        <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                           pTooltip="Indica la cantidad de este articulo que tienes disponible para vender." tooltipPosition="top">
+                        </i>
+                        <p-inputNumber inputId="stock" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" 
+                                       [class.ng-invalid]="getNoValido('precio')" [class.ng-dirty]="getNoValido('precio')" 
+                                       formControlName="stock">
+                        </p-inputNumber>
+                        <small *ngIf="getNoValido('stock')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>
+    
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="cantidadLim">Cantidad en Venta</label>
+                        <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                           pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
+                        </i>
+                        <p-inputNumber inputId="cantidadLim" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" formControlName="cantidadLim">
+                        </p-inputNumber>
+                    </div>
+    
+                    <div class="p-field p-col-12">
+                        <label for="descripcion">Descripción</label>
+                        <textarea id="descripcion" type="text" rows="4" pInputTextarea [class.ng-invalid]="getNoValido('descripcion')" 
+                                  [class.ng-dirty]="getNoValido('descripcion')" formControlName="descripcion">
+                        </textarea>
+                        <small *ngIf="getNoValido('descripcion')" class="p-invalid">Este campo es obligatorio.</small>
+                    </div>          
+
+                </div>
+                <p-panel  header="Atributos del producto" *ngIf="this.atributos.length !== 0">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <ng-container *ngFor="let items of this.atributos; let i = index">
+                            <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'talla'">
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <p-multiSelect *ngIf="items.tipo === 'checkbox'" [options]="tallas" defaultLabel="Seleccionar talla..." 
+                                               optionLabel="label" display="chip"></p-multiSelect>
+                            </div>
+                            <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'actividad'">
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <p-dropdown [options]="actividades" placeholder="Elige actividad..." 
+                                            optionLabel="label"></p-dropdown>
+                            </div>
+                            
+                            <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'estado'">
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <p-dropdown [options]="estados" placeholder="Elige estado..." 
+                                            optionLabel="label"></p-dropdown>
+                            </div>
+        
+                            <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'material'">
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <p-dropdown [options]="materiales" placeholder="Elige material..." 
+                                            optionLabel="label"></p-dropdown>
+                            </div>
+        
+                            <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'edad'">
+                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <p-dropdown [options]="edades" placeholder="Elige edad..." 
+                                            optionLabel="label"></p-dropdown>
+                            </div>                   
+                        </ng-container>
+                    </div>
+                </p-panel>
+                
+
+                <div class="p-field p-col-12" *ngIf="this.tipo === 'basico'">
+                    <app-fileuploads (propagar)="recibeFiles($event)"></app-fileuploads>
+                </div>
+                
+                <div class="p-field p-col-12" *ngIf="this.tipo === 'compuesto'">
+                    <app-listado-productos-tienda></app-listado-productos-tienda>
+                </div>
+              
+                <p-panel header="Documentos digitales" *ngIf="this.tipo === 'digital'">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="limDescargas">Limite de descargas</label>
+                            <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                               pTooltip="Establecer una cantidad limite de descargas para este producto. Cuando se alcance esta cifra el 
+                                         producto de visualizara como agotado. Marcar esta opcion tambien hara que el producto se muestre 
+                                         como una oferta." tooltipPosition="top">
+                            </i>
+                            <p-inputNumber inputId="limDescargas" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
+                            </p-inputNumber>
+                        </div>
+        
+                        <div class="p-field p-col-12 p-md-3">
+                            <label for="fechaLimDescarga">Fecha Limite</label>
+                            <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                               pTooltip="La oferta inicia a la 12:00 AM de la fecha inicio y termina a las 11:59 PM de la fecha final." tooltipPosition="top">
+                            </i>
+                            <p-calendar inputId="fechaLimDescarga" pTooltip="Click to proceed"></p-calendar>
+                        </div>
+    
+                        <div class="p-col-12">
+                            <p-fileUpload multiple="multiple" maxFileSize="1000000" [showUploadButton]="false"
+                                          (onSelect)="onFileSelect($event)" chooseLabel="Escoja archivos" cancelLabel="Cancelar">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="uploadedFiles.length">
+                                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload>
+                        </div>
+                    </div>
+                </p-panel>
+            </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="p-grid p-nogutter p-justify-end">
+                <p-button label="Crear Producto" (onClick)="crearProducto()" icon="pi pi-save" iconPos="left"></p-button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

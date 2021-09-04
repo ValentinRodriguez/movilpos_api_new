@@ -3,7 +3,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-lista-productos',
   templateUrl: './lista-productos.component.html',

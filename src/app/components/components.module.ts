@@ -27,12 +27,14 @@ import { PanelModule } from 'primeng/panel';
 import {TooltipModule} from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {BlockUIModule} from 'primeng/blockui';
+import { FileUploadModule } from 'primeng/fileupload';
 
 // COMPONENTES DEL MODULO DE COMPRAS
 import { FooterComponent } from './footer/footer.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { SearchpageComponent } from './searchpage/searchpage.component';
 import { RightMenuPageComponent } from './right-menu-page/right-menu-page.component';
+import { FileuploadsComponent } from './fileuploads/fileuploads.component';
 import { ListaProductosComponent } from './lista-productos/lista-productos.component';
 import { ListadoDireccionesComponent } from './listado-direcciones/listado-direcciones.component';
 import { PendientesEntradaComponent } from './pendientes-entrada/pendientes-entrada.component';
@@ -41,12 +43,11 @@ import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pend
 import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
 import { StepToolbarComponent } from './step-toolbar/step-toolbar.component';
 import { PendientesLiquidacionComponent } from './pendientes-liquidacion/pendientes-liquidacion.component';
+import { ListadoProductosTiendaComponent } from './listado-productos-tienda/listado-productos-tienda.component';
 import { LocalizacionComponent } from './localizacion/localizacion.component';
 import { ListadoRncComponent } from './listado-rnc/listado-rnc.component';
 import { OnlineRncComponent } from './online-rnc/online-rnc.component';
 import { LoadingComponent } from './loading/loading.component';
-import { FileuploadsComponent } from './fileuploads/fileuploads.component';
-import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ListadoRncComponent,
     OnlineRncComponent,
     LoadingComponent,
-    FileuploadsComponent
+    FileuploadsComponent,
+    ListadoProductosTiendaComponent
   ],
   
   exports: [
@@ -80,7 +82,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     StepToolbarComponent,
     LocalizacionComponent,
     LoadingComponent,
-    FileuploadsComponent
+    FileuploadsComponent,
+    ListadoProductosTiendaComponent
   ],
   
   imports: [

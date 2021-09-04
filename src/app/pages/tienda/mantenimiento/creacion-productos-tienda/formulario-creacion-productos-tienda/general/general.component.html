@@ -89,12 +89,16 @@
                     <small *ngIf="(descripcion.invalid && submitted) || (descripcion.dirty && descripcion.invalid)" class="p-error">Este campo es obligatorio.</small>
                 </div>
                 
-                <div class="p-field p-col-12" *ngIf="this.tipo !== 'digital'">
+                <div class="p-field p-col-12" *ngIf="this.generalInformation.tipo === 'basico'">
                     <app-fileuploads (propagar)="recibeFiles($event)"></app-fileuploads>
+                </div>
+                
+                <div class="p-field p-col-12" *ngIf="this.generalInformation.tipo === 'compuesto'">
+                    <app-listado-productos-tienda></app-listado-productos-tienda>
                 </div>
             </div>
             
-            <p-panel header="Documentos digitales" *ngIf="this.tipo === 'digital'">
+            <p-panel header="Documentos digitales" *ngIf="this.generalInformation.tipo === 'digital'">
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-3">
                         <label for="limDescargas">Limite de descargas</label>
