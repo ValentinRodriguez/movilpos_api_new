@@ -29,12 +29,15 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   atributos: any[] = [];
   materiales: any[] = [];
   actividades: any[] = [];
+  actividadesFiltradas: any[] = [];
   edades: any[] = [];
   tallas: any[];
   color: any[];
   estados: any;
+  materialesFiltrados: any[];
 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
+              private uiMessage: UiMessagesService,
               private categoriasStoreSrv: CategoriasStoreService,
               private tiendaServ: TiendaService) { 
                 this.crearFormulario()
@@ -56,19 +59,27 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      titulo: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      titulo: ['producto prueba', Validators.required],
+      descripcion: ['producto prueba', Validators.required],
       categoria: ['', Validators.required],
-      tipo: ['', Validators.required],
-      precio: ['', Validators.required],
+      codigo: ['', Validators.required],
+      tipo: ['basico', Validators.required],
+      precio: ['100', Validators.required],
       precio_rebajado: [''],
-      stock: ['', Validators.required],
+      stock: ['12', Validators.required],
       cantidadLim: [''],
       fecha_rebaja: [''],
       limDescargas: [''],
       fechaLimDescarga: [''],
       galeriaImagenes: [''],
-      documentosDigitales: ['']
+      documentosDigitales: [''],
+      atributos: this.fb.group({
+        talla: [''],
+        actividad: [''],
+        estado: ['n'],
+        material: [''],
+        edad: ['']
+      })
     })
   }
   ngOnDestroy(): void {
@@ -77,19 +88,32 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
-      this.tipo = resp.value;         
+      this.tipo = resp.value;
+      this.campo(this.tipo, 'tipo');
     });
     
     this.listSubscribers = [observer1$];
   };
 
   crearProducto() {
-
+    if (this.forma.invalid) {
+      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios');
+      Object.values(this.forma.controls).forEach(control => {
+        control.markAllAsTouched();
+      })
+    } else {
+      this.tiendaServ.crearProducto(this.forma.value).then((resp: any) => {
+        console.log(resp);        
+        this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro actualizado de manera correcta');
+        // this.resetFormulario();
+      })
+    }
   }
 
   getCategorias() {
     this.categoriasStoreSrv.getDatos().then((resp: any) =>{    
       let temp2: any[] = [];
+      console.log(resp);
       
       resp.forEach((element: any) => {                        
          let dato = {
@@ -107,7 +131,9 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   getAtributosProducto(categoria) {
     console.log(categoria);    
     this.tiendaServ.getDataCategoria(categoria, 'subcategoria-plaza').then((resp: any) => {
-      console.log(resp);        
+      console.log(resp);
+      const codigo = resp.codigo +""+resp.id_categoria +""+ resp.id_subcategoria
+      this.campo(codigo, 'codigo');
       resp.atributo.forEach(element => {                        
         this.setValuesC(element)            
         this.atributos.push(element);                     
@@ -132,9 +158,10 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
         break;
 
       case 'talla':
-        this.tallas = JSON.parse(element.atributo);    
-        console.log(this.tallas);
-                   
+        this.tallas = JSON.parse(element.atributo);
+         
+      case 'material':
+        this.materiales = JSON.parse(element.atributo);
         break;
                      
       default:
@@ -142,7 +169,31 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     }
   }
   
-  addColor(){this.color.push('#1976D2')}
+  filtrarActividades(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.actividades.length; i++) {
+      const size = this.actividades[i];
+      if (size.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.actividadesFiltradas = filtered;
+  }
+
+  filtrarMateriales(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.materiales.length; i++) {
+      const size = this.materiales[i];
+      if (size.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(size);
+      }
+    }
+    this.materialesFiltrados = filtered;
+  }
+
+  // addColor(){this.color.push('#1976D2')}
 
   crearhijos(element: any) {
     const temp: any = [];        

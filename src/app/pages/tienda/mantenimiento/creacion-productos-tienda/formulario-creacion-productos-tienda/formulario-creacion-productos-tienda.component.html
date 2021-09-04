@@ -24,8 +24,8 @@
                     <div class="p-field p-col-3">
                         <label for="categoria">Categoría</label>
                         <p-dropdown [options]="groupedCities" placeholder="Elige categoría" inputId="categoria" [group]="true" 
-                                    [class.ng-invalid]="getNoValido('titulo')" [class.ng-dirty]="getNoValido('titulo')" 
-                                    formControlName="titulo" (onChange)="getAtributosProducto($event.value)">
+                                    [class.ng-invalid]="getNoValido('categoria')" [class.ng-dirty]="getNoValido('categoria')" 
+                                    formControlName="categoria" (onChange)="getAtributosProducto($event.value)">
                             <ng-template let-group pTemplate="group">
                                 <div class="p-d-flex p-ai-center">
                                     <img src="assets/images/flag_placeholder.png" [class]="'p-mr-2 flag flag-' + group.value" style="width: 20px"/>
@@ -97,35 +97,67 @@
 
                 </div>
                 <p-panel  header="Atributos del producto" *ngIf="this.atributos.length !== 0">
-                    <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-fluid p-formgrid p-grid" formGroupName="atributos">
                         <ng-container *ngFor="let items of this.atributos; let i = index">
                             <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'talla'">
-                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <label for="descripcion">{{items.descripcion | titlecase}}</label>
                                 <p-multiSelect *ngIf="items.tipo === 'checkbox'" [options]="tallas" defaultLabel="Seleccionar talla..." 
-                                               optionLabel="label" display="chip"></p-multiSelect>
+                                               optionLabel="label" display="chip" formControlName="talla">
+                                </p-multiSelect>
                             </div>
+
                             <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'actividad'">
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="actividades" placeholder="Elige actividad..." 
-                                            optionLabel="label"></p-dropdown>
+                                <label for="descripcion">{{items.descripcion | titlecase}}</label>
+                                <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                                   pTooltip="Algunos productos estan dirigidos a nichos especificos, 
+                                             Al elegir esta opcion podemos mostrar tu producto al publico interesado 
+                                             en la actividad a la que va dirigida tu producto aumentando asi tus 
+                                             probabilidades de venta." tooltipPosition="top">
+                                </i>
+                                <p-autoComplete formControlName="actividad" [suggestions]="actividadesFiltradas" 
+                                                (completeMethod)="filtrarActividades($event)" field="label" 
+                                                [forceSelection]="true" [dropdown]="true">
+                                    <ng-template let-cuenta pTemplate="item" >
+                                        <div class="country-item">
+                                            <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                                            <div>{{cuenta.label}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
                             </div>
                             
+                            
                             <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'estado'">
-                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <label for="descripcion">{{items.descripcion | titlecase}}</label>
                                 <p-dropdown [options]="estados" placeholder="Elige estado..." 
-                                            optionLabel="label"></p-dropdown>
+                                            optionLabel="label" optionValue="code" formControlName="estado">
+                                </p-dropdown>
                             </div>
         
                             <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'material'">
-                                <h4>{{items.descripcion | titlecase}}</h4>
-                                <p-dropdown [options]="materiales" placeholder="Elige material..." 
-                                            optionLabel="label"></p-dropdown>
+                                <label for="material">{{items.descripcion | titlecase}}</label>
+                                <p-autoComplete formControlName="material" [suggestions]="materialesFiltrados" 
+                                                (completeMethod)="filtrarMateriales($event)" field="label" 
+                                                [forceSelection]="true" [dropdown]="true">
+                                    <ng-template let-cuenta pTemplate="item" >
+                                        <div class="country-item">
+                                            <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" /> -->
+                                            <div>{{cuenta.label}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
                             </div>
         
                             <div class="p-field p-col-12 p-md-3" *ngIf="items.descripcion === 'edad'">
-                                <h4>{{items.descripcion | titlecase}}</h4>
+                                <label for="descripcion">{{items.descripcion | titlecase}}</label>
+                                <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
+                                   pTooltip="Algunos productos tienen publico de edades especificas, 
+                                             Al elegir esta opcion podemos mostrar tu producto a dicho publico aumento asi tus 
+                                             probabilidades de venta." tooltipPosition="top">
+                                </i>
                                 <p-dropdown [options]="edades" placeholder="Elige edad..." 
-                                            optionLabel="label"></p-dropdown>
+                                            optionLabel="label" optionValue="value" formControlName="edad">
+                                </p-dropdown>
                             </div>                   
                         </ng-container>
                     </div>
@@ -173,12 +205,11 @@
                         </div>
                     </div>
                 </p-panel>
+                <div class="p-grid p-nogutter p-justify-end">
+                    <p-button label="Crear Producto" (onClick)="crearProducto()" icon="pi pi-save" iconPos="left"></p-button>
+                </div>
             </form>
-        </ng-template>
-        <ng-template pTemplate="footer">
-            <div class="p-grid p-nogutter p-justify-end">
-                <p-button label="Crear Producto" (onClick)="crearProducto()" icon="pi pi-save" iconPos="left"></p-button>
-            </div>
         </ng-template>
     </p-card>
 </div>
+{{this.forma.value | json}}
