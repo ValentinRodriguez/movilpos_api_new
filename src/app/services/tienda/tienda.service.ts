@@ -16,7 +16,8 @@ export class TiendaService {
   productoAct= new EventEmitter();
   actualizando = new EventEmitter();
   tipoProducto = new EventEmitter();
-
+  productosEscogidos= new EventEmitter();
+  
   listSubscribers: any = [];
 
   readonly ProductFull = {
@@ -80,6 +81,16 @@ export class TiendaService {
             formData.append(key, JSON.stringify(storeProduct[key]));
             break;
           
+          case 'composicion':
+            if (storeProduct[key] !== '') {
+              const composiciones = []
+              storeProduct[key].forEach(element => {
+                composiciones.push(element.id);
+              });
+              formData.append(key, JSON.stringify(composiciones));              
+            }
+            break;
+
           default:
             formData.append(key, storeProduct[key]);
             break;
@@ -90,7 +101,8 @@ export class TiendaService {
       this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,formData).subscribe((resp: any) =>{
         console.log(resp);        
         if (resp['code'] === 200)  {          
-          resolve(resp.data);            
+          resolve(resp.data);     
+          this.productoGuardado.emit(1)       
         }
       }))
     })
@@ -156,5 +168,9 @@ export class TiendaService {
 
   getTipo(campo) {
     return this.tiposProducto[campo]    
+  }
+
+  listadoProductosEscogidos(data) {
+    this.productosEscogidos.emit(data)
   }
 }

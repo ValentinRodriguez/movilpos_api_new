@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
 @Component({
@@ -13,26 +11,33 @@ export class ListadoProductosTiendaComponent implements OnInit {
   productos: any[] = [];
   selectedProducts = [];
   cols: any[];
-   
+  loading: boolean;
 
-  constructor(private tiendaSrv: TiendaService,
-              private uiMessage: UiMessagesService) { }
+  constructor(private tiendaSrv: TiendaService) { }
 
   ngOnInit(): void {
     this.todosLosProductos();
 
     this.cols = [
-      { field: 'id', header: '#' },
       { field: 'imagen', header: 'Producto' },
       { field: 'codigo', header: 'Código' },
-      { field: 'precio_venta', header: 'Precio' },
-      { field: 'cantidad1', header: 'Cantidad' }
+      { field: 'precio', header: 'Precio' },
+      { field: 'stock', header: 'Cantidad' }
     ] 
   }
+  onRowSelect(){
+    this.tiendaSrv.listadoProductosEscogidos(this.selectedProducts);   
+  }
 
-  todosLosProductos() {    
+  onRowUnselect(){
+    this.tiendaSrv.listadoProductosEscogidos(this.selectedProducts);   
+  }
+
+  todosLosProductos() {
+    this.loading = true;    
     this.tiendaSrv.getDatosProducto('productos-plaza').then((resp:any)=>{
       this.productos = resp;
+      this.loading = false;
       console.log(resp);      
     })
   }

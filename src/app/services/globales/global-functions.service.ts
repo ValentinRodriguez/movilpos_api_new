@@ -45,6 +45,10 @@ export class GlobalFunctionsService {
     })
   }
  
+  decodeJson(rowData) {
+    return JSON.parse(rowData);
+  }
+  
   finalizando() {
     this.finalizar.emit(true);
   }

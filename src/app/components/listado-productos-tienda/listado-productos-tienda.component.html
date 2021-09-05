@@ -1,6 +1,7 @@
 <p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-    [rowHover]="true" [rows]="20" [paginator]="true" [filterDelay]="0"  [(selection)]="selectedProducts" 
-    [globalFilterFields]="['imagen','titulo','codigo','precio_venta','cantidad1']">
+    [rowHover]="true" [rows]="5" [paginator]="true" [filterDelay]="0"  [(selection)]="selectedProducts" selectionMode="multiple"
+    [globalFilterFields]="['imagen','titulo','codigo','precio_venta','cantidad1']" dataKey="id" (onRowSelect)="onRowSelect()" 
+    (onRowUnselect)="onRowUnselect()" >
 
     <ng-template pTemplate="caption">
         <div class="table-header">
@@ -12,10 +13,10 @@
     </ng-template>
 
     <ng-template pTemplate="header" let-columns>
-        <tr>
+        <tr [pSelectableRow]="product">
             <th *ngFor="let col of columns" [pSortableColumn]="col.field" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'id'}">
                 
-                <p-tableHeaderCheckbox *ngIf="col.field === 'id'"></p-tableHeaderCheckbox>
+                <!-- <p-tableHeaderCheckbox *ngIf="col.field === 'id'"></p-tableHeaderCheckbox> -->
                 <span *ngIf="col.field !== 'id'">{{col.header}} 
                     <p-sortIcon [field]="col.field" *ngIf="col.field !=='imagen'"></p-sortIcon>
                 </span> 
@@ -23,14 +24,11 @@
         </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr class="p-selectable-row" [ngClass]="{'noExistencia': rowData.cantidad1 === 0 || rowData.cantidad1 === null}">
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr class="p-selectable-row" [ngClass]="{'noExistencia': rowData.cantidad1 === 0 || rowData.cantidad1 === null}"
+            [pSelectableRow]="rowData">
             <td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen' || col.field === 'id' || col.field === 'cantidad1'}">
-                <span class="p-column-title">{{col.header}}</span>								
-
-                <span *ngIf="col.field === 'id'">
-                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-                </span>
+                <span class="p-column-title">{{col.header}}</span>
 
                 <span *ngIf="col.field === 'imagen'">
                     <img [alt]="rowData[col.field]" [src]="rowData.galeriaImagenes | invProductos" width="64"
@@ -38,7 +36,7 @@
                     <div>{{rowData['titulo']}}</div>
                 </span>
                 
-                <span *ngIf="col.field === 'precio_venta'">
+                <span *ngIf="col.field === 'precio'">
                     {{'$'}}{{ rowData[col.field] }}
                 </span>
 
@@ -46,7 +44,7 @@
                     {{ rowData[col.field] }}
                 </span>
 
-                <span *ngIf="col.field === 'cantidad1'">
+                <span *ngIf="col.field === 'stock'">
                     {{ rowData[col.field] || 0}}
                 </span>
 

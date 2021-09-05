@@ -45,7 +45,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     
   ngOnInit() { 
     this.listObserver();    
-    this.setValues()
+    // this.setValues();
     this.getCategorias();    
   }
   
@@ -57,6 +57,10 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     return this.forma.get('categoria').value
   }
 
+  get composicion() {
+    return this.forma.get('composicion').value
+  }
+
   crearFormulario() {
     this.forma = this.fb.group({
       titulo: ['producto prueba', Validators.required],
@@ -64,15 +68,16 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       categoria: ['', Validators.required],
       codigo: ['', Validators.required],
       tipo: ['basico', Validators.required],
-      precio: ['100', Validators.required],
+      precio: ['', Validators.required],
       precio_rebajado: [''],
-      stock: ['12', Validators.required],
+      stock: ['', Validators.required],
       cantidadLim: [''],
       fecha_rebaja: [''],
       limDescargas: [''],
       fechaLimDescarga: [''],
       galeriaImagenes: [''],
       documentosDigitales: [''],
+      composicion: [''],
       atributos: this.fb.group({
         talla: [''],
         actividad: [''],
@@ -90,30 +95,66 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
       this.tipo = resp.value;
       this.campo(this.tipo, 'tipo');
+      this.tipoProducto(resp.value);
+      console.log(this.forma);
+      
     });
     
-    this.listSubscribers = [observer1$];
+    const observer2$ = this.tiendaServ.productosEscogidos.subscribe((resp: any) =>{
+      this.campo(resp,'composicion');    
+    });
+
+    this.listSubscribers = [observer1$,observer2$];
   };
 
+  tipoProducto(tipo) {
+    const precio = this.forma.get('precio');
+    const stock = this.forma.get('stock');
+    const precio_rebajado = this.forma.get('precio_rebajado');
+    const cantidadLim = this.forma.get('cantidadLim');
+    if (tipo === 'compuesto') {
+      precio.clearValidators();
+      stock.clearValidators();
+      precio.disable();
+      stock.disable();
+      cantidadLim.disable();
+      precio_rebajado.disable();
+    }else{
+      precio.enable();
+      stock.enable();
+      cantidadLim.enable();
+      precio_rebajado.enable();
+      precio.setValidators(Validators.required);
+      stock.setValidators(Validators.required);
+      this.campo('','composicion');
+    }
+    precio.updateValueAndValidity();
+    stock.updateValueAndValidity();
+  }
+
   crearProducto() {
+    console.log(this.forma.value);    
     if (this.forma.invalid) {
-      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios');
+      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios.');
       Object.values(this.forma.controls).forEach(control => {
         control.markAllAsTouched();
       })
     } else {
-      this.tiendaServ.crearProducto(this.forma.value).then((resp: any) => {
-        console.log(resp);        
-        this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro actualizado de manera correcta');
-        // this.resetFormulario();
-      })
+      if (this.tipo === 'compuesto' && this.composicion ==='') {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger productos para la composición.');
+        return;
+      }else{
+        this.tiendaServ.crearProducto(this.forma.value).then((resp: any) => {
+          this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro actualizado de manera correcta.');
+          // this.resetFormulario();
+        });
+      }
     }
   }
 
   getCategorias() {
     this.categoriasStoreSrv.getDatos().then((resp: any) =>{    
       let temp2: any[] = [];
-      console.log(resp);
       
       resp.forEach((element: any) => {                        
          let dato = {
@@ -128,10 +169,8 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     }) 
   }
 
-  getAtributosProducto(categoria) {
-    console.log(categoria);    
+  getAtributosProducto(categoria) { 
     this.tiendaServ.getDataCategoria(categoria, 'subcategoria-plaza').then((resp: any) => {
-      console.log(resp);
       const codigo = resp.codigo +""+resp.id_categoria +""+ resp.id_subcategoria
       this.campo(codigo, 'codigo');
       resp.atributo.forEach(element => {                        
@@ -208,14 +247,9 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   } 
 
   recibeFiles(data){
-    this.campo(data, 'galeriaImagenes')
-    console.log(this.forma.value);    
+    this.campo(data, 'galeriaImagenes');
   }
-
-  setValues() {  
-    const params = this.tiendaServ.getProduct('general'); 
-  }
-
+ 
   programar() {
     this.rebaja = !this.rebaja    
   }

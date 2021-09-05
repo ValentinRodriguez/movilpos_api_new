@@ -297,10 +297,10 @@ export class FormularioMaestraProductosComponent implements OnInit {
       controlDeExistencias.clearValidators();  
       this.tipoProducto(3)
     }
-    id_brand.updateValueAndValidity
-    existenciaMinima.updateValueAndValidity
-    id_bodega.updateValueAndValidity     
-    id_propiedad.updateValueAndValidity
+    id_brand.updateValueAndValidity(); 
+    existenciaMinima.updateValueAndValidity(); 
+    id_bodega.updateValueAndValidity();   
+    id_propiedad.updateValueAndValidity(); 
   }
   
   tipoProducto(tipo) {    

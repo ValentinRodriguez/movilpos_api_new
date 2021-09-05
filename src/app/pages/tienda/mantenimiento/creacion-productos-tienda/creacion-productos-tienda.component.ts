@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
@@ -15,7 +16,7 @@ import { TiendaService } from 'src/app/services/tienda/tienda.service';
 export class CreacionProductosTiendaComponent implements OnInit {
 
   usuario: any;
-  index: number = 1;
+  index: number = 0;
   productos: any[] = [];
   id_categoria: any;
   cols: any[];
@@ -25,6 +26,7 @@ export class CreacionProductosTiendaComponent implements OnInit {
   listSubscribers: any = [];
   opciones: any[];
   tipoProducto: string = "basico";
+  rating = 10;
 
   constructor(private uiMessage: UiMessagesService,              
               private productosServ: TiendaService,
@@ -93,6 +95,7 @@ export class CreacionProductosTiendaComponent implements OnInit {
   todosLosProductos() {
     this.productosServ.getDatosProducto('productos-plaza').then((resp: any) => {
       this.productos = resp;
+      console.log(resp);      
     });
   }
   

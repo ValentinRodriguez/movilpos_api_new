@@ -3,6 +3,7 @@ import { ConfirmationService, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 
 @Component({
   selector: 'app-maestra-productos',
@@ -79,9 +80,6 @@ export class MaestraProductosComponent implements OnInit {
     })
   }
 
-  decodeJson(rowData) {
-    return JSON.parse(rowData);
-  }
   onSortChange(event) {
     let value = event.value;
 

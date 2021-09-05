@@ -37,6 +37,8 @@ import { PanelModule } from 'primeng/panel';
 import { FileUploadModule } from 'primeng/fileupload';
 import {ColorPickerModule} from 'primeng/colorpicker';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {RatingModule} from 'primeng/rating';
+import {KeyFilterModule} from 'primeng/keyfilter';
 
 // COMPONENTES DEL MODULO
 import { CreacionProductosTiendaComponent } from "./mantenimiento/creacion-productos-tienda/creacion-productos-tienda.component"; 
@@ -69,12 +71,14 @@ import { ProductosCompuestosComponent } from './mantenimiento/creacion-productos
     PanelModule,
     InputNumberModule,
     ToolbarModule,
+    KeyFilterModule,
     PanelMenuModule,
     RadioButtonModule,
     ColorPickerModule,
     SelectButtonModule,
     FieldsetModule,
     TreeModule,
+    RatingModule,
     MultiSelectModule,
     TooltipModule,
     InputTextareaModule,
