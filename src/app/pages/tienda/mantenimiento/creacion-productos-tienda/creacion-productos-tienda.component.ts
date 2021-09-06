@@ -41,16 +41,14 @@ export class CreacionProductosTiendaComponent implements OnInit {
 
     const rutaActual = this.router.url.split('/')
     if (rutaActual[3] === 'productos-compuestos') {
-      this.tipoProducto = 'compuesto'
-      console.log(this.tipoProducto);
-      
+      this.tipoProducto = 'compuesto'      
     }
 
     this.opciones = [
       { label: 'Basico', value: 'basico' },
       // { label: 'Variable', value: 'variable' },
       { label: 'Compuesto', value: 'compuesto' },
-      { label: 'Digital', value: 'digital' },
+      // { label: 'Digital', value: 'digital' },
     ];
     
     this.sortOptions = [
@@ -94,21 +92,32 @@ export class CreacionProductosTiendaComponent implements OnInit {
 
   todosLosProductos() {
     this.productosServ.getDatosProducto('productos-plaza').then((resp: any) => {
-      this.productos = resp;
+      this.productos = resp;  
       console.log(resp);      
     });
   }
   
-  actualizarArea(data) {
-    this.index = 1;   
-    // this.productosServ.actualizando(data);
-  }
-
-  borrarCategoria(categoria) { 
+  eliminarProducto(id){
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.productosServ.borrarProducto(categoria).then(()=>{
+        this.productosServ.borrarProducto(id).then((resp: any)=>{
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+        })       
+      }
+    })
+  }
+
+  actualizarProducto(data){
+    this.index = 1;   
+    this.tiendaService.actualizando(data);
+  }
+
+  borrarCategoria(id) { 
+    this.confirmationService.confirm({
+      message:"Esta seguro de borrar este registro?",
+      accept:() =>{ 
+        this.productosServ.borrarProducto(id).then(()=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

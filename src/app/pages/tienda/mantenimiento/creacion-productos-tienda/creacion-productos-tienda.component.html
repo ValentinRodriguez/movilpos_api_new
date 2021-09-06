@@ -33,34 +33,40 @@
                                     </div>
                                     <div class="product-list-action">
                                         <span class="product-price">${{product.precio}}</span>
-                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"></p-button>
-                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"></p-button>
-                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"></p-button>
+                                        <p-button icon="pi pi-eye" label="Add to Cart"></p-button>
+                                        <p-button icon="pi pi-eye" label="Add to Cart"></p-button>
+                                        <p-button icon="pi pi-eye" label="Add to Cart"></p-button>
                                         <span [class]="'product-badge status-' + product.tipo.toLowerCase()">{{product.tipo}}</span>
                                     </div>
                                 </div>
                             </div>
                         </ng-template>
                         <ng-template let-product pTemplate="gridItem">
-                            <div class="p-col-12 p-md-2">
+                            <div class="p-col-12 p-md-3">
                                 <div class="product-grid-item card">
                                     <div class="product-grid-item-top">
                                         <div>
                                             <i class="pi pi-tag product-category-icon"></i>
                                             <span class="product-category">{{product.codigo}}</span>
                                         </div>
-                                        <!-- <span [class]="'product-badge status-' + product.tipo.toLowerCase()">{{product.tipo}}</span> -->
+                                        <span *ngIf="product.stock != 0 && product.stock >= 20" [class]="'product-badge status-instock'">Disponibles: <strong>{{product.stock}}</strong> </span>
+                                        <span *ngIf="product.stock != 0 && product.stock < 20" [class]="'product-badge status-lowstock'">Disponibles:<strong>{{product.stock}}</strong></span>
+                                        <span *ngIf="product.stock == 0" [class]="'product-badge status-outofstock'">Disponibles:<strong>{{product.stock}}</strong></span>
                                     </div>
                                     <div class="product-grid-item-content">
-                                        <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>                                        <div class="product-name">{{product.name}}</div>
+                                        <img [src]="product.galeriaImagenes | invProductos" [alt]="product.titulo"/>                                        
+                                        <div class="product-name">{{product.titulo}}</div>
                                         <div class="product-description">
-                                            <strong>{{product.titulo | titlecase}}</strong>
+                                            <strong>{{product.descripcion | titlecase}}</strong>
                                         </div>
                                         <p-rating name="rating-grid" [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                                     </div>
                                     <div class="product-grid-item-bottom">
                                         <span class="product-price">${{product.precio}}</span>
-                                        <!-- <p-button icon="pi pi-shopping-cart" [disabled]="product.stock === 0"></p-button> -->
+                                        <div>
+                                            <button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarProducto(product)" pTooltip="Actualizar"></button>
+										    <button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="eliminarProducto(product.id)" pTooltip="Eliminar"></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

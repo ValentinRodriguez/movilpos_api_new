@@ -25,7 +25,6 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   listSubscribers: any = [];
   groupedCities: any = [];
   selectedCity3: string;
-  checked: any = [];
   atributos: any[] = [];
   materiales: any[] = [];
   actividades: any[] = [];
@@ -35,9 +34,13 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   color: any[];
   estados: any;
   materialesFiltrados: any[];
+  guardar: boolean;
+  actualizar: boolean;
+  id: number;
 
   constructor(private fb: FormBuilder,
               private uiMessage: UiMessagesService,
+              private gf: GlobalFunctionsService,
               private categoriasStoreSrv: CategoriasStoreService,
               private tiendaServ: TiendaService) { 
                 this.crearFormulario()
@@ -61,10 +64,14 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     return this.forma.get('composicion').value
   }
 
+  get galeria() {
+    return this.forma.get('galeriaImagenes').value
+  }
+
   crearFormulario() {
     this.forma = this.fb.group({
-      titulo: ['producto prueba', Validators.required],
-      descripcion: ['producto prueba', Validators.required],
+      titulo: ['', Validators.required],
+      descripcion: ['', Validators.required],
       categoria: ['', Validators.required],
       codigo: ['', Validators.required],
       tipo: ['basico', Validators.required],
@@ -95,23 +102,30 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     const observer1$ = this.tiendaServ.tipoProducto.subscribe((resp: any) =>{
       this.tipo = resp.value;
       this.campo(this.tipo, 'tipo');
-      this.tipoProducto(resp.value);
-      console.log(this.forma);
-      
+      this.tipoProducto(resp.value);    
     });
     
     const observer2$ = this.tiendaServ.productosEscogidos.subscribe((resp: any) =>{
       this.campo(resp,'composicion');    
     });
 
-    this.listSubscribers = [observer1$,observer2$];
+    const observer3$ = this.tiendaServ.actualizar.subscribe((resp: any) =>{
+      this.guardar = false;
+      this.actualizar = true;   
+      this.id = Number(resp.id);
+      this.forma.patchValue(resp);
+      this.gf.enviarUrlImagenes(JSON.parse(resp.galeriaImagenes));
+      console.log(resp);      
+    });
+
+    this.listSubscribers = [observer1$,observer2$,observer3$];
   };
 
   tipoProducto(tipo) {
     const precio = this.forma.get('precio');
     const stock = this.forma.get('stock');
-    const precio_rebajado = this.forma.get('precio_rebajado');
     const cantidadLim = this.forma.get('cantidadLim');
+    const precio_rebajado = this.forma.get('precio_rebajado');
     if (tipo === 'compuesto') {
       precio.clearValidators();
       stock.clearValidators();
@@ -143,12 +157,38 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       if (this.tipo === 'compuesto' && this.composicion ==='') {
         this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger productos para la composición.');
         return;
-      }else{
-        this.tiendaServ.crearProducto(this.forma.value).then((resp: any) => {
-          this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro actualizado de manera correcta.');
-          // this.resetFormulario();
-        });
       }
+      if (this.galeria == '') {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger al menos 1 imagen para el producto.');
+        return;
+      }
+      this.tiendaServ.crearProducto(this.forma.value).then((resp: any) => {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro actualizado de manera correcta.');
+        // this.resetFormulario();
+      });
+    }
+  }
+
+  actualizarProducto() {
+    console.log(this.forma.value);    
+    if (this.forma.invalid) {
+      this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios.');
+      Object.values(this.forma.controls).forEach(control => {
+        control.markAllAsTouched();
+      })
+    } else {
+      if (this.tipo === 'compuesto' && this.composicion ==='') {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger productos para la composición.');
+        return;
+      }
+      if (this.galeria == '') {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe escoger al menos 1 imagen para el producto.');
+        return;
+      }
+      this.tiendaServ.actProductosTienda(this.forma.value, this.id).then((resp: any) => {
+        this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro actualizado de manera correcta.');
+        // this.resetFormulario();
+      });
     }
   }
 
@@ -170,14 +210,39 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   }
 
   getAtributosProducto(categoria) { 
+    console.log(categoria);
+    
     this.tiendaServ.getDataCategoria(categoria, 'subcategoria-plaza').then((resp: any) => {
+      console.log(resp);
+      // INICIAMOS LA CREACION DEL CODIGO DEL PRODUCTO
       const codigo = resp.codigo +""+resp.id_categoria +""+ resp.id_subcategoria
+      
+      // SETEAMOS ANTERIOR VALOR AL CAMPO CODIGO DEL FORMULAIRO
       this.campo(codigo, 'codigo');
+
+      // DESHABILITAMOS EL CAMPO STOCK Y CANTIDA VENTA YA QUE NOP ES NECESARIO EN
+      // PRODUCTOS DE TIPO SERVICIOS O DIGITALES
+      const stock = this.forma.get('stock');
+      const cantidadLim = this.forma.get('cantidadLim');
+      if (resp.id_categoria === 1) {
+        cantidadLim.disable();
+        stock.disable();
+        stock.clearValidators();
+      }else{
+        cantidadLim.enable();
+        stock.enable();
+        stock.setValidators(Validators.required);
+      }
+      stock.updateValueAndValidity();
+
+      //ITERAMOS EN LA PROPIEDAD ATRIBUTO
+      this.atributos = [];
+      this.forma.get('atributos').reset();
+      this.forma.get('atributos').get('estado').setValue('n');
       resp.atributo.forEach(element => {                        
         this.setValuesC(element)            
         this.atributos.push(element);                     
         element.atributo = JSON.parse(element.atributo);
-        this.checked.push(element.atributo);
       }); 
     })
   }
@@ -208,6 +273,13 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
     }
   }
   
+  cancelar() {
+    this.actualizar = false;
+    this.guardar = true;
+    // this.resetFormulario();
+    // this.inventarioServ.guardando();
+  }
+
   filtrarActividades(event) {
     const filtered: any[] = [];
     const query = event.query;

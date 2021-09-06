@@ -36,19 +36,17 @@ export class FileuploadsComponent implements OnInit {
     });
 
     this.gf.enviarImagen.subscribe(resp => {
-      console.log(resp);
       this.fileUpload.clear();
-      resp.forEach(element => {
+      
+      resp.forEach(element => {        
         if (typeof (element) === 'object') {          
           this.fileUpload.files.push(element)
-          console.log(this.fileUpload.files);
-          
-        } else {
-          const imagen = JSON.parse(resp);    
-          imagen.forEach(element => {    
-            this.test(`${URLs}/storage/${element}`);        
-          });          
-        }
+          console.log(this.fileUpload.files);          
+        } else {          
+          setTimeout(() => {
+            this.test(`${URLs}/storage/${element}`);               
+          }, 500);
+        }          
       });
     })   
   }
@@ -63,7 +61,7 @@ export class FileuploadsComponent implements OnInit {
           reader.readAsDataURL(blob)
           
           let objectURL = URL.createObjectURL(blob);       
-          this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);                
+          this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);               
     }))
     
     toDataURL(imgURL).then(dataUrl => {      
