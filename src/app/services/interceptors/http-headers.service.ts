@@ -32,6 +32,7 @@ export class HttpHeadersService implements HttpInterceptor{
         req.method.toLowerCase() === 'delete') {
       req =  req.clone({
         setHeaders: {
+          'Accept': 'application/json',
           'enctype'      : 'multipart/form-data',
           'Authorization': `Bearer ${token}`,
         },
@@ -48,6 +49,7 @@ export class HttpHeadersService implements HttpInterceptor{
     if (req.method.toLowerCase() === 'get') {    
       req = req.clone({
         setHeaders: {
+          'Accept': 'application/json',
           'enctype'      : 'multipart/form-data',
           'Authorization': `Bearer ${token}`,
         },
