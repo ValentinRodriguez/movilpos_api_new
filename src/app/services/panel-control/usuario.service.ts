@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 const URL = environment.url;
+const URLclean = environment.urlClean;
 
 @Injectable({
   providedIn: 'root'
@@ -134,23 +135,41 @@ export class UsuarioService implements OnDestroy {
 
   login(forma: any) {
     return new Promise(resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
+      this.listSubscribers.push(this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {
         console.log(resp);        
         if (resp.code === 200)  {          
-          resolve(resp.data);  
+          resolve(resp.data);   
+          this.getMyOauthToken();         
         }       
       }))
     })    
   }
   
+  getMyOauthToken() {    
+    let params = new HttpParams();
+ 
+    params = params.set('client_id', '94562785-2323-4fff-a5fe-8da3c162e028');
+    params = params.set('client_secret', 'TGYIK7dQiua6ZunDQtf3yUUQmmhlY2kpsq7Hq2MJ');
+    params = params.set('grant_type', 'password');
+    params = params.set('username', 'valentinrodriguez1427@gmail.com');
+    params = params.set('password', '123');
+    // params = params.set('scope', '*');
+    
+    this.http.post(`${URLclean}/oauth/token`, params).subscribe((resp: any) => {
+      console.log(resp);        
+      // if (resp.code === 200)  {          
+      //   return resp.data; 
+      // }       
+    })
+  }
+
   logout(email) {
     return this.http.post(`${URL}/logout`, email);
   }
 
   register(data: any) {
     let foto = data.foto;
-    const formData = new FormData();
-     
+    const formData = new FormData();     
     
     for(let key in data){  
       switch (key) {
@@ -226,45 +245,6 @@ export class UsuarioService implements OnDestroy {
     localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
     localStorage.setItem('empresa', JSON.stringify(data.empresa));    
     localStorage.setItem('sessionId', data.sessionId);
-  }
-
-  lockLogin(email) {
-    const formData = new FormData();
-    formData.append('email', email);
-
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/lockLogin`, formData).subscribe((resp: any) => {                      
-        if (resp['code'] === 200)  { 
-          resolve(resp.data);  
-        }
-      }))
-    })
-  }
-
-  unLockLogin(email) {
-    const formData = new FormData();
-    formData.append('email', email);
-
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/unlocklogin`, formData).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  { 
-          resolve(resp.data);  
-        }
-      }))
-    })
-  }
-
-  desactivar(email) {
-    const formData = new FormData();
-    formData.append('email', email);
-
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/desactivar`, formData).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  { 
-          resolve(resp.data);  
-        }
-      }))
-    })
   }
 
   refreshToken() {

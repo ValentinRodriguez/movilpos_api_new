@@ -10,7 +10,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 
 import { environment } from 'src/environments/environment';
 
-const URL = environment.urlImagenes;
+const URL = environment.urlClean;
 
 @Component({
   selector: 'app-formulario-recepcion-vehiculos',

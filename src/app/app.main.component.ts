@@ -99,7 +99,7 @@ export class AppMainComponent implements OnInit{
             wsHost: environment.pusher_HOST,
             wsPort: environment.pusher_PORT,
             forceTLS: false,
-            authEndpoint: `${environment.urlImagenes}/api/broadcasting/auth`,
+            authEndpoint: `${environment.urlClean}/api/broadcasting/auth`,
             auth: {
               headers: {
                 Accept: 'application/json',

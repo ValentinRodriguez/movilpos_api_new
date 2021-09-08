@@ -114,7 +114,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       this.actualizar = true;   
       this.id = Number(resp.id);
       this.forma.patchValue(resp);
-      this.gf.enviarUrlImagenes(JSON.parse(resp.galeriaImagenes));
+      this.gf.enviarurlClean(JSON.parse(resp.galeriaImagenes));
       console.log(resp);      
     });
 

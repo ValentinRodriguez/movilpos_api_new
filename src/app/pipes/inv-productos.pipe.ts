@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
-const URL = environment.urlImagenes;
+const URL = environment.urlClean;
 
 @Pipe({
   name: 'invProductos'

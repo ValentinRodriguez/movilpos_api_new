@@ -91,7 +91,7 @@ export class GlobalFunctionsService {
     this.clearProductfu.emit();
   }
 
-  enviarUrlImagenes(data: any) {
+  enviarurlClean(data: any) {
     this.enviarImagen.emit(data);
   }
 }

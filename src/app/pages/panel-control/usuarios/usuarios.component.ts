@@ -93,19 +93,19 @@ export class UsuariosComponent implements OnInit {
     })
   }
 
-  desbloquear(email) {
-    this.usuariosServ.unLockLogin(email).then(() =>{
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario Desbloqueado'); 
-      this.obtenerUsuarios();
-    })
-  }
+  // desbloquear(email) {
+  //   this.usuariosServ.unLockLogin(email).then(() =>{
+  //     this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario Desbloqueado'); 
+  //     this.obtenerUsuarios();
+  //   })
+  // }
 
-  desactivar(email) {
-    this.usuariosServ.desactivar(email).then(() =>{
-      this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario Desactivado'); 
-      this.obtenerUsuarios();
-    })
-  }
+  // desactivar(email) {
+  //   this.usuariosServ.desactivar(email).then(() =>{
+  //     this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Usuario Desactivado'); 
+  //     this.obtenerUsuarios();
+  //   })
+  // }
 
   listadoEmpleados(data) {
     if (this.empleados.length !== 0) {

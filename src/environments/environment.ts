@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   url: 'http://movilsoluciones_pos.test:8090/api',
-  urlImagenes: 'http://movilsoluciones_pos.test:8090',
+  urlClean: 'http://movilsoluciones_pos.test:8090',
   urlApi: 'https://vindecoder.p.rapidapi.com/v1.1/decode_vin?vin=',
   pusher_ID: '123',
   pusher_KEY: '123',
@@ -14,7 +14,7 @@ export const environment = {
   pusher_PORT: 6001,
   pusher_CLUSTER: 'mt1',
   // url: 'http://mbs.movilsoluciones.com.do/api',
-  // urlImagenes: 'http://mbs.movilsoluciones.com.do',
+  // urlClean: 'http://mbs.movilsoluciones.com.do',
   min: 180000,
   max: 600000
 };

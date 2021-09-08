@@ -6,7 +6,7 @@ import { GlobalFunctionsService } from 'src/app/services/globales/global-functio
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
 import { environment } from 'src/environments/environment';
 
-const URLs = environment.urlImagenes;
+const URLs = environment.urlClean;
 
 @Component({
   selector: 'app-fileuploads',

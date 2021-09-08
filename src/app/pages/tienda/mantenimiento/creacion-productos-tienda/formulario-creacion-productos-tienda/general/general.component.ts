@@ -103,7 +103,7 @@ export class GeneralComponent implements OnInit {
         switch (key) {
           // case 'documentosDigitales':
           case 'galeriaImagenes':           
-            this.gf.enviarUrlImagenes(params[key])
+            this.gf.enviarurlClean(params[key])
             break;
         
           default:

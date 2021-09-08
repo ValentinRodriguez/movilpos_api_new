@@ -40,7 +40,8 @@ export class AppLoginComponent implements OnInit{
   // error => this.handlerError(error)
   onSubmit() {
     this.usuarioServ.login(this.form).then((resp: any) => {
-      this.handleResponse(resp)
+      console.log(resp);      
+      // this.handleResponse(resp)
     });
   }
 

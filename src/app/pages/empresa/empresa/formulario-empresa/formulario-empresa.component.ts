@@ -13,7 +13,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 import { environment } from 'src/environments/environment';
 import { ClientesService } from 'src/app/services/ventas/clientes.service';
 
-const URL = environment.urlImagenes;
+const URL = environment.urlClean;
 
 @Component({
   selector: 'app-formulario-empresa',
