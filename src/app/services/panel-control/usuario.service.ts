@@ -139,27 +139,15 @@ export class UsuarioService implements OnDestroy {
         console.log(resp);        
         if (resp.code === 200)  {          
           resolve(resp.data);   
-          this.getMyOauthToken();         
+          // this.getMyOauthToken(data);         
         }       
       }))
     })    
   }
   
-  getMyOauthToken() {    
-    let params = new HttpParams();
- 
-    params = params.set('client_id', '94562785-2323-4fff-a5fe-8da3c162e028');
-    params = params.set('client_secret', 'TGYIK7dQiua6ZunDQtf3yUUQmmhlY2kpsq7Hq2MJ');
-    params = params.set('grant_type', 'password');
-    params = params.set('username', 'valentinrodriguez1427@gmail.com');
-    params = params.set('password', '123');
-    // params = params.set('scope', '*');
-    
-    this.http.post(`${URLclean}/oauth/token`, params).subscribe((resp: any) => {
-      console.log(resp);        
-      // if (resp.code === 200)  {          
-      //   return resp.data; 
-      // }       
+  getMyOauthToken(data) {        
+    this.http.post(`${URLclean}/oauth/token`, data).subscribe((resp: any) => {
+      console.log(resp);       
     })
   }
 

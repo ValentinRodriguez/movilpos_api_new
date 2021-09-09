@@ -39,10 +39,20 @@ export class AppLoginComponent implements OnInit{
   // data => this.handleResponse(data),
   // error => this.handlerError(error)
   onSubmit() {
-    this.usuarioServ.login(this.form).then((resp: any) => {
-      console.log(resp);      
-      // this.handleResponse(resp)
-    });
+    // const formData = this.form.getRawValue();
+    const data = {
+      username: this.form.email,
+      password: this.form.password,
+      grant_type: 'password',
+      client_id: '94562785-2323-4fff-a5fe-8da3c162e028',
+      client_secret: 'TGYIK7dQiua6ZunDQtf3yUUQmmhlY2kpsq7Hq2MJ',
+      scope: '*'
+    };
+    this.usuarioServ.getMyOauthToken(data)
+    // login(this.form).then((resp: any) => {
+    //   console.log(resp);      
+    //   // this.handleResponse(resp)
+    // });
   }
 
   handleResponse(data) {
