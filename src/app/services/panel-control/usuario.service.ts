@@ -21,8 +21,7 @@ export class UsuarioService implements OnDestroy {
     login: `${URL}/login`,
     signup: `${URL}/signup`,
   }  
-  listSubscribers: any = [];
-  
+  listSubscribers: any = [];  
   
   constructor(private http: HttpClient) { }
 
@@ -133,6 +132,14 @@ export class UsuarioService implements OnDestroy {
     }
   }
 
+  whoIslogged() {
+    return new Promise( resolve => {
+      this.listSubscribers.push(this.http.get(`${URL}/user`).subscribe((resp: any) => {                      
+        resolve(resp.data);
+      }))
+    })
+  }
+  
   login(forma: any) {
     return new Promise(resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {

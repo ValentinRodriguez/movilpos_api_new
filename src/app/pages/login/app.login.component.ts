@@ -44,11 +44,12 @@ export class AppLoginComponent implements OnInit{
       username: this.form.email,
       password: this.form.password,
       grant_type: 'password',
-      client_id: '94562785-2323-4fff-a5fe-8da3c162e028',
-      client_secret: 'TGYIK7dQiua6ZunDQtf3yUUQmmhlY2kpsq7Hq2MJ',
+      client_id: '945b9da9-d6a0-4e52-91fb-07632073c28f',
+      client_secret: 'AhCAGj2MmvLleQxQKo0Ab4Haspa53r0RvYWEIzLR',
       scope: '*'
     };
-    this.usuarioServ.getMyOauthToken(data)
+    this.usuarioServ.getMyOauthToken(data);
+    this.usuarioServ.whoIslogged();
     // login(this.form).then((resp: any) => {
     //   console.log(resp);      
     //   // this.handleResponse(resp)
