@@ -41,14 +41,16 @@ export class AppLoginComponent implements OnInit{
   onSubmit() {
     // const formData = this.form.getRawValue();
     this.usuarioServ.login(this.form).then((resp: any) => {
-      console.log(resp);      
-      // this.handleResponse(resp)
+      this.usuarioServ.getMyOauthToken(this.form).then((resp2: any) => {
+        const data = Object.assign(resp, resp2);
+        this.handleResponse(data);
+      });
     });
   }
 
   handleResponse(data) {
     this.usuarioServ.handleToken(data);
-    this.router.navigateByUrl('/');     
+    // this.router.navigateByUrl('/');     
   }
 
   showErrorViaMessages() {

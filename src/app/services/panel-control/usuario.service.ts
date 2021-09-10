@@ -143,28 +143,23 @@ export class UsuarioService implements OnDestroy {
   login(forma: any) {
     return new Promise(resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {
-        console.log(resp);        
-        // if (resp.code === 200)  {          
-        //   resolve(resp.data);   
-        //   this.getMyOauthToken(forma);         
-        // }       
+        // console.log(resp);        
+        if (resp.code === 200)  {          
+          resolve(resp.data);           
+        }       
       }))
     })    
   }
   
-  getMyOauthToken(form) {   
-    console.log(form);
-         
+  getMyOauthToken(form) {           
     const data = {
       username: form.email,
-      password: form.password,
-      // grant_type: 'password',
-      // client_id: '94562785-2323-4fff-a5fe-8da3c162e028',
-      // client_secret: 'TGYIK7dQiua6ZunDQtf3yUUQmmhlY2kpsq7Hq2MJ',
-      scope: '*'
+      password: form.password
     };
-    this.http.post(`${URLclean}/oauth/token`, data).subscribe((resp: any) => {
-      console.log(resp);       
+    return new Promise(resolve => {
+      this.http.post(`${URL}/auth/token`, data).subscribe((resp: any) => {
+        resolve(resp);
+      });      
     })
   }
 
@@ -244,7 +239,7 @@ export class UsuarioService implements OnDestroy {
   }
 
   setDataLocalStorage(data) {
-    localStorage.setItem('token', data.access_token.accessToken);
+    localStorage.setItem('token', data.access_token);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('empleado', JSON.stringify(data.empleado));
     localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
