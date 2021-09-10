@@ -10,6 +10,7 @@ import { MiscelaneosServiceModule } from "./miscelaneos/miscelaneos-service.modu
 import { RrhhServiceModule } from "./rrhh/rrhh-service.module";
 import { TiendaServiceModule } from "./tienda/tienda-service.module";
 import { VentasServiceModule } from "./ventas/ventas-service.module";
+import { CryptModule } from "./crypt/crypt.module";
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import { VentasServiceModule } from "./ventas/ventas-service.module";
     MiscelaneosServiceModule,
     RrhhServiceModule,
     TiendaServiceModule,
-    VentasServiceModule
+    VentasServiceModule,
+    CryptModule
   ]
 })
 export class ServicesModule { }
