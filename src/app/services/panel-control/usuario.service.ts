@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { LocalService } from '../crypt/local.service';
 
 const URL = environment.url;
 const URLclean = environment.urlClean;
@@ -16,18 +17,14 @@ export class UsuarioService implements OnDestroy {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
-  
-  private iss = {
-    login: `${URL}/login`,
-    signup: `${URL}/signup`,
-  }  
   listSubscribers: any = [];  
-  
-  constructor(private http: HttpClient) { }
+  formSubmitted = false;
+
+  constructor(private http: HttpClient,
+              private localService: LocalService) { }
 
   ngOnDestroy() {
-    console.log('destruido');
-    
+    console.log('destruido');    
     this.listSubscribers.forEach(a => {
       console.log(a);      
       if (a !== undefined) {
@@ -36,8 +33,7 @@ export class UsuarioService implements OnDestroy {
     });
   }
 
-  busquedaEmail(parametro?: any) {
-       
+  busquedaEmail(parametro?: any) {       
     let params = new HttpParams();
     if (parametro === undefined) {
       parametro = {};
@@ -158,9 +154,22 @@ export class UsuarioService implements OnDestroy {
     };
     return new Promise(resolve => {
       this.http.post(`${URL}/auth/token`, data).subscribe((resp: any) => {
+        this.formSubmitted = false;
         resolve(resp);
       });      
     })
+  }
+  
+  setLocalStorage(data) {
+    this.localService.setJsonValue('localStorage', data);
+  }
+
+  getLocalStorage(key) {
+    return this.localService.getJsonValue(key);
+  }
+
+  clearLocalStorage() {
+    return this.localService.clearToken();
   }
 
   logout(email) {
@@ -234,19 +243,6 @@ export class UsuarioService implements OnDestroy {
     })
   }
 
-  handleToken(data: any) {
-    this.setDataLocalStorage(data);    
-  }
-
-  setDataLocalStorage(data) {
-    localStorage.setItem('token', data.access_token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    localStorage.setItem('empleado', JSON.stringify(data.empleado));
-    localStorage.setItem('bodegas_permisos', JSON.stringify(data.bodegas_permisos));
-    localStorage.setItem('empresa', JSON.stringify(data.empresa));    
-    localStorage.setItem('sessionId', data.sessionId);
-  }
-
   refreshToken() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {                         
@@ -259,10 +255,6 @@ export class UsuarioService implements OnDestroy {
 
   getTokenLocalStorage() {
     return localStorage.getItem('token');
-  }
-
-  removeTokenLocalStorage() {
-    localStorage.removeItem('token');
   }
 
   validateToken() {

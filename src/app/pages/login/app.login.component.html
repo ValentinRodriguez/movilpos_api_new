@@ -6,15 +6,13 @@
             <form class="form-auth-small m-t-20" #loginForm="ngForm" (submit)="onSubmit()">
                 <div class="login-form">
                     <h2>Accede a MovilPOS</h2>
-                    <!-- <div class="alert alert-danger" [hidden]="!error">{{error}}</div>
-                    <div class="alert alert-danger" [hidden]="!tryout">{{tryout}} <br>{{timeLeft}} segundos</div> -->
                     <p-messages [value]="msgs" [hidden]="!error"></p-messages>
                     
                     <input pInputText name="email" placeholder="Email" [(ngModel)]="this.form.email" required />
                     <input type="password" pInputText id="signin-password" name="password" [(ngModel)]="this.form.password" required />
-                    <!-- <p-progressSpinner *ngIf="this.formSubmitted" [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner> -->
-                    <button pButton label="Acceder" type="submit" [disabled]="!loginForm.valid || this.wait"></button>
-                    <!-- <button *ngIf="this.formSubmitted" pButton label="Accediendo" type="button" disabled="true" icon="pi pi-spin pi-spinner"></button> -->
+                    <p-progressSpinner *ngIf="this.usuarioServ.formSubmitted" [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                    <button *ngIf="!this.usuarioServ.formSubmitted" pButton label="Acceder" type="submit" [disabled]="!loginForm.valid"></button>
+                    <button *ngIf="this.usuarioServ.formSubmitted" pButton label="Accediendo" type="button" disabled="true" icon="pi pi-spin pi-spinner"></button>
                 </div>
             </form>
             <p>No puedes acceder? <a href="#">recupera tu clave</a></p>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
 import { LocalService } from 'src/app/services/crypt/local.service';
+import { StorageService } from 'src/app/services/crypt/storage.service';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
@@ -25,56 +26,29 @@ export class AppLoginComponent implements OnInit{
   year: any;
   timeLeft = 60;
   interval;
-  // guardando = false;
-  msgs: Message[] = [];
   
+  msgs: Message[] = [];  
   
-  constructor(private usuarioServ: UsuarioService,
-              private router: Router,
-              private localService: LocalService,
-              private datosEstaticosServ: DatosEstaticosService) { }
+  constructor(public usuarioServ: UsuarioService,
+              private storageService:StorageService,
+              private datosEstaticosServ: DatosEstaticosService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.year = this.datosEstaticosServ.getYear();
   }
 
-  setLocalStorage(key, data) {
-    this.localService.setJsonValue(key, data);
-  }
-
-  getLocalStorage(key) {
-    return this.localService.getJsonValue(key);
-  }
-
   onSubmit() {    
-    // data => this.handleResponse(data),
-    // error => this.handlerError(error)
+    this.usuarioServ.formSubmitted = true;
     this.usuarioServ.login(this.form).then((resp: any) => {
       this.usuarioServ.getMyOauthToken(this.form).then((resp2: any) => {
         const data = Object.assign(resp, resp2);
-        console.log(data);
-        this.setLocalStorage('sessionId', data.sessionId); 
-        this.setLocalStorage('access_token', data.access_token);
-
-        console.log(this.getLocalStorage('sessionId'));
-        console.log(this.getLocalStorage('access_token'));
-        // for (const key in data) {
-        //   if (Object.prototype.hasOwnProperty.call(data, key)) {
-        //     const element = data[key];
-        //     setTimeout(() => {
-        //       console.log(key);              
-        //       this.setLocalStorage(key, element);              
-        //     }, 100);
-        //   }
-        // }
-        // this.usuarioServ.handleToken(data);
+        console.log(data);  
+        this.usuarioServ.clearLocalStorage();      
+        localStorage.setItem('e161d29e7b89977b32bf2d3f15a7200d',data.sessionId);       
+        this.usuarioServ.setLocalStorage(data); 
       });
     });
-  }
-
-  handleResponse(data) {
-    this.usuarioServ.handleToken(data);
-    // this.router.navigateByUrl('/');     
   }
 
   showErrorViaMessages() {
