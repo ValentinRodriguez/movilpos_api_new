@@ -116,16 +116,14 @@ export class UsuarioService implements OnDestroy {
   }
 
   getUserLogged() {
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = this.getLocalStorage('localStorage');    
     if (user !== null) {
       user.bodegas_permisos = JSON.parse(localStorage.getItem('bodegas_permisos') || '{}');
       // user.empleado = JSON.parse(localStorage.getItem('empleado'));
       user.empresa = JSON.parse(localStorage.getItem('empresa'));
-      user.sessionId = localStorage.getItem('sessionId');
-      return user;      
-    }else{
-      return null;
+      user.sessionId = localStorage.getItem('sessionId');            
     }
+    return user;
   }
 
   whoIslogged() {
@@ -138,12 +136,12 @@ export class UsuarioService implements OnDestroy {
   
   login(forma: any) {
     return new Promise(resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {
+      this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {
         // console.log(resp);        
         if (resp.code === 200)  {          
           resolve(resp.data);           
         }       
-      }))
+      })
     })    
   }
   
@@ -165,7 +163,7 @@ export class UsuarioService implements OnDestroy {
   }
 
   getLocalStorage(key) {
-    return this.localService.getJsonValue(key);
+    return this.localService.getJsonValue(key)
   }
 
   clearLocalStorage() {
@@ -254,7 +252,12 @@ export class UsuarioService implements OnDestroy {
   }
 
   getTokenLocalStorage() {
-    return localStorage.getItem('token');
+    console.log();
+    if (this.getLocalStorage('localStorage') != null) {
+      return this.getLocalStorage('localStorage').access_token;      
+    } else {
+      return null;
+    }
   }
 
   validateToken() {

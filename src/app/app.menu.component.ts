@@ -18,7 +18,7 @@ export class AppMenuComponent implements OnInit {
 
     constructor(public app: AppMainComponent,
                 private usuarioServ:UsuarioService) {    
-                    this.empresa = this.usuarioServ.getUserLogged().empresa;
+                    // this.empresa = this.usuarioServ.getUserLogged().empresa;
                     if(this.empresa != null) {
                         this.logo = this.empresa.logo;
                     }else{

@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 const SecureStorage = require('secure-web-storage');
 const URL = environment.url;
 
-let SECRET_KEY = localStorage.getItem('e161d29e7b89977b32bf2d3f15a7200d');
+let SECRET_KEY = 'e161d29e7b89977b32bf2d3f15a7200d'
 
 @Injectable({
   providedIn: 'root'

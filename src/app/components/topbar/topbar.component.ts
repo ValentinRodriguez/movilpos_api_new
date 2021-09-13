@@ -42,7 +42,9 @@ export class TopbarComponent implements OnDestroy, OnInit {
                 private router: Router,
                 public datosEstaticos: DatosEstaticosService) {
 
-        this.usuario = this.usuarioServ.getUserLogged() || null;
+        this.usuario = this.usuarioServ.getUserLogged().user || null;
+        console.log(this.usuario);
+        
         if (this.usuario !== null) {
             this.foto = this.usuario.foto                
             this.nombre = this.usuario.name+' '+this.usuario.surname;

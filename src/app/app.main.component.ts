@@ -44,23 +44,21 @@ export class AppMainComponent implements OnInit{
                 private usuarioSrv: UsuarioService,
                 private primengConfig: PrimeNGConfig,
                 private permisosServ: RolesService) {
-            this.usuario = usuarioSrv.getUserLogged()
-                    //this.initializeEcho()
+                    this.usuario = usuarioSrv.getUserLogged().user;        
+        // this.initializeEcho();
                 }
 
-    ngOnInit() {
-        console.log(this.route.url);
-        
+    ngOnInit() {        
         this.primengConfig.ripple = true;   
-        const rol = localStorage.getItem('roles');
+        const rol = JSON.parse(localStorage.getItem('roles'));
         
-        if (rol === null) {                   
-            this.permisosServ.getRol(this.usuario.email).then((resp:any) =>{                
+        if (rol == null) {                   
+            this.permisosServ.getRol(this.usuario.email).then((resp: any) => {                
                 localStorage.setItem('roles', JSON.stringify(resp));
                 this.permisos = resp;          
             })
-        } else {
-            this.permisos = JSON.parse(rol);
+        } else {            
+            this.permisos = rol;
         }
 
         if (localStorage.getItem('tipo-menu')) {

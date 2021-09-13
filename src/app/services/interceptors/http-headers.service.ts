@@ -26,7 +26,8 @@ export class HttpHeadersService implements HttpInterceptor{
     const sessionId = localStorage.getItem('sessionId');
     const usuario_creador = `${this.user}`;
     const token = this.usuarioService.getTokenLocalStorage();
-
+    console.log('token: '+token);
+    
     if (req.method.toLowerCase() === 'post' ||
         req.method.toLowerCase() === 'put' ||
         req.method.toLowerCase() === 'delete') {

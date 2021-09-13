@@ -43,11 +43,18 @@ export class AppLoginComponent implements OnInit{
     this.usuarioServ.login(this.form).then((resp: any) => {
       this.usuarioServ.getMyOauthToken(this.form).then((resp2: any) => {
         const data = Object.assign(resp, resp2);
-        this.usuarioServ.clearLocalStorage();      
-        localStorage.setItem('e161d29e7b89977b32bf2d3f15a7200d',data.sessionId);       
+        this.usuarioServ.clearLocalStorage();        
         this.usuarioServ.setLocalStorage(data);
-        console.log(this.usuarioServ.getLocalStorage('e161d29e7b89977b32bf2d3f15a7200d'));
         
+        // this.usuarioServ.getLocalStorage('localStorage').then(resp => {
+        //  if (resp) {
+           
+        //  }
+        // });
+
+        setTimeout(() => {
+          this.router.navigate(['/home']);          
+        }, 2000);
       });
     });
   }

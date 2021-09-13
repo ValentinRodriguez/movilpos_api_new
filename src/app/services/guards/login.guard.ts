@@ -12,9 +12,11 @@ export class LoginGuard implements CanActivate {
               public router: Router){}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean  {    
-    if (!this.usuarioServ.loggedIn()) {  
+    if (this.usuarioServ.loggedIn()) {
+      console.log('valido');      
       return true;
     } else {
+      console.log('no valido');
       this.router.navigateByUrl('/login')      
       return false;
     }
