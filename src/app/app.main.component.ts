@@ -44,6 +44,7 @@ export class AppMainComponent implements OnInit{
                 private usuarioSrv: UsuarioService,
                 private primengConfig: PrimeNGConfig,
                 private permisosServ: RolesService) {
+                    console.log(usuarioSrv.getUserLogged())
                     this.usuario = usuarioSrv.getUserLogged().user;        
         // this.initializeEcho();
                 }

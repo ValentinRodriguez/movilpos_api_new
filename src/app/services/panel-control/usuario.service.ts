@@ -252,24 +252,13 @@ export class UsuarioService implements OnDestroy {
   }
 
   getTokenLocalStorage() {
-    console.log();
-    if (this.getLocalStorage('localStorage') != null) {
-      return this.getLocalStorage('localStorage').access_token;      
-    } else {
-      return null;
-    }
+    return this.getLocalStorage('localStorage');
   }
 
   validateToken() {
-    const token = this.getTokenLocalStorage();    
-    return token?.length === 0 ? false : true;
-    // const token = this.getTokenLocalStorage();
-    // if (token) {
-    //   const payload = this.payload(token);
-    //   if (payload) {
-    //     return Object.values(this.iss).indexOf(payload.iss) === 0 ? true : false;
-    //   }
-    // }
+    const token = this.getTokenLocalStorage(); 
+    console.log(token.access_token.length);    
+    return token.access_token.length === 0 ? false : true;
   }
 
   payload(token) {

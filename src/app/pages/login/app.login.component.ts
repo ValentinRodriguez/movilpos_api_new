@@ -46,12 +46,6 @@ export class AppLoginComponent implements OnInit{
         this.usuarioServ.clearLocalStorage();        
         this.usuarioServ.setLocalStorage(data);
         
-        // this.usuarioServ.getLocalStorage('localStorage').then(resp => {
-        //  if (resp) {
-           
-        //  }
-        // });
-
         setTimeout(() => {
           this.router.navigate(['/home']);          
         }, 2000);
