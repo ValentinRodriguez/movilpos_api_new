@@ -15,7 +15,6 @@ export class LoadingComponent implements OnInit {
 
   ngOnInit(): void {
     const ruta = this.url.split('/')
-    console.log(ruta);
     if (ruta[1] === 'home' || ruta[1] === 'menues') {
       this.formSubmitted = false;
     } else {

@@ -76,7 +76,6 @@ export class MaestraProductosComponent implements OnInit {
   todosLosProductos() {     
     this.inventarioServ.getDatos().then((resp: any) =>{
       this.productos = resp;   
-      console.log(resp);
     })
   }
 

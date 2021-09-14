@@ -27,7 +27,6 @@ export class MenuContabilidadGeneralComponent implements OnInit {
   }
 
   redirigir(ruta: string) {
-    console.log(`contabilidad-general/${ruta}`);
     this.router.navigate([`contabilidad-general/${ruta}`]);
   }
 }

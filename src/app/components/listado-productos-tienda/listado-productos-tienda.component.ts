@@ -38,7 +38,6 @@ export class ListadoProductosTiendaComponent implements OnInit {
     this.tiendaSrv.getDatosProducto('productos-plaza').then((resp:any)=>{
       this.productos = resp;
       this.loading = false;
-      console.log(resp);      
     })
   }
   

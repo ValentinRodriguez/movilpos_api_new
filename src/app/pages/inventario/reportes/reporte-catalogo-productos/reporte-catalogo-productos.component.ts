@@ -83,14 +83,14 @@ export class ReporteCatalogoProductosComponent implements OnInit {
     var nested = nest(data, params);
     var productosOrdenados:any[] = []
        
-    Object.keys(nested).forEach((key) =>{
-        productosOrdenados.push({producto:key.toUpperCase(), encabezado: true})
-      Object.keys(nested[key]).forEach(key2 =>{
-          productosOrdenados.push({producto:key2.toUpperCase(), encabezado: true})
-        Object.keys(nested[key][key2]).forEach(key3 =>{
-            productosOrdenados.push({producto:key3.toUpperCase(), encabezado: true})
-          Object.keys(nested[key][key2][key3]).forEach(key4 =>{
-              productosOrdenados.push({
+    Object.keys(nested).forEach((key) => {
+      productosOrdenados.push({ producto: key.toUpperCase(), encabezado: true })
+      Object.keys(nested[key]).forEach(key2 => {
+        productosOrdenados.push({ producto: key2.toUpperCase(), encabezado: true })
+        Object.keys(nested[key][key2]).forEach(key3 => {
+          productosOrdenados.push({ producto: key3.toUpperCase(), encabezado: true })
+          Object.keys(nested[key][key2][key3]).forEach(key4 => {
+            productosOrdenados.push({
               producto: nested[key][key2][key3][key4].producto,
               codigo: nested[key][key2][key3][key4].codigo,
               precio: nested[key][key2][key3][key4].precio,
@@ -98,9 +98,8 @@ export class ReporteCatalogoProductosComponent implements OnInit {
             })
           })
         })
-      })        
-    })
-    console.log( productosOrdenados);
+      })
+    });
 
     this.exportPdf(productosOrdenados, params)
   }
@@ -124,8 +123,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         head: this.headRows(),
         body: this.bodyRows(data),
         headStyles: { fillColor: [0, 128, 255] },
-        didParseCell: (dataArg) => {
-          console.log(dataArg);          
+        didParseCell: (dataArg) => {        
           if (dataArg.row.raw['encabezado'] === true) {
             dataArg.cell.styles.fillColor = [40, 170, 100]
           }
@@ -179,8 +177,7 @@ export class ReporteCatalogoProductosComponent implements OnInit {
         encabezado: element.encabezado || '',
         tipo: element.tipo
       })
-    });
-    console.log(body);    
+    });   
     return body
   }
 }

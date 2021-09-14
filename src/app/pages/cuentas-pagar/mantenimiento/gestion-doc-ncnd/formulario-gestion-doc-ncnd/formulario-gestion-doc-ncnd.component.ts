@@ -55,9 +55,7 @@ export class FormularioGestionDocNcndComponent implements OnInit {
       })
     }else{
       const fecha_orig = this.forma.get('fecha_orig').value;
-      console.log(fecha_orig);
       this.forma.get('fecha_orig').setValue(this.onSelectDate(fecha_orig));
-      console.log(fecha_orig);
       this.ncndService.crearDocumento(this.forma.value).then((resp:any)=>{
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro Guardado');
       })

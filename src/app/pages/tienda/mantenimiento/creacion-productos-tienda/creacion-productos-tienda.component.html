@@ -3,8 +3,7 @@
 		<div class="card">
             <h5>Gestión Productos TIENDA ONLINE</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
-                <p-tabPanel header="Consultar" leftIcon="pi pi-search" >				
-					
+                <p-tabPanel header="Consultar" leftIcon="pi pi-search" >	
                     <p-dataView #dv [value]="productos" [paginator]="true" [rows]="50" filterBy="codigo, titulo"
                         [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
                         <ng-template pTemplate="header">
@@ -86,8 +85,7 @@
                     <br>
                     <app-formulario-creacion-productos-tienda></app-formulario-creacion-productos-tienda>
                 </p-tabPanel>
-            </p-tabView>
-			
+            </p-tabView>			
 		</div>	
 		
 		<p-toast key="tst"></p-toast>

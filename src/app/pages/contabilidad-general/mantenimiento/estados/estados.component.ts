@@ -57,8 +57,6 @@ export class EstadosComponent implements OnInit {
   }
 
   borrarEstado(id: string) {
-    console.log(id);
-    
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 

@@ -264,9 +264,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
     })
   }
 
-  verificaCuenta(data){  
-     console.log(data);
-     
+  verificaCuenta(data){       
     if (data === "") {
       this.cuentaExiste = 3;
       return;
@@ -295,7 +293,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
     this.estadoExiste = 0;
 
     this.estadosServ.busquedaEstado(data).then((resp: any) => {
-      console.log(resp);      
       if(resp.length === 0) {
         this.estadoExiste = 2;
       }else{

@@ -40,8 +40,7 @@ export class FileuploadsComponent implements OnInit {
       
       resp.forEach(element => {        
         if (typeof (element) === 'object') {          
-          this.fileUpload.files.push(element)
-          console.log(this.fileUpload.files);          
+          this.fileUpload.files.push(element)          
         } else {          
           setTimeout(() => {
             this.test(`${URLs}/storage/${element}`);               

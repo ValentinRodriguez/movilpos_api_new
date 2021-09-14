@@ -21,14 +21,14 @@
                         <small *ngIf="getNoValido('titulo')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
     
-                    <div class="p-field p-col-2">
+                    <div class="p-field p-col-3">
                         <label for="categoria">Categoría</label>
                         <p-dropdown [options]="groupedCities" placeholder="Elige categoría" inputId="categoria" [group]="true" 
                                     [class.ng-invalid]="getNoValido('categoria')" [class.ng-dirty]="getNoValido('categoria')" 
                                     formControlName="categoria" (onChange)="getAtributosProducto($event.value)">
                             <ng-template let-group pTemplate="group">
                                 <div class="p-d-flex p-ai-center">
-                                    <img src="assets/images/flag_placeholder.png" [class]="'p-mr-2 flag flag-' + group.value" style="width: 20px"/>
+                                    <i class="pi pi-question-circle" style="margin-right: 10px;"></i>
                                     <span>{{group.label | titlecase}}</span>
                                 </div>
                             </ng-template>
@@ -36,7 +36,7 @@
                         <small *ngIf="getNoValido('categoria')" class="p-invalid">Este campo es obligatorio.</small>
                     </div>
     
-                    <div class="p-field p-col-12 p-md-2">
+                    <div class="p-field p-col-12 p-md-3">
                         <label for="precio">Precio</label>
                         <input type="text" pInputText pKeyFilter="int" formControlName="precio" 
                                [class.ng-invalid]="getNoValido('precio')" [class.ng-dirty]="getNoValido('precio')">
@@ -44,12 +44,13 @@
                     </div>
                     
                     <div class="p-field p-col-12 p-md-2">
-                        <label for="precio_rebajado">Precio Rebajado</label>    
+                        <label for="precio_rebajado">
+                            <a href="javascript:void(0)" *ngIf="!this.rebaja" (click)="programar()">Rebajar $</a>
+                            <a href="javascript:void(0)" *ngIf="this.rebaja" style="color: #777c80;" (click)="programar()">No rebajar $</a>
+                        </label>                                                    
                         <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                            pTooltip="Este valor se utiliza para indicar que el producto esta en oferta. tambien muestra la cantidad que se ahorraria tu cliente si completa la compra." tooltipPosition="top">
                         </i>                
-                        <a href="javascript:void(0)" *ngIf="!this.rebaja" style="margin-left: 2em;" (click)="programar()">Programar</a>
-                        <a href="javascript:void(0)" *ngIf="this.rebaja" style="margin-left: 2em; color: #777c80;" (click)="programar()">Cancelar</a>                        
                         <input type="text" pInputText pKeyFilter="int" formControlName="precio_rebajado" 
                                [class.ng-invalid]="getNoValido('precio_rebajado')" [class.ng-dirty]="getNoValido('precio_rebajado')">
                     </div>
@@ -75,7 +76,7 @@
                     </div>
     
                     <div class="p-field p-col-12 p-md-2">
-                        <label for="cantidadLim">Cantidad en Venta</label>
+                        <label for="cantidadLim">Cantidad</label>
                         <i class="pi pi-question-circle" style="margin-left: 10px; color:#777c80" 
                            pTooltip="Establecer esta cantidad hará que el producto sea una oferta. La venta terminará cuando se agote esta cantidad." tooltipPosition="top">
                         </i>

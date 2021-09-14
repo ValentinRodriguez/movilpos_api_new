@@ -33,17 +33,14 @@ export class TopbarComponent implements OnDestroy, OnInit {
     @Input() simbolo: string
     stateOptions2: { label: string; value: string; icon: string; justify: string; }[];
     listSubscribers: any = [];
-    logoutMethod: Subscription;
 
     constructor(public breadcrumbService: BreadcrumbService,
                 public app: AppMainComponent,
                 public usuarioServ: UsuarioService,
-                public facturaServ: FacturasService,
-                private router: Router,
+                public facturaServ: FacturasService,                
                 public datosEstaticos: DatosEstaticosService) {
 
-        this.usuario = this.usuarioServ.getUserLogged().user || null;
-        console.log(this.usuario);
+        this.usuario = this.usuarioServ.getUserLogged();
         
         if (this.usuario !== null) {
             this.foto = this.usuario.foto                
@@ -71,7 +68,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     listObserver = () => {
-        const observer1$ = this.logoutMethod;
+        const observer1$ = []
         this.listSubscribers = [observer1$];
     };
 
@@ -120,23 +117,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
     }
 
     logout() {
-        this.logoutMethod = this.usuarioServ.logout(this.usuario.email).subscribe((resp: any) => {
-            console.log(resp);            
-            if (resp['code'] === 200)  {  
-              localStorage.removeItem('token');
-              localStorage.removeItem('user');
-              localStorage.removeItem('empleado');
-              localStorage.removeItem('permisos');
-              localStorage.removeItem('bodegas_permisos');
-              localStorage.removeItem('empresa');
-              localStorage.removeItem('modulos');
-              localStorage.removeItem('perfiles');
-              localStorage.removeItem('sessionId');
-              localStorage.removeItem('roles');
-              localStorage.removeItem('menues');
-              this.router.navigate(['/login']);  
-            }
-        })
+        this.usuarioServ.logout(this.usuario.email)
     }
 
     desplegar() {

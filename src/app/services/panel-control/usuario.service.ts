@@ -2,6 +2,7 @@ import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalService } from '../crypt/local.service';
+import { Router } from '@angular/router';
 
 const URL = environment.url;
 const URLclean = environment.urlClean;
@@ -21,12 +22,11 @@ export class UsuarioService implements OnDestroy {
   formSubmitted = false;
 
   constructor(private http: HttpClient,
+              private router: Router,
               private localService: LocalService) { }
 
-  ngOnDestroy() {
-    console.log('destruido');    
+  ngOnDestroy() {  
     this.listSubscribers.forEach(a => {
-      console.log(a);      
       if (a !== undefined) {
         a.unsubscribe()        
       }
@@ -86,8 +86,7 @@ export class UsuarioService implements OnDestroy {
 
   getUsers() {
     return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/users`).subscribe((resp: any) => {
-        console.log(resp);        
+      this.listSubscribers.push(this.http.get(`${URL}/users`).subscribe((resp: any) => {     
         if (resp['code'] === 200)  {          
           resolve(resp.data);  
         }
@@ -116,14 +115,12 @@ export class UsuarioService implements OnDestroy {
   }
 
   getUserLogged() {
-    let user = this.getLocalStorage('localStorage');    
-    console.log(user);    
-    if (user !== null) {
-      user.bodegas_permisos = localStorage.getItem('bodegas_permisos') || '{}';
-      // user.empleado = localStorage.getItem('empleado');
-      user.empresa = localStorage.getItem('empresa');
-      user.sessionId = localStorage.getItem('sessionId');            
-    }
+    let user = this.getLocalStorage('localStorage').user;
+    return user;
+  }
+
+  getEmpresa() {
+    let user = this.getLocalStorage('localStorage').empresa;
     return user;
   }
 
@@ -138,7 +135,6 @@ export class UsuarioService implements OnDestroy {
   login(forma: any) {
     return new Promise(resolve => {
       this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {
-        // console.log(resp);        
         if (resp.code === 200)  {          
           resolve(resp.data);           
         }       
@@ -172,7 +168,19 @@ export class UsuarioService implements OnDestroy {
   }
 
   logout(email) {
-    return this.http.post(`${URL}/logout`, email);
+    return this.http.post(`${URL}/logout`, email).subscribe((resp: any) => {
+      if (resp['code'] === 200)  {  
+          localStorage.removeItem('modulos');
+          localStorage.removeItem('perfiles');
+          localStorage.removeItem('roles');
+          localStorage.removeItem('menues');
+          localStorage.removeItem('permisos');
+          localStorage.removeItem('bodegas_permisos');
+          localStorage.removeItem('empresa');
+          this.clearLocalStorage();
+          this.router.navigate(['/login']);  
+      }
+  })
   }
 
   register(data: any) {

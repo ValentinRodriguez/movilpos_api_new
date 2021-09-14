@@ -16,7 +16,7 @@ export class HttpHeadersService implements HttpInterceptor{
   constructor(private usuarioService: UsuarioService,
               private globalFuntionServ: GlobalFunctionsService,
               private router: Router) {
-                this.user = this.usuarioService.getUserLogged()?.username || 'movilsoluciones';
+                this.user = this.usuarioService.getUserLogged();
                 console.log(this.user);    
               }
 
@@ -24,9 +24,10 @@ export class HttpHeadersService implements HttpInterceptor{
     this.globalFuntionServ.formSubmitted.emit(true);
     
     const sessionId = localStorage.getItem('sessionId');
-    const usuario_creador = `${this.user}`;
+    const usuario_creador = `${this.user.username}`;
     const token = this.usuarioService.getTokenLocalStorage()?.access_token;
-    
+    const empresa = this.usuarioService.getEmpresa().id;
+
     if (req.method.toLowerCase() === 'post' ||
         req.method.toLowerCase() === 'put' ||
         req.method.toLowerCase() === 'delete') {
@@ -39,10 +40,11 @@ export class HttpHeadersService implements HttpInterceptor{
         setParams:{
           sessionId: sessionId,
           usuario_creador: usuario_creador,
-          urlRequest: this.router.url
+          urlRequest: this.router.url,
+          empresa: empresa
         },
         body: req.body instanceof FormData ? req.body.append('sessionId', sessionId)
-                                           : { ...req.body, sessionId, usuario_creador }
+                                           : { ...req.body, sessionId, usuario_creador,empresa }
       })
     }
 
@@ -56,7 +58,8 @@ export class HttpHeadersService implements HttpInterceptor{
         setParams: {
           sessionId: sessionId,
           urlRequest: this.router.url,
-          usuario_creador: usuario_creador
+          usuario_creador: usuario_creador,
+          empresa: empresa
         }
       });
     }

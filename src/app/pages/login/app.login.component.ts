@@ -48,7 +48,7 @@ export class AppLoginComponent implements OnInit{
         
         setTimeout(() => {
           this.router.navigate(['/home']);          
-        }, 2000);
+        }, 1000);
       });
     });
   }

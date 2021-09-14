@@ -61,7 +61,6 @@ export class FormularioCgestadoComponent implements OnInit {
       { field: 'tipo_estado', header: 'Tipo Estado'},
       { field: 'signo', header: 'Orientacion Signo'}      
     ]
-    console.log(this.vtipoEstado);
   }
 
   crearFormulario() {
@@ -79,15 +78,13 @@ export class FormularioCgestadoComponent implements OnInit {
   }
 
   guardarEstado() {    
-    if (this.forma.invalid) {
-      console.log(this.forma.value);      
+    if (this.forma.invalid) {  
       this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control => {
         control.markAllAsTouched();
       })
     } else {
       this.estadosSrv.crearEstado(this.forma.value).then((resp: any) => {
-        console.log(resp);              
         if (resp.code === 200) {
           this.estadosSrv.llamarEstado.emit(true);
           this.uiMessage.getMiniInfortiveMsg('tst', 'success', 'Excelente', 'Registro Guardado de manera correcta.');
@@ -101,8 +98,7 @@ export class FormularioCgestadoComponent implements OnInit {
   }
 
   ActualizarEstado() {
-    if (this.forma.invalid) {
-      console.log(this.forma.value);      
+    if (this.forma.invalid) {     
       this.uiMessage.getMiniInfortiveMsg('tst', 'error', 'ERROR', 'Debe completar los campos que son obligatorios');
       Object.values(this.forma.controls).forEach(control => {
         control.markAllAsTouched();

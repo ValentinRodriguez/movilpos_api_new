@@ -6,6 +6,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
+import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 import { CategoriasStoreService } from 'src/app/services/tienda/categorias-store.service';
 import { TiendaService } from 'src/app/services/tienda/tienda.service';
 
@@ -34,7 +35,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
   color: any[];
   estados: any;
   materialesFiltrados: any[];
-  guardar: boolean;
+  guardar = true;
   actualizar: boolean;
   id: number;
 
@@ -42,14 +43,18 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private gf: GlobalFunctionsService,
               private categoriasStoreSrv: CategoriasStoreService,
+              private usuarioServ: UsuarioService,
               private tiendaServ: TiendaService) { 
-                this.crearFormulario()
+    this.crearFormulario();
+    console.log(this.usuarioServ.getLocalStorage('localStorage'));
+    
               }
     
   ngOnInit() { 
     this.listObserver();    
     // this.setValues();
-    this.getCategorias();    
+    this.getCategorias();
+    this.campo(this.usuarioServ.getLocalStorage('localStorage').user.empresa, 'tienda');
   }
   
   campo(data, campo) {
@@ -78,6 +83,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       precio: ['', Validators.required],
       precio_rebajado: [''],
       stock: ['', Validators.required],
+      tienda: [''],
       cantidadLim: [''],
       fecha_rebaja: [''],
       limDescargas: [''],
@@ -85,6 +91,7 @@ export class FormularioCreacionProductosTiendaComponent implements OnInit {
       galeriaImagenes: [''],
       documentosDigitales: [''],
       composicion: [''],
+      estado: ['activo'],
       atributos: this.fb.group({
         talla: [''],
         actividad: [''],
