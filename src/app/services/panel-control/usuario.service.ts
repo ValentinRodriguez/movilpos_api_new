@@ -117,10 +117,11 @@ export class UsuarioService implements OnDestroy {
 
   getUserLogged() {
     let user = this.getLocalStorage('localStorage');    
+    console.log(user);    
     if (user !== null) {
-      user.bodegas_permisos = JSON.parse(localStorage.getItem('bodegas_permisos') || '{}');
-      // user.empleado = JSON.parse(localStorage.getItem('empleado'));
-      user.empresa = JSON.parse(localStorage.getItem('empresa'));
+      user.bodegas_permisos = localStorage.getItem('bodegas_permisos') || '{}';
+      // user.empleado = localStorage.getItem('empleado');
+      user.empresa = localStorage.getItem('empresa');
       user.sessionId = localStorage.getItem('sessionId');            
     }
     return user;
@@ -256,9 +257,12 @@ export class UsuarioService implements OnDestroy {
   }
 
   validateToken() {
-    const token = this.getTokenLocalStorage(); 
-    console.log(token.access_token.length);    
-    return token.access_token.length === 0 ? false : true;
+    const token = this.getTokenLocalStorage();  
+    if (token !== null) {
+      return false;      
+    } else {
+      return true
+    }
   }
 
   payload(token) {
