@@ -43,8 +43,8 @@ export class TopbarComponent implements OnDestroy, OnInit {
         this.usuario = this.usuarioServ.getUserLogged();
         
         if (this.usuario !== null) {
-            this.foto = this.usuario.foto                
-            this.nombre = this.usuario.name+' '+this.usuario.surname;
+            this.foto = this.usuario.user.foto                
+            this.nombre = this.usuario.user.name+' '+this.usuario.user.surname;
         }    
     }
     

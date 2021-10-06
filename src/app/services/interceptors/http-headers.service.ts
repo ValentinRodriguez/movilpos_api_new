@@ -16,7 +16,7 @@ export class HttpHeadersService implements HttpInterceptor{
   constructor(private usuarioService: UsuarioService,
               private globalFuntionServ: GlobalFunctionsService,
               private router: Router) {
-                this.user = this.usuarioService.getUserLogged();
+                this.user = this.usuarioService.getUserLogged()?.user || 'movilsoluciones';
                 console.log(this.user);    
               }
 
@@ -26,7 +26,7 @@ export class HttpHeadersService implements HttpInterceptor{
     const sessionId = localStorage.getItem('sessionId');
     const usuario_creador = `${this.user.username}`;
     const token = this.usuarioService.getTokenLocalStorage()?.access_token;
-    const empresa = this.usuarioService.getEmpresa().id;
+    const empresa = this.usuarioService.getEmpresa()?.empresa.id || 1;
 
     if (req.method.toLowerCase() === 'post' ||
         req.method.toLowerCase() === 'put' ||

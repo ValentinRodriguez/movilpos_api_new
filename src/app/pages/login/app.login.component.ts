@@ -41,6 +41,8 @@ export class AppLoginComponent implements OnInit{
   onSubmit() {    
     this.usuarioServ.formSubmitted = true;
     this.usuarioServ.login(this.form).then((resp: any) => {
+      console.log(resp);
+      
       this.usuarioServ.getMyOauthToken(this.form).then((resp2: any) => {
         const data = Object.assign(resp, resp2);
         this.usuarioServ.clearLocalStorage();        

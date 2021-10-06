@@ -114,14 +114,14 @@ export class UsuarioService implements OnDestroy {
     })
   }
 
-  getUserLogged() {
-    let user = this.getLocalStorage('localStorage').user;
+  getUserLogged() {    
+    let user = this.getLocalStorage('localStorage');
     return user;
   }
 
   getEmpresa() {
-    let user = this.getLocalStorage('localStorage').empresa;
-    return user;
+    let empresa = this.getLocalStorage('localStorage');
+    return empresa;
   }
 
   whoIslogged() {
@@ -134,7 +134,9 @@ export class UsuarioService implements OnDestroy {
   
   login(forma: any) {
     return new Promise(resolve => {
-      this.http.post(`${URL}/login`,forma).subscribe((resp: any) => {
+      this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
+        console.log(resp);
+        
         if (resp.code === 200)  {          
           resolve(resp.data);           
         }       
