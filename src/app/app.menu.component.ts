@@ -35,7 +35,7 @@ export class AppMenuComponent implements OnInit {
             console.log(resp);
             
             if (resp.ok) {                                
-                localStorage.setItem('modulos', JSON.stringify(resp.menues.data));
+                localStorage.setItem('menues', JSON.stringify(resp.menues.data));
             }            
         })
     }

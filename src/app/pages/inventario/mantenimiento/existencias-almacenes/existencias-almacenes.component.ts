@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 import { ExistenciaAlmacenesService } from 'src/app/services/inventario/existencia-almacenes.service';
@@ -151,54 +149,7 @@ export class ExistenciasAlmacenesComponent implements OnInit {
   }
 
   exportPdf() {
-    const doc = new jsPDF('p', 'mm', 'a4');
-    let pageWidth = doc.internal.pageSize.getWidth();
-    const totalPagesExp = '{total_pages_count_string}'
-    const anio = this.datosEstaticos.getDate();
-    const hora = this.datosEstaticos.getHourAmp();
-    const empresa = this.usuario.empresa.nombre || 'No Identificada'
-    const nombre = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primernombre);
-    const apellido = this.datosEstaticos.capitalizeFirstLetter(this.usuario.empleado.primerapellido);
-
-    var raw = this.bodyRows(this.mayor);
-    
-    autoTable(doc, {
-        head: this.headRows(),
-        body: this.bodyRows(this.mayor),
-        headStyles: { fillColor: [0, 128, 255] },
-        didDrawPage: (dataArg) => { 
-          // doc.text(anio+' '+hora, dataArg.settings.margin.right, 22, { align: "right" });
-          // var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-          // var pageSize = doc.internal.pageSize
-          
-          //NOMBRE DE LA EMPRESA
-          doc.text(empresa, pageWidth / 2, 10, { align: "center" });
-          
-          //NOMBRE DEL REPORTE 
-          doc.setFontSize(10);                   
-          doc.text('Mayor General', pageWidth / 2, 15, { align: "center" });
-
-          // NUMERO DE PAGINA 
-          var str = 'Página ' + doc.getNumberOfPages()
-          
-          if (typeof doc.putTotalPages === 'function') {
-            str = str + ' / ' + totalPagesExp;
-          }
-          doc.text(str, 235, 15, {align: 'right',});
-          
-          //USUARIO CREADOR REPORTE
-          doc.text(nombre+' '+apellido, dataArg.settings.margin.left, 20);
-          
-          //HORA CREACION REPORTE          
-          doc.text(anio+' '+hora, 195, 20, {align: 'right',});
-        },
-        margin: { top: 30 },
-        theme: 'grid',
-    });
-    if (typeof doc.putTotalPages === 'function') {
-      doc.putTotalPages(totalPagesExp)      
-    }
-    doc.save('Mayor General.pdf');
+   
   }
 
   headRows() {

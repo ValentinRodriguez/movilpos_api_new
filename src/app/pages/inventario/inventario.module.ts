@@ -62,8 +62,6 @@ import { LiquidacionMercanciasComponent } from './mantenimiento/liquidacion-merc
 import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquidacion-mercancias/formulario-liquidacion-mercancias/formulario-liquidacion-mercancias.component';
 import { CostoStandardComponent } from './mantenimiento/costo-standard/costo-standard.component';
 import { FormularioCostoStandardComponent } from './mantenimiento/costo-standard/formulario-costo-standard/formulario-costo-standard.component';
-import { ReporteCatalogoProductosComponent } from './reportes/reporte-catalogo-productos/reporte-catalogo-productos.component';
-import { ReporteOperacionesMovimientoComponent } from './reportes/reporte-operaciones-movimiento/reporte-operaciones-movimiento.component';
 import { FileUploadModule } from 'primeng/fileupload';
 @NgModule({
   declarations: [
@@ -94,9 +92,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     LiquidacionMercanciasComponent,
     FormularioLiquidacionMercanciasComponent,
     CostoStandardComponent,
-    FormularioCostoStandardComponent,
-    ReporteCatalogoProductosComponent,
-    ReporteOperacionesMovimientoComponent
+    FormularioCostoStandardComponent
   ],
   imports: [
     CommonModule,

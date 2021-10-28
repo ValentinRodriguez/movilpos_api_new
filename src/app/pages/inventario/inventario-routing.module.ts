@@ -27,8 +27,6 @@ import { TiposMovimientosComponent } from './mantenimiento/tipos-movimientos/tip
 import { TransaccionesInventarioComponent } from './mantenimiento/transacciones-inventario/transacciones-inventario.component';
 import { FormularioTransportistaComponent } from './mantenimiento/transportistas/formulario-transportista/formulario-transportista.component';
 import { TransportistasComponent } from './mantenimiento/transportistas/transportistas.component';
-import { ReporteCatalogoProductosComponent } from './reportes/reporte-catalogo-productos/reporte-catalogo-productos.component';
-import { ReporteOperacionesMovimientoComponent } from './reportes/reporte-operaciones-movimiento/reporte-operaciones-movimiento.component';
 
 @NgModule({ 
   imports: [
@@ -63,9 +61,7 @@ import { ReporteOperacionesMovimientoComponent } from './reportes/reporte-operac
         {path: 'gestion-de-propiedades', component: PropiedadesComponent},
         {path: 'gestion-existencias-almacenes', component: ExistenciasAlmacenesComponent},
          { path: 'gestion-liquidacion-mercancias', component: LiquidacionMercanciasComponent },
-         { path: 'gestion-costo-standard', component: CostoStandardComponent },
-         { path: 'reporte-catalogo-productos', component:  ReporteCatalogoProductosComponent},
-         { path: 'reporte-operaciones-por-movimientos', component:  ReporteOperacionesMovimientoComponent},
+         { path: 'gestion-costo-standard', component: CostoStandardComponent }
          
        ]
       }
