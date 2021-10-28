@@ -39,7 +39,7 @@ export class AreasEmpresaService {
     params = params.append('areas',parametro.areas);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/areas-empresa', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -49,7 +49,7 @@ export class AreasEmpresaService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/areas-empresa`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -59,7 +59,7 @@ export class AreasEmpresaService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/areas-empresa`).subscribe((resp: any) => {                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -69,7 +69,7 @@ export class AreasEmpresaService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/areas-empresa/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -102,7 +102,7 @@ export class AreasEmpresaService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/areas-empresa`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.areaGuardada.emit(resp.data);       
         }
@@ -133,7 +133,7 @@ export class AreasEmpresaService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/areas-empresa/${id}`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.areaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -144,7 +144,7 @@ export class AreasEmpresaService {
   borrarArea(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/areas-empresa/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.areaBorrada.emit(id);    
           resolve(resp.data);            
         }

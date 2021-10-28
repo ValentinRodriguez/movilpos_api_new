@@ -31,7 +31,7 @@ export class PuertosService {
     params = params.append('puerto',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/puerto', {params}).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -41,7 +41,7 @@ export class PuertosService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/puertos`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -51,7 +51,7 @@ export class PuertosService {
   getDato(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/puertos/${id}`).subscribe((resp: any) => {                     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -67,7 +67,7 @@ export class PuertosService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/puertos`, formData).subscribe( (resp:any) => {      
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.puertoGuardada.emit( resp.data );       
         }
@@ -78,7 +78,7 @@ export class PuertosService {
   actualizarPuerto(id:number, puerto: any) {        
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/puertos/${id}`, puerto).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                  
+        if (resp['ok'])  {                  
           this.puertoActualizada.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -89,7 +89,7 @@ export class PuertosService {
   borrarPuerto(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/puertos/${id}`).subscribe( (resp: any) => {                                                                  
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.puertoBorrada.emit(id);    
           resolve(resp.data);            
         }

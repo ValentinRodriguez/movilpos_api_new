@@ -46,7 +46,7 @@ export class TiendaService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/${urlS}`).subscribe((resp: any) => {
         console.log(resp);        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
             resolve(resp.data);            
         }
       }))
@@ -56,7 +56,7 @@ export class TiendaService {
   getDataCategoria(id:string,url:string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/${url}/${id}`).subscribe((resp: any) =>{
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
             resolve(resp.data);            
         }
       }))
@@ -101,7 +101,7 @@ export class TiendaService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/productos-plaza`,formData).subscribe((resp: any) =>{
         console.log(resp);        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);     
           this.productoGuardado.emit(1)       
         }
@@ -150,7 +150,7 @@ export class TiendaService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/productos-plaza/${id}`,formData).subscribe((resp: any) =>{
         console.log(resp);        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
             resolve(resp.data);  
             this.productoAct.emit(1);          
         }
@@ -162,7 +162,7 @@ export class TiendaService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.delete(`${URL}/productos-plaza/${id}`).subscribe((resp: any) =>{
         console.log(resp);        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);    
           this.productoBorrada.emit(1);        
         }
@@ -173,7 +173,7 @@ export class TiendaService {
   contarProductosTienda(page: number) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/productos-plaza`).subscribe((resp: any) =>{
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

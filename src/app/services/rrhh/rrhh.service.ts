@@ -34,7 +34,7 @@ export class RrhhService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/noempleados`).subscribe((resp: any) => {        
-        if (resp['code'] === 200)  {        
+        if (resp['ok'])  {        
           resolve(resp.data);            
         }
       }))
@@ -44,7 +44,7 @@ export class RrhhService {
   getDato(id:number) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/noempleados/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {        
+        if (resp['ok'])  {        
           resolve(resp.data);            
         }
       }))
@@ -55,7 +55,7 @@ export class RrhhService {
   getCajeros() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/cajeros`).subscribe((resp: any) => {                
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -65,7 +65,7 @@ export class RrhhService {
   getBancos() {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/bancos`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {        
+        if (resp['ok'])  {        
           resolve(resp.data);            
         }
       }))
@@ -75,7 +75,7 @@ export class RrhhService {
   autoLlenado() {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/autollenado/empleados`).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {        
+        if (resp['ok'])  {        
           resolve(resp.data);            
         }
       }))
@@ -85,7 +85,7 @@ export class RrhhService {
   buscaVendedores() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  { 
+        if (resp['ok'])  { 
           resolve(resp.data);            
         }
       }))
@@ -95,7 +95,7 @@ export class RrhhService {
   buscaSupervisores(id:string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/supervisores/${id}`).subscribe((resp: any) => {                            
-        if (resp['code'] === 200)  { 
+        if (resp['ok'])  { 
           resolve(resp.data);            
         }
       }))
@@ -107,7 +107,7 @@ export class RrhhService {
     params = params.append('cedula',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL + '/busqueda/cedula', { params }).subscribe((resp: any) => {                
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -120,7 +120,7 @@ export class RrhhService {
     for (let key in empresa) {
       if (empresa[key] !== undefined) {
         switch (key) {
-          // foto_empleado:  
+          // img_empleado:  
                 
           case 'cod_cia':
             formData[key] = empresa[key].cod_cia
@@ -194,7 +194,7 @@ export class RrhhService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/noempleados`, formData).subscribe( (resp:any) => {
-        if (resp['code'] === 200) {
+        if (resp['ok']) {
           this.empleadoCreado.emit(true);
           resolve(resp.data);      
         }
@@ -208,7 +208,7 @@ export class RrhhService {
     for (let key in empresa) {
       if (empresa[key] !== undefined) {
         switch (key) {
-          // foto_empleado:  
+          // img_empleado:  
                 
           case 'cod_cia':
             formData[key] = empresa[key].cod_cia
@@ -271,7 +271,7 @@ export class RrhhService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/noempleados/${id}`, formData).subscribe( (resp:any) => {
-        if (resp['code'] === 200) {
+        if (resp['ok']) {
           this.empleadoCreado.emit(true);
           resolve(resp.data);      
         }

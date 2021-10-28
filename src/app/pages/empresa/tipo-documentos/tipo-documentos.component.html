@@ -33,7 +33,7 @@
 									<span class="p-column-title">{{col.header}}</span>
 
 									<div *ngIf="col.field === 'primernombre'">
-										<img [alt]="rowData[col.field]" [src]="rowData.foto | usuario" width="64"
+										<img [alt]="rowData[col.field]" [src]="rowData.img | usuario" width="64"
 											style="vertical-align: middle"/>
 										<div>{{rowData['primernombre'] +" "+rowData['primerapellido'] | titlecase}}  </div>
 									</div>

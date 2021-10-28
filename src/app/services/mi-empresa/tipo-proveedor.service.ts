@@ -39,7 +39,7 @@ export class TipoProveedorService {
     params = params.append('tipo',parametro.tipo);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/tipo-proveedor', {params}).subscribe((resp: any) => {                                     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -49,7 +49,7 @@ export class TipoProveedorService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tipo-proveedores`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -59,7 +59,7 @@ export class TipoProveedorService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tipo-proveedores/${id}`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -77,7 +77,7 @@ export class TipoProveedorService {
         }
       }
       this.listSubscribers.push(this.http.post(`${ URL }/tipo-proveedores`, formData).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.tipoPguardado.emit(resp.data);       
         }
@@ -98,7 +98,7 @@ export class TipoProveedorService {
       }
       
       this.listSubscribers.push(this.http.put(`${ URL }/tipo-proveedores/${id}`, formdata).subscribe( (resp: any) => {                                     
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.tipoPact.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -109,7 +109,7 @@ export class TipoProveedorService {
   borrarTproveedor(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/tipo-proveedores/${id}`).subscribe( (resp: any) => {               
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.tipoPborrado.emit(id);    
           resolve(resp.data);            
         }

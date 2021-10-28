@@ -27,7 +27,7 @@ export class RolesService {
   getRoles() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/roles`).subscribe((resp: any) => {                
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -37,7 +37,7 @@ export class RolesService {
   getRol(email: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/roles/${email}`).subscribe((resp: any) => {                                
-        if (resp['code'] === 200)  {                   
+        if (resp['ok'])  {                   
           resolve(resp.data);            
         }
       }))
@@ -47,7 +47,7 @@ export class RolesService {
   getRolFull(email: string, usuario: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/roles/usuario/${usuario}/${email}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -63,11 +63,11 @@ export class RolesService {
     formData.append('email', email);
     formData.append('usuario', usuario);
     formData.append('estado', 'activo');
-    formData.append('usuario_creador', this.usuarioServ.getUserLogged().username);
+    formData.append('usuario', this.usuarioServ.getUserLogged().username);
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/roles`, formData).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);  
         }
       }))
@@ -77,7 +77,7 @@ export class RolesService {
   eliminarRoles(email) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.delete(`${URL}/roles/${email}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {        
+        if (resp['ok'])  {        
           resolve(resp.data);  
         }
       }))

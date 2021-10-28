@@ -41,7 +41,7 @@ export class EmpresaService {
     params = params.append('empresa',parametro.empresa);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/empresa', {params}).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -51,7 +51,7 @@ export class EmpresaService {
   autoLlenadoPermisos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/permisos-empresa`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);            
         }
       }))
@@ -61,7 +61,7 @@ export class EmpresaService {
   getEmpresa() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/empresa`).subscribe((resp: any) => {                                            
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);            
         }
       }))
@@ -71,7 +71,7 @@ export class EmpresaService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/empresa`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);            
         }
       }))
@@ -82,7 +82,7 @@ export class EmpresaService {
   autoLlenado() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado-empresa`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -92,7 +92,7 @@ export class EmpresaService {
   getPermisosEmpresa() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/permisos-empresa`).subscribe((resp: any) => {                            
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -102,7 +102,7 @@ export class EmpresaService {
   getDato(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/empresa/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);            
         }
       }))
@@ -112,7 +112,7 @@ export class EmpresaService {
   showEmpresa(empresa: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/empresa/${empresa}`).subscribe((resp: any) => {                                            
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);            
         }
       }))
@@ -170,7 +170,7 @@ export class EmpresaService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/act/empresa/${id}`, formData).subscribe( (resp: any) => {                                    
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);       
         }
       }))
@@ -223,7 +223,7 @@ export class EmpresaService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/empresa`, formdata).subscribe((resp: any) => {         
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           this.empresaCreada.emit(resp.data);
           resolve(resp.data);      
         }
@@ -234,7 +234,7 @@ export class EmpresaService {
   guardarPermisosEmpresa(data) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/permisos-empresa`, data).subscribe((resp: any) => {   
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);      
         }
       }))

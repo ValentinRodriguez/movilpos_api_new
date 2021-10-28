@@ -32,7 +32,7 @@ export class PuestosService {
     params = params.append('puesto',parametro.monedas);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/nopuestos', {params}).subscribe((resp: any) => {            
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -42,7 +42,7 @@ export class PuestosService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/nopuestos`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -52,7 +52,7 @@ export class PuestosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/nopuestos/${id}`).subscribe((resp: any) => {                          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -67,7 +67,7 @@ export class PuestosService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/nopuestos`, formData).subscribe( (resp: any) => {
         
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.puestoGuardada.emit(resp.data);       
         }
@@ -78,7 +78,7 @@ export class PuestosService {
   actualizarPuesto(id:number, puesto: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/nopuestos/${id}`, puesto).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.puestoAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -89,7 +89,7 @@ export class PuestosService {
   borrarPuesto(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/nopuestos/${id}`).subscribe( (resp: any) => {           
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.puestoBorrada.emit(id);    
           resolve(resp.data);            
         }

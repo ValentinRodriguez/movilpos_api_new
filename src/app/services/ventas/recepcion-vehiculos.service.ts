@@ -34,7 +34,7 @@ export class RecepcionVehiculosService {
     params = params.append('recepciones',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/recepcion-vehiculos', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -44,7 +44,7 @@ export class RecepcionVehiculosService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/recepcion-vehiculos`).subscribe((resp: any) => {                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -54,7 +54,7 @@ export class RecepcionVehiculosService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/recepcion-vehiculos`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -64,7 +64,7 @@ export class RecepcionVehiculosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/recepcion-vehiculos/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -108,7 +108,7 @@ export class RecepcionVehiculosService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/recepcion-vehiculos`, recepcion).subscribe( (resp: any) => {     
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.recepcionGuardada.emit(resp.data);       
         }
@@ -157,7 +157,7 @@ export class RecepcionVehiculosService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/recepcion-vehiculos/${id}`, formData).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.recepcionAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -168,7 +168,7 @@ export class RecepcionVehiculosService {
   borrarRecepcion(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/recepcion-vehiculos/${id}`).subscribe( (resp: any) => {                                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.recepcionBorrada.emit(id);    
           resolve(resp.data);            
         }

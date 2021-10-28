@@ -21,7 +21,7 @@ export class ActividadesService {
     return new Promise( resolve => {
       this.http.get(URL+'/busqueda/actividades', {params}).subscribe((resp: any) => { 
                                       
-            if (resp['code'] === 200)  {          
+            if (resp['ok'])  {          
             resolve(resp.data);            
           }
         })
@@ -32,7 +32,7 @@ export class ActividadesService {
     return new Promise( resolve => {
       return this.http.get(`${URL}/actividades`).subscribe((resp: any) => {
                                     
-            if (resp['code'] === 200)  {          
+            if (resp['ok'])  {          
           resolve(resp.data);            
         }
       })
@@ -43,7 +43,7 @@ export class ActividadesService {
     return new Promise( resolve => {
       return this.http.get(`${URL}/actividades/${id}`).subscribe((resp: any) => {
                                     
-            if (resp['code'] === 200)  {          
+            if (resp['ok'])  {          
           resolve(resp.data);            
         }
       })
@@ -59,7 +59,7 @@ export class ActividadesService {
       this.http.post(`${ URL }/actividades`, actividad)
           .subscribe( (resp:any) => {
                                       
-            if (resp['code'] === 200)  {                                      
+            if (resp['ok'])  {                                      
             resolve(resp.data);    
             this.actividadGuardada.emit( resp.data );       
           }
@@ -74,7 +74,7 @@ export class ActividadesService {
                  
                 
                                             
-            if (resp['code'] === 200)  {                  
+            if (resp['ok'])  {                  
                   this.actividadActualizada.emit( resp.data );                            
                   resolve(resp.data);            
                 } else {
@@ -91,7 +91,7 @@ export class ActividadesService {
              
                                       
                                         
-            if (resp['code'] === 200)  {            
+            if (resp['ok'])  {            
               this.actividadBorrada.emit(id);    
               resolve(resp.data);            
             } else {

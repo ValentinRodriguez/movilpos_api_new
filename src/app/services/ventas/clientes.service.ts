@@ -33,7 +33,7 @@ export class ClientesService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/mclientes`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -43,7 +43,7 @@ export class ClientesService {
   autollenado() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/clientes`).subscribe((resp: any) => {                   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -53,7 +53,7 @@ export class ClientesService {
   getdato(id) {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/mclientes/${id}`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -122,7 +122,7 @@ export class ClientesService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/mclientes`, formdata).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.ClienteCreado.emit( resp.data );                                   
           resolve(resp.data);       
         }
@@ -166,7 +166,7 @@ export class ClientesService {
     }
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/mclientes/${id}`, client).subscribe( (resp: any) => {                                     
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.clientAct.emit( resp.data );                            
           resolve(resp.data);          
         }
@@ -177,7 +177,7 @@ export class ClientesService {
   getCiudad() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {                          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -187,7 +187,7 @@ export class ClientesService {
   getPais() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/pais`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -197,7 +197,7 @@ export class ClientesService {
   getZonas() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/zonas`).subscribe((resp: any) => {                                 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -207,7 +207,7 @@ export class ClientesService {
   getVendedor() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/vendedores`).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -217,7 +217,7 @@ export class ClientesService {
   getDocumento(){
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/documento`).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

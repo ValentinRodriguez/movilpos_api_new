@@ -32,7 +32,7 @@ export class BrandsService {
     params = params.append('marca',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/marca', {params}).subscribe((resp: any) => {                   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -42,7 +42,7 @@ export class BrandsService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/marca`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -52,7 +52,7 @@ export class BrandsService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/marca/${id}`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -67,7 +67,7 @@ export class BrandsService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/marca`, formData).subscribe( (resp: any) => {    
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.marcaGuardada.emit(resp.data);       
         }
@@ -78,7 +78,7 @@ export class BrandsService {
   actualizarMarca(id:number, marca: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/marca/${id}`, marca).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.marcaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -89,7 +89,7 @@ export class BrandsService {
   borrarMarca(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/marca/${id}`).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.marcaBorrada.emit(id);    
           resolve(resp.data);            
         }

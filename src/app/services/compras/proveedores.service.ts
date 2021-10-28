@@ -30,7 +30,7 @@ export class ProveedoresService implements OnDestroy{
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/proveedores`).subscribe((resp: any) => {   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -40,7 +40,7 @@ export class ProveedoresService implements OnDestroy{
   autoLlenado() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {                               
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -50,7 +50,7 @@ export class ProveedoresService implements OnDestroy{
   autollenado() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/proveedores`).subscribe((resp: any) => {                                
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -60,7 +60,7 @@ export class ProveedoresService implements OnDestroy{
   getDato(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/proveedores/${id}`).subscribe((resp: any) => {                           
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -72,7 +72,7 @@ export class ProveedoresService implements OnDestroy{
     params = params.append('proveedor',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => {                                
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -106,7 +106,7 @@ export class ProveedoresService implements OnDestroy{
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.proveedoresCreados.emit( resp.data );                                   
           resolve(resp.data);       
         }
@@ -140,7 +140,7 @@ export class ProveedoresService implements OnDestroy{
     }    
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.put(`${ URL }/proveedores/${id}`, data).subscribe( (resp: any) => {   
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.proveeact.emit( resp.data );                            
           resolve(resp.data);                               
         }
@@ -189,7 +189,7 @@ export class ProveedoresService implements OnDestroy{
     }       
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/proveedores/catalogo`, data).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.proveedoresCreados.emit( resp.data );                                   
           resolve(resp.data);       
         }

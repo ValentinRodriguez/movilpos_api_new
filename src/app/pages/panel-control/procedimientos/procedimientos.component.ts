@@ -47,7 +47,7 @@ export class ProcedimientosComponent implements OnInit {
     this.empresasServ.getPermisosEmpresa().then((resp: any) => {      
            
       if (resp.length !== 0) {
-        this.modulosServ.getModulos().then((resp2: any) =>{
+        this.modulosServ.getModulos().subscribe((resp2: any) =>{
           this.modulos = resp2  
           this.listaGenerales = JSON.parse(resp[0].perfil);
           this.listaModulos = JSON.parse(resp[0].modulos);          

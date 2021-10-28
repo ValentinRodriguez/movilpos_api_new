@@ -4,7 +4,7 @@
     <ng-template let-usuario pTemplate="item">
         <div class="product-item">
             <div class="image-container">
-                <img [src]="usuario.foto | usuario" [alt]="usuario.name" width="64" height="64" class="media-object rounded" />
+                <img [src]="usuario.img | usuario" [alt]="usuario.name" width="64" height="64" class="media-object rounded" />
             </div>
             <div class="product-list-detail">
                 <h5 class="p-mb-2">{{ usuario.name | titlecase }} {{ usuario.surname | titlecase }}</h5>

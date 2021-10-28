@@ -39,7 +39,7 @@ export class TransacionPagosService {
     params = params.append('transacciones',parametro.transacciones);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/cgtransacciones', {params}).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -49,7 +49,7 @@ export class TransacionPagosService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cgtransacciones`).subscribe((resp: any) => {              
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -59,7 +59,7 @@ export class TransacionPagosService {
   gastosXdepartamentos(gastos) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/gastos-dep/cgtransacciones`,gastos).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -69,7 +69,7 @@ export class TransacionPagosService {
   mayorGeneral(gastos) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/mayor-general/cgtransacciones`,gastos).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -79,7 +79,7 @@ export class TransacionPagosService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/cgtransacciones`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -89,7 +89,7 @@ export class TransacionPagosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cgtransacciones/${id}`).subscribe((resp: any) => {                     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -117,7 +117,7 @@ export class TransacionPagosService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/cgtransacciones`, data).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.transaccionGuardada.emit(resp.data);       
         }
@@ -128,7 +128,7 @@ export class TransacionPagosService {
   actualizarTransaccion(id:number, transaccion: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/cgtransacciones/${id}`, transaccion).subscribe( (resp: any) => {                 
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.transaccionAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -139,7 +139,7 @@ export class TransacionPagosService {
   borrarTransaccion(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/cgtransacciones/${id}`).subscribe( (resp: any) => {                       
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.transaccionBorrada.emit(id);    
           resolve(resp.data);            
         }

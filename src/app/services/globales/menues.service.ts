@@ -23,13 +23,7 @@ export class MenuesService {
   }
   
   getMenues() {
-    return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.get(`${URL}/menu`).subscribe(resp => {                
-        if (resp['code'] === 200)  {                           
-          resolve(resp['data']);            
-        }
-      }))
-    });
+    return this.http.get(`${URL}/modulos/menues`);
   }
 
   getMenu(id: number) {
@@ -39,7 +33,7 @@ export class MenuesService {
     return new Promise( resolve => {
       if (localMenues === null) { 
         this.listSubscribers.push(this.http.get(`${URL}/menu/${id}`).subscribe((resp: any) => { 
-          if (resp['code'] === 200)  {
+          if (resp['ok'])  {
             resolve(resp.data);            
           }
         }))

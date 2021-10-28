@@ -25,7 +25,7 @@ export class PaisesCiudadesService {
   getPaises() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/pais`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+        if (resp['ok']) {          
           resolve(resp.data);            
         }
       }))
@@ -35,7 +35,7 @@ export class PaisesCiudadesService {
   localidades() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/localidades`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+        if (resp['ok']) {          
           resolve(resp.data);            
         }
       }))
@@ -45,7 +45,7 @@ export class PaisesCiudadesService {
   getCiudades() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ciudad`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -55,7 +55,7 @@ export class PaisesCiudadesService {
   getProvincias() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/provincias`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -65,7 +65,7 @@ export class PaisesCiudadesService {
   buscaRegion(id: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/region/pais/${id}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -75,7 +75,7 @@ export class PaisesCiudadesService {
   buscaProvincias(id: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/provincias/region/${id}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -85,7 +85,7 @@ export class PaisesCiudadesService {
   buscaMunicipios(id: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/municipios/region/${id}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -95,7 +95,7 @@ export class PaisesCiudadesService {
   buscaCiudad(id: string) {    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ciudad/municipio/${id}`).subscribe((resp: any) => {          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -105,7 +105,7 @@ export class PaisesCiudadesService {
   getNacionalidades() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/nacionalidades`).subscribe((resp: any) => {
-        if (resp['code'] === 200) {          
+        if (resp['ok']) {          
           resolve(resp.data);            
         }
       }))
@@ -115,7 +115,7 @@ export class PaisesCiudadesService {
   buscaSector(id: string) {    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/sectores/ciudad/${id}`).subscribe((resp: any) => {          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

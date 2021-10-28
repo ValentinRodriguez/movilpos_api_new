@@ -33,7 +33,7 @@ export class TipoNegocioService {
     params = params.append('descripcion',parametro);    
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.get(URL+'/busqueda/tiponegocios', {params}).subscribe((resp: any) => {                                  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -43,7 +43,7 @@ export class TipoNegocioService {
   getDatos(){
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tiponegocios`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -53,7 +53,7 @@ export class TipoNegocioService {
   getDato(id:number){
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tiponegocios/${id}`).subscribe((resp: any) => {                                   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -63,7 +63,7 @@ export class TipoNegocioService {
   crearTipoNegocio(tipoNegocio: any) {    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/tiponegocios`, tipoNegocio).subscribe( (resp: any) => {    
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.tipoNegocioguardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
@@ -74,7 +74,7 @@ export class TipoNegocioService {
   borrarTipoNegocio(id) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/tiponegocios/${id}`).subscribe( (resp: any) => {                         
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.tipoNegocioBorrado.emit(id);    
           resolve(resp.data);            
         }
@@ -85,7 +85,7 @@ export class TipoNegocioService {
   actualizarTipoNegocio(id:number, tipo: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/tiponegocios/${id}`, tipo).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.tipoNegocioAct.emit( resp.data );                            
           resolve(resp.data);            
         }

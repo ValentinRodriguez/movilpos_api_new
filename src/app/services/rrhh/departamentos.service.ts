@@ -30,7 +30,7 @@ export class DepartamentosService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/departamentos`).subscribe((resp: any) => {                                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -40,7 +40,7 @@ export class DepartamentosService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/departamentos/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -55,7 +55,7 @@ export class DepartamentosService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/departamentos`, formData).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {   
+        if (resp['ok'])  {   
           this.departamentoEscogido.emit( resp );                                   
           resolve(resp.data);       
         }
@@ -72,7 +72,7 @@ export class DepartamentosService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/departamentos/${id}`, departamento).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.departamentoAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -83,7 +83,7 @@ export class DepartamentosService {
   borrarDepartamento(id) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${URL}/departamentos/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.departamentoBorrado.emit(id);    
           resolve(resp.data);            
         }
@@ -104,7 +104,7 @@ export class DepartamentosService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/departamentos', {params}).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

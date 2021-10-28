@@ -27,7 +27,7 @@ export class DgiiService {
     params = params.append('rnc',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/dgii-rnc', {params}).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -37,7 +37,7 @@ export class DgiiService {
   getRNCS() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/dgii-rnc`).subscribe((resp: any) => {    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -47,7 +47,7 @@ export class DgiiService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/marca`).subscribe((resp: any) => {                                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -57,7 +57,7 @@ export class DgiiService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/marca/${id}`).subscribe((resp: any) => {                                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

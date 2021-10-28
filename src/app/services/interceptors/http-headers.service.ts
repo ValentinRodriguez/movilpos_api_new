@@ -24,9 +24,9 @@ export class HttpHeadersService implements HttpInterceptor{
     this.globalFuntionServ.formSubmitted.emit(true);
     
     const sessionId = localStorage.getItem('sessionId');
-    const usuario_creador = `${this.user.username}`;
+    const usuario = `${this.user.username}`;
     const token = this.usuarioService.getTokenLocalStorage()?.access_token;
-    const empresa = this.usuarioService.getEmpresa()?.empresa.id || 1;
+    // const empresa = this.usuarioService.getEmpresa()?.empresa.id || 1;
 
     if (req.method.toLowerCase() === 'post' ||
         req.method.toLowerCase() === 'put' ||
@@ -39,12 +39,12 @@ export class HttpHeadersService implements HttpInterceptor{
         },
         setParams:{
           sessionId: sessionId,
-          usuario_creador: usuario_creador,
+          usuario: usuario,
           urlRequest: this.router.url,
-          empresa: empresa
+          // empresa: empresa
         },
         body: req.body instanceof FormData ? req.body.append('sessionId', sessionId)
-                                           : { ...req.body, sessionId, usuario_creador,empresa }
+                                           : { ...req.body, sessionId, usuario }
       })
     }
 
@@ -58,8 +58,7 @@ export class HttpHeadersService implements HttpInterceptor{
         setParams: {
           sessionId: sessionId,
           urlRequest: this.router.url,
-          usuario_creador: usuario_creador,
-          empresa: empresa
+          usuario: usuario
         }
       });
     }
@@ -67,7 +66,7 @@ export class HttpHeadersService implements HttpInterceptor{
     return next.handle(req).pipe(      
       tap(evt => {        
         if (evt instanceof HttpResponse) {
-          this.globalFuntionServ.formReceived.emit(false);
+          this.globalFuntionServ.formSubmitted.emit(false);
         }
       })
     )

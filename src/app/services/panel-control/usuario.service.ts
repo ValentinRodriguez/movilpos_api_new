@@ -5,7 +5,6 @@ import { LocalService } from '../crypt/local.service';
 import { Router } from '@angular/router';
 
 const URL = environment.url;
-const URLclean = environment.urlClean;
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +17,7 @@ export class UsuarioService implements OnDestroy {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
-  listSubscribers: any = [];  
-  formSubmitted = false;
+  listSubscribers: any = []; 
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -46,7 +44,7 @@ export class UsuarioService implements OnDestroy {
 
     return new Promise(resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {                      
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -64,7 +62,7 @@ export class UsuarioService implements OnDestroy {
     params = params.append('username',parametro.username);   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/username', {params}).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -77,7 +75,7 @@ export class UsuarioService implements OnDestroy {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/numemp', {params}).subscribe((resp: any) => {   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -87,7 +85,7 @@ export class UsuarioService implements OnDestroy {
   getUsers() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/users`).subscribe((resp: any) => {     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);  
         }
       }))
@@ -97,7 +95,7 @@ export class UsuarioService implements OnDestroy {
   getUser(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/users/${id}`).subscribe((resp: any) => {                     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);  
         }
       }))
@@ -133,30 +131,9 @@ export class UsuarioService implements OnDestroy {
   }
   
   login(forma: any) {
-    return new Promise(resolve => {
-      this.http.post(`${URL}/login`, forma).subscribe((resp: any) => {
-        console.log(resp);
-        
-        if (resp.code === 200)  {          
-          resolve(resp.data);           
-        }       
-      })
-    })    
+    return this.http.post(`${URL}/auth/login`, forma)
   }
-  
-  getMyOauthToken(form) {           
-    const data = {
-      username: form.email,
-      password: form.password
-    };
-    return new Promise(resolve => {
-      this.http.post(`${URL}/auth/token`, data).subscribe((resp: any) => {
-        this.formSubmitted = false;
-        resolve(resp);
-      });      
-    })
-  }
-  
+ 
   setLocalStorage(data) {
     this.localService.setJsonValue('localStorage', data);
   }
@@ -171,7 +148,7 @@ export class UsuarioService implements OnDestroy {
 
   logout(email) {
     return this.http.post(`${URL}/logout`, email).subscribe((resp: any) => {
-      if (resp['code'] === 200)  {  
+      if (resp['ok'])  {  
           localStorage.removeItem('modulos');
           localStorage.removeItem('perfiles');
           localStorage.removeItem('roles');
@@ -186,13 +163,13 @@ export class UsuarioService implements OnDestroy {
   }
 
   register(data: any) {
-    let foto = data.foto;
+    let img = data.img;
     const formData = new FormData();     
     
     for(let key in data){  
       switch (key) {
-        case 'foto':
-          formData.append('foto', foto, foto.name );
+        case 'img':
+          formData.append('img', img, img.name );
           break;
         default:
           formData.append(key, data[key])
@@ -202,7 +179,7 @@ export class UsuarioService implements OnDestroy {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/signup`, formData).subscribe((resp: any) => {                      
-        if (resp['code'] === 200)  {  
+        if (resp['ok'])  {  
           this.usuarioGuardado.emit( resp.data );        
           resolve(resp.data);  
         }
@@ -211,17 +188,17 @@ export class UsuarioService implements OnDestroy {
   }
 
   actUsuario(id, data) {    
-    let foto = data.foto;
+    let img = data.img;
     const formData = new FormData();
     
     for(let key in data){  
       switch (key) {
-        case 'foto':
-          if (typeof foto !== 'string') {   
-            formData.append('foto', foto, foto.name );    
-            formData.append('fotoLength', foto.length)          
+        case 'img':
+          if (typeof img !== 'string') {   
+            formData.append('img', img, img.name );    
+            formData.append('imgLength', img.length)          
           } else {
-            formData.append('foto', foto);
+            formData.append('img', img);
           }
         break;
         
@@ -233,7 +210,7 @@ export class UsuarioService implements OnDestroy {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/act/usuario/${id}`, formData).subscribe( (resp: any) => {                         
-        if (resp['code'] === 200)  {  
+        if (resp['ok'])  {  
           this.usuarioActualizado.emit( resp.data );                                     
           resolve(resp.data);
         }
@@ -244,7 +221,7 @@ export class UsuarioService implements OnDestroy {
   eliminarUsuario(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.delete(`${URL}/users/${id}`).subscribe((resp: any) => {                    
-        if (resp['code'] === 200)  {  
+        if (resp['ok'])  {  
           this.usuarioBorrado.emit( resp.data );        
           resolve(resp.data);  
         }
@@ -255,7 +232,7 @@ export class UsuarioService implements OnDestroy {
   refreshToken() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  { 
+        if (resp['ok'])  { 
           resolve(resp.data);  
         }
       }))

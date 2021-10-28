@@ -33,7 +33,7 @@ export class CuadresService {
     params = params.append('cuadre-caja',parametro.cuadres);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/cuadre-caja', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -43,7 +43,7 @@ export class CuadresService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cuadre-caja`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -53,7 +53,7 @@ export class CuadresService {
   autoLlenado() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/cuadre-caja`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -63,7 +63,7 @@ export class CuadresService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cuadre-caja/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -79,7 +79,7 @@ export class CuadresService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/cuadre-caja`, formData).subscribe( (resp: any) => {
                                    
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.cuadreGuardada.emit(resp.data);       
         }
@@ -90,7 +90,7 @@ export class CuadresService {
   actualizarCuadre(id:number, cuadre: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/cuadre-caja/${id}`, cuadre).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.cuadreAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -101,7 +101,7 @@ export class CuadresService {
   borrarCuadre(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${URL}/cuadre-caja/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.cuadreBorrada.emit(id);    
           resolve(resp.data);            
         }

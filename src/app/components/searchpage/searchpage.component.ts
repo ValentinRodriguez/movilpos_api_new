@@ -14,24 +14,14 @@ export class SearchpageComponent implements OnInit {
     filteredMenues: any[] = [];
 
     constructor(public app: AppMainComponent,
-                private menuesService: MenuesService,
                 private router: Router) {}
 
-    ngOnInit() {
-        const menu = JSON.parse(localStorage.getItem('menues'));
-        if (menu === null) {
-            this.menuesService.getMenues().then((resp: any) => {
-                localStorage.setItem('menues',JSON.stringify(resp));
-                this.menues = resp;           
-            })            
-        } else {       
-            this.menues = menu;
-        }
-    }
+    ngOnInit() { }
 
     filterMenues(event) {
         let filtered : any[] = [];
         let query = event.query;
+        
         for(let i = 0; i < this.menues.length; i++) {
             let country = this.menues[i];
             if (country.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {

@@ -39,7 +39,7 @@ export class SucursalesService {
     params = params.append('sucursales',parametro.sucursales);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/sucursales', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -49,7 +49,7 @@ export class SucursalesService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/sucursales`).subscribe((resp: any) => {        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -59,7 +59,7 @@ export class SucursalesService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/sucursales/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -69,7 +69,7 @@ export class SucursalesService {
   busquedaXempresa(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/sucursales/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -117,7 +117,7 @@ export class SucursalesService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/sucursales`, formdata).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.sucursalesGuardada.emit(resp.data);       
         }
@@ -128,7 +128,7 @@ export class SucursalesService {
   actualizarSucursales(id:number, sucursales: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/sucursales/${id}`, sucursales).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.sucursalesAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -139,7 +139,7 @@ export class SucursalesService {
   borrarSucursales(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/sucursales/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.sucursalesBorrada.emit(id);    
           resolve(resp.data);            
         }

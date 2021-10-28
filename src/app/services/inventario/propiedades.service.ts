@@ -40,7 +40,7 @@ export class PropiedadesService {
     params = params.append('propiedad',parametro.propiedad);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/propiedades', {params}).subscribe((resp: any) => {                                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -50,7 +50,7 @@ export class PropiedadesService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/propiedades`).subscribe((resp: any) => {                     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -60,7 +60,7 @@ export class PropiedadesService {
   getDato(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/propiedades/${id}`).subscribe((resp: any) => {                      
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -76,7 +76,7 @@ export class PropiedadesService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/propiedades`, formData).subscribe( (resp:any) => {  
         
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.propiedadGuardada.emit( resp.data );       
         }
@@ -87,7 +87,7 @@ export class PropiedadesService {
   actualizarPropiedad(id:string, propiedad: any) {        
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/propiedades/${id}`, propiedad).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                  
+        if (resp['ok'])  {                  
           this.propiedadActualizada.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -98,7 +98,7 @@ export class PropiedadesService {
   borrarPropiedad(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/propiedades/${id}`).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.propiedadBorrada.emit(id);    
           resolve(resp.data);            
         }

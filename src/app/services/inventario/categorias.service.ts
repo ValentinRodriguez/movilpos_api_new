@@ -31,7 +31,7 @@ export class CategoriasService {
     params = params.append('categoria',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {                            
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -41,7 +41,7 @@ export class CategoriasService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/categorias`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -51,7 +51,7 @@ export class CategoriasService {
   getDato(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/categorias/${id}`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -65,7 +65,7 @@ export class CategoriasService {
     }
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/categorias`, formData).subscribe( (resp:any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.categoriaGuardada.emit( resp.data );       
         }
@@ -76,7 +76,7 @@ export class CategoriasService {
   actualizarCategoria(id:number, categoria: any) {        
     return new Promise( resolve => {   
       this.listSubscribers.push(this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {                  
+        if (resp['ok'])  {                  
           this.categoriaActualizada.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -87,7 +87,7 @@ export class CategoriasService {
   borrarCategoria(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/categorias/${id}`).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.categoriaBorrada.emit(id);    
           resolve(resp.data);            
         }

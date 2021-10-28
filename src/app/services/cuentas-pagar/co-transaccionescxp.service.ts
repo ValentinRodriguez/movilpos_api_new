@@ -34,7 +34,7 @@ export class CoTransaccionescxpService {
     params = params.append('factura',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/transacciones-cxp', {params}).subscribe((resp: any) => {                          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -44,7 +44,7 @@ export class CoTransaccionescxpService {
   autoLlenado() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/transacciones-cxp`).subscribe((resp: any) => {      
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
             resolve(resp.data);            
         }
       }))
@@ -54,7 +54,7 @@ export class CoTransaccionescxpService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/transacciones-cxp`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -64,7 +64,7 @@ export class CoTransaccionescxpService {
   facturasPendientes() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/facturas-pendientes/transacciones-cxp`).subscribe((resp: any) => {                           
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -74,7 +74,7 @@ export class CoTransaccionescxpService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/transacciones-cxp/${id}`).subscribe((resp: any) => {                       
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
             resolve(resp.data);            
         }
       }))
@@ -85,7 +85,7 @@ export class CoTransaccionescxpService {
     let params = new HttpParams().set('proveedor',proveedor).set('ncf',ncf);
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/transacciones-cxp/verificancf`,{params}).subscribe((resp: any) => {                                  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -118,7 +118,7 @@ export class CoTransaccionescxpService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/transacciones-cxp`, data).subscribe( (resp: any) => {   
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.facturaGuardada.emit(resp.data);       
         }
@@ -151,7 +151,7 @@ export class CoTransaccionescxpService {
     }
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/transacciones-cxp/${id}`, data).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.facturaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -162,7 +162,7 @@ export class CoTransaccionescxpService {
   borrarFactura(id: number) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/transacciones-cxp/${id}`).subscribe( (resp: any) => {   
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
         this.facturaBorrada.emit(id);    
           resolve(resp.data);            
         }

@@ -65,7 +65,7 @@ export class FormularioUsuariosComponent implements OnInit {
       this.usuariosServ.getUser(resp).then((res: any) => {
         const password = this.forma.get('password');
         const password_confirmation = this.forma.get('password_confirmation');
-        this.imgUser = res.foto;
+        this.imgUser = res.img;
         password.clearValidators();   
         password_confirmation.clearValidators(); 
         password.updateValueAndValidity
@@ -98,7 +98,7 @@ export class FormularioUsuariosComponent implements OnInit {
       estado:                ['activo', Validators.required],
       impresora:             ['', Validators.required],
       usuario_modificador:   [''],
-      foto:                  []
+      img:                  []
     })
   }
 
@@ -221,7 +221,7 @@ export class FormularioUsuariosComponent implements OnInit {
       return;
     }
 
-    this.forma.controls['foto'].setValue(files[0])
+    this.forma.controls['img'].setValue(files[0])
     
     var reader = new FileReader();
     this.imagePathUser = files;

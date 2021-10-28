@@ -34,7 +34,7 @@ export class DireccionesService implements OnDestroy{
     params = params.append('direccion',parametro);    
     return new Promise( resolve => {
     this.listSubscribers.push(this.http.get(URL+'/busqueda/direccion', {params}).subscribe((resp: any) => {
-          if (resp['code'] === 200)  {          
+          if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -44,7 +44,7 @@ export class DireccionesService implements OnDestroy{
   getDatos() {
     return new Promise( resolve => {
      this.listSubscribers.push(this.http.get(`${URL}/direccion-envio`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -54,7 +54,7 @@ export class DireccionesService implements OnDestroy{
   getDato(id) {
     return new Promise( resolve => {
      this.listSubscribers.push(this.http.get(`${URL}/direccion-envio/${id}`).subscribe((resp: any) => {                                   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -77,7 +77,7 @@ export class DireccionesService implements OnDestroy{
     }
     return new Promise( resolve => {
      this.listSubscribers.push(this.http.post(`${ URL }/direccion-envio`, data).subscribe( (resp:any) => { 
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.direccionGuardada.emit( resp.data );       
         }
@@ -101,7 +101,7 @@ export class DireccionesService implements OnDestroy{
     }       
     return new Promise( resolve => {
      this.listSubscribers.push(this.http.put(`${ URL }/direccion-envio/${id}`, data).subscribe( (resp: any) => {                                    
-        if (resp['code'] === 200)  {                  
+        if (resp['ok'])  {                  
           this.direccionActualizada.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -112,7 +112,7 @@ export class DireccionesService implements OnDestroy{
   borrarDireccion(id: string) {
     return new Promise( resolve => {      
      this.listSubscribers.push(this.http.delete(`${ URL }/direccion-envio/${id}`).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.direccionBorrada.emit(id);    
           resolve(resp.data);            
         }

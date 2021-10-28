@@ -31,7 +31,7 @@ export class OrdenescomprasService implements OnDestroy {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ordenescompras`).subscribe((resp: any) => {                                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
      }))
@@ -41,7 +41,7 @@ export class OrdenescomprasService implements OnDestroy {
   autoLlenado() {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/autollenado/ordenescompras`).subscribe((resp: any) => {                                      
-          if (resp['code'] === 200)  {          
+          if (resp['ok'])  {          
             resolve(resp.data);            
           }
       }))
@@ -87,7 +87,7 @@ export class OrdenescomprasService implements OnDestroy {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/ordenescompras`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.ordenGuardada.emit( resp );                                   
           resolve(resp.data);       
         }
@@ -98,7 +98,7 @@ export class OrdenescomprasService implements OnDestroy {
   getDato(id:any) {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/ordenescompras/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);                         
         }
       }))
@@ -108,7 +108,7 @@ export class OrdenescomprasService implements OnDestroy {
   buscaOrdenCompra(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/ordenescompras/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -135,7 +135,7 @@ export class OrdenescomprasService implements OnDestroy {
 
     return new Promise( resolve => {   
       this.listSubscribers.push(this.http.post(`${ URL }/actualizarcompras/${id}`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {   
+        if (resp['ok'])  {   
           this.ordenact.emit(1);
           resolve(resp.data);          
         }
@@ -165,7 +165,7 @@ export class OrdenescomprasService implements OnDestroy {
     params = params.append('orden',parametro.orden);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

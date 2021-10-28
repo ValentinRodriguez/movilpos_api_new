@@ -328,7 +328,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       return;
     }
 
-    this.forma.controls['foto_empleado'].setValue(files[0])
+    this.forma.controls['img_empleado'].setValue(files[0])
     
     var reader = new FileReader();
     this.imagePathUser = files;
@@ -363,7 +363,7 @@ export class FormularioEmpleadosComponent implements OnInit {
       fecha_suspencion: [""],
       fecha_termino_contrato: [""],
       fecha_ultimo_aumento: [""],
-      foto_empleado: [""],
+      img_empleado: [""],
       tipo_sueldo: ["", Validators.required],
       area: ["", Validators.required],
       id_ciudad: ["", Validators.required],

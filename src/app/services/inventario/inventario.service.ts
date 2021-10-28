@@ -45,7 +45,7 @@ export class InventarioService {
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -63,7 +63,7 @@ export class InventarioService {
     params = params.append('producto',parametro.producto);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -73,7 +73,7 @@ export class InventarioService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {    
-        if (resp['code'] === 200) {
+        if (resp['ok']) {
           resolve(resp.data);            
         }
       }))
@@ -83,7 +83,7 @@ export class InventarioService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/invproductos`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -107,7 +107,7 @@ export class InventarioService {
   getTipoProducto() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tipo/invproducto`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -117,7 +117,7 @@ export class InventarioService {
   getMedidas() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/medidas/invproducto`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -127,7 +127,7 @@ export class InventarioService {
   getPropiedades() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/propiedades/invproducto`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -137,7 +137,7 @@ export class InventarioService {
   autoLlenado() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/autollenado/invproducto`).subscribe((resp: any) => {                                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -200,7 +200,7 @@ export class InventarioService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/invproductos`, formData).subscribe((resp: any) => {
         console.log(resp);        
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.productoGuardado.emit(resp.data);                            
           resolve(resp.data);            
         }
@@ -252,7 +252,7 @@ export class InventarioService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.productoActualizado.emit( resp );                            
           resolve(resp.data);            
         }
@@ -272,7 +272,7 @@ export class InventarioService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {                 
-        if (resp['code'] === 200)  {                            
+        if (resp['ok'])  {                            
           resolve(resp.data);            
         }
       }))
@@ -282,7 +282,7 @@ export class InventarioService {
   borrarInvProducto(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/invproductos/${id}`).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.productoBorrado.emit(id);    
           resolve(resp.data);            
         }
@@ -325,7 +325,7 @@ export class InventarioService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/reportinv/invcatalogo', this.params).subscribe((resp: any) => {                      
         console.log(resp);        
-        if (resp['code'] === 200) {
+        if (resp['ok']) {
           resolve(resp.data);            
         }
       }))

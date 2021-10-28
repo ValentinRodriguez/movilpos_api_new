@@ -30,7 +30,7 @@ export class OrdenPedidosService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ordenespedidos`).subscribe((resp: any) => {                                              
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -40,7 +40,7 @@ export class OrdenPedidosService {
   getDato(id:number) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ordenespedidos/${id}`).subscribe((resp: any) => {          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -50,7 +50,7 @@ export class OrdenPedidosService {
   buscaOrdenPedido(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/orden-pedido/${id}`).subscribe((resp: any) => {                        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -106,7 +106,7 @@ export class OrdenPedidosService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/ordenespedidos`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.ordenCreada.emit( resp );                                   
           resolve(resp.data);       
         }
@@ -117,7 +117,7 @@ export class OrdenPedidosService {
   actualizarPedido(id:number, categoria: any) {        
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                  
+        if (resp['ok'])  {                  
           this.ordenAct.emit( resp.data );                            
           resolve(resp.data);            
         }

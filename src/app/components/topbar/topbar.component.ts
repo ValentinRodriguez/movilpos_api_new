@@ -1,11 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { Subscription } from 'rxjs';
 import { BreadcrumbService } from 'src/app/app.breadcrumb.service';
 import { AppMainComponent } from 'src/app/app.main.component';
 import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
-import { ModulosService } from 'src/app/services/globales/modulos.service';
 import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 
 import { FacturasService } from 'src/app/services/ventas/facturas.service';
@@ -29,7 +26,7 @@ export class TopbarComponent implements OnDestroy, OnInit {
     stateOptions: any[];
     value1: string = "pos";
     value2: string = "efectivo";
-    foto: any;
+    img: any;
     @Input() simbolo: string
     stateOptions2: { label: string; value: string; icon: string; justify: string; }[];
     listSubscribers: any = [];
@@ -40,11 +37,12 @@ export class TopbarComponent implements OnDestroy, OnInit {
                 public facturaServ: FacturasService,                
                 public datosEstaticos: DatosEstaticosService) {
 
-        this.usuario = this.usuarioServ.getUserLogged();
+        this.usuario = this.usuarioServ.getUserLogged().usuario;
         
         if (this.usuario !== null) {
-            this.foto = this.usuario.user.foto                
-            this.nombre = this.usuario.user.name+' '+this.usuario.user.surname;
+            console.log(this.usuario);
+            this.img = this.usuario.img                
+            this.nombre = this.usuario.nombre;
         }    
     }
     

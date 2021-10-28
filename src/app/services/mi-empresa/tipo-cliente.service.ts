@@ -30,7 +30,7 @@ export class TipoClienteService {
   getDatos(){
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tipoclientes`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -40,7 +40,7 @@ export class TipoClienteService {
   getDato(id:number){
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/tipoclientes/${id}`).subscribe((resp: any) => {          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -60,7 +60,7 @@ export class TipoClienteService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/tipoclientes', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -71,7 +71,7 @@ export class TipoClienteService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/tipoclientes`, tipoCliente).subscribe( (resp: any) => {
         
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.tipoClienteguardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
@@ -82,7 +82,7 @@ export class TipoClienteService {
   borrarTipoCliente(id) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/tipoclientes/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.tipoClienteBorrado.emit(id);    
           resolve(resp.data);            
         }
@@ -93,7 +93,7 @@ export class TipoClienteService {
   actualizarTipoCliente(id:number, tipo: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/tipoclientes/${id}`, tipo).subscribe( (resp: any) => {     
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.tipoClienteAct.emit( resp.data );                            
           resolve(resp.data);            
         }

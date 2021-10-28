@@ -38,7 +38,7 @@ export class TurnosService {
     params = params.append('turnos',parametro.turnos);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/turnos', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -48,7 +48,7 @@ export class TurnosService {
   getDatos() {   
     return new Promise(resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/turnos`).subscribe((resp: any) => {                    
-        if (resp['code'] === 200)  {   
+        if (resp['ok'])  {   
           resolve(resp.data);            
         }
       }))
@@ -58,7 +58,7 @@ export class TurnosService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/turnos/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -76,7 +76,7 @@ export class TurnosService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/turnos`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.turnoGuardada.emit(resp.data);       
         }
@@ -87,7 +87,7 @@ export class TurnosService {
   actualizarTurno(id:number, turno: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/turnos/${id}`, turno).subscribe( (resp: any) => {   
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.turnoAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -98,7 +98,7 @@ export class TurnosService {
   borrarTurno(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/turnos/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.turnoBorrada.emit(id);    
           resolve(resp.data);            
         }

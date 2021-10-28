@@ -42,7 +42,7 @@ export class GestionEmpleadosComponent implements OnInit {
     this.listObserver();
     
     this.cols = [
-      { field: 'foto_empleado', header: 'Foto' },
+      { field: 'img_empleado', header: 'img' },
       { field: 'id', header: 'Código' },
       { field: 'cedula', header: 'Cédula' },
       { field: 'depto', header: 'Departamento' },

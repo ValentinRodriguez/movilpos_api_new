@@ -38,7 +38,7 @@ export class MonedasService {
     params = params.append('monedas',parametro.monedas);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/monedas', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -48,7 +48,7 @@ export class MonedasService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/monedas`).subscribe((resp: any) => {                    
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -58,7 +58,7 @@ export class MonedasService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/monedas/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -73,7 +73,7 @@ export class MonedasService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/monedas`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.monedaGuardada.emit(resp.data);       
         }
@@ -84,7 +84,7 @@ export class MonedasService {
   actualizarMoneda(id:number, moneda: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/monedas/${id}`, moneda).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.monedaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -95,7 +95,7 @@ export class MonedasService {
   borrarMoneda(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/monedas/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.monedaBorrada.emit(id);    
           resolve(resp.data);            
         }

@@ -22,9 +22,9 @@ export class LoadingComponent implements OnInit {
         this.formSubmitted = resp;      
       });
   
-      this.globalServ.formReceived.subscribe(resp => {
-        this.formSubmitted = resp;
-      })      
+      // this.globalServ.formReceived.subscribe(resp => {
+      //   this.formSubmitted = resp;
+      // })      
     }
   }
 }

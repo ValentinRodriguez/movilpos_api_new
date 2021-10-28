@@ -33,8 +33,8 @@
 								<td *ngFor="let col of columns"  class="centrar" >
 									<span class="p-column-title">{{col.header}}</span>								
 									
-									<span *ngIf="col.field === 'foto_empleado'">
-										<img [alt]="rowData[col.field]" [src]="rowData.foto_empleado | usuario" width="64"
+									<span *ngIf="col.field === 'img_empleado'">
+										<img [alt]="rowData[col.field]" [src]="rowData.img_empleado | usuario" width="64"
 											style="vertical-align: middle"/>
 										<div>{{rowData['primernombre']+' '+rowData['primerapellido'] | titlecase}}</div>
 									</span>

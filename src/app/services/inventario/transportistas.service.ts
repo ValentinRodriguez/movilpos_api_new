@@ -30,7 +30,7 @@ export class TransportistasService {
   getDatos() {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.get(`${URL}/transportistas`).subscribe((resp: any) => {                 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -40,7 +40,7 @@ export class TransportistasService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/transportistas/${id}`).subscribe((resp: any) => {      
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -84,7 +84,7 @@ export class TransportistasService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/transportistas`, formdata).subscribe( (resp: any) => {  
-         if (resp['code'] === 200)  {    
+         if (resp['ok'])  {    
           this.trasnportistaGuardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
@@ -109,7 +109,7 @@ export class TransportistasService {
       
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/transportistas/${id}`, formdata).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.trasnportistaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -120,7 +120,7 @@ export class TransportistasService {
   borrarTransportista(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/transportistas/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.trasnportistaBorrado.emit(id);    
           resolve(resp.data);            
         }

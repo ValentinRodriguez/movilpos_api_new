@@ -51,7 +51,7 @@ export class PermisosUsuariosComponent implements OnInit {
      
     this.rolesServ.getRolFull(this.user.email, this.user.username).then((resp: any) => { 
       if (resp.length !== 0) {
-        this.modulosServ.getModulos().then((resp2: any) =>{
+        this.modulosServ.getModulos().subscribe((resp2: any) =>{
           this.modulos = resp2  
           this.listaPerfiles = JSON.parse(resp[0].perfil);
           this.listaModulos = JSON.parse(resp[0].modulos);          

@@ -27,7 +27,7 @@ export class RequisicionesService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/requisiciones`).subscribe((resp: any) => {               
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -83,7 +83,7 @@ export class RequisicionesService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/requisiciones`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.requisicionGuardada.emit( resp );                                   
           resolve(resp.data);       
         }
@@ -94,7 +94,7 @@ export class RequisicionesService {
   getDato(id:any) {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/requisiciones/${id}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);                         
         }
       }))
@@ -104,7 +104,7 @@ export class RequisicionesService {
   buscaRequisicion(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/requisicion/${id}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -132,7 +132,7 @@ export class RequisicionesService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/requisiciones/${id}`, formData).subscribe( (resp: any) => {        
                  
-        if (resp['code'] === 200)  {  
+        if (resp['ok'])  {  
           this.requisicionact.emit(1);               
           resolve(resp.data);          
         }
@@ -162,7 +162,7 @@ export class RequisicionesService {
     params = params.append('requisicion',parametro.requisicion);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/requisicion', {params}).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

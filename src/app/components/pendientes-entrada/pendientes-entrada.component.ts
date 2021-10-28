@@ -31,7 +31,7 @@ export class PendientesEntradaComponent implements OnInit {
       { field: 'num_doc', header: 'Documento' },
       { field: 'fecha', header: 'Fecha' },
       //{ field: 'descripcion_cuenta', header: 'Descripción' },
-      { field: 'usuario_creador', header: 'Usuario' },
+      { field: 'usuario', header: 'Usuario' },
       //{ field: 'cantidad1', header: 'Cantidad' },
       { field: 'check_impresión', header: 'Impresión' },
       { field: 'check_detalle', header: 'Detalle' }

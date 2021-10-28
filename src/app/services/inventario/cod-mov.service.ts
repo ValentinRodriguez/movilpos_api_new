@@ -38,7 +38,7 @@ export class CodMovService {
     params = params.append('titulo',parametro.titulo);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -48,7 +48,7 @@ export class CodMovService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -58,7 +58,7 @@ export class CodMovService {
   getDato(cuenta: string) {
     return new Promise( resolve => {
         this.listSubscribers.push(this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -82,7 +82,7 @@ export class CodMovService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.tipoMovGuardado.emit( resp.data );                                   
           resolve(resp.data);       
         }
@@ -107,7 +107,7 @@ export class CodMovService {
     
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.put(`${ URL }/codigosmovimientos/${id}`, data).subscribe( (resp: any) => {   
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.tipoMovActualizado.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -118,7 +118,7 @@ export class CodMovService {
   borrarTipoMov(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/codigosmovimientos/${id}`).subscribe( (resp: any) => {                            
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.tipoMovBorrado.emit(id);    
           resolve(resp.data);            
         }
@@ -135,7 +135,7 @@ export class CodMovService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           resolve(resp.data);       
         }
       }))
@@ -145,7 +145,7 @@ export class CodMovService {
   usuariosPermisosMov(id) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {                   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

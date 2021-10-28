@@ -13,7 +13,6 @@ export class GlobalFunctionsService {
   private subject = new Subject<any>();
   finalizar = new EventEmitter;
   formSubmitted = new EventEmitter;
-  formReceived = new EventEmitter;
   clearProductfu = new EventEmitter();
   enviarImagen = new EventEmitter(); 
 
@@ -38,7 +37,7 @@ export class GlobalFunctionsService {
   editando(id: string, ruta: string) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/${ruta}/${id}`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -51,14 +50,6 @@ export class GlobalFunctionsService {
   
   finalizando() {
     this.finalizar.emit(true);
-  }
-
-  enviando(resp) {
-    this.formSubmitted.emit(resp);
-  }
-
-  recibiendo(resp) {
-    this.formReceived.emit(resp);
   }
   
   sendMessage(message: string) {

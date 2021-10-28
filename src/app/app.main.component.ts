@@ -37,30 +37,19 @@ export class AppMainComponent implements OnInit{
     permisos: any[] = [];
     notificationMenuClick2: boolean;
     topbarNotificationMenuActive2: boolean;
-    //echo: Echo;
 
     constructor(private menuService: MenuService,
                 public route: Router,
                 private usuarioSrv: UsuarioService,
                 private primengConfig: PrimeNGConfig,
                 private permisosServ: RolesService) {
-                    this.usuario = usuarioSrv.getUserLogged();
-                    console.log(this.usuario);        
-                    // this.initializeEcho();
+                    this.usuario = usuarioSrv.getUserLogged().usuario;
+                    console.log(this.usuario); 
                 }
 
     ngOnInit() {        
         this.primengConfig.ripple = true;   
-        const rol = JSON.parse(localStorage.getItem('roles'));
-        
-        if (rol == null) {                   
-            this.permisosServ.getRol(this.usuario.user.email).then((resp: any) => {                
-                localStorage.setItem('roles', JSON.stringify(resp));
-                this.permisos = resp;          
-            })
-        } else {            
-            this.permisos = rol;
-        }
+        this.permisos = this.usuario.rol
 
         if (localStorage.getItem('tipo-menu')) {
             this.menuMode = localStorage.getItem('tipo-menu');    

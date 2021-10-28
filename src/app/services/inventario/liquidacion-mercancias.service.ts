@@ -35,7 +35,7 @@ export class LiquidacionMercanciasService {
     params = params.append('liquidaciones',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/liquidaciones', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -46,7 +46,7 @@ export class LiquidacionMercanciasService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/liquidaciones/pendientes`).subscribe((resp: any) => {   
                                  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -57,7 +57,7 @@ export class LiquidacionMercanciasService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/liquidaciones/autollenado`).subscribe((resp: any) => {   
                                  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -67,7 +67,7 @@ export class LiquidacionMercanciasService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/liquidaciones/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -82,7 +82,7 @@ export class LiquidacionMercanciasService {
 
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/liquidaciones`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.liquidacionGuardada.emit(resp.data);       
         }
@@ -93,7 +93,7 @@ export class LiquidacionMercanciasService {
   actualizarLiquidacion(id:number, liquidacion: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/liquidaciones/${id}`, liquidacion).subscribe( (resp: any) => {        
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.liquidacionAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -104,7 +104,7 @@ export class LiquidacionMercanciasService {
   borrarLiquidacion(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/liquidaciones/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.liquidacionBorrada.emit(id);    
           resolve(resp.data);            
         }

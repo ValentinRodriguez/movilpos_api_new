@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'http://movilsoluciones_pos.test:8090/api',
-  urlClean: 'http://movilsoluciones_pos.test:8090',
+  url: 'http://localhost:9091/api',
+  urlClean: 'http://localhost:9091',
   urlApi: 'https://vindecoder.p.rapidapi.com/v1.1/decode_vin?vin=',
   pusher_ID: '123',
   pusher_KEY: '123',

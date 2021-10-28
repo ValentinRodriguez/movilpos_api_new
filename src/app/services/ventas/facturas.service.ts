@@ -32,7 +32,7 @@ export class FacturasService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -42,7 +42,7 @@ export class FacturasService {
   getDato() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/vefacturas`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -52,7 +52,7 @@ export class FacturasService {
   buscaFactura(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/factura/${id}`).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -62,7 +62,7 @@ export class FacturasService {
   buscaOrdenPedido(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/orden/${id}`).subscribe((resp: any) => {                             
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -73,7 +73,7 @@ export class FacturasService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/vefacturas`, factura).subscribe( (resp: any) => {                   
         this.guardando.emit(false);
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.facturaCreada.emit( resp );                                   
           resolve(resp.data);       
         }
@@ -85,7 +85,7 @@ export class FacturasService {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/cctransacciones`, factura).subscribe( (resp: any) => {                   
         this.guardando.emit(false);                
-        if (resp['code'] === 200)  {    
+        if (resp['ok'])  {    
           this.facturaCreada.emit( resp );                                   
           resolve(resp.data);       
         }

@@ -223,7 +223,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
           if (resp.length === 0) {
             let marca = {
               "descripcion": response.make.toLowerCase(),
-              "usuario_creador": this.usuario.username,
+              "usuario": this.usuario.username,
               "estado": "activo",
             }
             this.marcaService.crearMarca(marca).then((res: any) =>{ 
@@ -238,7 +238,7 @@ export class FormularioRecepcionVehiculosComponent implements OnInit {
           if (resp.length === 0) {
             let categoria = {
               "descripcion": response.model.toLowerCase(),
-              "usuario_creador": this.usuario.username,
+              "usuario": this.usuario.username,
               "estado": "activo",
             }
             this.categoriasServ.crearCategoria(categoria).then((res: any) =>{     

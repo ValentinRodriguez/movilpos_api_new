@@ -40,7 +40,7 @@ export class CgcatalogoService {
     params = params.append('descripcion',parametro.descripcion);  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {                                              
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -52,7 +52,7 @@ export class CgcatalogoService {
     params = params.append('cuenta_no',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {                           
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -62,7 +62,7 @@ export class CgcatalogoService {
   getDatos() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cgcatalogo`).subscribe((resp: any) => {                          
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -72,7 +72,7 @@ export class CgcatalogoService {
   getDatosAux() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {                   
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -82,7 +82,7 @@ export class CgcatalogoService {
   codigosRetencion() {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/codigos-retencion`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -92,7 +92,7 @@ export class CgcatalogoService {
   getDato(id: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cgcatalogo/${id}`).subscribe((resp: any) => {        
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -136,7 +136,7 @@ export class CgcatalogoService {
     
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {        
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           resolve(resp.data);       
           this.catalogoGuardado.emit(resp.data);
         }
@@ -185,7 +185,7 @@ export class CgcatalogoService {
       
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.catalogoActualizado.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -196,7 +196,7 @@ export class CgcatalogoService {
   borrarCatalogo(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.catalogoBorrado.emit(id);    
           resolve(resp.data);            
         }

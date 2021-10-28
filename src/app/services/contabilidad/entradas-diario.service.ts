@@ -31,7 +31,7 @@ export class EntradasDiarioService {
     params = params.append('marca',parametro);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/marca', {params}).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -41,7 +41,7 @@ export class EntradasDiarioService {
   getDatos() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cgentradasdiarios`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -51,7 +51,7 @@ export class EntradasDiarioService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/cgentradasdiarios/${id}`).subscribe((resp: any) => {               
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -61,7 +61,7 @@ export class EntradasDiarioService {
   getEdsec() {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/ed/secuencia`).subscribe((resp: any) => {                                      
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -71,7 +71,7 @@ export class EntradasDiarioService {
   crearEntrada(entradas: any) {
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/cgentradasdiarios`, entradas).subscribe( (resp: any) => { 
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);   
           this.entradaGuardada.emit(resp.data); 
         }
@@ -82,7 +82,7 @@ export class EntradasDiarioService {
   actualizarEntrada(id:number, ent: any) {      
     return new Promise( resolve => {  
       this.listSubscribers.push(this.http.put(`${ URL }/cgentradasdiarios/${id}`, ent).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.entradaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -93,7 +93,7 @@ export class EntradasDiarioService {
   borrarMarca(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/marca/${id}`).subscribe( (resp: any) => {                                        
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.marcaBorrada.emit(id);    
           resolve(resp.data);            
         }
@@ -105,7 +105,7 @@ export class EntradasDiarioService {
     let params = new HttpParams().set('ref',ref);
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/transacciones-cg/verificaEntrada`,{params}).subscribe((resp: any) => {     
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))

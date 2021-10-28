@@ -150,7 +150,7 @@ export class FormularioOrdenesPedidosComponent implements OnInit {
        control.markAllAsTouched();
      })
    }else{      
-     this.forma.value.usuario_creador = this.usuario.username;
+     this.forma.value.usuario = this.usuario.username;
      this.ordenServ.crearOrdenes(this.forma.value).then((resp: any)=>{
        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente!','Registro creado de manera correcta');       
      })

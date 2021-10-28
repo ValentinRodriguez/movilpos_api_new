@@ -30,7 +30,7 @@ export class ZonasService {
   getDatos() {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.get(`${URL}/zonas`).subscribe((resp: any) => {  
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -48,7 +48,7 @@ export class ZonasService {
     params = params.append('zona',parametro.zona);    
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(URL+'/busqueda/zonas', {params}).subscribe((resp: any) => {                         
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -58,7 +58,7 @@ export class ZonasService {
   getDato(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/zonas/${id}`).subscribe((resp: any) => { 
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -68,7 +68,7 @@ export class ZonasService {
   getZonaProvincia(id) {   
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.get(`${URL}/busqueda/zonas-provincias/${id}`).subscribe((resp: any) => {
-        if (resp['code'] === 200)  {          
+        if (resp['ok'])  {          
           resolve(resp.data);            
         }
       }))
@@ -82,7 +82,7 @@ export class ZonasService {
     }
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.post(`${ URL }/zonas`, zona).subscribe( (resp: any) => {
-        if (resp['code'] === 200)  {                                      
+        if (resp['ok'])  {                                      
           resolve(resp.data);    
           this.zonaGuardada.emit(resp.data);       
         }
@@ -93,7 +93,7 @@ export class ZonasService {
   actualizarZona(id:number, zona: any) {  
     return new Promise( resolve => {
       this.listSubscribers.push(this.http.put(`${ URL }/zonas/${id}`, zona).subscribe( (resp: any) => {    
-        if (resp['code'] === 200)  {
+        if (resp['ok'])  {
           this.zonaAct.emit( resp.data );                            
           resolve(resp.data);            
         }
@@ -104,7 +104,7 @@ export class ZonasService {
   borrarZona(id: string) {
     return new Promise( resolve => {      
       this.listSubscribers.push(this.http.delete(`${ URL }/zonas/${id}`).subscribe( (resp: any) => {                          
-        if (resp['code'] === 200)  {            
+        if (resp['ok'])  {            
           this.zonaBorrada.emit(id);    
           resolve(resp.data);            
         }
