@@ -235,8 +235,10 @@ export class FormularioInvTransaccionesComponent implements OnInit {
   }
 
   todosLosMov() {
-    this.codMovServ.getDatos().then((resp: any) => {  
-      this.movimientos = resp.codigosmov;
+    this.codMovServ.getDatos().subscribe((resp: any) => {  
+      if (resp.ok) {
+        this.movimientos = resp.codigosmov;        
+      }
     })
   }
 

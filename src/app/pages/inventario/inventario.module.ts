@@ -63,6 +63,8 @@ import { FormularioLiquidacionMercanciasComponent } from './mantenimiento/liquid
 import { CostoStandardComponent } from './mantenimiento/costo-standard/costo-standard.component';
 import { FormularioCostoStandardComponent } from './mantenimiento/costo-standard/formulario-costo-standard/formulario-costo-standard.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import {RatingModule} from 'primeng/rating';
+
 @NgModule({
   declarations: [
     BodegasComponent,
@@ -99,6 +101,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    RatingModule,
     InventarioRoutingModule,
     DropdownModule,
     TableModule,

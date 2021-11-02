@@ -46,8 +46,6 @@ import { FormularioOrdenesPedidosComponent } from './mantenimiento/ordenes-pedid
 import { OrdenesPedidosComponent } from './mantenimiento/ordenes-pedidos/ordenes-pedidos.component';
 import { StepOrdenesPedidosComponent } from './mantenimiento/ordenes-pedidos/step-ordenes-pedidos/step-ordenes-pedidos.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { RecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/recepcion-vehiculos.component';
-import { FormularioRecepcionVehiculosComponent } from './mantenimiento/recepcion-vehiculos/formulario-recepcion-vehiculos/formulario-recepcion-vehiculos.component';
 import { FormularioTipoClientesComponent } from '../empresa/tipo-clientes/formulario-tipo-clientes/formulario-tipo-clientes.component';
 import { ActoDescargoComponent } from './mantenimiento/acto-descargo/acto-descargo.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -69,8 +67,6 @@ import { FormularioCotizacionesComponent } from "./mantenimiento/cotizaciones/fo
     ClientesComponent,
     StepclientesComponent,
     FormularioClientesComponent,
-    RecepcionVehiculosComponent,
-    FormularioRecepcionVehiculosComponent,
     ActoDescargoComponent,
     FormularioCotizacionesComponent,
     TablaAmortizacionesComponent,

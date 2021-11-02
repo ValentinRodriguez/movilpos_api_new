@@ -25,8 +25,7 @@ export class CategoriasComponent implements OnInit {
   constructor(private uiMessage: UiMessagesService,              
               private categoriasServ: CategoriasService,
               private confirmationService: ConfirmationService,
-              public dialogService: DialogService) { 
-                ;
+              public dialogService: DialogService) {                 
                 this.todasLasCategorias();
               }
   ngOnDestroy(): void {
@@ -36,7 +35,7 @@ export class CategoriasComponent implements OnInit {
   ngOnInit(): void {
     this.listObserver();
     this.cols = [
-      { field: 'id', header: 'Código' },
+      { field: 'uid', header: 'Código' },
       { field: 'descripcion', header: 'Descripción' },
       { field: 'acciones', header: 'Acciones' },
     ] 
@@ -63,8 +62,12 @@ export class CategoriasComponent implements OnInit {
   };
    
   todasLasCategorias() {
-    this.categoriasServ.getDatos().then((resp: any) => {       
-      this.categorias = resp;
+    this.categoriasServ.getDatos().subscribe((resp: any) => {  
+      console.log(resp.data);
+      
+      if (resp.ok) {
+        this.categorias = resp.data;        
+      }     
     })
   }
 
@@ -79,6 +82,7 @@ export class CategoriasComponent implements OnInit {
       accept:() =>{ 
         this.categoriasServ.borrarCategoria(categoria).then((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+          this.categoriasServ.categoriaBorrada.emit(true);
         })       
       }
     })

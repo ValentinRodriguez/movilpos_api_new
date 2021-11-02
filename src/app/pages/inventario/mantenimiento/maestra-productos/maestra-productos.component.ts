@@ -37,15 +37,16 @@ export class MaestraProductosComponent implements OnInit {
     this.listObserver();
 
     this.cols = [
-      { field: 'imagen', header: 'Imagen' },
-      { field: 'codigo', header: 'Código' },
-      { field: 'marca', header: 'Marca' },
-      { field: 'categoria', header: 'Modelo'},
-      { field: 'propiedad', header: 'Color'},
-      { field: 'almacen', header: 'Almacen' },
-      { field: 'tipoinventario', header: 'Tipo inventario' },
-      { field: 'cantidad', header: 'Cantidad' },
-      { field: 'acciones', header: 'Acciones' },
+       { field: 'img', header:''},
+       { field: 'regular_price', header: 'precio regular'},
+       { field: 'precio', header: 'precio'},
+       { field: 'categoria', header: 'categoria'},
+       { field: 'proveedor', header: 'Proveedor'},
+       { field: 'disponible', header: 'disponible'},
+       { field: 'average_rating', header: 'rating'},
+       { field: 'envios', header: 'envios'},
+       { field: 'stock_quantity', header: 'cantidad'},
+       { field: 'acciones', header: 'Acciones'}
     ]
   }
    
@@ -74,8 +75,11 @@ export class MaestraProductosComponent implements OnInit {
  };
 
   todosLosProductos() {     
-    this.inventarioServ.getDatos().then((resp: any) =>{
-      this.productos = resp;   
+    this.inventarioServ.getDatos().subscribe((resp: any) =>{   
+      console.log(resp);      
+      if (resp.ok) {     
+        this.productos = resp.data;           
+      }
     })
   }
 
@@ -98,11 +102,16 @@ export class MaestraProductosComponent implements OnInit {
   }
 
   borrarProducto(id) {
+    console.log(id);
+    
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.inventarioServ.borrarInvProducto(id).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+        this.inventarioServ.borrarInvProducto(id).subscribe((resp: any)=>{
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+            this.inventarioServ.productoBorrado.emit(resp.data)
+          }
         })       
       }
     })

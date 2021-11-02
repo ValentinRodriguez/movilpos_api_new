@@ -45,7 +45,7 @@
 										</span>
 									</div>
 									
-									<span *ngIf="col.field === 'descripcion_c'">
+									<span *ngIf="col.field === 'descripcion'">
 										{{rowData[col.field] | uppercase}}
 									</span>
 
@@ -53,15 +53,15 @@
 										{{rowData[col.field] | titlecase}}
 									</span>
 
-									<span *ngIf="col.field === 'cuenta_no' || col.field === 'aplica_a' || col.field === 'codigo_isr' 
-									|| col.field === 'cuenta_resultado'">
+									<span *ngIf="col.field === 'cuenta_no' || col.field === 'aplica_a' || 
+												 col.field === 'codigo_isr'">
 										{{rowData[col.field] }}
 									</span>
 							
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarCatalogo(rowData.id)" pTooltip="Actualizar"></button>
-										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTransportista(rowData.id)" pTooltip="Eliminar"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarCatalogo(rowData)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarTransportista(rowData.uid)" pTooltip="Eliminar"></button>
 									</span>
 								</td>								
 							</tr>

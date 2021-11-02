@@ -41,9 +41,11 @@ export class FormularioCatComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.categoriasServ.getDato(resp).then((res: any) => {         
-        this.forma.get('descripcion').setValue(res.descripcion);
-        this.forma.patchValue(res);
+      this.categoriasServ.getDato(resp).subscribe((res: any) => {         
+        if (resp.ok) {
+          this.forma.get('descripcion').setValue(res.descripcion);
+          this.forma.patchValue(res);          
+        }
       })
     })
 
@@ -57,10 +59,8 @@ export class FormularioCatComponent implements OnInit {
     })
   }
 
-  guardarCategoria(){
-        
-    if (this.forma.invalid) { 
-            
+  guardarCategoria(){        
+    if (this.forma.invalid) {             
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -76,44 +76,31 @@ export class FormularioCatComponent implements OnInit {
           break;
 
         default:
-          this.categoriasServ.crearCategoria(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
-            this.forma.get('descripcion').reset();
-          })
+          if (this.actualizar) {
+            console.log('actualizando');
+            
+            this.categoriasServ.actualizarCategoria(this.id, this.forma.value).subscribe((resp: any) => {
+              if (resp.ok) {
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
+                this.forma.get('descripcion').reset();      
+                this.categoriasServ.categoriaActualizada.emit(true);          
+              }
+            })
+          } else {
+            console.log('guardando');
+            this.categoriasServ.crearCategoria(this.forma.value).subscribe((resp: any)=>{
+              if (resp.ok) {
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
+                this.forma.get('descripcion').reset();   
+                this.categoriasServ.categoriaGuardada.emit(true);
+              }
+            })            
+          }
           break;
       } 
     }
   }
   
-  actualizarCategoria(){
-     
-    if (this.forma.invalid) { 
-            
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{   
-      switch (this.categoriaExiste) {
-        case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
-          break;
-
-        case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');          
-          break;
-
-        default:
-          this.categoriasServ.actualizarCategoria(this.id, this.forma.value).then((resp: any) => {
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
-            this.forma.get('descripcion').reset();
-          })
-          break;
-      } 
-    }
-
-  }
-
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
@@ -129,11 +116,15 @@ export class FormularioCatComponent implements OnInit {
       return;
     }
     this.categoriaExiste = 0;
-    this.categoriasServ.busquedaCategoria(data).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.categoriaExiste = 1;
-      }else{
-        this.categoriaExiste = 2;
+    this.categoriasServ.busquedaCategoria(data).subscribe((resp: any)=>{
+      console.log(resp.data);
+      
+      if (resp.ok) {
+        if(resp.data.length === 0) {
+          this.categoriaExiste = 1;
+        }else{
+          this.categoriaExiste = 2;
+        }        
       }
     })
   }

@@ -2,7 +2,7 @@
 <div class="p-grid table-demo">
 	<div class="p-col-12">
 		<div class="card">
-            <h5>Gestión de Modelos</h5>
+            <h5>Gestión de Categorías</h5>
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel header="Consultar" leftIcon="pi pi-search">
 					<p-table #dt [columns]="cols" [value]="categorias" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
@@ -32,11 +32,11 @@
 								<td *ngFor="let col of columns">
 									<span class="p-column-title">{{col.header}}</span>								
 							
-									<span *ngIf="col.field === 'id'">
-										{{rowData[col.field] }}
+									<span *ngIf="col.field === 'uid'">
+										{{rowData[col.field] | uppercase}}
 									</span>
 							
-									<span *ngIf="col.field !== 'id'">
+									<span *ngIf="col.field === 'descripcion'">
 										{{rowData[col.field] | titlecase}}
 									</span>
 							

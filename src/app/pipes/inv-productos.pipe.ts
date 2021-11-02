@@ -10,8 +10,7 @@ export class InvProductosPipe implements PipeTransform {
     if (img === null || img === '' || img == '[]') {
       return "../assets/images/empty-image.png";
     }else{         
-      let tmp = JSON.parse(img);
-      let url = URL + '/storage/' + tmp[0];
+      let url = `${URL}/${img[0]}`;
       return url;
     }
   }

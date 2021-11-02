@@ -1,17 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { BodegasService } from 'src/app/services/inventario/bodegas.service';
-import { BrandsService } from 'src/app/services/inventario/brands.service';
 import { CategoriasService } from 'src/app/services/inventario/categorias.service';
-import { DatosEstaticosService } from 'src/app/services/globales/datos-estaticos.service';
 import { InventarioService } from 'src/app/services/inventario/inventario.service';
-import { PropiedadesService } from 'src/app/services/inventario/propiedades.service';
-import { TipoInventarioService } from 'src/app/services/inventario/tipo-inventario.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { MenuItem } from 'primeng/api/menuitem';
-import { Router } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload';
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
+
+import { ProveedoresService } from 'src/app/services/compras/proveedores.service';
 
 @Component({
   selector: 'app-formulario-maestra-productos',
@@ -27,56 +21,27 @@ export class FormularioMaestraProductosComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  tipos: any[] = [];
-  noFisico = true;
-  productoExiste = 3;
-  
+  productoExiste = 3;  
   listSubscribers: any = [];
-  tipoInventario: any[] = [];
-  fechafabricacion: any[] = [];
-  propiedades: any[] = [];
   categorias: any[] = [];
-  brands: any[] = [];
-  bodegas: any[] = [];
-  medidas: any[] = [];
+  envios: any[] = [];
   uploadedFiles: any[] = [];
   @ViewChild(FileUpload)
   fileUpload: FileUpload  
+  imagePath;
+  message
   @ViewChild('file')
   file: ElementRef;
-  imgEmpresa = null;
-  imgURL = null;
-  imagePath;
-  items: MenuItem[] = [];
-  rutaActual: string[];
-  message: string;
-  origenes = [
-    {label: 'Importado', value: 'importado'},
-    {label: 'Local', value: 'local'},
-  ];
-
-  sino = [
-    {label: 'Sí', value: 'si'},
-    {label: 'No', value: 'no'},
-  ];
-
-  dataColeccion: any;
-  usuario: any;
-  getChasis = false;
   id: number;
   fileArr: any[] = []
-  image: any;
+  proveedores: any;
   
+  imgEmpresa = null;
+  imgURL = null;
   constructor(private fb: FormBuilder,              
-              private DatosEstaticos: DatosEstaticosService,
               private uiMessage: UiMessagesService,   
               private inventarioServ: InventarioService,
-              private marcaService: BrandsService,
-              private tipoInv: TipoInventarioService,
-              private propServ: PropiedadesService,
-              private bodegasServ: BodegasService,
-              private gf: GlobalFunctionsService,
-              private router: Router,
+              private proveedoresServ: ProveedoresService,
               private categoriasServ: CategoriasService) {                 
                 this.crearFormulario();
               }
@@ -86,88 +51,64 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rutaActual = this.router.url.split("/");
-    this.tipo(1);
-    this.fechaFabricacion();
     this.todaLaData();
     this.listObserver();
   }
 
   listObserver = () => {
-    const observer1$ = this.marcaService.marcaGuardada.subscribe((resp: any) =>{
-      this.brands.push(resp)
-    })
 
-    const observer2$ = this.tipoInv.TipoInventarioGuardado.subscribe((resp: any) =>{
-      this.tipoInventario.push(resp)
+    const observer1$ = this.proveedoresServ.getDatos().subscribe((resp:any) =>{
+      if (resp.ok) {
+        this.proveedores = resp.data        
+      }
     })
-
     const observer3$ = this.categoriasServ.categoriaGuardada.subscribe((resp: any) =>{
       this.categorias.push(resp)
-    })
-
-    const observer4$ = this.propServ.propiedadGuardada.subscribe((resp: any) =>{
-      this.propiedades.push(resp)
-    })
-    
-    const observer5$ = this.bodegasServ.bodegaGuardada.subscribe((resp: any) =>{
-      this.bodegas.push(resp)
-    })    
+    });
     
     const observer6$ = this.inventarioServ.actualizar.subscribe((resp: any) =>{
+      this.id = resp.uid    
       this.guardar = false;
       this.actualizar = true;   
-      this.id = Number(resp);
-      this.inventarioServ.getDato(resp).then((res: any) => {
-        this.gf.enviarurlClean(JSON.parse(res.galeriaImagenes))
-        // this.forma.patchValue(res);
-        // this.imgURL = res.galeriaImagenes;
-        // this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === res.tipo_producto));
-        // this.forma.get('fabricacion').setValue({value: Number(res.fabricacion)});
-        // this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand));
-        // this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria));
-        // this.forma.get('id_propiedad').setValue(this.propiedades.find(propiedad => propiedad.id_propiedad === res.id_propiedad));        
-        // this.forma.get('id_tipoinventario').setValue(this.tipoInventario.find(tipo => tipo.id_tipoinventario === res.id_tipoinventario));
-        // //this.forma.get('origen').setValue(this.origenes.find(origen => origen.value === res.origen));
-        // this.forma.get('id_bodega').setValue(this.bodegas.find(bodega => bodega.id_bodega === res.id_bodega));
-        // this.tipo(res.tipo_producto)
-      })
-    })
-    this.listSubscribers = [observer1$,observer2$,observer3$,observer4$,observer5$,observer6$];
+      this.forma.patchValue(resp);
+      this.forma.get('categoria').setValue(this.categorias.find(categoria => categoria.uid == resp.categoria._id));
+      this.forma.get('envios').setValue(this.envios.find(envio => envio.uid == resp.envios._id));
+      // this.gf.enviarurlClean(JSON.parse(res.galeriaImagenes))
+      // this.imgURL = res.galeriaImagenes;
+      // this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria));
+      // this.forma.get('id_propiedad').setValue(this.propiedades.find(propiedad => propiedad.id_propiedad === res.id_propiedad));        
+      // this.forma.get('id_tipoinventario').setValue(this.tipoInventario.find(tipo => tipo.id_tipoinventario === res.id_tipoinventario));
+      // //this.forma.get('origen').setValue(this.origenes.find(origen => origen.value === res.origen));
+      // this.forma.get('id_bodega').setValue(this.bodegas.find(bodega => bodega.id_bodega === res.id_bodega));
+      // this.tipo(res.tipo_producto)
+      // this.id = Number(resp);
+      
+    });
+
+    this.listSubscribers = [observer3$,observer6$];
   };
 
   recibeFiles(event) {
-    this.forma.get('galeriaImagenes').setValue(event);
+    this.forma.get('archivos').setValue(event);
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
-      titulo:               ['testfgfgfgfg', Validators.required],
-      chasis:               ['5TDZK3EH9AS004144'],
-      motor:                [''],
-      fabricacion:          [''],
-      asientos:             ['1', Validators.required],
-      asientosAd:           [''],
-      id_propiedad:         [''],
-      tipo_producto:        ['', Validators.required],
-      id_tipoinventario:    ['', Validators.required],
-      id_categoria:         ['', Validators.required],
-      id_brand:             [''],
-      descripcion:          ['fghjfghjfghj', Validators.required],
-      codigo_referencia:    [''],
-      origen:               [''],
-      existenciaMinima:     [1],
-      existenciaMaxima:     [''],
-      controlDeExistencias: ['', Validators.required],
-      id_bodega:            [''],
-      controlItbis:         ['', Validators.required],
-      precio_compra:        ['80', Validators.required],
-      precio_venta:         ['500', Validators.required],
-      costo:                ['100', Validators.required],  
-      galeriaImagenes:      [''],
-      estado:               ['activo'],
-      descuento:            ['', Validators.required],
-      usuario_modificador:  ['']
+      nombre:        ['', Validators.required],
+      descripcion:   ['', Validators.required],
+      categoria:     ['', Validators.required], 
+      regular_price: [''],
+      precio:        ['', Validators.required],
+      descuento:     [''],
+      proveedor:     [''],
+      ganancia:      ['', Validators.required],
+      envios:        ['', Validators.required],
+      purchase_note: [''],
+      // sku:        [''],
+      width:         [''],
+      height:        [''],
+      weight:        [''],
+      archivos:      ['', Validators.required],
     })
   }
 
@@ -178,79 +119,39 @@ export class FormularioMaestraProductosComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{
-      this.inventarioServ.crearInvProducto(this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
-        this.resetFormulario();
-      })
+      console.log(this.forma.value);
+      if (this.actualizar) {
+        this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).subscribe((resp: any)=>{ 
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
+            this.resetFormulario();
+            this.inventarioServ.productoGuardado.emit(resp.data)            
+          }        
+        })
+      }else{
+        this.inventarioServ.crearInvProducto(this.forma.value).subscribe((resp: any)=>{  
+          console.log(resp);
+                  
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta'); 
+            this.resetFormulario();          
+            this.inventarioServ.productoActualizado.emit(resp.data)            
+          }
+        })
+      }
     }       
   }
   
-  actualizarProducto() {
-    // this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-    if (this.forma.invalid) {           
-      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios'); 
-      Object.values(this.forma.controls).forEach(control =>{
-        control.markAllAsTouched();
-      })
-    }else{
-      this.inventarioServ.actualizarInvProducto(this.id, this.forma.value).then((resp: any)=>{         
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta'); 
-        this.resetFormulario();
-      })
-    }
+  onFileSelect() {
+    this.forma.get('archivos').setValue(this.fileUpload.files);    
   }
 
-  todaLaData() {   
-    this.inventarioServ.autoLlenado().then((resp: any) =>{
-      this.dataColeccion = resp;      
-      resp.forEach(element => {
-        if (element.data.length === 0) {
-          this.items.push({label: this.DatosEstaticos.capitalizeFirstLetter(element.label), routerLink: element.label})      
-        }
-        switch (element.label) {
-          case 'tipo-inventario':
-            this.tipoInventario = element.data;
-            break;
 
-          case 'modelos':
-            this.categorias = element.data;
-            break;
-
-          case 'color':
-            this.propiedades = element.data;
-            break;
-
-          case 'marcas':
-            this.brands = element.data;
-            break;
-
-          case 'bodegas':
-            this.bodegas = element.data;
-            break;
-
-          case 'medidas':
-            this.medidas = element.data;
-            break;
-
-          case 'tipo-producto':
-            this.tipos = element.data;
-            this.forma.get('tipo_producto').setValue(this.tipos.find(tipo => tipo.id === 1))
-            break;  
-
-          default:
-            break;
-        }
-      }); 
+  todaLaData() {       
+    this.inventarioServ.autoLlenado().subscribe((resp: any) =>{
+      this.categorias = resp.data.categorias
+      this.envios = resp.data.envios
     })
-  }
-
-  fechaFabricacion() {
-    let rango = this.DatosEstaticos.getYear() - 1950 + 1;
-    let temp = [];
-    for (let index = 0; index < rango; index++) {
-       temp.push({value: 1950 + (index)})
-    }  
-    this.fechafabricacion = temp.reverse();      
   }
 
   verificaProducto(data){    
@@ -258,137 +159,38 @@ export class FormularioMaestraProductosComponent implements OnInit {
       this.productoExiste = 3;
       return;
     }
-    let param = {'producto': data};
     this.productoExiste = 0;
-    this.inventarioServ.busquedaProducto(param).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.productoExiste = 1;
-      }else{
-        this.productoExiste = 2;
+    this.inventarioServ.busquedaProducto(data).subscribe((resp: any)=>{
+      console.log(resp);
+      
+      if (resp.ok) {
+        if(resp.data.length === 0) {
+          this.productoExiste = 1;
+        }else{
+          this.productoExiste = 2;
+        }        
       }
     })
   }
-
-  tipo(valor) {
-    const id_brand = this.forma.get('id_brand')   
-    const existenciaMinima = this.forma.get('existenciaMinima');  
-    const id_bodega = this.forma.get('id_bodega');
-    // const galeriaImagenes = this.forma.get('galeriaImagenes');
-    const chasis = this.forma.get('chasis');
-    const asientos = this.forma.get('asientos');
-    const id_propiedad = this.forma.get('id_propiedad');
-    const controlDeExistencias = this.forma.get('controlDeExistencias');
-        
-    if (valor === 1) {
-      id_brand.setValidators(Validators.required)
-      existenciaMinima.setValidators(Validators.required)
-      id_bodega.setValidators(Validators.required)     
-      id_propiedad.setValidators(Validators.required) 
-      // galeriaImagenes.setValidators(Validators.required) 
-      this.tipoProducto(valor)
-    }else{
-      id_brand.clearValidators();
-      existenciaMinima.clearValidators();
-      id_bodega.clearValidators();   
-      // galeriaImagenes.clearValidators();   
-      chasis.clearValidators();      
-      asientos.clearValidators();  
-      id_propiedad.clearValidators();  
-      controlDeExistencias.clearValidators();  
-      this.tipoProducto(3)
-    }
-    id_brand.updateValueAndValidity(); 
-    existenciaMinima.updateValueAndValidity(); 
-    id_bodega.updateValueAndValidity();   
-    id_propiedad.updateValueAndValidity(); 
-  }
-  
-  tipoProducto(tipo) {    
-    if (tipo === 3 || tipo === 2) {
-      this.noFisico = false;
-      this.forma.controls['id_brand'].disable();
-      this.forma.controls['id_bodega'].disable();
-      this.forma.controls['existenciaMinima'].disable();
-      this.forma.controls['existenciaMaxima'].disable();
-      this.forma.controls['controlDeExistencias'].disable();
-      this.forma.controls['chasis'].disable();
-      this.forma.controls['motor'].disable();
-      this.forma.controls['fabricacion'].disable();
-      this.forma.controls['asientos'].disable();
-      this.forma.controls['id_categoria'].disable();
-      this.forma.controls['id_propiedad'].disable();   
-      this.forma.controls['asientosAd'].disable();    
-    }else{
-      this.noFisico = true;
-      this.forma.controls['id_brand'].enable();
-      this.forma.controls['id_bodega'].enable();
-      this.forma.controls['origen'].enable();
-      this.forma.controls['existenciaMinima'].enable();
-      this.forma.controls['existenciaMaxima'].enable();
-      this.forma.controls['controlDeExistencias'].enable();
-      this.forma.controls['chasis'].enable();
-      this.forma.controls['motor'].enable();
-      this.forma.controls['fabricacion'].enable();
-      this.forma.controls['asientos'].enable();
-      this.forma.controls['id_categoria'].enable();
-      this.forma.controls['id_propiedad'].enable();   
-      this.forma.controls['asientosAd'].enable(); 
-    }
-  }
-
-  // preview(files) {
-  //   if (files.length === 0)
-  //     return;
+    
+  preview(files) {
+    if (files.length === 0)
+      return;
  
-  //   var mimeType = files[0].type;
-  //   if (mimeType.match(/image\/*/) == null) {
-  //     this.message = "Solo puede escoger imagenes";
-  //     return;
-  //   }
-  //   this.forma.get("galeriaImagenes").setValue(files[0]);    
-  //   var reader = new FileReader();
-  //   this.imagePath = files;
-  //   reader.readAsDataURL(files[0]); 
-  //   reader.onload = (_event) => { 
-  //     this.imgURL = reader.result; 
-  //   }
-  // }
-  
-  checaChasis(data) {
-    if (this.getChasis) { 
-      this.DatosEstaticos.getChasis().then((response: any) => {
-        
-        this.forma.get('asientos').setValue(Number(response.standard_seating))
-        this.forma.get('asientosAd').setValue(Number(response.optional_seating))
-        this.forma.get('motor').setValue(response.engine)
-        this.forma.get('fabricacion').setValue({value: Number(response.year)})
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Solo puede escoger imagenes";
+      return;
+    }
 
-        this.marcaService.busquedaMarca(response.make.toLowerCase()).then((resp: any)=>{       
-          if (resp.length === 0) {
-            let marca = {
-              "descripcion": response.make.toLowerCase(),
-              "usuario": this.usuario.username,
-              "estado": "activo",
-            }
-            this.marcaService.crearMarca(marca).then((res: any) =>{ 
-              this.forma.get('id_brand').setValue(this.brands.find(brand => brand.id_brand === res.id_brand))          
-            })
-          }          
-        })
-
-        this.categoriasServ.busquedaCategoria(response.model.toLowerCase()).then((resp: any)=>{         
-          if (resp.length === 0) {
-            let categoria = {
-              "descripcion": response.model.toLowerCase(),
-              "usuario": this.usuario.username,
-              "estado": "activo",
-            }
-            this.categoriasServ.crearCategoria(categoria).then((res: any) =>{   
-              this.forma.get('id_categoria').setValue(this.categorias.find(categoria => categoria.id_categoria === res.id_categoria))  
-            })
-          }          
-        })
-      })
+    this.forma.get('archivos').setValue(files[0])
+    console.log(this.forma.value);
+    
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
     }
   }
 
@@ -400,11 +202,7 @@ export class FormularioMaestraProductosComponent implements OnInit {
   }
 
   resetFormulario() {
-    this.forma.reset();
-    this.imgEmpresa = null;
-    this.imgURL = null;    
-    this.forma.get('estado').setValue('activo');
-    this.gf.ClearProductFU();
+    this.forma.reset();  
   }
 
   getNoValido(input: string) {

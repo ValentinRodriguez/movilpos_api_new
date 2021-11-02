@@ -48,6 +48,8 @@ import { LocalizacionComponent } from './localizacion/localizacion.component';
 import { ListadoRncComponent } from './listado-rnc/listado-rnc.component';
 import { OnlineRncComponent } from './online-rnc/online-rnc.component';
 import { LoadingComponent } from './loading/loading.component';
+import { InputTextComponent } from "./formcomponents/input-text/input-text.component";
+
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { LoadingComponent } from './loading/loading.component';
     OnlineRncComponent,
     LoadingComponent,
     FileuploadsComponent,
-    ListadoProductosTiendaComponent
+    ListadoProductosTiendaComponent,
+    InputTextComponent
   ],
   
   exports: [
@@ -83,7 +86,8 @@ import { LoadingComponent } from './loading/loading.component';
     LocalizacionComponent,
     LoadingComponent,
     FileuploadsComponent,
-    ListadoProductosTiendaComponent
+    ListadoProductosTiendaComponent,
+    InputTextComponent
   ],
   
   imports: [

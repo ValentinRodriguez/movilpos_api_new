@@ -194,8 +194,10 @@ export class InterfazVentas2Component implements OnInit {
     
     todosLosProductos() {
         
-        this.inventarioServ.getDatos().then((resp: any) =>{
-            this.productos = resp;
+        this.inventarioServ.getDatos().subscribe((resp: any) =>{
+            if (resp.ok) {
+                this.productos = resp.data;                
+            }
         })
     }
 
@@ -206,8 +208,10 @@ export class InterfazVentas2Component implements OnInit {
     }
 
     todosLasCategorias() {
-        this.categoriasServ.getDatos().then((resp: any) =>{
-            this.categorias = resp;    
+        this.categoriasServ.getDatos().subscribe((resp: any) =>{
+            if (resp.ok) {
+                this.categorias = resp;                    
+            }
         })
     }
 

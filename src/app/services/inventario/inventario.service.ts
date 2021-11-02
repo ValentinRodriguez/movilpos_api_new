@@ -35,44 +35,18 @@ export class InventarioService {
   }
 
   busquedaProducto(parametro?: any) {
-    let params = new HttpParams();
-    if (parametro === undefined) {
-      parametro = {};
-    }
-    if (parametro.parametro === undefined || parametro.parametro === null) {
-      parametro.parametro = '';
-    }     
-    params = params.append('producto',parametro.producto);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => { 
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    let params = new HttpParams();   
+    params = params.append('producto',parametro);    
+    return this.http.get(URL+'/productos/busqueda', {params})
   }
 
-  busquedaProductoSinExistencia(parametro?: any) {
-    let params = new HttpParams();
-    if (parametro === undefined) {
-      parametro = {};
-    }
-    if (parametro.parametro === undefined || parametro.parametro === null) {
-      parametro.parametro = '';
-    }     
-    params = params.append('producto',parametro.producto);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/invproducto', {params}).subscribe((resp: any) => {                         
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+  autoLlenado() {
+    return this.http.get(`${URL}/productos/todo`)
   }
 
   getDato(id: any) {
     return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/invproductos/${id}`).subscribe((resp: any) => {    
+      this.listSubscribers.push(this.http.get(`${URL}/productos/${id}`).subscribe((resp: any) => {    
         if (resp['ok']) {
           resolve(resp.data);            
         }
@@ -81,13 +55,7 @@ export class InventarioService {
   }
 
   getDatos() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/invproductos`).subscribe((resp: any) => { 
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/productos`);
   }
 
   getChasis(chasis) {
@@ -134,160 +102,17 @@ export class InventarioService {
     })
   }
 
-  autoLlenado() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/autollenado/invproducto`).subscribe((resp: any) => {                                        
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+  crearInvProducto( producto: any ) {    
+    console.log(producto);    
+    return this.http.post(`${ URL }/productos`, producto);
   }
 
-  crearInvProducto( invProducto: any ) {    
-    const formData = new FormData(); 
-    const imagenes = invProducto.galeriaImagenes;    
-    for(let key in invProducto){  
-      switch (key) {        
-        case 'galeriaImagenes':
-          console.log(key);
-          
-          for (let i = 0; i < imagenes.length; i++) {
-            const imagen = imagenes[i];
-            formData.append('imageLength', imagenes.length);
-            formData.append(key+i, imagen, imagen.name);          
-          }
-        break;
-
-        case 'fabricacion':
-          formData.append(key, invProducto[key].value || '');
-          break;
-
-        case 'id_bodega':
-          formData.append(key, invProducto[key].id_bodega);
-          break;
-
-        case 'id_brand':
-          formData.append(key, invProducto[key].id_brand);
-          break;
-
-        case 'id_categoria':
-          formData.append(key, invProducto[key].id_categoria);
-          break;
-
-        case 'id_tipoinventario':
-          formData.append(key, invProducto[key].id_tipoinventario);
-          break;
-
-        case 'id_propiedad':
-          formData.append(key, invProducto[key].id_propiedad);
-          break;
-
-        case 'tipo_producto':
-          formData.append(key, invProducto[key].id_tipo);
-          break;
-
-        case 'unidadMed':
-          formData.append(key, invProducto[key].id);
-          break;
-
-        default:
-          formData.append(key, invProducto[key]);
-          break;
-      }     
-    }
-    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/invproductos`, formData).subscribe((resp: any) => {
-        console.log(resp);        
-        if (resp['ok'])  {
-          this.productoGuardado.emit(resp.data);                            
-          resolve(resp.data);            
-        }
-      }))
-    });
-  }
-
-  actualizarInvProducto( id:any, invProducto: any ) {  
-    const formData = new FormData(); 
-    for(let key in invProducto){ 
-      switch (key) {
-        case 'fabricacion':
-          formData.append(key, invProducto[key].value);
-          break;
-
-        case 'id_bodega':
-          formData.append(key, invProducto[key].id_bodega);
-          break;
-
-        case 'id_brand':
-          formData.append(key, invProducto[key].id_brand);
-          break;
-
-        case 'id_categoria':
-          formData.append(key, invProducto[key].id_categoria);
-          break;
-
-        case 'id_tipoinventario':
-          formData.append(key, invProducto[key].id_tipoinventario);
-          break;
-
-        case 'id_propiedad':
-          formData.append(key, invProducto[key].id_propiedad);
-          break;
-
-        case 'tipo_producto':
-          formData.append(key, invProducto[key].id_tipo);
-          break;
-
-        case 'unidadMed':
-          formData.append(key, invProducto[key].id);
-          break;
-
-        default: 
-          formData.append(key, invProducto[key]);
-          break;
-      }     
-    }
-    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/act/productos/${id}`, formData).subscribe((resp: any) => {
-        if (resp['ok'])  {
-          this.productoActualizado.emit( resp );                            
-          resolve(resp.data);            
-        }
-      }))
-    });
+  actualizarInvProducto( id:any, invProducto: any ) {      
+    return this.http.put(`${ URL }/productos/${id}`, invProducto)
   }
   
-  usuarioEditando( invProducto: any, todo: string, user: any ) { 
-    invProducto.usuario_editando = user
-    invProducto.editando = todo
-      
-    const formDataAct = new FormData();
-
-    for(let key in invProducto){ 
-      formDataAct.append(key, invProducto[key])
-    }
-
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.put(`${ URL }/invproductos/${invProducto.id}`, invProducto).subscribe( (resp: any) => {                 
-        if (resp['ok'])  {                            
-          resolve(resp.data);            
-        }
-      }))
-    });
-  }
-
   borrarInvProducto(id: string) {
-    return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.delete(`${ URL }/invproductos/${id}`).subscribe( (resp: any) => {
-        if (resp['ok'])  {            
-          this.productoBorrado.emit(id);    
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.delete(`${ URL }/productos/${id}`)
   }
 
   repCatalogoProductos(parametro) {    
@@ -332,32 +157,13 @@ export class InventarioService {
     })
   }
 
-  async getBase64ImageFromUrl(imageUrl) {
-    var res = await fetch(imageUrl);
-    var blob = await res.blob();
-  
-    return new Promise((resolve, reject) => {
-      var reader  = new FileReader();
-      reader.addEventListener("load", function () {
-          resolve(reader.result);
-      }, false);
-  
-      reader.onerror = () => {
-        return reject(this);
-      };
-      reader.readAsDataURL(blob);
-    })
-  }
-
   listadoProductosEscogidos(productos: any) {
     this.productoEscogido.emit(productos);
   }
   
   actualizando(data: any) {
     this.actualizar.emit(data);
-  }
-  
-  
+  }  
   
   guardando() {
     this.guardar.emit(0);

@@ -40,8 +40,10 @@ export class FormularioTipoProveedoresComponent implements OnInit {
 
   ngOnInit(): void {
     this.listObserver();    
-    this.cgcatalogoServ.getDatosAux().then((resp: any) => {
-      this.cuenta_no = resp;
+    this.cgcatalogoServ.getDatosAux().subscribe((resp: any) => {
+      if (resp.ok) {
+        this.cuenta_no = resp;        
+      }
     })
   }
 

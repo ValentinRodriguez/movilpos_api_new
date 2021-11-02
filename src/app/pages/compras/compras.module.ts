@@ -39,7 +39,6 @@ import { OrdenesComprasComponent } from './mantenimiento/ordenes-compras/ordenes
 import { FormularioOrdenesComprasComponent } from './mantenimiento/ordenes-compras/formulario-ordenes-compras/formulario-ordenes-compras.component';
 import { ProveedoresComponent } from './mantenimiento/proveedores/proveedores.component';
 import { FormularioProveedoresComponent } from './mantenimiento/proveedores/formulario-proveedores/formulario-proveedores.component';
-import { StepProveedoresComponent } from './mantenimiento/proveedores/step-proveedores/step-proveedores.component';
 import { StepOrdenesComprasComponent } from './mantenimiento/ordenes-compras/step-ordenes-compras/step-ordenes-compras.component';
 import { PuertosComponent } from './mantenimiento/puertos/puertos.component';
 import { FormularioPuertosComponent } from './mantenimiento/puertos/formulario-puertos/formulario-puertos.component';
@@ -55,7 +54,6 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
     StepOrdenesComprasComponent,
     ProveedoresComponent,
     FormularioProveedoresComponent,
-    StepProveedoresComponent,
     PuertosComponent,
     FormularioPuertosComponent,
     RequisicionesComponent,
@@ -93,7 +91,6 @@ import { CatalogoProveedoresComponent } from './reportes/catalogo-proveedores/ca
     ComponentsModule
   ],
   entryComponents:[
-    StepProveedoresComponent,
     FormularioProveedoresComponent,
     StepOrdenesComprasComponent
   ]

@@ -31,9 +31,7 @@ export class AppMenuComponent implements OnInit {
             }            
         })
 
-        this.menuesSrv.getMenues().subscribe((resp: any) =>{
-            console.log(resp);
-            
+        this.menuesSrv.getMenues().subscribe((resp: any) =>{            
             if (resp.ok) {                                
                 localStorage.setItem('menues', JSON.stringify(resp.menues.data));
             }            

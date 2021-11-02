@@ -3,15 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
-import { ZonasService } from 'src/app/services/mi-empresa/zonas.service';
 import { EstadosService } from 'src/app/services/contabilidad/estados.service';
 
 @Component({
   selector: 'app-formulario-cgcatalogo',
   templateUrl: './formulario-cgcatalogo.component.html',
-  styleUrls: ['./formulario-cgcatalogo.component.scss'],
-  providers:[CgcatalogoService,EstadosService,ZonasService]
+  styleUrls: ['./formulario-cgcatalogo.component.scss']
 })
+
 export class FormularioCgcatalogoComponent implements OnInit {
 
   forma: FormGroup;
@@ -20,18 +19,28 @@ export class FormularioCgcatalogoComponent implements OnInit {
   cuentaExiste = 3;
   estadoExiste = 3;
   cuentaAplicaExiste = 3;
-  zonas: any[] = [];
+  // zonas: any[] = [];
   onLabel = 'Resumen Analítico';
   onIcon = 'pi pi-check';
-  codigosRetencion: any[] = [];
   descripExiste = 3
   isControl = true;
   guardando = false;
   guardar = true;
   actualizando = false;
   actualizar = false;
-  id: number;  
+  id: string;  
   listSubscribers: any = [];
+  
+  codigosRetencion: any[] = [
+    {"id" : 1,"descripcion" : "ALQUILERES"},
+    {"id" : 2,"descripcion" : "HONORARIOS POR SERVICIOS"},
+    {"id" : 3,"descripcion" : "OTRAS RENTAS"},
+    {"id" : 4,"descripcion" : "OTRAS RENTAS(Rentas Presuntas)"},
+    {"id" : 5,"descripcion" : "INTERESES PAGADOS A PERSONAS JURIDICAS RESIDENTES"},
+    {"id" : 6,"descripcion" : "INTERESES PAGADOS A PERSONAS FISICAS RESIDENTES"},
+    {"id" : 7,"descripcion" : "RETENCION POR PROVEEDORES DEL ESTADO"},
+    {"id" : 8,"descripcion" : "JUEGOS TELEFONICOS"}
+  ]
 
   sino = [
     {label: 'Sí', value: 'si'},
@@ -66,8 +75,7 @@ export class FormularioCgcatalogoComponent implements OnInit {
               private uiMessage: UiMessagesService,
               private catalogoServ: CgcatalogoService,
               private estadosServ:EstadosService,
-              public router: Router,
-              private zonasServ: ZonasService) { 
+              public router: Router) { 
                 
                 this.crearFormulario();
   }
@@ -78,69 +86,34 @@ export class FormularioCgcatalogoComponent implements OnInit {
 
   ngOnInit(): void {
     this.listObserver();
-
     this.forma.get('aplica_a').disable();
-
-    this.catalogoServ.codigosRetencion().then((resp: any) => {
-      this.codigosRetencion = resp;
-    })
-
-    this.zonasServ.getDatos().then((resp: any) => {
-      this.zonas = resp;
-    })
   }
 
   listObserver = () => {
-    const observer1$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
+    const observer1$ = this.catalogoServ.actualizar.subscribe((res: any) =>{
+      console.log(res);
+      
       this.guardar = false;
       this.actualizar = true;   
-      this.id = Number(resp);      
+      this.id = res.uid;      
+      this.forma.patchValue(res);
       
-      this.catalogoServ.getDato(resp).then((res: any) => {         
-        this.forma.patchValue(res);
-        
-        this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
-        this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
-        this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
-        this.forma.get('codigo_isr').setValue(this.codigosRetencion.find(codigo => codigo.codigo_isr == res.codigo_isr));
-        this.forma.get('tipo_cuenta').setValue(this.tipo_cuenta.find(tipo_cuenta => tipo_cuenta.value === res.tipo_cuenta));
-        this.forma.get('analitico').setValue(this.sino.find(sino => sino.value === res.analitico));
-        this.forma.get('catalogo').setValue(this.sino.find(sino => sino.value === res.catalogo));
-        this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
-        this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
-        this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
-        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia)); 
-        this.forma.get('descripcion').setValue(res.descripcion);  
-        this.forma.get('cuenta_no').setValue(res.cuenta_no);     
-      })
+      this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
+      this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
+      this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
+      this.forma.get('codigo_isr').setValue(this.codigosRetencion.find(codigo => codigo.id == res.codigo_isr));
+      this.forma.get('tipo_cuenta').setValue(this.tipo_cuenta.find(tipo_cuenta => tipo_cuenta.value === res.tipo_cuenta));
+      this.forma.get('analitico').setValue(this.sino.find(sino => sino.value === res.analitico));
+      this.forma.get('catalogo').setValue(this.sino.find(sino => sino.value === res.catalogo));
+      this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
+      this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
+      this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
+      this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia)); 
+      this.forma.get('descripcion').setValue(res.descripcion);  
+      this.forma.get('cuenta_no').setValue(res.cuenta_no);
     })
 
-    const observer2$ = this.catalogoServ.actualizar.subscribe((resp: any) =>{
-      this.guardar = false;
-      this.actualizar = true;   
-      this.id = Number(resp);      
-      
-      this.catalogoServ.getDato(resp).then((res: any) => {         
-        this.forma.patchValue(res);
-       
-        this.forma.get('nivel').setValue(this.nivel.find(nivel => nivel.value === res.nivel));
-        this.forma.get('origen').setValue(this.origen.find(origen => origen.value === res.origen));
-        this.forma.get('grupo').setValue(this.grupo.find(grupo => grupo.value === res.grupo));
-        this.forma.get('codigo_isr').setValue(this.codigosRetencion.find(codigo => codigo.codigo_isr == res.codigo_isr));
-        this.forma.get('tipo_cuenta').setValue(this.tipo_cuenta.find(tipo_cuenta => tipo_cuenta.value === res.tipo_cuenta));
-        this.forma.get('analitico').setValue(this.sino.find(sino => sino.value === res.analitico));
-        this.forma.get('catalogo').setValue(this.sino.find(sino => sino.value === res.catalogo));
-        this.forma.get('depto').setValue(this.sino.find(sino => sino.value === res.depto));
-        this.forma.get('selectivo_consumo').setValue(this.sino.find(sino => sino.value === res.selectivo_consumo));
-        this.forma.get('retencion').setValue(this.sino.find(sino => sino.value === res.retencion));
-        this.forma.get('referencia').setValue(this.sino.find(sino => sino.value === res.referencia));        
-        this.forma.get('descripcion').setValue(res.descripcion);  
-        this.forma.get('cuenta_no').setValue(res.cuenta_no);     
-        
-      })
-    })
-
-    this.listSubscribers = [observer1$,observer2$];
+    this.listSubscribers = [observer1$];
   };
 
   crearFormulario() {
@@ -159,20 +132,20 @@ export class FormularioCgcatalogoComponent implements OnInit {
       selectivo_consumo: [{label: 'No', value: 'no'}, Validators.required],
       retencion:         [{label: 'No', value: 'no'}, Validators.required],
       cuenta_resultado:  [''],      
-      codigo_isr:        [''],
+      codigo_isr:        ['', Validators.required],
       estado_bg:         [''],
-      estado_resultado:  [''],
+      // estado_resultado:  [''],
       estado_a:          [''],
       estado_m:          [''],
       codigo_estado:     [''],
-      estado:            ['activo', Validators.required],
       usuario_modificador : ['']
     })
   }
 
   guardarCatalogo(){
-    if (this.forma.invalid) {  
-           
+    console.log(this.forma.value);
+    
+    if (this.forma.invalid) { 
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
@@ -188,43 +161,29 @@ export class FormularioCgcatalogoComponent implements OnInit {
           break;
 
         default:
-          this.catalogoServ.crearCgcatalogos(this.forma.value).then((resp: any)=>{
-            this.resetFormulario();            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");
-          })
+          if (this.actualizar) {
+            // this.forma.get('usuario_modificador').setValue(this.usuario.uid);
+            this.catalogoServ.actualizarCatalogo(this.id, this.forma.value).subscribe((resp:any)=>{              
+              if (resp.ok) {
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");           
+                this.resetFormulario();  
+                this.catalogoServ.catalogoBorrado.emit(resp) 
+              }
+            })
+          }else{
+            this.catalogoServ.crearCgcatalogos(this.forma.value).subscribe((resp: any)=>{
+              if (resp.ok) {
+                this.resetFormulario();            
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");   
+                this.catalogoServ.catalogoGuardado.emit(resp)       
+              }
+            })
+          }
           break;
       } 
     }
   }
-  
-  ActualizarCatalogo(){
-        
-    if (this.forma.invalid) {    
-         
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{   
-      switch (this.descripExiste) {
-        case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');           
-          break;
 
-        case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe una categoria con este nombre');           
-          break;
-
-        default:
-          this.forma.get('usuario_modificador').setValue(this.usuario.username);
-          this.catalogoServ.actualizarCatalogo(this.id, this.forma.value).then(()=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Cuenta Guarda exitosamente!!");           
-            this.resetFormulario();             
-          })
-          break;
-      } 
-    }
-  }
 
   cancelar() {
     this.actualizar = false;
@@ -245,7 +204,6 @@ export class FormularioCgcatalogoComponent implements OnInit {
     this.forma.get('selectivo_consumo').setValue({label: 'No', value: 'no'});
     this.forma.get('retencion').setValue({label: 'No', value: 'no'});
     this.forma.get('referencia').setValue({label: 'No', value: 'no'});
-    this.forma.get('estado').setValue('activo');
   }
 
   verificaDescripcion(data){  
@@ -253,13 +211,18 @@ export class FormularioCgcatalogoComponent implements OnInit {
       this.descripExiste = 3;
       return;
     }
-    let param = {'descripcion': data};
+
     this.descripExiste = 0;
-    this.catalogoServ.busqueda(param).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.descripExiste = 1;
-      }else{
-        this.descripExiste = 2;
+    this.catalogoServ.busqueda(data).subscribe((resp: any)=>{
+      console.log(resp);
+      
+      if (resp.ok) {
+        if(resp.data.length === 0) {
+          this.descripExiste = 1;
+        }else{
+          this.descripExiste = 2;
+        }
+        
       }
     })
   }
@@ -271,15 +234,18 @@ export class FormularioCgcatalogoComponent implements OnInit {
     }
     this.cuentaExiste = 0;
 
-    this.catalogoServ.busquedaCatalogo(data).then((resp: any)=>{
-      if (this.isControl) {
-        this.cuentaAplicaExiste = 1;
-        this.forma.get('aplica_a').setValue(Number(data));
-      }
-      if(resp.length === 0) {
-        this.cuentaExiste = 1;
-      }else{
-        this.cuentaExiste = 2;
+    this.catalogoServ.busquedaCatalogo(data).subscribe((resp: any)=>{
+      if (resp.ok) {
+        if (this.isControl) {
+          this.cuentaAplicaExiste = 1;
+          this.forma.get('aplica_a').setValue(Number(data));
+        }
+        if(resp.data.length === 0) {
+          this.cuentaExiste = 1;
+        }else{
+          this.cuentaExiste = 2;
+        }
+        
       }
     })
   }
@@ -307,11 +273,14 @@ export class FormularioCgcatalogoComponent implements OnInit {
       return;
     }
     this.cuentaAplicaExiste = 0;
-    this.catalogoServ.busquedaCatalogo(data).then((resp: any)=>{     
-      if(resp.length === 0) {
-        this.cuentaAplicaExiste = 2;
-      }else{
-        this.cuentaAplicaExiste = 1;
+    this.catalogoServ.busquedaCatalogo(data).subscribe((resp: any)=>{     
+      if (resp.ok) {
+        if(resp.length === 0) {
+          this.cuentaAplicaExiste = 2;
+        }else{
+          this.cuentaAplicaExiste = 1;
+        }
+        
       }
     })
   }

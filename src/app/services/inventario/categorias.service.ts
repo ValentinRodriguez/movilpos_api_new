@@ -29,59 +29,23 @@ export class CategoriasService {
   busquedaCategoria(parametro?: any) {
     let params = new HttpParams();      
     params = params.append('categoria',parametro);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {                            
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/categorias/busqueda', {params})
   }
 
   getDatos() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/categorias`).subscribe((resp: any) => {                       
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/categorias`);
   }
 
   getDato(id) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/categorias/${id}`).subscribe((resp: any) => {                        
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/categorias/${id}`);
   }
 
-  crearCategoria(bodega: any) {
-    const formData = new FormData();    
-    for(let key in bodega){  
-      formData.append(key, bodega[key])
-    }
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/categorias`, formData).subscribe( (resp:any) => {
-        if (resp['ok'])  {                                      
-          resolve(resp.data);    
-          this.categoriaGuardada.emit( resp.data );       
-        }
-      }))
-    });    
+  crearCategoria(categoria: any) {
+    return this.http.post(`${ URL }/categorias`, categoria);    
   }
 
   actualizarCategoria(id:number, categoria: any) {        
-    return new Promise( resolve => {   
-      this.listSubscribers.push(this.http.put(`${ URL }/categorias/${id}`, categoria).subscribe( (resp: any) => { 
-        if (resp['ok'])  {                  
-          this.categoriaActualizada.emit( resp.data );                            
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.put(`${ URL }/categorias/${id}`, categoria)
   }
 
   borrarCategoria(id: string) {

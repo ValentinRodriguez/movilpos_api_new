@@ -87,8 +87,10 @@ export class AusenciasComponent implements OnInit {
           break;
 
         default:
-          this.categoriasServ.crearCategoria(this.forma.value).then((resp: any)=>{
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
+          this.categoriasServ.crearCategoria(this.forma.value).subscribe((resp: any)=>{
+            if (resp.ok) {
+              this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');              
+            }
           })
           break;
       } 

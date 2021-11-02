@@ -1,6 +1,5 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GlobalFunctionsService } from '../globales/global-functions.service';
@@ -11,54 +10,44 @@ import { UsuarioService } from '../panel-control/usuario.service';
   providedIn: 'root'
 })
 export class HttpHeadersService implements HttpInterceptor{
-  user: any;
-  
+  usuario: any;
+  token: string
   constructor(private usuarioService: UsuarioService,
-              private globalFuntionServ: GlobalFunctionsService,
-              private router: Router) {
-                this.user = this.usuarioService.getUserLogged()?.user || 'movilsoluciones';
-                console.log(this.user);    
+              private globalFuntionServ: GlobalFunctionsService) {
+                this.usuario = this.usuarioService.getUserLogged()?.usuario.uid;                
+                this.token = this.usuarioService.getTokenLocalStorage()?.token;  
+                // console.log(this.token);
+                                       
               }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {    
     this.globalFuntionServ.formSubmitted.emit(true);
-    
-    const sessionId = localStorage.getItem('sessionId');
-    const usuario = `${this.user.username}`;
-    const token = this.usuarioService.getTokenLocalStorage()?.access_token;
-    // const empresa = this.usuarioService.getEmpresa()?.empresa.id || 1;
-
+        
     if (req.method.toLowerCase() === 'post' ||
         req.method.toLowerCase() === 'put' ||
         req.method.toLowerCase() === 'delete') {
       req =  req.clone({
         setHeaders: {
           'Accept': 'application/json',
-          'enctype'      : 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
+          'enctype': 'multipart/form-data',
+          'x-token': `${this.token}`,
         },
         setParams:{
-          sessionId: sessionId,
-          usuario: usuario,
-          urlRequest: this.router.url,
-          // empresa: empresa
+          usuario: this.usuario
         },
-        body: req.body instanceof FormData ? req.body.append('sessionId', sessionId)
-                                           : { ...req.body, sessionId, usuario }
+        body: { ...req.body }
       })
     }
 
     if (req.method.toLowerCase() === 'get') {    
       req = req.clone({
         setHeaders: {
-          'Accept': 'application/json',
-          'enctype'      : 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
+          'Accept':  'application/json',
+          'enctype': 'multipart/form-data',
+          'x-token': `${this.token}`,
         },
         setParams: {
-          sessionId: sessionId,
-          urlRequest: this.router.url,
-          usuario: usuario
+          usuario: this.usuario
         }
       });
     }

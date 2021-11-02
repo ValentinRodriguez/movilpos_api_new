@@ -236,11 +236,13 @@ export class FormularioEntradaDiarioComponent implements OnInit {
       return;
     }
     this.cuentaExiste = 0;    
-    this.cuentaServices.busquedaCatalogo(data).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.cuentaExiste = 2;
-      }else{
-        this.cuentaExiste = 1;
+    this.cuentaServices.busquedaCatalogo(data).subscribe((resp: any)=>{
+      if (resp.ok) {
+        if(resp.length === 0) {
+          this.cuentaExiste = 2;
+        }else{
+          this.cuentaExiste = 1;
+        }        
       }
     })
   }

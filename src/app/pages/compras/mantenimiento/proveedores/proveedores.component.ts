@@ -30,14 +30,13 @@ export class ProveedoresComponent implements OnInit {
   ngOnInit(): void {
     this.todosLosProveedores();
     this.listObserver();
-
-
+    
     this.cols = [
       { field: 'nom_sp', header: 'Proveedor' },
-      { field: 'documento', header: 'Documento' },
-      { field: 'tel_sp', header: 'Teléfono' },
+      { field: 'contacto', header: 'Contacto' },
+      { field: 'tel_contacto', header: 'Teléfono' },
       { field: 'email', header: 'Email' },
-      { field: 'ciudad', header: 'Ciudad' },
+      { field: 'dir_sp', header: 'Dirección' },
       { field: 'acciones', header: 'Acciones' },
     ] 
   }
@@ -63,23 +62,28 @@ export class ProveedoresComponent implements OnInit {
    };
 
   todosLosProveedores() {
-    this.proveedoresServ.getDatos().then((resp: any) => {
-      this.proveedores = resp; 
-       (resp);
+    this.proveedoresServ.getDatos().subscribe((resp: any) => {
+      console.log(resp);      
+      if (resp.ok) {
+        this.proveedores = resp.data;         
+      }
     })
   }
 
-  actualizarProveedor(cod_sp, cod_sp_sec) { 
+  actualizarProveedor(data) { 
     this.index = 1;   
-    this.proveedoresServ.actualizando(cod_sp, cod_sp_sec);
+    this.proveedoresServ.actualizando(data);
   }
     
   borrarProveedor(id) {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.proveedoresServ.borrarProveedor(id).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+        this.proveedoresServ.borrarProveedor(id).subscribe((resp: any)=>{
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+            this.proveedoresServ.proveedorBorrado.emit(resp);
+          }
         })       
       }
     }) 

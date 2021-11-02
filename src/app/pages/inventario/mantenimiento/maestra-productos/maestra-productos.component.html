@@ -6,7 +6,7 @@
             <p-tabView orientation="left" [(activeIndex)]="index">
                 <p-tabPanel  header="Consultar" leftIcon="pi pi-search">							
 					<p-table #dt [columns]="cols" [value]="productos" styleClass="p-datatable-responsive-demo p-datatable-gridlines p-datatable-striped"
-						     [rowHover]="true" [rows]="10" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['titulo','codigo','categoria','marca','almacen','tipoinventario']">
+						     [rowHover]="true" [rows]="10" [paginator]="true" [filterDelay]="0" [globalFilterFields]="['descripcion','categoria']">
 						
 						<ng-template pTemplate="caption">
 							<div class="table-header">
@@ -20,49 +20,61 @@
 						<ng-template pTemplate="header" let-columns>
 							<tr>
 								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
-									{{col.header}}
-									<p-sortIcon [field]="col.field" *ngIf="(col.field !== 'imagen' && col.field !== 'acciones')"></p-sortIcon>
+									{{col.header | titlecase}}
+									<p-sortIcon [field]="col.field" *ngIf="(col.field !== 'img' && col.field !== 'acciones')"></p-sortIcon>
 								</th>
 							</tr>
 						</ng-template>
 
 						<ng-template pTemplate="body" let-rowData let-columns="columns">
 							<tr class="p-selectable-row">
-								<td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'imagen'  || col.field === 'cantidad'}">
+								<td *ngFor="let col of columns" [ngClass]="{'centrar': col.field === 'img'  || col.field === 'cantidad'}">
 									<span class="p-column-title">{{col.header}}</span>
 
-									<span *ngIf="col.field === 'imagen'">
-										<img [src]="rowData.galeriaImagenes | invProductos" width="64"
+									<span *ngIf="col.field === 'img'">
+										<img [src]="rowData.img | invProductos" width="64"
 											style="vertical-align: middle"/>
 										<div class="p-mb-3 demo-container p-text-nowrap p-text-truncate" style="width: 7rem" [pTooltip]="rowData['titulo']" tooltipPosition="bottom">										
-											{{rowData['titulo']}}
+											{{rowData['nombre']}}
 										</div>
 									</span>
+									
+									<span *ngIf="col.field === 'average_rating'">
+										<p-rating [(ngModel)]="rowData[col.field]" readonly="true" [cancel]="false"></p-rating>
+									</span>
 
-									<span *ngIf="col.field === 'codigo'">
+									<span *ngIf="col.field === 'regular_price'">
+										{{ rowData[col.field] || rowData['precio']}}
+									</span>
+
+									<span *ngIf="col.field === 'precio'">
 										{{ rowData[col.field] }}
 									</span>
-
-									<span *ngIf="col.field === 'marca' || col.field === 'categoria' || col.field === 'categoria' ||
-												 col.field === 'propiedad' || col.field === 'almacen' || col.field === 'tipoinventario'">
-										{{ rowData[col.field] | titlecase}}
+									
+									<span *ngIf="col.field === 'categoria'">
+										{{ rowData[col.field].descripcion }}
 									</span>
 
-									<span *ngIf="col.field === 'cantidad' && rowData['tipo_producto'] !== 1">
-										<span class="p-badge p-badge-lg p-badge-success"><i class="fas fa-infinity"></i></span>
+									<span *ngIf="col.field === 'proveedor'">
+										{{ rowData[col.field].nom_sp | titlecase }}
 									</span>
 
-									<span *ngIf="col.field === 'cantidad' && rowData['tipo_producto'] === 1">
-										<span *ngIf="(rowData.cantidad >= rowData.existenciaMaxima * 0.7) && rowData.existenciaMaxima !== null  " class="p-badge p-badge-lg p-badge-success">{{rowData.cantidad}}</span>
-										<span *ngIf="rowData.cantidad < rowData.existenciaMaxima * 0.7 && rowData.cantidad >= rowData.existenciaMinima * 3" class="p-badge p-badge-lg p-badge-info">{{rowData.cantidad}}</span>
-										<span *ngIf="rowData.cantidad < rowData.existenciaMinima * 3 && rowData.cantidad > 0" class="p-badge p-badge-lg p-badge-warning">{{rowData.cantidad}}</span>
-										<span *ngIf="rowData.cantidad === 0 || rowData.cantidad === null" class="p-badge p-badge-lg p-badge-danger">0</span>
+									<span *ngIf="col.field === 'disponible'">
+										{{ rowData[col.field] || 0}}
+									</span>
+
+									<span *ngIf="col.field === 'envios'">
+										{{ rowData[col.field].descripcion }}
+									</span>
+																		
+									<span *ngIf="col.field === 'stock_quantity'">
+										{{ rowData[col.field] || 0 }}
 									</span>
 
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarProducto(rowData.id)" pTooltip="Actualizar"></button>
-										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarProducto(rowData.id)" pTooltip="Eliminar"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarProducto(rowData)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarProducto(rowData.uid)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
 									</span>
 								</td>								

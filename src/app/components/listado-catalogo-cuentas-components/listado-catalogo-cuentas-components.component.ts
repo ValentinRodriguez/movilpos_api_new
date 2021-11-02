@@ -3,7 +3,6 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CgcatalogoService } from 'src/app/services/contabilidad/cgcatalogo.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
-import { GlobalFunctionsService } from 'src/app/services/globales/global-functions.service';
 @Component({
   selector: 'app-listado-catalogo-cuentas-components',
   templateUrl: './listado-catalogo-cuentas-components.component.html',
@@ -24,8 +23,11 @@ export class ListadoCatalogoCuentasComponentsComponent implements OnInit {
   }
   
   todosLosCatalogos() {
-    this.cgCatalogoServ.getDatosAux().then((resp: any) => {      
-      this.cuentas_no = resp;
+    this.cgCatalogoServ.getDatosAux().subscribe((resp: any) => {     
+      console.log(resp);      
+      if (resp.ok) {
+        this.cuentas_no = resp.data;        
+      } 
     })
   }
 

@@ -31,8 +31,10 @@ export class ListaProductosComponent implements OnInit {
   }
 
   todosLosProductos() {    
-    this.inventarioServ.getDatos().then((resp:any)=>{
-      this.productos = resp   
+    this.inventarioServ.getDatos().subscribe((resp:any)=>{
+      if (resp.ok) {
+        this.productos = resp.data           
+      }
     })
   }
   

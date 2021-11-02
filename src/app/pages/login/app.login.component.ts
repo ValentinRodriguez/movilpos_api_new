@@ -41,7 +41,6 @@ export class AppLoginComponent implements OnInit{
 
   onSubmit() {    
     this.usuarioServ.login(this.form).subscribe((resp: any) => {
-      console.log(resp);
       if (resp.ok) {
         this.usuarioServ.clearLocalStorage();        
         this.usuarioServ.setLocalStorage(resp);

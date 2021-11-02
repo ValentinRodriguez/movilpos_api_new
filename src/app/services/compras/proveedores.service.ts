@@ -28,13 +28,7 @@ export class ProveedoresService implements OnDestroy{
   }
 
   getDatos() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/proveedores`).subscribe((resp: any) => {   
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/proveedores`)
   }
 
   autoLlenado() {
@@ -70,48 +64,36 @@ export class ProveedoresService implements OnDestroy{
   busquedaProveedor(parametro) {
     let params = new HttpParams();
     params = params.append('proveedor',parametro);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/proveedores', {params}).subscribe((resp: any) => {                                
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/proveedores/busqueda', {params})
   }
 
   crearProveedor(provee: any) {
-    let data = {}
-    for(let key in provee){         
-      switch (key) {
-        case 'cod_sp':
-        case 'cond_pago':
-        case 'id_ciudad':
-        case 'id_pais':            
-          data[key] = provee[key].id;          
-        break;
-
-        case 'tipo_doc':            
-            data[key] = provee[key].tipo_documento;          
-        break;
+    console.log(provee);
     
-        case 'id_moneda':            
-          data[key] = JSON.stringify(provee[key]);
-        break;
+    // for(let key in provee){         
+    //   switch (key) {
+    //     case 'cod_sp':
+    //     case 'cond_pago':
+    //     case 'id_ciudad':
+    //     case 'id_pais':            
+    //       data[key] = provee[key].id;          
+    //     break;
 
-        default:
-          data[key] = provee[key]
-          break;
-      }
-    }
+    //     case 'tipo_doc':            
+    //         data[key] = provee[key].tipo_documento;          
+    //     break;
+    
+    //     case 'id_moneda':            
+    //       data[key] = JSON.stringify(provee[key]);
+    //     break;
 
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/proveedores`, data).subscribe( (resp: any) => {  
-        if (resp['ok'])  {    
-          this.proveedoresCreados.emit( resp.data );                                   
-          resolve(resp.data);       
-        }
-      }))
-    });    
+    //     default:
+    //       data[key] = provee[key]
+    //       break;
+    //   }
+    // }
+
+    return this.http.post(`${ URL }/proveedores`, provee)    
   }
 
   actualizarProveedor(id:string, provee: any) {
@@ -149,14 +131,7 @@ export class ProveedoresService implements OnDestroy{
   }
 
   borrarProveedor(id:string){
-    return new Promise(resolve =>{
-      this.listSubscribers.push(this.http.delete(`${ URL }/proveedores/${id}`).subscribe((resp:any)=>{
-        if(resp['code']==200){
-          this.proveedorBorrado.emit(id);
-          resolve(resp.data);
-        }
-      }))
-    })
+    return this.http.delete(`${ URL }/proveedores/${id}`)
   }
 
   reporteCatalogoProveedores(provee: any) {    
@@ -197,8 +172,7 @@ export class ProveedoresService implements OnDestroy{
     }); 
   }
 
-  actualizando(cod_sp:number, cod_sp_sec:number) {
-    const data = [cod_sp, cod_sp_sec]
+  actualizando(data) {
     this.actualizar.emit(data);
   }
 

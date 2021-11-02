@@ -88,30 +88,30 @@ export class ActoDescargoComponent implements OnInit {
   }
 
   todaLaData() {   
-    this.inventarioServ.autoLlenado().then((resp: any) =>{         
-      resp.forEach(element => {
-        switch (element.label) {
-          case 'modelos':
-            this.categorias = element.data;
-            break;
+    // this.inventarioServ.autoLlenado().then((resp: any) =>{         
+    //   resp.forEach(element => {
+    //     switch (element.label) {
+    //       case 'modelos':
+    //         this.categorias = element.data;
+    //         break;
 
-          case 'color':
-            this.propiedades = element.data;
-            break;
+    //       case 'color':
+    //         this.propiedades = element.data;
+    //         break;
 
-          case 'marcas':
-            this.brands = element.data;
-            break;
+    //       case 'marcas':
+    //         this.brands = element.data;
+    //         break;
 
-          case 'bodegas':
-            this.bodegas = element.data;
-            break;
+    //       case 'bodegas':
+    //         this.bodegas = element.data;
+    //         break;
 
-          default:
-            break;
-        }
-      });  
-    })
+    //       default:
+    //         break;
+    //     }
+    //   });  
+    // })
   }
     
   todosLosClientes() {

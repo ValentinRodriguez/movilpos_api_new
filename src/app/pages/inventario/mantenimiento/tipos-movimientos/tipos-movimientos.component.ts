@@ -80,11 +80,13 @@ export class TiposMovimientosComponent implements OnInit {
     this.listSubscribers = [observer1$,observer2$,observer3$,observer4$];
   };
 
-  todosLosMov() {
-    this.movimientos = [];    
-    this.CodMovServ.getDatos().then((resp: any) => {
-      this.movimientos = resp.codigosmov;
-      this.cuentas_permisos =resp.cuentas; 
+  todosLosMov() {  
+    this.CodMovServ.getDatos().subscribe((resp: any) => {
+      console.log(resp);      
+      if (resp.ok) {
+        this.movimientos = resp.data;        
+      }
+      // this.cuentas_permisos =resp.cuentas; 
     })
   }
 

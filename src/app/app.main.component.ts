@@ -41,13 +41,10 @@ export class AppMainComponent implements OnInit{
     constructor(private menuService: MenuService,
                 public route: Router,
                 private usuarioSrv: UsuarioService,
-                private primengConfig: PrimeNGConfig,
-                private permisosServ: RolesService) {
-                    this.usuario = usuarioSrv.getUserLogged().usuario;
-                    console.log(this.usuario); 
-                }
+                private primengConfig: PrimeNGConfig) { }
 
-    ngOnInit() {        
+    ngOnInit() {   
+        this.usuario = this.usuarioSrv.getUserLogged().usuario;     
         this.primengConfig.ripple = true;   
         this.permisos = this.usuario.rol
 
@@ -69,38 +66,6 @@ export class AppMainComponent implements OnInit{
         if (localStorage.getItem('esquema-color')) {
             this.colorScheme = localStorage.getItem('esquema-color');         
         }
-    }
-
-    initializeEcho() {
-        const echo = new Echo({
-            broadcaster: 'pusher',
-            cluster: environment.pusher_CLUSTER,
-            key: environment.pusher_KEY,
-            wsHost: window.location.hostname,
-            wsPort: environment.pusher_PORT,
-            forceTLS: false,
-            disableStats: true,
-            enabledTransports: ['ws'],
-
-            /*broadcaster: 'pusher',
-            key: environment.pusher_KEY,
-            wsHost: environment.pusher_HOST,
-            wsPort: environment.pusher_PORT,
-            forceTLS: false,
-            authEndpoint: `${environment.urlClean}/api/broadcasting/auth`,
-            auth: {
-              headers: {
-                Accept: 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-              }
-            },
-            disableStats: true,
-            encrypted: false*/
-        });
-        
-        echo.channel('chanel-chat').listen('testMessage', (resp) => {
-            console.log(resp);
-        });
     }
 
     onLayoutClick() {

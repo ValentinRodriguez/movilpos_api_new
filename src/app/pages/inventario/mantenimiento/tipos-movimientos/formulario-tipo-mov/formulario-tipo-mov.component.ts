@@ -11,9 +11,9 @@ import { UsuarioService } from 'src/app/services/panel-control/usuario.service';
 @Component({
   selector: 'app-formulario-tipo-mov',
   templateUrl: './formulario-tipo-mov.component.html',
-  styleUrls: ['./formulario-tipo-mov.component.scss'],
-  providers:[CodMovService,CgcatalogoService]
+  styleUrls: ['./formulario-tipo-mov.component.scss']
 })
+
 export class FormularioTipoMovComponent implements OnInit {
 
   forma: FormGroup;
@@ -52,8 +52,8 @@ export class FormularioTipoMovComponent implements OnInit {
     }
 
   ngOnInit(): void {    
-    this.todosLosCatalogos();
-    this.todosLosUsuarios(); 
+    // this.todosLosCatalogos();
+    // this.todosLosUsuarios(); 
     this.listObserver();
 
     this.cols2 = [
@@ -68,11 +68,11 @@ export class FormularioTipoMovComponent implements OnInit {
 
   listObserver = () => {
     const observer1$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {             
-      this.cgcatalogos
-      resp.forEach(element => {
-        this.cgcatalogos.push(element);
-      });
-      this.forma.controls['cuenta_no'].setValue(this.cgcatalogos);     
+      console.log(resp);    
+      this.cgcatalogos = resp;
+      this.cgcatalogos.forEach(element => {
+        this.forma.controls['cuentas'].setValue(element.uid);
+      });            
     })
 
     const observer2$ = this.CodMovServ.actualizar.subscribe((resp: any) =>{
@@ -89,19 +89,18 @@ export class FormularioTipoMovComponent implements OnInit {
         this.cgcatalogos.forEach(element => {
           cuenta.push(element.cuenta_no);
         });     
-        this.forma.controls['cuenta_no'].setValue(cuenta);  
+        this.forma.controls['cuentas'].setValue(cuenta);  
       })
     })
 
     this.listSubscribers = [observer1$,observer2$];
-   };
+  };
   
   crearFormulario() {
     this.forma = this.fb.group({
       titulo:                ['', Validators.required],
       origen:                ['', Validators.required],
-      cuenta_no:             ['', Validators.required],
-      email:                 [this.usuario.email, Validators.required],
+      cuentas:               ['', Validators.required],
       descripcion:           ['movimiento de exportaciones', Validators.required],
       control_clientes:      ['no', Validators.required],
       control_despachos:     ['no', Validators.required],
@@ -109,17 +108,10 @@ export class FormularioTipoMovComponent implements OnInit {
       control_devoluciones:  ['no', Validators.required],
       control_transferencia: ['no', Validators.required],
       control_orden_compra:  ['no', Validators.required],
-      estado:                ['ACTIVO', Validators.required],
       usuario_modificador:   ['']
     })
   }
  
-  todosLosCatalogos() {
-    this.cgCatalogoServ.getDatosAux().then((resp: any) => {
-      this.cuentas_no = resp;     
-    })
-  }
-
   todosLosUsuarios() {
     this.usuariosServ.getUsers().then((resp: any) => {
       this.usuarios = resp;    
@@ -189,6 +181,8 @@ export class FormularioTipoMovComponent implements OnInit {
   }
     
   guardarcodMov(){
+    console.log(this.forma.value);
+    
     if (this.forma.invalid) {   
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');  
       Object.values(this.forma.controls).forEach(control =>{          
@@ -205,74 +199,49 @@ export class FormularioTipoMovComponent implements OnInit {
           break;
 
         default:
-          this.CodMovServ.crearTipoMov(this.forma.value).then((resp: any)=>{            
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
-            this.resetFormulario();
-          })
+          if (this.actualizar) {
+            this.forma.get('usuario_modificador').setValue(this.usuario.username);
+            this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).subscribe((resp: any) => {
+              if (resp.ok) {
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Movimiento creado de manera exitosa');
+                this.resetFormulario();
+              }
+            })
+          }else{
+            this.CodMovServ.crearTipoMov(this.forma.value).subscribe((resp: any)=>{   
+              if (resp.ok) {
+                this.CodMovServ.tipoMovGuardado.emit(resp);
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');  
+                this.resetFormulario();                
+              }         
+            })
+          }
         break;
       } 
-    }
-     
-  }
-
-  actualizarMov(){    
-      
-     this.forma.get('usuario_modificador').setValue(this.usuario.username);    
-     if (this.forma.invalid) {       
-       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-       Object.values(this.forma.controls).forEach(control =>{          
-         control.markAllAsTouched();
-       })
-     }else{ 
-      switch (this.movimientoExiste) {
-        case 0:
-          this.uiMessage.getMiniInfortiveMsg('tst','info','Espere','Verificando disponibilidad de nombre');          
-          break;
-
-        case 2:
-          this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Existe un tipo de movimiento con este nombre');          
-          break;
-
-        default:
-          this.forma.get('usuario_modificador').setValue(this.usuario.username);
-          this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).then(() => {
-            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Movimiento creado de manera exitosa');
-            this.resetFormulario();
-          })
-        break;
-      }    
-    }
-     
+    }     
   }
 
   cancelar() {
     this.actualizar = false;
     this.guardar = true;
     this.resetFormulario();
-    this.CodMovServ.guardando();    
-     ;    
+    this.CodMovServ.guardando();   
   }
 
   resetFormulario() {
     this.forma.reset();
     this.forma.enable();
     this.cgcatalogos = [];
-    this.forma.get('cuenta_no').setValue('');
-    this.forma.get('estado').setValue('activo');
-    this.forma.get('email').setValue(this.usuario.email);
+    this.forma.get('cuentas').setValue('');
     this.forma.get('control_clientes').setValue('no');
     this.forma.get('control_despachos').setValue('no');
     this.forma.get('control_departamento').setValue('no');
     this.forma.get('control_devoluciones').setValue('no');
     this.forma.get('control_transferencia').setValue('no');
     this.forma.get('control_orden_compra').setValue('no');
-    
-     
-    
   }
 
   buscaCuentas() {
-    // this.catalogos = true
      this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
       data: {
         cuentas: this.cuentas_no
@@ -286,15 +255,16 @@ export class FormularioTipoMovComponent implements OnInit {
     if (data === "") {
       this.movimientoExiste = 3;
       return;
-    }
-    let param = {'titulo': data};
+    }    
     this.movimientoExiste = 0;
-    this.CodMovServ.busquedaCodMov(param).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.movimientoExiste = 1;
-      }else{
-        this.movimientoExiste = 2;
-      }  
+    this.CodMovServ.busquedaCodMov(data).subscribe((resp: any)=>{      
+      if (resp.ok) {
+        if(resp.data.length === 0) {
+          this.movimientoExiste = 1;
+        }else{
+          this.movimientoExiste = 2;
+        }          
+      }
     })
   }
 

@@ -15,95 +15,42 @@ export class CgcatalogoService {
   catalogoGuardado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
-
-  listSubscribers: any = [];
   
   constructor(private http: HttpClient) { }
 
-  ngOnDestroy() {
-    console.log('destruido');    
-    this.listSubscribers.forEach(a => {
-      if (a !== undefined) {
-        a.unsubscribe()        
-      }
-    });
-  }
-
   busqueda(parametro?: any) {
-    let params = new HttpParams();
-    if (parametro === undefined) {
-      parametro = {};
-    }
-    if (parametro.parametro === undefined || parametro.parametro === null) {
-      parametro.parametro = '';
-    }  
-    params = params.append('descripcion',parametro.descripcion);  
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/desc-cgcatalogo',{params}).subscribe((resp: any) => {                                              
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    let params = new HttpParams(); 
+    params = params.append('descripcion',parametro);  
+    return this.http.get(`${URL}/cuentas/busqueda`,{params})
   }
 
   busquedaCatalogo(parametro) {
     let params = new HttpParams();    
     params = params.append('cuenta_no',parametro);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/cgcatalogo', {params}).subscribe((resp: any) => {                           
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/cuentas/busqueda-cuenta', {params})
   }
 
   getDatos() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/cgcatalogo`).subscribe((resp: any) => {                          
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/cuentas`)    
   }
 
   getDatosAux() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/busqueda/cuentas-auxiliares`).subscribe((resp: any) => {                   
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/cuentas/cuentas-auxiliares`)
   }
 
-  codigosRetencion() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/busqueda/codigos-retencion`).subscribe((resp: any) => {
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
-  }
+  // codigosRetencion() {
+  //   return this.http.get(`${URL}/codigos-retencion`)
+  // }
 
   getDato(id: any) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/cgcatalogo/${id}`).subscribe((resp: any) => {        
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/cuentas/${id}`)
   }
-  
+
   crearCgcatalogos(cgcatalogo: any) {
     if (cgcatalogo.aplica_a === undefined) {
       cgcatalogo.aplica_a = cgcatalogo.cuenta_no;
     }
-    const formData = new FormData();
+    
     for(let key in cgcatalogo){  
       switch (key) {
         case 'analitico':
@@ -116,36 +63,34 @@ export class CgcatalogoService {
         case 'grupo':
         case 'origen':
         case 'selectivo_consumo':
-          formData.append(key, cgcatalogo[key].value)
+          cgcatalogo[key] = cgcatalogo[key].value
           break;
+
         case 'cuenta_resultado':
           if (cgcatalogo[key] === true) {
-            formData.append(key, 'si')
+            cgcatalogo[key] = 'si'
           } else {
-            formData.append(key, 'no')
+            cgcatalogo[key] = 'no'
           }
           break;
+
         case 'codigo_isr':
-          formData.append(key, cgcatalogo[key].id)
+          cgcatalogo[key] = cgcatalogo[key].id
           break;
+
         default:
-          formData.append(key, cgcatalogo[key])
+          // cgcatalogo[key] = cgcatalogo[key]
           break;
       }      
     }
+    console.log(cgcatalogo);
     
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/cgcatalogo`, formData).subscribe( (resp: any) => {        
-        if (resp['ok'])  {
-          resolve(resp.data);       
-          this.catalogoGuardado.emit(resp.data);
-        }
-      }))
-    });    
+    return this.http.post(`${ URL }/cuentas`, cgcatalogo)
   }
 
-  actualizarCatalogo(id:number, cgcatalogo: any) {  
-    const formData = {};
+  actualizarCatalogo(id:string, cgcatalogo: any) {  
+   console.log(cgcatalogo);
+   
     if (cgcatalogo.aplica_a === undefined) {
       cgcatalogo.aplica_a = cgcatalogo.cuenta_no;
     }
@@ -162,46 +107,32 @@ export class CgcatalogoService {
         case 'grupo':
         case 'origen':
         case 'selectivo_consumo':          
-          formData[key] = cgcatalogo[key].value
+          cgcatalogo[key] = cgcatalogo[key].value
           break;
 
         case 'cuenta_resultado':
           if (cgcatalogo[key] === true) {
-            formData[key] = 'si';
+            cgcatalogo[key] = 'si';
           } else {
-            formData[key] = 'no';
+            cgcatalogo[key] = 'no';
           }
           break;
 
         case 'codigo_isr':
-          formData[key] =cgcatalogo[key].id
+          cgcatalogo[key] =cgcatalogo[key].id
           break;
 
         default:
-          formData[key] =cgcatalogo[key]
+          cgcatalogo[key] =cgcatalogo[key]
           break;
       }      
     }
       
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.put(`${ URL }/cgcatalogo/${id}`, formData).subscribe( (resp: any) => {
-        if (resp['ok'])  {
-          this.catalogoActualizado.emit( resp.data );                            
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.put(`${ URL }/cuentas/${id}`, cgcatalogo)
   }
 
   borrarCatalogo(id: string) {
-    return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.delete(`${ URL }/cgcatalogo/${id}`).subscribe( (resp: any) => { 
-        if (resp['ok'])  {
-          this.catalogoBorrado.emit(id);    
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.delete(`${ URL }/cuentas/${id}`)
   }
 
   listadocatalogoEscogidos(data: any) {

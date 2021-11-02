@@ -8,8 +8,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-catalogo-cuentas',
   templateUrl: './catalogo-cuentas.component.html',
-  styleUrls: ['./catalogo-cuentas.component.scss'],
-  providers:[CgcatalogoService,]
+  styleUrls: ['./catalogo-cuentas.component.scss']
 })
 export class CatalogoCuentasComponent implements OnInit {
 
@@ -29,7 +28,6 @@ export class CatalogoCuentasComponent implements OnInit {
               private confirmationService: ConfirmationService,
               public dialogService: DialogService,
               public datos: DatosEstaticosService) { 
-                ;
                 this.todosLosCatalogos();
               }
   ngOnDestroy(): void {
@@ -39,20 +37,17 @@ export class CatalogoCuentasComponent implements OnInit {
   ngOnInit(): void {    
     this.listObserver();
     this.cols = [
-      { field: 'descripcion_c', header: 'Descripción'},
+      { field: 'descripcion', header: 'Descripción'},
       { field: 'cuenta_no', header: 'Cuenta'},
       { field: 'origen', header: 'Origen'},
       { field: 'aplica_a', header: 'Cuenta Aplica'},
       { field: 'tipo_cuenta', header: 'Tipo Cuenta'},
-      { field: 'codigo_isr', header: 'Código ISR'},
       { field: 'catalogo', header: 'Catálogo'},
       { field: 'referencia', header: 'Referencia'},
       { field: 'depto', header: 'Departamento'},
       { field: 'selectivo_consumo', header: 'Selectivo Consumo'},
       { field: 'retencion', header: 'Retención'},
       { field: 'cuenta_resultado', header: 'Cuenta Resultados'},
-      { field: 'estado_bg', header: 'Codigo Estado Ganancia / Perdida'},
-      { field: 'estado_resultado', header: 'Codigo Estado Resultado'},
       { field: 'acciones', header: 'Acciones'},
       
     ]
@@ -79,8 +74,12 @@ export class CatalogoCuentasComponent implements OnInit {
   };
 
   todosLosCatalogos() {
-    this.cgcatalogoServ.getDatos().then((resp: any) => {
-      this.cuentas = resp;
+    this.cgcatalogoServ.getDatos().subscribe((resp: any) => {
+      console.log(resp);
+      
+      if (resp.ok) {
+        this.cuentas = resp.data;        
+      }
     })
   }
 
@@ -93,8 +92,10 @@ export class CatalogoCuentasComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.cgcatalogoServ.borrarCatalogo(transportista).then((resp: any)=>{
-          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
+        this.cgcatalogoServ.borrarCatalogo(transportista).subscribe((resp: any)=>{
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');               
+          }
         })       
       }
     })

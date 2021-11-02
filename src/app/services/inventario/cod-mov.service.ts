@@ -29,35 +29,17 @@ export class CodMovService {
 
   busquedaCodMov(parametro?: any) {
     let params = new HttpParams();
-    if (parametro === undefined) {
-      parametro = {};
-    }
-    if (parametro.parametro === undefined || parametro.parametro === null) {
-      parametro.parametro = '';
-    }     
-    params = params.append('titulo',parametro.titulo);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/codigosmovimientos', {params}).subscribe((resp: any) => { 
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    params = params.append('titulo',parametro);    
+    return this.http.get(URL+'/movimientos/desc-busqueda', {params})
   }
 
   getDatos() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/codigosmovimientos`).subscribe((resp: any) => {
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/movimientos`)
   }
 
   getDato(cuenta: string) {
     return new Promise( resolve => {
-        this.listSubscribers.push(this.http.get(`${URL}/codigosmovimientos/${cuenta}`).subscribe((resp: any) => {
+        this.listSubscribers.push(this.http.get(`${URL}/movimientos/${cuenta}`).subscribe((resp: any) => {
         if (resp['ok'])  {          
           resolve(resp.data);            
         }
@@ -66,28 +48,19 @@ export class CodMovService {
   }
 
   crearTipoMov(tipoMov: any) {
-    let data = {};
-
     for (const key in tipoMov) {
       switch (key) {
         case 'origen':
-          data[key] = tipoMov[key].value;
+          tipoMov[key] = tipoMov[key].value;
           break;
       
         default:
-          data[key] = tipoMov[key]
+          tipoMov[key] = tipoMov[key]
           break;
       }
     }     
     
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/codigosmovimientos`, data).subscribe( (resp: any) => {  
-        if (resp['ok'])  {    
-          this.tipoMovGuardado.emit( resp.data );                                   
-          resolve(resp.data);       
-        }
-      }))
-    });    
+    return this.http.post(`${ URL }/movimientos`, tipoMov)  
   }
 
   actualizarTipoMov(id:number, tipoMov: any) {
@@ -105,19 +78,12 @@ export class CodMovService {
       }
     }
     
-    return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.put(`${ URL }/codigosmovimientos/${id}`, data).subscribe( (resp: any) => {   
-        if (resp['ok'])  {
-          this.tipoMovActualizado.emit( resp.data );                            
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.put(`${ URL }/movimientos/${id}`, data)
   }
   
   borrarTipoMov(id: string) {
     return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.delete(`${ URL }/codigosmovimientos/${id}`).subscribe( (resp: any) => {                            
+      this.listSubscribers.push(this.http.delete(`${ URL }/movimientos/${id}`).subscribe( (resp: any) => {                            
         if (resp['ok'])  {            
           this.tipoMovBorrado.emit(id);    
           resolve(resp.data);            

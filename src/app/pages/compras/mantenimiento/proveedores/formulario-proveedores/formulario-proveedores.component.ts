@@ -24,53 +24,31 @@ export class FormularioProveedoresComponent implements OnInit {
   guardar = true;
   actualizando = false;
   actualizar = false;
-  selectedMultiMoneda: any[] = [];
-  cuenta_no: any;
   proveedorExiste = 3;
-  tipo_proveedor=[];
-  documento=[];
-  ciudades=[];
-  paises=[];
-  condpago:any[] = [];
-  monedas: any;
-  cedula = true;
-  rnc = false; 
-  cols2:any[]= [];
-  cgcatalogos: any[] = [];
   id: string;  
   listSubscribers: any = [];
-  items: any[] = [];
-  rutaActual:any;
+
+  condpago:any[] = [
+    {label: "CONTRA ENTREGA", value: "contra-entrega"}
+  ];
+  
+  monedas:any[] = [
+    {label: "PESOS $RD", value: "$RD"}
+  ];
 
   constructor(private fb: FormBuilder, 
               public router: Router,              
               private paisesCiudadesServ: PaisesCiudadesService,
               private uiMessage: UiMessagesService,
               private proveedoresServ:ProveedoresService,
-              private cgCatalogoServ: CgcatalogoService,
               private tipoProveedorServ: TipoProveedorService,
-              private datosEstaticosServ: DatosEstaticosService,
-              public dialogService: DialogService,
-              private cd: ChangeDetectorRef,
-              @Inject(DOCUMENT) private document: Document) { 
+              public dialogService: DialogService,) { 
       ;
       this.crearFormulario() 
   }
 
   ngOnInit(): void {
-    this.rutaActual = this.router.url.split("/");
-    this.todaLaData();
     this.listObserver();
-
-    this.cols2 = [
-      { field: 'descripcion', header: 'Descripción' },
-      { field: 'cuenta_no', header: 'Cuenta' },
-      { field: 'origen', header: 'Origen' },
-      { field: 'tipo_cuenta', header: 'Tipo Cuenta' },
-      { field: 'porciento', header: 'Porciento' },
-      { field: 'acciones', header: 'Acciones' },
-    ]
-
   }
   
   ngOnDestroy(): void {
@@ -78,150 +56,36 @@ export class FormularioProveedoresComponent implements OnInit {
   }
 
   listObserver = () => {
-    const observer1$ = this.tipoProveedorServ.tipoPguardado.subscribe((resp: any)=>{
-      this.tipo_proveedor.push(resp);      
-    })
-
     const observer2$ = this.proveedoresServ.actualizar.subscribe((resp: any) =>{
       this.guardar = false;
       this.actualizar = true;    
       this.id = resp[0]+'-'+resp[1];
       
       this.proveedoresServ.getDato(resp[0]+'-'+resp[1]).then((res: any) => {
-        this.forma.patchValue(res);
-        
-        this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == res.tipo_doc)); 
-        this.forma.get('cod_sp').setValue(this.tipo_proveedor.find(doc => doc.id == res.cod_sp)); 
-        this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago)); 
-        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));    
-        this.forma.get('id_moneda').setValue(JSON.parse(res.moneda));      
-        this.selectedMultiMoneda = JSON.parse(res.moneda);
-        this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
-          this.ciudades = resp;
-          this.forma.get('id_ciudad').setValue(this.ciudades.find(ciudad => ciudad.id_ciudad === res.id_ciudad));
-        })
-
-        res.cuentas_proveedor.forEach(element => {
-          this.cgcatalogos.push(element);
-          this.agregarFormulario(element);
-        });
+        this.forma.patchValue(res);        
+        this.forma.get('cond_pago').setValue(this.condpago.find(doc => doc.id == res.cond_pago));    
+        this.forma.get('id_moneda').setValue(JSON.parse(res.moneda));
       })
     })
-
-    const observer3$ = this.cgCatalogoServ.catalogoEscogido.subscribe((resp: any) => {
-      resp.forEach(element => {
-        if (element.tipo_cuenta !== "normal") {
-          this.cgcatalogos.push(element);
-          this.agregarFormulario(element);
-        }
-      });
-    });
-
-    this.listSubscribers = [observer1$,observer2$,observer3$];
+    this.listSubscribers = [observer2$];
   };
 
-  todaLaData() {
-    this.proveedoresServ.autoLlenado().then((resp: any)  => {
-      resp.forEach(element => {
-        if (element.data.length === 0) {
-          this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})      
-        }
-        switch (element.label) {
-          case 'condiciones':
-            this.condpago = element.data;
-            break;
-
-          case 'monedas':
-            this.monedas = element.data;
-            break;
-
-          case 'catalogo':
-            this.cuenta_no = element.data;
-            break;  
-
-          case 'tipo-proveedor':
-            this.tipo_proveedor = element.data;
-            break; 
-
-          case 'paises':
-            this.paises = element.data;
-            break; 
-
-          case 'tipo documento':
-            this.documento = element.data;           
-            this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.descripcion === 'cedula'));
-            break; 
-
-          default:
-            break;
-        }
-      });  
-      this.autollenado(resp);  
-    })
-  }
-
-  autollenado(data) {
- 
-
-  }
-
-  crearFormulario() {
-    this.forma = this.fb.group({
-      cod_sp:              ['', Validators.required],  
+    crearFormulario() {
+    this.forma = this.fb.group({ 
       email:               ['', Validators.compose([ Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])],  
-      cod_sp_sec:          [''], 
       nom_sp:              ['', Validators.required],          
       dir_sp:              ['', Validators.required],
-      tel_sp:              ['', Validators.required],
-      fax_sp:              [''],          
-      cont_sp:             ['', Validators.required],
-      tipo_doc:            ['', Validators.required],
-      cond_pago:           ['', Validators.required],          
-      documento:           ['', Validators.required],        
-      id_moneda:           ['', Validators.required],        
-      cuenta_no:           ['', Validators.required],
-      id_pais:             ['', Validators.required],            
-      id_ciudad:           ['', Validators.required],          
-      usuario_modificador: [''],
-      estado:              ['activo'],
-      cuentas_no:          this.fb.array([])
+      cond_pago:           ['', Validators.required],   
+      moneda:              ['', Validators.required], 
+      contacto:            ['', Validators.required],   
+      tel_contacto:        ['', Validators.required],   
+      usuario_modificador: ['']
     })
   }
 
-  get cuentas_no() {   
-    return this.forma.get('cuentas_no') as FormArray;
-  }
-
-  get cuentaForm() {   
-    return this.forma.get('cuenta_no') as FormGroup;
-  }
-  
-  agregarFormulario(cuentas) {
-    (<FormArray>this.forma.get('cuentas_no')).push(this.agregarFormularioTransacciones(cuentas));    
-  }
-  
-  agregarFormularioTransacciones(cuentas): FormGroup {
-    return this.fb.group({
-      descripcion: [cuentas.descripcion, Validators.required],  
-      cuenta_no:   [cuentas.cuenta_no, Validators.required],  
-      porciento:   [cuentas.porciento],  
-    });
-  }
-
-  buscaPaises(id) {    
-    this.paisesCiudadesServ.buscaCiudad(id).then((resp:any) => {
-      this.ciudades = resp;     
-    })  
-  }
-
-  setValue() {
-    this.selectedMultiMoneda = this.forma.get("id_moneda").value
-  }
-
-  guardarProveedor(){
-     
+  guardarProveedor(){    
+    console.log(this.forma.value);
     
-          
     if (this.forma.invalid) { 
            
       this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
@@ -234,30 +98,24 @@ export class FormularioProveedoresComponent implements OnInit {
           control.markAllAsTouched();
         }
       })
-    }else{            
-      this.proveedoresServ.crearProveedor(this.forma.value).then(()=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Proveedor creado exitosamente!!");      
-        this.restaurarFormulario();
-      })
+    }else{    
+      this.forma.value.cond_pago = this.forma.value.cond_pago.value
+      this.forma.value.moneda = this.forma.value.moneda.value
+      if (this.actualizar) {
+        this.proveedoresServ.actualizarProveedor(this.id, this.forma.value).then((resp: any)=>{
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');   
+          this.restaurarFormulario();            
+        })
+      }else{
+        this.proveedoresServ.crearProveedor(this.forma.value).subscribe((resp:any)=>{
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente',"Proveedor creado exitosamente!!");      
+            this.restaurarFormulario();            
+          }
+        })
+      }        
     }      
   } 
-
-  actualizarProveedor(){
-                
-    this.forma.get('usuario_modificador').setValue(this.usuario.username);   
-
-    if (this.forma.invalid) {   
-      this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{      
-      this.proveedoresServ.actualizarProveedor(this.id, this.forma.value).then((resp: any)=>{
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');   
-        this.restaurarFormulario();            
-      })
-    }
-  }
 
   verificaProveedor(data){        
     if (data === "") {
@@ -265,50 +123,21 @@ export class FormularioProveedoresComponent implements OnInit {
       return;
     }
     this.proveedorExiste = 0;
-    this.proveedoresServ.busquedaProveedor(data).then((resp: any)=>{
-      if(resp.length === 0) {
-        this.proveedorExiste = 1;
-      }else{
-        this.proveedorExiste = 2;
+    this.proveedoresServ.busquedaProveedor(data).subscribe((resp: any)=>{
+      console.log(resp);
+      
+      if (resp.ok) {
+        if(resp.data.length === 0) {
+          this.proveedorExiste = 1;
+        }else{
+          this.proveedorExiste = 2;
+        }        
       }
     })
   }
-
-  setCuenta(data) {
-    this.forma.get('cuenta_no').setValue(data);
-    this.cgCatalogoServ.busquedaCatalogo(data).then((resp: any) => {
-       (resp);
-      if (resp[0].tipo_cuenta !== "normal") {
-        this.cgcatalogos.push(resp[0]);
-        this.agregarFormulario(resp[0]);
-      }
-    })
-  }
-
-  tipoDoc(doc) {
-    if (doc.descripcion === 'cedula') {
-      this.cedula = true;
-      this.rnc = false;
-    } 
-    if (doc.descripcion === 'RNC') {
-      this.cedula = false;
-      this.rnc = true;
-    } 
-    this.forma.get('documento').reset()
-  }
-
+ 
   restaurarFormulario() {
-    let i = 0;
     this.forma.reset();
-    while (0 !== this.cuentas_no.length) {
-      this.cuentas_no.removeAt(0);
-      i++
-    }
-    this.forma.get('tipo_doc').setValue(this.documento.find(doc => doc.tipo_documento == 1)); 
-    this.forma.get('estado').setValue('activo');
-    this.selectedMultiMoneda = [];
-    this.cgcatalogos = [];
-    this.cd.detectChanges();
   }
 
   cancelar() {
@@ -318,33 +147,8 @@ export class FormularioProveedoresComponent implements OnInit {
     this.proveedoresServ.guardando();    
   }
 
-  buscaCuentas() {
-     this.dialogService.open(ListadoCatalogoCuentasComponentsComponent, {
-      header: 'Catalogo de cuentas',
-      width: '50%'
-    });
-  }
-
-  borrarCatEscogido(id) {    
-    this.cgcatalogos.splice(id,1)  
-    this.cuentas_no.removeAt(id);
-  }
-
-  redirigir() {
-    const link = this.document.createElement('a');
-    link.target = '_blank';
-    link.href = `http://localhost:4200/#/compras/gestion-de-proveedores`;
-    link.click();
-    link.remove();
-  }
-
   // FUNCIONES PARA EL MANEJO DE LOS ERRORES EN LOS CAMPOS DEL FORMULARIO
   getNoValido(input: string) {
     return this.forma.get(input).invalid && this.forma.get(input).touched;
   }
-
-  getNoValidoArray(input: string, index:number) {
-     return ((this.cuentas_no).at(index) as FormGroup).get(input).invalid && ((this.cuentas_no).at(index) as FormGroup).get(input).touched;
-  }
-
 }
