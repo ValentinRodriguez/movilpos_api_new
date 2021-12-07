@@ -8,8 +8,7 @@ import { UiMessagesService } from 'src/app/services/globales/ui-messages.service
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.scss'],
-  providers:[CategoriasService]
+  styleUrls: ['./categorias.component.scss']
 })
 export class CategoriasComponent implements OnInit {
 
@@ -33,6 +32,11 @@ export class CategoriasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categoriasServ.categoriaGuardada.subscribe(resp =>{
+      console.log(resp);
+      
+      this.todasLasCategorias();
+    })
     this.listObserver();
     this.cols = [
       { field: 'uid', header: 'Código' },

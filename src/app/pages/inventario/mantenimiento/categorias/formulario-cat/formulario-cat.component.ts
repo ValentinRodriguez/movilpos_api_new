@@ -89,6 +89,7 @@ export class FormularioCatComponent implements OnInit {
           } else {
             console.log('guardando');
             this.categoriasServ.crearCategoria(this.forma.value).subscribe((resp: any)=>{
+              console.log(resp);
               if (resp.ok) {
                 this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
                 this.forma.get('descripcion').reset();   
