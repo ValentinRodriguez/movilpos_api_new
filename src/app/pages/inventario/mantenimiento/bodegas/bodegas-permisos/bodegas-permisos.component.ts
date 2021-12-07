@@ -32,7 +32,7 @@ export class BodegasPermisosComponent implements OnInit {
   ngOnInit(): void {
     this.listObserver();
     this.id_bodega = this.config.data.bodega;
-    this.usuariosServ.getUsers().then((resp:any)=>{            
+    this.usuariosServ.getUsers().subscribe((resp:any)=>{            
       this.usuarios = resp;      
       this.permisosBodega(this.usuario.id)
     })    

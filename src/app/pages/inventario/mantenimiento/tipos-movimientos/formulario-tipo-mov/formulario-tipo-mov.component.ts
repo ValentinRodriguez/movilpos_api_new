@@ -46,14 +46,13 @@ export class FormularioTipoMovComponent implements OnInit {
     private usuariosServ: UsuarioService,
     private uiMessage: UiMessagesService,
     private CodMovServ: CodMovService,
-    private cgCatalogoServ: CgcatalogoService,    
+    private cgCatalogoServ: CgcatalogoService,  
     public dialogService: DialogService) {       
       this.crearFormulario();
+      this.usuario = this.usuariosServ.getUserLogged();
     }
 
   ngOnInit(): void {    
-    // this.todosLosCatalogos();
-    // this.todosLosUsuarios(); 
     this.listObserver();
 
     this.cols2 = [
@@ -76,21 +75,19 @@ export class FormularioTipoMovComponent implements OnInit {
     })
 
     const observer2$ = this.CodMovServ.actualizar.subscribe((resp: any) =>{
+      console.log(resp);
       this.guardar = false;
       this.actualizar = true;   
-      this.id = Number(resp);      
-      this.CodMovServ.getDato(resp).then((res: any) => {
-                 
-        this.resetFormulario();
-        this.forma.patchValue(res.codigosmov[0]);
-        this.forma.get('origen').setValue(this.origenes.find(tipo => tipo.value === res.codigosmov[0].origen));
-        let cuenta = [] 
-        this.cgcatalogos = res.cuentas;
-        this.cgcatalogos.forEach(element => {
-          cuenta.push(element.cuenta_no);
-        });     
-        this.forma.controls['cuentas'].setValue(cuenta);  
-      })
+      this.id = resp.uid;      
+      this.resetFormulario();
+      this.forma.patchValue(resp);
+      this.forma.get('origen').setValue(this.origenes.find(tipo => tipo.value === resp.origen));
+      let cuenta = [] 
+      this.cgcatalogos = resp.cuentas;
+      this.cgcatalogos.forEach(element => {
+        cuenta.push(element._id);
+      });     
+      this.forma.controls['cuentas'].setValue(cuenta); 
     })
 
     this.listSubscribers = [observer1$,observer2$];
@@ -113,7 +110,7 @@ export class FormularioTipoMovComponent implements OnInit {
   }
  
   todosLosUsuarios() {
-    this.usuariosServ.getUsers().then((resp: any) => {
+    this.usuariosServ.getUsers().subscribe((resp: any) => {
       this.usuarios = resp;    
     })
   }
@@ -203,7 +200,8 @@ export class FormularioTipoMovComponent implements OnInit {
             this.forma.get('usuario_modificador').setValue(this.usuario.username);
             this.CodMovServ.actualizarTipoMov(this.id, this.forma.value).subscribe((resp: any) => {
               if (resp.ok) {
-                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Movimiento creado de manera exitosa');
+                this.CodMovServ.tipoMovActualizado.emit(resp);
+                this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Movimiento actualizado de manera exitosa');
                 this.resetFormulario();
               }
             })

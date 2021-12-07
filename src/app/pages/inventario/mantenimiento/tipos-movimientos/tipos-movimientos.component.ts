@@ -99,7 +99,7 @@ export class TiposMovimientosComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.CodMovServ.borrarTipoMov(mov).then((resp: any)=>{
+        this.CodMovServ.borrarTipoMov(mov).subscribe((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

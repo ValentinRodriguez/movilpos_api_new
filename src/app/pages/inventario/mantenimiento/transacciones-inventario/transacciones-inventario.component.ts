@@ -2,11 +2,11 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PendientesEntradaComponent } from 'src/app/components/pendientes-entrada/pendientes-entrada.component';
 import { TransaccionesService } from 'src/app/services/inventario/transacciones.service';
 import { UiMessagesService } from 'src/app/services/globales/ui-messages.service';
 
 import { environment } from 'src/environments/environment';
+import { UsuarioService } from '../../../../services/panel-control/usuario.service';
 
 const URL = environment.url;
 @Component({
@@ -29,8 +29,9 @@ export class TransaccionesInventarioComponent implements OnInit {
               private uiMessage: UiMessagesService,
               public dialogService: DialogService,
               private confirmationService: ConfirmationService,
+              private usuarioServ: UsuarioService,
               @Inject(DOCUMENT) private document: Document) {  
-                ;
+                this.usuario = this.usuarioServ.getUserLogged();
               }
 
   ngOnDestroy(): void {
@@ -39,8 +40,6 @@ export class TransaccionesInventarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.todasLastransacciones();
-    // this.autoLlenado();
-    this.pendientesEntrada();
     this.listObserver();
 
     this.cols = [
@@ -70,22 +69,10 @@ export class TransaccionesInventarioComponent implements OnInit {
   };
 
   todasLastransacciones() {     
-    this.transaccionesServ.getDatos().then((resp: any)=>{      
-      this.transacciones = resp;
-            
+    this.transaccionesServ.getDatos().subscribe((resp: any)=>{      
+      this.transacciones = resp.data;            
     })
   }
-  
-  // autoLlenado() {
-  //   this.transaccionesServ.autoLlenado().then((resp: any)  => {
-  //     resp.forEach(element => {
-  //       if (element.data.length === 0) {     
-  //         this.items.push({label: this.datosEstaticosServ.capitalizeFirstLetter(element.label), routerLink: element.label})
-  //       } 
-  //     });  
-      
-  //   })
-  // }
 
   imprimirTransaccion(num_doc) { 
     const link = this.document.createElement('a');
@@ -103,23 +90,11 @@ export class TransaccionesInventarioComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{
-        this.transaccionesServ.borrarTransaccion(id).then((resp: any)=>{
+        this.transaccionesServ.borrarTransaccion(id).subscribe((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');  
         })      
       }
     })  
   }
   
-
-  pendientesEntrada() : void {    
-    this.transaccionesServ.transaccionesPendientes(this.usuario.email).then((resp: any) => {    
-      if (resp.length !== 0) {
-         this.dialogService.open(PendientesEntradaComponent, {
-          data: { lista: resp },
-          header: `Listado de direcciones`,
-          width: '80%'
-        });        
-      }
-    })
-  }
 }

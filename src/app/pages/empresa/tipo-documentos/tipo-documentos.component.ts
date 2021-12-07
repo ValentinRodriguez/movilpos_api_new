@@ -68,7 +68,7 @@ export class TipoDocumentosComponent implements OnInit {
   }
   
   obtenerUsuarios() {
-    this.usuariosServ.getUsers().then((resp: any) => {
+    this.usuariosServ.getUsers().subscribe((resp: any) => {
       this.usuarios = resp;
     })
   }
@@ -82,7 +82,7 @@ export class TipoDocumentosComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.usuariosServ.eliminarUsuario(usuario).then((resp: any)=>{
+        this.usuariosServ.eliminarUsuario(usuario).subscribe((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

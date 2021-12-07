@@ -46,14 +46,6 @@ export class FormularioTransportistaComponent implements OnInit {
 
   ngOnInit(): void {
     this.listObserver();
-
-    this.zonasServ.getDatos().then((resp: any) => {
-      this.zonas = resp;
-    })
-
-    this.paisesCiudadesServ.getPaises().then((resp: any) => {
-      this.paises = resp;
-    })
   }
 
   listObserver = () => {
@@ -61,14 +53,7 @@ export class FormularioTransportistaComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.transportistaServ.getDato(resp).then((res: any) => {         
-        this.forma.patchValue(res);
-        this.forma.get('id_pais').setValue(this.paises.find(pais => pais.id_pais === res.id_pais));        
-        this.paisesCiudadesServ.buscaCiudad(res.id_pais).then((resp:any) => { 
-          this.ciudades = resp;
-          this.forma.get('cod_provincia').setValue(this.ciudades.find(ciudad => ciudad.cod_provincia === res.id_ciudad));
-        })
-      })
+      this.forma.patchValue(resp);
     }) 
     
     this.listSubscribers = [observer1$];
@@ -76,90 +61,34 @@ export class FormularioTransportistaComponent implements OnInit {
 
   crearFormulario() {
     this.forma = this.fb.group({
-      cedula:              ['', Validators.required],
       nombre:              ['', Validators.required],
-      cod_transportista:   ['', Validators.required],
-      calle:               ['', Validators.required],
       telefono:            ['', Validators.required],
-      id_pais:             ['', Validators.required],
-      // id_zona:             ['', Validators.required],
-      id_region:           ['', Validators.required],
-      id_provincia:        ['', Validators.required],
-      id_municipio:        ['', Validators.required],
-      id_ciudad:           ['', Validators.required],
-      id_sector:           [''],
-      estado:              ['activo', Validators.required],
       usuario_modificador: ['']
     })
   }
 
   guardarTransportista(){
-         
-    
-        
-    if (this.forma.invalid) {    
-         
+    if (this.forma.invalid) {             
       this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
       Object.values(this.forma.controls).forEach(control =>{          
         control.markAllAsTouched();
       })
-    }else{   
-      this.transportistaServ.crearTransportista(this.forma.value).then(()=>{         
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
-        this.resetFormulario();
-      })
+    }else{
+      if (this.actualizar) {
+        this.forma.get('usuario_modificador').setValue(this.usuario.username);
+        this.transportistaServ.actualizarTransportista(this.id, this.forma.value).subscribe((resp: any) => {
+          this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
+          this.resetFormulario();  
+        })
+      } else {
+        this.transportistaServ.crearTransportista(this.forma.value).subscribe((resp: any)=>{    
+          if (resp.ok) {
+            this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
+            this.resetFormulario();            
+          }     
+        })        
+      }
     }
-  }
-    
-  ActualizarCategoria(){
-    if (this.forma.invalid) {  
-      this.uiMessage.getMiniInfortiveMsg('tst','error','ERROR','Debe completar los campos que son obligatorios');      
-      Object.values(this.forma.controls).forEach(control =>{          
-        control.markAllAsTouched();
-      })
-    }else{   
-      this.forma.get('usuario_modificador').setValue(this.usuario.username);
-      this.transportistaServ.actualizarTransportista(this.id, this.forma.value).then((resp: any) => {
-        this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');       
-        this.resetFormulario();  
-      })
-    }
-  }
-  
-  todosLosPaises() {
-    this.paisesCiudadesServ.getPaises().then((resp: any)=>{      
-      this.paises = resp;   
-    })
-  }
-  
-  buscaRegion(event) {
-      this.paisesCiudadesServ.buscaRegion(event).then((resp:any) => {  
-      this.regiones = resp;
-    })   
-  }
-
-  buscaProvincia(event) {
-      this.paisesCiudadesServ.buscaProvincias(event).then((resp:any) => {  
-      this.provincias = resp;
-    })   
-  }
-
-  buscaMunicipio(event) {
-    this.paisesCiudadesServ.buscaMunicipios(event).then((resp:any) => {  
-      this.municipios = resp;
-    })   
-  }
- 
-  buscaCiudad(event) {
-    this.paisesCiudadesServ.buscaCiudad(event).then((resp:any) => { 
-      this.ciudades = resp;
-    })   
-  }
-
-  buscaSector(event) {
-    this.paisesCiudadesServ.buscaSector(event).then((resp:any) => {  
-      this.sectores = resp;
-    })   
   }
   
   cancelar() {
@@ -170,15 +99,7 @@ export class FormularioTransportistaComponent implements OnInit {
   }
 
   resetFormulario() {
-    this.forma.reset();
-    this.forma.get('estado').setValue('activo');
-    
-  }
-
-  buscaPaises(id) {    
-    this.paisesCiudadesServ.buscaCiudad(id).then((resp:any) => {
-      this.ciudades = resp;     
-    })  
+    this.forma.reset();   
   }
 
   getNoValido(input: string) {

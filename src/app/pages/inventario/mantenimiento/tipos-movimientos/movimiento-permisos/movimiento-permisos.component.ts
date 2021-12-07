@@ -28,7 +28,7 @@ export class MovimientoPermisosComponent implements OnInit {
   ngOnInit(): void {
     this.id_mov = this.config.data.id_tipomov;
     
-    this.usuariosServ.getUsers().then((resp:any)=>{
+    this.usuariosServ.getUsers().subscribe((resp:any)=>{
       this.usuariosmov = resp;      
       this.permisosMovimientos(this.id_mov)
     })  
@@ -47,13 +47,13 @@ export class MovimientoPermisosComponent implements OnInit {
       estado: 'activo'
     }
       
-    this.CodMovServ.permisosMovimientos(param).then((resp: any) => {
+    this.CodMovServ.permisosMovimientos(param).subscribe((resp: any) => {
       this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');      
     })
   }
 
   permisosMovimientos(id) {   
-    this.CodMovServ.usuariosPermisosMov(id).then((resp: any)=>{
+    this.CodMovServ.usuariosPermisosMov(id).subscribe((resp: any)=>{
       this.usuariosPermisosmov = resp;
               
       this.usuariosPermisosmov.forEach(element => {        

@@ -37,7 +37,6 @@ import { RightMenuPageComponent } from './right-menu-page/right-menu-page.compon
 import { FileuploadsComponent } from './fileuploads/fileuploads.component';
 import { ListaProductosComponent } from './lista-productos/lista-productos.component';
 import { ListadoDireccionesComponent } from './listado-direcciones/listado-direcciones.component';
-import { PendientesEntradaComponent } from './pendientes-entrada/pendientes-entrada.component';
 import { ListadoEmpleadosComponent } from './listado-empleados/listado-empleados.component';
 import { FacturasPendientesComponent } from './facturas-pendientes/facturas-pendientes.component';
 import { ListadoCatalogoCuentasComponentsComponent } from './listado-catalogo-cuentas-components/listado-catalogo-cuentas-components.component';
@@ -59,7 +58,6 @@ import { InputTextComponent } from "./formcomponents/input-text/input-text.compo
     RightMenuPageComponent,
     ListaProductosComponent,
     ListadoDireccionesComponent,
-    PendientesEntradaComponent,
     ListadoEmpleadosComponent,
     FacturasPendientesComponent,
     ListadoCatalogoCuentasComponentsComponent,
@@ -81,7 +79,6 @@ import { InputTextComponent } from "./formcomponents/input-text/input-text.compo
     RightMenuPageComponent,
     ListaProductosComponent,
     ListadoDireccionesComponent,
-    PendientesEntradaComponent,
     StepToolbarComponent,
     LocalizacionComponent,
     LoadingComponent,
@@ -122,7 +119,6 @@ import { InputTextComponent } from "./formcomponents/input-text/input-text.compo
   entryComponents: [
     ListaProductosComponent,
     ListadoDireccionesComponent,
-    PendientesEntradaComponent,
     ListadoEmpleadosComponent
   ]
 })

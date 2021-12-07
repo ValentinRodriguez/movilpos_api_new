@@ -36,8 +36,12 @@
 										{{rowData[col.field] | titlecase}}
 									</span>
 
-									<span *ngIf="col.field === 'cedula' || col.field === 'sec_transp' || col.field === 'telefono' || col.field === 'cod_transportista'">
+									<span *ngIf="col.field === 'telefono'">
 										{{rowData[col.field] }}
+									</span>
+
+									<span *ngIf="col.field === 'uid'">
+										{{rowData[col.field] | uppercase}}
 									</span>
 							
 									<span *ngIf="col.field === 'acciones'">

@@ -10,26 +10,17 @@ const URL = environment.url;
   providedIn: 'root'
 })
 
-export class UsuarioService implements OnDestroy {
+export class UsuarioService {
   usuarioActualizado = new EventEmitter();
   usuarioGuardado = new EventEmitter();
   usuarioBorrado = new EventEmitter();
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
-  listSubscribers: any = []; 
 
   constructor(private http: HttpClient,
               private router: Router,
               private localService: LocalService) { }
-
-  ngOnDestroy() {  
-    this.listSubscribers.forEach(a => {
-      if (a !== undefined) {
-        a.unsubscribe()        
-      }
-    });
-  }
 
   busquedaEmail(parametro?: any) {       
     let params = new HttpParams();
@@ -42,13 +33,7 @@ export class UsuarioService implements OnDestroy {
 
     params = params.append('email',parametro.email);
 
-    return new Promise(resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/email', {params}).subscribe((resp: any) => {                      
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/busqueda/email', {params})
   }
 
   busquedaUsername(parametro?: any) {    
@@ -60,56 +45,26 @@ export class UsuarioService implements OnDestroy {
       parametro.parametro = '';
     }     
     params = params.append('username',parametro.username);   
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/username', {params}).subscribe((resp: any) => {  
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/busqueda/username', {params})
   }
 
   busquedaNumEmp(parametro?: any) {    
     let params = new HttpParams();   
     params = params.append('empleado',parametro);
 
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/numemp', {params}).subscribe((resp: any) => {   
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/busqueda/numemp', {params})
   }
 
   getUsers() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/users`).subscribe((resp: any) => {     
-        if (resp['ok'])  {          
-          resolve(resp.data);  
-        }
-      }))
-    })
+    return this.http.get(`${URL}/usuarios`)
   }
 
   getUser(id) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/users/${id}`).subscribe((resp: any) => {                     
-        if (resp['ok'])  {          
-          resolve(resp.data);  
-        }
-      }))
-    })
+    return this.http.get(`${URL}/usuarios/${id}`)
   }
 
   getPerfiles() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/perfiles`).subscribe((resp: any) => {                      
-        if (resp['access_token'] === 200)  {          
-          resolve(resp.data);  
-        }
-      }))
-    })
+    return this.http.get(`${URL}/perfiles`)
   }
 
   getUserLogged() {    
@@ -123,11 +78,7 @@ export class UsuarioService implements OnDestroy {
   }
 
   whoIslogged() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/user`).subscribe((resp: any) => {                      
-        resolve(resp.data);
-      }))
-    })
+    return this.http.get(`${URL}/user`)
   }
   
   login(forma: any) {
@@ -177,14 +128,7 @@ export class UsuarioService implements OnDestroy {
       }      
     }
     
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/signup`, formData).subscribe((resp: any) => {                      
-        if (resp['ok'])  {  
-          this.usuarioGuardado.emit( resp.data );        
-          resolve(resp.data);  
-        }
-      }))
-    })
+    return this.http.post(`${URL}/signup`, formData)
   }
 
   actUsuario(id, data) {    
@@ -208,35 +152,15 @@ export class UsuarioService implements OnDestroy {
       }
     }
 
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/act/usuario/${id}`, formData).subscribe( (resp: any) => {                         
-        if (resp['ok'])  {  
-          this.usuarioActualizado.emit( resp.data );                                     
-          resolve(resp.data);
-        }
-      }))
-    });    
+    return this.http.post(`${ URL }/act/usuario/${id}`, formData)   
   }
 
   eliminarUsuario(id) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.delete(`${URL}/users/${id}`).subscribe((resp: any) => {                    
-        if (resp['ok'])  {  
-          this.usuarioBorrado.emit( resp.data );        
-          resolve(resp.data);  
-        }
-      }))
-    })
+    return this.http.delete(`${URL}/usuarios/${id}`)
   }
 
   refreshToken() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${URL}/refresh`, {}).subscribe((resp: any) => {                         
-        if (resp['ok'])  { 
-          resolve(resp.data);  
-        }
-      }))
-    })
+    return this.http.post(`${URL}/refresh`, {})
   }
 
   getTokenLocalStorage() {

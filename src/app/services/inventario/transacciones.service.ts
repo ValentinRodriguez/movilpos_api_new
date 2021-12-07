@@ -15,33 +15,12 @@ export class TransaccionesService {
   
   constructor(private http: HttpClient) { }
 
-  ngOnDestroy() {
-    console.log('destruido');    
-    this.listSubscribers.forEach(a => {
-      if (a !== undefined) {
-        a.unsubscribe()        
-      }
-    });
-  }
-
   getDatos() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/invtransacciones`).subscribe((resp: any) => {                          
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/invtransacciones`)
   }
 
   autoLlenado() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/autollenado/invtransacciones`).subscribe((resp: any) => {                        
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/autollenado/invtransacciones`)
   }
 
   crearTransaccion(transaccion: any) {
@@ -88,15 +67,7 @@ export class TransaccionesService {
       }
     }
     
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/invtransacciones`, data).subscribe( (resp: any) => {      
-                                 
-        if (resp['ok'])  {                                      
-          this.transaccionGuardado.emit(resp.data);
-          resolve(resp.data);
-        }
-      }))
-    });    
+    return this.http.post(`${ URL }/invtransacciones`, data)   
   }
 
   recibirTransaccion(transaccion: any) {
@@ -107,55 +78,19 @@ export class TransaccionesService {
       formData.append(key, transaccion[key])
     }
     
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/recibir/invtransaccion/${transaccion.id}`, transaccion).subscribe( (resp: any) => {                        
-        if (resp['ok'])  {                                      
-          this.transaccionGuardado.emit(resp.data);
-          resolve(resp.data);
-        }
-      }))
-    }); 
-  }
-
-  transaccionesPendientes(email: string) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/busqueda/invtransacciones-pendientes/${email}`).subscribe((resp: any) => {                           
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.post(`${ URL }/recibir/invtransaccion/${transaccion.id}`, transaccion)
   }
 
   repTransaccionesPendientes() {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/reporte/invtransacciones-visualizar`).subscribe((resp: any) => {
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/reporte/invtransacciones-visualizar`)
   }
 
   detalleTransaccion(id: string) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/detalle/transaccion/${id}`).subscribe((resp: any) => {                          
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/detalle/transaccion/${id}`)
   }
 
   borrarTransaccion(id: string) {
-    return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.delete(`${ URL }/invtransacciones/${id}`).subscribe( (resp: any) => {                             
-        if (resp['ok'])  {            
-          this.transaccionBorrada.emit(id);    
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.delete(`${ URL }/invtransacciones/${id}`)
   }
 
   busquedaTransaccion(parametro?: any) {
@@ -167,13 +102,7 @@ export class TransaccionesService {
       parametro.parametro = '';
     }     
     params = params.append('categoria',parametro.categoria);    
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(URL+'/busqueda/categoria', {params}).subscribe((resp: any) => {                          
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(URL+'/busqueda/categoria', {params})
   }
 
   finalizando() {

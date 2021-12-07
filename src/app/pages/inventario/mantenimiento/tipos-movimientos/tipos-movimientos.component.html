@@ -45,9 +45,9 @@
 
 									<span *ngIf="col.field === 'acciones'">
 										<button pButton pRipple type="button" icon="pi pi-eye"        class="p-button p-button-success p-mr-2 p-mb-2" pTooltip="Ver Detalles"></button>
-										<button pButton pRipple type="button" icon="pi pi-key"        class="p-button p-button-help p-mr-2 p-mb-2" (click)="permisosMovimientos(rowData.id_tipomov)" pTooltip="Permisos"></button>
-										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarMov(rowData.id_tipomov)" pTooltip="Actualizar"></button>
-										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarcodMov(rowData.id)" pTooltip="Eliminar"></button>
+										<button pButton pRipple type="button" icon="pi pi-key"        class="p-button p-button-help p-mr-2 p-mb-2" (click)="permisosMovimientos(rowData.uid)" pTooltip="Permisos"></button>
+										<button pButton pRipple type="button" icon="pi pi-user-edit"  class="p-button p-button-warning p-mr-2 p-mb-2" (click)="actualizarMov(rowData)" pTooltip="Actualizar"></button>
+										<button pButton pRipple type="button" icon="pi pi-trash"      class="p-button p-button-danger p-mr-2 p-mb-2" (click)="borrarcodMov(rowData.uid)" pTooltip="Eliminar"></button>
 										<!-- <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button p-button-success p-mr-2 p-mb-2" (click)="dt.exportCSV()"></button> -->
 									</span>
 								</td>								
@@ -56,7 +56,7 @@
 						
 						<ng-template pTemplate="emptymessage">
 							<tr>
-								<td colspan="8">No existen tipos de movimiento en la base de datos.</td>
+								<td colspan="8">No existen movimientos en la base de datos.</td>
 							</tr>
 						</ng-template>
 						<ng-template pTemplate="summary">

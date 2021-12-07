@@ -36,11 +36,11 @@ export class TransportistasComponent implements OnInit {
 
   ngOnInit(): void {
     this.listObserver();
+    this.todosLosTransportistas();
+
     this.cols = [
       { field: 'nombre', header: 'Nombre'},
-      { field: 'cedula', header: 'Cédula'},
-      { field: 'cod_transportista', header: 'Nivel'},
-      { field: 'sec_transp', header: 'Código'},
+      { field: 'uid', header: 'Código'},
       { field: 'telefono', header: 'Teléfono'},
       { field: 'acciones', header: 'Acciones'},
     ]
@@ -67,8 +67,12 @@ export class TransportistasComponent implements OnInit {
    };
 
   todosLosTransportistas() {        
-    this.transportistasServ.getDatos().then((resp: any) => {
-      this.transportistas = resp;     
+    this.transportistasServ.getDatos().subscribe((resp: any) => {
+      console.log(resp);
+      
+      if (resp.ok) {
+        this.transportistas = resp.data;     
+      }
     })
   }
 
@@ -81,7 +85,7 @@ export class TransportistasComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.transportistasServ.borrarTransportista(transportista).then((resp: any)=>{
+        this.transportistasServ.borrarTransportista(transportista).subscribe((resp: any)=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

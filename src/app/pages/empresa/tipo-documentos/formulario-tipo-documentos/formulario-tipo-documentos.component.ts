@@ -52,7 +52,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
       this.guardar = false;
       this.actualizar = true;   
       this.id = Number(resp);      
-      this.usuariosServ.getUser(resp).then((res: any) => {
+      this.usuariosServ.getUser(resp).subscribe((res: any) => {
         const password = this.forma.get('password');
         const password_confirmation = this.forma.get('password_confirmation');
         this.imgUser = res.img;
@@ -109,7 +109,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
         this.uiMessage.getMiniInfortiveMsg('tst','error','Atención','Debe escoger una imagen');
         return;
       } else {
-        this.usuariosServ.register(this.forma.value).then((resp: any) => {  
+        this.usuariosServ.register(this.forma.value).subscribe((resp: any) => {  
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro creado de manera correcta');
           this.forma.reset();
           
@@ -131,7 +131,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{ 
-      this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
+      this.usuariosServ.actUsuario(this.id, this.forma.value).subscribe((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
@@ -163,7 +163,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
     }
     let param = {'username': data};
     this.usuarioExiste = 0;
-    this.usuariosServ.busquedaUsername(param).then((resp: any)=>{
+    this.usuariosServ.busquedaUsername(param).subscribe((resp: any)=>{
       if(resp.length === 0) {
         this.usuarioExiste = 1;
       }else{
@@ -179,7 +179,7 @@ export class FormularioTipoDocumentosComponent implements OnInit {
     }
     let param = {'email': data};
     this.emailExiste = 0;
-    this.usuariosServ.busquedaEmail(param).then((resp: any)=>{
+    this.usuariosServ.busquedaEmail(param).subscribe((resp: any)=>{
       if(resp.length === 0) {
         this.emailExiste = 1;
       }else{

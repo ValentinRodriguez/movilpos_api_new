@@ -71,9 +71,8 @@ export class UsuariosComponent implements OnInit {
   
   obtenerUsuarios() {
          
-    this.usuariosServ.getUsers().then((resp: any) => {
+    this.usuariosServ.getUsers().subscribe((resp: any) => {
       this.usuarios = resp;
-       
     })
   }
 
@@ -86,7 +85,7 @@ export class UsuariosComponent implements OnInit {
     this.confirmationService.confirm({
       message:"Esta seguro de borrar este registro?",
       accept:() =>{ 
-        this.usuariosServ.eliminarUsuario(usuario).then(()=>{
+        this.usuariosServ.eliminarUsuario(usuario).subscribe(()=>{
           this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro eliminado de manera correcta');   
         })       
       }

@@ -14,18 +14,7 @@ export class CodMovService {
   actualizar = new EventEmitter();
   guardar = new EventEmitter();
   
-  listSubscribers: any = [];
-  
   constructor(private http: HttpClient) { }
-
-  ngOnDestroy() {
-    console.log('destruido');    
-    this.listSubscribers.forEach(a => {
-      if (a !== undefined) {
-        a.unsubscribe()        
-      }
-    });
-  }
 
   busquedaCodMov(parametro?: any) {
     let params = new HttpParams();
@@ -38,13 +27,7 @@ export class CodMovService {
   }
 
   getDato(cuenta: string) {
-    return new Promise( resolve => {
-        this.listSubscribers.push(this.http.get(`${URL}/movimientos/${cuenta}`).subscribe((resp: any) => {
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/movimientos/${cuenta}`)
   }
 
   crearTipoMov(tipoMov: any) {
@@ -65,7 +48,8 @@ export class CodMovService {
 
   actualizarTipoMov(id:number, tipoMov: any) {
     let data = {};
-
+    console.log(tipoMov);
+    
     for (const key in tipoMov) {
       switch (key) {
         case 'origen':
@@ -82,14 +66,7 @@ export class CodMovService {
   }
   
   borrarTipoMov(id: string) {
-    return new Promise( resolve => {      
-      this.listSubscribers.push(this.http.delete(`${ URL }/movimientos/${id}`).subscribe( (resp: any) => {                            
-        if (resp['ok'])  {            
-          this.tipoMovBorrado.emit(id);    
-          resolve(resp.data);            
-        }
-      }))
-    });
+    return this.http.delete(`${ URL }/movimientos/${id}`)
   }
 
   permisosMovimientos(permisos: any) {    
@@ -99,23 +76,11 @@ export class CodMovService {
       formData.append(key, permisos[key])
     }
 
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.post(`${ URL }/permisos/movimientos`, formData).subscribe( (resp: any) => {                          
-        if (resp['ok'])  {
-          resolve(resp.data);       
-        }
-      }))
-    });    
+    return this.http.post(`${ URL }/permisos/movimientos`, formData)   
   }
 
   usuariosPermisosMov(id) {
-    return new Promise( resolve => {
-      this.listSubscribers.push(this.http.get(`${URL}/usuarios/movimientos/${id}`).subscribe((resp: any) => {                   
-        if (resp['ok'])  {          
-          resolve(resp.data);            
-        }
-      }))
-    })
+    return this.http.get(`${URL}/usuarios/movimientos/${id}`)
   }
 
   actualizando(data: any) {

@@ -177,7 +177,7 @@ export class FormularioPeriodoFiscalesComponent implements OnInit {
         control.markAllAsTouched();
       })
     }else{ 
-      this.usuariosServ.actUsuario(this.id, this.forma.value).then((resp: any) => {
+      this.usuariosServ.actUsuario(this.id, this.forma.value).subscribe((resp: any) => {
         this.uiMessage.getMiniInfortiveMsg('tst','success','Excelente','Registro actualizado de manera correcta');
          
       })
