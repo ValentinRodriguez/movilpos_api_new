@@ -1,0 +1,7 @@
+{
+    "data": [ 
+        {"name": "Terrestre", "id": "0"}, 
+        {"name": "Marítimo", "id": "1"}, 
+        {"name": "Aéreo", "id": "2"}
+    ]
+}

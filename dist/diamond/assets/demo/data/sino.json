@@ -1,0 +1,6 @@
+{
+    "sino": [ 
+        {"label": "Sí", "value": "si"},
+        {"label": "No", "value": "no"}
+    ]
+}
