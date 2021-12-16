@@ -8,7 +8,7 @@ const URL = environment.urlClean;
 export class UsuarioPipe implements PipeTransform {  
   transform(img: string): any {
     if (img === null || img === '' || img === undefined) {
-      return "../assets/images/user.png";
+      return "./assets/images/user.png";
     }
     let url = URL + '/storage/' + img;
     return url;

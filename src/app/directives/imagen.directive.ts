@@ -10,6 +10,6 @@ export class ImagenRotaDirective{
   @HostListener('error')
   cargarImagenPorDefecto() {
     const element = this.elementRef.nativeElement
-    element.src = '../assets/images/user.png'
+    element.src = './assets/images/user.png'
   }
 }

@@ -8,7 +8,7 @@ const URL = environment.urlClean;
 export class InvProductosPipe implements PipeTransform {
   transform(img: any): any {       
     if (img === null || img === '' || img == '[]') {
-      return "../assets/images/empty-image.png";
+      return "./assets/images/empty-image.png";
     }else{         
       let url = `${URL}/${img[0]}`;
       return url;
