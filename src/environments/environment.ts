@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:9091/api',
-  urlClean: 'http://localhost:9091',
+  url: 'http://147.182.165.112/api',
+  urlClean: 'http://147.182.165.112',
   urlApi: 'https://vindecoder.p.rapidapi.com/v1.1/decode_vin?vin=',
   min: 180000,
   max: 600000
